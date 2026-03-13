@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>46.0</apiVersion>
+    <description>Preference Centre</description>
+    <isExposed>true</isExposed>
+    <masterLabel>Preference Centre</masterLabel>
+
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+
+    <targetConfigs>
+        <targetConfig targets="lightningCommunity__Default">
+            <property name="affiliation" type="String" label="Person Affiliation" default="Global"></property>
+            <property name="centreName" type="String" label="Portal Name" default=""></property>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

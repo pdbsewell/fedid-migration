@@ -1,0 +1,19 @@
+<!--
+  @File Name          : offerCoverLetter.html
+  @Description        : 
+  @Author             : Jasmin Joy Rudio
+  @Group              : 
+  @Last Modified By   : jasmin.rudio@monash.edu
+  @Last Modified On   : 12/19/2019, 2:28:48 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    11/25/2019   Jasmin Joy Rudio     Initial Version
+-->
+<template>
+    <template if:false={hasRendered}>
+        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </template>
+    <template if:true={hasRendered}>
+        <lightning-formatted-rich-text value={content}></lightning-formatted-rich-text>
+    </template>
+</template>

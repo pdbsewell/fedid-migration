@@ -1,0 +1,26 @@
+<template>
+    <div >
+        <div>
+            <c-re-captcha class="recaptchaChallengeVisible" data-id="crmcaptchalwc" oncaptchachange={captchaChangeHandler} use-invisible="false" ></c-re-captcha>
+        </div>
+    </div>
+    <div class="slds-align_absolute-center slds-p-top_medium">
+        <template if:false={disableButton}>
+            <template if:false={buttonClicked}>
+                <button class="btn btn--blue applicationAction slds-p-vertical_small slds-m-top_small" disabled={disableButton} style="font-size: 15px; width: 60%;" onclick={buttonClickHandler}>
+                    <b>{buttontext}</b>
+                </button>
+            </template>                            
+            <template if:true={buttonClicked}>
+                <div class="slds-is-relative slds-m-top_large" style="min-height: 35px;">
+                    <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+                </div>
+            </template> 
+        </template>
+        <template if:true={disableButton}>
+            <button disabled class="slds-p-vertical_small slds-m-top_small"  style="background-color: #999999; font-size: 15px; width: 60%;  ">
+                <b>{buttontext}</b>
+            </button>
+        </template>
+    </div>
+</template>

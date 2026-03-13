@@ -1,0 +1,67 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,flexipage:availableForAllPageTypes" controller="StudFirst_GlobalEmailServices">
+
+    <aura:attribute name="emlMsgId" type="String" default="" />
+    <aura:attribute name="emlMsgRec" type="EmailMessage" default="" />
+    <aura:attribute name="toAddressStr" type="String" default="" />
+    <aura:attribute name="ccAddressStr" type="String" default="" />
+    <aura:attribute name="bccAddressStr" type="String" default="" />
+    <aura:attribute name="notifyAgent" type="Boolean" default="" />
+
+    <!-- Initialise -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <div class="slds">
+        <!-- SPINNER -->
+        <lightning:spinner aura:id="spinner" variant="neutral" size="medium" alternativeText="Loading..." class="hidden" />
+        <!-- SPINNER - END -->
+
+        <div class="slds-page-header">
+            <div class="slds-media">
+                <div class="slds-media__figure">
+                    <span class="slds-icon_container"> <lightning:icon iconName="action:email" alternativeText="Resend Email" />
+					</span>
+                </div>
+                <div class="slds-media__body">
+                    <h1 class="slds-page-header__title slds-truncate slds-align-middle" title="Resend Email">Resend Email</h1>
+                    <p class="slds-text-body_small slds-line-height_reset">{!v.emlMsgRec.Subject}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-form slds-form_stacked">
+            <div class="slds-form-element">
+                <div class="slds-form-element__control slds-p-vertical--medium">
+                    <ui:outputText value="{!$Label.c.EmailResendHelpText}" class="slds-text-title" />
+                </div>
+            </div>
+
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <ui:inputText aura:id="txt-to" label="To:" value="{!v.toAddressStr}" required="true" class="slds-input" maxlength="4000" />
+                </div>
+            </div>
+
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <ui:inputText aura:id="txt-cc" label="CC:" value="{!v.ccAddressStr}" required="false" class="slds-input" maxlength="4000" />
+                </div>
+            </div>
+
+            <div class="slds-form-element">
+                <div class="slds-form-element__control">
+                    <ui:inputText aura:id="txt-bcc" label="BCC:" value="{!v.bccAddressStr}" required="false" class="slds-input" maxlength="4000" />
+                </div>
+            </div>
+            
+			<div class="slds-form-element">
+				<div class="slds-form-element__control">
+					<ui:inputCheckbox change="{!c.change_notifyAgent}" value="{!v.notifyAgent}" class="slds-checkbox" label="Notify Agent?"/>
+				</div>
+			</div>
+            <div class="slds-align_absolute-center slds-p-top--large">
+                <lightning:button variant="brand" label="Resend" onclick="{!c.resendEmail}" />
+                <lightning:button variant="neutral" label="Cancel" onclick="{!c.cancel}" />
+            </div>
+        </div>
+    </div>
+</aura:component>

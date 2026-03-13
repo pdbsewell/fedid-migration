@@ -1,0 +1,10 @@
+<aura:component implements="lightning:backgroundUtilityItem" access="global" controller="ToastListenerService">   
+    <!-- Component Variables -->
+    <aura:attribute name="redirectionRules" type="Map" default="{}" />
+    
+    <!-- Constructor -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- Handle force:showToast event -->
+    <aura:handler event="force:showToast" action="{!c.toastInfo}" />
+</aura:component>

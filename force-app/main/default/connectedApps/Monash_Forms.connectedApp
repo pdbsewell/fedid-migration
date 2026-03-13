@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>unicrm.coreadmin@monash.edu</contactEmail>
+    <label>Monash Forms</label>
+    <oauthConfig>
+        <callbackUrl>https://forms.monash.edu/api/v1/oauth/salesforce/callback</callbackUrl>
+        <certificate>MIIDcDCCAlgCCQDrJB29vPUPlzANBgkqhkiG9w0BAQsFADB6MQswCQYDVQQGEwJBVTERMA8GA1UECAwIVmljdG9yaWExEjAQBgNVBAcMCU1lbGJvdXJuZTEaMBgGA1UECgwRTW9uYXNoIFVuaXZlcnNpdHkxEzARBgNVBAsMCmVTb2x1dGlvbnMxEzARBgNVBAMMCm1vbmFzaC5lZHUwHhcNMjAwODAzMDcyMzQyWhcNMjEwODAzMDcyMzQyWjB6MQswCQYDVQQGEwJBVTERMA8GA1UECAwIVmljdG9yaWExEjAQBgNVBAcMCU1lbGJvdXJuZTEaMBgGA1UECgwRTW9uYXNoIFVuaXZlcnNpdHkxEzARBgNVBAsMCmVTb2x1dGlvbnMxEzARBgNVBAMMCm1vbmFzaC5lZHUwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDO1Zp6lifdgKWYy5uv7ix8K6ORdI8SS3TwC6jIBaDnZL0dbIzRCKn4j7LOKRYdu6OiQxw9RAfucN1TDbM7AzDMQOgZhPexTeLdmtVKbFBkrSey+3LoH6J7IDs7no19Gjs5gcrUSKLkuaRjmFHhQpIRhxAVCpMmBOb2TWW/CgFVT6+og9n+D38mcqoZFBtuQtU9h1A45PDxmS80T1RNmgbF2n5J+qksj9RgBNbxu+dqyd26ot+POEYC99IrR/CvR+24Zb0yhXRr4CGciAju/6B0HHs1z+2GDteETfANMpTTtTdvpMQ9cwZWU875RihtO1O30pqxN7Kp3/l+cHB9dCYjAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAE9ZhxWno3pMosdSAF8e4LRlFwrBUQRermwsYqppMI/Hv5D+RuR6UBFVllvhD+z8zUC4E44Scl9M61H5E4mH+ZdI6FFJfPGLl3s4sClqlCfy8G82XBeQyRwqffLzlWFmZzztg7E0sZJQ4arN4KhPdvldZyUGB5YT7ealGNy5At/jCKOeaxQDYRbpwA25dDwwHUgTgOGmSWvjjnG4X1BF+tUgoFjh+vt3akH/BPhKCVEbST+h5Ywh59jRGw0HsdHahSwSJEMPUKas8PLR+mqNaeczyLc3NrP03EofcFaiKCmlkBdKv1KJx16/j4ugsjF5k4CGYM7chZQO1oqVcg8C58o=</certificate>
+        <consumerKey>3MVG9mywN3hwYEwnV8jOpeEH05ojaRPSqIbqJ1eTKhOHg8Nt5a1GV2aQKjSJGHyLn2omTw15Bhgcq_IVuOfbM</consumerKey>
+        <isAdminApproved>true</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
+        <isCodeCredentialEnabled>false</isCodeCredentialEnabled>
+        <isCodeCredentialPostOnly>false</isCodeCredentialPostOnly>
+        <isConsumerSecretOptional>false</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isNamedUserJwtEnabled>false</isNamedUserJwtEnabled>
+        <isPkceRequired>false</isPkceRequired>
+        <isRefreshTokenRotationEnabled>false</isRefreshTokenRotationEnabled>
+        <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>
+        <isSecretRequiredForTokenExchange>false</isSecretRequiredForTokenExchange>
+        <isTokenExchangeEnabled>false</isTokenExchangeEnabled>
+        <scopes>Api</scopes>
+        <scopes>RefreshToken</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>ENFORCE</ipRelaxation>
+        <isTokenExchangeFlowEnabled>false</isTokenExchangeFlowEnabled>
+        <refreshTokenPolicy>specific_lifetime:1:DAYS</refreshTokenPolicy>
+    </oauthPolicy>
+    <permissionSetName>Integration - Monash Forms</permissionSetName>
+    <profileName>System Administrator</profileName>
+    <profileName>Integration - Monash Forms</profileName>
+    <sessionPolicy>
+        <sessionTimeout>60</sessionTimeout>
+    </sessionPolicy>
+</ConnectedApp>

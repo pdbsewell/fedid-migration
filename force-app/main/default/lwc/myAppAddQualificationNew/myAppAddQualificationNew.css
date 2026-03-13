@@ -1,0 +1,57 @@
+/**
+ * Created by angelorivera on 9/1/2025.
+ */
+
+
+.custom-styled-div {
+    font-size: 13px;
+    padding: 5px;
+    margin: 5px;
+    border-width: 1px;
+    border-style: solid;
+    border-radius: 5px;
+    background-color: var(--slds-g-color-brand-base-95, #f5fcff);
+    border-color: var(--slds-g-color-brand-base-95, #bee6ff);
+    color: var(--slds-g-color-neutral-base-10, #464646);
+}
+
+.fixed-combobox lightning-combobox {
+    max-width: 767px; /* Prevent it from growing too large */
+    min-width: 230px; /* Prevent it from shrinking too small */
+    width: 100%;     /* Default width behaves responsively */
+}
+
+.blue-required {
+    color: #2574a9;
+}
+
+.primaryButtonDisable {
+    font-family: "Roboto";
+    font-size: 18px;
+    background: #4b555d;
+    border: 1px solid #4b555d;
+    opacity: 1;
+    text-align: center;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    font-weight: bolder;
+    padding: 6px 10px 6px 10px;
+}
+
+.slds-table {
+    width: 100%; /* Ensure table takes the full container width */
+    table-layout: auto; /* Allows column widths to adjust dynamically based on content */
+}
+
+.slds-table thead,
+.slds-table tbody {
+    width: 100%; /* Make the table head and body widths fit the full width of the table */
+    min-width: 750px; /* Ensure it doesn't shrink smaller than 750px */
+}
+
+.fieldContainerOverride {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    display: flex;
+}

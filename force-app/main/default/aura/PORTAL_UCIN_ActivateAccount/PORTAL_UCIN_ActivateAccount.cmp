@@ -1,0 +1,169 @@
+<aura:component controller="PORTAL_UCIN_LoginController" implements="forceCommunity:availableForAllPageTypes" access="global">
+    <!--Inputs from portal-->
+    <aura:attribute name="verificationCodeLabel" type="String" required="false" default="Verification Code"/>
+    <aura:attribute name="firstnameLabel" type="String" required="false" default="First Name"/>
+    <aura:attribute name="lastnameLabel" type="String" required="false" default="Last Name"/>
+    <aura:attribute name="birthdateLabel" type="String" required="false" default="Date of Birth"/>
+    <aura:attribute name="degreeLabel" type="String" required="false" default="Degree"/>
+    <aura:attribute name="checkEmailUrl" type="String" required="true" default="login/CheckPasswordResetEmail"/> 
+    <aura:attribute name="loginQuestion" type="String" required="false" default="Have an account? "/>
+    <aura:attribute name="loginLabel" type="String" default="Login"/> 
+    <aura:attribute name="loginUrl" type="String" default="login"/> 
+    <aura:attribute name="activationToken" type="String"/> 
+    <aura:attribute name="submitButtonLabel" type="String" default="Activate Now"/>
+    <!--Errors-->
+    <aura:attribute name="verificationCodeErrorMessage" type="String"/>
+    <aura:attribute name="firstnameErrorMessage" type="String"/>
+    <aura:attribute name="lastnameErrorMessage" type="String"/>
+    <aura:attribute name="birthdateErrorMessage" type="String"/>
+    <!--Buttons-->
+    <aura:attribute name="degreeErrorMessage" type="String"/>
+    <aura:attribute name="btnSubmitLabel" type="String"/>
+    <aura:attribute name="btnSubmitDisabled" type="Boolean" default="false"/>
+    <aura:attribute name="birthdateYearOptions" type="Integer[]"/>
+    <aura:attribute name="degreeOptions" type="PORTAL_UCIN_LoginController.SelectOptionDetail[]"/>
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+    <aura:handler name="render" value="{!this}" action="{!c.onRender}"/>
+    <ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}"/>
+
+    <aura:attribute name="loaded" type="Boolean" default="true" />
+
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+	<div class="relative">
+        <!-- Spinner -->
+        <div>
+            <aura:if isTrue="{!!v.loaded }">
+                <lightning:spinner alternativeText="Loading" />
+            </aura:if>
+        </div>
+
+        <!--Activate account form-->
+        <div class="flex justify-center my-4 bg-cover" style="{!'background-image:url('+$ContentAsset.03S4a00000000Gf+')'}">
+            <div class="max-w-lg flex flex-col justify-center items-center px-6 pt-10 pb-6 overflow-hidden shadow-lg bg-white ucin-whitebox">
+                <div class="py-6 self-start">
+                    <div class="font-extrabold text-3xl sm:text-5xl mb-2 uppercase leading-none">Alumni Portal</div>
+                    <div class="font-medium text-2xl sm:text-3xl mb-2 uppercase leading-none">Activate Account</div>
+                </div>
+                <div class="bg-white sm:w-4/5 pb-4 w-full justify-center items-center">
+                    <div class="mb-4">
+                        <label class="block text-gray-900 font-bold mb-2 text-xl text-dark-grey" for="verificationCode">
+                            {!v.verificationCodeLabel}
+                        </label>
+                        <input type="text" id="tbxVerificationCode" class="shadow appearance-none border w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline text-xl"/>
+                        <aura:if isTrue="{!not(empty(v.verificationCodeErrorMessage))}">
+                            <p class="text-red-500 text-xs italic">{!v.verificationCodeErrorMessage}</p>
+                        </aura:if>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-900 font-bold mb-2 text-xl text-dark-grey" for="firstname">
+                            {!v.firstnameLabel}
+                        </label>
+                        <input type="text" id="tbxFirstname" class="shadow appearance-none border w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline text-xl"/>
+                        <aura:if isTrue="{!not(empty(v.firstnameErrorMessage))}">
+                            <p class="text-red-500 text-xs italic">{!v.firstnameErrorMessage}</p>
+                        </aura:if>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-900 font-bold mb-2 text-xl text-dark-grey" for="lastname">
+                            {!v.lastnameLabel}
+                        </label>
+                        <input type="text" id="tbxLastname" class="shadow appearance-none border w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline text-xl"/>
+                        <aura:if isTrue="{!not(empty(v.lastnameErrorMessage))}">
+                            <p class="text-red-500 text-xs italic">{!v.lastnameErrorMessage}</p>
+                        </aura:if>
+                    </div>
+                    <!-- Birthday -->
+                    <div class="mb-4">
+                        <label class="block text-gray-900 font-bold mb-2 text-xl text-dark-grey" for="birthdate">
+                            {!v.birthdateLabel}
+                        </label>
+                        <select id="ddlBirthdateDay" class="shadow appearance-none border w-1/4 py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline text-xl">
+                            <option value="">- Day -</option>
+                            <option value="1"> 1</option>
+                            <option value="2"> 2</option>
+                            <option value="3"> 3</option>
+                            <option value="4"> 4</option>
+                            <option value="5"> 5</option>
+                            <option value="6"> 6</option>
+                            <option value="7"> 7</option>
+                            <option value="8"> 8</option>
+                            <option value="9"> 9</option>
+                            <option value="10">10</option>
+                            <option value="11">11</option>
+                            <option value="12">12</option>
+                            <option value="13">13</option>
+                            <option value="14">14</option>
+                            <option value="15">15</option>
+                            <option value="16">16</option>
+                            <option value="17">17</option>
+                            <option value="18">18</option>
+                            <option value="19">19</option>
+                            <option value="20">20</option>
+                            <option value="21">21</option>
+                            <option value="22">22</option>
+                            <option value="23">23</option>
+                            <option value="24">24</option>
+                            <option value="25">25</option>
+                            <option value="26">26</option>
+                            <option value="27">27</option>
+                            <option value="28">28</option>
+                            <option value="29">29</option>
+                            <option value="30">30</option>
+                            <option value="31">31</option>
+                        </select>
+                        <select id="ddlBirthdateMonth" class="shadow appearance-none border w-2/4 py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline text-xl">
+                            <option value="">- Month -</option>
+                            <option value="1">January</option>
+                            <option value="2">February</option>
+                            <option value="3">March</option>
+                            <option value="4">April</option>
+                            <option value="5">May</option>
+                            <option value="6">June</option>
+                            <option value="7">July</option>
+                            <option value="8">August</option>
+                            <option value="9">September</option>
+                            <option value="10">October</option>
+                            <option value="11">November</option>
+                            <option value="12">December</option>
+                        </select>
+                        <select id="ddlBirthdateYear" class="shadow appearance-none border w-1/4 py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline text-xl">
+                            <option value="">- Year -</option>
+                            <aura:iteration items="{!v.birthdateYearOptions}" var="i">
+                                <option value="{!i}">{!i}</option>
+                            </aura:iteration>
+                        </select>
+                        <aura:if isTrue="{!not(empty(v.birthdateErrorMessage))}">
+                            <p class="text-red-500 text-xs italic">{!v.birthdateErrorMessage}</p>
+                        </aura:if>
+                    </div>
+                    <div class="mb-4">
+                        <label class="block text-gray-900 font-bold mb-2 text-xl text-dark-grey" for="gender">
+                            {!v.degreeLabel}
+                        </label>
+                        <select id="ddlDegree" class="shadow appearance-none border w-full py-2 px-3 text-gray-800 leading-tight focus:outline-none focus:shadow-outline text-xl">
+                            <option value="">- Select --</option>
+                            <aura:iteration items="{!v.degreeOptions}" var="i">
+                                <option value="{!i.value}">{!i.name}</option>
+                            </aura:iteration>
+                        </select>
+                        <aura:if isTrue="{!not(empty(v.degreeErrorMessage))}">
+                            <p class="text-red-500 text-xs italic">{!v.degreeErrorMessage}</p>
+                        </aura:if>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <button aura:id="btnSubmit" class="bg-blue hover:bg-blue-700 text-white font-bold py-2 px-10 focus:outline-none focus:shadow-outline ucin-button" disabled="{!v.btnSubmitDisabled}" onclick="{!c.onActivateAccount}">
+                            <span>{!v.btnSubmitLabel}</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="self-start w-full sm:w-4/5 max-w-xs pt-2">
+                    <p class="text-grey pb-2 text-lg">{!v.loginQuestion}
+                        <a class="underline inline-block align-baseline font-bold text-blue hover:text-blue-800" href="{!v.loginUrl}">
+                            {!v.loginLabel}
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

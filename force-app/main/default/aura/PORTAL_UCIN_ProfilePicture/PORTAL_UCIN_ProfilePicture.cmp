@@ -1,0 +1,37 @@
+<aura:component controller="PORTAL_UCIN_ProfilePicture"
+                implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
+
+    <ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}"/>
+    <ltng:require scripts="{!$Resource.ucinn_ascendv2__exif}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <!-- Id of the Record the page hosting this component is showing -->
+    <aura:attribute name="recordId" type="String" default="" access="global"/>
+    <aura:attribute name="pictureSrc" type="String" default="" access="global"/>
+    <aura:attribute name="size" type="String" />
+
+    <aura:attribute name="profilePictureId" type="String" default="" access="public"/>
+    <aura:attribute name="isModalOn" type="Boolean" default="false" access="public"/>
+    <aura:attribute name="message" type="String" default="Drag profile picture here" access="global"/>
+    <aura:attribute name="orientation" type="Integer" access="public"/>
+    <aura:attribute name="baseURL" type="String" access="public"/>
+
+    <aura:method name="renderPicture" action="{!c.renderPicture}" access="Public">
+        <aura:attribute name="profilePictureInfoMap" type="Object"/>
+    </aura:method>
+
+    <div>
+        <aura:if isTrue="{!v.size == 'navBar'}">
+            <img width="50" class="inline-block border-solid border-blue border-2 rounded-full circular-small" src="{!v.pictureSrc}"/>
+            <aura:set attribute="else">
+                <aura:if isTrue="{!v.size == 'homePage'}">
+                    <img class="inline-block rounded-full circular-med" src="{!v.pictureSrc}"/>
+                    <aura:set attribute="else">
+                        <img class="inline-block border-solid border-blue border-2 rounded-full circular" src="{!v.pictureSrc}"/>
+                    </aura:set>
+                </aura:if>
+            </aura:set>
+        </aura:if>
+    </div>
+    
+
+</aura:component>

@@ -1,0 +1,31 @@
+<template>
+    <template if:true={showSpinner}> 
+        <div class="slds-is-relative" style="min-height: 200px;">
+            <lightning-spinner alternative-text="Loading" class="spins" variant="brand" size="large"></lightning-spinner>
+        </div>            
+    </template>
+    <template if:false={showSpinner}>
+        <lightning-layout-item size="9">
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item size="12" padding="around-small">
+                    <lightning-card>
+                        <lightning-layout slot="actions" multiple-rows="true">
+                            <lightning-layout-item size="12" padding="around-small">
+                                This action will clear out all fields that were previously populated by the Dun & Bradstreet integration.
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" padding="around-small">
+                                Are you ok to proceed?
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <lightning-button label="Cancel" variant="neutral" onclick={closeQuickAction} icon-name="utility:unlinked" title="Cancel"></lightning-button>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <lightning-button label="Execute" variant="neutral" onclick={initiateClearFields} icon-name="utility:process" title="Execute"></lightning-button>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-card>
+                </lightning-layout-item> 
+            </lightning-layout>
+        </lightning-layout-item>                
+    </template>
+</template>

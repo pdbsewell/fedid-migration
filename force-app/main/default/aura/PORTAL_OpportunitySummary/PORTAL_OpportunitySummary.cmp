@@ -1,0 +1,91 @@
+<!--
+/*
+ * Copyright (c) 2019, UC Innovation, Inc.  All Rights Reserved.
+ *                     http://www.ucinnovation.com
+ *
+ * This source code is licensed, not sold, and is subject to a written
+ * license agreement.  Among other things, no portion of this source
+ * code may be copied, transmitted, disclosed, displayed, distributed,
+ * translated, used as the basis for a derivative work, or used, in
+ * whole or in part, for any program or purpose other than its intended
+ * use in compliance with the license agreement as part of UC Innovation's
+ * software.  This source code and certain of the algorithms contained
+ * within it are confidential trade secrets of UC Innovation, Inc.
+ * and may not be used as the basis for any other
+ * software, hardware, product or service.
+ */
+-->
+
+<aura:component >
+    <!-- Top level donation detail container -->
+    <aura:attribute name="portalDonationSetupParams" type="Object" access="public"/>
+    <aura:attribute name="pledgeRec" type="Object" access="public"/>
+    <aura:attribute name="giftRec" type="Object" access="public"/>
+    <aura:attribute name="giftTypeSelected" type="String" access="public"/>
+    <aura:attribute name="availableMonthOptions" type="Object[]" access="private"/>
+    <aura:attribute name="availableFrequencyOptions" type="Object[]" access="private"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <div class="slds-size_1-of-1">
+        <fieldset class="slds-box slds-theme_default slds-container">
+            <legend class="slds-text-heading_medium slds-p-vertical_x-small">
+                <aura:if isTrue="{!v.giftTypeSelected == 'Pledge'}">
+                    <h1 class="slds-text-heading_medium">Pledge Information</h1>
+                </aura:if>
+                <aura:if isTrue="{!v.giftTypeSelected == 'OutrightGift'}">
+                    <h1 class="slds-text-heading_medium">Gift Information</h1>
+                </aura:if>
+            </legend>
+
+            <table class="slds-table slds-table_bordered slds-table_striped slds-table_cell-buffer slds-table_fixed-layout slds-no-row-hover slds-max-medium-table_stacked-horizontal">
+                <thead class="slds-text-heading_label">
+                    <tr>
+                        <th scope="col"><div class="slds-truncate" title="{!if(equals(v.giftTypeSelected, 'Pledge'), 'Pledge', 'Gift') + ' Amount'}">{!if(equals(v.giftTypeSelected, 'Pledge'), 'Pledge', 'Gift') + ' Amount'}</div></th>
+
+                        <aura:if isTrue="{!v.giftTypeSelected == 'Pledge'}">
+                            <th scope="col"><div class="slds-truncate" title="Payment Frequency">Payment Frequency</div></th>
+                        </aura:if>
+
+                        <th scope="col"><div class="slds-truncate" title="Notes">Notes</div></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td scope="row" data-label="{!if(equals(v.giftTypeSelected, 'Pledge'), 'Pledge', 'Gift') + ' Amount'}">
+                            <aura:if isTrue="{!v.giftTypeSelected == 'Pledge'}">
+                                <div class="slds-truncate ascend-long-output-float-right-mobile" title="{!v.pledgeRec.Amount}">
+                                    <ui:outputCurrency value="{!v.pledgeRec.Amount}" />
+                                </div>
+                            </aura:if>
+                            <aura:if isTrue="{!v.giftTypeSelected == 'OutrightGift'}">
+                                <div class="slds-truncate ascend-long-output-float-right-mobile" title="{!v.giftRec.Amount}">
+                                    <ui:outputCurrency value="{!v.giftRec.Amount}" />
+                                </div>
+                            </aura:if>
+                        </td>
+                        <aura:if isTrue="{!v.giftTypeSelected == 'Pledge'}">
+                            <td scope="row" data-label="Payment Frequency">
+                                <!-- Designation Picklist -->
+                                <div class="slds-size_1-of-1 slds-m-bottom_small">
+                                    <ui:inputSelect multiple="false" aura:id="availableMonthOptions" label="" change="{!c.paymentDayOfMonthOptionChange}"/>
+                                </div>
+                                <div class="slds-size_1-of-1 slds-m-bottom_small">
+                                    <ui:inputSelect multiple="false" aura:id="availableFrequencyOptions" label="" change="{!c.paymentFrequencyChange}"/>
+                                </div>
+                            </td>
+                        </aura:if>
+                        <td scope="row" data-label="Notes">
+                            <aura:if isTrue="{!v.giftTypeSelected == 'Pledge'}">
+                                <ui:inputTextArea class="slds-input" value="{!v.pledgeRec.ucinn_ascendv2__Notes__c}"/>
+                            </aura:if>
+                            <aura:if isTrue="{!v.giftTypeSelected == 'OutrightGift'}">
+                                <ui:inputTextArea class="slds-input" value="{!v.giftRec.ucinn_ascendv2__Notes__c}"/>
+                            </aura:if>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+</aura:component>

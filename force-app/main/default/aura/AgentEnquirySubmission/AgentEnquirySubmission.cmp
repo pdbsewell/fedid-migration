@@ -1,0 +1,221 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="AgentEnquiryService">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    
+    <!-- Page Parameters -->
+    <aura:attribute name="TopicCode" type="String" access="global"/>
+    <aura:attribute name="ApplicationId" type="String" access="global"/>    
+    
+    <!-- Page Variables -->
+    <aura:attribute name="EnquiryTopicCategory" type="String" access="global"/>
+    <aura:attribute name="EnquiryTopic" type="String" access="global"/>
+    <aura:attribute name="isSubmitted" type="Boolean" default="false" access="global"/>
+    <aura:attribute name="ApplicationDetails" type="Object" access="global"/>
+    <aura:attribute name="topicMap" type="Map" access="global"/>
+    <aura:attribute name="categoryMap" type="Map" access="global"/>
+    <aura:attribute name="enquiryDescriptionLabel" type="String" access="global"/>
+    <aura:attribute name="enquiryDetailsSectionHeader" type="String" access="global"/>
+    <aura:attribute name="enquiryCourseName" type="String" access="global"/>
+    <aura:attribute name="enquiryDateOfArrival" type="String" access="global"/>
+    
+    <!-- Form Inputs -->
+    <aura:attribute name="agentFirstName" type="String" access="global"/>    
+    <aura:attribute name="agentLastName" type="String" access="global"/>    
+    <aura:attribute name="agentEmail" type="String" access="global"/>    
+    <aura:attribute name="enquirySubject" type="String" access="global"/>    
+    <aura:attribute name="enquiryDescription" type="String" access="global"/>  
+    
+    <!-- Constructor -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- UI Components -->
+    <lightning:spinner aura:id="loadingSpinner" />
+    
+    <!-- Component Start -->
+    <div>
+        <div class="monash navbar navbar-fixed-top" style="top: 0; width: 100%; background-color: white; -webkit-box-shadow:0 1px 2px rgba(0,0,0,0.3); box-shadow:0 1px 2px rgba(0,0,0,0.3); position: fixed;">
+            <div class="monash-navbar">
+                <div class="container">
+                    <a class="navbar-brand">
+                        <img class="logo-sm" style="height: auto; padding: 10px 0;" src="https://monash-agent-portal-uat.appspot.com/static/images/monash-logo.svg" alt="Monash University"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="margin-top: 70px"></div>
+    <div class="slds-align_absolute-center">
+        <div class="container slds-align_absolute-left">
+            <div id="AgentEnquiryNavigation" class="slds-p-left_x-small" >
+                <nav role="navigation" aria-label="Breadcrumbs">
+                    <ol class="slds-breadcrumb slds-list_horizontal slds-wrap">
+                        <li class="slds-breadcrumb__item">
+                            <a href="#">Submit a new message</a>
+                        </li>
+                        <li class="slds-breadcrumb__item">
+                            <a href="#">{!v.EnquiryTopicCategory}</a>
+                        </li>
+                        <li class="slds-breadcrumb__item">
+                            <a href="#" class="selectedItem">{!v.EnquiryTopic}</a>
+                        </li>
+                    </ol>
+                </nav>
+            </div>
+            <div class="AgentEnquiryForm" style="background color: white;">
+                <c:HeaderCard IconName="standard:case" Title="Submit Post-Application Enquiry" SubTitle="{!'Applicant:' + v.ApplicationDetails.Applicant__r.Name}" />
+                <div class="slds-theme_default slds-p-horizontal--x-large">
+                    <!-- Agency Details -->
+                    <div id="AgencyDetails" class="slds-p-top_small">
+                        <div id="SuccessToast" aura:id="SuccessToast" class="slds-hide" style="height: 4.5rem; background color: white; padding-bottom: 20px;">
+                            <div class="slds-notify_container slds-is-relative">
+                                <div class="slds-notify slds-notify_toast slds-theme_success" role="alert">
+                                    <span class="slds-assistive-text">info</span>
+                                    <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top">
+                                        <lightning:icon src="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#success" />
+                                    </span>
+                                    <div class="slds-notify__content">
+                                        <h2 class="slds-text-heading_small">Successfully submitted enquiry. We will be in touch via email. <a href="https://agent.apps.monash.edu">Go back to Agent Portal</a></h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <fieldset class="slds-box slds-theme--default">
+                            <legend id="agencyDetailsSection" class="slds-text-heading--small">
+                                Agency Details
+                            </legend>
+                            
+                            <div class="slds-grid slds-gutters slds-wrap">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3">
+                                    <span class="slds-form-element__label slds-size_1-of-1">Agency Name</span>
+                                    <span class="slds-form-element__static slds-size_1-of-1">{!v.ApplicationDetails.Agent__r.Name}</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3">
+                                    <span class="slds-form-element__label slds-size_1-of-1">Agency Code</span>
+                                    <span class="slds-form-element__static slds-size_1-of-1">{!v.ApplicationDetails.Agent__r.Callista_Org_Unit_Code__c}</span>
+                                </div>
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-3">
+                                    <span class="slds-form-element__label slds-size_1-of-1">Agency Country</span>
+                                    <span class="slds-form-element__static slds-size_1-of-1">{!v.ApplicationDetails.Agent__r.BillingCountry}</span>
+                                </div>
+                            </div>                            
+                        </fieldset>
+                    </div>
+                    <!-- Agent and Applicant Details -->
+                    <div id="AgentApplicantDetails" class="slds-grid slds-gutters slds-wrap">
+                        <!-- Agent input fields -->
+                        <div id="AgentDetails" class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 slds-p-right_small slds-p-top_small">
+                            <fieldset class="slds-box slds-theme--default">
+                                <legend id="agentDetailsSection" class="slds-text-heading--small">
+                                    Agent Details
+                                </legend>
+                                
+                                <div class="slds-form-element">
+                                    <lightning:input aura:id="formField" name="AgentFirstName" required="true" 
+                                                     label="First Name" value="{!v.agentFirstName}" disabled="{!v.isSubmitted}" 
+                                                     onchange="{!c.checkPopulatedFields}" />
+                                </div>
+                                <div class="slds-form-element">
+                                    <lightning:input aura:id="formField" name="AgentLastName" required="true" 
+                                                     label="Last Name" value="{!v.agentLastName}" disabled="{!v.isSubmitted}" 
+                                                     onchange="{!c.checkPopulatedFields}" />
+                                </div>
+                                <div class="slds-form-element">
+                                    <lightning:input aura:id="formField" type="email" name="AgentEmail" required="true" 
+                                                     label="Email" value="{!v.agentEmail}" disabled="{!v.isSubmitted}" 
+                                                     onchange="{!c.checkPopulatedFields}" />
+                                </div>                     
+                            </fieldset>
+                        </div>
+                        <!-- Applicant Reference fields -->
+                        <div id="ApplicantDetails" class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 slds-p-left_small slds-p-top_small">
+                            <fieldset class="slds-box slds-theme--default">
+                                <legend id="applicantDetailsSection" class="slds-text-heading--small">
+                                    Applicant Details
+                                </legend>
+                                
+                                <div class="slds-form-element">
+                                    <span class="slds-form-element__label slds-p-around_xx-small">Monash Applicant ID</span>
+                                    <span class="slds-form-element__static slds-p-around_xx-small">{!v.ApplicationDetails.Callista_Applicant_Id__c}</span>
+                                </div>
+                                <aura:if isTrue="{!v.ApplicationDetails.Callista_Student_Id__c != null}">
+                                    <div class="slds-form-element">
+                                        <span class="slds-form-element__label slds-p-around_xx-small">Monash Student ID</span>
+                                        <span class="slds-form-element__static slds-p-around_xx-small">{!v.ApplicationDetails.Callista_Student_Id__c}</span>
+                                    </div>
+                                </aura:if>
+                                <div class="slds-form-element">
+                                    <span class="slds-form-element__label slds-p-around_xx-small">Student Name</span>
+                                    <span class="slds-form-element__static slds-p-around_xx-small">{!v.ApplicationDetails.Applicant__r.Name}</span>
+                                </div>
+                                <div class="slds-form-element">
+                                    <span class="slds-form-element__label slds-p-around_xx-small">Student Email</span>
+                                    <span class="slds-form-element__static slds-p-around_xx-small">{!v.ApplicationDetails.Applicant__r.Email}</span>
+                                </div>                          
+                            </fieldset>
+                        </div>
+                    </div>
+                    <!-- Enquiry Details -->
+                    <div id="EnquiryDetails" class="slds-p-top_small">
+                        <fieldset class="slds-box slds-theme--default">
+                            <legend id="enquiryDetailsSection" class="slds-text-heading--small">
+                                {!v.enquiryDetailsSectionHeader}
+                            </legend>
+                            
+                            <aura:if isTrue="{!v.TopicCode == '8'}">
+                                <div id="lateEnrolmentReminderToast" class="slds-box slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_default slds-text-align_left" role="alert">
+                                    <span class="slds-icon_container slds-icon-utility-info slds-m-right_small slds-no-flex slds-align-top">
+                                        <lightning:icon class="slds-icon slds-icon_small" iconName="utility:info" />
+                                    </span>
+                                    <div class="slds-notify__content slds-m-around_none slds-p-around_none">                                            
+                                        <h2 class="slds-text-heading_small">Late Enrolment/Arrival is subject to approval and permission is not guaranteed.</h2>
+                                        <h2 class="slds-text-heading_small">We are unable to process requests for late enrolment if an exact date of arrival is not provided.</h2>
+                                        <p>
+                                            <span>If you are unsure of the exact date, you should then provide an estimated date of arrival.</span>
+                                        </p>
+                                    </div>
+                                </div>
+                            </aura:if>
+                            
+                            <div class="slds-form-element slds-p-top_small">
+                                <lightning:input name="EnquirySubject" label="Subject" 
+                                                 value="{!v.enquirySubject}" disabled="true" />
+                            </div>
+                            <aura:if isTrue="{!v.TopicCode == '8'}">
+                                <div class="slds-grid slds-gutters slds-wrap">
+                                    <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 
+                                                slds-p-left_small slds-p-top_small">
+                                        <lightning:input aura:id="formField" id="enquiryCourseName" name="enquiryCourseName" required="true" 
+                                                             label="Name of course to be enrolled in" onchange="{!c.checkPopulatedFields}" 
+                                                             disabled="{!v.isSubmitted}" value="{!v.enquiryCourseName}" />
+                                    </div>
+                                    <div class="slds-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2 
+                                                slds-p-left_small slds-p-top_small">
+                                        <lightning:input aura:id="formField" id="enquiryDateOfArrival" name="enquiryDateOfArrival" required="true" 
+                                                         type="date" class="slds-size_1-of-1" label="Exact date of Enrolment/Arrival" 
+                                                         placeholder="please pick a Date" onchange="{!c.checkPopulatedFields}" 
+                                                         disabled="{!v.isSubmitted}" value="{!v.enquiryDateOfArrival}" />
+                                    </div>
+                                </div>
+                            </aura:if>
+                            
+                            <div class="slds-form-element slds-p-top_small">
+                                <lightning:textarea aura:id="formField" value="{!v.enquiryDescription}" name="enquiryDescription" required="true" 
+                                                    label="{!v.enquiryDescriptionLabel}" placeholder="type your message..."
+                                                    disabled="{!v.isSubmitted}" onchange="{!c.checkPopulatedFields}" />
+                            </div>
+                        </fieldset>
+                    </div>
+                    <div id="FormActions" class="slds-text-align_right slds-p-bottom_small">
+                        <lightning:button label="Submit" 
+                                          class="slds-m-top--medium"
+                                          variant="brand" 
+                                          onclick="{!c.handleSubmitEnquiry}"
+                                          aura:id="submitbutton" 
+                                          disabled="true" />
+                    </div>
+                </div>                
+            </div>                                  
+        </div>
+    </div>
+    
+    <!-- Component End -->
+</aura:component>

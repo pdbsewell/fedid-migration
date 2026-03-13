@@ -1,0 +1,37 @@
+<template>
+
+    <lightning-card title="Current Event Types" icon-name="standard:key_dates" class="slds-m-bottom_medium">
+        <template if:true={linkedEventsLoading}>
+            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+        </template>
+        <lightning-button label="Unlink Selected Event Type(s)" slot="actions" disabled={unlinkButtonDisabled} onclick={unlinkEvents}>
+        </lightning-button>
+        <lightning-datatable
+            key-field="id" data-id="linked-events-table"
+            data={linkedEventTypes}
+            columns={columns}
+            onrowselection={onLinkedRowSelected}>
+        </lightning-datatable>
+    </lightning-card>
+
+    <lightning-card title="Available Event Types" icon-name="utility:record_lookup">
+        <template if:true={unLinkedEventsLoading}>
+            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+        </template>
+        <lightning-button label="Add Selected Event Type(s)" slot="actions" disabled={linkButtonDisabled} onclick={linkEvents}>
+        </lightning-button>
+            <lightning-input
+                type="search" onchange={onFilterChange} class="slds-m-around_small"
+                label="" placeholder="Search"
+                variant="label-hidden"
+            ></lightning-input>
+        <div>
+            <lightning-datatable
+                key-field="id" data-id="unlinked-events-table"
+                data={unlinkedEventTypes}
+                columns={columns}
+                onrowselection={onUnlinkedRowSelected}>
+            </lightning-datatable>
+        </div>
+    </lightning-card>
+</template>

@@ -1,0 +1,123 @@
+.wrapper {
+    position: fixed;
+    width: 1002px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: min(100vh, 810px);
+    background: rgb(243,243,243);
+    border: 1px solid rgba(26,26,26,0.1);
+    border-radius: 8px;
+    box-shadow: 0 1px 8px 0 rgb(0 0 0 / 8%);
+}
+.header {
+    display: flex;
+    width: 830px;
+    justify-content: space-between;
+    align-items: center;
+    margin: 18px auto 16px auto;
+}
+.header > * {
+    min-width: 200px;
+}
+.header > .close-button {
+    text-align: right;
+}
+
+.event-select {
+    width: 830px;
+    height: calc(100% - 128px);
+    margin: 0 auto;
+    padding: 16px 4px;
+    background: rgb(255,255,255);
+    border: 1px solid rgba(26,26,26,0.1);
+    border-radius: 8px;
+    box-shadow: 0 1px 8px 0 rgb(0 0 0 / 8%);
+}
+.event-select-header {
+
+}
+.embed-section {
+    height: 100%;
+}
+
+.embed-div {
+/*    height: calc(100% - 20px);*/
+/*    height: 1020px*/
+    height: 100%;
+}
+.slds-box {
+    width: 150px;
+}
+.search {
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 15px;
+}
+h1 {
+    font-size: 1.5em;
+    font-weight: bold;
+    text-align: center;
+}
+h2 {
+    font-size: 1.3em;
+    font-weight: bold;
+    text-align: center;
+}
+h3 {
+    font-weight: bold;
+}
+.event-grid-wrapper {
+    height: calc(100% - 64px);
+    overflow-y: auto;
+}
+.event-grid {
+    display: grid;
+/*  grid-template-columns: repeat(3, 1fr);*/
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    grid-gap: 10px;
+    padding: 15px;
+}
+.event-grid a:hover, .event-grid a:focus {
+    text-decoration: none;
+}
+
+.grid-item {
+    border: 1px solid #CCC;
+    border-radius: 4px;
+    min-height: 80px;
+    padding: 15px;
+    font-size: 16px;
+    text-align: center;
+    background: #FFF;
+/*    transition: transform 0.14s ease-in, text-shadow 0.1s ease-in;*/
+    box-shadow: inset 0px 0px 0px 1px #edeef4;
+    transform: translate(0, 0);
+    transform: translate3d(0, 0, 0);
+    transition: transform 0.14s ease-in, text-shadow 0.1s ease-in;
+    will-change: transform;
+}
+
+.grid-item:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: none;
+    border-radius: 3px;
+    box-shadow: 0 10px 24px 0px rgba(0, 0, 0, 0.02), 0 8px 20px -2px rgba(0, 0, 0, 0.06), 0 6px 10px -6px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.1s ease-in;
+    will-change: opacity;
+    opacity: 0;
+}
+
+.grid-item:hover {
+    transform: translate(0, -4px);
+    transform: translate3d(0, -4px, 0);
+}
+
+.grid-item:hover:before {
+  opacity: 1;
+}

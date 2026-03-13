@@ -1,0 +1,130 @@
+<aura:component controller="PORTAL_UCIN_DirectoryController" implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute name="contactId" type="String"/>
+    <aura:attribute name="contact" type="sObject"/>
+    <aura:attribute name="loggedInContactId" type="String" />
+    <aura:attribute name="showAllSkills" type="Boolean" default="false" />
+    <aura:attribute name="loaded" type="Boolean" default="true" />
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}"/>
+    <lightning:overlayLibrary aura:id="overlayModal"/>
+    <lightning:overlayLibrary aura:id="overlayMessaging"/>
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+        
+    <div class="w-full slds-is-relative">
+        <div>
+			<aura:if isTrue="{!!v.loaded }">
+				<lightning:spinner alternativeText="Loading" />
+			</aura:if>
+		</div>
+        <div class="relative flex flex-row flex-wrap h-full p-2 sm:p-4 lg:p-6">
+            <h2 class="w-full text-black lg:leading-loose pb-8 uppercase">ALUMNI PROFILE</h2>
+            <a href="javascript:void();" class="absolute right-0 top-0 text-blue px-4 py-1 border border-blue font-bold text-2xl sm:text-xl" onclick="{!c.closeModal}">X</a>
+            <div class="w-1/2 flex flex-col pr-1">
+                <h2 class="uppercase font-semibold text-lg">
+                    {!v.contact.Name}
+                </h2>
+                <div class="py-2 small">
+                    <aura:if isTrue="{!not(empty(v.contact.Contact_Qualifications__r))}">
+                        <aura:iteration items="{!v.contact.Contact_Qualifications__r}" var="eachDegree" start="0" end="2">
+                            <aura:if isTrue="{!not(empty(eachDegree.Qualification__r.Qualification_Name__c))}">
+                                <small class="uppercase text-blue font-bold">{!eachDegree.Qualification__r.Qualification_Name__c}</small>
+                                <aura:set attribute="else">
+                                    <aura:if isTrue="{!not(empty(eachDegree.Other_Qualification__c))}">
+                                        <small class="uppercase text-blue font-bold">{!eachDegree.Other_Qualification__c}</small>
+                                        <aura:set attribute="else">
+                                            -----
+                                        </aura:set>
+                                    </aura:if>                                                    
+                                </aura:set>
+                            </aura:if>
+                            <br/>
+                            <aura:if isTrue="{!not(empty(eachDegree.degreeYear))}">
+                                <small class="uppercase font-bold">{!'Class of ' + eachDegree.degreeYear}</small>
+                                <aura:set attribute="else">
+                                    --
+                                </aura:set>
+                            </aura:if>
+                            <br/>
+                        </aura:iteration>
+                        <aura:set attribute="else">
+                            -----
+                        </aura:set>
+                    </aura:if>
+                </div>
+                <div class="py-4 small">
+                    <small class="uppercase font-bold my-1 text-sm">Employment</small><br/>
+                    <aura:if isTrue="{!not(empty(v.contact.Affiliations__r[0]))}">
+                        <aura:if isTrue="{!not(empty(v.contact.Affiliations__r[0].Position__c))}">
+                            <small>{!v.contact.Affiliations__r[0].Position__c}</small>
+                            <aura:set attribute="else">
+                                -----
+                            </aura:set>
+                        </aura:if>
+                        <br/>
+                        <aura:if isTrue="{!not(empty(v.contact.Affiliations__r[0].Account__r.Name))}">
+                            <small>{!v.contact.Affiliations__r[0].Account__r.Name}</small>
+                            <aura:set attribute="else">
+                                -----
+                            </aura:set>
+                        </aura:if>
+                        
+                        <aura:set attribute="else">
+                            -----
+                        </aura:set>
+                    </aura:if>
+                </div>
+            </div>
+
+            <div class="w-1/2">
+                <div class="relative sm:max-h-18rem w-auto h-auto text-center">
+                    <div class="relative w-full text-center">                        
+                        <c:PORTAL_UCIN_ProfilePicture recordId="{!v.contactId}"/>
+                    </div>                    
+                </div>
+            </div>
+			<!--
+            <div class="w-full flex flex-row">
+                <aura:if isTrue="{!not(empty(v.contact.Users[0]))}">
+                    <aura:if isTrue="{!not(empty(v.contact.Users[0].AboutMe))}">
+                        <small>{!v.contact.Users[0].AboutMe}</small>
+                    </aura:if>
+                </aura:if>
+            </div>
+			-->
+
+            <div class="w-full sm:flex sm:flex-row">
+                <div class="w-full sm:w-1/2">
+                    <p class="uppercase font-bold my-1 text-sm">Skills &amp; Expertise</p>
+                    <ul class="list-disc pl-4">
+                        <aura:iteration items="{!v.contact.SkillsArray}" var="eachSkill" indexVar="skillIndex">
+                            <aura:if isTrue="{!not(v.showAllSkills)}">
+                            	<aura:if isTrue="{!lessthan(skillIndex, 3)}">
+                                	<li>{!eachSkill}</li>
+                            	</aura:if>
+                            	<aura:if isTrue="{!skillIndex == 3}">
+                                	<a href="javascript:void();" onclick="{!c.showAllSkills}">View all skills</a>
+                            	</aura:if>
+                                <aura:set attribute="else">
+                                    <li>{!eachSkill}</li>
+                                </aura:set>
+                            </aura:if>
+                        </aura:iteration>
+                    </ul>
+                </div>
+                <div class="w-full sm:w-1/2">
+                    <p class="uppercase font-bold my-1 text-sm">Areas of Interest</p>
+                    <ul class="list-disc pl-4">
+                        <aura:iteration items="{!v.contact.AOIArray}" var="eachAOI">
+                            <li>{!eachAOI}</li>
+                        </aura:iteration>
+                    </ul>
+                </div>
+            </div>
+            <aura:if isTrue="{!and(and(not(empty(v.contact.Users)), v.contact.Users[0].Messaging_Opt_In__c), v.loggedInContactId != v.contact.Id)}">
+                <button class="py-2 px-6 mt-6 text-center border bg-blue text-md font-bold border-blue text-white no-border-radius hover:text-white text-xl ucin-button" onclick="{!c.openMessaging}">Get in touch</button>
+            </aura:if>
+            
+        </div>
+    </div>
+
+</aura:component>

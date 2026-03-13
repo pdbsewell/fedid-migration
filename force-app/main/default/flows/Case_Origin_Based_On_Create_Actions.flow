@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Check_Origin</name>
+        <label>Check Origin</label>
+        <locationX>578</locationX>
+        <locationY>311</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Web_Find_Course_International</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Origin</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Web - Find Course International</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Subject_Enquiry_Type_and_Student_Type</targetReference>
+            </connector>
+            <label>Web - Find Course International</label>
+        </rules>
+        <rules>
+            <name>Origin_Web_Replacement_Testamur_Form</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Origin</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Web - Replacement Testamur Form</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Fields_for_ShopMonash</targetReference>
+            </connector>
+            <label>Origin = Web - Replacement Testamur Form</label>
+        </rules>
+        <rules>
+            <name>Web_Future_Students_International</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Origin</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Web - Future Students International</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Enquiry_Type_and_Student_Type</targetReference>
+            </connector>
+            <label>Web - Future Students International</label>
+        </rules>
+        <rules>
+            <name>Others</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Origin</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Email - study</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Origin</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Email - sr-socialenquiry-l</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Origin</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Web - Monash College</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Student_Type</targetReference>
+            </connector>
+            <label>Others</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>SubjectforInternationalFindCourse</name>
+        <dataType>String</dataType>
+        <expression>&quot;International enquiry for course &quot; &amp; IF(ISBLANK({!$Record.Application_Course_Preference__c}), IF(ISBLANK({!$Record.Course__c}), {!$Record.Course_Title__c}, {!$Record.Course__r.Course_Description__c}), {!$Record.Application_Course_Preference__r.Course_Title__c})</expression>
+    </formulas>
+    <interviewLabel>Case Origin Based On Create Actions {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Case Origin Based On Create Actions</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Set_Enquiry_Type_and_Student_Type</name>
+        <label>Set Enquiry Type, and Student Type</label>
+        <locationX>578</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Enquiry_Type__c</field>
+            <value>
+                <stringValue>Future Course</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Student_Type__c</field>
+            <value>
+                <stringValue>International</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Set_Student_Type</name>
+        <label>Set Student Type</label>
+        <locationX>842</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Student_Type__c</field>
+            <value>
+                <stringValue>International</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Set_Subject_Enquiry_Type_and_Student_Type</name>
+        <label>Set Subject, Enquiry Type, and Student Type</label>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Enquiry_Type__c</field>
+            <value>
+                <stringValue>Future Course</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Student_Type__c</field>
+            <value>
+                <stringValue>International</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Subject</field>
+            <value>
+                <elementReference>SubjectforInternationalFindCourse</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Update Enquiry Type, Category Level 1 and Category Level 2 for Shop Monash Testamur Replacement Form</description>
+        <name>Update_Fields_for_ShopMonash</name>
+        <label>Update Fields for ShopMonash</label>
+        <locationX>314</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Category_Level_1__c</field>
+            <value>
+                <stringValue>Past student</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Category_Level_2__c</field>
+            <value>
+                <stringValue>Graduation / Documents</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Enquiry_Type__c</field>
+            <value>
+                <stringValue>Past Course</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>452</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Origin</targetReference>
+        </connector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>Origin</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Web - Find Course International</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Origin</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Web - Future Students International</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Origin</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Email - study</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Origin</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Email - sr-socialenquiry-l</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Origin</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Web - Monash College</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Origin</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Web - Replacement Testamur Form</stringValue>
+            </value>
+        </filters>
+        <object>Case</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

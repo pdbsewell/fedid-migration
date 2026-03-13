@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>61.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>Set Qualification UID from the formula element</description>
+        <name>Set_Qualification_UID</name>
+        <label>Set Qualification UID</label>
+        <locationX>176</locationX>
+        <locationY>287</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Qualification_UID__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>generateQualificationUID</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>Populate QualificationUID on before save</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>generateQualificationUID</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.Callista_Code__c} + IF({!$Record.Overseas__c},&apos;1&apos;,&apos;0&apos;)</expression>
+    </formulas>
+    <interviewLabel>Qualification  : BI : Populate QualificationUID {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Qualification  : BI : Populate QualificationUID</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Set_Qualification_UID</targetReference>
+        </connector>
+        <filterFormula>{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = false</filterFormula>
+        <object>Qualification__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

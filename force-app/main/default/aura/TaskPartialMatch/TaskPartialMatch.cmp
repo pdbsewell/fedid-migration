@@ -1,0 +1,172 @@
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,force:hasRecordId" access="global" controller="TaskPartialMatchCtrl">
+    <!-- handlers-->
+    <aura:handler name="init" value="{! this }" action="{! c.init }"/>
+    
+    <!-- attributes -->
+    <aura:attribute name="applicationId" access="global" type="String"/>
+    <aura:attribute name="SelectedDupContact" type="List"/>
+    <aura:attribute name="columns" type="List" default="List"/>
+    <aura:attribute name="data" type="Contact"/>
+    <aura:attribute name="dataTableSchema" type="Object"/>
+    <aura:attribute name="keyField" type="String" default="Id"/>
+    <aura:attribute name="aSelectedRows" type="List"/>
+    <aura:attribute name="selectedRowsCount" type="Integer" default="0"/>
+    <aura:attribute name="enableInfiniteLoading" type="Boolean" default="true"/>
+    <aura:attribute name="loadMoreStatus" type="String" default=""/>
+    <aura:attribute name="MasterContact" type="Contact"/>
+    <aura:attribute name="MasterContactMap" type="Contact"/>
+    <aura:attribute name="initialRows" type="Integer" default="30"/>
+    <aura:attribute name="rowsToLoad" type="Integer" default="10"/>
+    <aura:attribute name="totalNumberOfRows" type="Integer" default="10"/>
+    <aura:attribute name="rowNumberOffset" type="Integer" default="0"/>
+    <aura:attribute name="currentCount" type="Integer" default="10"/>
+    <aura:attribute name="bNoFieldSetFound" type="boolean"/>
+    <aura:attribute name="bNoRecordsFound" type="boolean"/>
+    <aura:attribute name="bNoDuplicateRecordsFound" type="boolean"/>
+
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+
+    <!-- merge duplicate on application page -->
+    <aura:attribute name="duplicateCheckOutcomeOptions" type="List" default="[
+        {'label': 'Merged Successfully', 'value': 'Merged Successfully'},
+        {'label': 'Not a Match', 'value': 'Not a Match'},
+        {'label': 'Pending merge by Administrator', 'value': 'Pending merge by Administrator'}
+    ]"/>
+    <aura:attribute name="duplicateCheckOutcomeValue" type="String" default=""/>
+    <aura:attribute name="simpleApplicationRecord" type="Application__c"/>
+    <aura:attribute name="applicationRecord" type="Application__c"/>
+    <aura:attribute name="recordLoadError" type="String"/>
+    <force:recordData aura:id="recordHandler"
+        recordId="{!v.recordId}"
+        fields="Duplicate_Check_Outcome__c,Status__c,Task_Duplicate_Check__c"
+        targetRecord="{!v.applicationRecord}"
+        targetFields="{!v.simpleApplicationRecord}"
+        targetError="{!v.recordLoadError}"
+        mode="EDIT"
+        recordUpdated="{!c.handleRecordUpdated}" />
+
+    <!-- duplicate check card -->
+    <article class="slds-card slds-is-relative">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__figure">
+                    <lightning:icon iconName="standard:groups" alternativeText="Merge Contacts" title="Merge Contacts" />
+                </div>
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span>Potential Duplicate Candidates</span>
+                    </h2>
+                </div>
+                <div class="slds-no-flex">
+                    <!-- progress the duplicate check action -->
+                    <lightning:button variant="brand" label="Proceed" title="Finalize contact merge action" onclick="{!c.proceedAction}" />
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner slds-border_top">
+            <!-- original duplicate check component -->
+            <aura:if isTrue="{!v.showSpinner}">
+                <div class="slds-spinner_container">
+                    <div class="slds-spinner--brand  slds-spinner slds-spinner--medium slds-is-relative" role="alert">
+                        <span class="slds-assistive-text">Loading</span>
+                        <div class="slds-spinner__dot-a"></div>
+                        <div class="slds-spinner__dot-b"></div>
+                    </div>
+                </div>
+            </aura:if>
+            
+            <aura:if isTrue="{!v.bNoFieldSetFound}">
+                <!--display error message if there is no records available -->
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info" role="alert">
+                    <span class="slds-assistive-text">error</span>
+                    <h2>Something went wrong. Please contact your administrator.</h2>
+                </div>
+                <aura:set attribute="else">
+                    <aura:if isTrue="{!v.bNoRecordsFound}">
+                        <!--display error message if there is no records available -->
+                        <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info" role="alert">
+                            <span class="slds-assistive-text">error</span>
+                            <h2>Error getting Applicant Details. Please contact your administrator.</h2>
+                        </div>
+                        <aura:set attribute="else">
+                            <div id="documentsListDiv" class="slds">
+                                <div class="slds-section section-float">
+                                    <div class="slds-is-relative">
+
+                                        <lightning:radioGroup name="radioGroup"
+                                            aura:id="duplicateCheckOutcomeField"
+                                            label="Duplicate Check Outcome"
+                                            options="{!v.duplicateCheckOutcomeOptions}"
+                                            value="{!v.duplicateCheckOutcomeValue}"
+                                            required="true"
+                                            type="radio"/>
+                                        
+                                        <div class="slds-border_top slds-m-vertical_small">
+                                            <div class="slds-m-vertical_small">
+                                                <h1 class="slds-m-vertical_small slds-text-heading_small">Applicant Details</h1>
+                                            </div>
+                                            <aura:if isTrue="{!v.MasterContact}">
+                                                <lightning:layout multipleRows="true">
+                                                    <aura:iteration items="{!v.columns}" var="fieldItem">
+                                                        <lightning:layoutItem size="4" smallDeviceSize="4" mediumDeviceSize="4" largeDeviceSize="4">
+                                                            <div class="slds-p-horizontal_x-small">
+                                                                <c:fieldValue item="{!v.MasterContact[0]}" key="{!fieldItem}" />
+                                                            </div>
+                                                        </lightning:layoutItem>
+                                                    </aura:iteration>
+                                                </lightning:layout>
+                                            </aura:if>
+                                        </div>
+                                        <br/>
+                                        <div class="slds-clearfix">
+                                            <div class="slds-float_right">
+                                                <lightning:button variant="brand"
+                                                                label="Merge"
+                                                                onclick="{! c.merge }"
+                                                                disabled="{!v.selectedRowsCount == 0}"/>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:set>
+                    </aura:if>
+                    <aura:if isTrue="{!v.bNoDuplicateRecordsFound}">
+                        <!--display error message if there is no records available -->
+                        <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_info" role="alert">
+                            <span class="slds-assistive-text">error</span>
+                            <h2>No potential duplicate candidates to display.</h2>
+                        </div>
+                        <aura:set attribute="else">
+                            <div id="documentsListDiv" class="slds">
+                                <div class="slds-section section-float">
+                                    <div class="slds-is-relative">
+                                        <div class="slds-m-vertical_small">
+                                            <h1 class="slds-m-vertical_small slds-text-heading_small">Potential Contact Match Details</h1>
+                                        </div>
+                                        <!-- the container element determine the height of the datatable -->
+                                        <div style="height: 150px">
+                                            <lightning:datatable
+                                                    aura:id="dupContactTable"
+                                                    columns="{! v.columns }"
+                                                    data="{! v.data }"
+                                                    keyField="{! v.keyField }"
+                                                    selectedRows="{! v.aSelectedRows}"
+                                                    showRowNumberColumn="false"
+                                                    onrowselection="{! c.updateSelectedText }"
+                                                    enableInfiniteLoading="{! v.enableInfiniteLoading }"
+                                                    loadMoreOffset="{! v.loadMoreOffset }"
+                                                    rowNumberOffset="0"
+                                                    onloadmore="{! c.loadMoreData }"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:set>
+                    </aura:if>
+                </aura:set>
+            </aura:if>
+        </div>
+    </article>
+</aura:component>

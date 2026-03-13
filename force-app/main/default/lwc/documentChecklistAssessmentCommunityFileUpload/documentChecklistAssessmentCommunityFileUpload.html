@@ -1,0 +1,133 @@
+<template>
+    <template if:false={showReleaseDigitallyWindow}>
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aria-modal="true">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+                <h2 class="slds-text-heading_medium slds-hyphenate">{modalHeader}</h2>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium" style="overflow: initial;"> 
+                <template if:true={checklist}>
+                    <!-- non loading state -->
+                    <template if:false={loadingState}>
+
+                        <!-- No uploaded file -->
+                        <template if:false={uploadFile}>
+                            <lightning-layout horizontal-align="space-between">
+                                <!-- Left Column -->
+                                <lightning-layout-item flexibility="auto">
+                                    <lightning-file-upload
+                                        class="fileUploader"
+                                        data-id="restFileUpload"
+                                        label="File Upload (Maximum file size: 5MB)"
+                                        name="fileUploader"
+                                        accept={acceptedFormats}
+                                        record-id={checklist.fields.Contact__c.value}
+                                        onuploadfinished={handleUploadFinished}>
+                                    </lightning-file-upload>
+                                    <!-- Info -->
+                                    <lightning-layout class="slds-m-top_small">
+                                        <lightning-layout-item if:false={isGraduateResearch}>
+                                            <lightning-icon icon-name="utility:info_alt" alternative-text="info" variant="brand" size="x-small"></lightning-icon>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item>
+                                            <div class="slds-p-left_xx-small">
+                                                <lightning-formatted-rich-text value={acceptedFileTypeText}></lightning-formatted-rich-text>
+                                            </div>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+
+                                <!-- Right Column -->
+                                <lightning-layout-item size="6" if:true={hasCredentialProviderAvailable} class="slds-m-top_large">
+                                    <lightning-button
+                                        variant="neutral"
+                                        label="Share Verified Documents"
+                                        onclick={handleReleaseDigitallyClick}>
+                                    </lightning-button>
+                                    <lightning-layout class="slds-m-top_medium">
+                                            <lightning-icon icon-name="utility:info_alt" alternative-text="info" variant="brand" size="x-small" class="slds-m-top_xx-small"></lightning-icon>
+                                        <lightning-layout-item>
+                                            <div class="slds-p-left_xx-small">
+                                                Release through trusted credential provider.
+                                            </div>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </template>                          
+                        <!-- Has uploaded file -->
+                        <template if:true={uploadFile}>
+                            <!-- file name -->
+                            <div>
+                                <lightning-layout vertical-align="end">
+                                    <lightning-layout-item flexibility="auto">
+                                        <lightning-input name="fileName" label="File Name" value={uploadFile.name} disabled></lightning-input>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item>
+                                        <lightning-button label="Preview" icon-name="utility:preview" class="slds-m-left_x-small" onclick={previewFile}></lightning-button>
+                                    </lightning-layout-item>
+                                </lightning-layout> 
+                            </div>
+                            
+                            <template if:true={fileTooLong}>
+                                <lightning-layout vertical-align="center">
+                                    <lightning-layout-item>
+                                        <lightning-icon icon-name="utility:error" alternative-text="Error!" variant="error" size="xx-small"></lightning-icon>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item>
+                                        <div class="slds-text-color_destructive slds-p-left_xx-small">File name cannot exceed 100 characters (inc. file extension).</div>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </template>
+                            <!-- document type -->
+                            <lightning-combobox name="documentTypePicklist"
+                                label="Document Type"
+                                value={selectedDocumentType}
+                                placeholder="Select the relevant document type"
+                                options={documentTypeOptions}
+                                onchange={handleDocumentTypeChange}
+                                disabled={isDocTypeDisabled}
+                                required>
+                            </lightning-combobox>
+                            <!-- comments -->
+                            <lightning-textarea name="documentComment" label="Comments (255 Characters Max)" max-length="255" onchange={commentChange} value={contactDocumentComments}></lightning-textarea>
+                        </template> 
+                    </template>
+                        
+                    <!-- loading state -->
+                    <template if:true={loadingState}>
+                        <!-- Loading spinner while retrieving document item -->
+                        <c-document-checklist-assessment-community-loader loader-count="3" has-no-stencil="true"></c-document-checklist-assessment-community-loader>
+                    </template>
+
+                </template>
+            </div>
+            <footer class="slds-modal__footer">
+                <lightning-layout>
+                    <lightning-layout-item>
+                        <template if:true={uploadFile}>
+                            <!--<lightning-button variant="destructive" label="Reset" title="Reset" onclick={resetWindow}></lightning-button>-->
+                        </template>
+                    </lightning-layout-item>
+                    <lightning-layout-item alignment-bump="left">
+                        <lightning-button label="Cancel" title="Cancel" onclick={closeWindow} disabled={loadingState}></lightning-button>
+                    </lightning-layout-item>
+                    <lightning-layout-item>
+                        <lightning-button class="slds-m-left_x-small" variant="brand" label={submitButtonLabel} onclick={saveDocument} disabled={hasNoFileUploaded}></lightning-button>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <template if:true={showReleaseDigitallyWindow}>
+        <c-my-app-share-verified-credential
+            checklist-item-name={checklistItemName}
+            application-name={applicationName}
+            credential-providers={credentialProviderInfos}
+            onclose={handleReleaseDigitallyWindowClose}
+            onmanualupload={handleChangeToManualUpload}>
+        </c-my-app-share-verified-credential>
+    </template>
+</template>

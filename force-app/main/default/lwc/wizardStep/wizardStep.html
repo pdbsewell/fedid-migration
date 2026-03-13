@@ -1,0 +1,32 @@
+<template>
+    <template if:true={isInit}>
+        <div class="slds-card__body slds-p-around_medium">
+            <slot></slot>
+        </div>
+        <div class="slds-docked-form-footer" style="bottom:16%">
+            <template if:false={shouldHidePreviousButton}>
+                    <lightning-button class="slds-text-align_left" label={labels.previous} variant="neutral" onclick={previousStep} title={labels.previous}></lightning-button>
+            </template>
+            <div class="slds-button-group" style="padding-left: 15px;">
+                <slot name="actions"></slot>
+                <template if:false={hideNextButton}>
+                    <lightning-button label={nextLabel} variant="brand" onclick={nextStep} title={nextLabel}></lightning-button>
+                </template>
+            </div>
+        </div>
+        <!-- <div class="slds-card__footer slds-grid">
+            <template if:false={shouldHidePreviousButton}>
+                <lightning-button class="slds-col slds-text-align_left" label={labels.previous}
+                    variant="neutral" onclick={previousStep}></lightning-button>
+            </template>
+            <div class="slds-col slds-col_bump-left slds-text-align_right">
+                <div class="slds-button-group">
+                    <slot name="actions"></slot>
+                    <template if:false={hideNextButton}>
+                        <lightning-button label={nextLabel} variant="brand" onclick={nextStep}></lightning-button>
+                    </template>
+                </div>
+            </div>
+        </div> -->
+    </template>
+</template>

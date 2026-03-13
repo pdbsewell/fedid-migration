@@ -1,0 +1,710 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Program_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Program_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>true</allowInChatterGroups>
+    <compactLayoutAssignment>Default</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>Default</fullName>
+        <fields>Name</fields>
+        <fields>AO_Program_Type__c</fields>
+        <fields>AO_Program_Year__c</fields>
+        <fields>Start_Date__c</fields>
+        <fields>End_Date__c</fields>
+        <label>Default</label>
+    </compactLayouts>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Object to capture all the Programs offered by Monash abroad outbound team</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>false</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>Private</externalSharingModel>
+    <fields>
+        <fullName>AO_Country__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <label>Country</label>
+        <referenceTo>Country_Attribute__c</referenceTo>
+        <relationshipLabel>Programs</relationshipLabel>
+        <relationshipName>Programs</relationshipName>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>AO_Description__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Program Description</description>
+        <label>Description</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>AO_Form_Deadline_Date__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Enter form completion date in current academic year</description>
+        <inlineHelpText>Enter form completion date in current academic year</inlineHelpText>
+        <label>Form Deadline Date</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>AO_Program_Location__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Program Locations to be captured in this field</description>
+        <inlineHelpText>Populate Program locations</inlineHelpText>
+        <label>Program Location</label>
+        <length>32768</length>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>AO_Program_Type__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Capture appropriate Type for the Form</description>
+        <label>Program Type</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>true</sorted>
+                <value>
+                    <fullName>Global Co-Curricular Experience (GCE)</fullName>
+                    <default>false</default>
+                    <label>Global Co-Curricular Experience (GCE)</label>
+                </value>
+                <value>
+                    <fullName>Global Immersion Guarantee (GIG)</fullName>
+                    <default>false</default>
+                    <label>Global Immersion Guarantee (GIG)</label>
+                </value>
+                <value>
+                    <fullName>Global Independent Research (GIR)</fullName>
+                    <default>false</default>
+                    <label>Global Independent Research (GIR)</label>
+                </value>
+                <value>
+                    <fullName>Global Intercampus Program semester in Australia (GIP)</fullName>
+                    <default>false</default>
+                    <label>Global Intercampus Program semester in Australia (GIP)</label>
+                </value>
+                <value>
+                    <fullName>Global Intercampus Program semester in Malaysia (GIP)</fullName>
+                    <default>false</default>
+                    <label>Global Intercampus Program semester in Malaysia (GIP)</label>
+                </value>
+                <value>
+                    <fullName>Global Study Tours (GST)</fullName>
+                    <default>false</default>
+                    <label>Global Study Tours (GST)</label>
+                </value>
+                <value>
+                    <fullName>Global Summer and Winter short term programs (GSP/GWP)</fullName>
+                    <default>false</default>
+                    <label>Global Summer and Winter short term programs (GSP/GWP)</label>
+                </value>
+                <value>
+                    <fullName>Global Work Integrated Learning (GWIL)</fullName>
+                    <default>false</default>
+                    <label>Global Work Integrated Learning (GWIL)</label>
+                </value>
+                <value>
+                    <fullName>Independent Study Abroad (ISA)</fullName>
+                    <default>false</default>
+                    <label>Independent Study Abroad (ISA)</label>
+                </value>
+                <value>
+                    <fullName>Monash Global Campus Intensives in Malaysia (MGCI)</fullName>
+                    <default>false</default>
+                    <label>Monash Global Campus Intensives in Malaysia (MGCI)</label>
+                </value>
+                <value>
+                    <fullName>Monash Global Campus Intensives in Prato (MGCI)</fullName>
+                    <default>false</default>
+                    <label>Monash Global Campus Intensives in Prato (MGCI)</label>
+                </value>
+                <value>
+                    <fullName>Monash Led Programs</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Monash Led Programs</label>
+                </value>
+                <value>
+                    <fullName>Partner Led Programs</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Partner Led Programs</label>
+                </value>
+                <value>
+                    <fullName>Semester exchange (EXC)</fullName>
+                    <default>false</default>
+                    <label>Semester exchange (EXC)</label>
+                </value>
+                <value>
+                    <fullName>Student Exchange</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Student Exchange</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>AO_Program_Year__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Program Year to be selected</description>
+        <label>Program Year</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>2023</fullName>
+                    <default>false</default>
+                    <label>2023</label>
+                </value>
+                <value>
+                    <fullName>2024</fullName>
+                    <default>false</default>
+                    <label>2024</label>
+                </value>
+                <value>
+                    <fullName>2025</fullName>
+                    <default>false</default>
+                    <label>2025</label>
+                </value>
+                <value>
+                    <fullName>2026</fullName>
+                    <default>false</default>
+                    <label>2026</label>
+                </value>
+                <value>
+                    <fullName>2027</fullName>
+                    <default>false</default>
+                    <label>2027</label>
+                </value>
+                <value>
+                    <fullName>2028</fullName>
+                    <default>false</default>
+                    <label>2028</label>
+                </value>
+                <value>
+                    <fullName>2029</fullName>
+                    <default>false</default>
+                    <label>2029</label>
+                </value>
+                <value>
+                    <fullName>2030</fullName>
+                    <default>false</default>
+                    <label>2030</label>
+                </value>
+                <value>
+                    <fullName>2031</fullName>
+                    <default>false</default>
+                    <label>2031</label>
+                </value>
+                <value>
+                    <fullName>2032</fullName>
+                    <default>false</default>
+                    <label>2032</label>
+                </value>
+                <value>
+                    <fullName>2033</fullName>
+                    <default>false</default>
+                    <label>2033</label>
+                </value>
+                <value>
+                    <fullName>2034</fullName>
+                    <default>false</default>
+                    <label>2034</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Business_Unit__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Business Unit to be captured for Program</description>
+        <externalId>false</externalId>
+        <formula>CASE(
+   TEXT(AO_Program_Type__c),
+   &quot;Global Study Tours (GST)&quot;, &quot;Study_Tours_GIG_GST&quot; ,
+   &quot;Monash Global Campus Intensives in Malaysia (MGCI)&quot;, &quot;Monash_Led&quot; ,
+   &quot;Monash Global Campus Intensives in Prato (MGCI)&quot;, &quot;Monash_Led&quot; ,
+   &quot;Global Immersion Guarantee (GIG)&quot;, &quot;Study_Tours_GIG_GST&quot; ,
+   &quot;Global Co-Curricular Experience (GCE)&quot;, &quot;Study_Tours_GCE_GWIL&quot; ,
+   &quot;Global Work Integrated Learning (GWIL)&quot;, &quot;Study_Tours_GCE_GWIL&quot; ,
+   &quot;Global Independent Research (GIR)&quot;, &quot;Partner_Led&quot; ,
+   &quot;Independent Study Abroad (ISA)&quot;, &quot;Partner_Led&quot; ,
+   &quot;Global Summer and Winter short term programs (GSP/GWP)&quot;, &quot;Partner_Led&quot; ,
+   &quot;Global Intercampus Program semester in Australia (GIP)&quot;, &quot;Partner_Led&quot; ,
+   &quot;Global Intercampus Program semester in Malaysia (GIP)&quot;, &quot;Partner_Led&quot; ,
+   &quot;Semester exchange (EXC)&quot;, &quot;Partner_Led&quot; ,
+   &quot;Other&quot;
+)</formula>
+        <label>Business Unit</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>End_Date__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Enter Program end date in current academic year</description>
+        <inlineHelpText>Enter Program end date in current academic year</inlineHelpText>
+        <label>End Date</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Start_Date__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Enter Program start date in current academic year</description>
+        <inlineHelpText>Enter Program start date in current academic year</inlineHelpText>
+        <label>Start Date</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Terms__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Program Terms to be selcted for configuration</description>
+        <label>Terms</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Semester 1</fullName>
+                    <default>false</default>
+                    <label>Semester 1</label>
+                </value>
+                <value>
+                    <fullName>Semester 2</fullName>
+                    <default>false</default>
+                    <label>Semester 2</label>
+                </value>
+                <value>
+                    <fullName>Sem 1 &amp; Sem 2</fullName>
+                    <default>false</default>
+                    <label>Sem 1 &amp; Sem 2</label>
+                </value>
+                <value>
+                    <fullName>Sem 2 &amp; Sem 1</fullName>
+                    <default>false</default>
+                    <label>Sem 2 &amp; Sem 1</label>
+                </value>
+                <value>
+                    <fullName>Summer A (Nov-Dec)</fullName>
+                    <default>false</default>
+                    <label>Summer A (Nov-Dec)</label>
+                </value>
+                <value>
+                    <fullName>Summer B (Jan-Feb)</fullName>
+                    <default>false</default>
+                    <label>Summer B (Jan-Feb)</label>
+                </value>
+                <value>
+                    <fullName>Winter (May-July)</fullName>
+                    <default>false</default>
+                    <label>Winter (May-July)</label>
+                </value>
+                <value>
+                    <fullName>Tri A (March-May)</fullName>
+                    <default>false</default>
+                    <label>Tri A (March-May)</label>
+                </value>
+                <value>
+                    <fullName>Tri B (June-Sept)</fullName>
+                    <default>false</default>
+                    <label>Tri B (June-Sept)</label>
+                </value>
+                <value>
+                    <fullName>Tri C (Nov-Jan)</fullName>
+                    <default>false</default>
+                    <label>Tri C (Nov-Jan)</label>
+                </value>
+                <value>
+                    <fullName>Term 1 (T1-57)</fullName>
+                    <default>false</default>
+                    <label>Term 1 (T1-57)</label>
+                </value>
+                <value>
+                    <fullName>Calendar Year</fullName>
+                    <default>false</default>
+                    <label>Calendar Year</label>
+                </value>
+                <value>
+                    <fullName>Module 5</fullName>
+                    <default>false</default>
+                    <label>Module 5</label>
+                </value>
+                <value>
+                    <fullName>Module 6</fullName>
+                    <default>false</default>
+                    <label>Module 6</label>
+                </value>
+                <value>
+                    <fullName>Module 7</fullName>
+                    <default>false</default>
+                    <label>Module 7</label>
+                </value>
+                <value>
+                    <fullName>Module 8</fullName>
+                    <default>false</default>
+                    <label>Module 8</label>
+                </value>
+                <value>
+                    <fullName>Module 10</fullName>
+                    <default>false</default>
+                    <label>Module 10</label>
+                </value>
+                <value>
+                    <fullName>Module 11</fullName>
+                    <default>false</default>
+                    <label>Module 11</label>
+                </value>
+                <value>
+                    <fullName>Module 12</fullName>
+                    <default>false</default>
+                    <label>Module 12</label>
+                </value>
+                <value>
+                    <fullName>Module 13</fullName>
+                    <default>false</default>
+                    <label>Module 13</label>
+                </value>
+                <value>
+                    <fullName>Module 14</fullName>
+                    <default>false</default>
+                    <label>Module 14</label>
+                </value>
+                <value>
+                    <fullName>OS-HELP Term 1</fullName>
+                    <default>false</default>
+                    <label>OS-HELP Term 1</label>
+                </value>
+                <value>
+                    <fullName>OS-HELP Term 2</fullName>
+                    <default>false</default>
+                    <label>OS-HELP Term 2</label>
+                </value>
+                <value>
+                    <fullName>OS-HELP Term 3</fullName>
+                    <default>false</default>
+                    <label>OS-HELP Term 3</label>
+                </value>
+                <value>
+                    <fullName>OS-HELP Term 4</fullName>
+                    <default>false</default>
+                    <label>OS-HELP Term 4</label>
+                </value>
+                <value>
+                    <fullName>OS-HELP Term 5</fullName>
+                    <default>false</default>
+                    <label>OS-HELP Term 5</label>
+                </value>
+                <value>
+                    <fullName>OS-HELP Term 6</fullName>
+                    <default>false</default>
+                    <label>OS-HELP Term 6</label>
+                </value>
+                <value>
+                    <fullName>S1</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>S1</label>
+                </value>
+                <value>
+                    <fullName>S1+S2</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>S1+S2</label>
+                </value>
+                <value>
+                    <fullName>S2</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>S2</label>
+                </value>
+                <value>
+                    <fullName>S2+1</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>S2+1</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <label>Program</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>AO_Program_Type__c</columns>
+        <columns>AO_Program_Year__c</columns>
+        <columns>Terms__c</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>X2024</fullName>
+        <columns>NAME</columns>
+        <columns>AO_Program_Type__c</columns>
+        <columns>AO_Program_Year__c</columns>
+        <columns>Terms__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>AO_Program_Year__c</field>
+            <operation>equals</operation>
+            <value>2024</value>
+        </filters>
+        <label>2024 Programs</label>
+    </listViews>
+    <listViews>
+        <fullName>X2025_Programs</fullName>
+        <columns>NAME</columns>
+        <columns>AO_Program_Type__c</columns>
+        <columns>AO_Program_Year__c</columns>
+        <columns>Terms__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>AO_Program_Year__c</field>
+            <operation>equals</operation>
+            <value>2025</value>
+        </filters>
+        <label>2025 Programs</label>
+    </listViews>
+    <nameField>
+        <label>Program Name</label>
+        <trackHistory>true</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Programs</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <validationRules>
+        <fullName>AO_VALIDATE_DATES_IN_PAST</fullName>
+        <active>false</active>
+        <description>Start, End or Deadline Date can&apos;t be in past</description>
+        <errorConditionFormula>OR(AND(NOT(ISBLANK(End_Date__c)),End_Date__c &lt;  TODAY())  ,  AND(NOT(ISBLANK(AO_Form_Deadline_Date__c)),AO_Form_Deadline_Date__c &lt; TODAY()) , AND(NOT(ISBLANK(Start_Date__c)), Start_Date__c &lt;  TODAY() ))</errorConditionFormula>
+        <errorMessage>Start Date, End Date or Form Deadline Date can&apos;t be in past</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>AO_VALIDATE_END_BEFORE_START_DATE</fullName>
+        <active>false</active>
+        <description>End and Deadline date can&apos;t be before Start Date</description>
+        <errorConditionFormula>OR(End_Date__c &lt; Start_Date__c ,  AO_Form_Deadline_Date__c &lt; Start_Date__c)</errorConditionFormula>
+        <errorMessage>Form Deadline Date and End Date can&apos;t be before Start Date</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>AO_VALIDATE_SAME_DEADLINE_END_DATE</fullName>
+        <active>false</active>
+        <description>End date shouldn&apos;t be before Deadline date</description>
+        <errorConditionFormula>End_Date__c &lt;= AO_Form_Deadline_Date__c</errorConditionFormula>
+        <errorDisplayField>AO_Form_Deadline_Date__c</errorDisplayField>
+        <errorMessage>Form Deadline Date can&apos;t be same or post Program End Date</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>AO_VALIDATE_SAME_START_END_DATE</fullName>
+        <active>false</active>
+        <description>Start and End date shouldn&apos;t be same</description>
+        <errorConditionFormula>End_Date__c =  Start_Date__c</errorConditionFormula>
+        <errorDisplayField>End_Date__c</errorDisplayField>
+        <errorMessage>Start Date and End Date can&apos;t be same. Please update</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>VALIDATE_PROGRAM_YEAR</fullName>
+        <active>true</active>
+        <description>Program year should not be past year value</description>
+        <errorConditionFormula>VALUE(TEXT(AO_Program_Year__c)) &lt;YEAR(TODAY())</errorConditionFormula>
+        <errorDisplayField>AO_Program_Year__c</errorDisplayField>
+        <errorMessage>Program Year can&apos;t be a previous year</errorMessage>
+    </validationRules>
+    <visibility>Public</visibility>
+</CustomObject>

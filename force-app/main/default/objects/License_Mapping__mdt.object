@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Stores mapping information for all the Parent Roles (Business Units) and it&apos;s associated child roles.</description>
+    <fields>
+        <fullName>Business_Unit__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Business Unit</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Parent_Role__c</fullName>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Parent Role</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Building and Property Division (BPD)</fullName>
+                    <default>false</default>
+                    <label>Building and Property Division (BPD)</label>
+                </value>
+                <value>
+                    <fullName>CSO HR</fullName>
+                    <default>false</default>
+                    <label>CSO HR</label>
+                </value>
+                <value>
+                    <fullName>Deferred Exams Applications</fullName>
+                    <default>false</default>
+                    <label>Deferred Exams Applications</label>
+                </value>
+                <value>
+                    <fullName>Enrolment Services</fullName>
+                    <default>false</default>
+                    <label>Enrolment Services</label>
+                </value>
+                <value>
+                    <fullName>eSolutions</fullName>
+                    <default>false</default>
+                    <label>eSolutions</label>
+                </value>
+                <value>
+                    <fullName>Examinations</fullName>
+                    <default>false</default>
+                    <label>Examinations</label>
+                </value>
+                <value>
+                    <fullName>Faculty</fullName>
+                    <default>false</default>
+                    <label>Faculty</label>
+                </value>
+                <value>
+                    <fullName>Faculty - Art, Design and Architecture</fullName>
+                    <default>false</default>
+                    <label>Faculty - Art, Design and Architecture</label>
+                </value>
+                <value>
+                    <fullName>Faculty - Arts</fullName>
+                    <default>false</default>
+                    <label>Faculty - Arts</label>
+                </value>
+                <value>
+                    <fullName>Faculty - Business and Economics</fullName>
+                    <default>false</default>
+                    <label>Faculty - Business and Economics</label>
+                </value>
+                <value>
+                    <fullName>Faculty - Education</fullName>
+                    <default>false</default>
+                    <label>Faculty - Education</label>
+                </value>
+                <value>
+                    <fullName>Faculty - Engineering</fullName>
+                    <default>false</default>
+                    <label>Faculty - Engineering</label>
+                </value>
+                <value>
+                    <fullName>Faculty - Information Technology</fullName>
+                    <default>false</default>
+                    <label>Faculty - Information Technology</label>
+                </value>
+                <value>
+                    <fullName>Faculty - Law</fullName>
+                    <default>false</default>
+                    <label>Faculty - Law</label>
+                </value>
+                <value>
+                    <fullName>Faculty - Medicine, Nursing and Health Sciences</fullName>
+                    <default>false</default>
+                    <label>Faculty - Medicine, Nursing and Health Sciences</label>
+                </value>
+                <value>
+                    <fullName>Faculty - Pharmacy and Pharmaceutical Sciences</fullName>
+                    <default>false</default>
+                    <label>Faculty - Pharmacy and Pharmaceutical Sciences</label>
+                </value>
+                <value>
+                    <fullName>Faculty - Primary and Allied Health Care</fullName>
+                    <default>false</default>
+                    <label>Faculty - Primary and Allied Health Care</label>
+                </value>
+                <value>
+                    <fullName>Faculty - Science</fullName>
+                    <default>false</default>
+                    <label>Faculty - Science</label>
+                </value>
+                <value>
+                    <fullName>Faculty - Training</fullName>
+                    <default>false</default>
+                    <label>Faculty - Training</label>
+                </value>
+                <value>
+                    <fullName>Finance Online Store</fullName>
+                    <default>false</default>
+                    <label>Finance Online Store</label>
+                </value>
+                <value>
+                    <fullName>Graduations</fullName>
+                    <default>false</default>
+                    <label>Graduations</label>
+                </value>
+                <value>
+                    <fullName>Library</fullName>
+                    <default>false</default>
+                    <label>Library</label>
+                </value>
+                <value>
+                    <fullName>M-Pass Card Office</fullName>
+                    <default>false</default>
+                    <label>M-Pass Card Office</label>
+                </value>
+                <value>
+                    <fullName>Monash Connect</fullName>
+                    <default>false</default>
+                    <label>Monash Connect</label>
+                </value>
+                <value>
+                    <fullName>Monash Residential Services (Off-campus)</fullName>
+                    <default>false</default>
+                    <label>Monash Residential Services (Off-campus)</label>
+                </value>
+                <value>
+                    <fullName>SEBS Timetabling</fullName>
+                    <default>false</default>
+                    <label>SEBS Timetabling</label>
+                </value>
+                <value>
+                    <fullName>Scholarships</fullName>
+                    <default>false</default>
+                    <label>Scholarships</label>
+                </value>
+                <value>
+                    <fullName>Student Finance</fullName>
+                    <default>false</default>
+                    <label>Student Finance</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>License Mapping</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>MasterLabel</columns>
+        <columns>DeveloperName</columns>
+        <columns>Business_Unit__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>License Mapping View</label>
+    </listViews>
+    <pluralLabel>License Mappings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

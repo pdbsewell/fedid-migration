@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Error_Update_Course_Offering_For_Transfer</name>
+        <label>Error Update Course Offering For Transfer</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Nebula__FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <stringValue>Application Course Preference : AS : PD Transfer Course Offering</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Error Update Course Offering For Transfer</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Validate_Course_Preference_Offering</name>
+        <label>Validate Course Preference Offering</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Course Registered With Offering</defaultConnectorLabel>
+        <rules>
+            <name>Course_Registered_With_No_Offering</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Registered</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Course_Offering__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>PD_Update_Course_Offering_For_Transfer</targetReference>
+            </connector>
+            <label>Course Registered With No Offering</label>
+        </rules>
+    </decisions>
+    <description>Field update in Application payment</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>GetCourseOfferingId</name>
+        <dataType>String</dataType>
+        <expression>PRIORVALUE({!$Record.Course_Offering__r.Id})</expression>
+    </formulas>
+    <formulas>
+        <name>UpdateCourseOfferingValue</name>
+        <dataType>String</dataType>
+        <expression>PRIORVALUE({!$Record.Course_Offering__c.Id} )</expression>
+    </formulas>
+    <interviewLabel>Application Course Preference : AS : PD Transfer Course Offering {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Application Course Preference : AS : PD Transfer Course Offering</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>PD_Update_Course_Offering_For_Transfer</name>
+        <label>PD Update Course Offering For Transfer</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <faultConnector>
+            <targetReference>Error_Update_Course_Offering_For_Transfer</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Course_Offering__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>GetCourseOfferingId</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Course_Offering__c</field>
+            <value>
+                <elementReference>$Record.Course_Offering__r.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record.Application__r.Payments__r</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Validate_Course_Preference_Offering</targetReference>
+        </connector>
+        <filterFormula>{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False</filterFormula>
+        <object>Application_Course_Preference__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

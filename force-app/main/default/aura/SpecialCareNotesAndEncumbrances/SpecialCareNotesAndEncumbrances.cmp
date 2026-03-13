@@ -1,0 +1,201 @@
+<!--
+  @description       : 
+  @author            : 
+  @group             : 
+  @last modified on  : 21-07-2022
+  @last modified by  : rajesh.punjabi@monash.edu
+-->
+<aura:component
+                implements="flexipage:availableForRecordHome,force:hasRecordId"
+                controller="PersonNotesEncumbrancesController"
+                >
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="contactField" type="String" />
+    <aura:attribute name="viewStudyStatementURL" type="String" />
+    <aura:attribute name="isOpenCasesModalOpen" type="Boolean" default="false" />
+    <aura:attribute name="isPrivateCasesModalOpen" type="Boolean" default="false" />
+    <aura:attribute name="data" type="Object" />
+    <aura:attribute name="openCasesColumns" type="List" />
+    <aura:attribute name="privateCasesColumns" type="List" />
+    <aura:attribute name="contactName" type="String" default="" />
+    <aura:attribute name="pronouns" type="String" default="" />
+    <aura:attribute name="openCases" type="Object[]" />
+    <aura:attribute name="privateCases" type="Object[]" />
+    <aura:attribute name="encumbrances" type="Object[]" />
+    <aura:attribute name="personNotes" type="Object[]" />
+    <aura:attribute name="thingsToKnow" type="Object[]" />
+    <aura:attribute name="showEncumbrances" type="Boolean" />
+    <aura:attribute name="showPersonNotes" type="Boolean" />
+    <aura:attribute name="showThingsToKnow" type="Boolean" />
+    <aura:attribute name="preferredName" type="String" default="" />
+    <aura:attribute name="hasUniquePreferredName" type="Boolean" default="false" />
+    <aura:attribute name="hasPrivatePermission" type="Boolean" /> <!--This will control the visibility of the Private/Open Case button -->
+    
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+    
+    <force:recordData
+                      recordId="{!v.recordId}"
+                      layoutType="COMPACT"
+                      recordUpdated="{!c.recordUpdated}"
+                      />
+    
+    <aura:if isTrue="{!v.isOpenCasesModalOpen &amp;&amp; not(empty(v.openCases))}">
+        <section class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon
+                                          iconName="utility:close"
+                                          onclick="{!c.closeOpenCasesModal}"
+                                          alternativeText="close"
+                                          variant="bare-inverse"
+                                          class="slds-modal__close"
+                                          />
+                    <h2 class="slds-modal__title slds-hyphenate">Open Cases</h2>
+                    <p class="slds-m-top_x-small">
+                        All Record Types
+                    </p>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning:datatable
+                                         keyField="id"
+                                         data="{!v.openCases}"
+                                         columns="{!v.openCasesColumns}"
+                                         hideCheckboxColumn="true"
+                                         />
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    
+    <aura:if isTrue="{!v.isPrivateCasesModalOpen &amp;&amp; not(empty(v.privateCases))}">
+        <section class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon
+                        iconName="utility:close"
+                        onclick="{!c.closePrivateCasesModal}"
+                        alternativeText="close"
+                        variant="bare-inverse"
+                        class="slds-modal__close"                        
+                    />
+                    <h2 class="slds-modal__title slds-hyphenate">Private Cases</h2>
+                    <p class="slds-m-top_x-small">
+                        MonCon Private, Special Consideration, Complaint, International Student Engagement and enquiries marked as Private
+                    </p>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning:datatable
+                                         keyField="id"
+                                         data="{!v.privateCases}"
+                                         columns="{!v.privateCasesColumns}"
+                                         hideCheckboxColumn="true"
+                                         />
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </aura:if>
+    
+    <aura:if isTrue="{!not(empty(v.pronouns)) &amp;&amp; not(v.hasUniquePreferredName)}">
+        <lightning:card title="{!'Gender Affirmation - Pronouns - ' + v.pronouns}" class="pronouns-alert">
+            <div class="slds-card__body slds-card__body_inner">
+                <strong>{!v.contactName}</strong> has notified us their pronouns are: <strong>{!v.pronouns}</strong>. Please ensure you are using the correct pronoun in all communications, including internal notes, client question and any other field.
+				<br /><br />
+                Remember, we are all responsible for creating a safe and inclusive environment for our students, staff and members of the Monash community.
+            </div>
+        </lightning:card>
+    </aura:if>
+    
+    <aura:if isTrue="{!not(empty(v.pronouns)) &amp;&amp; v.hasUniquePreferredName}">
+        <lightning:card title="{!'Gender Affirmation - Pronouns - ' + v.pronouns}" class="pronouns-alert">
+            <div class="slds-card__body slds-card__body_inner">
+                <strong>{!v.contactName}</strong> has notified us their preferred name is <strong>{!v.preferredName}</strong> AND that their pronouns are: <strong>{!v.pronouns}</strong>. Please ensure you are using the Preferred Name and pronouns in all communications, including internal notes, client question and any other field.
+				<br /><br />
+                Remember, we are all responsible for creating a safe and inclusive environment for our students, staff and members of the Monash community.
+            </div>
+        </lightning:card>
+    </aura:if>
+    
+    <aura:if isTrue="{!empty(v.pronouns) &amp;&amp; v.hasUniquePreferredName}">
+        <lightning:card title="{!'Gender Affirmation - Pronouns - ' + v.pronouns}" class="pronouns-alert">
+            <div class="slds-card__body slds-card__body_inner">
+                <strong>{!v.contactName}</strong> has notified us their preferred name is <strong>{!v.preferredName}</strong>. Please ensure you are using the correct Preferred Name in all communications, including internal notes, client question and any other field.
+				<br /><br />
+                Remember, we are all responsible for creating a safe and inclusive environment for our students, staff and members of the Monash community.
+            </div>
+        </lightning:card>
+    </aura:if>
+    
+    <aura:if isTrue="{!not(empty(v.personNotes)) &amp;&amp; v.showPersonNotes}">
+        <lightning:card title="Important Notes" class="important-notes">
+            <div class="slds-card__body slds-card__body_inner">
+                <ul class="slds-has-dividers_bottom-space">
+                    <aura:iteration items="{!v.personNotes}" var="personNote">
+                        <li class="slds-item">{!personNote.Notes__c}</li>
+                    </aura:iteration>
+                </ul>
+            </div>
+        </lightning:card>
+    </aura:if>
+    
+    <aura:if isTrue="{!not(empty(v.thingsToKnow)) &amp;&amp; v.showThingsToKnow}">
+        <lightning:card iconName="utility:info" class="things-to-know">
+            <aura:set attribute="actions">
+                <div class="slds-button-group" role="group">
+                    <aura:if isTrue="{!not(empty(v.openCases))}">
+                        <button class="slds-button slds-button_neutral" onclick="{!c.openOpenCasesModal}" disabled="{!not(v.hasPrivatePermission)}" title="{!if(not(v.hasPrivatePermission), $Label.c.Button_Authorisation_Message, '')}">
+                            {!v.openCases.length} Open Case<aura:if isTrue="{!v.openCases.length > 1}">s</aura:if>
+                        </button>
+                    </aura:if>
+                    <aura:if isTrue="{!not(empty(v.privateCases))}">
+                        <button class="slds-button slds-button_neutral" onclick="{!c.openPrivateCasesModal}" disabled="{!not(v.hasPrivatePermission)}" title="{!if(not(v.hasPrivatePermission), $Label.c.Button_Authorisation_Message, '')}">
+                            {!v.privateCases.length} Private Case<aura:if isTrue="{!v.privateCases.length > 1}">s</aura:if>
+                        </button>
+                    </aura:if>
+                </div>
+            </aura:set>
+            <ul class="slds-has-dividers_bottom-space slds-p-horizontal_x-small">
+                <li class="slds-item">
+                    <a href="{!v.viewStudyStatementURL}" target="_blank">
+                        View Study Statement
+                    </a>
+                </li>
+                <aura:iteration items="{!v.thingsToKnow}" var="thingToKnow">
+                    <li class="slds-item">{!thingToKnow.Notes__c}</li>
+                </aura:iteration>
+            </ul>
+        </lightning:card>
+    </aura:if>
+    
+    <aura:if isTrue="{!not(empty(v.encumbrances)) &amp;&amp; v.showEncumbrances}">
+        <lightning:card title="Encumbrances" class="encumbrances">
+            <table
+                   class="slds-table slds-table_cell-buffer slds-no-row-hover slds-table_bordered slds-table_striped"
+                   >
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th class="slds-cell-wrap">Category</th>
+                        <th class="slds-cell-wrap">Description</th>
+                        <th class="slds-cell-wrap">Comments</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.encumbrances}" var="encumbrance">
+                        <tr>
+                            <td class="slds-cell-wrap break-all">
+                                {!encumbrance.enc_category__c}
+                            </td>
+                            <td class="slds-cell-wrap break-all">
+                                {!encumbrance.enc_description__c}
+                            </td>
+                            <td class="slds-cell-wrap break-all">
+                                {!encumbrance.enc_comments__c}
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </lightning:card>
+    </aura:if>
+</aura:component>

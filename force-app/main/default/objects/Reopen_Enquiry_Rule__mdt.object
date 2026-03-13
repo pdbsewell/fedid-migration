@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Custom metadata to manage the enquiry behavior when an incoming emailmessage comes in from a closed enquiry</description>
+    <fields>
+        <fullName>Active__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Used to activate/deactivate a rule</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Used to activate/deactivate a rule</inlineHelpText>
+        <label>Active</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Applied_Origin__c</fullName>
+        <description>Controls the Enquiry Origin to be assigned to the reopened/created enquiry</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Controls the Enquiry Origin to be assigned to the reopened/created enquiry</inlineHelpText>
+        <label>Applied Origin</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>-- Do not change --</fullName>
+                    <default>true</default>
+                    <label>-- Do not change --</label>
+                </value>
+                <value>
+                    <fullName>Email</fullName>
+                    <default>false</default>
+                    <label>Email</label>
+                </value>
+                <value>
+                    <fullName>ask Monash Emails</fullName>
+                    <default>false</default>
+                    <label>ask Monash Emails</label>
+                </value>
+                <value>
+                    <fullName>Email - Ask Monash</fullName>
+                    <default>false</default>
+                    <label>Email - Ask Monash</label>
+                </value>
+                <value>
+                    <fullName>Web - Special Consideration</fullName>
+                    <default>false</default>
+                    <label>Web - Special Consideration</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Applied_to_Enquiry_Type__c</fullName>
+        <description>To specify different rule behaviours amongst Enquiry Types under the same enquiry Record Type</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Applied to Enquiry Type</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Applied_to_Origin__c</fullName>
+        <description>Additional Criteria to Apply aside from Record Type - Origin</description>
+        <externalId>false</externalId>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <inlineHelpText>Additional Criteria to Apply aside from Record Type - Origin</inlineHelpText>
+        <label>Applied to Origin</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Applied_to_Record_Type__c</fullName>
+        <description>Record type where the rule would be applied to</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Record type where the rule would be applied to</inlineHelpText>
+        <label>Applied to Record Type</label>
+        <required>true</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Academic Progress Assessment</fullName>
+                    <default>false</default>
+                    <label>Academic Progress Assessment</label>
+                </value>
+                <value>
+                    <fullName>Admissions</fullName>
+                    <default>true</default>
+                    <label>Admissions</label>
+                </value>
+                <value>
+                    <fullName>Complaint</fullName>
+                    <default>false</default>
+                    <label>Complaint</label>
+                </value>
+                <value>
+                    <fullName>Custom Programs Enquiry</fullName>
+                    <default>false</default>
+                    <label>Custom Programs Enquiry</label>
+                </value>
+                <value>
+                    <fullName>Disability Support Services Enquiry</fullName>
+                    <default>false</default>
+                    <label>Disability Support Services Enquiry</label>
+                </value>
+                <value>
+                    <fullName>HR</fullName>
+                    <default>false</default>
+                    <label>HR</label>
+                </value>
+                <value>
+                    <fullName>Insurance Enquiry</fullName>
+                    <default>false</default>
+                    <label>Insurance Enquiry</label>
+                </value>
+                <value>
+                    <fullName>MGRO Enquiry</fullName>
+                    <default>false</default>
+                    <label>MGRO Enquiry</label>
+                </value>
+                <value>
+                    <fullName>MonCon Support</fullName>
+                    <default>false</default>
+                    <label>MonCon Support</label>
+                </value>
+                <value>
+                    <fullName>MPass Card Office</fullName>
+                    <default>false</default>
+                    <label>MPass Card Office</label>
+                </value>
+                <value>
+                    <fullName>MUM Admissions</fullName>
+                    <default>false</default>
+                    <label>MUM Admissions</label>
+                </value>
+                <value>
+                    <fullName>myResearch</fullName>
+                    <default>false</default>
+                    <label>myResearch</label>
+                </value>
+                <value>
+                    <fullName>Post-Application Enquiry</fullName>
+                    <default>false</default>
+                    <label>Post-Application Enquiry</label>
+                </value>
+                <value>
+                    <fullName>Pre-Application Enquiry</fullName>
+                    <default>false</default>
+                    <label>Pre-Application Enquiry</label>
+                </value>
+                <value>
+                    <fullName>Professional Development</fullName>
+                    <default>false</default>
+                    <label>Professional Development</label>
+                </value>
+                <value>
+                    <fullName>Professional Year Enquiry</fullName>
+                    <default>false</default>
+                    <label>Professional Year Enquiry</label>
+                </value>
+                <value>
+                    <fullName>School Enquiry</fullName>
+                    <default>false</default>
+                    <label>School Enquiry</label>
+                </value>
+                <value>
+                    <fullName>SEBS</fullName>
+                    <default>false</default>
+                    <label>SEBS</label>
+                </value>
+                <value>
+                    <fullName>SEBS Placements</fullName>
+                    <default>false</default>
+                    <label>SEBS Placements</label>
+                </value>
+                <value>
+                    <fullName>Special Consideration</fullName>
+                    <default>false</default>
+                    <label>Special Consideration</label>
+                </value>
+                <value>
+                    <fullName>Special Consideration Limited</fullName>
+                    <default>false</default>
+                    <label>Special Consideration Limited</label>
+                </value>
+                <value>
+                    <fullName>SR Enquiry</fullName>
+                    <default>false</default>
+                    <label>SR Enquiry</label>
+                </value>
+                <value>
+                    <fullName>Standard Enquiry</fullName>
+                    <default>false</default>
+                    <label>Standard Enquiry</label>
+                </value>
+                <value>
+                    <fullName>WCI</fullName>
+                    <default>false</default>
+                    <label>WCI</label>
+                </value>
+                <value>
+                    <fullName>Declaration of Interest</fullName>
+                    <default>false</default>
+                    <label>Declaration of Interest</label>
+                </value>
+                <value>
+                    <fullName>International Student Engagement</fullName>
+                    <default>false</default>
+                    <label>International Student Engagement</label>
+                </value>
+                <value>
+                    <fullName>Monash Research Office</fullName>
+                    <default>false</default>
+                    <label>Monash Research Office</label>
+                </value>
+                <value>
+                    <fullName>Faculty Graduate Research</fullName>
+                    <default>false</default>
+                    <label>Faculty Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>OASIS</fullName>
+                    <default>false</default>
+                    <label>OASIS</label>
+                </value>
+                <value>
+                    <fullName>MGE Enquiry</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>MGE Enquiry</label>
+                </value>
+                <value>
+                    <fullName>MonCon Private</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>MonCon Private</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Assign_Original_as_Parent_Enquiry__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Field to control whether the created enquiry is related to the original enquiry as parent</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Field to control whether the created enquiry is related to the original enquiry as parent</inlineHelpText>
+        <label>Assign Original as Parent Enquiry</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Assign_to_Queue__c</fullName>
+        <description>Queue where the created enquiries would be automatically assigned to</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Queue where the created enquiries would be automatically assigned to</inlineHelpText>
+        <label>Assign to Queue</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Blank_Origin_Channel__c</fullName>
+        <description>Value to set on the enquiry&apos;s channel when the origin is blank</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Value to set on the enquiry&apos;s channel when the origin is blank</inlineHelpText>
+        <label>Blank Origin: Channel</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Case_Comment_After_Text__c</fullName>
+        <description>Text to be entered on the created case comment section after the enquiry number.</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Text to be entered on the created case comment section after the enquiry number.</inlineHelpText>
+        <label>Case Comment After Text</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Case_Comment_Before_Text__c</fullName>
+        <description>Text to be entered on the created case comment section before the enquiry number.</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Text to be entered on the created case comment section before the enquiry number.</inlineHelpText>
+        <label>Case Comment Before Text</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Clone_Original_Enquiry__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Clone Original Enquiry on reopening enquiries after the specified days</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Clone Original Enquiry on reopening enquiries after the specified days</inlineHelpText>
+        <label>Clone Original Enquiry</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Create_Internal_Case_Comment__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Determines if a case comment on the created case to relate the original case.</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Determines if a case comment on the created case to relate the original case.</inlineHelpText>
+        <label>Create Internal Case Comment</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Exclude_Enquiry_Type__c</fullName>
+        <description>Field to control what enquiry types would be excluded from the rule</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Field to control what enquiry types would be excluded from the rule</inlineHelpText>
+        <label>Exclude Enquiry Type</label>
+        <required>false</required>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Exclude_Owner_Role_Reassignment__c</fullName>
+        <description>Used to define which owner roles should stop re-assignment</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Used to define which owner roles should stop re-assignment</inlineHelpText>
+        <label>Exclude Owner Role Reassignment</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Included_Non_Closed_Status__c</fullName>
+        <description>Enquiry non-closed status fields that should be included in firing the logic.</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Enquiry non-closed status fields that should be included in firing the logic.</inlineHelpText>
+        <label>Included Non-Closed Status</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Match_on_Non_Closed_Status__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Rule will only match Enquiries that have one of the listed Non-Closed statuses</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Rule will only match Enquiries that have one of the listed Non-Closed statuses</inlineHelpText>
+        <label>Match on Non-Closed Status</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>New_Enquiry_Priority__c</fullName>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>New Enquiry Priority</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>-- Do not change --</fullName>
+                    <default>true</default>
+                    <label>-- Do not change --</label>
+                </value>
+                <value>
+                    <fullName>High</fullName>
+                    <default>false</default>
+                    <label>High</label>
+                </value>
+                <value>
+                    <fullName>Medium</fullName>
+                    <default>false</default>
+                    <label>Medium</label>
+                </value>
+                <value>
+                    <fullName>Low</fullName>
+                    <default>false</default>
+                    <label>Low</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>New_Enquiry_Status__c</fullName>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>New Enquiry Status</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Open</fullName>
+                    <default>true</default>
+                    <label>Open</label>
+                </value>
+                <value>
+                    <fullName>Reopened</fullName>
+                    <default>false</default>
+                    <label>Reopened</label>
+                </value>
+                <value>
+                    <fullName>New</fullName>
+                    <default>false</default>
+                    <label>New</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Original_Enquiry_Priority__c</fullName>
+        <description>Priority value to be included on the reopened enquiries.</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Priority value to be included on the reopened enquiries.</inlineHelpText>
+        <label>Original Enquiry Priority</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>-- Do not change --</fullName>
+                    <default>true</default>
+                    <label>-- Do not change --</label>
+                </value>
+                <value>
+                    <fullName>High</fullName>
+                    <default>false</default>
+                    <label>High</label>
+                </value>
+                <value>
+                    <fullName>Medium</fullName>
+                    <default>false</default>
+                    <label>Medium</label>
+                </value>
+                <value>
+                    <fullName>Low</fullName>
+                    <default>false</default>
+                    <label>Low</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Original_Enquiry_Status__c</fullName>
+        <description>Controls the status field value to update</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Controls the status field value to update</inlineHelpText>
+        <label>Original Enquiry Status</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Open</fullName>
+                    <default>true</default>
+                    <label>Open</label>
+                </value>
+                <value>
+                    <fullName>Reopened</fullName>
+                    <default>false</default>
+                    <label>Reopened</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Re_Opened_Retain_Owner__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Controls whether the reopened enquiry (less than within days) ratains its owner</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Re-Opened Retain Owner</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Reopen_Enquiry__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Checkbox to control when an incoming email reopens an enquiry or create a seperate enquiry</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Checkbox to control when an incoming email reopens an enquiry or create a seperate enquiry</inlineHelpText>
+        <label>Reopen Enquiry</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Use_Assignment_Rules__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Flag to control the auto assignment of the enquiries.</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Flag to control the auto assignment of the enquiries.</inlineHelpText>
+        <label>Use Assignment Rules</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Use_EmailToCase_Mapping__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Flag that controls whether the email to case mapping is going to be used for reopened enquiries</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Flag that controls whether the email to case mapping is going to be used for reopened enquiries</inlineHelpText>
+        <label>Use EmailToCase Mapping</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Within_Calendar_Days__c</fullName>
+        <description>Enquiries will not be reopened when the number of days lapse</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Enquiries will not be reopened when the number of days lapse</inlineHelpText>
+        <label>Within Calendar Days</label>
+        <precision>18</precision>
+        <required>true</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>Reopen Enquiry Rule</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>MasterLabel</columns>
+        <columns>Active__c</columns>
+        <columns>Applied_to_Record_Type__c</columns>
+        <columns>Reopen_Enquiry__c</columns>
+        <columns>Within_Calendar_Days__c</columns>
+        <columns>Re_Opened_Retain_Owner__c</columns>
+        <columns>Assign_to_Queue__c</columns>
+        <columns>Create_Internal_Case_Comment__c</columns>
+        <columns>Assign_Original_as_Parent_Enquiry__c</columns>
+        <columns>Applied_Origin__c</columns>
+        <columns>Original_Enquiry_Status__c</columns>
+        <columns>New_Enquiry_Status__c</columns>
+        <columns>New_Enquiry_Priority__c</columns>
+        <columns>Exclude_Enquiry_Type__c</columns>
+        <columns>Use_Assignment_Rules__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+        <language>en_US</language>
+    </listViews>
+    <listViews>
+        <fullName>Faculty_Graduate_Research</fullName>
+        <columns>MasterLabel</columns>
+        <columns>Active__c</columns>
+        <columns>Applied_Origin__c</columns>
+        <columns>Applied_to_Origin__c</columns>
+        <columns>Applied_to_Record_Type__c</columns>
+        <columns>Assign_Original_as_Parent_Enquiry__c</columns>
+        <columns>Assign_to_Queue__c</columns>
+        <columns>Re_Opened_Retain_Owner__c</columns>
+        <columns>Reopen_Enquiry__c</columns>
+        <columns>Within_Calendar_Days__c</columns>
+        <columns>Case_Comment_Before_Text__c</columns>
+        <columns>Create_Internal_Case_Comment__c</columns>
+        <columns>Included_Non_Closed_Status__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>MasterLabel</field>
+            <operation>contains</operation>
+            <value>Graduate Research</value>
+        </filters>
+        <label>Faculty Graduate Research</label>
+        <language>en_US</language>
+    </listViews>
+    <pluralLabel>Reopen Enquiry Rules</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

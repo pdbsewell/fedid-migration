@@ -1,0 +1,99 @@
+.THIS .tiles {
+    cursor:pointer;
+    font-family: Roboto; 
+    font-size: 1.125rem;
+    height: 250px;
+    text-transform:uppercase;
+}
+.THIS .tile-name {
+    color:#fff;
+}
+
+.THIS .tiles-spacing {
+    background:rgba(255, 255, 255, 0.7);
+    height:15px;
+}
+.THIS .tiles-spacing-bottom {
+    background: rgba(255, 255, 255, 0.7);
+    height: 5px;
+}
+
+/** nick start **/
+.THIS .hover-state:hover {
+    text-decoration:underline;
+    color:#fff;
+}
+
+.THIS .featuredTopicHeader {
+    color: #006dae;
+    font-weight: 400;
+    font-family: "Century Schoolbook", "Georgia", "Times New Roman";
+    font-size: 1.5rem;
+}
+
+/*Tiles in mobile view*/
+/*@media only screen and (min-width: 20em) and (max-width:47.937em) {
+    .THIS .tiles-mob-view {
+        height: 95px;
+    }
+    .THIS .tiles-spacing-mob-view{
+        height: 11px;
+    }
+    .THIS .tile-name-mob-view {
+        font-size: 0.8rem;
+    }
+    .THIS .tiles-spacing-bottom-mob-view {
+        height: 3px;
+    }
+}
+
+@media only screen and (min-width: 48em) and (max-width:63.937em) {
+    .THIS .tiles-mob-view {
+        height: 100%;
+    }
+    .THIS .tiles-spacing-mob-view{
+        height: 80%;
+    }
+    .THIS .tile-name-mob-view {
+        font-size: 0.8rem;
+    }
+    .THIS .tiles-spacing-bottom-mob-view {
+        height: 80%;
+    }
+}*/
+@media only screen and (min-width: 320px) and (max-width : 767px) {
+
+    .THIS .mob-remove-horizontal-margin {
+        margin-left: 0rem !important;
+        margin-right: 0rem !important;
+    }
+
+    .THIS .mob-tile-box {
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
+    }
+
+    .THIS .tiles-responsive {
+        font-size: .7rem;
+        height: 120px;
+    }
+
+    .THIS .tiles-spacing-responsive{
+        margin: 1rem 4px 1rem 4px;
+    }
+
+    .THIS .tile-name-responsive {
+        margin-right: 0.2rem;
+        margin-left: 0.2rem;
+    }
+
+    .THIS .tiles-spacing-bottom-responsive {
+        margin: 1rem 4px 1rem 4px;
+    }
+}
+
+@media only screen and (min-width: 480px) and (max-width : 767px) {
+    .THIS .tiles-responsive {
+        font-size: 1rem !important;
+    }
+}

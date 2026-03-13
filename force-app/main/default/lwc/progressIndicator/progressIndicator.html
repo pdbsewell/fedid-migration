@@ -1,0 +1,39 @@
+<!--
+  @File Name          : progressIndicator.html
+  @Description        : 
+  @Author             : jasmin.rudio@monash.edu
+  @Group              : 
+  @Last Modified By   : jasmin.rudio@monash.edu
+  @Last Modified On   : 1/27/2020, 4:33:25 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    1/13/2020   jasmin.rudio@monash.edu     Initial Version
+-->
+<template>    
+        <div if:true={loading}>
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </div>
+        <div class="progress-div">
+            <h2 class="progress-h2">Steps</h2>
+            <ol class="progress-list" id="progressListId">
+                <div for:each={wizardPages} for:item="menu" key={key}>
+                    <li class={menu.styleClass}>
+                        <div class="progress-labels">
+                            <p class="upper-text">{menu.label}</p>
+                            <a onclick={pageNavigate} data-id={menu.api_Name} data-status={menu.Status} class={menu.linkStyleClass}>{menu.name}</a>
+                        </div>
+
+                        <div class="list-wrapper">
+                            <ol class="progress-list">
+                                <div for:each={menu.form_Pages} for:item="subMenu" key={menu.Id}>
+                                    <li class={subMenu.styleClass}>
+                                        <a onclick={pageNavigate} data-id={subMenu.api_Name} data-status={subMenu.Status} class={subMenu.linkStyleClass} style="text-transform: uppercase;">{subMenu.name}</a>
+                                    </li>
+                                </div>
+                            </ol>
+                        </div>
+                    </li>
+                </div>
+            </ol>
+        </div>
+</template>

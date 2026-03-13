@@ -1,0 +1,40 @@
+<!--Contains a table listing degrees that a user has obtained-->
+<aura:component controller="PORTAL_UCIN_MyProfileController">
+
+    <aura:attribute name="degreeList" type="List"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <div class="p-4 sm:p-6 text-dark-grey">
+        <h1 class="text-3xla sm:text-3xl sm:font-bold leading-bitmore py-3">Preference</h1>
+        <div class="w-full border-solid border-dark-grey border-b-2"></div>
+        <div class="block relative w-full rounded overflow-hidden">
+            <table class="w-full">
+                <tbody>
+                    <tr class="w-full border-solid border-grey border-b-2">
+                        <th class="py-3 w-5/12 md:w-1/4 text-left text-xl lg:text-lg">Faculty</th>
+                        <th class="py-3 w-5/12 md:w-1/4 text-left text-xl lg:text-lg">Class of</th>
+                        <th class="py-3 w-5/12 md:w-1/4 text-left text-xl lg:text-lg">Degree</th>
+                    </tr>
+                    <aura:iteration items="{!v.degreeList}" var="degreeEntry">
+                    <tr class="w-full border-solid border-grey border-b-2">
+                        <td class="text-xl lg:text-lg">{!degreeEntry.Faculty__r.Name}</td>
+                        <td><lightning:formattedDateTime value="{!degreeEntry.Date_Achieved__c}" year="numeric" class="text-xl lg:text-lg"/></td>
+                        <aura:if isTrue="{!not(empty(degreeEntry.Qualification__r.Qualification_Name__c))}">
+                        	<td class="text-xl lg:text-lg">{!degreeEntry.Qualification__r.Qualification_Name__c}</td>
+                            <aura:set attribute="else">
+                                <aura:if isTrue="{!not(empty(degreeEntry.Other_Qualification__c))}">
+                                    <td class="text-xl lg:text-lg">{!degreeEntry.Other_Qualification__c}</td>
+                                  	<aura:set attribute="else">
+                                      	-----
+                                    </aura:set>
+                               	</aura:if>  
+                            </aura:set>
+                        </aura:if>
+                    </tr>
+                    </aura:iteration> 
+                </tbody>           
+            </table>
+        </div>
+    </div>
+</aura:component>

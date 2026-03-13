@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <description>Contains all the queues in UniCRM.</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Retain_Owner__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Specifies whether an Enquiry should retain current owner if the enquiry was re-open</description>
+        <label>Retain Owner</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <label>Queue List</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Retain_Owner__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <visibility>Public</visibility>
+</CustomObject>

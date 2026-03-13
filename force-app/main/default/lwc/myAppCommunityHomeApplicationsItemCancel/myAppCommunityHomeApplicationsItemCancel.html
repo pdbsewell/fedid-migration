@@ -1,0 +1,34 @@
+<template>
+    <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header rejectHeader">                
+                <template if:false={processing}>
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeCancelForm}>
+                        <lightning-icon icon-name="utility:close" variant="bare" size="small"></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </template>
+                <h2 class="slds-modal__title slds-hyphenate confirmHeaderText">Confirm Cancel Application</h2>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium slds-is-relative">                
+                <template if:true={processing}>
+                    <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+                </template>
+                <center><b>Are you sure you want to continue?</b></center>
+                <br/>
+                <p>By cancelling, your draft application will be deleted. Information in your My Details tab, and information submitted as part of a previous applications (if any), will not be affected.</p>
+            </div>
+            <footer class="slds-modal__footer" style="border-radius: 0;">
+                <template if:false={processing}>
+                    <div class="slds-m-top_xxx-small" style="float: left; color: #505060;">
+                        <lightning-icon icon-name="utility:warning" size="small" variant="warning" style="margin-right: 10px;"></lightning-icon>
+                        <span>This action cannot be undone</span>
+                    </div>
+                    <button class="btn cancelButton slds-m-bottom_xx-small" onclick={closeCancelForm}>No - Do not Cancel</button>
+                    <button class="btn rejectButton slds-m-bottom_xx-small" onclick={doCancelApplication}>Yes - Cancel</button>
+                </template>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

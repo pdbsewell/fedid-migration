@@ -1,0 +1,124 @@
+<aura:component extends="c:GOEDWrapperCard" controller="GOEDCardController" implements="flexipage:availableForRecordHome,flexipage:availableForAllPageTypes,force:hasRecordId" access="global" >
+    <ltng:require scripts="/resource/PSJquery172JS" afterScriptsLoaded="{!c.doInit}"	/>
+    <aura:attribute name="outcomeLabel" type="String" default="Outcome Label"/>
+    <aura:attribute name="outcomeUnit" type="String" default=""/>
+    <aura:attribute name="outcomeUnitBefore" type="Boolean" default="false"/>
+    <aura:attribute name="outcomeUnitSpace" type="Boolean" default="false"/>
+    <aura:attribute name="outcomeField" type="String" default="Discovery_Outcome__c"/>
+    <aura:attribute name="outcomeColor" type="String" default="0,25|25,75|75,100"/>
+    <aura:attribute name="explanationLabel" type="String" default="Leading Causes"/>
+    <aura:attribute name="explanationCollapsible" type="Boolean" default="false"/>
+    <aura:attribute name="explanationCollapsedByDefault" type="Boolean" default="false"/>
+    <aura:attribute name="explanationEmptyMsg" type="String" default="No causes detected"/>
+    <aura:attribute name="explanationField" type="String" default="Discovery_Explanation__c"/>
+    <aura:attribute name="explanationColor" type="String" default="-100,0|0,0|0,100"/>
+    <aura:attribute name="explanationRowLimit" type="Integer" default="5"/>
+    
+    <aura:attribute name="recommendationLabel" type="String" default="How to Improve This"/>
+    <aura:attribute name="recommendationCollapsible" type="Boolean" default="false"/>
+    <aura:attribute name="recommendationCollapsedByDefault" type="Boolean" default="false"/>
+    <aura:attribute name="recommendationEmptyMsg" type="String" default="No recommendations detected"/>
+    <aura:attribute name="recommendationField" type="String" default="Discovery_Prescription__c"/>
+    <aura:attribute name="recommendationColor" type="String" default="-100,0|0,0|0,100"/>    
+    <aura:attribute name="recommendationRowLimit" type="Integer" default="5"/>
+    
+    <aura:attribute name="threshold1UpperLimit" type="Integer"/>
+    <aura:attribute name="threshold1cardLabel" type="String"/>
+    <aura:attribute name="threshold1cardLabelColor" type="String"/>
+    <aura:attribute name="threshold1headerLogoIcon" type="String"/>
+    <aura:attribute name="threshold1headerBackgroundImage" type="String"/>
+    <aura:attribute name="threshold1headerBackgroundColor" type="String"/>
+    
+    <aura:attribute name="threshold2UpperLimit" type="Integer"/>
+    <aura:attribute name="threshold2cardLabel" type="String"/>
+    <aura:attribute name="threshold2cardLabelColor" type="String"/>
+    <aura:attribute name="threshold2headerLogoIcon" type="String"/>
+    <aura:attribute name="threshold2headerBackgroundImage" type="String"/>
+    <aura:attribute name="threshold2headerBackgroundColor" type="String"/>
+    
+    <aura:attribute name="threshold3UpperLimit" type="Integer"/>
+    <aura:attribute name="threshold3cardLabel" type="String"/>
+    <aura:attribute name="threshold3cardLabelColor" type="String"/>
+    <aura:attribute name="threshold3headerLogoIcon" type="String"/>
+    <aura:attribute name="threshold3headerBackgroundImage" type="String"/>
+    <aura:attribute name="threshold3headerBackgroundColor" type="String"/>
+    
+    <aura:attribute name="activeSections" type="List" default="['A']" />
+    <aura:attribute name="activeSectionsMessage" type="String" default="" />
+    
+    <aura:handler event="force:refreshView" action="{!c.doInit}" />
+    
+    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+        
+        <div class="slds-size--1-of-1 slds-grid slds-nowrap slds-grid--vertical-align-end slds-p-top--small slds-p-horizontal--small" style="background-color: rgb(255, 255, 255); ">
+            <div id='score_container' class="slds-list--horizontal slds-wrap slds-m-horizontal--large" style="margin-bottom:5px">                    
+                <div id="{!globalId + '_score'}" class="slds-item--label ac-sdd-left-col slds-truncate slds-text-heading--large slds-text-color--weak font-weight-bold" />
+                <div id='score_label' class="slds-item--detail slds-nowrap ac-sdd-right-col slds-text-title--caps slds-text-color--weak" style="padding-top: 10px;">
+                    {!v.outcomeLabel}
+                </div> 
+            </div>
+        </div>  
+    </div>
+    <aura:renderIf isTrue="{!and(v.explanationField != null, v.explanationField.length > 0)}">
+        <div class="slds-border--bottom" />
+        
+        <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-vertical--small" style="background-color: rgb(255, 255, 255); ">
+            <div class="slds-size--1-of-1 slds-grid slds-nowrap slds-grid--vertical-align-end slds-p-vertical--x-small slds-p-horizontal--small">
+                <div class='slds-text-heading--medium slds-text-title--caps slds-text-color--weak slds-p-horizontal--medium' style="margin-left:8px">
+                    <div class="slds-grid slds-p-around_none">                        
+                        <aura:renderIf isTrue="{!v.explanationCollapsible}">  
+                            <div class='slds-col' style="margin-right:8px; cursor:pointer;" onclick="{!c.explanationLabelClick}">
+                                <lightning:icon class="slds-show" aura:id="explanation" iconName="utility:chevronright" size="x-small"/>
+                                <lightning:icon class="slds-hide" aura:id="explanation" iconName="utility:chevrondown" size="x-small"/>
+                            </div>
+                        </aura:renderIf>
+                        <div class='slds-col'>
+                            {!v.explanationLabel}
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>        
+            <div aura:id="explanation" class="slds-hide slds-p-around_none" style="width:100%" >
+                <div class="slds-size--1-of-1 slds-grid slds-nowrap slds-grid--vertical-align-end slds-p-vertical--x-small slds-p-horizontal--small" style="background-color: rgb(255, 255, 255); ">
+                    <div id="{!globalId + '_explanation'}" class="slds-list--horizontal slds-wrap slds-m-horizontal--large" style="width:100%">
+                        <div class='slds-text-body--regular slds-text-color--weak'>
+                            {!v.explanationEmptyMsg}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:renderIf>
+    <aura:renderIf isTrue="{!and(v.recommendationField != null, v.recommendationField.length > 0)}">
+        <div class="slds-border--bottom" />
+        
+        <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-top--small" style="background-color: rgb(255, 255, 255); ">
+            <div class="slds-size--1-of-1 slds-grid slds-nowrap slds-grid--vertical-align-end slds-p-vertical--x-small slds-p-horizontal--small">
+                <div class='slds-text-heading--medium slds-text-title--caps slds-text-color--weak slds-p-horizontal--medium' style="margin-left:8px">
+                    <div class="slds-grid slds-p-around_none">                        
+                        <aura:renderIf isTrue="{!v.recommendationCollapsible}">  
+                            <div class='slds-col' style="margin-right:8px; cursor:pointer;" onclick="{!c.recommendationLabelClick}">
+                                <lightning:icon class="slds-show" aura:id="recommendation" iconName="utility:chevronright" size="x-small"/>
+                                <lightning:icon class="slds-hide" aura:id="recommendation" iconName="utility:chevrondown" size="x-small"/>
+                            </div>
+                        </aura:renderIf>
+                        <div class='slds-col'>
+                            {!v.recommendationLabel}
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>        
+            <div aura:id="recommendation" class="slds-hide slds-p-around_none" style="width:100%">
+                <div class="slds-size--1-of-1 slds-grid slds-nowrap slds-grid--vertical-align-end slds-p-vertical--x-small slds-p-horizontal--small" style="background-color: rgb(255, 255, 255); ">
+                    <div id="{!globalId + '_recommendation'}" class="slds-list--horizontal slds-wrap slds-m-horizontal--large" style="width:100%">
+                        <div class='slds-text-body--regular slds-text-color--weak'>
+                            {!v.recommendationEmptyMsg}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:renderIf>
+</aura:component>

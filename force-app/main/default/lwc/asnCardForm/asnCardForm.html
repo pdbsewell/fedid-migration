@@ -1,0 +1,221 @@
+<!-- 
+ - Created by rcad0001 on 23/06/2020.
+ -->
+
+<!-- Asn Form -->
+<template>
+	<!-- PARENT FORM -->
+	<lightning-formatted-rich-text value={label.asnTitle}>
+	</lightning-formatted-rich-text> 
+	<div class="c-container" style="background-color: #fbfafa">
+		<template if:true={chkEncumberance}>
+			<lightning-layout multiple-rows="true">
+				<lightning-layout-item padding="around-small" size="12">
+					<lightning-formatted-rich-text value={label.encumberanceChkLabel}>
+					</lightning-formatted-rich-text>
+				</lightning-layout-item>
+			</lightning-layout>
+		</template>
+		<template if:false={chkEncumberance}>
+			<!-- Loading -->
+			<template if:true={isLoading}>
+				<div class="slds-align_absolute-center" style="min-height: 50vh;">
+					<lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+				</div>
+			</template>
+			<!-- Contents Begin -->
+			<lightning-layout multiple-rows="true">
+				<!-- HEADER -->
+				<lightning-layout-item padding="around-small" size="12">
+					<lightning-formatted-rich-text value={label.WhoShouldUseTheFormLabel}>
+					</lightning-formatted-rich-text>
+				</lightning-layout-item>
+				<lightning-layout-item padding="around-small" size="12">
+					<lightning-formatted-rich-text value={label.asnCapLimitDesc}>
+					</lightning-formatted-rich-text>
+				</lightning-layout-item>
+				<!-- SUPPORT DETAILS -->
+				<lightning-layout-item padding="around-small" size="12">
+					<lightning-formatted-rich-text value={label.asnSuppHeader}>
+					</lightning-formatted-rich-text>
+				</lightning-layout-item>
+				<lightning-layout multiple-rows="true">
+					<lightning-layout-item flexibility="auto" padding="around-small"
+										   size="12" large-device-size="4" medium-device-size="12" small-device-size="12">
+						<c-asn-response-description render-icon=false title="Australia" desc={label.asnSuppAU}></c-asn-response-description>
+					</lightning-layout-item>
+
+					<lightning-layout-item flexibility="auto" padding="around-small"
+										   size="12" large-device-size="4" medium-device-size="12" small-device-size="12">
+						<c-asn-response-description render-icon=false title="Malaysia" desc={label.asnSuppMal}></c-asn-response-description>
+					</lightning-layout-item>
+
+					<lightning-layout-item flexibility="auto" padding="around-small"
+										   size="12" large-device-size="4" medium-device-size="12" small-device-size="12">
+						<c-asn-response-description render-icon=false title="South Africa" desc={label.asnSuppSA}></c-asn-response-description>
+					</lightning-layout-item>
+				</lightning-layout>
+
+				<!-- DETAILS -->
+				<lightning-layout-item padding="around-small" size="12">
+
+					<div class="page-header">
+						<lightning-formatted-rich-text value={label.StudentDetailsLabelH}>
+						</lightning-formatted-rich-text>
+					</div>
+
+					<div style="background-color: #ffffff">
+						<div>
+							<h2>Student name: {studentName}</h2>
+							<h2>Student email: {studentEmail}</h2>
+							<h2>Student ID: {studentNumber}</h2>
+						</div>
+					</div>
+				</lightning-layout-item>
+
+				<!-- DESCRIPTION -->
+				<lightning-layout-item padding="around-small" size="12">
+					<lightning-formatted-rich-text value={label.howProcessWorksLabelP1}>
+					</lightning-formatted-rich-text>
+
+					<lightning-layout multiple-rows="true">
+						<lightning-layout-item flexibility="auto" padding="around-small"
+											   size="12" large-device-size="4" medium-device-size="12" small-device-size="12">
+							<c-asn-response-description render-icon=true icon="sfr" title="SFR" desc={label.asnSFRDesc}></c-asn-response-description>
+						</lightning-layout-item>
+						<lightning-layout-item flexibility="auto" padding="around-small"
+											   size="12" large-device-size="4" medium-device-size="12" small-device-size="12">
+							<c-asn-response-description render-icon=true icon="wdn" title="WDN" desc={label.asnWDNDesc}></c-asn-response-description>
+						</lightning-layout-item>
+						<lightning-layout-item flexibility="auto" padding="around-small"
+											   size="12" large-device-size="4" medium-device-size="12" small-device-size="12">
+							<c-asn-response-description render-icon=true icon="nc" title="KEEP RESULT" desc={label.asnNCDesc}></c-asn-response-description>
+						</lightning-layout-item>
+					</lightning-layout>
+					<lightning-formatted-rich-text value={label.howProcessWorksLabelP2}>
+					</lightning-formatted-rich-text>
+				</lightning-layout-item>
+
+				<!-- FORM FIELDS -->
+				<template if:false={chkEncumberance}>
+					<template if:false={emptyTeachingPeriod}>
+						<lightning-layout-item padding="around-small" size="12">
+							<div class="page-header">
+								<lightning-formatted-rich-text value={label.selectTeachingPeriodH}>
+								</lightning-formatted-rich-text>
+							</div>
+							<div>
+								<lightning-combobox name="Select Teaching Period" label="" placeholder="Select Teaching Period"
+													options={picklistOptions} value={defaultValue} onchange={showUnitAttempts}>
+								</lightning-combobox>
+							</div>
+							<br />
+						</lightning-layout-item>
+					</template>
+					<template if:true={emptyTeachingPeriod}>
+						<lightning-formatted-rich-text value={label.noTeachingPeriod}>
+						</lightning-formatted-rich-text>
+					</template>
+				</template>
+				<template if:false={chkEncumberance}>
+					<template if:false={emptyTeachingPeriod}>
+						<template if:true={hasselectedtc}>
+							<template if:true={userFlow2}>
+								<lightning-layout-item padding="around-small" size="12">
+									<c-asn-user-flow2 teaching-period={teachingPeriodName}></c-asn-user-flow2>
+								</lightning-layout-item>
+							</template>
+							<template if:true={userFlow3}>
+								<lightning-layout-item padding="around-small" size="12">
+									<c-asn-user-flow3 teaching-period={teachingPeriodName}></c-asn-user-flow3>
+								</lightning-layout-item>
+							</template>
+							<template if:true={userFlow4}>
+								<lightning-layout-item padding="around-small" size="12">
+									<c-asn-user-flow4 teaching-period={teachingPeriodName}></c-asn-user-flow4>
+								</lightning-layout-item>
+							</template>
+							<template if:true={userFlow5}>
+								<lightning-layout-item padding="around-small" size="12">
+									<c-asn-user-flow5 teaching-period={teachingPeriodName}></c-asn-user-flow5>
+								</lightning-layout-item>
+							</template>
+							<template if:true={userFlow6}>
+								<lightning-layout-item padding="around-small" size="12">
+									<c-asn-user-flow6 teaching-period={teachingPeriodName}></c-asn-user-flow6>
+								</lightning-layout-item>
+							</template>
+							<template if:true={userFlow7}>
+								<lightning-layout-item padding="around-small" size="12">
+									<c-asn-user-flow7 teaching-period={teachingPeriodName}></c-asn-user-flow7>
+								</lightning-layout-item>
+							</template>
+							<template if:true={userFlow8}>
+								<lightning-layout-item padding="around-small" size="12">
+									<c-asn-user-flow8 teaching-period={teachingPeriodName}></c-asn-user-flow8>
+								</lightning-layout-item>
+							</template>
+							<template if:true={showNormalForm}>
+								<template for:each={unitAttemptList} for:item="row">
+									<lightning-layout-item key={row.unitAttemptId} flexibility="auto" padding="around-small"
+														   size="12" large-device-size="4" medium-device-size="6" small-device-size="12">
+										<c-asn-unit-cards all-unit-attempts={unitAttemptList} unitattempt={row} onstudentchange={handleUnitAttempChange} isreadonly={userFlow3}>
+										</c-asn-unit-cards>
+									</lightning-layout-item>
+								</template>
+								<template if:false={userFlow3}>
+									<lightning-layout-item padding="around-small" size="12">
+										<div class="slds-align_absolute-center">
+											<button style="width: 40%;" class="buttons"
+													onclick={submitHandler}>Submit</button>
+
+										</div>
+									</lightning-layout-item>
+									<lightning-layout-item padding="around-small" size="12">
+										<div class="slds-align_absolute-center">
+											<button style="width: 40%;" class="buttons"
+													onclick={resetHandler}>Reset</button>
+										</div>
+									</lightning-layout-item>
+								</template>
+							</template>
+							<template if:true={showSummaryView}>
+								<template if:true={hasChanges}>
+									<c-asn-confirm-section unit-attempt-list={unitAttemptList} teaching-period={selectedTeachingPeriod}></c-asn-confirm-section>
+									<lightning-layout-item padding="around-small" size="12">
+										<div class="slds-align_absolute-center">
+											<button style="width: 40%;" class="buttons" onclick={performApexSave}>Confirm</button>
+										</div>
+									</lightning-layout-item>
+									<lightning-layout-item padding="around-small" size="12">
+										<div class="slds-align_absolute-center">
+											<button style="width: 40%;" class="buttons" onclick={confirmBackHandler}>Go Back</button>
+										</div>
+									</lightning-layout-item>
+								</template>
+								<template if:false={hasChanges}>
+									<lightning-layout multiple-rows="true" class="slds-align_absolute-center">
+										<lightning-layout-item padding="around-small" size="12">
+											<div class="slds-align_absolute-center">
+												<lightning-formatted-rich-text value={label.noChanges}></lightning-formatted-rich-text>
+											</div>
+										</lightning-layout-item>
+										<lightning-layout-item padding="around-small" size="12">
+											<div class="slds-align_absolute-center">
+												<button style="width: 40%;" class="buttons" onclick={confirmBackHandler}>Go Back</button>
+											</div>
+										</lightning-layout-item>
+									</lightning-layout>
+								</template>
+
+							</template>
+
+						</template>
+					</template>
+				</template>
+			</lightning-layout>
+			<br/><br/><br/>
+		</template> 
+	</div>
+	<!-- END OF PARENT FORM -->
+</template>

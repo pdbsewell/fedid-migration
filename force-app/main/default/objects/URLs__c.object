@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>A generic hierarchy custom setting to house URLs for any need.</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Academic_Progress_Snapshot__c</fullName>
+        <label>Academic Progress Snapshot</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Graduation_Portal_Stripe__c</fullName>
+        <label>Graduation Portal - Stripe</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Login_Anyone_SSO_ACS_URL__c</fullName>
+        <description>ACS URL used for Alumni portal library access</description>
+        <inlineHelpText>ACS URL used for Alumni portal library access</inlineHelpText>
+        <label>Login Anyone SSO ACS URL</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Monash_Forms__c</fullName>
+        <label>Monash Forms</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>My_App_SSO_Relative_URL__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>&quot;/askmonash/s/loginredirect&quot;</defaultValue>
+        <description>Store the relative url to direct users to OKTA Sign in from my.app</description>
+        <externalId>false</externalId>
+        <label>My App SSO Relative URL</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>View_Study_Statement__c</fullName>
+        <label>View Study Statement</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <label>URLs</label>
+    <visibility>Public</visibility>
+</CustomObject>

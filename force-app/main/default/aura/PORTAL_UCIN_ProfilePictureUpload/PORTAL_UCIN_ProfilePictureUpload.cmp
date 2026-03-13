@@ -1,0 +1,35 @@
+<aura:component controller='PORTAL_UCIN_ProfilePictureUploadCC' implements='forceCommunity:availableForAllPageTypes' access='global'>
+    <aura:attribute name='contactId' type='String'/>
+    <aura:attribute name='profilePictureId' type='String'/>
+    <aura:attribute name='uploadedPhotos' type='String[]'/>
+    <aura:attribute name="profilePictureStatus" type="String" default="Upload Or Drag Profile Pictures" access="public"/>
+    <ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}" />
+
+    <lightning:overlayLibrary aura:id='overlayLib'/>
+    
+    <div class="spinnerClass" >
+        <lightning:spinner aura:id="mySpinner" class="slds-hide" variant="brand" size="medium"/> 
+    </div>
+    
+    <div class='modal-header slds-modal__header'>
+        <h2 class='slds-text-heading_medium'>{!v.profilePictureStatus}</h2>
+        <h6>Recommended: 200px x 200px and file size no more than 2MB</h6>
+    </div>
+    <div class='modal-body slds-modal__body slds-m-around_medium text-center'>
+        <c:PORTAL_UCIN_ProfilePicture recordId="{!v.contactId}"/>
+        <lightning:fileUpload name="profileImageUploader"
+                                        label=""
+                                        multiple="false"
+                                        accept=".jpg, .png"
+                                        recordId="{!v.contactId}"
+                                        onuploadfinished="{!c.handleUploadFinished}"
+                              			class='slds-align_absolute-center'/>
+                
+    </div>
+    <div class='modal-footer slds-modal__footer' style='margin: -1rem -1rem !important;'>
+        <lightning:button class='slds-button_neutral' onclick='{!c.handleCancel}' label='Cancel'/>
+        <lightning:button class='slds-button_neutral' onclick='{!c.handleDelete}' label='Delete'/>
+        <!--lightning:button class='slds-button_brand' onclick='{!c.handleSave}' label='Save'/-->
+    </div>
+	
+</aura:component>

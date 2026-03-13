@@ -1,0 +1,242 @@
+<!--
+  @File Name          : offersList.html
+  @Description        : 
+  @Author             : Jasmin Joy Rudio
+  @Group              : 
+  @Last Modified By   : jasmin.rudio@monash.edu
+  @Last Modified On   : 3/11/2020, 10:42:20 AM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    10/30/2019   Jasmin Joy Rudio     Initial Version
+-->
+<template>
+    <div class="offer-list">
+        <template if:true={loading}>
+            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+        </template>
+        <template if:true={hasOffers}>  
+            <div class="offers-header">
+                <h1>MY OUTCOMES / OFFERS</h1>
+            </div>        
+            <div class="slds-grid slds-gutters">
+                <template for:each={offers} for:item="offer">
+                    
+                    <div if:false={offer.isGRScholarshipOffer} class="slds-large-size_1-of-3 slds-medium-size_1-of-2 slds-small-size_1-of-1 shadow-boxed" key={offer.quote.Id}>
+                        <div key={offer.quote.Id} class="banner-div" style={offer.quote.bannerStyle}>
+                            <div if:true={offer.showBannerText} class={offer.quote.ribbonClass}>
+                                <p>{offer.quote.Offer_Type__c}</p>
+                            </div>
+                            <!-- <img src={offer.offerLinks.bannerImg} class="banner-img"> -->
+                        </div>
+                        <div class="container-div slds-box_x-small slds-m-around_x-small" key={offer.quote.Id}>
+                            <article class="slds-tile slds-media" key={offer.quote.Id}>
+                                <div class="slds-media__figure" key={offer.quote.Id}>
+                                    <span class="slds-avatar slds-avatar_medium" key={offer.quote.Id}>
+                                        <img src={courseImageUrl} class="banner-img"/>
+                                    </span>
+                                </div>
+                                <div class="slds-media__body" key={offer.quote.Id}>
+                                    <h3 class="slds-tile__title slds-truncate" key={offer.quote.Id}>
+                                        {offer.quote.Course_Name__c}
+                                    </h3>
+                                    <div if:true={offer.showOfferDetail} class="slds-tile__detail" key={offer.quote.Id}>
+                                        <dl class="slds-list_horizontal slds-wrap" key={offer.quote.Id}>
+                                            <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_small" title="Outcome">Outcome:</dt>
+                                            <dd class="slds-item_detail slds-truncate slds-m-bottom_small" >{offer.quote.Offer_Type__c} {offer.quote.Offer_Type_text}</dd>
+                                            <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_small" title="Start">Start:</dt>
+                                            <dd class="slds-item_detail slds-truncate slds-m-bottom_small" title="Description for second label">{offer.quote.SBQQ__StartDate__c}</dd>
+                                            <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_small" title="Location">Location:</dt>
+                                            <dd class="slds-item_detail slds-truncate slds-m-bottom_small" >{offer.Location}</dd>
+                                                                                        
+                                            <!-- <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Name">Name:</dt>
+                                            <dd class="slds-item_detail slds-truncate" >{offer.quote.Name}</dd> -->
+                                            <dt class="slds-item_label slds-text-color_weak slds-truncate slds-m-bottom_small" title="Fee type">Fee type:</dt>
+                                            <dd class="slds-item_detail slds-truncate slds-m-bottom_small" title="Description for second label">{feeType}</dd>
+                                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Fee type">Expiry date:</dt>
+                                            <dd if:false={offer.isExpired} class="slds-item_detail slds-truncate" title="Description for second label">{offer.quoteExpiryDate}, GMT +11 hours</dd>
+                                            <dd if:true={offer.isExpired} class="slds-item_detail slds-truncate" title="Description for second label">Expired</dd>
+                                        </dl>
+                                    </div>    
+                                </div>                  
+                            </article>
+                            <article class="slds-tile slds-media" key={offer.quote.Id} if:true={offer.grantQuoteLine}>
+                                <div class="slds-media__figure" key={offer.quote.Id}>
+                                    <span class="slds-avatar slds-avatar_medium" key={offer.quote.Id}>
+                                        <img alt="" src={grantImageUrl} class="banner-img" />
+                                    </span>
+                                </div>
+                                <div class="slds-media__body" key={offer.quote.Id}>
+                                    <h3 class="slds-tile__title slds-truncate">
+                                        {offer.grantQuoteLine.SBQQ__ProductFamily__c}   
+                                    </h3>
+                                    <div class="slds-tile__detail" key={offer.quote.Id}>
+                                        <dl class="slds-list_horizontal slds-wrap" key={offer.quote.Id}>
+                                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Type">Type:</dt>
+                                            <dd class="slds-item_detail slds-truncate">{offer.grantQuoteLine.SBQQ__ProductName__c}</dd>
+                                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Start"  if:true={offer.grantQuoteLine.hasTotalAmount}>Amount:</dt>
+                                            <dd class="slds-item_detail slds-truncate" title="Description for second label"  if:true={offer.grantQuoteLine.hasTotalAmount}>${offer.grantQuoteLine.Total_Grant_Scholarship_Value__c} AUD</dd>
+                                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Fee type">Expiry date:</dt>
+                                            <dd if:false={offer.grantQuoteLine.IsExpired} class="slds-item_detail slds-truncate" title="Description for second label">{offer.grantQuoteLine.Expiry_Date__c}, GMT +11 hours</dd>
+                                            <dd if:true={offer.grantQuoteLine.IsExpired} class="slds-item_detail slds-truncate" title="Description for second label">Expired</dd>
+                                        </dl>
+                                    </div>
+                                </div>        
+                            </article>
+                            <br/>
+                            
+                            <div if:true={offer.isPendingParent}>
+                                <h3 class="slds-tile__title slds-truncate" style="color: #000;" key={offer.quote.Id}>
+                                    Pending Parent / Guardian signature
+                                </h3>    
+                            </div>
+                            <article if:true={offer.showOfferDetail} class="slds-tile slds-media expiry-div" key={offer.quote.Id}>
+                                <div key={offer.quote.Id}>
+                                    <span class="slds-avatar slds-avatar_medium" key={offer.quote.Id}>
+                                        <img alt="" src={warningImageUrl} class="banner-img"/>
+                                    </span>
+                                </div>
+                                <div class="slds-media__body" key={offer.quote.Id}>
+                                    <h3 class="slds-tile__title slds-truncate" key={offer.quote.Id} if:false={offer.isExpired}>
+                                        Offer expires in {offer.expiresOn} days on {offer.expiryDate}
+                                    </h3>
+                                    <h3 class="slds-tile__title slds-truncate expired-offer" if:true={offer.isExpired}>
+                                        Offer now expired
+                                    </h3>       
+                                </div>   
+                                <br/> <br/> 
+                            </article> 
+
+                            <lightning-card if:false={offer.showOfferDetail}>
+                                <p class="slds-p-horizontal_small">{offer.customerFullName}</p>
+                                <p class="slds-p-horizontal_small slds-p-top_x-large">Congratulations on your offer outcome.</p>
+                                <p class="slds-p-horizontal_small slds-p-top_x-large">Please click View Offer Letter to download the offer.</p>
+                            </lightning-card>
+                               
+                            <div class="btn-class">
+                                <div if:false={offer.offerLinks.hasError}>
+                                    <lightning-button onclick={signOfferHandler} data-id={offer.quote.Id}  class="slds-button slds-button_neutral" 
+                                                        if:true={offer.offerLinks.signOffer} label={offer.offerLinks.btnText}
+                                                        data-dategenerated={offer.quote.Date_Document_Generated__c}
+                                                        data-signingurl={offer.quote.DocuSign_Signing_URL__c}>
+                                    </lightning-button>
+                                    <a href={offer.offerLinks.btnLink} target={offer.offerLinks.linkTarget} class="slds-button slds-button_neutral"
+                                        if:true={offer.offerLinks.showButton}>
+                                        {offer.offerLinks.btnText}
+                                    </a>
+                                    <a href={offer.uploadDocLink} class="slds-button slds-button_neutral" if:true={offer.offerLinks.offerSigned}>Upload docs</a>
+                                </div>
+                                <div if:true={offer.offerLinks.hasError}>
+                                    <h3 class="slds-tile__title slds-truncate" style="color: #006dae;" key={offer.quote.Id}>
+                                        We'll notify you when your offer is ready
+                                    </h3>    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div if:true={offer.isGRScholarshipOffer} class="slds-large-size_1-of-3 slds-medium-size_1-of-2 slds-small-size_1-of-1 shadow-boxed" key={offer.quote.Id} data-id="offer-card">
+                        <div key={offer.quote.Id} class="banner-div" style={offer.quote.bannerStyle} data-id="banner">
+                            <div class={offer.quote.ribbonClass}>
+                                <p>Graduate Research Scholarship Outcome</p>
+                            </div>
+                        </div>
+                        <div class="container-div slds-box_x-small slds-m-around_x-small" >
+                            <article class="slds-tile slds-media slds-m-bottom_medium" >
+                                <div class="slds-media__figure" >
+                                    <span class="slds-avatar slds-avatar_medium" >
+                                        <img src={courseImageUrl} class="banner-img"/>
+                                    </span>
+                                </div>
+                                <div class="slds-media__body" data-id="offer-course-details">
+                                    <h3 class="slds-tile__title slds-truncate" data-id="offer-course-title">
+                                        Scholarship Outcome for {offer.courseTitle}
+                                    </h3>
+                                    <div if:true={offer.scholDecr} data-id="scholarship-description" class="slds-m-bottom_large" style="font-size:15px;">
+                                        (Scholarship round closing {offer.scholDecr})
+                                    </div>
+                                    <div if:true={offer.showOfferDetail} class="slds-tile__detail">
+                                        <div class="slds-grid slds-gutters" data-id="course-location">
+                                            <div class="slds-col slds-size_1-of-2 slds-item_label slds-text-color_weak slds-m-top_medium slds-m-bottom_small">
+                                                Faculty:
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-2 slds-m-top_medium slds-m-bottom_small" data-id="course-location-value">
+                                            {offer.faculty}
+                                            </div>
+                                        </div>
+
+                                        <div class="slds-grid slds-gutters" data-id="course-location">
+                                            <div class="slds-col slds-size_1-of-2 slds-item_label slds-text-color_weak slds-m-top_medium slds-m-bottom_small">
+                                                AOU:
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-2 slds-m-top_medium slds-m-bottom_small" data-id="course-location-value">
+                                            {offer.aou}
+                                            </div>
+                                        </div>
+
+                                        <div class="slds-grid slds-gutters" data-id="course-commencement-date">
+                                            <div class="slds-col slds-size_1-of-2 slds-item_label slds-text-color_weak slds-m-top_medium slds-m-bottom_small">
+                                                Proposed Commencement Date:
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-2 slds-m-top_medium slds-m-bottom_small" data-id="course-commencement-date-value">
+                                                <lightning-formatted-date-time month="long" year="numeric" day="2-digit" value={offer.commDate}></lightning-formatted-date-time>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="slds-grid slds-gutters" data-id="course-attendance">
+                                            <div class="slds-col slds-size_1-of-2 slds-item_label slds-text-color_weak slds-m-top_medium slds-m-bottom_small">
+                                                Attendance mode/Attendance type:
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-2 slds-m-top_medium slds-m-bottom_small" data-id="course-attendance-value">
+                                                {offer.attendance}
+                                            </div>
+                                        </div>
+
+                                        <div class="slds-grid slds-gutters" data-id="course-location">
+                                            <div class="slds-col slds-size_1-of-2 slds-item_label slds-text-color_weak slds-m-top_medium">
+                                                Location:
+                                            </div>
+                                            <div class="slds-col slds-size_1-of-2 slds-m-top_medium" data-id="course-location-value">
+                                            {offer.locationDesc}
+                                            </div>
+                                        </div>
+                                    </div>    
+                                </div>                  
+                            </article>
+                            <div>
+                                <div if:false={offer.offerLinks.hasError}>
+                                    <lightning-button onclick={signOfferHandler} data-id={offer.quote.Id}  class="slds-button slds-button_brand" 
+                                                        if:true={offer.offerLinks.signOffer} label={offer.offerLinks.btnText}
+                                                        data-dategenerated={offer.quote.Date_Document_Generated__c}
+                                                        data-signingurl={offer.quote.DocuSign_Signing_URL__c}>
+                                    </lightning-button>
+                                    <a href={offer.offerLinks.btnLink} target={offer.offerLinks.linkTarget} class="slds-button slds-button_brand"
+                                        style="border-radius: 0 !important; border-left: 20px solid transparent; border-right: 20px solid transparent" if:true={offer.offerLinks.showButton}>
+                                        {offer.offerLinks.btnText}
+                                    </a>
+                                    <a href={offer.uploadDocLink} class="slds-button slds-button_brand" if:true={offer.offerLinks.offerSigned}>Upload docs</a>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    
+                </template>
+            </div>
+            <br/><br/>
+            <div class="pagination-btn-div">
+                <lightning-button variant="base" label="< " onclick={previousPage} class="slds-m-left_x-small" disabled={disablePrevious}></lightning-button>                
+                <ul class="slds-button-group-row">
+                    <template for:each={pageList} for:item= "pageNumber">
+                        <li class="slds-button-group-item"  key={pageNumber}> 
+                            <button data-id={pageNumber} onclick={onPageClick}  class="slds-button slds-button_neutral pagination-button"></button>
+                        </li>
+                    </template>
+                </ul>
+                
+                <lightning-button variant="base" label=" >" onclick={nextPage} class="slds-m-right_x-small" disabled={disabledNext}></lightning-button>
+            </div>
+            <br/><br/><br/><br/><br/>
+
+        </template>
+    </div>
+</template>

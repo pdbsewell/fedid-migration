@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Log_the_error</name>
+        <label>Log the error</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Nebula__FlowRecordLogEntry</actionName>
+        <actionType>apex</actionType>
+        <dataTypeMappings>
+            <typeName>T__record</typeName>
+            <typeValue>CampaignMember</typeValue>
+        </dataTypeMappings>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <stringValue>Campaign_Member_AI_Update_SR_Lead_Agent_Info</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Updating Campaign Member Record failed</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>record</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowRecordLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Migrated from Update SR Lead Agent Info Process Builder</description>
+    <environments>Default</environments>
+    <interviewLabel>Campaign Member : AI : Update SR Lead Agent Info {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Campaign Member : AI : Update SR Lead Agent Info</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Update related Lead with Agent Information</description>
+        <name>Update_Lead_with_Agent_Info</name>
+        <label>Update Lead with Agent Info</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <faultConnector>
+            <targetReference>Log_the_error</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Owning_Agent__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Owning_Agent__c</field>
+            <value>
+                <elementReference>$Record.Campaign.Agent_Other__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record.Lead</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Lead_with_Agent_Info</targetReference>
+        </connector>
+        <filterFormula>AND(
+   {!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False,
+   CONTAINS({!$Label.Bypass_Specific_Flow}, &quot;Campaign_Member_AI_Update_SR_Lead_Agent_Info,&quot;) = false,
+   ISBLANK({!$Record.Campaign.Agent_Other__c}) = false,
+   ISBLANK({!$Record.CampaignId}) = false,
+   ISBLANK({!$Record.LeadId}) = false
+)</filterFormula>
+        <object>CampaignMember</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

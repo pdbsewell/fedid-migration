@@ -1,0 +1,38 @@
+<!--
+/*
+ * Copyright (c) 2019, UC Innovation, Inc.  All Rights Reserved.
+ *                     http://www.ucinnovation.com
+ *
+ * This source code is licensed, not sold, and is subject to a written
+ * license agreement.  Among other things, no portion of this source
+ * code may be copied, transmitted, disclosed, displayed, distributed,
+ * translated, used as the basis for a derivative work, or used, in
+ * whole or in part, for any program or purpose other than its intended
+ * use in compliance with the license agreement as part of UC Innovation's
+ * software.  This source code and certain of the algorithms contained
+ * within it are confidential trade secrets of UC Innovation, Inc.
+ * and may not be used as the basis for any other
+ * software, hardware, product or service.
+ */
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <aura:attribute name="contact" type="Contact" 
+                    default="{ 'sobjectType': 'Contact' }"/>
+    
+    <aura:attribute name="listingList" type="Listing__c[]" />
+    <aura:attribute name="listingListToDisplay" type="Listing__c[]" />    
+    
+    <aura:attribute name="recordType" type="String" default="Event" access="public"/>
+    <aura:attribute name="enableSearch" type="String" default="Yes" access="public"/>
+    <aura:attribute name="maxItems" type="String" default="10" access="public"/>
+    <aura:attribute name="portalZone" type="String" default="All" access="public"/>
+    
+    <aura:attribute name="itemsPerPage" type="Integer" default="2" />
+    <aura:attribute name="previousButtonDisabled" type="Boolean" default="true" />
+    <aura:attribute name="nextButtonDisabled" type="Boolean" default="false" />
+    <aura:attribute name="totalNumberOfPages" type="Integer" />
+    <aura:attribute name="currentPage" type="Integer" default="1" />  
+    <aura:attribute name="recordTypeId" type="String" default="Event" access="public"/>    
+    <aura:attribute name="searchText" type="String" default=""/>
+</aura:component>

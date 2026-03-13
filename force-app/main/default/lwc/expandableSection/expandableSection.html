@@ -1,0 +1,21 @@
+<template>
+    <div class={sectionClass}>
+        <!--section header-->
+        <h3 class="slds-section__title slds-p-around_xx-small slds-theme_shade">
+            <button type="button" class="slds-button slds-section__title-action"
+                    aria-controls="aria-id" aria-expanded={expanded} onclick={toggleSection}
+            >
+                <lightning-icon icon-name="utility:switch" alternative-text="button icon" size="x-small"
+                                class="slds-section__title-action-icon slds-button__icon_left"></lightning-icon>
+                <span class="slds-truncate" title={label}>{label}</span>
+                <template lwc:if={showClickToExpand}>
+                    <span style="margin-left:auto; opacity:0.8; font-size:0.8em">{clickToExpandLabel}</span>
+                </template>
+            </button>
+        </h3>
+        <!--section body-->
+        <div class="slds-section__content" id="aria-id">
+            <slot></slot>
+        </div>
+    </div>
+</template>

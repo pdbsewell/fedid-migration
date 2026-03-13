@@ -1,0 +1,20 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,flexipage:availableForRecordHome,force:hasRecordId,force:hasSObjectName" controller="ZkipEventMgmtHandler" access="global">
+    <aura:attribute name="recordId" type="String" access="public" />
+    <aura:attribute name="sObjectName" type="String" access="public"/>
+    <aura:attribute name="returnString" type="String"/>
+    <aura:attribute name="showError" type="Boolean" default="false"/>
+
+    <aura:if isTrue="{!v.showError}">
+    	<h2 id="header43" class="slds-text-heading--medium slds-text-color slds-align_absolute-center slds-p-bottom_small">Get Updates From Zkipster</h2>
+    	<div class="slds-text-title slds-align_absolute-center slds-border_top slds-p-top_small">{!v.returnString}</div>
+    	<aura:set attribute="else">
+    		<h2 id="header43" class="slds-text-heading--medium slds-text-color slds-align_absolute-center">Get Updates From Zkipster</h2>
+            <div class="slds-text-title slds-align_absolute-center slds-border_top slds-p-top_small">Fetching Updates from Zkipster.</div>
+    	</aura:set>
+	</aura:if>
+
+
+
+    <aura:handler name="init" value="{!this}" action="{!c.createEvent}" />
+
+</aura:component>

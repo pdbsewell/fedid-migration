@@ -1,0 +1,222 @@
+<template>
+    <div class="slds">
+        <!-- DELETE CONFIRMATION POPUP -->
+        <div if:true={showConfirmDelete}>
+
+            <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header slds-theme--error slds-theme--alert-texture">
+                        <h2 class="slds-text-heading--small" id="prompt-heading-id" style="color: #ffffff;">{label.app_DeleteConfirmation}</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <p>Are you sure you want to delete this experience? Please note any document uploaded as part of this claim will also be deleted.</p>
+                    </div>
+                    <div class="slds-modal__footer slds-theme--default">
+                        <lightning-button label="Yes"
+                                          icon-position="left"
+                                          variant="brand"
+                                          onclick={onClickConfirmDelete}>
+                        </lightning-button>&nbsp;
+                        <lightning-button label="No"
+                                          icon-position="left"
+                                          variant="neutral"
+                                          onclick={onClickCancelDelete}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+        </div>
+
+        <!-- ALERT: ANY Errors on save-->
+        <div if:true={showErrors}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h3 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Please complete the following:</h3>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <ul class="slds-list_dotted slds-text-align--left">
+                            <template for:each={saveErrors} for:item="error">
+                                <li key={error}>{error}</li>
+                            </template>
+                        </ul>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={onClickCloseErrors}>Close</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+
+        <!-- page heading and desciption-->
+        <div style="font-family:Roboto Condensed;font-size:14px;">
+                <h1 style="font-weight:bold;">Employment and Research Experience</h1>
+        </div>
+        <div class="grtParagraph">Please provide details of up to five employment or research experiences that directly demonstrate your ability to undertake research. Details of additional employment and/or research experience may be provided in your Curriculum Vitae (CV).</div>
+        <ul class="slds-list_dotted" >
+            <li class="grtParagraph">You will be required to provide documentary evidence of each experience recorded (e.g., a letter from each employer you have listed confirming employment and duties performed).</li>
+            <li class="grtParagraph">If applicable, include FRACP/FRACS and other national/international medical fellowships. You will be required to provide your certificate. For FRACP Basic Training, an official letter from RACP is preferred, otherwise, a screenshot of completion of the Written and Clinical Examination is sufficient.</li>
+            <li class="grtParagraph">You will be required to upload supporting documentation in the <b>Documents section</b>.</li>
+        </ul>     
+        <c-my-g-r-app-declaration 
+        application-id={applicationId} 
+        qualification-name="Do you wish to add any employment or research experience details" 
+        record-type-name={recTypeDevName} 
+        ondeclarationchange={handleDeclarationChange}
+        >
+        </c-my-g-r-app-declaration>
+        <template if:true={declarationSigned}>
+            <div class="sectionContainer slds-wrap slds-p-top_large" if:true={isStateStart}>
+                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                    <div class="sectionContainerBody slds-size_5-of-5">
+                        <div class="slds-size_5-of-5">
+                            <h2>Employment and Research Experience </h2>
+                        </div>
+                        <div class="slds-size_5-of-5">
+                            <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                                <thead>
+                                <tr class="slds-text-title--caps">
+                                    <th scope="col">
+                                        <div title="posTH">Position</div>
+                                    </th>                                
+                                    <th scope="col" class="hideOnMobile">
+                                        <div title="empTH">Organisation</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div title="posTH">Period</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate slds-align_absolute-center" title="Action" >Action</div>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!-- ITERATION FOR Qualifications -->
+                                <template for:each={contactQualifications} for:item="qualification">                                    
+                                    <tr key={qualification.Id}>
+                                        <td>
+                                            <div class="slds-truncate" style="max-width: 250px;">
+                                                {qualification.Position__c}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate" style="max-width: 250px;">
+                                                {qualification.Relevant_Institution_Name__c}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate" >
+                                                <div class="slds-float_left">
+                                                    <template if:false={qualification.Date_Achieved__c}>
+                                                        <div class="slds-truncate" >
+                                                            <lightning-formatted-date-time data-testid="qualStartDate" value={qualification.Commencement_Date__c} year="numeric" day="2-digit" month="2-digit"></lightning-formatted-date-time>
+                                                            &nbsp;-&nbsp;Present
+                                                        </div>
+                                                    </template>
+                                                    <template if:true={qualification.Date_Achieved__c}>
+                                                        <lightning-formatted-date-time data-testid="qualStartDate" value={qualification.Commencement_Date__c} year="numeric" day="2-digit" month="2-digit"></lightning-formatted-date-time>
+                                                            &nbsp;-&nbsp;
+                                                            <lightning-formatted-date-time data-testid="qualEndDate" value={qualification.Date_Achieved__c} year="numeric" day="2-digit" month="2-digit"></lightning-formatted-date-time>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td data-label="Action">
+                                            <div class="slds-truncate slds-align--absolute-center">                                            
+                                                <lightning-button-icon variant="bare" icon-position="left" name={qualification.Id} onclick={onClickEdit} icon-name="utility:edit" size="medium" alternative-text="Edit"></lightning-button-icon>&nbsp;
+                                                <lightning-button-icon variant="bare" icon-position="left" name={qualification.Id} onclick={onClickDelete} icon-name="utility:close" size="medium" alternative-text="Remove item"></lightning-button-icon> 
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                                    
+                                <!-- END - ITERATION FOR APPLICATION Qualification PROVIDED -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                
+
+                <div class="slds-p-vertical--large">
+                    
+                </div>
+
+                <!-- ADD NEW BUTTON -->
+                <div if:false={isNewDisabled} class="slds-button-group slds-p-left_medium" role="group">
+                    <button class="secondaryButton" onclick={onClickAddNew} style="margin-top: 10px;">
+                        <lightning-icon class="secondaryIcon" icon-name="utility:add" size="small"></lightning-icon>&nbsp;&nbsp;Add a new Experience
+                    </button>
+                </div>
+            </div>
+            <!-- qualification form input fields -->
+            <div class="sectionContainer" if:true={isStateEdit}>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                <br/>
+                <lightning-input name="position"
+                                data-id="position"
+                                label="Position Held"
+                                required="true"
+                                onchange={onFieldChange}
+                                max-length="200"
+                                value={contactQualification.Position__c}></lightning-input>  
+                <lightning-select name="country"
+                                data-id="country" 
+                                label="Country"
+                                value={contactQualification.Qualification_Country__c}
+                                required="true"
+                                options={countryOptions}
+                                onchange={onFieldChange}></lightning-select>  
+                <lightning-input name="organisation"
+                                data-id="organisation"
+                                value={contactQualification.Other_Institution__c}
+                                required="true"
+                                max-length="150"
+                                label="Organisation"
+                                onchange={onFieldChange}></lightning-input>
+                <lightning-select name="tenure" 
+                                label="Tenure"
+                                data-id="tenure"
+                                value={contactQualification.Tenure__c}
+                                required="true"
+                                options={tenureOptions}
+                                onchange={onFieldChange}></lightning-select> 
+                <lightning-input name="startDate"
+                                data-id="startDate"
+                                label="Start Date"
+                                required="true"
+                                type="date"
+                                max={maxDate} 
+                                onchange={onFieldChange}
+                                value={contactQualification.Commencement_Date__c}></lightning-input> 
+                <lightning-input name="endDate"
+                                data-id="endDate"
+                                label="End Date"
+                                type="date"
+                                onchange={onFieldChange}
+                                value={contactQualification.Date_Achieved__c}></lightning-input> 
+                <lightning-textarea name="description" 
+                                    label="Nature of Research related experience" 
+                                    data-id="description"
+                                    required="true"
+                                    max-length="1000"
+                                    onchange={onFieldChange}
+                                    value={contactQualification.Description__c}>
+                                </lightning-textarea>                                                        
+                <div class="slds-form-element slds-p-vertical--large">
+                    <div class="slds-m-top_medium">                    
+                        <button class="primaryButton" onclick={saveCurrentQualification} style="margin-right: 15px;">
+                            Save
+                        </button>
+                        <button class="secondaryButton" onclick={onClickCancel}>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </template>
+    </div>
+    <lightning-spinner if:true={showSpinner} alternative-text="Saving" variant="brand"></lightning-spinner>
+</template>

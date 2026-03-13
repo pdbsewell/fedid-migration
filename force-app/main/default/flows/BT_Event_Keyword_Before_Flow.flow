@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>57.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <environments>Default</environments>
+    <formulas>
+        <name>uniqueKeyVal</name>
+        <dataType>String</dataType>
+        <expression>IF(ISBLANK({!$Record.conference360__Event__c}), {!$Record.Event_Group__c}+&apos;_&apos;+ {!$Record.conference360__Keyword__c} , {!$Record.conference360__Event__c}+&apos;_&apos;+{!$Record.conference360__Keyword__c})</expression>
+    </formulas>
+    <interviewLabel>BT Event Keyword Before Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>BT Event Keyword Before Flow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Unique_Key</name>
+        <label>Update Unique Key</label>
+        <locationX>176</locationX>
+        <locationY>287</locationY>
+        <inputAssignments>
+            <field>Event_Keyword_Key__c</field>
+            <value>
+                <elementReference>uniqueKeyVal</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Unique_Key</targetReference>
+        </connector>
+        <filterFormula>AND({!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False  , NOT(ISBLANK({!$Record.conference360__Keyword__c})),  OR( NOT(ISBLANK({!$Record.conference360__Event__c})), NOT(ISBLANK({!$Record.Event_Group__c}))))</filterFormula>
+        <object>conference360__Event_Keyword__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

@@ -1,0 +1,182 @@
+<!--
+* @author
+* @date 08/04/2020
+* @group Monash Connect
+* @description Covid Grant Form - Tell us about your situation section
+* @revision  - 08/04/2020 - Initial Create 
+ -->
+<aura:component>
+    <aura:attribute name="covidGrantAmount" type="String" default="" />
+    <aura:attribute name="newCase" type="case" />
+    <aura:attribute name="optionsPrevApp" type="List" default="[
+    {'label': 'Yes', 'value': 'Yes'},
+    {'label': 'No', 'value': 'No'}
+    ]" />
+
+    <div>
+        <!-- support grant 1000 -->
+        <aura:if isTrue="{!v.covidGrantAmount == '1000'}">
+            <!-- Section Heading -->
+            <h2>
+                <lightning:formattedRichText value="{!$Label.c.CovidGrantDescription}" />
+            </h2>
+            <!-- Description -->
+            <p>
+                <lightning:formattedRichText value="{!$Label.c.SupportGrantDescriptionBody}" />
+            </p>
+        </aura:if>
+
+        <!-- covid grant 5000 -->
+        <aura:if isTrue="{!v.covidGrantAmount == '5000'}">
+            <!-- Section Heading -->
+            <h2>
+                <lightning:formattedRichText value="{!$Label.c.CovidGrantDescription}" />
+            </h2>
+            <!-- Description -->
+            <p>
+                <lightning:formattedRichText value="{!$Label.c.CovidGrant7000DescriptionBodyLine2}" />
+            </p>
+        </aura:if>
+
+        <!-- covid grant 7000 -->
+        <aura:if isTrue="{!v.covidGrantAmount == '7000'}">
+            <!-- Section Heading -->
+            <h2>
+                <lightning:formattedRichText value="{!$Label.c.CovidGrantDescription}" />
+            </h2>
+            <!-- Description -->
+            <p>
+                <lightning:formattedRichText value="{!$Label.c.CovidGrant7000DescriptionBodyLine1}" />
+            </p>
+            <p>
+                <lightning:formattedRichText value="{!$Label.c.CovidGrant7000DescriptionBodyLine2}" />
+            </p>
+        </aura:if>
+
+        <!-- Description - Input Field -->
+        <div class="sq-form-question sq-form-question-text">
+            <!-- <label class="sq-form-question-title" for="description">
+                <lightning:formattedRichText value="{!$Label.c.CovidGrant5000DescriptionQuestion}" /></label> -->
+            <div class="sq-form-question-answer">
+                <lightning:textarea aura:id="description" id="description-123" class="sq-form-field"
+                                    value="{!v.newCase.TemporaryDescription}" label="Description" placeholder="Tell us about your situation"
+                                    onchange="{!c.handleDescriptionChange}" required="true"
+                                    messageWhenValueMissing="Description is required." />
+            </div>
+        </div>
+
+        <!-- covid grant 5000 and 7000 -->
+        <aura:if isTrue="{!v.covidGrantAmount == '7000' || v.covidGrantAmount == '7000'}">
+            <!-- Description - Weekly living expenses outline -->
+            <div class="sq-form-question sq-form-question-text">
+                <p><lightning:formattedRichText value="{!$Label.c.CovidGrant7000DescriptionExpenseOutline}" /></p>
+                <div class="sq-form-question-answer">
+                    <lightning:textarea aura:id="expenseOutline" id="expenseOutline-123" class="sq-form-field"
+                                        value="{!v.newCase.TemporaryExpenseOutline}" label="expenseOutline" placeholder=""
+                                        onchange="{!c.handleExpenseOutlineChange}" required="true"
+                                        messageWhenValueMissing="Weekly living expenses outline is required." />
+                </div>
+            </div>
+        </aura:if>
+
+        <!--Amount Needed-->
+        <div class="sq-form-question sq-form-question-text">
+            <label class="sq-form-question-title" for="amount">{!$Label.c.CovidGrantAmountNeeded}  <span style="color: rgb(194, 57, 52);">*</span></label>
+            <div class="sq-form-question-answer">
+                <aura:if isTrue="{!v.covidGrantAmount == '1000'}">
+                    <lightning:input aura:id="amount"
+                                     class="sq-form-field"
+                                     type="number"
+                                     name="amount"
+                                     label="Amount Needed: "
+                                     onchange="{!c.handleAmountChange}"
+                                     value="{!v.newCase.TemporaryAmountNeeded}"
+                                     formatter="currency"
+                                     required="true"
+                                     step="0.01"
+                                     max="5000"
+                                     min="1"
+                                     messageWhenBadInput="{! 'Please enter amount between $1 to $' + $Label.c.SupportGrantAmount1000 + ' only.'}"
+                                     messageWhenPatternMismatch="{! 'Please enter amount between $1 to $' + $Label.c.SupportGrantAmount1000 + ' only.'}"
+                                     messageWhenTypeMismatch="{! 'Please enter amount between $1 to $' + $Label.c.SupportGrantAmount1000 + ' only.'}"
+                                     messageWhenValueMissing="{! 'Please enter amount between $1 to $' + $Label.c.SupportGrantAmount1000 + ' only.'}"
+                                     messageWhenRangeOverflow = "{! 'Please enter amount between $1 to $'+ $Label.c.SupportGrantAmount1000 + '.'}"
+                                     messageWhenRangeUnderflow="{! 'Please enter amount between $1 to $'+ $Label.c.SupportGrantAmount1000 + '.'}"/>
+                </aura:if>
+                <aura:if isTrue="{!v.covidGrantAmount == '5000'}">
+                    <lightning:input aura:id="amount"
+                                     class="sq-form-field"
+                                     type="number"
+                                     name="amount"
+                                     label="Amount Needed: "
+                                     onchange="{!c.handleAmountChange}"
+                                     value="{!v.newCase.TemporaryAmountNeeded}"
+                                     formatter="currency"
+                                     required="true"
+                                     step="0.01"
+                                     max="5000"
+                                     min="1"
+                                     messageWhenBadInput="{! 'Please enter amount between $1 to $' + $Label.c.CovidGrantAmount5000 + ' only.'}"
+                                     messageWhenPatternMismatch="{! 'Please enter amount between $1 to $' + $Label.c.CovidGrantAmount5000 + ' only.'}"
+                                     messageWhenTypeMismatch="{! 'Please enter amount between $1 to $' + $Label.c.CovidGrantAmount5000 + ' only.'}"
+                                     messageWhenValueMissing="{! 'Please enter amount between $1 to $' + $Label.c.CovidGrantAmount5000 + ' only.'}"
+                                     messageWhenRangeOverflow = "{! 'Please enter amount between $1 to $'+ $Label.c.CovidGrantAmount5000 + '.'}"
+                                     messageWhenRangeUnderflow="{! 'Please enter amount between $1 to $'+ $Label.c.CovidGrantAmount5000 + '.'}"/>
+                </aura:if>
+                <aura:if isTrue="{!v.covidGrantAmount == '7000'}">
+                    <lightning:input aura:id="amount"
+                                     class="sq-form-field"
+                                     type="number"
+                                     name="amount"
+                                     label="Amount Needed: "
+                                     onchange="{!c.handleAmountChange}"
+                                     value="{!v.newCase.TemporaryAmountNeeded}"
+                                     formatter="currency"
+                                     required="true"
+                                     step="0.01"
+                                     max="7500"
+                                     min="1"
+                                     messageWhenBadInput="{! 'Please enter amount between $1 to $' + $Label.c.CovidGrantAmount7000 + ' only.'}"
+                                     messageWhenPatternMismatch="{! 'Please enter amount between $1 to $' + $Label.c.CovidGrantAmount7000 + ' only.'}"
+                                     messageWhenTypeMismatch="{! 'Please enter amount between $1 to $' + $Label.c.CovidGrantAmount7000 + ' only.'}"
+                                     messageWhenValueMissing="{! 'Please enter amount between $1 to $' + $Label.c.CovidGrantAmount7000 + ' only.'}"
+                                     messageWhenRangeOverflow="{! 'Please enter amount between $1 to $' + $Label.c.CovidGrantAmount7000 + ' only.'}"
+                                     messageWhenRangeUnderflow="{! 'Please enter amount between $1 to $' + $Label.c.CovidGrantAmount7000 + ' only.'}"/>
+                </aura:if>
+                <aura:if isTrue="{!v.covidGrantAmount == '1000'}">
+                    <p><i>{!$Label.c.SupportGrantMax5000}</i></p>
+                </aura:if>
+                <aura:if isTrue="{!v.covidGrantAmount == '5000'}">
+                    <p><i>{!$Label.c.CovidGrantMax5000}</i></p>
+                </aura:if>
+                <aura:if isTrue="{!v.covidGrantAmount == '7000'}">
+                    <p><i>{!$Label.c.CovidGrantMax7000}</i></p>
+                </aura:if>
+            </div>
+        </div>
+
+        <!-- covid grant 5000 and 7000 -->
+        <aura:if isTrue="{!v.covidGrantAmount == '7000' || v.covidGrantAmount == '7000'}">
+            <!--Centrelink Confirmation-->
+            <div class="sq-form-question sq-form-question-checkbox">
+                <div class="sq-form-question-answer" style="display: flex;">
+                    <lightning:input aura:id="consent" type="checkbox" value="{!v.newCase.consentCenterLink}"
+                                     label="{!$Label.c.CovidGrantCenterlinkConfirmation}" class="sq-form-field" name="consent"
+                                     checked="false" onchange="{!c.handleCheckboxChange}" variant="label-hidden" />
+                    <lightning:formattedRichText value="{!$Label.c.CovidGrantCenterlinkConfirmation}" />
+                </div>
+            </div>
+
+            <!--Confirmation on Previous Application-->
+            <div class="sq-form-question sq-form-question-text">
+                <label class="sq-form-question-title" for="previousApp">
+                    <lightning:formattedRichText value="{!$Label.c.CovidGrantPreviousApplication}" /></label>
+                <div class="sq-form-question-answer">
+                    <lightning:radioGroup aura:id="previousApp" name="previousApp" label=" " variant="label-hidden"
+                                          options="{!v.optionsPrevApp}" value="{!v.newCase.TemporaryPreviousApplication}" type="button"
+                                          onchange="{!c.handleCheckboxChangePreviousApplication}" />
+                </div>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

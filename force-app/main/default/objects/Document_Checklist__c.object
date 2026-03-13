@@ -1,0 +1,942 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Capture documents relevant to different processes that requires documents for verification</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>Private</externalSharingModel>
+    <fields>
+        <fullName>Allowed_Document_Type__c</fullName>
+        <description>Document Type that can bee offered to applicants for this checklist item</description>
+        <inlineHelpText>Select allowed Document Types that can bee offered to applicants for this checklist item</inlineHelpText>
+        <label>Allowed Document Type</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Document_Type</valueSetName>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Applicant_Instructions_Email__c</fullName>
+        <description>Contains the instruction for the applicant to comply with the checklist. This is suited to email output from Exact target.</description>
+        <inlineHelpText>Contains the instruction for the applicant to comply with the checklist.</inlineHelpText>
+        <label>Applicant Instructions Email</label>
+        <length>1000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Applicant_Instructions_UI__c</fullName>
+        <description>Contains the instruction for the applicant to comply with the checklist. This is suited to UI output such as my.app.</description>
+        <inlineHelpText>Contains the instruction for the applicant to comply with the checklist.</inlineHelpText>
+        <label>Applicant Instructions UI</label>
+        <length>1000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Application_Course_Preference__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <label>Application Course Preference</label>
+        <referenceTo>Application_Course_Preference__c</referenceTo>
+        <relationshipLabel>Document Checklists</relationshipLabel>
+        <relationshipName>Document_Checklists</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Application__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Link to Application</description>
+        <inlineHelpText>Link to Application</inlineHelpText>
+        <label>Application</label>
+        <referenceTo>Application__c</referenceTo>
+        <relationshipLabel>Document Checklist</relationshipLabel>
+        <relationshipName>Document_Checklist</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Checklist_Requirement__c</fullName>
+        <description>Used to describe what the checklist item is for</description>
+        <label>Checklist Requirement</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Contact_Qualification__c</fullName>
+        <deleteConstraint>Cascade</deleteConstraint>
+        <description>Link to Contact Qualification</description>
+        <inlineHelpText>Link to Contact Qualification</inlineHelpText>
+        <label>Contact Qualification</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>$Source.Contact__c</field>
+                <operation>equals</operation>
+                <valueField>Contact_Qualification__c.Contact__c</valueField>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Contact_Qualification__c</referenceTo>
+        <relationshipLabel>Document Checklist</relationshipLabel>
+        <relationshipName>Document_Checklist</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Lookup directly to Contact to enable filtering of Qualification and Work Experience records.</description>
+        <inlineHelpText>Lookup directly to Contact to enable filtering of Qualification and Work Experience records.</inlineHelpText>
+        <label>Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Document Checklist</relationshipLabel>
+        <relationshipName>Document_Checklist</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Document_Request_Type__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Capture document request type to map documents with Callista</description>
+        <externalId>false</externalId>
+        <label>Document Request Type</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Document_Type__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Capture document type to map documents with Callista</description>
+        <externalId>false</externalId>
+        <label>Document Type</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Has_Contact_Qualification__c</fullName>
+        <description>A formula field to indicate if the record has a lookup to the Contact Qualification</description>
+        <formula>IF( ISBLANK(Contact_Qualification__c) , false, true)</formula>
+        <inlineHelpText>Flag to indicate if the record has a lookup to the Contact Qualification</inlineHelpText>
+        <label>Has Contact Qualification</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Has_Work_Experience__c</fullName>
+        <description>A formula field to indicate if the record has a lookup to the Work Experience</description>
+        <formula>IF( ISBLANK( Work_Experience__c ) , false, true)</formula>
+        <inlineHelpText>Flag to indicate if the record has a lookup to the Work Experience</inlineHelpText>
+        <label>Has Work Experience</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Opportunity__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <label>Opportunity</label>
+        <referenceTo>Opportunity</referenceTo>
+        <relationshipLabel>Document Checklists</relationshipLabel>
+        <relationshipName>Document_Checklists</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Power_of_One_F__c</fullName>
+        <description>Dummy field holding the value of 1 for each record to assist with reporting
+    https://www.salesforce.com/video/296533/</description>
+        <externalId>false</externalId>
+        <formula>1</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Power of One</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Rule_DeveloperName__c</fullName>
+        <description>Contains a copy the rule developer name that resulted in the creation of the checklist item.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Contains a copy the rule developer name that resulted in the creation of the checklist item.</inlineHelpText>
+        <label>Rule Developer Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Rule_Name__c</fullName>
+        <description>Contains a copy the rule name that resulted in the creation of the checklist item.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Contains a copy the rule name that resulted in the creation of the checklist item.</inlineHelpText>
+        <label>Rule Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sort_Order__c</fullName>
+        <description>Used to sort the rules results in order</description>
+        <externalId>false</externalId>
+        <label>Sort Order</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <description>Meta data for checklist life-cycle</description>
+        <inlineHelpText>Meta data for checklist life-cycle</inlineHelpText>
+        <label>Status</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Requested</fullName>
+                    <default>true</default>
+                    <label>Requested</label>
+                </value>
+                <value>
+                    <fullName>Submitted</fullName>
+                    <default>false</default>
+                    <label>Submitted</label>
+                </value>
+                <value>
+                    <fullName>Approved</fullName>
+                    <default>false</default>
+                    <label>Approved</label>
+                </value>
+                <value>
+                    <fullName>Insufficient</fullName>
+                    <default>false</default>
+                    <label>Insufficient</label>
+                </value>
+                <value>
+                    <fullName>AutoCancelled</fullName>
+                    <default>false</default>
+                    <label>Auto Cancelled</label>
+                </value>
+                <value>
+                    <fullName>ManualCancelled</fullName>
+                    <default>false</default>
+                    <label>Manual Cancelled</label>
+                </value>
+                <value>
+                    <fullName>Not Required</fullName>
+                    <default>false</default>
+                    <label>Not Required</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Task_Type__c</fullName>
+        <description>Field use to map the type of the checklist to the task type required by work-relay.</description>
+        <externalId>false</externalId>
+        <formula>IF(TEXT(Type__c) != &apos;&apos;, &apos;Task: &apos; + TEXT(Type__c), &apos;&apos;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Task Type</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Type__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Process where the checklist is relevant</description>
+        <label>Type</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Age</fullName>
+                    <default>false</default>
+                    <label>Age</label>
+                </value>
+                <value>
+                    <fullName>Credit</fullName>
+                    <default>false</default>
+                    <label>Credit</label>
+                </value>
+                <value>
+                    <fullName>Course Prerequisite</fullName>
+                    <default>false</default>
+                    <label>Course Prerequisite</label>
+                </value>
+                <value>
+                    <fullName>GTE</fullName>
+                    <default>false</default>
+                    <label>GTE</label>
+                </value>
+                <value>
+                    <fullName>Name Change</fullName>
+                    <default>false</default>
+                    <label>Name Change</label>
+                </value>
+                <value>
+                    <fullName>Qualification</fullName>
+                    <default>false</default>
+                    <label>Qualification</label>
+                </value>
+                <value>
+                    <fullName>Residency</fullName>
+                    <default>false</default>
+                    <label>Residency</label>
+                </value>
+                <value>
+                    <fullName>Visa</fullName>
+                    <default>false</default>
+                    <label>Visa</label>
+                </value>
+                <value>
+                    <fullName>Work Experience</fullName>
+                    <default>false</default>
+                    <label>Work Experience</label>
+                </value>
+                <value>
+                    <fullName>Payment</fullName>
+                    <default>false</default>
+                    <label>Payment</label>
+                </value>
+                <value>
+                    <fullName>Contract</fullName>
+                    <default>false</default>
+                    <label>Contract</label>
+                </value>
+                <value>
+                    <fullName>Under 18</fullName>
+                    <default>false</default>
+                    <label>Under 18</label>
+                </value>
+                <value>
+                    <fullName>OSHC</fullName>
+                    <default>false</default>
+                    <label>OSHC</label>
+                </value>
+                <value>
+                    <fullName>Offer Conditions</fullName>
+                    <default>false</default>
+                    <label>Offer Conditions</label>
+                </value>
+                <value>
+                    <fullName>Manual</fullName>
+                    <default>false</default>
+                    <label>Manual</label>
+                </value>
+                <value>
+                    <fullName>AdditionalVisa</fullName>
+                    <default>false</default>
+                    <label>AdditionalVisa</label>
+                </value>
+                <value>
+                    <fullName>AdditionalResidency</fullName>
+                    <default>false</default>
+                    <label>AdditionalResidency</label>
+                </value>
+                <value>
+                    <fullName>Unit Prerequisite</fullName>
+                    <default>false</default>
+                    <label>Unit Prerequisite</label>
+                </value>
+                <value>
+                    <fullName>Course</fullName>
+                    <default>false</default>
+                    <label>Course</label>
+                </value>
+                <value>
+                    <fullName>Curriculum Vitae</fullName>
+                    <default>false</default>
+                    <label>Curriculum Vitae</label>
+                </value>
+                <value>
+                    <fullName>Application Documents</fullName>
+                    <default>false</default>
+                    <label>Application Documents</label>
+                </value>
+                <value>
+                    <fullName>Research Program</fullName>
+                    <default>false</default>
+                    <label>Research Program</label>
+                </value>
+                <value>
+                    <fullName>Previous Application</fullName>
+                    <default>false</default>
+                    <label>Previous Application</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Unique_ID__c</fullName>
+        <caseSensitive>false</caseSensitive>
+        <description>Combined field to form a unique ID formed as a combination of Application ID, Rule ID and Qualification or Work Experience IDs</description>
+        <externalId>true</externalId>
+        <inlineHelpText>Combined field to form a unique ID formed as a combination of Application ID, Rule ID and Qualification or Work Experience IDs</inlineHelpText>
+        <label>Unique ID</label>
+        <length>255</length>
+        <required>true</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Work_Experience__c</fullName>
+        <deleteConstraint>Restrict</deleteConstraint>
+        <description>Link to Contact Work Experience</description>
+        <inlineHelpText>Link to Contact Work Experience</inlineHelpText>
+        <label>Work Experience</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>$Source.Contact__c</field>
+                <operation>equals</operation>
+                <valueField>Work_Experience__c.Contact__c</valueField>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Work_Experience__c</referenceTo>
+        <relationshipLabel>Document Checklist</relationshipLabel>
+        <relationshipName>Document_Checklist</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <label>Document Checklist</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Application__c</columns>
+        <columns>Contact__c</columns>
+        <columns>Type__c</columns>
+        <columns>OWNER.ALIAS</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>DC{YYYY}-{000000}</displayFormat>
+        <label>Checklist Item</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Document Checklists</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>Application_Assessment</fullName>
+        <active>true</active>
+        <description>Type of checklist relevant for assessing applications</description>
+        <label>Application Assessment</label>
+        <picklistValues>
+            <picklist>Allowed_Document_Type__c</picklist>
+            <values>
+                <fullName>ACCEPT-ADM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>APTTESTRES</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>CV_SUPPDOC</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>DIPDEGCERT</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>EMPREFRNCE</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>ENGMEDINST</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>FOLIO_ITEM</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>GRAD_SCALE</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>IELTSTOEFL</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>OTHERDCTYP</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>PARENT_GUARDIAN</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>PORTFOLIO</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>PRFEMPLMNT</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>PRFPROFREG</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>PRF_ID</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>PRF_NAME</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SCHPREDRES</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SECSCH_RES</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>STMTOFPRPS</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>TERTED_TRA</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>UNITOUTLNE</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Status__c</picklist>
+            <values>
+                <fullName>Approved</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>AutoCancelled</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Insufficient</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>ManualCancelled</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Not Required</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Requested</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Submitted</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Type__c</picklist>
+            <values>
+                <fullName>Age</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Application Documents</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Course</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Course Prerequisite</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Credit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Curriculum Vitae</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>GTE</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Manual</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Name Change</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Previous Application</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Qualification</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Research Program</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Residency</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Unit Prerequisite</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Visa</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Work Experience</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Offer_Acceptance</fullName>
+        <active>true</active>
+        <description>Document checklist necessary for accepting offers.</description>
+        <label>Offer Acceptance</label>
+        <picklistValues>
+            <picklist>Allowed_Document_Type__c</picklist>
+            <values>
+                <fullName>AC_CNTRCT</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>AC_OSHC</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>AC_OTHR</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>AC_PAYMENT</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>AC_UNDER18</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>OF_CONDTNS</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>OTHERDCTYP</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>PRF_ID</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Status__c</picklist>
+            <values>
+                <fullName>Approved</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>AutoCancelled</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Insufficient</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>ManualCancelled</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Not Required</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Requested</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Submitted</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Type__c</picklist>
+            <values>
+                <fullName>AdditionalResidency</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>AdditionalVisa</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Contract</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Manual</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>OSHC</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Offer Conditions</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Payment</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Residency</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Under 18</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Visa</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <searchLayouts/>
+    <sharingModel>Private</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

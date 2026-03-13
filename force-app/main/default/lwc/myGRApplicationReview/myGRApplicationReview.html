@@ -1,0 +1,899 @@
+<template>
+    <div class="slds-grid slds-gutters slds-wrap" style="width: 100%;">
+        <div if:true={isApplicationDraft} class="slds-m-left_medium slds-m-right_medium" style="font-family:Roboto Condensed;font-size:14px;">
+            <h1 style="font-weight:bold;">Application Summary and Declaration</h1>
+            <div class="grtParagraph">Thank you for considering a Research Degree and/or Scholarship at Monash University. This screen provides a summary of the information that you have submitted as part of your application. Please review this information and rectify any issues that are displayed.</div>
+            <div class="grtParagraph">Once you have reviewed your application, please complete the declaration at the base of this form, and press the submit button to send this application to Monash. The university will evaluate your application and notify you of the outcome as soon as possible.</div>            
+        </div>
+        <div if:true={isApplicationNotInDraft} class="slds-m-left_medium slds-m-right_medium" style="font-family:Roboto Condensed;font-size:14px;">
+            <h1 style="font-weight:bold;">Application Summary</h1>
+            <div class="grtParagraph">Thank you for considering a Research Degree and/or Scholarship at Monash University. This screen provides a summary of the information that you have submitted as part of your application.</div>
+        </div>
+        <div if:true={fullApplication} class="slds-col" style="width: 100%;">           
+            
+            <div class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                    <div class="slds-size_5-of-5">
+                        <h2>Contact Details</h2>
+                    </div>
+                    <div class="slds-size_5-of-5">
+                        <!-- KEY APPLICATION DATA -->                        
+                        <div class="slds-section section-float">
+                            <div class="slds-col--padded">
+                                <form class="slds-form--stacked">
+                                    <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-vertical--medium iteration-block">
+                                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div class="slds-text-title">Title</div>
+                                            <div class="slds-text-body--regular">{fullApplication.Application.Applicant__r.Salutation}</div>
+                                        </div>
+                                        
+                                        <div if:false={isMononymousName} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div class="slds-text-title">Legal given name(s)</div>
+                                            <div class="slds-text-body--regular">{fullApplication.Application.Applicant__r.First_Name__c}</div>
+                                        </div>
+                                        
+                                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div lwc:if={isMononymousName}>
+                                                <div class="slds-text-title">Legal name (Mononymous)</div>
+                                            </div>
+                                            <div lwc:else>
+                                                <div class="slds-text-title">Legal last name</div>
+                                            </div>
+                                            <div class="slds-text-body--regular">{fullApplication.Application.Applicant__r.Last_Name__c}</div>
+                                        </div>
+                                        
+                                        <div lwc:if={fullApplication.Application.Applicant__r.Preferred_Name__c} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div lwc:if={isMononymousName}>
+                                                <div class="slds-text-title">Preferred Name</div>
+                                            </div>
+                                            <div lwc:else>
+                                                <div class="slds-text-title">Preferred First Name</div>
+                                            </div>
+                                            <div class="slds-text-body--regular">{fullApplication.Application.Applicant__r.Preferred_Name__c}</div>
+                                        </div>
+                                        
+                                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div class="slds-text-title">Birth Date</div>
+                                            <div class="slds-text-body--regular">
+                                                <lightning-formatted-date-time value={fullApplication.Application.Applicant__r.Birthdate} year="numeric" day="2-digit" month="2-digit"></lightning-formatted-date-time>
+                                            </div>
+                                        </div>
+                                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div class="slds-text-title">Gender</div>
+                                            <div class="slds-text-body--regular">{fullApplication.Application.Applicant__r.Gender__c}</div>
+                                        </div>
+                                        
+                                        <div lwc:if={fullApplication.Application.Applicant__r.Pronouns_V2__c} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div class="slds-text-title">Pronoun</div>
+                                            <div class="slds-text-body--regular">{fullApplication.Application.Applicant__r.Pronouns_V2__c}</div>
+                                        </div>
+                                        
+                                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div class="slds-text-title">Street</div>
+                                            <div class="slds-text-body--regular">{fullApplication.Application.Applicant__r.MailingStreet}</div>
+                                        </div>
+                                        
+                                        <div lwc:if={fullApplication.Application.Applicant__r.MailingCity} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div class="slds-text-title">City</div>
+                                            <div class="slds-text-body--regular">{fullApplication.Application.Applicant__r.MailingCity}</div>
+                                        </div>
+                                        
+                                        <div lwc:if={fullApplication.Application.Applicant__r.MailingState} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div class="slds-text-title">State</div>
+                                            <div class="slds-text-body--regular">{fullApplication.Application.Applicant__r.MailingState}</div>
+                                        </div>
+                                        
+                                        <div lwc:if={fullApplication.Application.Applicant__r.MailingPostalCode} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div class="slds-text-title">Postcode</div>
+                                            <div class="slds-text-body--regular">{fullApplication.Application.Applicant__r.MailingPostalCode}</div>
+                                        </div>
+                                        
+                                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div class="slds-text-title">Country</div>
+                                            <div class="slds-text-body--regular">{fullApplication.Application.Applicant__r.MailingCountry}</div>
+                                        </div>
+                                        
+                                        <div lwc:if={fullApplication.Application.Applicant__r.Phone} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div class="slds-text-title">Phone</div>
+                                            <div class="slds-text-body--regular">{fullApplication.Application.Applicant__r.Phone}</div>
+                                        </div>
+                                        
+                                        <div lwc:if={fullApplication.Application.Applicant__r.MobilePhone} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div class="slds-text-title">Mobile</div>
+                                            <div class="slds-text-body--regular">{fullApplication.Application.Applicant__r.MobilePhone}</div>
+                                        </div>
+                                        
+                                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div class="slds-text-title">Email</div>
+                                            <div class="slds-text-body--regular">{fullApplication.Application.Applicant__r.Email}</div>
+                                        </div>
+                                    
+                                        <div lwc:if={fullApplication.Application.Applicant__r.Previous_Monash_ID__c} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div class="slds-text-title label-align">
+                                                <span>Previous Monash ID</span>
+                                                    <lightning-helptext
+                                                        class="helptext-align"
+                                                        content="If a previous Monash Student ID does not exist prior to application, this field will be updated with the new Monash Student ID once it has been created">
+                                                    </lightning-helptext>
+                                            </div>                                           
+                                             <div class="slds-text-body--regular">{fullApplication.Application.Applicant__r.Previous_Monash_ID__c}</div>
+                                        </div>
+                        
+                                        <div lwc:if={fullApplication.Application.Applicant__r.Previously_Studied_at_Monash__c} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div class="slds-text-title">Previously Studied at Monash?</div>
+                                            <div class="slds-text-body--regular">Yes</div>
+                                        </div>
+
+                                        <div lwc:if={isResidencyStatusOnSite} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div class="slds-text-title">Residency Status</div>
+                                            <div class="slds-text-body--regular">{residencyStatus}</div>
+                                        </div>
+
+                                        <div if:true={fullApplication.Residency_Status_File} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div class="slds-text-title">Proof of Citizenship</div>
+                                            <div class="slds-text-body--regular">{fullApplication.Residency_Status_File}</div>
+                                        </div>
+
+                                        <div if:true={fullApplication.Application.AgentName__c} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div class="slds-text-title">Agent Name</div>
+                                            <div class="slds-text-body--regular">{fullApplication.Application.AgentName__c}</div>
+                                        </div>
+
+                                        <div if:true={fullApplication.Agent_File} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                            <div class="slds-text-title">Nomination of Agent Form</div>
+                                            <div class="slds-text-body--regular">{fullApplication.Agent_File}</div>
+                                        </div>               
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+
+            <div if:true={course} class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                        <h2>Application Details</h2>
+                        <div class="slds-size_5-of-5">                    
+                            <div class="slds-section section-float">
+                                <div class="slds-col--padded">
+                                    <form class="slds-form--stacked">
+                                        <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-vertical--medium iteration-block">
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Where do you wish to study?</div>
+                                                <div class="slds-text-body--regular">{fullApplication.Application.Campus_Location__c}</div>
+                                            </div>
+                                            
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">What do you wish to apply for</div>
+                                                <div class="slds-text-body--regular">{fullApplication.Application.Graduate_Research_Application_Type__c}</div>
+                                            </div>
+        
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Course</div>
+                                                <div class="slds-text-body--regular">
+                                                    {course.Course_Code__c}-{course.Course_Title__c}
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Faculty</div>
+                                                <div class="slds-text-body--regular">
+                                                    {course.Managing_Faculty__c}
+                                                </div>
+                                            </div>
+
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Campus</div>
+                                                <div class="slds-text-body--regular">{course.Location_Code__c}</div>
+                                            </div>
+                                            
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Attendance</div>
+                                                <div class="slds-text-body--regular">{course.Attendance_Type_Description__c}, {attendanceMode}</div>
+                                            </div>
+
+                                            <div if:true={course.Proposed_Commencement_Date__c} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Proposed Commencement Date</div>
+                                                <lightning-formatted-date-time class="slds-text-body--regular" value={course.Proposed_Commencement_Date__c} year="numeric" day="2-digit" month="2-digit"></lightning-formatted-date-time>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>         
+                </div>
+            </div>
+
+            <div if:true={course} class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                        <h2>Research Program</h2>
+                        <div class="slds-size_5-of-5">                    
+                            <div class="slds-section section-float">
+                                <div class="slds-col--padded">
+                                    <form class="slds-form--stacked">
+                                        <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-vertical--medium iteration-block">
+                                            <div if:true={course.Research_Title__c} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">What is the title of your research</div>
+                                                <div class="slds-text-body--regular">{course.Research_Title__c}</div>
+                                            </div>
+                                            
+                                            <div if:true={fullApplication.Research_Proposal_File} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Research proposal document name</div>
+                                                <div class="slds-text-body--regular">{fullApplication.Research_Proposal_File}</div>
+                                            </div>
+                                            
+                                            <div if:true={course.Research_Supervisors__c} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Proposed Supervisor(s) names</div>
+                                                <div class="slds-text-body--regular">
+                                                    {course.Research_Supervisors__c}
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Will you have an external supervisor</div>
+                                                <div class="slds-text-body--regular">
+                                                    <div if:true={course.External_Supervisor__c}>Yes</div>
+                                                    <div if:false={course.External_Supervisor__c}>No</div>
+                                                </div>
+                                            </div>
+
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Do you hold any scholarships or other awards for this research, or you are sponsored by an outside body</div>
+                                                <div class="slds-text-body--regular">
+                                                    <div if:true={course.External_Funding__c}>Yes</div>
+                                                    <div if:false={course.External_Funding__c}>No</div>
+                                                </div>
+                                            </div>
+
+                                            <div if:true={fullApplication.Sponsor_File} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Scholarship application supporting document name</div>
+                                                <div class="slds-text-body--regular">{fullApplication.Sponsor_File}</div>
+                                            </div>
+
+                                            <div if:true={course.External_Funding_Type__c} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Type of Scholarship/Award</div>
+                                                <div class="slds-text-body--regular">{course.External_Funding_Type__c}</div>
+                                            </div>
+
+                                            <div if:true={course.External_Funding_Name__c} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Scholarship/Award name</div>
+                                                <div class="slds-text-body--regular">{course.External_Funding_Name__c}</div>
+                                            </div>
+
+                                            <div if:true={course.External_Fund_Duration_Value__c} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Duration and monetary value of award</div>
+                                                <div class="slds-text-body--regular">{course.External_Fund_Duration_Value__c}</div>
+                                            </div>
+
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Do you intend to, or have you applied for a scholarship or sponsorship for this research?</div>
+                                                <div class="slds-text-body--regular">
+                                                    <div if:true={course.Applied_for_External_Scholarship__c}>Yes</div>
+                                                    <div if:false={course.Applied_for_External_Scholarship__c}>No</div>
+                                                </div>
+                                            </div>
+
+                                            <div if:true={course.Applied_for_External_Scholarship_Name__c} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">What scholarship/sponsorship are you applying for?</div>
+                                                <div class="slds-text-body--regular">{course.Applied_for_External_Scholarship_Name__c}</div>
+                                            </div>
+
+                                            <div if:true={course.Research_Days__c} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Research Schedule</div>
+                                                <div class="slds-text-body--regular">{course.Research_Days__c}</div>
+                                            </div>
+
+                                            <div if:true={course.Employment_During_Research__c} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Will you be working during the course of your research</div>
+                                                <div class="slds-text-body--regular">
+                                                    <div if:true={course.Employment_During_Research__c}>Yes</div>
+                                                    <div if:false={course.Employment_During_Research__c}>No</div>
+                                                </div>
+                                            </div>
+
+                                            <div if:true={course.Employer_and_Position__c} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Employer and position</div>
+                                                <div class="slds-text-body--regular">{course.Employer_and_Position__c}</div>
+                                            </div>
+
+                                            <div if:true={course.Employment_Load__c} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Employment Load</div>
+                                                <div class="slds-text-body--regular">{course.Employment_Load__c}</div>
+                                            </div>
+
+                                            <div if:true={fullApplication.Research_Invitation_File} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Invitation Doc</div>
+                                                <div class="slds-text-body--regular">{fullApplication.Research_Invitation_File}</div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>         
+                </div>
+            </div>
+
+            <div class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                        <h2>English Proficiency</h2>
+                        <div class="slds-size_5-of-5">                    
+                            <div class="slds-section section-float">
+                                <div class="slds-col--padded">
+                                    <form class="slds-form--stacked">
+                                        <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-vertical--medium iteration-block">
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">How do you satisfy these requirements?</div>
+                                                <div class="slds-text-body--regular">{englishData.English_Proficiency__c}</div>
+                                            </div>
+                                            
+                                            <div if:true={englishData.Qualification__c} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Test Name</div>
+                                                <div class="slds-text-body--regular">{englishData.Qualification__r.Qualification_Name__c}</div>
+                                            </div>
+
+                                            <div if:true={englishData.Other_Qualification__c} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Test Name</div>
+                                                <div class="slds-text-body--regular">{englishData.Other_Qualification__c}</div>
+                                            </div>
+                                            
+                                            <div if:true={englishData.Date_Achieved__c} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Date Completed</div>
+                                                <div class="slds-text-body--regular">
+                                                    <lightning-formatted-date-time value={englishData.Date_Achieved__c} year="numeric" day="2-digit" month="2-digit"></lightning-formatted-date-time>
+                                                </div>
+                                            </div>
+                                            
+                                            <div if:true={englishData.Expected_date_of_completion__c} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Date to be Completed</div>
+                                                <div class="slds-text-body--regular">
+                                                    <lightning-formatted-date-time value={englishData.Expected_date_of_completion__c} year="numeric" day="2-digit" month="2-digit"></lightning-formatted-date-time>
+                                                </div>
+                                            </div>
+
+                                            <div if:true={englishData.File_Name} class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Document Name</div>
+                                                <div class="slds-text-body--regular">{englishData.File_Name}</div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>         
+                </div>
+            </div>
+
+            <div lwc:if={isQualData} class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                        <h2>Qualifications</h2>
+                        <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                            <thead>
+                            <tr class="slds-text-title--caps">
+                                <th scope="col">
+                                    <div title="posTH">Qualification Type</div>
+                                </th>
+                                <th scope="col">
+                                    <div title="posTH">Qualification</div>
+                                </th>
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Institution</div>
+                                </th>
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Document File Name</div>
+                                </th>                        
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <template for:each={qualData} for:item="qualification">                                    
+                                <tr key={qualification.Id}>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.Evidence_Type__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.Other_Qualification__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.Relevant_Institution_Name__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.File_Name}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                            </tbody>
+                        </table>            
+                </div>
+            </div>
+
+
+            <div lwc:if={isAwardsData} class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div lwc:if={awardsData} class="sectionContainerBody slds-size_5-of-5">
+                        <h2>Awards, Prizes & Scholarships</h2>
+                        <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                            <thead>
+                            <tr class="slds-text-title--caps">
+                                <th scope="col">
+                                    <div title="posTH">Award Type</div>
+                                </th>
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Institution/Awarding body</div>
+                                </th>
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Document File Name</div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <template for:each={awardsData} for:item="qualification">                                    
+                                <tr key={qualification.Id}>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 330px;">
+                                            {qualification.Other_Qualification__c}
+                                        </div>
+                                    </td>
+                                    
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 330px;">
+                                            {qualification.Relevant_Institution_Name__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.File_Name}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+
+            <div lwc:if={isExpData} class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                        <h2>Employment and Research Experience</h2>
+                        <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                            <thead>
+                            <tr class="slds-text-title--caps">
+                                <th scope="col">
+                                    <div title="posTH">Position</div>
+                                </th>                                
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Organisation</div>
+                                </th>
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Document File Name</div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <template for:each={expData} for:item="qualification">                                    
+                                <tr key={qualification.Id}>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.Position__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.Relevant_Institution_Name__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.File_Name}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+
+            <div lwc:if={isPublicationData} class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                        <h2>Publications</h2>
+                        <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                            <thead>
+                            <tr class="slds-text-title--caps">
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Type</div>
+                                </th>                                 
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Name</div>
+                                </th>
+                                <th scope="col">
+                                    <div title="posTH">Title</div>
+                                </th>
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Document File Name</div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <template for:each={publicationData} for:item="qualification">                                    
+                                <tr key={qualification.Id}>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.Evidence_Type__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.Name_of_Publisher_Journal_Org__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.Title_of_Publication_Work_Chapter_Paper__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.File_Name}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+
+            <div lwc:if={isCreativeData} class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                        <h2>Creative Works</h2>
+                        <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                            <thead>
+                            <tr class="slds-text-title--caps">
+                                                              
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Name</div>
+                                </th>
+                                <th scope="col">
+                                    <div title="posTH">Title</div>
+                                </th>
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Document File Name</div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- ITERATION FOR Qualifications -->
+                            <template for:each={creativeData} for:item="qualification">                                    
+                                <tr key={qualification.Id}>
+                                    
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 330px;">
+                                            {qualification.Name_of_Publisher_Journal_Org__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 330px;">
+                                            {qualification.Title_of_Publication_Work_Chapter_Paper__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.File_Name}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                                
+                            <!-- END - ITERATION FOR APPLICATION Qualification PROVIDED -->
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+
+            <div lwc:if={isMusicData} class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                        <h2>Music</h2>
+                        <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                            <thead>
+                            <tr class="slds-text-title--caps">
+                                <th scope="col">
+                                    <div title="posTH">Type</div>
+                                </th>
+                                <th scope="col">
+                                    <div title="posTH">Name</div>
+                                </th>                                
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Organisation</div>
+                                </th>
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Document File Name</div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- ITERATION FOR Qualifications -->
+                            <template for:each={musicData} for:item="qualification">                                    
+                                <tr key={qualification.Id}>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.Evidence_Type__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.Title_of_Publication_Work_Chapter_Paper__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.Name_of_Publisher_Journal_Org__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.File_Name}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                                
+                            <!-- END - ITERATION FOR APPLICATION Qualification PROVIDED -->
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+
+            <div lwc:if={isTheatreData} class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                        <h2>Theatre Performance</h2>
+                        <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                            <thead>
+                            <tr class="slds-text-title--caps">
+                                <th scope="col">
+                                    <div title="posTH">Name of the producer</div>
+                                </th>                                
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Title of production</div>
+                                </th>
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Document File Name</div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- ITERATION FOR Qualifications -->
+                            <template for:each={theatreData} for:item="qualification">                                    
+                                <tr key={qualification.Id}>
+                                    
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 330px;">
+                                            {qualification.Name_of_Publisher_Journal_Org__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 330px;">
+                                            {qualification.Title_of_Publication_Work_Chapter_Paper__c}
+                                        </div>
+                                    </td>   
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.File_Name}
+                                        </div>
+                                    </td>                                 
+                                </tr>
+                            </template>
+                                
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+
+            <div lwc:if={isExhibitionData} class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                        <h2>Exhibitions</h2>
+                        <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                            <thead>
+                            <tr class="slds-text-title--caps">
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Type</div>
+                                </th>                                
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Name</div>
+                                </th>
+                                <th scope="col">
+                                    <div title="posTH">Exhibition venue</div>
+                                </th>
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Document File Name</div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- ITERATION FOR Qualifications -->
+                            <template for:each={exhibitionData} for:item="qualification">                                    
+                                <tr key={qualification.Id}>       
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.Evidence_Type__c}
+                                        </div>
+                                    </td>                             
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.Other_Qualification__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.Location_Venue__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.File_Name}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                                
+                            <!-- END - ITERATION FOR APPLICATION Qualification PROVIDED -->
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+
+            <div lwc:if={isMiscData} class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                        <h2>Additional Supporting Information</h2>
+                        <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                            <thead>
+                            <tr class="slds-text-title--caps">
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Type</div>
+                                </th>                                
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Title/Name</div>
+                                </th>
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Document File Name</div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- ITERATION FOR Qualifications -->
+                            <template for:each={miscData} for:item="qualification">                                    
+                                <tr key={qualification.Id}>       
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.Other_Qualification__c}
+                                        </div>
+                                    </td>                             
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.Title_of_Publication_Work_Chapter_Paper__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.File_Name}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                                
+                            <!-- END - ITERATION FOR APPLICATION Qualification PROVIDED -->
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+
+            <div lwc:if={isRefData} class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                        <h2>Referees</h2>
+                        <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                            <thead>
+                            <tr class="slds-text-title--caps">
+                                <th scope="col">
+                                    <div title="posTH">Name</div>
+                                </th>                                
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Organisation</div>
+                                </th>
+                                <th scope="col">
+                                    <div title="posTH">Position</div>
+                                </th>
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Document File Name</div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <template for:each={refData} for:item="qualification">                                    
+                                <tr key={qualification.Id}>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.Referee_Name__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.Relevant_Institution_Name__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.Position__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate slds-text-body--regular" style="max-width: 250px;">
+                                            {qualification.File_Name}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+            
+            <div class="slds-m-top_medium slds-m-left_medium" if:true={isErrorData}>
+                <span class="slds-required ">There are currently some issues with your application and you may not submit it at this time. 
+                    Please rectify the issues shown below, and then return to this page to sign the declaration and submit the 
+                    application to Monash University for processing.
+                </span>
+                <div class="slds-m-top_small">
+                    <ul class="slds-list_dotted slds-text-align--left">
+                        <template for:each={errorData} for:item="error">
+                            <li class="slds-required" key={error}>{error}</li>
+                        </template>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="slds-m-top_medium slds-m-left_medium" if:true={isSubmitEnabled}>
+                <h2>Graduate Research Applicant Declaration</h2>
+                <table class="slds-table slds-table--cell-buffer slds-table--fixed-layout ">
+                    <tr>
+                        <td class="slds-cell-wrap" colspan="2">
+                            <span>By ticking the boxes below, I acknowledge that I have read and understand each of these statements below in relation to my application and am prepared to accept them in full.</span>
+                        </td>
+                    </tr>
+                    <template for:each={declarationOptions} for:item="opt">
+                    <tr key={opt.label}>
+                        <td class="slds-cell-wrap"><lightning-input type="checkbox" name="input2" data-id={opt.value} required></lightning-input></td>
+                        <td style="font-family:Roboto Condensed;font-size:14px;" class="slds-cell-wrap">
+                            <lightning-formatted-rich-text value={opt.label}></lightning-formatted-rich-text></td>
+                    </tr>
+                    </template>
+                </table>
+                <button class="primaryButton slds-align_absolute-center" onclick={submitApplication} disabled={submitDisabled}>
+                    SUBMIT APPLICATION
+                    <span style="padding-left: 1em;">
+                        <lightning-icon class="primaryIcon" icon-name="utility:check" size="small" ></lightning-icon>
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <lightning-spinner if:true={showSpinner} alternative-text="Loading" variant="brand"></lightning-spinner>
+</template>

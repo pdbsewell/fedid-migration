@@ -1,0 +1,55 @@
+<template>
+    <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="12" class="slds-p-top_xx-small">
+        <div class="slds-is-relative">
+            <template if:true={checklistItems}>
+
+                <template if:true={nestedChecklistItems} for:each={nestedChecklistItems} for:item='checklists'>
+                    <div key={checklists.name}>
+                        <div class="slds-wrap sectionContainerOverride">
+                            <div class="slds-size_3-of-6 sectionContainerTopBorderOverride"></div>
+                            <div class="slds-size_12-of-12">
+                                <lightning-layout multiple-rows>
+                                    <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                                        <lightning-layout class="sectionContainerBodyOverride">
+                                            <lightning-layout-item  >
+                                                <h2 class="slds-text-heading_large slds-p-top_small slds-text-title_bold">{checklists.name}</h2>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+
+                                            <!-- Checklist Items -->
+                                        <lightning-layout>
+                                            <lightning-layout-item>
+                                            <template if:true={checklists.isVisible} for:each={checklists.value} for:item='checklistItem'>
+                                                <div key={checklistItem.Id} class="slds-box sldsBoxOverride" >
+                                                    <c-document-english-test-checklist-assessment-community-item  checklist-item-id={checklistItem.Id}
+                                                                                                                  application-id={applicationId}
+                                                                                                                  application-status={checklistItem.Application__r.Status__c}
+                                                                                                                  is-other-checklist="false"
+                                                                                                                  applicant-id={applicantId}
+                                                                                                                  applicant-user-record={applicantCommunityUser.data}
+                                                                                                                  onfilepreview={onFilePreview}
+                                                                                                                  contact-qualification={checklistItem.Contact_Qualification__r}
+                                                                                                                  application-name={applicationName}
+                                                                                                                  checklist-item-name={checklistItem.Name}
+                                                                                                                  application-study-type={applicationStudyType}
+                                                                                                                  checklist-group-name={checklists.name}>
+                                                    </c-document-english-test-checklist-assessment-community-item>
+                                                </div>
+                                            </template>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </template>
+            <template if:false={checklistItems}>
+                <!-- Loading spinner while retrieving applicant -->
+                <c-document-checklist-assessment-community-loader loader-count="10"></c-document-checklist-assessment-community-loader>
+            </template>
+        </div>
+    </lightning-layout-item>
+
+</template>

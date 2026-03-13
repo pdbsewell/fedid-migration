@@ -1,0 +1,1192 @@
+<aura:component
+        implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes"
+        controller="appAddQualificationCC"
+        access="global" >
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="DEBUGGING" type="Boolean" default="false"/>
+
+    <aura:attribute name="EARLIEST_EXPECTED_DATE" type="Date" default="" description="date limited for expected dates"/>
+    <aura:attribute name="LATEST_COMPLETED_DATE" type="Date" default="" description="date limited for completed dates"/>
+
+    <aura:attribute name="studyType" type="String" description="Study type of the application"/>
+    <aura:attribute name="applicantId" type="String" default="" description="application's applicant contact id"/>
+
+    <aura:attribute name="itemsToLoad" type="Integer" default="0" description="a counter to manage when the initial load is over and to hide the spinner"/>
+    <aura:attribute name="userInfo" type="User" description="storing the current user for any stateful requests"/>
+    <aura:attribute name="applicationId" type="String" description="id of the current application" access="global"/>
+    <aura:attribute name="editingDraft" type="Boolean" default="false" description="control whether we're editing an existing qualification"/>
+    <aura:attribute name="contactQualification" type="Contact_Qualification__c" description="the current contact qualification record for create or edit"/>
+
+    <!-- current state of the component
+		START = show add button and list
+		SELECT_TYPE = show qualification type drop down
+		FORM_DETAILS = form for ADDING/EDITING qualification
+		SAVING = saving details
+	-->
+    <aura:attribute name="state" type="String" default="START"/>
+
+
+    <!-- TODO using on application form or my details -->
+    <aura:attribute name="isAppComponent" type="Boolean" default="true"/>
+
+
+    <!-- the list of added contact qualifications -->
+    <aura:attribute name="qualListHistorical" type="List" description="the qualifications which are not to be edited"/>
+    <aura:attribute name="qualListDraft" type="List" description="the qualifications which are still in draft mode and editable"/>
+    <aura:attribute name="institutionList" type="List" description="list of institutions used in draft qualifications"/>
+
+    <!-- the qualification type -->
+    <aura:attribute name="qualRecordTypes" type="List" default=""
+                    description="the allowed types of qualifications"/>
+    <aura:attribute name="selectedQualRecordTypeId" type="String" default=""
+                    description="the record type ID of the selected qualification type"/>
+    <aura:attribute name="qualRecordTypeMap" type="Map"
+                    description="a map of id, label of the Qualification record types"/>
+    <aura:attribute name="selectedQualTypeName" type="String" default=""
+                    description="a usable type based on the label of the selected qualification type"/>
+
+
+    <!-- credit intent -->
+    <aura:attribute name="showCreditIntention" type="Boolean" default="false" description="show the checkbox for credit intention"/>
+    <aura:attribute name="creditIntention" type="Boolean" description="intention to apply for credit on tertiary qualifications"/>
+
+    <!-- english language proficiency -->
+    <aura:attribute name="englishLanguageProficiency" type="String" description="Determines if the applicant has completed at least six years of schooling in an English medium institution in an English-speaking country prior to the age of 19"/>
+    
+    <!-- ***** BEGIN Qualification fields -->
+    <!-- country -->
+    <aura:attribute name="countryOptions" type="List" description="the list of countries"/>
+    <aura:attribute name="countryMap" type="Map" description="a map of id, label of the Qualification record types"/>
+    <aura:attribute name="qualTertiaryCountryId" type="Id" description="the id of the selected country for Tertiary"/>
+    <aura:attribute name="qualTertiaryCountry" type="String" description="the Name selected country for Tertiary"/>
+    <aura:attribute name="qualSecondaryCountryId" type="Id" description="the id of the selected country for Secondary"/>
+    <aura:attribute name="qualSecondaryCountry" type="String" default="" description="the Name selected country for Secondary"/>
+
+    <!-- Country Code (TBC) -->
+
+    <!-- state is only for Australia -->
+    <aura:attribute name="ausStateOptions" type="List" description="the list of Australian States"/>
+    <aura:attribute name="qualTertiaryState" type="String" description="the state/province of Tertiary study"/>
+    <aura:attribute name="qualSecondaryState" type="String" description="the Australian state of Secondary study"/>
+    <!-- state_province is only for China or India -->
+    <aura:attribute name="qualTertiaryStateProvince" type="String" description="the state/province of Tertiary study"/>
+    <aura:attribute name="qualSecondaryStateProvince" type="String" description="the state/province of Secondary study"/>
+
+
+    <!-- qualification name (assessment Type, Overseas Qualification, Title, etc) -->
+    <aura:attribute name="qualTertiaryName" type="String" description="the name of the qualification"/>
+
+    <!-- controlling which pane to show -->
+    <aura:attribute name="tabIdSecondaryType" type="String" default="SEC_QUAL_NAME_SEARCH" description="the tab id of searching or manual entry"/>
+    <aura:attribute name="qualSecondaryTypeId" type="String" description="the id of the searched secondary qualification"/>
+
+    <!-- Other qualification (free text version ) -->
+    <aura:attribute name="qualSecondaryTypeOther" type="String" description="the free text type of secondary qualification"/>
+
+    <aura:attribute name="qualAdmissionsName" type="String" description="the name of the Admissions or Other qualification"/>
+
+    <aura:attribute name="englishTestOptions" type="List" description="the list of countries"/>
+    <aura:attribute name="qualEnglishTestId" type="String" description="the selected English Test RecordType Id"/>
+    <aura:attribute name="qualEnglishTestName" type="String" description="the selected English Test Name"/>
+    <aura:attribute name="qualEnglishTestTypeMap" type="Map"
+                    description="a map of id, label of the English Test Qualification record types"/>
+
+    <!-- Institution (picklist) -->
+    <aura:attribute name="tabIdCurrentInstitution" type="String" default="INSTITUTION_SEARCH" description="the tab id of searching or manual entry"/>
+    <aura:attribute name="currentInstitution" type="Id" description="the id of the Account record"/>
+    <aura:attribute name="currentInstitutionOther" type="Id" description="the id of the Account record"/>
+    <aura:attribute name="mapCurrentInstitutions" type="Map" description="a map of id, Account of current institution"/>
+    <aura:attribute name="objCurrentInstitution" type="Account" description="the current institution record"/>
+    <aura:attribute name="showInstitutionSpinner" type="Boolean" default="true"/>
+    <aura:attribute name="agencyId" type="String" description="Associated Agency Record Id"/>
+    <aura:attribute name="accountPartnerRecordTypeId" type="String" description="Account Partner Record Type Id"/>
+    <aura:attribute name="agencyName" type="String" description="Associated Agency Record Name"/>
+    <aura:attribute name="isApplicationCreatedByPartner" type="Boolean" default="false" description="Flags that the application has been created by a partner user"/>
+    <aura:attribute name="institutionName" type="String" default="" description="Name of the institution nominated by the applicant"/>
+    <aura:attribute name="institutionOptions" type="List" default="[]" description="Institution options that may be nominated by the applicant"/>
+
+    <!-- Awarding Body / Institution (picklist) -->
+    <aura:attribute name="tabIdTertiaryAwardingBody" type="String" default="AUS_TER_SEARCH" description="the tab id of searching or manual entry"/>
+    <aura:attribute name="qualTertiaryAwardingBody" type="Id" description="the id of the Institution__c record"/>
+    <aura:attribute name="mapTertiaryAwardingBody" type="Map" description="a map of id, Institution__c of the Awarding Body"/>
+    <aura:attribute name="objTertiaryAwardingBody" type="Institution__c" description="the Awarding Body record"/>
+    <!-- Other Awarding Body / Institution (free text) -->
+    <aura:attribute name="qualTertiaryAwardingBodyOther" type="String" description="the name of the awarding institution"/>
+
+    <!-- School / College / University -->
+    <aura:attribute name="tabIdSecondarySchool" type="String" default="AUS_SEC_SEARCH" description="the tab id of searching or manual entry"/>
+    <aura:attribute name="qualSecondarySchool" type="Id" description="the Australian School where the Secondary qualification was studied"/>
+    <aura:attribute name="mapSecondarySchool" type="Map" description="a map of id, Institution__c of the Secondary School"/>
+    <aura:attribute name="objSecondarySchool" type="Institution__c" description="the secondary institution record"/>
+    <aura:attribute name="qualSecondarySchoolOther" type="String" description="the (free text) School where the Secondary qualification was studied"/>
+
+    <!-- Qualification Completed? -->
+    <!-- Level of Completion -->
+    <aura:attribute name="completionLevelOptions" type="List" description="the list of completion levels"/>
+    <aura:attribute name="qualTertiaryLevelOfCompletion" type="String" description="the level of completion for Tertiary"/>
+
+    <!-- First Year of Enrollment -->
+    <aura:attribute name="firstYearEnrolmentOptions" type="List" description="the list of years"/>
+    <aura:attribute name="qualTertiaryFirstYearEnrolled" type="Integer" description="the first year of enrolment for Tertiary Qualification"/>
+
+
+    <!-- Which Year did you complete your qualification? -->
+    <aura:attribute name="yearCompletedOptions" type="List" description="the list of years"/>
+    <aura:attribute name="qualTertiaryLastYearEnrolled" type="Integer" description="the last year of enrolment for Tertiary Qualification"/>
+    <aura:attribute name="qualSecondaryYearCompleted" type="Integer" description="the year of completion for Secondary Qualification"/>
+    <aura:attribute name="qualSecondaryCompleted" type="Boolean" description="is the Secondary Qualification complete"/>
+    <aura:attribute name="qualSecondaryDateExpected" type="Date" description="expected completion Date of a Secondary Qualification"/>
+    <aura:attribute name="errorMsgSecondaryDateExpected" type="Boolean" description="displays the error message for a bad expected date" default="false"/>
+
+    <aura:attribute name="qualEnglishCompleted" type="Boolean" description="is the English Test complete"/>
+    <aura:attribute name="qualEnglishTestDateCompleted" type="Date" description="completion Date of an English Test"/>
+    <aura:attribute name="qualEnglishTestDateExpected" type="Date" description="expected completion Date of an English Test"/>
+    <aura:attribute name="errorMsgEnglishTestDateExpected" type="Boolean" description="displays the error message for a bad expected date" default="false"/>
+    <aura:attribute name="qualEnglishTestScoreReading" type="String" description="reading score of an English Test"/>
+    <aura:attribute name="qualEnglishTestScoreListening" type="String" description="listening score of an English Test"/>
+    <aura:attribute name="qualEnglishTestScoreWriting" type="String" description="writing score of an English Test"/>
+    <aura:attribute name="qualEnglishTestScoreSpeaking" type="String" description="speaking score of an English Test"/>
+
+    <aura:attribute name="qualAdmissionsCompleted" type="Boolean" description="has this Admissions test been completed" default="true"/>
+    <aura:attribute name="qualAdmissionsDateCompleted" type="Date" description="completion Date of an Admissions Test "/>
+    <aura:attribute name="qualAdmissionsDateExpected" type="Date" description="expected Date of an Admissions Test"/>
+
+    <aura:attribute name="MAX_COMMENTS_LENGTH" type="Integer" description="maximum comments length" default="140"/>
+    <aura:attribute name="qualTertiaryComments" type="String" description="comments field"/>
+    <aura:attribute name="qualSecondaryComments" type="String" description="comments field"/>
+    <aura:attribute name="qualEnglishComments" type="String" description="comments field"/>
+    <aura:attribute name="qualAdmissionsComments" type="String" description="comments field"/>
+
+
+    <!-- Is English the ONLY language of instruction and testing for all courses at the institution where you completed your studies? -->
+    <aura:attribute name="qualTertiaryEnglishOnly" type="Boolean" description="is english the only language"/>
+    <aura:attribute name="qualSecondaryEnglishOnly" type="Boolean" description="is english the only language"/>
+
+    <!-- score/GPA result -->
+    <aura:attribute name="qualSecondaryScore" type="String" description="the score or result "/>
+    <aura:attribute name="qualTertiaryGPAResult" type="String" description="the score or result "/>
+    <aura:attribute name="qualAdmissionsGPAResult" type="String" description="the score or result "/>
+    <aura:attribute name="qualEnglishGPAResult" type="String" description="the score or result "/>
+
+    <!-- ***** END Qualification fields -->
+
+    <!-- current previous notification message -->
+    <aura:attribute name="currentPreviousNotification" type="String" default="" />
+
+    <!-- global spinner -->
+    <aura:attribute name="showSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="saveErrors" type="String[]" default="[]" description="any validation errors"/>
+    <aura:attribute name="showErrors" type="Boolean" default="false" description="show/hide the errors modal"/>
+
+    <!-- setting this to true allows the users to delete on the list -->
+    <aura:attribute name="allowDelete" type="Boolean" access="global" default="true"/>
+    <aura:attribute name="qualIdToDelete" type="Id" default=""/>
+    <aura:attribute name="showConfirmDelete" type="Boolean" access="global" default="false"/>
+
+    <!-- TODO - show/hide for view only qualifications -->
+    <aura:attribute name="showViewOnlyPopup" type="Boolean" access="global" default="false"/>
+
+    <!-- yes or no options-->
+    <aura:attribute name="yesNoOptions" type="List"
+                    default="[{value:'Yes',label:'Yes'},{value:'No',label:'No'}]"
+                    description="yes or no options"/>
+
+    <aura:attribute name="hasSavedSection" type="Boolean" access="global" default="false"/>
+    <aura:method name="validateFields" action="{!c.validateFields}" access="public">
+        <aura:attribute name="callback" type="Function" />
+    </aura:method>
+
+    <div class="slds">
+        <!-- current/previous notification message -->
+        <aura:If isTrue="{!v.currentPreviousNotification}">
+            <div class="slds-card">
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-text-heading_medium" role="alert">
+                    <lightning:icon iconName="utility:info_alt" variant="brand" />
+                    <span class="slds-m-left_small" style="color: #080707;">
+                        {!v.currentPreviousNotification}
+                    </span>
+                </div>
+            </div>
+        </aura:If>
+
+        <!-- SPINNER -->
+        <lightning:spinner
+                class="{!if(v.showSpinner == true, '', 'slds-hide')}"
+                aura:id="spinner" size="medium" alternativeText="Loading"/>
+        <!-- END - SPINNER -->
+        <!-- DELETE CONFIRMATION POPUP -->
+        <div class="{!if(v.showConfirmDelete, '', 'slds-hide')}">
+
+            <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header slds-theme--error slds-theme--alert-texture">
+                        <h2 class="slds-text-heading--small" id="prompt-heading-id" style="color: #ffffff;">{!$Label.c.App_DeleteConfirmation}</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <p>
+                            {!$Label.c.App_DeleteQualificationLabel}
+                        </p>
+                    </div>
+                    <div class="slds-modal__footer slds-theme--default">
+                        <lightning:button label="Yes"
+                                          iconPosition="left"
+                                          variant="brand"
+                                          onclick="{!c.onClickConfirmDelete}">
+                        </lightning:button>
+                        <lightning:button label="No"
+                                          iconPosition="left"
+                                          class="slds-button slds-button--neutral"
+                                          onclick="{!c.onClickCancelDelete}">
+                        </lightning:button>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+        </div>
+        <!-- END - CONFIRMATION POPUP -->
+
+        <!-- TODO - VIEW ONLY POPUP -->
+        <div class="{!if(v.showViewOnlyPopup, '', 'slds-hide')}">
+
+            <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header slds-theme--error slds-theme--alert-texture">
+                        <h2 class="slds-text-heading--small" id="prompt-heading-id">Previously Entered</h2>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+        </div>
+        <!-- END - VIEW ONLY POPUP -->
+
+        <!-- ALERT: ANY Errors on save-->
+        <div class="{!if(v.showErrors == true, '', 'slds-hide')}" style="">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h3 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Please complete the following:</h3>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">              
+                        <ul class="slds-list_dotted slds-text-align--left">
+                            <aura:iteration items="{!v.saveErrors}" var="error">
+                                <li>{!error}</li>
+                            </aura:iteration>
+                        </ul>
+                    </div>
+                    <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick="{!c.onClickCloseAlert}">Close</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+        <div class="slds-hide">
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+                <span class="slds-assistive-text">Error</span>
+                <span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small" ></span>
+                <div class="slds-align-top">Please correct the following:</div>
+                <ul class="slds-list_dotted slds-text-align--left">
+                    <aura:iteration items="{!v.saveErrors}" var="error">
+                        <li>{!error}</li>
+                    </aura:iteration>
+                </ul>
+                <lightning:buttonIcon iconName="utility:close"
+                                      variant="bare"
+                                      class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse"
+                                      onclick="{!c.onClickCloseAlert}"
+                                      alternativeText="Close"
+                                      title="Close"/>
+            </div>
+        </div>
+
+        <!-- current institution -->
+        <aura:if isTrue="{!or(v.studyType == 'Study Abroad', v.studyType == 'Exchange')}">
+            <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col slds-is-relative">
+                    <aura:if isTrue="{!v.showInstitutionSpinner}">
+                        <lightning:spinner variant="brand" />
+                    </aura:if>
+                    <div id="currentInstitution" class="sectionContainer slds-wrap">
+                        <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                        <div class="sectionContainerBody slds-size_5-of-5">
+                            <div class="slds-size_5-of-5">
+                                <h2>Current Institution</h2>
+                            </div>
+                                                        
+                            <!-- search/enter institution -->
+                            <div class="slds-is-relative">
+                                <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                    <p>Monash University has reciprocal Exchange and Study Abroad programs with many institutions around the world. Please use the Partner University look up tool below to search and select your current institution from the results.</p>
+                                </div>
+
+                                <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                    <span class="generalText">If your institution cannot be found via search, please enter the details manually.</span>
+                                </div>
+    
+                                <div class="slds-size_5-of-5" style="margin-top: 20px;">
+                                    <span class="generalText"><b>Your current institution</b></span>
+                                </div>
+
+                                <!-- institution -->
+                                <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                    <aura:If isTrue="{!!v.isApplicationCreatedByPartner}">
+                                        <c:inputTypeAhead name="institution" label=""
+                                            placeholder="Enter your current institution" value="{!v.institutionName}"
+                                            options="{!v.institutionOptions}" onchange="{!c.handleInstitutionChange}"
+                                            onkeyup="{!c.handleInstitutionKeyUp}" onclear="{!c.handleInstitutionChange}"
+                                            is-disabled="false">
+                                        </c:inputTypeAhead>
+                                    </aura:If>
+                                    <aura:If isTrue="{!v.isApplicationCreatedByPartner}">
+                                        <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                            <p>{!v.institutionName}</p>
+                                        </div>
+                                    </aura:If>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>            
+            </div>
+        </aura:if>
+
+        <!-- educational history -->
+        <div class="slds-grid slds-gutters slds-wrap">
+            <div class="slds-col">
+                <!-- Educational History -->
+                <div class="sectionContainer slds-wrap">
+                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                    <div class="sectionContainerBody slds-size_5-of-5">
+                        <div class="slds-size_5-of-5">
+                            <h2>Educational History</h2>
+                        </div>
+                        <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                            <aura:if isTrue="{!or(v.studyType == 'Study Abroad', v.studyType == 'Exchange')}">
+                                <p>In addition to your tertiary studies, you will also need to include how you meet the minimum entry requirement for English language.</p>
+                                <aura:set attribute="else">
+                                    <p>In addition to your secondary and tertiary studies, you will need to include how you meet the minimum entry requirement for English language.</p>
+                                </aura:set>
+                            </aura:if>
+                        </div>
+                        <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                            <span class="generalText">Every entry in this section will require supporting documentation.</span>
+                        </div>
+                        <div class="slds-size_5-of-5 slds-p-bottom_large" style="margin-top: 10px;">
+                            <span class="generalText">Educational claims entered and submitted in previous applications cannot be edited or deleted as they form part of your history with Monash. Add any additional claims below.</span>
+                        </div>
+
+                        <!-- STATE 1 - START: Button to add a new qualification and display existing qualifications -->
+                        <div class="{!if(v.state=='START', '', 'slds-hide')}">
+                            <!-- SECTION :TABLE of qualifications  -->
+                            <div>
+                                <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                                    <thead>
+                                    <tr class="slds-text-title--caps">
+                                        <th scope="col">
+                                            <div class="slds-truncate slds-cell-wrap" title="qType">Qualification Type</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate slds-cell-wrap" title="School">Institution/School</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate slds-cell-wrap" title="Assessment Type/Qualification">Assessment Type/Qualification</div>
+                                        </th>
+                                        <!--
+                                        <th width="20%" scope="col" class="hideOnMobile">
+                                            <div title="School">Document Attached</div>
+                                        </th>
+                                        -->
+                                        <aura:If isTrue="{!v.allowDelete}">
+                                            <th scope="col">
+                                                <div class="slds-truncate slds-align_absolute-center" title="Action" >Action</div>
+                                            </th>
+                                        </aura:If>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- ITERATION FOR APPLICATION QUALIFICATION PROVIDED VISIBLE ONLY WHEN THIS COMPONENT IS UNDER THE APPLICATION DETAIL -->
+                                    <aura:If isTrue="{!v.isAppComponent}">
+                                        <aura:iteration items="{!v.qualListDraft}" var="qualRec">
+                                            <!--<ui:outputText value="{!qualRec.Id}" class="" />-->
+                                            <tr>
+                                                <td>
+                                                    <div class="slds-cell-wrap slds-truncate">
+                                                        {!qualRec.RecordType.Name + if(qualRec.RecordType.Name=='Tertiary Education','/Post Secondary', '')}
+                                                        <!--<span>{!qualRec.Id}</span>-->
+                                                        <!--
+                                                        <lightning:button label="{!qualRec.RecordType.Name + if(qualRec.RecordType.Name=='Tertiary Education','/Post Secondary', '')}"
+                                                                            iconPosition="left"
+                                                                            class="slds-button slds-text-link buttonWrap"
+                                                                            variant="base"
+                                                                            name="{!qualRec.Id}"
+                                                                            onclick="{!c.showviewQualPopup}" />
+                                                                            -->
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="slds-cell-wrap slds-truncate" style="float: left; width: 225px; word-wrap: break-word;">
+                                                        <aura:If isTrue="{!qualRec.Institution_Name__c != null}">
+                                                            {!qualRec.Institution_Name__c}
+                                                            <aura:set attribute="else">
+                                                                {!qualRec.Other_Institution__c}
+                                                            </aura:set>
+                                                        </aura:If>
+                                                    </div>
+                                                </td>
+                                                <td data-label="Assessment Type/Qualification">
+                                                    <div class="slds-cell-wrap slds-truncate" style="float: left; width: 225px; word-wrap: break-word;">
+                                                        <aura:If isTrue="{!qualRec.Qualification__c != null}">
+                                                            {!qualRec.Qualification__r.Qualification_Name__c}
+                                                            <aura:set attribute="else">
+                                                                {!qualRec.Other_Qualification__c}
+                                                            </aura:set>
+                                                        </aura:If>
+                                                    </div>
+                                                </td>
+                                                <td data-label="Action">
+                                                    <div class="slds-truncate slds-align--absolute-center">
+                                                        <lightning:button label="Edit"
+                                                                            iconPosition="left"
+                                                                            name="{!qualRec.Id}"
+                                                                            variant="base"
+                                                                            onclick="{!c.onClickEdit}">
+                                                            <lightning:icon iconName="utility:edit" size="small" alternativeText="edit form"/>
+                                                        </lightning:button>
+                                                        <lightning:button
+                                                                label=""
+                                                                iconPosition="left"
+                                                                name="{!qualRec.Id}"
+                                                                onclick="{!c.onClickDelete}"
+                                                                variant="base">
+                                                            <lightning:icon iconName="utility:close" size="small" alternativeText="Remove Item" />
+                                                        </lightning:button>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </aura:iteration>
+                                        <aura:iteration items="{!v.qualListHistorical}" var="qualRec">
+                                            <tr>
+                                                <td>
+                                                    <div class="slds-cell-wrap slds-truncate">
+                                                        {!qualRec.RecordType.Name + if(qualRec.RecordType.Name=='Tertiary Education','/Post Secondary', '')}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="slds-cell-wrap slds-truncate" style="float: left; width: 225px; word-wrap: break-word;">
+                                                        <aura:If isTrue="{!qualRec.Institution_Name__c != null}">
+                                                            {!qualRec.Institution_Name__c}
+                                                            <aura:set attribute="else">
+                                                                {!qualRec.Other_Institution__c}
+                                                            </aura:set>
+                                                        </aura:If>
+                                                    </div>
+                                                </td>
+                                                <td data-label="Assessment Type/Qualification">
+                                                    <div class="slds-cell-wrap slds-truncate" style="float: left; width: 225px; word-wrap: break-word;">
+                                                        <aura:If isTrue="{!qualRec.Qualification__c != null}">
+                                                            {!qualRec.Qualification__r.Qualification_Name__c}
+                                                            <aura:set attribute="else">
+                                                                {!qualRec.Other_Qualification__c}
+                                                            </aura:set>
+                                                        </aura:If>
+                                                    </div>
+                                                </td>
+                                                <td data-label="Action">
+                                                    <div class="slds-truncate slds-align--absolute-center">
+                                                        <lightning:helptext
+                                                                content="This qualification cannot be edited or deleted"
+                                                                iconName="utility:preview"
+                                                        />
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </aura:iteration>
+                                    </aura:If>
+                                    <!-- END - ITERATION FOR APPLICATION QUALIFICATION PROVIDED VISIBLE ONLY WHEN THIS COMPONENT IS UNDER THE APPLICATION DETAIL -->
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="{!if(and(v.qualListDraft.length == 0, v.qualListHistorical.length == 0), '', 'slds-hide')}">
+                                <ui:message severity="info">No Qualifications to Display</ui:message>
+                            </div>
+                            <!-- SECTION END:TABLE of qualifications  -->
+
+                            <!-- ADD NEW BUTTON -->
+                            <button class="secondaryButton" onclick="{!c.onClickAddNew}" style="margin-top: 10px;">
+                                <lightning:icon class="secondaryIcon" iconName="utility:add" size="small" />&nbsp;&nbsp;Add New Qualification
+                            </button>
+                            <!-- END ADD NEW BUTTON -->
+                        </div>
+
+                        <!-- STATE 2: Select qualification type, persistent until entry complete -->
+                        <div class="{!if(or(v.state=='SELECT_TYPE', v.state=='FORM_DETAILS'), '', 'slds-hide')}">
+                            <!-- qualification type -->
+                            <lightning:select aura:id="selectQualificationType"
+                                            label="Please select the type of qualification you wish to add"
+                                            value="{!v.selectedQualRecordTypeId}"
+                                            required="true"
+                                            onchange="{!c.onSelectQualificationType}"
+                                            disabled="{!v.editingDraft == true}"
+                            >
+                                <aura:iteration var="option" items="{! v.qualRecordTypes}">
+                                    <option value="{! option.value }" selected="{!if(v.selectedQualRecordTypeId == option.value,'true','')}">{! option.label }
+                                        <aura:If isTrue="{!option.label == 'Tertiary Education'}">/Post Secondary</aura:If>
+                                    </option>
+                                </aura:iteration>
+                            </lightning:select>
+
+                        </div>
+
+                        <!-- STATE 3: Form to enter new qualification -->
+                        <div id="qualifications" class="{!if(v.state=='FORM_DETAILS', '', 'slds-hide')}">
+                            <!-- context specific instructions -->
+                            <div class="slds-p-vertical--medium">
+                                <!-- TERTIARY BEGIN -->
+                                <div class="{!if(v.selectedQualTypeName =='Tertiary Education', 'slds-text--regular', 'slds-hide')}">
+                                    {!$Label.c.App_TertiaryEducationDetails}&nbsp;{!$Label.c.App_TertiaryEducationDetails_2}.
+                                    <!-- SECTION: TERTIARY COUNTRY -->
+                                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                            <div class="slds-form-element__control">
+                                                <lightning:select aura:id="selectCountry"
+                                                                label="Country in which you studied"
+                                                                value="{!v.qualTertiaryCountryId}"
+                                                                required="true"
+                                                                onchange="{!c.onSelectTertiaryCountry}"
+                                                >
+                                                    <aura:iteration var="option" items="{! v.countryOptions}">
+                                                        
+                                                        <option value="{! option.value }" selected="{!if(v.qualTertiaryCountryId==option.value)}">{! option.label }</option>
+                                                    </aura:iteration>
+                                                </lightning:select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- SECTION END: TERTIARY COUNTRY -->
+                                    <!-- SECTION : TERTIARY STATE 2018/09/03 DEPRECATED
+                                    <lightning:input name="inputState"
+                                                    class="{!if(or(v.qualTertiaryCountry =='China (excludes SARs and Taiwan)',v.qualTertiaryCountry =='India'), '', 'slds-hide')}"
+                                                    value="{!v.qualTertiaryStateProvince}"
+                                                    required="{!if(or(v.qualTertiaryCountry =='China (excludes SARs and Taiwan)',v.qualTertiaryCountry =='India'), 'true', '')}"
+                                                    placeholder="State/Province of Study"
+                                                    label="State/Province" />
+                -->
+                                    <!-- AUS states
+                                    <lightning:select aura:id="selectAusState"
+                                                    class="{!if(v.qualTertiaryCountry =='Australia', '', 'slds-hide')}"
+                                                    label="Australian State in which you studied"
+                                                    value="{!v.qualTertiaryState}"
+                                                    required="{!if(v.qualTertiaryCountry =='Australia', 'true', '')}"
+                                                    onchange="{!c.onSelectAusState}"
+                                    >
+                                        <aura:iteration var="option" items="{! v.ausStateOptions}">
+                                            <option value="{! option.value }" selected="{!if(v.qualTertiaryState==option.value)}">{! option.label }</option>
+                                        </aura:iteration>
+                                    </lightning:select>
+                -->
+                                    <!-- SECTION END : TERTIARY STATE -->
+
+                                    <!-- SECTION : TERTIARY QUALIFICATION NAME/TITLE -->
+                                    <lightning:input name="inputQualTertiaryName"
+                                                    value="{!v.qualTertiaryName}"
+                                                    required="true"
+                                                    placeholder="Qualification Name, eg. Bachelor of Arts"
+                                                    label="Qualification" />
+                                    <!-- SECTION END : TERTIARY QUALIFICATION NAME/TITLE -->
+
+                                    <!-- SECTION : TERTIARY AWARDING BODY -->
+                                    <div>
+                                        <!--<div>{!$Label.c.App_OtherInstitutionToggle}</div>-->
+                                        <div>Enter the keyword and select your institution from the drop down list.
+                                            If you cannot find your institution, enter it manually.</div>
+                                        <lightning:tabset selectedTabId="{!v.tabIdTertiaryAwardingBody}" onselect="{!c.onTabSelectInstitution}">
+                                            <lightning:tab label="Select From List" id="AUS_TER_SEARCH">
+                                                <c:searchWithDropdown
+                                                        aura:id="searchTertiaryAwardingBody"
+                                                        selectedResult="{!v.qualTertiaryAwardingBody}"
+                                                        mapResults="{!v.mapTertiaryAwardingBody}"
+                                                        placeHolder="search for awarding body/institution"
+                                                        inputLabel="Awarding Body or Institution"
+
+                                                        objectAPIName="Institution__c"
+                                                        fieldsToReturn="['Id', 'Institution_Name__c', 'Institution_Code__c']"
+                                                        whereFields="['Type__c', 'ISO_Country_API_Name__c']"
+                                                        whereValue0="Tertiary"
+                                                        whereValue1="{!v.qualTertiaryCountry}"
+                                                        searchFields="['Institution_Name__c']"
+                                                        labelField="Institution_Name__c"
+
+                                                        onSearchSelectEvent="{!c.onSearchSelectTertiaryAwardingBody}"
+
+                                                />
+                                            </lightning:tab>
+                                            <lightning:tab label="Enter Manually" id="AUS_TER_MANUAL">
+                                                <lightning:input name="inputQualAwardingBodyOther"
+                                                                value="{!v.qualTertiaryAwardingBodyOther}"
+                                                                placeholder="Enter Institution Name"
+                                                                required="true"
+                                                                label="Awarding Body or Institution" />
+                                            </lightning:tab>
+                                        </lightning:tabset>
+                                    </div>
+                                    <!-- SECTION END : TERTIARY AWARDING BODY -->
+
+                                    <!-- SECTION : TERTIARY ENGLISH INSTRUCTION -->
+                                    <!-- Is English the ONLY language of instruction and testing for all courses at the institution where you completed your studies? -->
+                                    <lightning:input name="inputQualTertiaryEnglishOnly"
+                                                    checked="{!v.qualTertiaryEnglishOnly}"
+                                                    label="{!$Label.c.App_InstructedInEnglish}"
+                                                    
+                                                    messageToggleActive="Yes" messageToggleInactive="No"
+                                                    type="toggle"
+                                    />
+                                    <!-- SECTION END : TERTIARY ENGLISH INSTRUCTION -->
+
+
+                                    <!-- SECTION : TERTIARY FIRST YEAR OF ENROLMENT-->
+                                    <lightning:input aura:id="inputQualTertiaryFirstYearEnrolment"
+                                                    label="First year of enrolment"
+                                                    type="text"
+                                                    required="true"
+                                                    value="{!v.qualTertiaryFirstYearEnrolled}"
+                                                    pattern="(19|20)\d{2}"
+                                                    messageWhenPatternMismatch="please enter a valid year"
+                                    />
+                                    <!-- SECTION END : TERTIARY FIRST YEAR OF ENROLMENT-->
+
+                                    <!-- SECTION : TERTIARY LAST YEAR OF ENROLMENT-->
+                                    <lightning:input aura:id="inputQualTertiaryLastYearEnrolment"
+                                                    type="text"
+                                                    required="true"
+                                                    label="Last year of enrolment"
+                                                    value="{!v.qualTertiaryLastYearEnrolled}"
+                                                    pattern="(19|20)\d{2}"
+                                                    messageWhenPatternMismatch="please enter a valid year"
+                                    />
+                                    <!-- SECTION END : TERTIARY LAST YEAR OF ENROLMENT-->
+
+                                    <!-- SECTION: TERTIARY LEVEL OF COMPLETION -->
+                                    <lightning:select aura:id="selectCompletionLevel"
+                                                    label="Level of Completion"
+                                                    value="{!v.qualTertiaryLevelOfCompletion}"
+                                                    required="true"
+                                                    onchange="{!c.onSelectCompletionLevel}"
+                                    >
+                                        <aura:iteration var="option" items="{! v.completionLevelOptions}">
+                                            <option value="{! option.value }" >{! option.label }</option>
+                                        </aura:iteration>
+                                    </lightning:select>
+                                    <!-- SECTION END : TERTIARY LEVEL OF COMPLETION -->
+                                    <!-- SECTION: SECONDARY COMMENTS -->
+                                    <lightning:textarea name="inputQualTertiaryComments"
+                                                        value="{!v.qualTertiaryComments}"
+                                                        label="Comments"
+                                                        placeholder="Any other comments"
+                                                        maxlength="{!v.MAX_COMMENTS_LENGTH}"
+                                    />
+                                    <!-- SECTION END: SECONDARY COMMENTS -->
+
+                                    <!-- SECTION : TERTIARY RESULT
+                                    <lightning:input name="inputQualTertiaryResult"
+                                                    value="{!v.qualTertiaryGPAResult}"
+                                                    placeholder=""
+                                                    label="GPA/Result" />
+                                    SECTION END: TERTIARY RESULT -->
+                                </div>
+                                <!-- TERTIARY END -->
+
+                                <!-- SECONDARY BEGIN -->
+                                <div class="{!if(v.selectedQualTypeName =='Secondary Education', '', 'slds-hide')}">
+                                    <div class="slds-text--regular">{!$Label.c.App_SecondaryEducDetails}</div>
+                                    <div class="slds-text--regular slds-p-top--medium">{!$Label.c.App_SecondaryEducDetails_2}</div>
+                                    <!-- SECTION: SECONDARY COUNTRY -->
+                                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                            <div class="slds-form-element__control">
+                                                <lightning:select aura:id="selectCountry"
+                                                                label="Country in which you studied"
+                                                                value="{!v.qualSecondaryCountryId}"
+                                                                required="true"
+                                                                onchange="{!c.onSelectSecondaryCountry}"
+                                                >
+                                                    <aura:iteration var="option" items="{! v.countryOptions}">
+                                                        <option value="{! option.value }" selected="{!if(v.qualSecondaryCountryId == option.value)}">{! option.label }</option>
+                                                    </aura:iteration>
+                                                </lightning:select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- SECTION END: SECONDARY COUNTRY -->
+                                    <!-- SECTION : SECONDARY STATE -->
+                                    <lightning:input name="inputState"
+                                                    class="{!if(or(v.qualSecondaryCountry =='China (excludes SARs and Taiwan)',v.qualSecondaryCountry =='India'), '', 'slds-hide')}"
+                                                    value="{!v.qualSecondaryStateProvince}"
+                                                    required="{!if(or(v.qualSecondaryCountry =='China (excludes SARs and Taiwan)',v.qualSecondaryCountry =='India'), 'true', '')}"
+                                                    placeholder="State/Province of Study"
+                                                    label="State/Province" />
+                                    <!-- australian state -->
+                                    <lightning:select aura:id="selectAusState"
+                                                    class="{!if(v.qualSecondaryCountry =='Australia', '', 'slds-hide')}"
+                                                    label="Australian State in which you studied"
+                                                    value="{!v.qualSecondaryState}"
+                                                    required="{!if(v.qualSecondaryCountry =='Australia', 'true', '')}"
+                                                    onchange="{!c.onSelectAusState}"
+                                    >
+                                        <aura:iteration var="option" items="{! v.ausStateOptions}">
+                                            <option value="{! option.value }" selected="{!if(v.qualSecondaryState==option.value)}">{! option.label }</option>
+                                        </aura:iteration>
+                                    </lightning:select>
+                                    <!-- SECTION END : SECONDARY STATE -->
+
+                                    <!-- SECTION : SECONDARY QUALIFICATION NAME -->
+                                    <div class="">
+                                        <div>Enter the keyword and select your Qualification from the drop down list.
+                                            If you cannot find your institution, enter it manually.</div>
+                                        <lightning:tabset aura:id="secondaryQualificationTabs"
+                                                        selectedTabId="{!v.tabIdSecondaryType}"
+                                                        onselect="{!c.onTabSelectQualification}" variant="scoped">
+                                            <lightning:tab label="Select From List" id="SEC_QUAL_NAME_SEARCH" >
+                                                <div class="{!if(v.qualSecondaryCountry =='Australia', '', 'slds-hide')}">
+                                                    <c:searchWithDropdown
+                                                                        aura:id="searchSecondaryAusQualification"
+                                                                        selectedResult="{!v.qualSecondaryTypeId}"
+                                                                        placeHolder="enter to search for an Australian Secondary qualification"
+                                                                        inputLabel="Qualification Name"
+                                                                        objectAPIName="Qualification__c"
+                                                                        fieldsToReturn="['Id', 'Qualification_Name__c']"
+                                                                        whereFields="['Overseas__c', 'State__c', 'RecordType.Name']"
+                                                                        whereValue0="false"
+                                                                        whereValue1="{!v.qualSecondaryState}"
+                                                                        whereValue2="Secondary Qualification"
+                                                                        optionalWhereFields="['State__c']"
+                                                                        searchFields="['Qualification_Name__c']"
+                                                                        labelField="Qualification_Name__c"
+                                                                        
+                                                                        onSearchSelectEvent="{!c.onSearchSelectSecondaryQualification}"
+                                                    />
+                                                </div>
+                                                <div class="{!if(v.qualSecondaryCountry !='Australia', '', 'slds-hide')}">
+                                                    <c:searchWithDropdown
+                                                            aura:id="searchSecondaryIntlQualification"
+                                                            selectedResult="{!v.qualSecondaryTypeId}"
+                                                            placeHolder="enter to search for a secondary qualification"
+                                                            inputLabel="Qualification Name"
+
+                                                            objectAPIName="Qualification__c"
+                                                            fieldsToReturn="['Id', 'Qualification_Name__c']"
+                                                            whereFields="['Overseas__c','RecordType.Name', '!%Qualification_Name__c']"
+                                                            whereValue0="true"
+                                                            whereValue1="Secondary Qualification"
+                                                            whereValue2="VTAC"
+                                                            searchFields="['Qualification_Name__c']"
+                                                            labelField="Qualification_Name__c"
+
+                                                            onSearchSelectEvent="{!c.onSearchSelectSecondaryQualification}"
+                                                    />
+                                                </div>
+                                            </lightning:tab>
+                                            <lightning:tab label="Enter Manually" id="SEC_QUAL_NAME_MANUAL" >
+                                                <lightning:input name="inputQualSecondaryOther"
+                                                                value="{!v.qualSecondaryTypeOther}"
+                                                                required="true"
+                                                                placeholder="Secondary Qualification Name"
+                                                                label="Name of Secondary Qualification" />
+                                            </lightning:tab>
+                                        </lightning:tabset>
+                                    </div>
+                                    <!-- SECTION : SECONDARY QUALIFICATION NAME -->
+
+                                    <!-- SECTION : AUSTRALIAN SECONDARY SCHOOL OF ATTENDANCE -->
+                                    <div class="{!if(v.qualSecondaryCountry =='Australia', '', 'slds-hide')}">
+                                        <div>Enter the keyword and select your School, College or Institution from the drop down list.
+                                            If you cannot find your it, enter it manually.</div>
+                                        <lightning:tabset selectedTabId="{!v.tabIdSecondarySchool}" onselect="{!c.onTabSelectInstitution}">
+                                            <lightning:tab label="Select From List" id="AUS_SEC_SEARCH">
+                                                <c:searchWithDropdown
+                                                        aura:id="searchSecondarySchool"
+                                                        selectedResult="{!v.qualSecondarySchool}"
+                                                        mapResults="{!v.mapSecondarySchool}"
+                                                        placeHolder="enter to search for schools"
+                                                        inputLabel="School, College or Institution Name"
+
+                                                        objectAPIName="Institution__c"
+                                                        fieldsToReturn="['Id', 'Institution_Name__c', 'Institution_Code__c', 'Type__c']"
+                                                        whereFields="['Type__c', 'Country__c', 'State__c']"
+                                                        whereValue0="Secondary"
+                                                        whereValue1="{!v.qualSecondaryCountry}"
+                                                        whereValue2="{!v.qualSecondaryState}"
+                                                        searchFields="['Institution_Name__c']"
+                                                        labelField="Institution_Name__c"
+
+                                                        onSearchSelectEvent="{!c.onSearchSelectSecondarySchool}"
+                                                />
+                                            </lightning:tab>
+                                            <lightning:tab label="Enter Manually" id="AUS_SEC_MANUAL">
+                                                <lightning:input name="inputQualAwardingBodyOther"
+                                                                value="{!v.qualSecondarySchoolOther}"
+                                                                required="true"
+                                                                placeholder=""
+                                                                label="Enter School Name" />
+                                            </lightning:tab>
+                                        </lightning:tabset>
+                                    </div>
+                                    <!-- INTL Secondary: manual only -->
+                                    <div class="{!if(v.qualSecondaryCountry!='Australia', '', 'slds-hide')}">
+                                        <!-- MANUAL ENTRY of Other Awarding Body / Institution -->
+                                        <lightning:input name="inputQualAwardingBodyOther"
+                                                        value="{!v.qualSecondarySchoolOther}"
+                                                        required="true"
+                                                        placeholder=""
+                                                        label="Enter School Name" />
+                                    </div>
+                                    <!-- SECTION END : SECONDARY SCHOOL OF ATTENDANCE  -->
+
+                                    <!-- SECTION : SECONDARY ENGLISH INSTRUCTION -->
+                                    <!-- Is English the ONLY language of instruction and testing for all courses at the institution where you completed your studies? -->
+                                    <lightning:input name="inputQualSecondaryEnglishOnly"
+                                                    checked="{!v.qualSecondaryEnglishOnly}"                                     
+                                                    label="{!$Label.c.App_InstructedInEnglish}"
+                                                    messageToggleActive="Yes" messageToggleInactive="No"
+                                                    type="toggle"
+                                    />
+                                    <!-- SECTION END : SECONDARY ENGLISH INSTRUCTION -->
+
+                                    <!-- SECTION: SECONDARY Is Qualification Complete? -->
+                                    <lightning:input name="inputQualSecondaryIsCompleted"
+                                                    checked="{!v.qualSecondaryCompleted}"
+                                                    label="Have you completed this qualification?"
+                                                    messageToggleActive="Yes" messageToggleInactive="No"
+                                                    type="toggle"
+                                                    onchange="{!c.onToggleSecondaryComplete}"
+                                    />
+                                    <!-- SECTION END: SECONDARY Is Qualification Complete? -->
+
+                                    <!-- SECTION: SECONDARY YEAR COMPLETION -->
+                                    <div class="{!if(v.qualSecondaryCompleted==true, '', 'slds-hide')}">
+
+                                        <!-- moving to input text field instead
+                                        <lightning:select aura:id="selectYearCompleted"
+                                                        label="Year of Completion (or current year)"
+                                                        required=""
+                                                        value="{!v.qualSecondaryYearCompleted}"
+                                                        onchange="{!c.onSelectYearCompleted}"
+                                        >
+                                            <aura:iteration var="option" items="{! v.yearCompletedOptions}">
+                                                <option value="{! option.value }" selected="{!if(option.value==v.qualSecondaryYearCompleted)}">{! option.label }</option>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                        -->
+                                        <lightning:input aura:id="inputQualSecondaryYearCompleted"
+                                                        label="Year of Completion"
+                                                        type="text"
+                                                        required="true"
+                                                        value="{!v.qualSecondaryYearCompleted}"
+                                                        pattern="(19|20)\d{2}"
+                                                        messageWhenPatternMismatch="please enter a valid year"
+                                        />
+                                    </div>
+                                    <!-- SECTION END: SECONDARY YEAR COMPLETION -->
+                                    <!-- SECTION: SECONDARY DATE EXPECTED COMPLETION -->
+                                    <div class="{!if(v.qualSecondaryCompleted!=true, '', 'slds-hide')}">
+                                        <lightning:input aura:id="inputQualSecondaryDateExpected"
+                                                        value="{!v.qualSecondaryDateExpected}"
+                                                        label="When do you expect to complete your qualification?"
+                                                        onchange="{!c.onChangeSecondaryDateExpected}"
+                                                        required="true"
+                                                        type="date"
+                                        />
+                                        <div class="{!if(v.errorMsgSecondaryDateExpected==true,'','slds-hide')}">
+                                            <div class="slds-form-element__help slds-text-color_error">
+                                                <span class=".slds-text-color_error">Please select a date today or later</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- SECTION END: SECONDARY DATE EXPECTED COMPLETION -->
+
+                                    <!-- SECTION: SECONDARY COMMENTS -->
+                                    <lightning:textarea name="inputQualSecondaryComments"
+                                                        value="{!v.qualSecondaryComments}"
+                                                        label="Comments"
+                                                        placeholder="Any other comments"
+                                                        maxlength="{!v.MAX_COMMENTS_LENGTH}"
+                                    />
+                                    <!-- SECTION END: SECONDARY COMMENTS -->
+
+                                    <!-- SECTION : SECONDARY RESULTING SCORE
+                                    <lightning:input name="inputQualSecondaryScore"
+                                                    value="{!v.qualSecondaryScore}"
+                                                    label="Overall Score (if continuing or unknown enter '0' zero)"
+                                                    placeholder="Enter your Score/Result"
+                                    />
+                                    SECTION END : SECONDARY RESULTING SCORE -->
+                                </div>
+                                <!-- SECONDARY END -->
+
+
+                                <!-- OTHER ADMISSIONS BEGIN -->
+                                <div class="{!if(v.selectedQualTypeName =='Other Qualification', '', 'slds-hide')}">
+                                    <div class="slds-text--regular">
+                                        <aura:unescapedHtml value="{!$Label.c.App_OtherQualificationDetails}" />
+                                    </div>
+
+                                    <!-- SECTION: ADMISSION QUALIFICATION NAME -->
+                                    <lightning:input name="inputQualAdmissionsName"
+                                                    value="{!v.qualAdmissionsName}"
+                                                    placeholder="Qualification Name"
+                                                    required="true"
+                                                    label="Name of Qualification" />
+                                    <!-- SECTION END: ADMISSION QUALIFICATION NAME -->
+
+
+                                    <!-- SECTION: ADMISSION Is Qualification Complete? -->
+                                    <lightning:input name="inputQualAdmissionsIsCompleted"
+                                                    checked="{!v.qualAdmissionsCompleted}"
+                                                    label="Have you completed this qualification?"
+                                                    messageToggleActive="Yes" messageToggleInactive="No"
+                                                    type="toggle"
+                                                    onchange="{!c.onToggleAdmissionsCompleted}"
+                                    />
+                                    <!-- SECTION END : ADMISSION Is Qualification Complete? -->
+
+                                    <!-- SECTION: ADMISSION DATE COMPLETED -->
+                                    <div class="{!if(v.qualAdmissionsCompleted==true, '', 'slds-hide')}">
+                                        <lightning:input aura:id="inputQualAdmissionsDateCompleted"
+                                                        value="{!v.qualAdmissionsDateCompleted}"
+                                                        label="Date Achieved"
+                                                        required="true"
+                                                        type="date"
+                                                        messageWhenBadInput="Please enter a date today or earlier"
+                                        />
+                                    </div>
+                                    <!-- SECTION END: ADMISSION DATE COMPLETED -->
+                                    <!-- SECTION: ADMISSION DATE EXPECTED -->
+                                    <div class="{!if(v.qualAdmissionsCompleted!=true, '', 'slds-hide')}">
+                                        <lightning:input aura:id="inputQualAdmissionsDateExpected"
+                                                        value="{!v.qualAdmissionsDateExpected}"
+                                                        label="The date you expect to complete this"
+                                                        type="date"
+                                                        required="true"
+                                                        onchange=""
+
+                                        />
+                                    </div>
+                                    <!-- SECTION END: ADMISSION DATE EXPECTED -->
+
+
+                                    <!-- SECTION : ADMISSION TEST SCORE -->
+                                    <!--<lightning:input aura:id="inputQualAdmissionsGPAResult"
+                                                    value="{!v.qualAdmissionsGPAResult}"
+                                                    label="Score/Result"
+                                                    placeholder=""
+                                    />-->
+                                    <!-- SECTION END : ADMISSION TEST SCORE -->
+
+                                    <!-- SECTION: ADMISSION COMMENTS -->
+                                    <lightning:textarea name="inputQualAdmissionsComments"
+                                                        value="{!v.qualAdmissionsComments}"
+                                                        label="Comments"
+                                                        placeholder="Any other comments"
+                                                        maxlength="{!v.MAX_COMMENTS_LENGTH}"
+                                    />
+                                    <!-- SECTION END: ADMISSION COMMENTS -->
+                                </div>
+                                <!-- OTHER END -->
+
+                                <!-- ENGLISH BEGIN -->
+                                <div class="{!if(v.selectedQualTypeName =='English Test', '', 'slds-hide')}">
+                                    <div class="slds-text--regular"><aura:unescapedHtml value="{!$Label.c.App_EnglishTestDetails_1}" /></div>
+                                    <!-- SECTION: ENGLISH TEST TYPE -->
+                                    <lightning:select aura:id="selectEnglishTestType"
+                                                    label="Please select the type of qualification you wish to add"
+                                                    value="{!v.qualEnglishTestId}"
+                                                    required="true"
+                                                    onchange="{!c.onSelectEnglishTestType}"
+                                    >
+                                        <aura:iteration var="option" items="{! v.englishTestOptions}">
+                                            <option value="{! option.value }" >{! option.label }</option>
+                                        </aura:iteration>
+                                    </lightning:select>
+                                    <!-- SECTION END: ENGLISH TEST TYPE -->
+
+
+                                    <!-- SECTION: ENGLISH Is Qualification Complete? -->
+                                    <lightning:input name="inputQualEnglishIsCompleted"
+                                                    checked="{!v.qualEnglishCompleted}"
+                                                    label="Have you completed this qualification?"
+                                                    messageToggleActive="Yes" messageToggleInactive="No"
+                                                    type="toggle"
+                                                    onchange="{!c.toggleComplete}"
+                                    />
+                                    <!-- SECTION END: ENGLISH Is Qualification Complete? -->
+
+                                    <!-- SECTION: ENGLISH RESULTS DATE-->
+                                    <div class="{!if(v.qualEnglishCompleted==true, '', 'slds-hide')}">
+                                        <lightning:input aura:id="inputQualEnglishTestDateCompleted"
+                                                        value="{!v.qualEnglishTestDateCompleted}"
+                                                        label="Date Achieved"
+                                                        required="true"
+                                                        type="date"
+                                        />
+                                        <!-- SECTION : ENGLISH TEST SCORES -->
+                                        <aura:if isTrue="{!(v.qualEnglishTestName == 'IELTS (International English Language Testing Service)' || v.qualEnglishTestName == 'Paper based TOEFL (Test of English as a Foreign Language)' || v.qualEnglishTestName == 'Cambridge Linguaskill')}">
+                                            <lightning:input aura:id="inputQualEnglishGPAResult"
+                                                            value="{!v.qualEnglishGPAResult}"
+                                                            label="Score/Result"
+                                                            pattern="[0-9]{1,3}(\.[0-9]{1,2})?"
+                                                            messageWhenPatternMismatch="Please ensure you enter your score in the correct format. (e.g 9.2 or 9)"
+                                                            placeholder=""
+                                            />
+                                        </aura:if>
+
+                                        <aura:if isTrue="{!(v.qualEnglishTestName !='Paper based TOEFL (Test of English as a Foreign Language)' &amp;&amp; v.qualEnglishTestName != 'Monash English Language Placement test - MUELC only' &amp;&amp; v.qualEnglishTestName != 'Cambridge Linguaskill')}">
+                                            <lightning:input aura:id="inputQualEnglishListeningScore"
+                                                            value="{!v.qualEnglishTestScoreListening}"
+                                                            label="Listening Score"
+                                                            pattern=".{0,10}"
+                                                            messageWhenPatternMismatch="Enter up 10 characters"
+                                                            placeholder=""
+                                            />
+                                            <lightning:input aura:id="inputQualEnglishReadingScore"
+                                                            value="{!v.qualEnglishTestScoreReading}"
+                                                            label="Reading Score"
+                                                            pattern=".{0,10}"
+                                                            messageWhenPatternMismatch="Enter up 10 characters"
+                                                            placeholder=""
+                                            />
+                                            <lightning:input aura:id="inputQualEnglishWritingScore"
+                                                            value="{!v.qualEnglishTestScoreWriting}"
+                                                            label="Writing Score"
+                                                            pattern=".{0,10}"
+                                                            messageWhenPatternMismatch="Enter up 10 characters"
+                                                            placeholder=""
+                                            />
+                                            <lightning:input aura:id="inputQualEnglishSpeakingScore"
+                                                            value="{!v.qualEnglishTestScoreSpeaking}"
+                                                            label="Speaking Score"
+                                                            pattern=".{0,10}"
+                                                            messageWhenPatternMismatch="Enter up 10 characters"
+                                                            placeholder=""
+                                            />
+                                        </aura:if>
+
+                                        <!-- SECTION END : ENGLISH TEST SCORES -->
+                                    </div>
+                                    <!-- SECTION END: ENGLISH RESULTS DATE -->
+
+                                    <!-- SECTION: ENGLISH TEST DATE EXPECTED -->
+                                    <div class="{!if(v.qualEnglishCompleted!=true, '', 'slds-hide')}">
+                                        <lightning:input aura:id="inputQualEnglishTestDateExpected"
+                                                        value="{!v.qualEnglishTestDateExpected}"
+                                                        label="The date you expect to complete this"
+                                                        type="date"
+                                                        required="true"
+                                                        onchange="{!c.onChangeEnglishExpected}"
+                                        />
+                                        <div class="{!if(v.errorMsgEnglishTestDateExpected==true,'','slds-hide')}">
+                                            <div class="slds-form-element__help slds-text-color_error">
+                                                <span class=".slds-text-color_error">Please select a date today or later</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- SECTION END: ENGLISH TEST DATE EXPECTED -->
+
+                                    <!-- SECTION: ENGLISH COMMENTS -->
+                                    <lightning:textarea name="inputQualEnglishComments"
+                                                        value="{!v.qualEnglishComments}"
+                                                        label="Comments"
+                                                        placeholder="Any other comments"
+                                                        maxlength="{!v.MAX_COMMENTS_LENGTH}"
+                                    />
+                                    <!-- SECTION END: ENGLISH COMMENTS -->
+
+                                </div>
+                                <!-- ENGLISH END -->
+                            </div>
+                        </div>
+
+                        <!-- SAVE/CANCEL BUTTONS -->
+                        <div class="slds-form-element">
+                            <button class="{!if(v.state=='FORM_DETAILS', 'slds-m-top_large primaryButton', 'slds-hide')}" onclick="{!c.onClickSave}" style="margin-right: 15px;">
+                                Save
+                            </button>
+                            <button class="{!if(or(v.state=='SELECT_TYPE', v.state=='FORM_DETAILS'), 'slds-m-top_large secondaryButton', 'slds-hide')}" onclick="{!c.onClickCancel}">
+                                Cancel
+                            </button>
+                        </div>
+                        <!-- BUTTONS END -->
+                    </div>
+
+                    <!-- Additional English language proficiency question -->
+                    <div id="englishLanguageProficiency" class="sectionContainerBody slds-size_5-of-5">
+                        <div style="margin-top: 20px; display: flex;">
+                            <lightning:layout multipleRows="true" class="slds-size_5-of-5">
+                                <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                    <div class="{!if(and((v.englishLanguageProficiency==''||!v.englishLanguageProficiency), v.hasSavedSection), 'slds-text-color_error', 'slds-hide')}">* Required</div>
+                                </div>
+                                <lightning:layoutItem size="12">                                    
+                                  <lightning:layoutItem size="10">
+                                        <p>Have you completed at least six years of schooling in an English medium institution in an <a href="https://www.monash.edu/admissions/entry-requirements/english-language/countries" target="_blank" class="slds-text-link">English-speaking country</a> prior to the age of 19?</p>
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="2">
+                                    <lightning:radioGroup name="English Language Proficiency"
+                                        label="Have you completed at least six years of schooling in an English medium institution in an English-speaking country prior to the age of 19?"
+                                        required="true"
+                                        type="button"
+                                        options="{!v.yesNoOptions}"
+                                        onchange="{!c.onChangeEnglishLanguageProficiency}"
+                                        value="{!v.englishLanguageProficiency}" 
+                                        variant="label-hidden"/>
+                                </lightning:layoutItem>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+
+        <!-- CREDIT INTENTION -->
+        <aura:if isTrue="{!!or(v.studyType == 'Study Abroad', v.studyType == 'Exchange')}">
+            <div class="{!if(v.showCreditIntention==true, '', 'slds-hide')}">
+                <!--<br />
+                <c:ApplicationLightHeader title="Credit Intention"/>-->
+                <div class="slds-grid slds-gutters slds-wrap">
+                    <div class="slds-col">
+                        <!-- Credit Intention -->
+                        <div class="sectionContainer slds-wrap">
+                            <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                            <div class="sectionContainerBody slds-size_5-of-5">
+                                <div class="slds-size_5-of-5">
+                                    <h2>Credit Intention</h2>
+                                </div>
+                                <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                    <p>Please indicate below if you wish to apply for credit as part of your application.</p>
+                                </div>
+
+                                <div class="fieldContainer">
+                                    <lightning:layout multipleRows="true" class="slds-size_5-of-5">
+                                        <lightning:layoutItem size="10">
+                                            <span class="fieldTitle">I wish to apply for credit</span>
+                                        </lightning:layoutItem>
+                                        <lightning:layoutItem size="2">
+                                            <lightning:input aura:id="inputCreditIntention"
+                                                checked="{!v.creditIntention}"
+                                                onchange="{!c.onChangeCreditIntention}"
+                                                label="I wish to apply for credit"                                     
+                                                messageToggleActive="Yes" 
+                                                messageToggleInactive="No"
+                                                type="toggle"
+                                                variant="label-hidden" />
+                                        </lightning:layoutItem>
+                                    </lightning:layout>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+        <!-- END CREDIT INTENTION -->
+    </div>
+</aura:component>

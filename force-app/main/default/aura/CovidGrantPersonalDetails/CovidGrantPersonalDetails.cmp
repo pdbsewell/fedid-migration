@@ -1,0 +1,74 @@
+<!--
+* @author
+* @date 08/04/2020
+* @group Monash Connect
+* @description Covid Grant Form - Personal Details
+* @revision  - 08/04/2020 - Initial Create 
+ -->
+<aura:component controller="LightningCreateCaseController">
+    <aura:attribute name="covidGrantAmount" type="String" default="" />
+    <aura:attribute name="newCase" type="case" />
+    <aura:attribute name="options" type="List" default="[]" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.initPersonalDetails}"/>
+
+    <div>
+        <!-- support grant 1000 -->
+        <aura:if isTrue="{!v.covidGrantAmount == '1000' }">
+            <h2>
+                <lightning:formattedRichText value="{!$Label.c.CovidGrantPersonalDetails}" />
+            </h2>
+            <!-- Phone Number -->
+            <div class="sq-form-question sq-form-question-text">
+                <label class="sq-form-question-title" for="phone">{!$Label.c.CovidGrantPhoneNumber} <span
+                            style="color: rgb(194, 57, 52);">*</span></label>
+                <div class="sq-form-question-answer">
+                    <lightning:input type="tel" aura:id="phone" class="sq-form-field" label="Phone Number"
+                                     placeholder="eg +61 412345678" name="phone" value="{!v.newCase.TemporaryPhone}"
+                                     pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" required="true"
+                                     onchange="{!c.handlePhoneNumberChange}"
+                                     messageWhenBadInput="Phone number must not contain letters or special characters."
+                                     messageWhenPatternMismatch="Phone number format does not match. Please use international format e.g. +86 (China), +61 (Australia)"
+                                     messageWhenTypeMismatch="Phone number must not contain letters or special characters."
+                                     messageWhenValueMissing="Phone Number is required." />
+                    <p><i>
+                            <lightning:formattedRichText value="{!$Label.c.CovidGrantPhoneLabel}" /></i></p>
+                </div>
+            </div>
+        </aura:if>
+
+        <!-- covid grant 5000 and 7000 -->
+        <aura:if isTrue="{!v.covidGrantAmount == '5000' || v.covidGrantAmount == '7000'}">
+            <h2>
+                <lightning:formattedRichText value="{!$Label.c.CovidGrantPersonalDetails}" />
+            </h2>
+            <!-- Phone Number -->
+            <div class="sq-form-question sq-form-question-text">
+                <label class="sq-form-question-title" for="phone">{!$Label.c.CovidGrantPhoneNumber} <span
+                            style="color: rgb(194, 57, 52);">*</span></label>
+                <div class="sq-form-question-answer">
+                    <lightning:input type="tel" aura:id="phone" class="sq-form-field" label="Phone Number"
+                                     placeholder="eg +61 412345678" name="phone" value="{!v.newCase.TemporaryPhone}"
+                                     pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$" required="true"
+                                     onchange="{!c.handlePhoneNumberChange}"
+                                     messageWhenBadInput="Phone number must not contain letters or special characters."
+                                     messageWhenPatternMismatch="Phone number format does not match. Please use international format e.g. +86 (China), +61 (Australia)"
+                                     messageWhenTypeMismatch="Phone number must not contain letters or special characters."
+                                     messageWhenValueMissing="Phone Number is required." />
+                    <p><i>
+                            <lightning:formattedRichText value="{!$Label.c.CovidGrantPhoneLabel}" /></i></p>
+                </div>
+            </div>
+            <!-- Phone Number -->
+            <div class="sq-form-question sq-form-question-text">
+                <label class="sq-form-question-title" for="cLoc">{!$Label.c.CovidGrantCurrentLocation} <span
+                            style="color: rgb(194, 57, 52);"> *</span></label>
+                <div class="sq-form-question-answer">
+                    <lightning:combobox aura:id="cLoc" class="sq-form-field" name="currentLocation" label=" " variant="label-hidden"
+                                        placeholder="Please Select" options="{!v.options}"
+                                        onchange="{!c.handleChangeCurrentLocation}" />
+                </div>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

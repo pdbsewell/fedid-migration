@@ -1,0 +1,819 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Log_Failure</name>
+        <label>Log Failure</label>
+        <locationX>314</locationX>
+        <locationY>782</locationY>
+        <actionName>Nebula__FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <stringValue>Enquiry_Sharing_Faculty_Graduate_Research</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Unable to create a share record to the faculty/school</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowLogEntry</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
+        <name>Update_Enquiry_Failure</name>
+        <label>Update Enquiry Failure</label>
+        <locationX>2338</locationX>
+        <locationY>2006</locationY>
+        <actionName>Nebula__FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <elementReference>Update_Enquiry</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Enquiry Sharing (Faculty Graduate Research) fail to update enquiry record</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowLogEntry</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>59.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Add_Faculty_Permission_Set_Id</name>
+        <label>Add Faculty Permission Set Id</label>
+        <locationX>1898</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>FacultyPermissionSetIds</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Extract_Faculty_Permission_Set_Ids.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Extract_Faculty_Permission_Set_Ids</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_Faculty_based_on_Permission_Set</name>
+        <label>Set Faculty and School based on Permission Set</label>
+        <locationX>1678</locationX>
+        <locationY>974</locationY>
+        <assignmentItems>
+            <assignToReference>Get_Enquiry.Faculty__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>PermissionSetToFacultyFormula</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_Enquiry.School__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>PermissionSetToSchoolFormula</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Is_School_Faculty</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_Faculty_based_on_Queue</name>
+        <label>Set Faculty based on Queue</label>
+        <locationX>974</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>Get_Enquiry.Faculty__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>QueueToFacultyFieldFormula</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Get_Enquiry.School__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>QueueToSchoolFormula</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>School_Populated</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_Record_Type</name>
+        <label>Set Record Type</label>
+        <locationX>974</locationX>
+        <locationY>566</locationY>
+        <assignmentItems>
+            <assignToReference>Get_Enquiry.RecordTypeId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Get_Record_Type.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Set_Faculty_based_on_Queue</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Is_Faculty_Permission_Set_Assigned</name>
+        <label>Is Faculty Permission Set Assigned?</label>
+        <locationX>1810</locationX>
+        <locationY>866</locationY>
+        <defaultConnector>
+            <targetReference>Is_School_Faculty</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Faculty_Permission_Set_Assigned</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Faculty_Permission_Set_assigned_to_User</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Faculty_based_on_Permission_Set</targetReference>
+            </connector>
+            <label>Faculty Permission Set Assigned</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_Owned_by_Queue_or_User</name>
+        <label>Is Owned by Queue or User?</label>
+        <locationX>1227</locationX>
+        <locationY>242</locationY>
+        <defaultConnector>
+            <targetReference>Get_Faculty_Permission_Sets</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Owned By User</defaultConnectorLabel>
+        <rules>
+            <name>Owned_By_Queue</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Enquiry.Owner:Group.Id</leftValueReference>
+                <operator>NotEqualTo</operator>
+            </conditions>
+            <connector>
+                <targetReference>Is_Spam</targetReference>
+            </connector>
+            <label>Owned by Queue</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_School_Faculty</name>
+        <label>Is School Populated?</label>
+        <locationX>1810</locationX>
+        <locationY>1166</locationY>
+        <defaultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Get_Public_Group_based_on_Faculty</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>School_Populated_and_set_as_private</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Enquiry.School__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Enquiry.Private_Enquiry__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Public_Group_based_on_School</targetReference>
+            </connector>
+            <label>School Populated and set as private?</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_School_Public_Group_Found</name>
+        <label>Is School Public Group Found</label>
+        <locationX>1546</locationX>
+        <locationY>1382</locationY>
+        <defaultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Get_Public_Group_based_on_Faculty</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>School_Public_Group_Found</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Public_Group_based_on_School.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Case_Share_for_School_Public_Group</targetReference>
+            </connector>
+            <label>School Public Group Found</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_Spam</name>
+        <label>Is Spam?</label>
+        <locationX>644</locationX>
+        <locationY>350</locationY>
+        <defaultConnector>
+            <targetReference>Get_Record_Type</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Not Spam</defaultConnectorLabel>
+        <rules>
+            <name>Spam</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Enquiry.Owner:Group.Name</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Spam</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Public_Group_based_on_Faculty</targetReference>
+            </connector>
+            <label>Spam</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check if school is populated then share to faculty level even if its owned by a queue</description>
+        <name>School_Populated</name>
+        <label>School Populated?</label>
+        <locationX>974</locationX>
+        <locationY>782</locationY>
+        <defaultConnector>
+            <targetReference>Update_Enquiry</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Outcome_1_of_Decision_7</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Enquiry.School__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <isGoTo>true</isGoTo>
+                <targetReference>Get_Public_Group_based_on_Faculty</targetReference>
+            </connector>
+            <label>Is School Populated?</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Was_Public_Group_found</name>
+        <label>Was Public Group found?</label>
+        <locationX>314</locationX>
+        <locationY>566</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Public_Group_found</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Public_Group_based_on_Faculty.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Case_Share_for_Faculty_Public_Group</targetReference>
+            </connector>
+            <label>Public Group found</label>
+        </rules>
+    </decisions>
+    <description>Flow to control Enquiry Sharing for Graduate Research faculties</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>FacultyToPublicGroupFormula</name>
+        <dataType>String</dataType>
+        <expression>CASE(
+    TEXT({!Get_Enquiry.Faculty__c}),
+    &quot;Arts&quot;, &quot;Arts - Graduate Research&quot;,
+    &quot;Business and Economics&quot;,  &quot;BusEco - Graduate Research&quot;,
+    &quot;Education&quot;, &quot;Education - Graduate Research&quot;,
+    &quot;Engineering&quot;, &quot;Engineering - Graduate Research&quot;,
+    &quot;Information Technology&quot;, &quot;FIT - Graduate Research&quot;,
+    &quot;Law&quot;, &quot;Law - Graduate Research&quot;,
+    &quot;MADA&quot;, &quot;MADA - Graduate Research&quot;,
+    &quot;MNHS&quot;, &quot;MNHS - Graduate Research&quot;,
+    &quot;MSDI&quot;, &quot;MSDI - Graduate Research&quot;,
+    &quot;MUARC&quot;, &quot;MUARC - Graduate Research&quot;,
+    &quot;Pharmacy and Pharmaceutical Sciences&quot;, &quot;Pharmacy - Graduate Research&quot;,
+    &quot;Science&quot;, &quot;Science - Graduate Research&quot;,
+    &quot;&quot;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>PermissionSetToFacultyFormula</name>
+        <dataType>String</dataType>
+        <expression>CASE(
+   {!Get_Faculty_Permission_Set_assigned_to_User.PermissionSet.Name},
+    &quot;Arts_Graduate_Research_User&quot;, &quot;Arts&quot;,
+    &quot;BusEco_Graduate_Research_User&quot;, &quot;Business and Economics&quot;,
+    &quot;Education_Graduate_Research_User&quot;, &quot;Education&quot;,
+    &quot;Engineering_Graduate_Research_User&quot;, &quot;Engineering&quot;,
+    &quot;FIT_Graduate_Research_User&quot;, &quot;Information Technology&quot;,
+    &quot;Law_Graduate_Research_User&quot;, &quot;Law&quot;,
+    &quot;MADA_Graduate_Research_User&quot;, &quot;MADA&quot;,
+    &quot;MNHS_Graduate_Research_User&quot;, &quot;MNHS&quot;,
+    &quot;MSI_Graduate_Research_User&quot;, &quot;MSDI&quot;,
+    &quot;MUARC_Graduate_Research_User&quot;, &quot;MUARC&quot;,
+    &quot;Pharmacy_Graduate_Research_User&quot;, &quot;Pharmacy and Pharmaceutical Sciences&quot;,
+    &quot;Science_Graduate_Research_User&quot;, &quot;Science&quot;,
+    &quot;Biological_Sciences_Graduate_Research_User&quot;, &quot;Science&quot;,
+    &quot;Chemistry_Graduate_Research_User&quot;, &quot;Science&quot;,	
+    &quot;EAE_Graduate_Research_User&quot;, &quot;Science&quot;,
+    &quot;Mathematics_Graduate_Research_User&quot;, &quot;Science&quot;,	
+    &quot;Physics_Astronomy_Graduate_Research_User&quot;, &quot;Science&quot;,
+    &quot;Science_Faculty_Office_Graduate_Research_User&quot;, &quot;Science&quot;,
+    &quot;ARMI_Graduate_Research_User&quot;, &quot;MNHS&quot;,
+    &quot;Biomedical_Sciences_Graduate_Research_User&quot;, &quot;MNHS&quot;,
+    &quot;Clinical_Sciences_Graduate_Research_User&quot;, &quot;MNHS&quot;,
+    &quot;EHCS_Graduate_Research_User&quot;, &quot;MNHS&quot;,
+    &quot;MNHS_Faculty_Office_Graduate_Research_User&quot;, &quot;MNHS&quot;,
+    &quot;Nursing_Midwifery_Graduate_Research_User&quot;, &quot;MNHS&quot;,
+    &quot;Primary_Allied_Health_Care_Graduate_Research_User&quot;, &quot;MNHS&quot;,
+    &quot;Psychological_Sciences_Graduate_Research_User&quot;, &quot;MNHS&quot;,
+    &quot;Public_Health_Graduate_Research_User&quot;, &quot;MNHS&quot;,
+    &quot;Rural_Health_Graduate_Research_User&quot;, &quot;MNHS&quot;,
+    &quot;Translational_Medicine_Graduate_Research_User&quot;, &quot;MNHS&quot;,
+    &quot;&quot; 
+)</expression>
+    </formulas>
+    <formulas>
+        <description>Map the school based on the user permission set</description>
+        <name>PermissionSetToSchoolFormula</name>
+        <dataType>String</dataType>
+        <expression>CASE(
+   {!Get_Faculty_Permission_Set_assigned_to_User.PermissionSet.Name},
+    &quot;Science_Graduate_Research_User&quot;, &quot;Science&quot;,
+    &quot;Biological_Sciences_Graduate_Research_User&quot;, &quot;Biological Sciences&quot;,
+    &quot;Chemistry_Graduate_Research_User&quot;, &quot;Chemistry&quot;,	
+    &quot;EAE_Graduate_Research_User&quot;, &quot;Earth, Environment Sciences&quot;,
+    &quot;Mathematics_Graduate_Research_User&quot;, &quot;Mathematics&quot;,	
+    &quot;Physics_Astronomy_Graduate_Research_User&quot;, &quot;Physics &amp; Astronomy&quot;,
+    &quot;Science_Faculty_Office_Graduate_Research_User&quot;, &quot;Science&quot;,
+    &quot;ARMI_Graduate_Research_User&quot;, &quot;Australian Regenerative Medicine Institute&quot;,
+    &quot;Biomedical_Sciences_Graduate_Research_User&quot;, &quot;Biomedicine Discovery Institute Graduate School &amp; School of Biomedical Sciences&quot;,
+    &quot;Clinical_Sciences_Graduate_Research_User&quot;, &quot;Clinical Sciences&quot;,
+    &quot;EHCS_Graduate_Research_User&quot;, &quot;Eastern Health Clinical School&quot;,
+    &quot;MNHS_Faculty_Office_Graduate_Research_User&quot;, &quot;Medicine, Nursing &amp; Health Sciences&quot;,
+    &quot;Nursing_Midwifery_Graduate_Research_User&quot;, &quot;Nursing &amp; Midwifery&quot;,
+    &quot;Primary_Allied_Health_Care_Graduate_Research_User&quot;, &quot;Primary &amp; Allied Health Care&quot;,
+    &quot;Psychological_Sciences_Graduate_Research_User&quot;, &quot;Psychological Sciences &amp; Turner Institute&quot;,
+    &quot;Public_Health_Graduate_Research_User&quot;, &quot;Public Health&quot;,
+    &quot;Rural_Health_Graduate_Research_User&quot;, &quot;Rural Health&quot;,
+    &quot;Translational_Medicine_Graduate_Research_User&quot;, &quot;School of Translational Medicine&quot;,
+    &quot;&quot; 
+)</expression>
+    </formulas>
+    <formulas>
+        <name>QueueToFacultyFieldFormula</name>
+        <dataType>String</dataType>
+        <expression>CASE(
+    {!Get_Enquiry.Owner:Group.Name},
+    &quot;Arts - Graduate Research&quot;, &quot;Arts&quot;,
+    &quot;Arts (Future) - Graduate Research&quot;, &quot;Arts&quot;,
+    &quot;BusEco - Graduate Research&quot;, &quot;Business and Economics&quot;,
+    &quot;Education - Graduate Research&quot;, &quot;Education&quot;,
+    &quot;Engineering - Graduate Research&quot;, &quot;Engineering&quot;,
+    &quot;FIT - Graduate Research&quot;, &quot;Information Technology&quot;,
+    &quot;Law - Graduate Research&quot;, &quot;Law&quot;,
+    &quot;MADA - Graduate Research&quot;, &quot;MADA&quot;,
+    &quot;MNHS - Graduate Research&quot;, &quot;MNHS&quot;,
+    &quot;MSDI - Graduate Research&quot;, &quot;MSDI&quot;,
+    &quot;MSDI (Future) - Graduate Research&quot;, &quot;MSDI&quot;,
+    &quot;MUARC - Graduate Research&quot;, &quot;MUARC&quot;,
+    &quot;Pharmacy - Graduate Research&quot;, &quot;Pharmacy and Pharmaceutical Sciences&quot;,
+    &quot;Pharmacy (Future) - Graduate Research&quot;, &quot;Pharmacy and Pharmaceutical Sciences&quot;,
+    &quot;Science - Graduate Research&quot;, &quot;Science&quot;,
+    &quot;Science Faculty Office - Grad Res&quot;, &quot;Science&quot;,
+    &quot;Biological Sciences - Graduate Research&quot;,  &quot;Science&quot;,
+    &quot;Chemistry - Graduate Research&quot;,  &quot;Science&quot;,
+    &quot;EAE - Graduate Research&quot;,  &quot;Science&quot;,
+    &quot;Mathematics - Graduate Research&quot;,  &quot;Science&quot;,
+    &quot;Physics &amp; Astronomy - Graduate Research&quot;,  &quot;Science&quot;,
+    &quot;ARMI - Graduate Research&quot;, &quot;MNHS&quot;,
+    &quot;Sub Faculty CAMM - Grad Res&quot;, &quot;MNHS&quot;,
+    &quot;EHCS - Graduate Research&quot;, &quot;MNHS&quot;,
+    &quot;MNHS Faculty Office - Graduate Research&quot;, &quot;MNHS&quot;,
+    &quot;Nursing &amp; Midwifery - Graduate Research&quot;, &quot;MNHS&quot;,
+    &quot;Primary &amp; Allied Health Care - Grad Res&quot;, &quot;MNHS&quot;,
+    &quot;Psychological Sciences - Grad Res&quot;, &quot;MNHS&quot;,
+    &quot;Public Health - Graduate Research&quot;, &quot;MNHS&quot;,
+    &quot;Rural Health - Graduate Research&quot;, &quot;MNHS&quot;,
+    &quot;Translational Medicine - Grad Res&quot;, &quot;MNHS&quot;,
+    &quot;BDI Graduate Program - Grad Res&quot;, &quot;MNHS&quot;,
+    &quot;ADB Graduate Program - Graduate Research&quot;, &quot;MNHS&quot;,
+    &quot;BioChem Graduate Program - Grad Res&quot;, &quot;MNHS&quot;,
+    &quot;Micro Graduate Program - Grad Res&quot;, &quot;MNHS&quot;,
+    &quot;Pharmacol Graduate Program - Grad Res&quot;, &quot;MNHS&quot;,
+    &quot;Physiol Graduate Program - Grad Res&quot;, &quot;MNHS&quot;,
+    &quot;&quot;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>QueueToSchoolFormula</name>
+        <dataType>String</dataType>
+        <expression>CASE(
+    {!Get_Enquiry.Owner:Group.Name},
+    &quot;Science Faculty Office - Grad Res&quot;, &quot;Science&quot;,
+    &quot;Biological Sciences - Graduate Research&quot;, &quot;Biological Sciences&quot;,
+    &quot;Chemistry - Graduate Research&quot;, &quot;Chemistry&quot;,	
+    &quot;EAE - Graduate Research&quot;, &quot;Earth, Environment Sciences&quot;,
+    &quot;Mathematics - Graduate Research&quot;, &quot;Mathematics&quot;,	
+    &quot;Physics &amp; Astronomy - Graduate Research&quot;, &quot;Physics &amp; Astronomy&quot;,
+    &quot;ARMI - Graduate Research&quot;, &quot;Australian Regenerative Medicine Institute&quot;,
+    &quot;Sub Faculty CAMM - Grad Res&quot;, &quot;Clinical Sciences&quot;,
+    &quot;EHCS - Graduate Research&quot;, &quot;Eastern Health Clinical School&quot;,
+    &quot;MNHS Faculty Office - Graduate Research&quot;, &quot;Medicine, Nursing &amp; Health Sciences&quot;,
+    &quot;Nursing &amp; Midwifery - Graduate Research&quot;, &quot;Nursing &amp; Midwifery&quot;,
+    &quot;Primary &amp; Allied Health Care - Grad Res&quot;, &quot;Primary &amp; Allied Health Care&quot;,
+    &quot;Psychological Sciences - Grad Res&quot;, &quot;Psychological Sciences &amp; Turner Institute&quot;,
+    &quot;Public Health - Graduate Research&quot;, &quot;Public Health&quot;,
+    &quot;Rural Health - Graduate Research&quot;, &quot;Rural Health&quot;,
+    &quot;Translational Medicine - Grad Res&quot;, &quot;School of Translational Medicine&quot;,
+    &quot;BDI Graduate Program - Grad Res&quot;, &quot;Biomedicine Discovery Institute Graduate School &amp; School of Biomedical Sciences&quot;,
+    &quot;ADB Graduate Program - Graduate Research&quot;, &quot;Biomedicine Discovery Institute Graduate School &amp; School of Biomedical Sciences&quot;,
+    &quot;BioChem Graduate Program - Grad Res&quot;, &quot;Biomedicine Discovery Institute Graduate School &amp; School of Biomedical Sciences&quot;,
+    &quot;Micro Graduate Program - Grad Res&quot;, &quot;Biomedicine Discovery Institute Graduate School &amp; School of Biomedical Sciences&quot;,
+    &quot;Pharmacol Graduate Program - Grad Res&quot;, &quot;Biomedicine Discovery Institute Graduate School &amp; School of Biomedical Sciences&quot;,
+    &quot;Physiol Graduate Program - Grad Res&quot;, &quot;Biomedicine Discovery Institute Graduate School &amp; School of Biomedical Sciences&quot;,
+    &quot;&quot; 
+)</expression>
+    </formulas>
+    <formulas>
+        <name>SchoolToPublicGroupFormula</name>
+        <dataType>String</dataType>
+        <expression>CASE(
+    TEXT({!Get_Enquiry.School__c}),
+    &quot;Medicine, Nursing &amp; Health Sciences&quot;, &quot;MNHS Faculty Office - Graduate Research&quot;,
+    &quot;Primary &amp; Allied Health Care&quot;, &quot;Primary &amp; Allied Health Care - Grad Res&quot;,
+    &quot;Clinical Sciences&quot;, &quot;Clinical Sciences - Graduate Research&quot;,
+    &quot;School of Translational Medicine&quot;, &quot;Translational Medicine - Grad Res&quot;,
+    &quot;Eastern Health Clinical School&quot;, &quot;EHCS - Graduate Research&quot;,
+    &quot;Public Health&quot;, &quot;Public Health - Graduate Research&quot;,
+    &quot;Biomedicine Discovery Institute Graduate School &amp; School of Biomedical Sciences&quot;, &quot;Biomedical Sciences - Graduate Research&quot;,
+    &quot;Psychological Sciences &amp; Turner Institute&quot;, &quot;Psychological Sciences - Grad Res&quot;,
+    &quot;Australian Regenerative Medicine Institute&quot;, &quot;ARMI - Graduate Research&quot;,
+    &quot;Nursing &amp; Midwifery&quot;, &quot;Nursing &amp; Midwifery - Graduate Research&quot;,
+    &quot;Rural Health&quot;, &quot;Rural Health - Graduate Research&quot;,
+    &quot;Science&quot;, &quot;Science Faculty Office - Grad Res&quot;,
+    &quot;Biological Sciences&quot;, &quot;Biological Sciences - Graduate Research&quot;,
+    &quot;Chemistry&quot;, &quot;Chemistry - Graduate Research&quot;,
+    &quot;Earth, Environment Sciences&quot;, &quot;EAE - Graduate Research&quot;,
+    &quot;Mathematics&quot;, &quot;Mathematics - Graduate Research&quot;,
+    &quot;Physics &amp; Astronomy&quot;, &quot;Physics &amp; Astronomy - Graduate Research&quot;,
+    &quot;&quot;
+)</expression>
+    </formulas>
+    <interviewLabel>Enquiry Sharing - Faculty Graduate Research {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Sub: Enquiry Sharing (Faculty Graduate Research)</label>
+    <loops>
+        <name>Extract_Faculty_Permission_Set_Ids</name>
+        <label>Extract Faculty Permission Set Ids</label>
+        <locationX>1810</locationX>
+        <locationY>458</locationY>
+        <collectionReference>Get_Faculty_Permission_Sets</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Add_Faculty_Permission_Set_Id</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Get_Faculty_Permission_Set_assigned_to_User</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <name>Create_Case_Share_for_Faculty_Public_Group</name>
+        <label>Create Case Share for Faculty Public Group</label>
+        <locationX>50</locationX>
+        <locationY>674</locationY>
+        <connector>
+            <targetReference>Update_Enquiry</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Log_Failure</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>CaseAccessLevel</field>
+            <value>
+                <stringValue>Edit</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CaseId</field>
+            <value>
+                <elementReference>Get_Enquiry.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RowCause</field>
+            <value>
+                <stringValue>Manual</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>UserOrGroupId</field>
+            <value>
+                <elementReference>Get_Public_Group_based_on_Faculty.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>CaseShare</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordCreates>
+        <name>Create_Case_Share_for_School_Public_Group</name>
+        <label>Create Case Share for School Public Group</label>
+        <locationX>1282</locationX>
+        <locationY>1490</locationY>
+        <connector>
+            <targetReference>Update_Enquiry</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Log_Failure</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>CaseAccessLevel</field>
+            <value>
+                <stringValue>Edit</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>CaseId</field>
+            <value>
+                <elementReference>Get_Enquiry.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>RowCause</field>
+            <value>
+                <stringValue>Manual</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>UserOrGroupId</field>
+            <value>
+                <elementReference>Get_Public_Group_based_on_School.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>CaseShare</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <recordLookups>
+        <name>Get_Enquiry</name>
+        <label>Get Enquiry</label>
+        <locationX>1227</locationX>
+        <locationY>134</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Is_Owned_by_Queue_or_User</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>CaseId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Case</object>
+        <sortField>Id</sortField>
+        <sortOrder>Asc</sortOrder>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Faculty_Permission_Set_assigned_to_User</name>
+        <label>Get Faculty Permission Set assigned to User</label>
+        <locationX>1810</locationX>
+        <locationY>758</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Is_Faculty_Permission_Set_Assigned</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>PermissionSetId</field>
+            <operator>In</operator>
+            <value>
+                <elementReference>FacultyPermissionSetIds</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>AssigneeId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Get_Enquiry.Owner:User.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>PermissionSetAssignment</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Faculty_Permission_Sets</name>
+        <label>Get Faculty Permission Sets</label>
+        <locationX>1810</locationX>
+        <locationY>350</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Extract_Faculty_Permission_Set_Ids</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>Contains</operator>
+            <value>
+                <stringValue>Graduate_Research_User</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Name</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Faculty_Graduate_Research_User</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>PermissionSet</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Public_Group_based_on_Faculty</name>
+        <label>Get Public Group based on Faculty</label>
+        <locationX>314</locationX>
+        <locationY>458</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Was_Public_Group_found</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>FacultyToPublicGroupFormula</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Type</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Regular</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Group</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Public_Group_based_on_School</name>
+        <label>Get Public Group based on School</label>
+        <locationX>1546</locationX>
+        <locationY>1274</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Is_School_Public_Group_Found</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Name</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>SchoolToPublicGroupFormula</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Type</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Regular</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Group</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Get_Record_Type</name>
+        <label>Get Record Type</label>
+        <locationX>974</locationX>
+        <locationY>458</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Set_Record_Type</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Faculty_Graduate_Research</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_Enquiry</name>
+        <label>Update Enquiry</label>
+        <locationX>1227</locationX>
+        <locationY>1898</locationY>
+        <faultConnector>
+            <targetReference>Update_Enquiry_Failure</targetReference>
+        </faultConnector>
+        <inputReference>Get_Enquiry</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>1101</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Enquiry</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>CaseId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>FacultyPermissionSetIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

@@ -1,0 +1,11 @@
+<template>
+    <div key={applicationStep.step} class={applicationStep.mainclass} onclick={selectStep} data-step={applicationStep.step}>
+        <template if:true={applicationStep.isComplete}>
+            <div class={applicationStep.stepclass} style="min-width:26px;">✔</div>
+        </template>
+        <template if:false={applicationStep.isComplete}>
+            <div class={applicationStep.stepclass} style="min-width:26px;">{applicationStep.step}</div>
+        </template>
+        <div class={applicationStep.nameclass}>{applicationStep.label}</div>
+    </div>
+</template>

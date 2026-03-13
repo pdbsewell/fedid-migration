@@ -1,0 +1,50 @@
+<!--
+/*
+ * Copyright (c) 2019, UC Innovation, Inc.  All Rights Reserved.
+ *                     http://www.ucinnovation.com
+ *
+ * This source code is licensed, not sold, and is subject to a written
+ * license agreement.  Among other things, no portion of this source
+ * code may be copied, transmitted, disclosed, displayed, distributed,
+ * translated, used as the basis for a derivative work, or used, in
+ * whole or in part, for any program or purpose other than its intended
+ * use in compliance with the license agreement as part of UC Innovation's
+ * software.  This source code and certain of the algorithms contained
+ * within it are confidential trade secrets of UC Innovation, Inc.
+ * and may not be used as the basis for any other
+ * software, hardware, product or service.
+ */
+-->
+
+<aura:component >
+    <aura:attribute name="giftTypeSelected" type="String" access="public"/>
+    <aura:attribute name="designationDetailRec" type="Object" access="public"/>
+    <aura:attribute name="tableIndexVar" type="Integer" access="public" default="-1"/>
+
+    <aura:registerEvent name="designationDetailListItemEvent" type="c:PORTAL_EVT_ListItem"/>
+    <aura:handler name="change" value="{!v.designationDetailRec.ucinn_ascendv2__Amount__c}" action="{!c.deignationDetailRecAmountChanged}"/>
+
+    <tr>
+        <td scope="row" data-label="Designation" class="ascend-data-label-padding-right">
+            <div class="slds-truncate ascend-long-output-float-right-mobile" title="{!v.designationDetailRec.ucinn_ascendv2__Designation__r.Name}">
+                <ui:outputText value="{!v.designationDetailRec.ucinn_ascendv2__Designation__r.Name}" class="slds-output" />
+            </div>
+        </td>
+
+        <td scope="row" data-label="Description" class="ascend-data-label-padding-right">
+            <div class="slds-truncate ascend-long-output-float-right-mobile" title="{!v.designationDetailRec.ucinn_ascendv2__Designation__r.ucinn_ascendv2__Designation_Name__c}">
+                <ui:outputText value="{!v.designationDetailRec.ucinn_ascendv2__Designation__r.ucinn_ascendv2__Designation_Name__c}" class="slds-output" />
+            </div>
+        </td>
+
+        <td scope="row" data-label="Designation Amount">
+            <ui:inputCurrency value="{!v.designationDetailRec.ucinn_ascendv2__Amount__c}" class="slds-input"/>
+        </td>
+
+        <aura:if isTrue="{!v.giftTypeSelected == 'Pledge'}">
+            <td scope="row" data-label="Number of Payments">
+                <ui:inputNumber value="{!v.designationDetailRec.ucinn_ascendv2__Number_of_Payments__c}" class="slds-input" />
+            </td>
+        </aura:if>
+    </tr>
+</aura:component>

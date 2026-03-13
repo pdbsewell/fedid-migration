@@ -1,0 +1,16 @@
+<!--this component is created simply to wrap LWC component. LWC components do not appear in the Work Relay forms--> 
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
+        <aura:attribute name="fileColumnCount" type="String" access="global"/>
+        <aura:attribute name="viewType" type="String" access="global"/>
+        <aura:attribute name="prioritizeOther" type="Boolean" access="global"/>
+        <aura:attribute name="showHeader" type="Boolean" access="global"/>
+        <aura:attribute name="showNew" type="Boolean" access="global"/>
+        <aura:attribute name="showDocumentReminder" type="Boolean" access="global"/>
+        
+        <!-- handler -->
+        <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+        <div class="slds-p-around_small">
+            <c:documentChecklistAssessmentInternalList recordId="{!v.recordId}" fileColumnCount="{!v.fileColumnCount}" viewType="{!v.viewType}" prioritizeOther="{!v.prioritizeOther}" showHeader="{!v.showHeader}" showNew="{!v.showNew}" showDocumentReminder="{!v.showDocumentReminder}"/>
+        </div>
+</aura:component>

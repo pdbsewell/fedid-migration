@@ -1,0 +1,162 @@
+<!--
+  @File Name          : offerSelectAcp.html
+  @Description        : ACP selection display - currently being used in the offer wizard screen
+  @Author             : jasmin.rudio@monash.edu
+  @Group              : Offer
+  @Last Modified By   : jasmin.rudio@monash.edu
+  @Last Modified On   : 6/4/2020, 4:25:05 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    5/27/2020   jasmin.rudio@monash.edu     Initial Version
+-->
+<template>
+    <template if:false={displayACPs}>
+        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </template>
+    <template if:true={hasRecords}>
+        <p style="font-weight:bold;padding-bottom: 10px;">Please choose either one or multiple application course preferences to group.
+        Choosing one offer will result in a single course getting offered, choosing two or more will result in a
+        packaged offered</p>
+        <div class="slds-scrollable slds-grow">
+            <div class="slds-scrollable_y">
+                <!--<div class="slds-scrollable_x">-->
+                    <table aria-multiselectable="true"
+                        class="slds-table slds-no-row-hover slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols"
+                        role="grid">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th scope="col" style="width:3.75rem"></th>
+                                <th aria-label="ACP ID" aria-sort="none" scope="col" style="width:6.75rem">
+                                    <div class="slds-truncate" title="ACP ID">ACP ID</div>
+                                </th>
+                                <th aria-label="Intake" aria-sort="none" scope="col" style="width:5rem">
+                                    <div class="slds-truncate" title="Intake">Intake</div>
+                                </th>
+                                <th aria-label="Admission Category" aria-sort="none" scope="col" style="width:5rem">
+                                    <div class="slds-truncate" title="Admission Category">Admission<br/>Category</div>
+                                </th>
+                                <th aria-label="Course Code" aria-sort="none" scope="col" style="width:5rem">
+                                    <div class="slds-truncate" title="Course Code">Course<br/>Code</div>
+                                </th>
+                                <th aria-label="Course Name" aria-sort="none" scope="col" style="width:7rem">
+                                    <div class="slds-truncate" title="Course Name">Course Name</div>
+                                </th>
+                                <th aria-label="Type" aria-sort="none" scope="col" style="width:7rem">
+                                    <div class="slds-truncate" title="Type">Type</div>
+                                </th>
+                                <th aria-label="Unit Set" aria-sort="none" scope="col" style="width:7rem">
+                                    <div class="slds-truncate" title="Unit Set">Unit Set</div>
+                                </th>
+                                <th aria-label="Location Code" aria-sort="none" scope="col" style="width:6rem">
+                                    <div class="slds-truncate" title="Location Code">Location<br/>Code</div>
+                                </th>
+                                <th aria-label="Attendance Type" aria-sort="none" scope="col" style="width:5rem">
+                                    <div class="slds-truncate" title="Attendance Type">Attendance<br/>Type</div>
+                                </th>
+                                <th aria-label="Start Date" aria-sort="none" scope="col" style="width:7rem">
+                                    <div class="slds-truncate" title="Start Date">Start Date</div>
+                                </th>
+                                <th aria-label="End Date" aria-sort="none" scope="col" style="width:7rem">
+                                    <div class="slds-truncate" title="End Date">End Date</div>
+                                </th>
+                                <th aria-label="Submission Location" aria-sort="none" scope="col" style="width:9rem">
+                                    <div class="slds-truncate" title="Submission Location">Submission Location</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={acps} for:item="acp">
+                                <tr key={acp.Id} aria-selected={acp.selected} class="slds-hint-parent">
+                                    <td class="slds-text-align_center" role="gridcell" tabindex="0">
+                                        <div class="slds-checkbox_add-button" id={acp.Id} onclick={selectACPRow}>
+                                            <template if:true={acp.selected}>
+                                                <input type="checkbox" class="slds-assistive-text" value={acp.Id} tabindex="-1" checked="checked" aria-label={acp.ACP_ID__c}/>
+                                            </template>
+                                            <template if:false={acp.selected}>
+                                                <input type="checkbox" class="slds-assistive-text" value={acp.Id} tabindex="-1" aria-label={acp.ACP_ID__c}/>
+                                            </template>
+                                            <label class="slds-checkbox_faux">
+                                                <span class="slds-assistive-text">{acp.ACP_ID__c}</span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <th scope="row" style="padding-left: 0;padding-right: 0;">
+                                        <div class="slds-truncate" title={acp.ACP_ID__c}>
+                                            <lightning-formatted-url value={acp.ACP_Url__c} label={acp.ACP_ID__c}
+                                                target="_blank"></lightning-formatted-url>
+                                        </div>
+                                    </th>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title={acp.Intake_Period__c}>{acp.Intake_Period__c}</div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title={acp.Admission_Category__c}>{acp.Admission_Category__c}</div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title={acp.Course_Code__c}>{acp.Course_Code__c}</div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title={acp.Course_Title__c}>{acp.Course_Title__c}</div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title={acp.Course_Title__c}>{acp.Application__r.Transfer_Type__c}</div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title={acp.Unit_Set_Code__c}>{acp.Unit_Set_Code__c}</div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title={acp.Location_Code__c}>{acp.Location_Code__c}</div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title={acp.Attendance_Type__c}>
+                                            {acp.Attendance_Type__c}
+                                        </div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title={acp.Course_Start_Date_Updated__c}>
+                                            <template if:false={acp.startDateOverriden}>
+                                                <lightning-formatted-date-time value={acp.Course_Start_Date_Updated__c}></lightning-formatted-date-time>
+                                            </template>
+                                            <template if:true={acp.startDateOverriden}>
+                                                <span class="agreedstartdate" title="Standard course start date overriden by agreed start date.">
+                                                    <lightning-formatted-date-time value={acp.Course_Start_Date_Updated__c}></lightning-formatted-date-time>*
+                                                </span>
+                                            </template>
+                                        </div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <div class="slds-truncate" title={acp.Course_End_Date_Updated__c}>
+                                            <lightning-formatted-date-time value={acp.Course_End_Date_Updated__c}></lightning-formatted-date-time>
+                                        </div>
+                                    </td>
+                                    <td role="gridcell">
+                                        <template if:true={acp.Application__r.Submission_Location_Country__c}>
+                                            <div class="slds-truncate" title={acp.Application__r.Submission_Location_Country__r.Name}>
+                                                {acp.Application__r.Submission_Location_Country__r.Name}
+                                            </div>
+                                        </template>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                <!--</div>-->
+                <div>
+                    <br/>
+                    <lightning-textarea name="reasonInput"
+                        label="Please enter the reason to display on the ISCA to the applicant if this offer is a regenerated offer" 
+                        value={regenerationReason} onchange={reasonChanged}></lightning-textarea>
+                </div>
+                <p style="padding-top: 20px;padding-bottom: 20px;">{acpInfo}</p>
+            </div>
+        </div>
+    </template>
+    <template if:false={hasRecords}>
+        <div class="slds-illustration slds-illustration_large" aria-hidden="true">
+            <img src="/img/chatter/OpenRoad.svg" class="slds-illustration__svg" alt=""/>
+            <div class="slds-text-color_weak">
+                <h3 class="slds-text-heading_medium">No application course preference(s) available to offer</h3>
+            </div>
+        </div>
+    </template>
+</template>

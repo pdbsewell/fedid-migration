@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>Enables custom TSP detection to be turned on and off for specific events</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Detect_File_Events__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>Enable detection of when a user downloads, previews, or uploads a file.</description>
+        <inlineHelpText>Enable detection of when a user downloads, previews, or uploads a file.</inlineHelpText>
+        <label>Detect File Events</label>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Detect_Non_SSO_Login__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>Enable detection of Non SSO Login Events</description>
+        <inlineHelpText>Enable detection of Non SSO Login Events</inlineHelpText>
+        <label>Detect Non SSO Login</label>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Evaluate_TSP_in_Sandbox__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>If true will evaluate custom TSP events in sandboxes, otherwise they are skipped and run only in Prod</description>
+        <inlineHelpText>If true will evaluate custom TSP events in sandboxes, otherwise they are skipped and run only in Prod</inlineHelpText>
+        <label>Evaluate TSP in Sandbox</label>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <label>Feature Switch TSP</label>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -1,0 +1,220 @@
+<template>
+    <template if:true={resourcesReady}>
+        <template if:true={countries}>
+            <div class="sectionContainer slds-wrap">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5 slds-is-relative">
+                    <!-- spinner -->
+                    <template if:true={showSpinner}> 
+                        <lightning-spinner alternative-text="Loading" class="spins" variant="brand" size="medium"></lightning-spinner>
+                    </template>
+
+                    <lightning-layout multiple-rows="true">
+                        <!-- header -->
+                        <lightning-layout-item size="12">
+                            <lightning-layout>
+                                <lightning-layout-item>
+                                    <template if:false={isChallenging}>
+                                        <h2 class="mfa">Multi-Factor Authentication</h2>
+                                    </template>
+                                    <template if:true={isChallenging}>
+                                        <template if:false={isEmailChallenge}>
+                                            <h2 class="mfa">Check your mobile</h2>
+                                        </template>
+                                        <template if:true={isEmailChallenge}>
+                                            <h2 class="mfa">Check your email</h2>
+                                        </template>                                        
+                                    </template>
+                                </lightning-layout-item>
+                                <lightning-layout-item>
+                                    <template if:false={origin}>
+                                        <template if:true={hasVerified}>
+                                            <div class="slds-grid slds-m-left_small">
+                                                <div class="slds-grid">
+                                                    <lightning-icon icon-name="utility:success" alternative-text="Verified" title="Verified" size="medium" class="verifiedIcon"></lightning-icon>
+                                                    <h2 class="mfa" style="line-height: 32px; color: #006DAE; font-size: 25px;">Verified</h2>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </template>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+                        <!-- subheader -->
+                        <lightning-layout-item size="12">
+                            <div class="slds-m-top_small">                                
+                                <template if:false={isChallenging}>
+                                    <p class="mfa">
+                                        To log into My.App, you need to register a mobile number. This will be used to send you a unique code when you log in so that we know that it's you, as well as for the purposes set out in our <a href="https://www.monash.edu/__data/assets/pdf_file/0004/1595263/Admissions-Data-Protection-and-Privacy-Collection-Statement.pdf" target="_blank" style="text-decoration: none;">Admissions Data Protection and Privacy Collection Statement</a>.
+                                        <br/><br/>
+                                        If you need any help, <a href='?chatbot=open&hiddenMessage=hello'>just ask our virtual assistant.</a> If it doesn't have an answer, it can help you submit an online enquiry.
+                                    </p>
+                                </template>                      
+                                <template if:true={isChallenging}>
+                                    <template if:false={isEmailChallenge}>
+                                        <p class="mfa">We sent you an SMS to the number ending {lastFourDigits} with your verification code.</p>
+                                    </template>
+                                    <template if:true={isEmailChallenge}>
+                                        <p class="mfa">We sent you an Email to the email address <a href="#">{userEmail}</a> with your verification code.</p>
+                                    </template>                                     
+                                </template>      
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12">
+                            <lightning-layout vertical-align="center" multiple-rows="true">
+                                <template if:false={isChallenging}>
+                                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12"><!--size="5" small-device-size="12" medium-device-size="5" large-device-size="5"-->
+                                        <div class="fieldContainer slds-grid slds-wrap">
+                                            <!-- country phone code -->
+                                            <!--<div style="width:40%;">-->
+                                            <div class={labelStyleClass}>
+                                                <span class="fieldTitle">Country</span>
+                                            </div>
+                                            <!--<div class="slds-p-horizontal_small" style="width:60%;">-->
+                                            <div class={inputStyleClass}>
+                                                <!-- courses -->
+                                                <c-input-type-ahead data-id="mobileCountry" name="course" label=""
+                                                    placeholder="-- Please Select --" value={countryCode}
+                                                    options={countryOption} onchange={handleCountryChange}
+                                                    onkeyup={handleCountryKeyUp} onclear={handleCountryChange}
+                                                    is-disabled={disableMobileNumberFields}>
+                                                </c-input-type-ahead>
+                                                <!--<lightning-input label="Country" value={countryCode} variant="label-hidden" onkeyup={countryCodeChange} disabled={showVerificationCode}></lightning-input>-->
+                                            </div>
+                                        </div>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12"><!--size="5" small-device-size="12" medium-device-size="5" large-device-size="5"-->
+                                        <div class="fieldContainer slds-grid slds-wrap">                     
+                                            <!-- mobile number -->
+                                            <!--<div style="width:40%;">-->
+                                            <div class={labelStyleClass}>
+                                                <span class="fieldTitle">Mobile number</span>
+                                            </div>
+                                            <!--<div class="slds-p-horizontal_small" style="width:60%;">-->
+                                            <div class={inputStyleClass}>
+                                                <lightning-input data-id="mobileInput" label="Mobile number" value={mobileNumber} variant="label-hidden" onkeyup={mobileChange} disabled={disableMobileNumberFields} onkeypress={mobileChangeNumericOnly}></lightning-input>
+                                            </div>
+                                        </div>       
+                                    </lightning-layout-item>
+                                </template>
+                                <!-- verification code -->
+                                <template if:true={showVerificationCode}>
+                                    <lightning-layout-item size="12">    
+                                        <div class="fieldContainer slds-grid slds-wrap">                     
+                                            <!-- verification code -->
+                                            <!--<div style="width:40%;">-->
+                                            <div class={labelStyleClass}>
+                                                <span class="fieldTitle">Verification code</span>
+                                            </div>
+                                            <!--<div class="slds-p-horizontal_small" style="width:60%;">-->
+                                            <div class={inputStyleClass}>
+                                                <lightning-input label="Verification Code" value={verificationCode} onkeyup={verificationCodeChange} onkeypress={verificationCodeNumericOnly} variant="label-hidden"></lightning-input>
+                                                <template if:true={verificationCodeError}>
+                                                    <div class="slds-text-color_error">{verificationCodeError}</div>
+                                                </template>
+                                            </div>
+                                        </div>    
+                                        <!-- verify code to email -->
+                                        <template if:true={renderEmailVerification}>
+                                            <template if:false={isEmailChallenge}>
+                                                <template if:true={isChallenging}>
+                                                    <div class="slds-m-bottom_small">
+                                                        <a href="#" onclick={initiateEmailChallenge}>Unable to verify using mobile</a>
+                                                    </div>
+                                                </template>
+                                            </template>
+                                        </template>
+                                    </lightning-layout-item>
+                                </template>
+                                <lightning-layout-item flexibility="auto" size="12">
+                                    <!-- warning messages -->
+                                    <div class="slds-text-color_error">{errorWarningMessages}</div>   
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12">
+                                    <lightning-layout vertical-align="center" multiple-rows="true">
+                                        <!-- verification code sent -->
+                                        <template if:true={showVerificationCode}>
+                                            <lightning-layout-item>
+                                                <p class="mfa">
+                                                    <lightning-icon icon-name="utility:warning" alternative-text="Warning!" title="Warning" variant="warning"></lightning-icon>
+                                                    <span class="slds-m-left_small">
+                                                        Verification code has been sent to mobile number: <b>{selectedCountryCode} {mobileNumber}</b>.
+                                                    </span>
+                                                </p>
+                                            </lightning-layout-item>
+                                        </template>
+                                        <!-- verification code confirmed -->
+                                        <template if:true={hasSuccessfulRegistration}>
+                                            <template if:false={showVerificationCode}>
+                                                <lightning-layout-item>
+                                                    <p class="mfa">
+                                                        <!--<lightning-icon icon-name="utility:success" alternative-text="Success!" title="Success" class="verifiedIcon"></lightning-icon>
+                                                        <span class="slds-m-left_small"></span>-->
+                                                        <span>
+                                                            Successfully registered: <b>{selectedCountryCode} {mobileNumber}</b> as your Multi-Factor Authentication mobile number.
+                                                        </span>
+                                                    </p>
+                                                </lightning-layout-item>
+                                            </template>
+                                        </template>
+                                        <lightning-layout-item alignment-bump="left">
+                                            <!-- verification code -->
+                                            <template if:true={showVerificationCode}>
+                                                <template if:false={countdownTimer}>
+                                                    <button class="slds-button_brand slds-m-left_small primaryMfaButton" style="font-weight: 600;" onclick={requestResendVerificationCode}>Resend Code</button>
+                                                </template>
+                                                <template if:true={countdownTimer}>
+                                                    <div class="slds-text-align_center">{countdownTimer}s before requesting another code.</div>
+                                                </template> 
+                                            </template>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item>  
+                                            <!-- register -->
+                                            <template if:false={showVerificationCode}>
+                                                <template if:true={hasVerified}>
+                                                    <template if:false={isUpdateRequestMFA}>
+                                                        <button class="slds-button_brand slds-m-left_small primaryMfaButton" style="font-weight: 600;" onclick={confirmUpdateMFA}>{getButtonLabel}</button>
+                                                    </template>
+                                                </template>
+                                                <template if:false={hasVerified}>
+                                                    <button class="slds-button_brand slds-m-left_small primaryMfaButton" style="font-weight: 600;" onclick={sendVerificationCode}>{getButtonLabel}</button>                                                    
+                                                </template>
+                                            </template>
+                                            <!-- verify code -->
+                                            <template if:true={showVerificationCode}>
+                                                <button class="slds-button_brand slds-m-left_small primaryMfaButton" style="font-weight: 600;" onclick={verifyVerificationCode}>Verify code</button>
+                                            </template>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item if:true={showVerificationCode}>  
+                                            <button class="slds-button_brand slds-m-left_small primaryMfaButton" style="font-weight: 600;" onclick={cancelRegistration}>Cancel</button>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </lightning-layout-item>
+                                
+                                <!-- confirmation - mfa update -->
+                                <template if:true={isUpdateRequestMFA}>                                
+                                    <lightning-layout-item size="12">
+                                        <lightning-layout vertical-align="center" multiple-rows="true">
+                                            <lightning-layout-item >
+                                                <p class="mfa">
+                                                    <lightning-icon icon-name="utility:warning" alternative-text="Warning!" title="Warning" variant="warning"></lightning-icon>
+                                                    <span class="slds-m-left_small">
+                                                        Initiating an update to the MFA will remove the previously registered number. Do you wish to continue?
+                                                    </span>
+                                                    <button class="slds-button_brand slds-m-left_small primaryMfaButton" style="font-weight: 600;" onclick={cancelUpdateMFA}>No</button>
+                                                    <button class="slds-button_brand slds-m-left_small primaryMfaButton" style="font-weight: 600;" onclick={sendVerificationCode}>Yes</button>
+                                                </p>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item alignment-bump="left">
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                </template>
+                            </lightning-layout>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </div>
+        </template>
+    </template>
+</template>

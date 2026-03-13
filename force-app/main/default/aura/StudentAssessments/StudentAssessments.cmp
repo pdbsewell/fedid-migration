@@ -1,0 +1,66 @@
+<!--
+ * @description       : Displays Students Assessments using Unit Offering Id
+ * @author             : Angelo Rivera
+ * @group              : Test Class
+ * @last modified on : 05-10-21
+ * @last modified by : Angelo Rivera
+ * Modifications Log
+ * Ver   Date         Author          Modification
+ * 1.0   05-10-21 - Angelo Rivera - Initial Creation
+ -->
+
+<aura:component description="StudentAssessments"
+                implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes"
+                controller="StudentAssessmentsCC">
+
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="assessmentColumns" type="List" />
+    <aura:attribute name="studentAssessments" type="Object[]" />
+    <aura:attribute name="showSpinner" type="Boolean" default="true"/>
+    <aura:attribute name="sortBy" type="String"/>
+    <aura:attribute name="sortDirection" type="String"/>
+    <aura:attribute name="isModalOpen" type="Boolean" default="true" />
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+
+    <force:recordData
+            recordId="{!v.recordId}"
+            layoutType="COMPACT"
+            recordUpdated="{!c.recordUpdated}"
+    />
+
+    <!-- spinner -->
+    <aura:if isTrue="{!v.showSpinner}">
+        <div class="backgroundInverse slds-align-middle">
+            <lightning:spinner alternativeText="Loading" variant="inverse">Sending Data</lightning:spinner>
+        </div>
+        <div class="slds-text-align_center slds-text-heading_medium slds-p-top_small">{!$Label.c.Moodle_Integration_Retrieve_Assessments}</div>
+    </aura:if>
+
+    <aura:if isTrue="{!v.isModalOpen &amp;&amp; not(empty(v.studentAssessments))}">
+        <section class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <lightning:buttonIcon
+                            iconName="utility:close"
+                            onclick="{!c.closeModal}"
+                            alternativeText="close"
+                            variant="bare-inverse"
+                            class="slds-modal__close"
+                    />
+                    <h2 class="slds-modal__title slds-hyphenate">{!$Label.c.Moodle_Integration_Student_Assessment}</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <lightning:datatable
+                            keyField="id"
+                            data="{! v.studentAssessments }"
+                            columns="{! v.assessmentColumns }"
+                            hideCheckboxColumn="true"
+                            sortedBy="{!v.sortBy}"
+                            sortedDirection="{!v.sortDirection}"
+                            onsort="{!c.handleSort}"/>
+                </div>
+            </div>
+        </section>
+    </aura:if>
+
+</aura:component>

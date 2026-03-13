@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Event for Graduate Research inbound Offers from callista</description>
+    <eventType>HighVolume</eventType>
+    <fields>
+        <fullName>Process_Name__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Process Name of GR offer</description>
+        <externalId>false</externalId>
+        <isFilteringDisabled>false</isFilteringDisabled>
+        <isNameField>false</isNameField>
+        <isSortingDisabled>false</isSortingDisabled>
+        <label>Process Name</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Request_Parameter__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Request Parameter JSON</description>
+        <isFilteringDisabled>false</isFilteringDisabled>
+        <isNameField>false</isNameField>
+        <isSortingDisabled>false</isSortingDisabled>
+        <label>Request Parameter</label>
+        <length>131072</length>
+        <securityClassification>Internal</securityClassification>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <label>Inbound Graduate Research Offers</label>
+    <pluralLabel>Inbound Graduate Research Offers</pluralLabel>
+    <publishBehavior>PublishImmediately</publishBehavior>
+</CustomObject>

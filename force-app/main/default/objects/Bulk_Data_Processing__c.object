@@ -1,0 +1,1271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Bulk_Data_Processing_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Bulk_Data_Processing_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>true</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>BDP_Compact_Layout</fullName>
+        <fields>Person_ID__c</fields>
+        <fields>Type__c</fields>
+        <fields>Current_Course_Code__c</fields>
+        <fields>Current_Course_Campus__c</fields>
+        <fields>Transfer_Course_Campus__c</fields>
+        <fields>Transfer_Course_Code__c</fields>
+        <fields>Status__c</fields>
+        <label>BDP Compact Layout</label>
+    </compactLayouts>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>true</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>Private</externalSharingModel>
+    <fields>
+        <fullName>Applicant__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <label>Applicant</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Bulk Data Processing</relationshipLabel>
+        <relationshipName>Bulk_Data_Processing</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Bulk_Job_ID__c</fullName>
+        <externalId>false</externalId>
+        <label>Bulk Job ID</label>
+        <length>20</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Calendar__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <label>Calendar</label>
+        <referenceTo>Calendar__c</referenceTo>
+        <relationshipName>Offer_Request</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Central_Admin_Notes__c</fullName>
+        <label>Central Admin Notes</label>
+        <length>131000</length>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>5</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Citizenship__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Applicant&apos;s citizenship</inlineHelpText>
+        <label>Citizenship</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Commencement_Date__c</fullName>
+        <label>Commencement Date</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Credit_Duration_Unit__c</fullName>
+        <label>Credit Duration Unit</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Years</fullName>
+                    <default>false</default>
+                    <label>Years</label>
+                </value>
+                <value>
+                    <fullName>Semesters</fullName>
+                    <default>false</default>
+                    <label>Semesters</label>
+                </value>
+                <value>
+                    <fullName>Trimesters</fullName>
+                    <default>false</default>
+                    <label>Trimesters</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Credit_Duration_Value__c</fullName>
+        <description>What is the new course duration after the Credit/RPL assessment?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>What is the new course duration after the Credit/RPL assessment?</inlineHelpText>
+        <label>Credit Duration Value</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Credit_Duration__c</fullName>
+        <externalId>false</externalId>
+        <label>Credit Duration</label>
+        <length>25</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Credit_Points__c</fullName>
+        <description>How much credit points have been approved and should be removed from the offer?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>How much credit points have been approved and should be removed from the offer?</inlineHelpText>
+        <label>Credit Points</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Current_Admission_Category__c</fullName>
+        <externalId>false</externalId>
+        <label>Current Admission Category</label>
+        <length>10</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Current_Course_Campus__c</fullName>
+        <externalId>false</externalId>
+        <label>Current Course Campus</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Current_Course_Code__c</fullName>
+        <externalId>false</externalId>
+        <label>Current Course Code</label>
+        <length>80</length>
+        <required>true</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Current_Course_Specialisation__c</fullName>
+        <externalId>false</externalId>
+        <label>Current Course Specialisation</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Current_Course_Title__c</fullName>
+        <externalId>false</externalId>
+        <label>Current Course Title</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Current_Unit_Set__c</fullName>
+        <externalId>false</externalId>
+        <label>Current Unit Set</label>
+        <length>80</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>DisplayNewACPCmp__c</fullName>
+        <formula>AND(NOT(ISBLANK(Transfer_To_Application__c)), ISBLANK(Transfer_To__c))</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>DisplayNewACPCmp</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Email__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Applicant&apos;s Email</inlineHelpText>
+        <label>Email</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Email</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Fee__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Fee category of the applicant&apos;s current course</inlineHelpText>
+        <label>Fee</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Fetch_Course_Offering__c</fullName>
+        <defaultValue>false</defaultValue>
+        <label>Fetch Course Offering</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>First_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>First Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Last_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Last Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Log__c</fullName>
+        <label>Log</label>
+        <length>131000</length>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>5</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Manual_ISCA_Edit__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Indicate if offer will require a manual edit of the ISCA document.</description>
+        <inlineHelpText>Indicate if offer will require a manual edit of the ISCA document.</inlineHelpText>
+        <label>Manual Edit</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Offer_Condition__c</fullName>
+        <label>Offer Condition</label>
+        <length>2000</length>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Offer_Lapsed_Date__c</fullName>
+        <label>Offer Lapsed Date</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Offer_Response_Status__c</fullName>
+        <externalId>false</externalId>
+        <label>Offer Response Status</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Offer_Template__c</fullName>
+        <externalId>false</externalId>
+        <label>Offer Template</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Onshore_MU_Transfer__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Select this option if the MU course for the offer doesn&apos;t require deposit and OSHC fee</description>
+        <inlineHelpText>Select this option if the MU course for the offer doesn&apos;t require deposit and OSHC fee</inlineHelpText>
+        <label>Onshore MU Transfer?</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Order__c</fullName>
+        <externalId>false</externalId>
+        <label>Order</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Person_ID__c</fullName>
+        <externalId>true</externalId>
+        <inlineHelpText>Student ID</inlineHelpText>
+        <label>Person ID</label>
+        <length>255</length>
+        <required>true</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Preference__c</fullName>
+        <externalId>false</externalId>
+        <label>Preference</label>
+        <length>3</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Primary_Course_Offering__c</fullName>
+        <label>Primary Course Offering</label>
+        <summaryFilterItems>
+            <field>Suggested_Course_Offering__c.Primary__c</field>
+            <operation>equals</operation>
+            <value>True</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Suggested_Course_Offering__c.Bulk_Data_Processing__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Scholarship__c</fullName>
+        <label>Scholarship</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                    <label>Yes</label>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                    <label>No</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Signature_Type__c</fullName>
+        <defaultValue>&quot;Wet Signature&quot;</defaultValue>
+        <label>Signature Type</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Wet Signature</fullName>
+                    <default>true</default>
+                    <label>Wet Signature</label>
+                </value>
+                <value>
+                    <fullName>Digital Signature</fullName>
+                    <default>false</default>
+                    <label>Digital Signature</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <inlineHelpText>Status of the offer request record assessment</inlineHelpText>
+        <label>Status</label>
+        <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>New</fullName>
+                    <default>true</default>
+                    <label>New</label>
+                </value>
+                <value>
+                    <fullName>Review Required</fullName>
+                    <default>false</default>
+                    <label>Review Required</label>
+                </value>
+                <value>
+                    <fullName>Ready for Offer</fullName>
+                    <default>false</default>
+                    <label>Ready for Offer</label>
+                </value>
+                <value>
+                    <fullName>Generate Offer</fullName>
+                    <default>false</default>
+                    <label>Generate Offer</label>
+                </value>
+                <value>
+                    <fullName>Processing Offer</fullName>
+                    <default>false</default>
+                    <label>Processing Offer</label>
+                </value>
+                <value>
+                    <fullName>Offer Error</fullName>
+                    <default>false</default>
+                    <label>Offer Error</label>
+                </value>
+                <value>
+                    <fullName>Offer Created</fullName>
+                    <default>false</default>
+                    <label>Offer Created</label>
+                </value>
+                <value>
+                    <fullName>Completed</fullName>
+                    <default>false</default>
+                    <label>Completed</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Student_Notes__c</fullName>
+        <label>Student Notes</label>
+        <length>131000</length>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>5</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Template_Type__c</fullName>
+        <description>Template type of the opportunity/offer</description>
+        <externalId>false</externalId>
+        <label>Template Type</label>
+        <length>100</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Transfer_Admission_Category__c</fullName>
+        <externalId>false</externalId>
+        <label>Transfer Admission Category</label>
+        <length>10</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Transfer_Calendar__c</fullName>
+        <externalId>true</externalId>
+        <label>Transfer Calendar</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Transfer_Citizenship_Country__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <label>Transfer Citizenship Country</label>
+        <referenceTo>Country_Attribute__c</referenceTo>
+        <relationshipLabel>Bulk Data Processing</relationshipLabel>
+        <relationshipName>Bulk_Data_Processing</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Transfer_Course_Campus__c</fullName>
+        <externalId>true</externalId>
+        <label>Transfer Course Campus</label>
+        <length>255</length>
+        <required>true</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Transfer_Course_Code__c</fullName>
+        <externalId>true</externalId>
+        <label>Transfer Course Code</label>
+        <length>80</length>
+        <required>true</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Transfer_Course_Specialisation__c</fullName>
+        <externalId>false</externalId>
+        <label>Transfer Course Specialisation</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Transfer_Course_Title__c</fullName>
+        <externalId>false</externalId>
+        <label>Transfer Course Title</label>
+        <length>255</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Transfer_From__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>ACP from where applicant want to transfer</description>
+        <inlineHelpText>ACP from where applicant want to transfer</inlineHelpText>
+        <label>Transfer From</label>
+        <referenceTo>Application_Course_Preference__c</referenceTo>
+        <relationshipLabel>Bulk Data Processing (Transfer From)</relationshipLabel>
+        <relationshipName>Bulk_Data_Processing</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Transfer_To_Application__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <label>Transfer To Application</label>
+        <referenceTo>Application__c</referenceTo>
+        <relationshipLabel>Bulk Data Processing</relationshipLabel>
+        <relationshipName>Bulk_Data_Processing</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Transfer_To__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <label>Transfer To</label>
+        <referenceTo>Application_Course_Preference__c</referenceTo>
+        <relationshipName>Offer_Request1</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Transfer_Unit_Set__c</fullName>
+        <externalId>true</externalId>
+        <label>Transfer Unit Set</label>
+        <length>80</length>
+        <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Type__c</fullName>
+        <inlineHelpText>Offer request type</inlineHelpText>
+        <label>Type</label>
+        <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Course Transfer</fullName>
+                    <default>false</default>
+                    <label>Course Transfer</label>
+                </value>
+                <value>
+                    <fullName>Campus Transfer</fullName>
+                    <default>false</default>
+                    <label>Campus Transfer</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>isLocked__c</fullName>
+        <defaultValue>false</defaultValue>
+        <label>isLocked</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>is_Onshore__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Is the current course based in Australia?</description>
+        <inlineHelpText>Is the current course based in Australia?</inlineHelpText>
+        <label>is Onshore?</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <label>Bulk Data Processing</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Applicant__c</columns>
+        <columns>Status__c</columns>
+        <columns>Type__c</columns>
+        <columns>Current_Course_Code__c</columns>
+        <columns>Current_Course_Title__c</columns>
+        <columns>Current_Unit_Set__c</columns>
+        <columns>Transfer_To__c</columns>
+        <columns>Transfer_Course_Code__c</columns>
+        <columns>Transfer_Course_Title__c</columns>
+        <columns>Transfer_Unit_Set__c</columns>
+        <columns>Transfer_Course_Campus__c</columns>
+        <columns>Log__c</columns>
+        <columns>LAST_UPDATE</columns>
+        <columns>Person_ID__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>LAST_UPDATE</field>
+            <operation>equals</operation>
+            <value>7/18/2025 12:00 AM</value>
+        </filters>
+        <label>All BDP Records</label>
+    </listViews>
+    <listViews>
+        <fullName>All_BDP_Records_Ready_for_Offer</fullName>
+        <columns>NAME</columns>
+        <columns>Applicant__c</columns>
+        <columns>Status__c</columns>
+        <columns>Type__c</columns>
+        <columns>Transfer_From__c</columns>
+        <columns>Transfer_To__c</columns>
+        <columns>Offer_Lapsed_Date__c</columns>
+        <columns>Onshore_MU_Transfer__c</columns>
+        <columns>Manual_ISCA_Edit__c</columns>
+        <columns>LAST_UPDATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Ready for Offer</value>
+        </filters>
+        <filters>
+            <field>Transfer_To__c</field>
+            <operation>notEqual</operation>
+        </filters>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Bulk_Data_Processing__c.CC_Transfer</value>
+        </filters>
+        <label>All BDP Records Ready for Offer</label>
+    </listViews>
+    <listViews>
+        <fullName>All_BDP_Records_Requiring_Review</fullName>
+        <columns>NAME</columns>
+        <columns>Applicant__c</columns>
+        <columns>Status__c</columns>
+        <columns>Type__c</columns>
+        <columns>Current_Course_Code__c</columns>
+        <columns>Current_Course_Title__c</columns>
+        <columns>Current_Unit_Set__c</columns>
+        <columns>Current_Course_Campus__c</columns>
+        <columns>Transfer_Course_Code__c</columns>
+        <columns>Transfer_Course_Title__c</columns>
+        <columns>Transfer_Unit_Set__c</columns>
+        <columns>Transfer_Course_Campus__c</columns>
+        <columns>Log__c</columns>
+        <columns>LAST_UPDATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Review Required</value>
+        </filters>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Bulk_Data_Processing__c.CC_Transfer</value>
+        </filters>
+        <label>All BDP Records Requiring Review</label>
+    </listViews>
+    <listViews>
+        <fullName>All_BDP_Records_in_Bulk_Offer_Generation</fullName>
+        <columns>NAME</columns>
+        <columns>Applicant__c</columns>
+        <columns>Status__c</columns>
+        <columns>Type__c</columns>
+        <columns>Transfer_From__c</columns>
+        <columns>Transfer_To__c</columns>
+        <columns>Onshore_MU_Transfer__c</columns>
+        <columns>Manual_ISCA_Edit__c</columns>
+        <columns>LAST_UPDATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Generate Offer,Processing Offer</value>
+        </filters>
+        <filters>
+            <field>Transfer_To__c</field>
+            <operation>notEqual</operation>
+        </filters>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Bulk_Data_Processing__c.CC_Transfer</value>
+        </filters>
+        <label>All BDP Records in Bulk Offer Generation</label>
+    </listViews>
+    <listViews>
+        <fullName>All_BDP_Records_with_Completed_Offers</fullName>
+        <columns>NAME</columns>
+        <columns>Applicant__c</columns>
+        <columns>Status__c</columns>
+        <columns>Type__c</columns>
+        <columns>Transfer_From__c</columns>
+        <columns>Transfer_To__c</columns>
+        <columns>LAST_UPDATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Completed</value>
+        </filters>
+        <filters>
+            <field>Transfer_To__c</field>
+            <operation>notEqual</operation>
+        </filters>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Bulk_Data_Processing__c.CC_Transfer</value>
+        </filters>
+        <label>All BDP Records with Completed Offers</label>
+    </listViews>
+    <listViews>
+        <fullName>All_BDP_Records_with_Offer_Errors</fullName>
+        <columns>NAME</columns>
+        <columns>Applicant__c</columns>
+        <columns>Status__c</columns>
+        <columns>Type__c</columns>
+        <columns>Transfer_From__c</columns>
+        <columns>Transfer_To__c</columns>
+        <columns>Log__c</columns>
+        <columns>LAST_UPDATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Offer Error</value>
+        </filters>
+        <filters>
+            <field>Transfer_To__c</field>
+            <operation>notEqual</operation>
+        </filters>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Bulk_Data_Processing__c.CC_Transfer</value>
+        </filters>
+        <label>All BDP Records with Offer Errors</label>
+    </listViews>
+    <listViews>
+        <fullName>All_BDP_Records_with_Offers_Generated</fullName>
+        <columns>NAME</columns>
+        <columns>Applicant__c</columns>
+        <columns>Status__c</columns>
+        <columns>Type__c</columns>
+        <columns>Transfer_From__c</columns>
+        <columns>Transfer_To__c</columns>
+        <columns>Onshore_MU_Transfer__c</columns>
+        <columns>Manual_ISCA_Edit__c</columns>
+        <columns>LAST_UPDATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Offer Created</value>
+        </filters>
+        <filters>
+            <field>Transfer_To__c</field>
+            <operation>notEqual</operation>
+        </filters>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Bulk_Data_Processing__c.CC_Transfer</value>
+        </filters>
+        <label>All BDP Records with Offers Generated</label>
+    </listViews>
+    <listViews>
+        <fullName>My_Transfers</fullName>
+        <columns>NAME</columns>
+        <columns>Applicant__c</columns>
+        <columns>Status__c</columns>
+        <columns>Type__c</columns>
+        <columns>LAST_UPDATE</columns>
+        <columns>Current_Course_Code__c</columns>
+        <columns>Current_Course_Title__c</columns>
+        <columns>Current_Unit_Set__c</columns>
+        <columns>Current_Course_Campus__c</columns>
+        <columns>Transfer_To__c</columns>
+        <columns>Transfer_Course_Code__c</columns>
+        <columns>Transfer_Course_Title__c</columns>
+        <columns>Transfer_Unit_Set__c</columns>
+        <columns>Transfer_Course_Campus__c</columns>
+        <columns>Manual_ISCA_Edit__c</columns>
+        <filterScope>Mine</filterScope>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Bulk_Data_Processing__c.CC_Transfer</value>
+        </filters>
+        <filters>
+            <field>CREATED_DATE</field>
+            <operation>greaterOrEqual</operation>
+            <value>3/31/2025 12:00 AM</value>
+        </filters>
+        <label>My BDP Records</label>
+    </listViews>
+    <nameField>
+        <displayFormat>BDP-{0000000}</displayFormat>
+        <label>Transfer Record Name</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Bulk Data Processing</pluralLabel>
+    <recordTypeTrackFeedHistory>false</recordTypeTrackFeedHistory>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>CC_Transfer</fullName>
+        <active>true</active>
+        <compactLayoutAssignment>BDP_Compact_Layout</compactLayoutAssignment>
+        <description>Used to create offer request records specific to course and campus transfers</description>
+        <label>Course &amp; Campus Transfer</label>
+        <picklistValues>
+            <picklist>Credit_Duration_Unit__c</picklist>
+            <values>
+                <fullName>Semesters</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Trimesters</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Years</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Scholarship__c</picklist>
+            <values>
+                <fullName>No</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Signature_Type__c</picklist>
+            <values>
+                <fullName>Digital Signature</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Wet Signature</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Status__c</picklist>
+            <values>
+                <fullName>Completed</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Generate Offer</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>New</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Offer Created</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Offer Error</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Processing Offer</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Ready for Offer</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Review Required</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Type__c</picklist>
+            <values>
+                <fullName>Campus Transfer</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Course Transfer</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <searchLayouts>
+        <listViewButtons>Add_Manual_Clause</listViewButtons>
+    </searchLayouts>
+    <sharingModel>ReadWrite</sharingModel>
+    <startsWith>Vowel</startsWith>
+    <validationRules>
+        <fullName>Transfer_Is_Locked</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(
+ RecordType.DeveloperName = &quot;CC_Transfer&quot;,
+ NOT(ISCHANGED(isLocked__c)),
+ OR(
+    AND(ISPICKVAL(PRIORVALUE(Status__c),&quot;Processing Offer&quot;), ISCHANGED( Status__c )),
+    AND(ISPICKVAL(Status__c,&quot;Processing Offer&quot;),
+     OR(
+        ISCHANGED( Transfer_Calendar__c ),
+        ISCHANGED( Transfer_Course_Campus__c ) ,
+        ISCHANGED( Transfer_Course_Code__c ),
+        ISCHANGED( Transfer_Course_Specialisation__c ),
+        ISCHANGED( Transfer_Course_Title__c ),
+        ISCHANGED( Transfer_To__c ),
+        ISCHANGED( Credit_Duration__c ),
+        ISCHANGED( Credit_Duration_Unit__c ),
+        ISCHANGED( Credit_Points__c ),
+        ISCHANGED( Person_ID__c ),
+        ISCHANGED( Applicant__c )
+       )
+    )
+    
+  )
+)</errorConditionFormula>
+        <errorMessage>Can&apos;t update transfer record at this stage</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Transfer_ready_for_offer</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(
+ISBLANK(Transfer_To__c),
+OR( ISPICKVAL(Status__c, &quot;Ready for Offer&quot;), ISPICKVAL(Status__c, &quot;Generate Offer&quot;) ),
+ RecordType.DeveloperName = &quot;CC_Transfer&quot;
+ 
+)</errorConditionFormula>
+        <errorMessage>Transfer To is mandatory in order to
+make an offer.</errorMessage>
+    </validationRules>
+    <visibility>Public</visibility>
+    <webLinks>
+        <fullName>Add_Manual_Clause</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <height>600</height>
+        <linkType>page</linkType>
+        <masterLabel>Add Manual Clause</masterLabel>
+        <openType>noSidebar</openType>
+        <page>BulkAddManualClause</page>
+        <protected>false</protected>
+        <requireRowSelection>true</requireRowSelection>
+    </webLinks>
+</CustomObject>

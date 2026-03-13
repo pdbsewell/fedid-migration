@@ -1,0 +1,686 @@
+<template>
+  <div>
+    <h1 style="font-weight:bold;">APPLICATION DETAILS</h1>
+    <template if:false={acps_length}>
+      <p>Please complete your Graduate Research details below</p>
+    </template>
+  </div>
+  <div class="slds-section ">
+    <!-- LOADING SPINNER -->
+    <div class={vshowSpinner}>
+      <lightning-spinner data-aura-id="spinner" alternative-text="Saving"></lightning-spinner>
+    </div>
+    <!-- END LOADING SPINNER -->
+
+    <!-- START OF MY APPLICATIONS SECTION-->
+    <template if:true={acps_length}>
+      <div class="slds-grid slds-gutters slds-wrap">
+        <div class="slds-col">
+          <!-- My Course Preferences -->
+          <div class="sectionContainer slds-wrap">
+            <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+            <div class="sectionContainerBody slds-size_5-of-5">
+              <div class="slds-size_5-of-5">
+                <h2>My Application</h2>
+              </div>
+              <template for:each={acps} for:item="acp" for:index="index">
+                <lightning-layout key={acp1} multiple-rows="true" padding="horizontal-small" class="slds-m-top_xx-small" pull-to-boundary="small">
+                  <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6" padding="around-small">
+                      <div class="slds-grid slds-grid_vertical">
+                          <div class="slds-col slds-text-align_left lightText">
+                              <span class="fieldTitle">Course Code &amp; Title</span>
+                            </div>
+                          <div class="slds-col slds-text-align_left headingText">
+                            <span>{acp.courseCodeTitle}</span>
+                          </div>
+                          <br/>
+                          
+                          <template if:false={isAdmissionOnly}>
+                            <div class="slds-col slds-text-align_left lightText">
+                              <span class="fieldTitle">Scholarship Round</span>
+                            </div>
+                            <div class="slds-col slds-text-align_left headingText">
+                              <span>{acp.Application__r.Scholarship_Round_Description__c}</span>
+                            </div>
+                            <br/>
+                          </template>
+                          
+                          <template if:false={isScholarshipOnly}>
+                            <div class="slds-col slds-text-align_left lightText">
+                              <span class="fieldTitle">Proposed Commencement Date</span>
+                            </div>
+                            <div class="slds-col slds-text-align_left headingText">
+                              <span> 
+                                <lightning-formatted-date-time
+                                  value={acp.Proposed_Commencement_Date__c}
+                                  year="numeric"
+                                  day="2-digit"
+                                  month="long">
+                                </lightning-formatted-date-time>
+                              </span>
+                            </div>         
+                            <br/>
+                          </template>
+                          <template if:true={isScholarshipOnly}>
+                            <div class="slds-col slds-text-align_left lightText">
+                              <span class="fieldTitle">Expected Commencement Date</span>
+                            </div>
+                            <div class="slds-col slds-text-align_left headingText">
+                              <span> 
+                                <lightning-formatted-date-time
+                                  value={acp.Proposed_Commencement_Date__c}
+                                  year="numeric"
+                                  day="2-digit"
+                                  month="long">
+                                </lightning-formatted-date-time>
+                              </span>
+                            </div>         
+                            <br/>
+                          </template>
+      
+                          <div class="slds-col slds-text-align_left lightText">
+                            <span class="fieldTitle">Faculty</span>
+                          </div>
+                          <div class="slds-col slds-text-align_left headingText">
+                            <span>{acp.Managing_Faculty__c}</span>
+                          </div>         
+                          <br/>
+                          
+                          <template if:false={isScholarshipOnly}>
+                            <div class="slds-col slds-text-align_left lightText">
+                              <span class="fieldTitle">Academic Unit</span>
+                            </div>
+                            <div class="slds-col slds-text-align_left headingText">
+                              <span>{acp.Academic_Org_Unit__r.Name}</span>
+                            </div>         
+                            <br/>
+                          </template>
+      
+                          <div class="slds-col slds-text-align_left lightText">
+                              <span class="fieldTitle">Location</span>
+                            </div>
+                          <div class="slds-col slds-text-align_left headingText">
+                            <span>{acp.Location_Code__c}</span>
+                          </div>
+                          <br/>
+      
+                          <div class="slds-col slds-text-align_left lightText">
+                            <span class="fieldTitle">Full Time/Part Time, On/Off Campus</span>
+                          </div>
+                        <div class="slds-col slds-text-align_left headingText">
+                          <span>{acp.Attendance_Type_Description__c}, {acp.attendanceModeDescGRT}</span>
+                        </div>
+                        <br/>
+                                                    
+                      </div>
+                      <div class="slds-m-top--medium">
+                          <lightning-button name={acp.Id} label="Reselect Course" icon-position="left" variant="brand" class="background-color:red;" icon-name="" onclick={showRemovePopup}></lightning-button>
+                      </div>
+                      
+                  </lightning-layout-item>     
+                                      
+                </lightning-layout>
+              </template>
+              <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                <div>
+                  <!-- Remove ACP Popup -->
+                  <div class={showRemoveACP_slds}>
+                    <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                      <div class="slds-modal__container">
+                        <div class="slds-modal__header slds-theme--alert-texture slds-theme--error">
+                          <h3 class="slds-text-heading--small" id="prompt-heading-id" style="color: #ffffff;">Reselect Course?</h3>
+                        </div>
+                        <div class="slds-modal__footer slds-theme--default">
+                          <lightning-button label="Proceed" icon-position="left" variant="destructive" onclick={confirmRemoveACP}></lightning-button>&nbsp;
+                          <lightning-button label="Cancel" icon-position="left" class="slds-button--neutral" onclick={cancelRemoveACP}></lightning-button>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="slds-backdrop slds-backdrop--open"></div>
+                  </div>
+                  <!-- END - Remove ACP Popup -->
+                </div>
+              </div>
+             
+            </div>
+          </div>
+        </div>
+      </div>
+    </template>
+    <!-- END OF MY APPLICATIONS SECTION-->
+
+
+    <!-- START OF COMMENCEDATE POPUP VALIDATION -->
+    <div class="slds-size_5-of-5" style="margin-top: 10px;">
+      <div>
+        <div class={showPCDateError_slds}>
+          <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id-2" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+            <div class="slds-modal__container">
+              <div class="slds-modal__header slds-theme--alert-texture" style="background-color:#2C7DAF;">
+                <h3 class="slds-text-heading--small" id="prompt-heading-id-2" style="color: #ffffff;">Research Degree and Scholarship Application</h3>
+              </div>
+                  <div class="slds-modal__content slds-p-around--medium slds-p=">
+                    <p>You have selected a commencement date that is prior to the completion of the processing of scholarships
+                      in your selected scholarship round. If you elect to continue with this application, you will be liable to any fees
+                      incurred prior to a scholarship being awarded to you. If you are not prepared to accept this condition, then please
+                      select a commencement date within the advised commencement date period of {earlyComDateDesc} to {latestComDateDesc}.
+                    </p>
+                  </div>
+              <div class="slds-modal__footer slds-theme--default">
+                <lightning-button label="I accept liablity for any fees incurred prior to my being awarded a scholarship" icon-position="left" class="slds-button--neutral" onclick={confirmEarlyCommencementDate}></lightning-button>
+                <div class="slds-m-around_medium"></div>
+                <lightning-button label="I wish to select an alternate commencement date" icon-position="left" class="slds-button--neutral" onclick={cancelPCDateError}></lightning-button>
+                <div class="slds-m-around_medium"></div>
+              </div>
+            </div>
+          </div>
+          <div class="slds-backdrop slds-backdrop--open"></div>
+        </div>
+      </div>
+    </div>
+    <!-- END OF COMMENCEDATE POPUP VALIDATION -->
+
+    <div data-testid="errorSection" if:true={showErrors}>
+      <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+          <div class="slds-modal__container">
+              <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <lightning-formatted-text value={error}></lightning-formatted-text>
+              </div>
+              <footer class="slds-modal__footer">
+                  <button class="slds-button slds-button_neutral" onclick={onClickCloseErrors}>Close</button>
+              </footer>
+          </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+  </div>
+
+    <template if:false={acps_length}>
+      <template if:true={scholarshipRoundsSection}>
+        <div class="slds-grid slds-gutters slds-wrap">
+          <div class="slds-col">
+            <!-- START OF ADD APPLICATION DETAILS -->
+            <template if:false={isAdmissionOnly}>
+              <div class="sectionContainer slds-wrap">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                  <div class="slds-size_5-of-5">
+                    <h2>Scholarship details</h2>
+                  </div>
+                  <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                    <template if:true={displayScholarshipRounds}>
+                      <p>For the information on Monash's competitive scholarship selection process and eligibility requirements, please refer to the <a href="https://www.monash.edu/graduate-research/study/scholarships/fees-scholarships/scholarship-policy-and-procedures" target=”_blank”>Scholarship Policy and Procedures</a>.</p>
+                    </template>
+                    <!--START OF SCHOLARSHIP ONLY COURSE ATTEMPTS-->
+                    <template if:true={isScholarshipOnly}>
+                      <div class="">
+                        <div class="slds-text-body_medium slds-m-top--medium slds-is-relative"></div>
+                          <p class="heading3">What Scholarship Round do you wish to be considered for?</p>
+                        </div>
+
+                        <template if:true={disableDomestic}>
+                          <p class="appCourseBanner">{label.disableDomesticRoundsLabel}</p>      
+                        </template>
+                        <template if:true={disableInternational}>
+                          <p class="appCourseBanner">{label.disableInternationalRoundsLabel}</p>
+                        </template>
+                        <template if:true={withScholarshipGaps}>
+                          <p class="appCourseBanner">{label.disableRoundsWithScholarshipGaps}</p>
+                        </template>
+
+                        <lightning-select
+                        name="scholarshipRoundSCH"
+                        data-testid="scholarshipRoundSCH"
+                        data-id="scholarshipRoundSCH"
+                        label="Scholarship Round"
+                        value={selectedScholarshipRoundVal}
+                        required="true"
+                        options={scholarshipRoundsOptions}
+                        onchange={onFieldChange}
+                        placeholder="Select a Scholarship Round"
+                        ></lightning-select>
+                        
+                        <lightning-input name="expectedCommencementDate"
+                          data-testid="expectedCommencementDate" 
+                          data-id="expectedCommencementDate"
+                          label="Expected Commencement Date"
+                          required="true"
+                          class="dateCmp"
+                          onchange={onFieldChange}
+                          type="date"
+                          value={proposedCommencementDate}
+                          ></lightning-input>
+                        
+                        <div class="slds-m-top--medium"></div>
+                        <div class="slds-size_5-of-5">                         
+                          <p class="heading3">Confirm the course for which you are applying for scholarship </p>
+                        </div>
+                          <lightning-select
+                          name="courseAttempts"
+                          data-testid="courseAttempts"
+                          data-id="course"
+                          label="Course"
+                          value={courseAttemptId}
+                          required
+                          options={courseAttempOptions}
+                          onchange={onFieldChange}
+                          placeholder="-Select a Course-"
+                          ></lightning-select>
+                    </template>
+                    <!--END OF SCHOLARSHIP ONLY COURSE ATTEMPTS-->
+                    
+                    <!-- START OF SCHOLARSHIP ROUNDS SECTION -->
+                    <template if:true={scholarshipRoundsSection}>
+                      <template if:false={isScholarshipOnly}>
+                        <template if:true={isAdmissionScholarship}>
+                          <div class="slds-size_5-of-5">
+                            <p class="heading3">What Scholarship Round do you wish to be considered for?</p>
+                          </div>
+                          <template if:true={disableDomestic}>
+                            <p class="appCourseBanner">{label.disableDomesticRoundsLabel}</p>      
+                          </template>
+                          <template if:true={disableInternational}>
+                            <p class="appCourseBanner">{label.disableInternationalRoundsLabel}</p>
+                          </template>
+                          <template if:true={withScholarshipGaps}>
+                            <p class="appCourseBanner">{label.disableRoundsWithScholarshipGaps}</p>
+                          </template>
+                        </template>
+
+                        <template if:true={isAdmissionOnly}>
+                          <div class="slds-size_5-of-5">
+                            <p class="heading3">When do you wish to commence your studies?</p>
+                          </div>
+                        </template>
+                        <template if:true={displayScholarshipRounds}>
+                          <lightning-select
+                          name="scholarshipRound"
+                          data-testid="scholarshipRound"
+                          data-id="scholarshipRound"
+                          label="Scholarship Round"
+                          value={selectedScholarshipRoundVal}
+                          required="true"
+                          options={scholarshipRoundsOptions}
+                          onchange={onFieldChange}
+                          placeholder="Select a Scholarship Round"
+                          ></lightning-select>
+                          
+                          <div data-testid="ScholarshipRoundcalendarId" id="ScholarshipRoundcalendarId" style="display: none;">{selectedScholarshipRound}</div>
+                          <div data-testid="ScholarshipRoundEarliestCommDate" id="ScholarshipRoundEarliestCommDate" style="display: none;">{earlyComDateDesc}</div>
+                          <div data-testid="ScholarshipRoundLatestCommDate" id="ScholarshipRoundLatestCommDate" style="display: none;">{latestComDateDesc}</div>
+                          <div data-testid="ScholarshipRoundEarliestPossibleCommDate" id="ScholarshipRoundEarliestPossibleCommDate" style="display: none;">{earliestPossibleDateText}</div>
+
+                        </template>
+                        <div>
+                          <lightning-input name="proposedCommencementDate"
+                          data-testid="proposedCommencementDate" 
+                          data-id="proposedCommencementDate"
+                          label="Proposed Commencement Date"
+                          required="true"
+                          class="dateCmp"
+                          onchange={onFieldChange}
+                          type="date"
+                          value={proposedCommencementDate}
+                          ></lightning-input>
+                          <span class="text-beside-input">Please refer to the Faculty preferred <a href="https://www.monash.edu/graduate-research/study/accept/commencement-date" target="_blank">commencement dates.</a></span>
+                        </div>
+                      </template>
+                      
+
+                      <!--Scholarship with additional eligibility requirments-->
+                      <template if:true={showEquityAboriginalQuestions}>
+                        <template if:true={displayScholarshipRounds}>
+                          <div class="fieldContainer slds-size_5-of-5">
+                            <div class="slds-size_4-of-5" style="margin-top: 10px;">
+                              <span class="fieldTitle">If your academic career has been adversely affected due to equity reasons, would you like to be considered for an Equity, Diversity and Inclusion Scholarship or a Monash Humanitarian Scholarship?</span><sup class="requiredField">*</sup>
+                            </div>
+                            <div class="slds-size_1-of-5" style="margin-top: 10px; margin-left: 20px;">
+                              <lightning-radio-group
+                              name="equityScholarship"
+                              label="Yes or No?"
+                              required
+                              type="button"
+                              options={equityScholarshipOptions}
+                              onchange={onFieldChange}
+                              variant="label-hidden">
+                              </lightning-radio-group>
+                            </div>
+                          </div>
+                          <template if:true={showEquityNotes}>
+                            <div class="slds-wrap">
+                              <div class="slds-m-around_medium"></div>
+                                <div class="slds-size_5-of-5">
+                                Please complete the <a href="https://www.monash.edu/__data/assets/rtf_file/0003/3391905/MES-supplement-V2.rtf" target="_blank">Equity Scholarship Supplementary Form</a> and upload it to the Documents section of the application. Please also provide supporting documentation such as medical certificates or other documents that can help to verify your situation.
+                                </div>
+                            </div>
+                          </template>
+                        </template>
+
+                        <!--Aboriginal and Torres Strait-->
+                        <div class="fieldContainer slds-size_5-of-5">
+                          <div class="slds-size_4-of-5" style="margin-top: 10px;">
+                            <span class="fieldTitle">Would you like to be considered for Monash scholarships for Australian Indigenous students?</span><sup class="requiredField">*</sup>
+                          </div>
+                          <div class="slds-size_1-of-5" style="margin-top: 10px; margin-left: 20px;">
+                            <lightning-radio-group
+                            name="indigenousScholarship"
+                            label="Yes or No?"
+                            required
+                            type="button"
+                            options={indScholOptions}
+                            onchange={onFieldChange}
+                            variant="label-hidden">
+                            </lightning-radio-group>
+                          </div>
+                        </div>
+                        <template if:true={showAboriginalNotes}>
+                          <div class="slds-wrap">
+                            <div class="slds-m-around_medium"></div>
+                            <div class="slds-size_5-of-5">
+                              To be eligible you must provide a Confirmation of Aboriginal and/or Torres Strait Islander Heritage certificate or a certified Statutory Declaration form to the William Cooper Institute.
+                              Please get in touch with the William Cooper Institute on (03) 9902 4972 if you have queries.
+                            </div> 
+                          </div>
+                        </template>
+                        <div class={showInlineSpinnerSlds}>
+                          <lightning-spinner class="" variant="brand" size="small" data-aura-id="inlineSpinner"></lightning-spinner>
+                        </div>
+                      </template>
+                    </template>
+                  
+                    <!-- END OF SCHOLARSHIP ROUNDS SECTION -->
+                    
+                  </div>
+                </div>
+              </div>
+            </template>
+            <!-- END OF ADD APPLICATION DETAILS -->
+
+            <!-- START OF STUDY PREFERENCES SECTION -->
+            <div class="sectionContainer slds-wrap">
+              <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+              <div class="sectionContainerBody slds-size_5-of-5">
+                <div class="slds-size_5-of-5">
+                  <h2>Admission details</h2>
+                </div>
+                <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                  <div clas="">
+                    <template if:true={isScholarshipOnly}>
+                      <div class="slds-size_5-of-5">
+                        <p class="heading3">Program to which scholarship will apply</p>
+                      </div>
+                    </template>
+                    <!-- START OF ADMISSION AND SCHOLARSHIP STUDY -->
+                    <template if:false={isScholarshipOnly}>
+                      <template if:true={isAdmissionOnly}>
+                        <div>
+                          <lightning-input name="proposedCommencementDateAd"
+                          data-testid="proposedCommencementDateAd" 
+                          data-id="proposedCommencementDateAd"
+                          label="Proposed Commencement Date"
+                          required="true"
+                          class="dateCmp"
+                          onchange={onFieldChange}
+                          type="date"
+                          value={proposedCommencementDate}
+                          ></lightning-input>
+                          <span class="text-beside-input">Please refer to the Faculty preferred <a href="https://www.monash.edu/graduate-research/study/accept/commencement-date" target="_blank">commencement dates.</a></span>
+                        </div>
+                      </template>
+
+                      <lightning-select
+                      name="courseOfferingFaculty"
+                      data-testid="courseOfferingFaculty"
+                      data-id="courseOfferingFaculty"
+                      label="Faculty"
+                      value={courseOfferingFacultyId}
+                      required
+                      options={facultyValueOptions}
+                      onchange={onFieldChange}
+                      placeholder="-Select a Faculty-"
+                      ></lightning-select>
+                    
+                     
+                      <lightning-select
+                      name="academicUnit"
+                      data-testid="academicUnit"
+                      data-id="academicUnit"
+                      label="Academic Unit"
+                      value={academicUnit}
+                      required
+                      options={academicValuesOptions}
+                      onchange={onFieldChange}
+                      placeholder="-Select a Department, School or Centre- "
+                      ></lightning-select>
+                     
+
+                      <lightning-select
+                      name="course"
+                      data-testid="course"
+                      data-id="course"
+                      label="Course"
+                      value={selectedCourse}
+                      required
+                      options={courseOptions}
+                      onchange={onFieldChange}
+                      placeholder="-Select a Course-"
+                      ></lightning-select>
+                    
+                      <lightning-select
+                      name="campus"
+                      data-testid="campus"
+                      data-id="campus"
+                      label="Campus"
+                      value={selectedLocation}
+                      required
+                      options={locationCodesOptions}
+                      onchange={onFieldChange}
+                      placeholder="-Select a Campus-"
+                      ></lightning-select>
+
+                      <lightning-select
+                      name="attendanceType"
+                      data-testid="attendanceType"
+                      data-id="attendanceType"
+                      label="Attendance Type"
+                      value={selectedAttendanceType}
+                      required
+                      options={attendanceTypeOptions}
+                      onchange={onFieldChange}
+                      ></lightning-select>
+                      <template if:true={showPartTimeNotes}>
+                        <div class="slds-m-top--medium"></div>
+                        <div class="slds-size_5-of-5">
+                          Please refer to the <a href="https://www.monash.edu/graduate-research/study/scholarships" target="_blank">Scholarship Policy and Procedures</a> for eligibility requirements for a part-time scholarship. You will need to attach a document detailing the compelling reasons why you are unable to study full-time (i.e. carer's responsibilities, medical condition or disability). Please also include a medical certificate if applicable. These documents are to be uploaded in the Miscellaneous Documents section.
+                        </div>
+                      </template>
+                      <lightning-select
+                      name="attendanceMode"
+                      data-testid="attendanceMode"
+                      data-id="attendanceMode"
+                      label="Attendance Mode"
+                      required
+                      options={attendanceModeOptions}
+                      onchange={onFieldChange}
+                      value={selectedAttendanceMode}>
+                      </lightning-select>
+                      <template if:true={showOffCampusNotes}>
+                        <div class="slds-size_5-of-5">
+                          <div class="slds-m-around_medium"></div>
+                          <div class="slds-size_5-of-5">
+                            <template if:false={isAdmissionOnly}>Note: generally scholarships are not available for study under Monash's external mode regulations. Please refer to the Scholarship Policy and Procedures for eligibility requirements.&nbsp;</template> 
+                            All applicants must discuss and develop a study plan with the main supervisor, outlining how all course requirements will be met, including, but not limited to:                          
+                          </div>
+                          <div class="slds-size_5-of-5">
+                            <ul class="slds-list_dotted">
+                              <li>A schedule outlining how they will maintain regular contact with their supervisors and undertake any required academic unit seminars/activities; and </li>
+                              <li>Progress milestones; and</li>
+                              <li>Mandatory practica or industry or research internships (where applicable); and</li>
+                              <li>Mandatory coursework units or professional development activities.</li>
+                          </ul>
+                            <lightning-textarea name="offCampusText" 
+                            required value={offCampusArrangements}
+                            label="Please indicate what arrangements have been made"
+                            maxlength="500" 
+                            onchange={onFieldChange}
+                            ></lightning-textarea>
+                          </div>
+                        </div>
+                      </template>
+                    </template>
+                    <!-- END OF ADMISSION AND SCHOLARSHIP STUDY -->
+
+                    <!-- START OF SCHOLARSHIP ONLY STUDY -->
+                    <template if:true={isScholarshipOnly}>
+                      <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6" padding="around-small">
+                        <div class="slds-grid slds-grid_vertical">
+                          <div class="slds-col slds-text-align_left lightText">
+                            <span class="courseLabel">Faculty</span>
+                          </div>
+                          <div class="slds-col slds-text-align_left headingText">
+                            <span>{facultyName}</span>
+                          </div>
+                          <br/>
+
+                          <div class="slds-col slds-text-align_left lightText">
+                            <span class="courseLabel">Course</span>
+                          </div>
+                          <div class="slds-col slds-text-align_left headingText">
+                            <span>{courseTitle}</span>
+                          </div>
+                          <br/>
+
+                          <div class="slds-col slds-text-align_left lightText">
+                            <span class="courseLabel">Campus</span>
+                          </div>
+                          <div class="slds-col slds-text-align_left headingText">
+                            <span>{selectedLocation}</span>
+                          </div>
+                          <br/>
+
+                          <div class="slds-col slds-text-align_left lightText">
+                            <span class="courseLabel">Attendance Type</span>
+                          </div>
+                          <div class="slds-col slds-text-align_left headingText">
+                            <span>{selectedAttendanceTypeDesc}</span>       
+                          </div>
+                          <br/>
+
+                          <div class="slds-col slds-text-align_left lightText">
+                            <span class="courseLabel">Attendance Mode</span>
+                          </div>
+                          <div class="slds-col slds-text-align_left headingText">
+                            <span>{selectedAttendanceModeDesc}</span>
+                            <template if:true={showChangeToFullTime}>
+                            <div class="fieldContainer slds-size_5-of-5">
+                              <div class="slds-size_4-of-5" style="margin-top: 10px;">
+                                As you are currently enrolled part-time, do you intend to change your enrolment to full-time?<sup class="requiredField">*</sup>
+                              </div>
+                              <div class="slds-size_1-of-5" style="margin-top: 10px; margin-left: 20px;">
+                                 <lightning-radio-group
+                                    name="changeToFullTime"
+                                    label="Yes or No?"
+                                    required
+                                    type="button"
+                                    options={changeToFullTimeOptions}
+                                    value={selectedValue}
+                                    onchange={onFieldChange}
+                                    variant="label-hidden">
+                                    </lightning-radio-group>
+                              </div>
+                            </div>
+                            </template>
+                            <template if:true={showPartTimeNotesSO}>
+                              <div class="slds-m-top--medium"></div>
+                              <div class="slds-size_5-of-5">
+                                Please refer to the <a href="https://www.monash.edu/graduate-research/study/scholarships" target="_blank">Scholarship Policy and Procedures</a> for eligibility requirements for a part-time scholarship. You will need to attach a document detailing the compelling reasons why you are unable to study full-time (i.e. carer's responsibilities, medical condition or disability). Please also include a medical certificate if applicable. These documents are to be uploaded in the Miscellaneous Documents section.
+                              </div>
+                            </template>
+                            <template if:true={showChangeToInternal}>
+                              <div class="fieldContainer slds-size_5-of-5">
+                                <div class="slds-size_4-of-5" style="margin-top: 10px;">
+                                  You are currently enrolled in the external (off-campus) mode. Do you intend to change your enrolment to internal (on-campus) mode? <sup class="requiredField">*</sup>
+                                </div>
+                                <div class="slds-size_1-of-5" style="margin-top: 10px; margin-left: 20px;">
+                                   <lightning-radio-group
+                                      name="changeToInternal"
+                                      label="Yes or No?"
+                                      required
+                                      type="button"
+                                      options={changeToInternalOptions}
+                                      value={selectedValue}
+                                      onchange={onFieldChange}
+                                      variant="label-hidden">
+                                      </lightning-radio-group>
+                                </div>
+                              </div>
+                              </template>
+                            <template if:true={showUpgradeToMaster}>
+                            <div class="fieldContainer slds-size_5-of-5">
+                              <div class="slds-size_4-of-5" style="margin-top: 10px;">
+                                Are you applying to transfer your current research masters enrolment to PhD?<sup class="requiredField">*</sup>
+                              </div>
+                              <div class="slds-size_1-of-5" style="margin-top: 10px; margin-left: 20px;">
+                                 <lightning-radio-group
+                                    name="masterUpgrade"
+                                    label="Yes or No?"
+                                    required
+                                    type="button"
+                                    options={masterUpgradeOptions}
+                                    value={selectedValue}
+                                    onchange={onFieldChange}
+                                    variant="label-hidden">
+                                    </lightning-radio-group>
+                              </div>
+                            </div>
+                            </template>
+                          </div>
+                         
+                        </div>
+                      </lightning-layout-item>
+                    </template>
+                    <!-- START OF SCHOLARSHIP ONLY STUDY -->
+
+                    <!-- START OF ELIGIBILITY REQUIREMENTS -->
+                    <div class="fieldContainer slds-size_5-of-5">
+                        <div class="slds-size_4-of-5" style="margin-top: 10px;">
+                          <span class="fieldTitle">Have you previously applied for admission to a research degree and/or scholarship at Monash University?</span><sup class="requiredField">*</sup>
+                        </div>
+                        <div class="slds-size_1-of-5" style="margin-top: 10px; margin-left: 20px;">
+                           <lightning-radio-group
+                              name="previouslyApplied"
+                              label="Yes or No?"
+                              required
+                              type="button"
+                              options={previousScholarshipOptions}
+                              value={selectedValue}
+                              onchange={onFieldChange}
+                              variant="label-hidden">
+                              </lightning-radio-group>
+                        </div>
+                    </div>
+                    <div class="slds-size_5-of-5">
+                     
+                      <template if:true={showLastAppliedDate}>
+                        <lightning-input name="lastAppliedDate"
+                        data-testid="lastAppliedDate" 
+                        data-id="lastAppliedDate"
+                        label="When did you last apply?"
+                        required="true"
+                        onchange={onFieldChange}
+                        type="date"
+                        value={lastAppliedDate}
+                        max={today}></lightning-input>
+                      </template>
+                    </div>
+                    <!-- END OF ELIGIBILITY REQUIREMENTS -->
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- END OF STUDY PREFERENCES SECTION-->
+          </div>
+        </div>
+      </template>
+    </template>
+  </div>
+</template>

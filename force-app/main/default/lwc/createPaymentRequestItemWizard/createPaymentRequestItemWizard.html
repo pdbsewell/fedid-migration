@@ -1,0 +1,270 @@
+<template>
+    <!-- main wizard -->
+    <div class="slds-align_absolute-center">
+        <div class="slds-template__container" style="width: 100%; background-color: white; border-radius: .25rem; margin-bottom: 50px;">
+            <div class="inlinePanel oneRecordActionWrapper">
+                <!-- wizard header -->
+                <div class="actionBody">
+                    <div class="forceChangeRecordType" data-aura-class="forceChangeRecordType">
+                        <div class="inlineTitle slds-var-p-top_small slds-var-p-horizontal_medium slds-var-p-bottom_small slds-text-heading_medium">
+                            <!--<h2 class="inlineTitle slds-text-heading--medium">Create Payment Request Item</h2>
+                             documents section title -->
+                            <lightning-layout vertical-align="center">
+                                <lightning-layout-item size="6">
+                                    <h2 class="inlineTitle slds-text-heading_medium">Create Payment Request Item</h2>
+                                    <span class="inlineTitle slds-text-heading_small">{pageSubtitle}</span>
+                                </lightning-layout-item>   
+                                <lightning-layout-item size="6" alignment-bump="left">
+                                    <div class="slds-text-heading_small slds-p-left_small slds-text-align_right" style="width: 100%;">
+                                        <template if:true={agencyName}>
+                                            {agencyName} / Invoice Number: {invoiceNumber}
+                                        </template>
+                                    </div>                            
+                                </lightning-layout-item>                
+                            </lightning-layout>
+                        </div>
+                        <div class="modal__content">
+                            <!-- content section -->
+                            <div class="slds-border_top slds-is-relative" style="overflow-y:auto;">
+                                <template if:false={dataLoaded}>
+                                    <div style="width: 100%; height: 62.5vh;">
+                                        <!-- Spinner loader -->
+                                        <lightning-spinner alternative-text="Loading" variant="brand" size="medium"></lightning-spinner>
+                                    </div>
+                                </template>
+                                <template if:true={dataLoaded}>
+                                    <lightning-layout>
+                                        <lightning-layout-item size="3">
+                                            <div class="slds-p-right_x-small slds-m-top_small slds-p-left_small">
+                                                <!-- student -->
+                                                <div class="slds-p-bottom_small slds-border_bottom">
+                                                    <lightning-layout>
+                                                        <lightning-layout-item size="12">
+                                                            <div onkeyup={searchKeyUp}>
+                                                                <lightning-input
+                                                                    name="enter-search"
+                                                                    label="Student Id"
+                                                                    type="search"
+                                                                    value={searchStudentId}>
+                                                                </lightning-input>
+                                                            </div>
+                                                        </lightning-layout-item>
+                                                        <!--
+                                                        <lightning-layout-item size="2">
+                                                            <lightning-button-icon icon-name="utility:search"    
+                                                                alternative-text="Search"  
+                                                                class="slds-var-m-left_xx-small" 
+                                                                title="Search">
+                                                            </lightning-button-icon>
+                                                        </lightning-layout-item>
+                                                        -->
+                                                    </lightning-layout>
+                                                </div>
+                                                <!-- contacts list -->                                                
+                                                <template if:false={isQuickAdd}>                                                
+                                                    <template if:true={hasContactsResults}>
+                                                        <div class="slds-var-p-vertical_xx-small">
+                                                            <span style="color: rgb(62, 62, 60)">Search Results:</span>
+                                                            <div style="height: 50vh; overflow-y: auto;">
+                                                                <template for:each={contactsResult} for:item='contact'>
+                                                                    <div key={contact.Id} class="slds-var-p-bottom_xx-small">
+                                                                        <!-- result card-->
+                                                                        <c-create-payment-request-item-wizard-contact-result
+                                                                            contact={contact}
+                                                                            onselect={handleSelected}>
+                                                                        </c-create-payment-request-item-wizard-contact-result>    
+                                                                    </div>
+                                                                </template>
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                    <template if:false={hasContactsResults}>
+                                                        <h2 class="inlineTitle slds-text-heading_medium slds-p-top_small">No student found</h2>
+                                                    </template>
+                                                </template>
+                                            </div>
+                                        </lightning-layout-item>                                    
+                                        <lightning-layout-item size="9" padding="around-small">
+                                            <div class="slds-border_left slds-is-relative" style="height: 57vh; overflow-y: auto;">
+                                                <!-- searching -->
+                                                <template if:true={isSearching}>
+                                                    <div style="width: 100%;">
+                                                        <!-- Spinner loader -->
+                                                        <lightning-spinner alternative-text="Loading" variant="brand" size="medium"></lightning-spinner>
+                                                    </div>
+                                                </template>
+                                                <!-- search results -->
+                                                <template if:false={isSearching}>
+                                                    <template if:true={hasSearchResult}>
+                                                        <!-- quick add -->
+                                                        <template if:true={isQuickAdd}>
+                                                            <!-- result card-->
+                                                            <lightning-layout multiple-rows>
+                                                                <template for:each={courseAttemptsResult} for:item='courseAttempt'>
+                                                                    <lightning-layout-item key={courseAttempt.Id} size="6">
+                                                                        <!-- result card-->
+                                                                        <c-create-payment-request-item-wizard-result
+                                                                            course-attempt={courseAttempt}
+                                                                            onselect={handleSelectedCourseAttempt}>
+                                                                        </c-create-payment-request-item-wizard-result> 
+                                                                    </lightning-layout-item>
+                                                                </template>
+                                                            </lightning-layout>
+                                                        </template>
+                                                        <!-- search add -->
+                                                        <template if:false={isQuickAdd}>
+                                                            <div class="slds-m-left_small slds-m-top_xx-small" style="border: 1px solid #DDDBDA;">                                                            
+                                                                <lightning-datatable
+                                                                        key-field="Id"
+                                                                        data={data}
+                                                                        columns={dataColumns}
+                                                                        max-row-selection="1"
+                                                                        default-sort-direction={defaultSortDirection}
+                                                                        sorted-direction={sortDirection}
+                                                                        sorted-by={sortedBy}
+                                                                        onsort={onHandleSort}
+                                                                        onrowselection={onRowSelected}>
+                                                                </lightning-datatable>                                                                                                                
+                                                            </div>
+                                                        </template> 
+                                                    </template>
+                                                    <!-- no search results -->
+                                                    <template if:false={hasSearchResult}>
+                                                        <div class="slds-align_absolute-center">
+                                                            <div style="padding-top:10vh; height: 57vh;">
+                                                                <lightning-layout multiple-rows>
+                                                                    <lightning-layout-item padding="horizontal-small" size="12">
+                                                                        <div class="slds-align_absolute-center">
+                                                                            <img src="/img/search/no-results.png" />
+                                                                        </div>
+                                                                    </lightning-layout-item>
+                                                                    <lightning-layout-item padding="horizontal-small" size="12">
+                                                                        <span class="slds-text-heading_large slds-align_absolute-center" style="font-size: 3rem; color: #54698d;">No Course Attempt found</span>
+                                                                    </lightning-layout-item>
+                                                                </lightning-layout>
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                </template>
+                                            </div>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </template>
+                            </div>
+                            <!-- wizard actions -->
+                            <div class="slds-align_absolute-center slds-p-vertical_x-small slds-border_top">
+                                <lightning-button label="Cancel" onclick={handleCancel}></lightning-button>
+                                <lightning-button label="Reset" onclick={showQuickAdd} variant="brand" class="slds-var-m-left_x-small"></lightning-button>
+                                <lightning-button label={createPaymentRequestItemLabel} onclick={showConfirmationModal} disabled={addPaymentRequestItem} variant="brand" class="slds-var-m-left_x-small"></lightning-button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- add acp confirmation -->
+    <template if:true={showConfirmation}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-modal__title slds-hyphenate slds-text-heading_medium">
+                        <template if:true={hasQuickAddResults}>
+                            Create Multiple Payment Request Items
+                        </template>
+                        <template if:false={hasQuickAddResults}>
+                            Create Payment Request Item
+                        </template>
+                    </h2>
+                    <p class="slds-var-m-top_x-small">                        
+                        <template if:true={hasQuickAddResults}>
+                            The selected students will be added to Invoice No: <b>{invoiceNumber}</b> for agent <b>{agencyCode}</b>.
+                        </template>
+                        <template if:false={hasQuickAddResults}>
+                            The below detail will be added to Invoice No: <b>{invoiceNumber}</b> for agent <b>{agencyCode}</b>.
+                        </template>
+                    </p>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium slds-is-relative">
+                    <!-- adding acp -->
+                    <template if:true={isSubmittingACP}>
+                        <div style="width: 100%;">
+                            <!-- Spinner loader -->
+                            <lightning-spinner alternative-text="Loading" variant="brand" size="medium"></lightning-spinner>
+                        </div>
+                    </template>
+                    <!-- selected acp details -->
+                    <lightning-layout vertical-align="center" multiple-rows> 
+                        <template if:true={hasQuickAddResults}>
+                            <ul class="slds-list_dotted">
+                                <template for:each={selectedQuickAddCourseAttempts} for:item='courseAttempt'>
+                                    <li key={courseAttempt.Id}>
+                                        {courseAttempt.Contact__r.Person_ID_unique__c} / {courseAttempt.Contact_Name__c}
+                                    </li>
+                                </template>
+                            </ul>
+                        </template>
+                        <template if:false={hasQuickAddResults}>
+                            <!-- header -->
+                            <lightning-layout-item size="12">
+                                <span class="slds-text-heading_small">
+                                    <b>Student Number:</b> {selectedContact.Person_ID_unique__c}
+                                </span>
+                            </lightning-layout-item>   
+                            <lightning-layout-item size="12">
+                                <span class="slds-text-heading_small">
+                                    <b>Student Name:</b> {selectedContact.Name}
+                                </span>
+                            </lightning-layout-item>  
+                            <lightning-layout-item size="12"><br/></lightning-layout-item>  
+                            <template if:false={selectedCourseAttempt}>
+                                <span class="slds-text-heading_medium">
+                                    No Course Attempt is available, do you want to add this student anyway?
+                                </span>
+                            </template>
+                            <template if:true={selectedCourseAttempt}>
+                                <!-- course title -->                        
+                                <template if:true={selectedCourseAttempt.Course_Title__c}>
+                                    <lightning-layout-item size="12">
+                                        <span class="slds-text-body_regular">
+                                            <b>Course Title:</b> {selectedCourseAttempt.Course_Title__c}
+                                        </span>
+                                    </lightning-layout-item>  
+                                </template> 
+                                <!-- commencement date -->          
+                                <template if:true={selectedCourseAttempt.Commencement_Date__c}>                 
+                                    <lightning-layout-item size="12">
+                                        <span class="slds-text-body_regular">
+                                            <b>Commencement Date:</b> {selectedCourseAttempt.Commencement_Date__c}
+                                        </span>
+                                    </lightning-layout-item>   
+                                </template>  
+                                <!-- status -->                     
+                                <template if:true={selectedCourseAttempt.Course_Attempt_Status__c}>            
+                                    <lightning-layout-item size="12">
+                                        <span class="slds-text-body_regular">
+                                            <b>Status:</b> {selectedCourseAttempt.Course_Attempt_Status__c}
+                                        </span>
+                                    </lightning-layout-item>  
+                                </template>  
+                                <!-- agent code -->    
+                                <template if:true={selectedCourseAttempt.Application_Agent_Code__c}>                             
+                                    <lightning-layout-item size="12">
+                                        <span class="slds-text-body_regular">
+                                            <b>Agent Name:</b> {selectedCourseAttempt.Application_Course_Preference__r.Application__r.Agent__r.Name}
+                                        </span>
+                                    </lightning-layout-item>  
+                                </template>  
+                            </template> 
+                        </template>
+                    </lightning-layout>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancel" onclick={hideConfirmationModal} class="slds-m-left_x-small" disabled={isSubmittingACP}></lightning-button>
+                    <lightning-button label="Create" onclick={createPaymentRequest} variant="brand" class="slds-m-left_x-small" disabled={isSubmittingACP}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>    
+</template>

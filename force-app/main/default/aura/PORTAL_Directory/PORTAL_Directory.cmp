@@ -1,0 +1,212 @@
+<!--
+/*
+ * Copyright (c) 2019, UC Innovation, Inc.  All Rights Reserved.
+ *                     http://www.ucinnovation.com
+ *
+ * This source code is licensed, not sold, and is subject to a written
+ * license agreement.  Among other things, no portion of this source
+ * code may be copied, transmitted, disclosed, displayed, distributed,
+ * translated, used as the basis for a derivative work, or used, in
+ * whole or in part, for any program or purpose other than its intended
+ * use in compliance with the license agreement as part of UC Innovation's
+ * software.  This source code and certain of the algorithms contained
+ * within it are confidential trade secrets of UC Innovation, Inc.
+ * and may not be used as the basis for any other
+ * software, hardware, product or service.
+ */
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" 
+                access="global" 
+                controller="PORTAL_DirectoryController">
+    
+	<aura:attribute name="baseUrl" type="String" default=""></aura:attribute>
+    
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="recordId" type="String"/>
+    
+    <aura:attribute name="allData" type="List"/>
+    <aura:attribute name="currentPageNumber" type="Integer" default="1"/>
+    <aura:attribute name="pageSize" type="Integer" default="10"/>
+    <aura:attribute name="totalPages" type="Integer" default="0"/>
+    <aura:attribute name="pageList" type="List" default="[1]"/>
+    
+    <!-- This attribute will hold the update records from data table-->
+    <aura:attribute name="updatedRecord" type="Object[]" />
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    
+    <aura:attribute name="sortedBy" type="String"/>
+    <aura:attribute name="sortedDirection" type="String"/>
+    <aura:attribute name="defaultSortDirection" type="String"/>
+    
+    <aura:attribute name="searchText" type="String" default=""/>
+    
+    <aura:attribute name="searchForSelected" type="String" default="All"/>
+    
+    <aura:attribute name="options" type="List" default="[
+                                                        {'label': 'All', 'value': 'All'},
+                                                        {'label': 'Class Year', 'value': 'ClassYear'},
+                                                        {'label': 'Current Employer', 'value': 'CurrentEmployer'},    
+                                                        {'label': 'Department', 'value': 'Department'},                                                        
+                                                        {'label': 'Faculty or Staff', 'value': 'FacultyStaff'},
+                                                        {'label': 'Student', 'value': 'Student'},
+                                                        ]"/>
+    
+    <aura:attribute name="classYearOptions" type="List" default="[
+                                                                 {'label': '2018', 'value': '2018'},
+                                                                 {'label': '2017', 'value': '2017'},
+                                                                 {'label': '2016', 'value': '2016'},
+                                                                 {'label': '2015', 'value': '2015'},
+                                                                 {'label': '2014', 'value': '2014'},
+                                                                 {'label': '2013', 'value': '2013'},
+                                                                 {'label': '2012', 'value': '2012'},
+                                                                 {'label': '2011', 'value': '2011'},
+                                                                 {'label': '2010', 'value': '2010'},
+                                                                 {'label': '2009', 'value': '2009'},
+                                                                 {'label': '2008', 'value': '2008'},
+                                                                 {'label': '2007', 'value': '2007'},
+                                                                 {'label': '2006', 'value': '2006'},
+                                                                 {'label': '2005', 'value': '2005'},
+                                                                 {'label': '2004', 'value': '2004'},
+                                                                 {'label': '2003', 'value': '2003'},
+                                                                 {'label': '2002', 'value': '2002'},
+                                                                 {'label': '2001', 'value': '2001'},
+                                                                 {'label': '2000', 'value': '2000'},
+                                                                 {'label': '1999', 'value': '1999'},
+                                                                 {'label': '1998', 'value': '1998'},
+                                                                 {'label': '1997', 'value': '1997'},
+                                                                 {'label': '1996', 'value': '1996'},
+                                                                 {'label': '1995', 'value': '1995'},
+                                                                 {'label': '1994', 'value': '1994'},
+                                                                 {'label': '1993', 'value': '1993'},
+                                                                 {'label': '1992', 'value': '1992'},
+                                                                 {'label': '1991', 'value': '1991'},
+                                                                 {'label': '1990', 'value': '1990'},
+                                                                 {'label': '1989', 'value': '1989'},
+                                                                 {'label': '1988', 'value': '1988'},
+                                                                 {'label': '1987', 'value': '1987'},
+                                                                 {'label': '1986', 'value': '1986'},
+                                                                 {'label': '1985', 'value': '1985'},
+                                                                 {'label': '1984', 'value': '1984'},
+                                                                 {'label': '1983', 'value': '1983'},
+                                                                 {'label': '1982', 'value': '1982'},
+                                                                 {'label': '1981', 'value': '1981'},
+                                                                 {'label': '1980', 'value': '1980'},
+                                                                 ]"/>
+    
+    <aura:attribute name="departmentOptions" type="List" default="[
+                                                                  {'label': 'Business', 'value': 'Business'},                                                                  
+                                                                  {'label': 'Computer Science', 'value': 'Computer Science'},
+                                                                  {'label': 'Engineering', 'value': 'Engineering'},
+                                                                  {'label': 'English', 'value': 'English'},
+                                                                  {'label': 'Physics', 'value': 'Physics'},
+                                                                  ]"/>
+    
+    
+    <aura:attribute name="classYear" type="String" default=""/>
+    <aura:attribute name="constituentType" type="String" default=""/>
+    <aura:attribute name="department" type="String" default=""/>
+    
+    <aura:attribute name="contact" type="Customer_Community_Object_Access__c" 
+                    default="{ 'sobjectType': 'Customer_Community_Object_Access__c' }"/>
+    
+    <aura:handler name="change" value="{!v.contact.Account__c}" action="{!c.handleEmployerChange}"/>
+    <aura:handler name="change" value="{!v.searchText}" action="{!c.handleSearchTextChange}"/>
+    
+    <!-- You must define keyField as 'Id' to save the record back in Salesforce
+ 'onsave' attribute will executed when user clicks on save button -->
+    
+    <lightning:card title="Search">
+        
+        <div class="slds-grid slds-wrap">
+            <div class="slds-p-around_small slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                
+                <!--               <div onkeyup="{!c.handleEnterKey}"> -->
+                <lightning:input
+                                 aura:id="enter-search"
+                                 name="enter-search"
+                                 label="Search"
+                                 type="search"
+                                 value="{!v.searchText}"
+                                 />
+                <!--                </div>		-->
+            </div>
+            <div class="slds-p-around_small slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                <lightning:combobox name="searchFilter" label="Search For" value="{!v.searchForSelected}" placeholder="Search Filter" options="{! v.options }" onchange="{! c.handleSearchForChange }"/>
+            </div>
+            <div class="slds-p-around_small slds-col slds-size_1-of-1 slds-large-size_4-of-12">
+                <aura:if isTrue="{!v.searchForSelected == 'ClassYear'}">
+                    <lightning:combobox name="classYear" label="Class Year" value="{!v.classYear}" placeholder="Select Class Year" options="{! v.classYearOptions }" onchange="{! c.handleClassYearChange }"/>
+                </aura:if>
+                <aura:if isTrue="{!v.searchForSelected == 'Department'}">
+                    <lightning:combobox name="department" label="Department" value="{!v.department}" placeholder="Select Department" options="{! v.departmentOptions }" onchange="{! c.handleDepartmentChange }"/>
+                </aura:if>
+                
+                <!-- Can't embed in <aura:if> since Lightning doesn't display lookup if we do that.  Thus, need to use hide/show. -->
+                <div class="slds-form-element slds-hide" aura:id="currentEmployerLookup">
+                    <label class="slds-form-element__label">Current Employer</label>
+                    <div class="slds-form-element__control">
+                        <force:inputField value="{!v.contact.Account__c}"/>
+                    </div>
+                </div>
+                
+                
+            </div>        
+        </div>
+        
+        <lightning:layout multipleRows="true" horizontalAlign="center">
+            <lightning:layoutItem padding="around-small" size="12">
+                <lightning:datatable aura:id="contactDataTable"
+                                     columns="{! v.columns }"
+                                     data="{! v.data }"
+                                     keyField="Id"
+                                     hideCheckboxColumn="true"
+                                     onsort="{! c.updateColumnSorting }"
+                                     sortedBy="{!v.sortedBy}"  
+                                     sortedDirection="{!v.sortedDirection}"
+                                     defaultSortDirection="{!v.defaultSortDirection }"/>
+            </lightning:layoutItem>
+            <aura:if isTrue="{!v.totalPages > 1 }">            
+                <lightning:layoutItem padding="around-small" flexibility="auto">
+                    <lightning:button label="First" iconName="utility:left" iconPosition="left"
+                                      onclick="{!c.onFirst}" disabled="{! v.currentPageNumber == 1}"/>
+                    <lightning:button iconName="utility:chevronleft" iconPosition="left"
+                                      onclick="{!c.onPrev}" disabled="{! v.currentPageNumber == 1}"/>
+                    <aura:if isTrue="{!$Browser.isPhone == false}">
+                        <span class="slds-p-horizontal_x-small">
+                            <a onclick="{!c.processMe}" name="1" 
+                               class="{! (v.currentPageNumber == 1) ? 'selected' : ''}">1</a>
+                        </span>
+                        <span class="slds-p-horizontal_xxx-small">
+                            ...
+                        </span>
+                        
+                        <aura:iteration items="{!v.pageList}" var="item">
+                            <span class="slds-p-horizontal_x-small">
+                                <a onclick="{!c.processMe}" name="{!item}"
+                                   class="{! (v.currentPageNumber == item) ? 'selected' : ''}">{!item}</a>
+                            </span>
+                        </aura:iteration>
+                        
+                        <span class="slds-p-horizontal_xxx-small">
+                            ...
+                        </span>
+                        <span class="slds-p-horizontal_x-small">
+                            <a onclick="{!c.processMe}" name="{!v.totalPages}"
+                               class="{! (v.currentPageNumber == v.totalPages) ? 'selected' : ''}">{!v.totalPages}</a>
+                        </span>
+                    </aura:if>
+                    <lightning:button iconName="utility:chevronright" iconPosition="right" 
+                                      disabled="{! v.currentPageNumber == v.totalPages}" onclick="{!c.onNext}"/>
+                    <lightning:button label="Last" iconName="utility:right" iconPosition="right" 
+                                      disabled="{! v.currentPageNumber == v.totalPages}" onclick="{!c.onLast}"/>
+                </lightning:layoutItem>
+            </aura:if>
+        </lightning:layout>
+        
+    </lightning:card>
+    <br></br>
+    <br></br>
+</aura:component>

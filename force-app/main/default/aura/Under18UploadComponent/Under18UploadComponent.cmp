@@ -1,0 +1,69 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="Under18Controller">
+    <!--Design Bindings for Configuration-->
+    <aura:attribute name="helperText" type="String" />
+    <aura:attribute name="formUrl" type="String" />
+    <!--Form Configuration-->
+    <aura:attribute name="isExpanded" type="Boolean" default="true" />
+    <!--Event Handlers-->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <!--Data State-->
+    <aura:attribute name="application" type="Application__c" default="{'sobjectType': 'Application__c',
+    'Id': '',
+    'Guardian_Full_Name__c': '',
+    'Guardian_Phone_Number__c': '',
+    'Guardian_Email_Address__c': '',
+    'Guardian_Relationship__c': ''}"/>
+    <aura:attribute name="under18" type="Boolean" default="false" />
+    <aura:attribute name="documentId" type="String" />
+    <aura:attribute name="internationalStudent" type="Boolean" default="false"/>
+    <aura:attribute name="studyCountry" type="String" default=""/>
+
+    <div class="slds">
+        <aura:if isTrue="{!and(v.under18 == true, v.internationalStudent == true)}">
+             <!-- SPINNER -->
+            <div class="slds-section section-float">
+                <aura:renderIf isTrue="{!v.isExpanded}">
+                    <div class="slds-grid slds-wrap slds-gutters">
+                        <lightning:spinner aura:id="spinner" class="slds-hide slds-spinner-container" alternativeText="Saving" variant="brand"/>
+                        <aura:if isTrue="{!v.studyCountry == 'Australia'}">
+                            <div class="slds-col slds-size_1-of-1">
+                                As you are under 18 years of age, you must provide your parent/guardian's details and attach a completed, signed copy of the <a href="{!$Resource.Under18Form}" target="_blank">Student and Parent/Legal Custodian Declaration form</a> to this application.
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.studyCountry == 'Malaysia'}">
+                            <div class="slds-col slds-size_1-of-1">
+                                As you are under 18 years of age, you must provide your parent/guardian's details and attach a completed, signed copy of the <a href="{!$Resource.Under18FormMalaysia}" target="_blank">Student and Parent/Legal Custodian Declaration form</a> to this application.
+                            </div>
+                        </aura:if>
+                        <br/>
+                            <div class="slds-col slds-size--1-of-1">
+                            <lightning:input aura:id="quickContact" label="Full Name"
+                                name="fullName"
+                                value="{!v.application.Guardian_Full_Name__c}"
+                                required="true"
+                                onblur="{!c.updateGuardian}"/>
+                            <lightning:input aura:id="quickContact" label="Phone Number"
+                                name="phoneNumber"
+                                type="tel"
+                                value="{!v.application.Guardian_Phone_Number__c}"
+                                required="true"
+                                onblur="{!c.updateGuardian}"/>
+                            <lightning:input aura:id="quickContact" label="Email"
+                                name="email"
+                                type="email"
+                                value="{!v.application.Guardian_Email_Address__c}"
+                                required="true"
+                                onblur="{!c.updateGuardian}"/>
+                            <lightning:input aura:id="quickContact" label="Relationship"
+                                name="relationship"
+                                value="{!v.application.Guardian_Relationship__c}"
+                                required="true"
+                                onblur="{!c.updateGuardian}"/>
+                            <br/>
+                        </div>
+                    </div>
+                </aura:renderIf>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

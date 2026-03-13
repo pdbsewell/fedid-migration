@@ -1,0 +1,877 @@
+<template>
+    <lightning-layout-item size="12" small-device-size="6" medium-device-size="4">
+        <template if:true={isLargeFormFactor}>
+            <lightning-layout>
+                <template if:false={countryISOPassed}>
+                    <!-- Country picklist -->
+                    <lightning-layout-item size="4" class="slds-m-right_x-small">
+                        <div>
+                            <label id="country" class="slds-m-bottom_none" style={countryLabelCss}>Country</label>
+                                <span class="slds-text-color_destructive">* </span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-combobox_container">
+                                    <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open">
+                                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                            <button type="button" 
+                                                    title={countryName}
+                                                    class="slds-input_faux slds-combobox__input slds-p-left_none"
+                                                    aria-labelledby="combobox-label-id-28 combobox-id-2-selected-value" 
+                                                    id="combobox-id-2-selected-value"
+                                                    aria-controls="listbox-id-2"
+                                                    aria-expanded="false"
+                                                    aria-haspopup="listbox"
+                                                    disabled={isAddressDisabled}
+                                                    onmouseup={handleShowDropDown}
+                                                    onfocusout={hideDropDown}
+                                                    onblur={handleBlur}>
+
+                                                <template if:false={isSelected}>
+                                                    <div class="slds-size_1-of-1" style="border: 0 solid lightgray">
+                                                        <input  id="addressInputId"
+                                                                type="text"
+                                                                class="slds-input slds-p-left_x-small input "
+                                                                style="border: 0px;"
+                                                                placeholder="Select a country…"
+                                                                value={inputCountry}
+                                                                disabled={isAddressDisabled}
+                                                                oninput={handleOnInput}
+                                                                onfocusout={hideDropDown}
+                                                                onblur={handleBlur}/>
+                                                    </div>
+                                                </template>
+
+                                                <template if:true={isSelected}>
+                                                    <div class="slds-media slds-truncate slds-p-left_x-small">
+                                                        <!-- Country flag -->
+                                                        <template if:false={doNotShowCountryFlags}>
+                                                            <span class="slds-media__figure">
+                                                                <img src={selectedItem.flag} onerror={assignDefaultFlag} style="width: 25px; display:inline-block;" />
+                                                            </span>
+                                                        </template>
+                                                        <span class="slds-media__body">
+                                                            <!-- Country name -->
+                                                            <span class="slds-truncate">{selectedItem.name}</span>
+                                                        </span>
+                                                    </div>
+                                                </template>
+                                                
+                                            </button>
+
+                                            <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                                                <lightning-button-icon  icon-name="utility:down" 
+                                                                        variant="bare" 
+                                                                        onclick={handleShowDropDown}
+                                                                        onfocusout={hideDropDown}
+                                                                        disabled={isAddressDisabled}
+                                                                        onblur={handleBlur}
+                                                                        aria-label="open listbox">
+                                                </lightning-button-icon>
+                                            </span>
+                                        </div>
+
+                                        <!-- Dropdown List -->
+                                        <template if:true={showDropdown}>
+                                            <div id="listbox-id-2" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid slds-dropdown_left" role="listbox" onfocus={handleDropDownFcous} onblur={handleDropDownBlur}>
+                                                <template if:true={frequentlyUsedExists}>
+                                                    <ul class="slds-listbox slds-listbox_vertical" role="listbox" aria-label="Top Countries">
+                                                        <li role="option" class="slds-listbox__item">
+                                                            <div id="option0" class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small">
+                                                                <h3 class="slds-listbox__option-header" role="presentation" style="color: black;">Frequently Used</h3>
+                                                            </div>
+                                                        </li>
+                                                        <template for:each={picklistOptionsTop} for:item="item" for:index="indexVar">
+                                                            <li tabindex="0" style="list-style-type:none" key={item.Id} onmousedown={handleSelectCountry} data-id={indexVar} data-name={item.name} data-category="top" role="option" onkeydown={handleKeydown}>
+                                                                <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small">
+                                                                    <!-- Country flag -->
+                                                                    <template if:false={doNotShowCountryFlags}>
+                                                                        <span class="slds-media__figure">
+                                                                            <img src={item.flag} onerror={assignDefaultFlag} style="width: 25px; display:inline-block;" />
+                                                                        </span>
+                                                                    </template>
+                                                                    <span class="slds-media__body">
+                                                                        <!-- Country name -->
+                                                                        <span class="slds-truncate">&nbsp;&nbsp;{item.name}</span>
+                                                                    </span>
+                                                                </div>
+                                                            </li>
+                                                        </template>
+                                                    </ul>
+                                                </template>
+
+                                                <ul class="slds-listbox slds-listbox_vertical" role="listbox" aria-label="Other Countries">
+                                                    <template if:true={frequentlyUsedExists}>
+                                                        <li role="option" class="slds-listbox__item">
+                                                            <div id="option1" class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small">
+                                                                <h3 class="slds-listbox__option-header" style="color: black;">----------------------------</h3>
+                                                            </div>
+                                                        </li>
+                                                    </template>
+                                                    <template for:each={picklistOptionsRest} for:item="item" for:index="indexVar">
+                                                        <li onkeydown={handleKeydown} tabindex="0" style="list-style-type:none" key={item.Id} onmousedown={handleSelectCountry} data-id={indexVar} data-name={item.name} data-category="rest" role="option">
+                                                            <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small">
+                                                                <!-- Country flag -->
+                                                                <template if:false={doNotShowCountryFlags}>
+                                                                    <span class="slds-media__figure">
+                                                                        <img src={item.flag} onerror={assignDefaultFlag} style="width: 25px; display:inline-block;" />
+                                                                    </span>
+                                                                </template>
+                                                                <span class="slds-media__body">
+                                                                    <!-- Country name -->
+                                                                    <span class="slds-truncate">&nbsp;&nbsp;{item.name}</span>
+                                                                </span>
+                                                            </div>
+                                                        </li>
+                                                    </template>
+                                                </ul>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </lightning-layout-item>
+                </template>
+
+                <!-- Address search area -->
+                <lightning-layout-item size={addressSearchSize}>
+                    <div class="slds-clearfix slds-m-right_x-small">
+                        <div class="slds-float_left">
+                            <label class="slds-m-bottom_none" style={addressSearchLabelCss}>{addressSearchlabel}</label>
+                        </div>
+
+                        <!-- Manual address checkbox on the top -->
+                        <template if:true={manualCheckboxTop}>                            
+                            <input class="slds-float_right slds-m-top_xx-small"
+                                type="checkbox" 
+                                name="options" 
+                                id="checkbox-unique-id-1" 
+                                value="checkbox-unique-id-1" 
+                                checked={isManual}
+                                onchange={handleManualEntry}
+                                disabled={isManualDisabled} />
+
+                            <label class="slds-checkbox__label slds-p-right_none" for="checkbox-unique-id-1">
+                                <span class="slds-checkbox_faux"></span>
+                                <span class="slds-float_right slds-p-top_xxx-small slds-p-right_x-small" style={cantFindAddressLabelCss}>Can't find your address?</span>
+                            </label>
+                        </template>
+                    </div>
+
+                    <div class="slds-form-element slds-m-right_x-small">
+                        <div class="slds-form-element__control">
+                            <div class="slds-combobox_container">
+                                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" 
+                                        style="border: 1px solid lightgray;border-radius: 3px;"
+                                        aria-expanded="false" 
+                                        aria-haspopup="listbox" 
+                                        role="combobox">
+
+                                    <!-- Address search bar - When no address selected -->
+                                    <template if:false={selectedRecord}>
+                                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                            <input type="text" 
+                                                    oninput={handleInputChange}
+                                                    class="slds-input slds-combobox__input" 
+                                                    id="combobox-id-1"
+                                                    aria-autocomplete="list" 
+                                                    aria-controls="listbox-id-1" 
+                                                    autocomplete="off"                        
+                                                    role="textbox" 
+                                                    placeholder={placeholder} 
+                                                    value={textvalue}
+                                                    disabled={isSearchDisabled}/>
+                                            <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
+                                                <!-- Clear icon -->
+                                                <template if:false={isClearIconHidden}>
+                                                    <lightning-icon title="Clear" size="x-small" class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default slds-p-right_large" icon-name="utility:clear" onclick={handleClearField}></lightning-icon>
+                                                </template>
+
+                                                <!-- Search icon -->
+                                                <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                                                    <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        
+                                        <template if:false={isManual}>
+                                            <div style="background: white;" id="listbox-id-1" class="slds-dropdown_fluid" role="listbox">
+                                                <ul class="slds-listbox slds-listbox_vertical" role="group">
+                                                    <template if:true={searchRecords} for:each={searchRecords} for:item="record" for:index="index">
+                                                        <li tabindex="0" onkeydown={handleKeydownAddress} onclick={handleSelect} role="presentation" class="slds-listbox__item" data-record-id={record.addressKey} key={record.addressKey} >
+                                                            <div data-id={record.Id} class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                                                <template if:false={doNotShowLocationIcon}>
+                                                                    <span class="slds-media__figure slds-listbox__option-icon">
+                                                                        <span class="slds-icon_container slds-icon-standard-account">
+                                                                        <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                                                                            <use xlink:href={ICON_URL}></use>
+                                                                        </svg>
+                                                                        </span>
+                                                                    </span>
+                                                                </template>
+                                                                <span class="slds-media__body">
+                                                                    <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                                        {record.addressText}
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                        </li>
+                                                    </template>
+                                                </ul>
+                                            </div>
+                                        </template>
+                                    </template>
+
+                                    <!-- Address search bar - When address is selected -->
+                                    <template if:true={selectedRecord}>
+                                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_left-right" role="none">
+                                            <template if:false={doNotShowLocationIcon}>
+                                                <span class="slds-icon_container slds-icon-standard-account slds-combobox__input-entity-icon" title={objectLabel}>
+                                                    <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                                                        <use xlink:href={ICON_URL}></use>
+                                                    </svg>
+                                                    <span class="slds-assistive-text">{objectLabel}</span>
+                                                </span>
+                                            </template>
+                                            <input type="text" 
+                                                    class="slds-input slds-combobox__input slds-combobox__input-value" 
+                                                    id="combobox-id-5"
+                                                    title={fullAddress}
+                                                    aria-controls="listbox-id-5"  
+                                                    disabled
+                                                    autocomplete="off"
+                                                    role="textbox"
+                                                    placeholder="Select an Option…"
+                                                    readonly=""
+                                                    value={selectedRecord.addressText}/>
+                                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" 
+                                                title="Remove selected option" onclick={resetDetails}>
+                                                <svg class="slds-button__icon" aria-hidden="true">
+                                                    <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                                                </svg>
+                                                <span class="slds-assistive-text">Remove selected option</span>
+                                            </button>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+
+            </lightning-layout>
+
+            <lightning-layout>
+                <!-- Error display -->
+                <template if:true={hasErrorOccured}>
+                    <lightning-layout-item size="6">
+                        <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                            {errorMessage}
+                        </span>
+                    </lightning-layout-item>
+                </template>
+                <template if:false={hasErrorOccured}>
+                    <lightning-layout-item size="6"></lightning-layout-item>
+                </template>
+
+                <!-- Manual address checkbox at the bottom -->
+                <template if:false={manualCheckboxTop}>
+                    <lightning-layout-item size="6">
+                        <input class="slds-float_right slds-m-top_xx-small"
+                                type="checkbox"
+                                name="options"
+                                id="checkbox-unique-id-2" 
+                                value="checkbox-unique-id-1"
+                                checked={isManual}
+                                onchange={handleManualEntry}
+                                disabled={isManualDisabled} />
+
+                        <label class="slds-checkbox__label slds-p-right_none" for="checkbox-unique-id-2">
+                            <span class="slds-checkbox_faux"></span>
+                            <span class="slds-float_right slds-p-top_xxx-small slds-p-right_x-small" style={cantFindAddressLabelCss}>Can't find your address?</span>
+                        </label>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+
+            <template if:false={manualFieldsHidden}>
+                <!-- Manual address fields -->
+                <template if:true={isManual}>
+                    <!-- Manual address fields placed next to each other -->
+                    <template if:false={manualFieldsStacked}>
+                        <lightning-layout>
+                            <!-- House/Apartment number, Building name/number, Street name/number -->
+                            <lightning-layout-item size="12">
+                                <label style={manualFieldsLabelCss}>Street</label>
+                                <template if:true={streetMandatory}>
+                                    <span class="slds-text-color_destructive">* </span>
+                                </template>
+                                <lightning-input type="text" class="addressfield"
+                                                value={addressDetails.splitRecord.address_line_1}
+                                                variant="label-hidden"
+                                                placeholder="House/Apartment number, Building name/number, Street name/number"
+                                                max-length="255"
+                                                disabled={isAddressDisabled}
+                                                onchange={handleAddressLine1Change}
+                                                onfocusout={validateStreet}>
+                                </lightning-input>
+                                <template if:true={streetValidationMessage}>
+                                    <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                                        {streetValidationMessage}
+                                    </span>
+                                </template>
+                            </lightning-layout-item>
+                        </lightning-layout>
+
+                        <lightning-layout>
+                            <!-- City -->
+                            <lightning-layout-item size="4" class="slds-p-right_small">
+                                <label style={manualFieldsLabelCss}>City</label>
+                                <template if:true={cityMandatory}>
+                                    <span class="slds-text-color_destructive">* </span>
+                                </template>
+                                <lightning-input type="text" class="addressfield"
+                                                value={addressDetails.splitRecord.locality}
+                                                variant="label-hidden"
+                                                placeholder="City"
+                                                max-length="255"
+                                                disabled={isAddressDisabled}
+                                                onchange={handleCityChange}
+                                                onfocusout={validateCity}>
+                                </lightning-input>
+                                <template if:true={cityValidationMessage}>
+                                    <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                                        {cityValidationMessage}
+                                    </span>
+                                </template>
+                            </lightning-layout-item>
+
+                            <!-- State -->
+                            <lightning-layout-item size="4" class="slds-p-right_small">
+                                <label style={manualFieldsLabelCss}>State</label>
+                                <template if:true={stateMandatory}>
+                                    <span class="slds-text-color_destructive">* </span>
+                                </template>
+                                <lightning-input type="text" class="addressfield"
+                                                value={addressDetails.splitRecord.region}
+                                                variant="label-hidden"
+                                                placeholder="State"
+                                                max-length="255"
+                                                disabled={isAddressDisabled}
+                                                onchange={handleStateChange}
+                                                onfocusout={validateState}>
+                                </lightning-input>
+                                <template if:true={stateValidationMessage}>
+                                    <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                                        {stateValidationMessage}
+                                    </span>
+                                </template>
+                            </lightning-layout-item>
+
+                            <!-- Post Code -->
+                            <lightning-layout-item size="4">
+                                <label style={manualFieldsLabelCss}>Post Code</label>
+                                <template if:true={postCodeMandatory}>
+                                    <span class="slds-text-color_destructive">* </span>
+                                </template>
+                                <lightning-input type="text" class="addressfield"
+                                                value={addressDetails.splitRecord.postal_code}
+                                                variant="label-hidden"
+                                                placeholder="Post/Zip/Pin code"
+                                                max-length="16"
+                                                disabled={isAddressDisabled}
+                                                onchange={handlePostCodeChange}
+                                                onfocusout={validatePostCode}>
+                                </lightning-input>
+                                <template if:true={postCodeValidationMessage}>
+                                    <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                                        {postCodeValidationMessage}
+                                    </span>
+                                </template>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+
+                    <!-- Manual address fields stacked on top of each other -->
+                    <template if:true={manualFieldsStacked}>
+
+                        <!-- House/Apartment number, Building name/number, Street name/number -->
+                        <lightning-layout class="slds-m-bottom_x-small slds-m-top_x-small">
+                            <lightning-layout-item size="2" class="slds-p-top_x-small">
+                                <label style={manualFieldsLabelCss}>Street</label>
+                                <template if:true={streetMandatory}>
+                                    <span class="slds-text-color_destructive">* </span>
+                                </template>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="10">
+                                <lightning-input type="text" class="addressfield"
+                                                value={addressDetails.splitRecord.address_line_1}
+                                                variant="label-hidden"
+                                                placeholder="House/Apartment number, Building name/number, Street name/number"
+                                                max-length="255"
+                                                disabled={isAddressDisabled}
+                                                onchange={handleAddressLine1Change}
+                                                onfocusout={validateStreet}>
+                                </lightning-input>
+                                <template if:true={streetValidationMessage}>
+                                    <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                                        {streetValidationMessage}
+                                    </span>
+                                </template>
+                            </lightning-layout-item>
+                        </lightning-layout>
+
+                        <!-- City -->
+                        <lightning-layout class="slds-m-bottom_x-small">
+                            <lightning-layout-item size="2" class="slds-p-top_x-small">
+                                <label style={manualFieldsLabelCss}>City</label>
+                                <template if:true={cityMandatory}>
+                                    <span class="slds-text-color_destructive">* </span>
+                                </template>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="10">
+                                <lightning-input type="text" class="addressfield"
+                                                value={addressDetails.splitRecord.locality}
+                                                variant="label-hidden"
+                                                placeholder="City"
+                                                max-length="255"
+                                                disabled={isAddressDisabled}
+                                                onchange={handleCityChange}
+                                                onfocusout={validateCity}>
+                                </lightning-input>
+                                <template if:true={cityValidationMessage}>
+                                    <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                                        {cityValidationMessage}
+                                    </span>
+                                </template>
+                            </lightning-layout-item>
+                        </lightning-layout>
+
+                        <!-- State -->
+                        <lightning-layout class="slds-m-bottom_x-small">
+                            <lightning-layout-item size="2" class="slds-p-top_x-small">
+                                <label style={manualFieldsLabelCss}>State</label>
+                                <template if:true={stateMandatory}>
+                                    <span class="slds-text-color_destructive">* </span>
+                                </template>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="10">
+                                <lightning-input type="text" class="addressfield"
+                                                value={addressDetails.splitRecord.region}
+                                                variant="label-hidden"
+                                                placeholder="State"
+                                                max-length="255"
+                                                disabled={isAddressDisabled}
+                                                onchange={handleStateChange}
+                                                onfocusout={validateState}>
+                                </lightning-input>
+                                <template if:true={stateValidationMessage}>
+                                    <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                                        {stateValidationMessage}
+                                    </span>
+                                </template>
+                            </lightning-layout-item>
+                        </lightning-layout>
+
+                        <!-- Post Code -->
+                        <lightning-layout class="slds-m-bottom_xx-small">
+                            <lightning-layout-item size="2" class="slds-p-top_x-small">
+                                <label style={manualFieldsLabelCss}>Post Code</label>
+                                <template if:true={postCodeMandatory}>
+                                    <span class="slds-text-color_destructive">* </span>
+                                </template>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="10">
+                                <lightning-input type="text" class="addressfield"
+                                                value={addressDetails.splitRecord.postal_code}
+                                                variant="label-hidden"
+                                                placeholder="Post/Zip/Pin code"
+                                                max-length="16"
+                                                disabled={isAddressDisabled}
+                                                onchange={handlePostCodeChange}
+                                                onfocusout={validatePostCode}>
+                                </lightning-input>
+                                <template if:true={postCodeValidationMessage}>
+                                    <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                                        {postCodeValidationMessage}
+                                    </span>
+                                </template>
+                            </lightning-layout-item>
+                        </lightning-layout>
+
+                    </template>
+                </template>
+            </template>
+        </template>
+        <template if:true={isSmallMediumFormFactor}>
+            <lightning-layout>
+                <template if:false={countryISOPassed}>
+                    <!-- Country picklist -->
+                    <lightning-layout-item size="12" class="slds-m-right_x-small">
+                        <div>
+                            <label class="slds-m-bottom_none" style={countryLabelCss}>Country</label> 
+                            <div class="slds-form-element__control">
+                                <div class="slds-combobox_container">
+                                    <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                            <button type="button" 
+                                                    title={countryName}
+                                                    class="slds-input_faux slds-combobox__input slds-p-left_none"
+                                                    aria-labelledby="combobox-label-id-28 combobox-id-3-selected-value" 
+                                                    id="combobox-id-3-selected-value" 
+                                                    aria-controls="listbox-id-3"
+                                                    aria-expanded="false" 
+                                                    aria-haspopup="listbox"
+                                                    disabled={isAddressDisabled}
+                                                    onmouseup={handleShowDropDown}
+                                                    onfocusout={hideDropDown}>
+
+                                                <template if:false={isSelected}>
+                                                    <div class="slds-size_1-of-1" style="border: 0 solid lightgray">
+                                                        <input  type="text"
+                                                                class="slds-input slds-p-left_x-small"
+                                                                style="border: 0px;"
+                                                                placeholder="Select a country…"
+                                                                value={inputCountry}
+                                                                disabled={isAddressDisabled}
+                                                                oninput={handleOnInput}
+                                                                onfocusout={hideDropDown}/>
+                                                    </div>
+                                                </template>
+
+                                                <template if:true={isSelected}>
+                                                    <div class="slds-media slds-truncate slds-p-left_x-small">
+                                                        <!-- Country flag -->
+                                                        <template if:false={doNotShowCountryFlags}>
+                                                            <span class="slds-media__figure">
+                                                                <img src={selectedItem.flag} onerror={assignDefaultFlag} style="width: 25px; display:inline-block;" />
+                                                            </span>
+                                                        </template>
+                                                        <span class="slds-media__body">
+                                                            <!-- Country name -->
+                                                            <span class="slds-truncate">{selectedItem.name}</span>
+                                                        </span>
+                                                    </div>
+                                                </template>
+                                                
+                                            </button>
+
+                                            <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                                                <lightning-button-icon  icon-name="utility:down" 
+                                                                        variant="bare" 
+                                                                        onclick={handleShowDropDown}
+                                                                        onfocusout={hideDropDown}
+                                                                        disabled={isAddressDisabled}
+                                                                        onblur={handleBlur}>
+                                                </lightning-button-icon>
+                                            </span>
+                                        </div>
+
+                                        <!-- Dropdown List -->
+                                        <template if:true={showDropdown}>
+                                            <div id="listbox-id-3" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid slds-dropdown_left" role="listbox">
+                                                <template if:true={frequentlyUsedExists}>
+                                                    <ul class="slds-listbox slds-listbox_vertical" role="group" aria-label="Top Countries">
+                                                        <li role="presentation" class="slds-listbox__item">
+                                                            <div id="option4" class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="presentation">
+                                                                <h3 class="slds-listbox__option-header" role="presentation" style="color: black;">Frequently Used</h3>
+                                                            </div>
+                                                        </li>
+                                                        <template for:each={picklistOptionsTop} for:item="item" for:index="indexVar">
+                                                            <li style="list-style-type:none" key={item.Id} onmousedown={handleSelectCountry} data-id={indexVar} data-name={item.name} data-category="top" role="presentation">
+                                                                <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option">
+                                                                    <!-- Country flag -->
+                                                                    <template if:false={doNotShowCountryFlags}>
+                                                                        <span class="slds-media__figure">
+                                                                            <img src={item.flag} onerror={assignDefaultFlag} style="width: 25px; display:inline-block;" />
+                                                                        </span>
+                                                                    </template>
+                                                                    <span class="slds-media__body">
+                                                                        <!-- Country name -->
+                                                                        <span class="slds-truncate">&nbsp;&nbsp;{item.name}</span>
+                                                                    </span>
+                                                                </div>
+                                                            </li>
+                                                        </template>
+                                                    </ul>
+                                                </template>
+
+                                                <ul class="slds-listbox slds-listbox_vertical" role="group" aria-label="Other Countries">
+                                                    <template if:true={frequentlyUsedExists}>
+                                                        <li role="presentation" class="slds-listbox__item">
+                                                            <div id="option5" class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="presentation">
+                                                                <h3 class="slds-listbox__option-header" role="presentation" style="color: black;">----------------------------</h3>
+                                                            </div>
+                                                        </li>
+                                                    </template>
+                                                    <template for:each={picklistOptionsRest} for:item="item" for:index="indexVar">
+                                                        <li style="list-style-type:none" key={item.Id} onmousedown={handleSelectCountry} data-id={indexVar} data-name={item.name} data-category="rest" role="presentation">
+                                                            <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option">
+                                                                <!-- Country flag -->
+                                                                <template if:false={doNotShowCountryFlags}>
+                                                                    <span class="slds-media__figure">
+                                                                        <img src={item.flag} onerror={assignDefaultFlag} style="width: 25px; display:inline-block;" />
+                                                                    </span>
+                                                                </template>
+                                                                <span class="slds-media__body">
+                                                                    <!-- Country name -->
+                                                                    <span class="slds-truncate">&nbsp;&nbsp;{item.name}</span>
+                                                                </span>
+                                                            </div>
+                                                        </li>
+                                                    </template>
+                                                </ul>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+
+            <template if:true={hasErrorOccured}>
+                <lightning-layout>
+                    <lightning-layout-item size="12">
+                        <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                            {errorMessage}
+                        </span>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </template>
+
+            <lightning-layout>
+                <!-- Address search area -->
+                <lightning-layout-item size="12">
+                    <div class="slds-clearfix">
+                        <div class="slds-float_left">
+                            <label class="slds-m-bottom_none" style={addressSearchLabelCss}>{addressSearchlabel}</label>
+                        </div>
+                    </div>
+
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <div class="slds-combobox_container">
+                                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" 
+                                        style="border: 1px solid lightgray;border-radius: 3px;"
+                                        aria-expanded="false" 
+                                        aria-haspopup="listbox" 
+                                        role="combobox">
+
+                                    <!-- Address search bar - When no address selected -->
+                                    <template if:false={selectedRecord}>
+                                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                            <input type="text" 
+                                                    oninput={handleInputChange}
+                                                    class="slds-input slds-combobox__input"
+                                                    id="combobox-id-2"
+                                                    aria-autocomplete="list" 
+                                                    aria-controls="listbox-id-1" 
+                                                    autocomplete="off"                            
+                                                    role="textbox" 
+                                                    placeholder={placeholder} 
+                                                    value={textvalue}
+                                                    disabled={isSearchDisabled}/>
+                                            <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
+                                                <!-- Clear icon -->
+                                                <template if:false={isClearIconHidden}>
+                                                    <lightning-icon title="Clear" size="x-small" class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default slds-p-right_large" icon-name="utility:clear" onclick={handleClearField}></lightning-icon>
+                                                </template>
+
+                                                <!-- Search icon -->
+                                                <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                                                    <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        
+                                        <template if:false={isManual}>
+                                            <div style="background: white;" id="listbox-id-4" class="slds-dropdown_fluid" role="listbox">
+                                                <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                    <template if:true={searchRecords} for:each={searchRecords} for:item="record" for:index="index">
+                                                        <li onclick={handleSelect} role="presentation" class="slds-listbox__item" data-record-id={record.addressKey} key={record.addressKey}>
+                                                            <div data-id={record.Id} class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                                                <template if:false={doNotShowLocationIcon}>
+                                                                    <span class="slds-media__figure slds-listbox__option-icon">
+                                                                        <span class="slds-icon_container slds-icon-standard-account">
+                                                                        <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                                                                            <use xlink:href={ICON_URL}></use>
+                                                                        </svg>
+                                                                        </span>
+                                                                    </span>
+                                                                </template>
+                                                                <span class="slds-media__body">
+                                                                    <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                                        {record.addressText}
+                                                                    </span>
+                                                                </span>
+                                                            </div>
+                                                        </li>
+                                                    </template>
+                                                </ul>
+                                            </div>
+                                        </template>
+                                    </template>
+
+                                    <!-- Address search bar - When address is selected -->
+                                    <template if:true={selectedRecord}>
+                                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_left-right" role="none">
+                                            <template if:false={doNotShowLocationIcon}>
+                                                <span class="slds-icon_container slds-icon-standard-account slds-combobox__input-entity-icon" title={objectLabel}>
+                                                    <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                                                        <use xlink:href={ICON_URL}></use>
+                                                    </svg>
+                                                    <span class="slds-assistive-text">{objectLabel}</span>
+                                                </span>
+                                            </template>
+                                            <input type="text" 
+                                                    class="slds-input slds-combobox__input slds-combobox__input-value" 
+                                                    id="combobox-id-6"
+                                                    title={fullAddress}
+                                                    aria-controls="listbox-id-5"  
+                                                    disabled
+                                                    autocomplete="off" 
+                                                    role="textbox" 
+                                                    placeholder="Select an Option…" 
+                                                    readonly="" 
+                                                    value={selectedRecord.addressText}/>
+                                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" 
+                                                title="Remove selected option" onclick={resetDetails}>
+                                                <svg class="slds-button__icon" aria-hidden="true">
+                                                    <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                                                </svg>
+                                                <span class="slds-assistive-text">Remove selected option</span>
+                                            </button>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+
+            </lightning-layout>
+
+            <lightning-layout>
+                <!-- Manual address checkbox at the bottom -->
+                <lightning-layout-item size="12">       
+                    <input class="slds-float_right slds-m-top_xx-small" 
+                            type="checkbox" 
+                            name="options" 
+                            id="checkbox-unique-id-3" 
+                            value="checkbox-unique-id-1" 
+                            checked={isManual}
+                            onchange={handleManualEntry}
+                            disabled={isManualDisabled} />
+
+                    <label class="slds-checkbox__label slds-p-right_none" for="checkbox-unique-id-3">
+                        <span class="slds-checkbox_faux"></span>
+                        <span class="slds-float_right slds-p-top_xxx-small slds-p-right_x-small" style={cantFindAddressLabelCss}>Can't find your address?</span>
+                    </label>
+                </lightning-layout-item>
+            </lightning-layout>
+
+            <template if:false={manualFieldsHidden}>
+                <!-- Manual address fields -->
+                <template if:true={isManual}>
+
+                    <!-- House/Apartment number, Building name/number, Street name/number -->
+                    <lightning-layout class="slds-m-bottom_x-small slds-m-top_x-small">
+                        <lightning-layout-item size="12">    
+                            <label class="slds-m-bottom_none" style={manualFieldsLabelCss}>Street</label>
+                            <template if:true={streetMandatory}>
+                                <span class="slds-text-color_destructive">* </span>
+                            </template>                    
+                            <lightning-input type="text" class="addressfield"
+                                            value={addressDetails.splitRecord.address_line_1}
+                                            variant="label-hidden"
+                                            placeholder="House/Apartment number, Building name/number, Street name/number"
+                                            max-length="255"
+                                            disabled={isAddressDisabled}
+                                            onchange={handleAddressLine1Change}
+                                            onfocusout={validateStreet}>
+                            </lightning-input>
+                            <template if:true={streetValidationMessage}>
+                                <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                                    {streetValidationMessage}
+                                </span>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
+
+                    <!-- City -->
+                    <lightning-layout class="slds-m-bottom_x-small">
+                        <lightning-layout-item size="12">
+                            <label class="slds-m-bottom_none" style={manualFieldsLabelCss}>City</label>
+                            <template if:true={cityMandatory}>
+                                <span class="slds-text-color_destructive">* </span>
+                            </template>                         
+                            <lightning-input type="text" class="addressfield"
+                                            value={addressDetails.splitRecord.locality}
+                                            variant="label-hidden"
+                                            placeholder="City"
+                                            max-length="255"
+                                            disabled={isAddressDisabled}
+                                            onchange={handleCityChange}
+                                            onfocusout={validateCity}>
+                            </lightning-input>
+                            <template if:true={cityValidationMessage}>
+                                <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                                    {cityValidationMessage}
+                                </span>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
+
+                    <!-- State -->
+                    <lightning-layout class="slds-m-bottom_x-small">
+                        <lightning-layout-item size="12">
+                            <label class="slds-m-bottom_none" style={manualFieldsLabelCss}>State</label>
+                            <template if:true={stateMandatory}>
+                                <span class="slds-text-color_destructive">* </span>
+                            </template> 
+                            <lightning-input type="text" class="addressfield"
+                                            value={addressDetails.splitRecord.region}
+                                            variant="label-hidden"
+                                            placeholder="State"
+                                            max-length="255"
+                                            disabled={isAddressDisabled}
+                                            onchange={handleStateChange}
+                                            onfocusout={validateState}>
+                            </lightning-input>
+                            <template if:true={stateValidationMessage}>
+                                <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                                    {stateValidationMessage}
+                                </span>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
+
+                    <!-- Post Code -->
+                    <lightning-layout class="slds-m-bottom_xx-small">
+                        <lightning-layout-item size="12">
+                            <label class="slds-m-bottom_none" style={manualFieldsLabelCss}>Post Code</label>
+                            <template if:true={stateMandatory}>
+                                <span class="slds-text-color_destructive">* </span>
+                            </template> 
+                            <lightning-input type="text" class="addressfield"
+                                            value={addressDetails.splitRecord.postal_code}
+                                            variant="label-hidden"
+                                            placeholder="Post/Zip/Pin code"
+                                            max-length="16"
+                                            disabled={isAddressDisabled}
+                                            onchange={handlePostCodeChange}
+                                            onfocusout={validatePostCode}>
+                            </lightning-input>
+                            <template if:true={postCodeValidationMessage}>
+                                <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                                    {postCodeValidationMessage}
+                                </span>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+            </template>
+        </template>
+    </lightning-layout-item>
+</template>

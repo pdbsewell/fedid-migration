@@ -1,0 +1,70 @@
+<!-- 
+ @name: ArticleListByTopic
+ -->
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId" access="global" controller="LightningGetArticleByTopic">
+    <ltng:require scripts="{!$Resource.jQuery321}" afterScriptsLoaded="{!c.init}"/>
+    <aura:attribute name="ArticleList" type="KnowledgeArticleVersion[]"/>  
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="ArticleListPaginated" type="KnowledgeArticleVersion[]"/>  
+    <aura:attribute name="pageSize" type="Integer" default="2"/>  
+    <aura:attribute name="currentIndexArticle" type="Integer" default="0"/> 
+    <aura:attribute name="lastIndexArticle" type="Integer" default="0"/> 
+    <aura:attribute name="currentPageArticle" type="Integer" default="1"/> 
+    <aura:attribute name="lastPageArticle" type="Integer" default="1"/> 
+    <aura:attribute name="totalRecordsArticle" type="Integer" default="0"/> 
+    <aura:attribute name="hasNextArticle" type="Boolean"/> 
+    <aura:attribute name="hasPreviousArticle" type="Boolean"/>
+    <aura:attribute name="topicLabel" type="String" />	
+    
+    <!-- header -->
+    <div class="slds-grid slds-wrap" id="ArticleDetails">
+         <div class="slds-size--12-of-12 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                <h3 class="slds-m-bottom_medium">
+                    <span class="slds-p-right_x-small">
+                        <lightning:icon iconName="utility:knowledge_base"/>
+                    </span>
+                    {!v.topicLabel}
+                </h3>                
+        </div>
+    </div>
+    
+    <!-- faq top three -->
+    <div class="slds-grid slds-wrap" id="topicAvailable">
+        
+        <div class="slds-size--12-of-12 slds-medium-size--12-of-12 slds-large-size--12-of-12 result-text-left">
+            <aura:iteration items="{!v.ArticleListPaginated}" var="articlePaginatedVar">
+                <div class="faq-top-three">
+                    <a href="javascript:void(0);" onclick="{!c.redirectToArticle}" id="{!articlePaginatedVar.Id}">{!articlePaginatedVar.Title}</a>                      
+                </div>   
+            </aura:iteration> 
+        </div>
+        
+        <!-- pagination btns -->
+        <div class="slds-size--12-of-12 slds-medium-size--7-of-12 slds-large-size--7-of-12 slds-p-top--x-large"/>
+
+        <div class="slds-size--12-of-12 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-p-top--x-large slds-grid slds-wrap">
+            <div class="slds-grid slds-col--bump-left">
+                <div>
+                    <ui:outputText value="{!v.currentIndexArticle+1}"/> - <ui:outputText value="{!v.lastIndexArticle}"/> of <ui:outputText value="{!v.totalRecordsArticle}"/>
+                </div>
+                <div class="slds-p-left_medium">
+                    <button class="pagination-btn" label="pagination-left" onclick="{!c.previousArticle}" hidden="{!!v.hasPreviousArticle}">&lt;</button>
+                    <button class="pagination-btn2" label="pagination-left" onclick="{!c.previousArticle}" hidden="{!v.hasPreviousArticle}" disabled="true">&lt;</button>
+                    <button class="pagination-btn" label="pagination-right" onclick="{!c.nextArticle}" hidden="{!!v.hasNextArticle}">&gt;</button>
+                    <button class="pagination-btn2" label="pagination-right" onclick="{!c.nextArticle}" hidden="{!v.hasNextArticle}" disabled="true">&gt;</button>
+                </div>
+            </div>
+        </div>
+
+
+         <div class="slds-size--12-of-12 slds-medium-size--2-of-12 slds-large-size--2-of-12 slds-p-top--x-large">
+            
+        </div>
+        
+        <!-- Searcr result -->
+        <div id="no-searchresults" class="slds-size--12-of-12 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-p-top--x-large slds-hide">
+            <p>No Search Results</p>
+        </div>
+        
+    </div>
+</aura:component>

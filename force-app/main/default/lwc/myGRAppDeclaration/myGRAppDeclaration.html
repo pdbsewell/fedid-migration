@@ -1,0 +1,43 @@
+<template>
+    <!-- ALERT: ANY Errors on save-->
+    <div if:true={showErrors}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">    
+                    {error}
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={onClickCloseErrors}>Close</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+    <lightning-layout class="slds-p-top_large">
+        <lightning-layout-item 
+        size="9" 
+        class="fieldTitle">
+            {qualificationName}?
+            <abbr 
+            class="requiredField slds-p-left_xx-small" 
+            title="required">
+                * 
+            </abbr>
+        </lightning-layout-item>
+        <lightning-layout-item 
+        size="3" 
+        style="float:right">
+            <lightning-radio-group
+            name="consentDeclaration"
+            label="Yes or No?"
+            required
+            type="button"
+            options={declarationOptions} 
+            value={declaredValue}
+            onchange={handleDeclarationChange}
+            variant="label-hidden">
+            </lightning-radio-group>
+        </lightning-layout-item>
+    </lightning-layout>
+</template>

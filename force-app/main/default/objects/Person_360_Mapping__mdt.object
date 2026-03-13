@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Mapping matrix for Person 360 roll down logic from Contact</description>
+    <fields>
+        <fullName>Classification__c</fullName>
+        <description>Classification of Rolldown to Classification__c field</description>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <inlineHelpText>Classification of Rolldown to Classification__c field</inlineHelpText>
+        <label>Classification</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Private</fullName>
+                    <default>true</default>
+                    <label>Private</label>
+                </value>
+                <value>
+                    <fullName>Monash</fullName>
+                    <default>false</default>
+                    <label>Monash</label>
+                </value>
+                <value>
+                    <fullName>Business</fullName>
+                    <default>false</default>
+                    <label>Business</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>ContactSourceField__c</fullName>
+        <description>Contact Source Field Api Name</description>
+        <externalId>false</externalId>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <inlineHelpText>Contact Source Field Api Name</inlineHelpText>
+        <label>Contact Source Field</label>
+        <length>100</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>IsPrimary__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Field which will be set to the primary context of the person maps to Is_Primary__c</description>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <inlineHelpText>Field which will be set to the primary context of the person maps to Is_Primary__c</inlineHelpText>
+        <label>Is Primary</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>RollDirection__c</fullName>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <label>Roll Direction</label>
+        <required>true</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Both</fullName>
+                    <default>true</default>
+                    <label>Both</label>
+                </value>
+                <value>
+                    <fullName>Down</fullName>
+                    <default>false</default>
+                    <label>Down</label>
+                </value>
+                <value>
+                    <fullName>Up</fullName>
+                    <default>false</default>
+                    <label>Up</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>RollDownBlanks__c</fullName>
+        <defaultValue>false</defaultValue>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <label>Roll Down Blanks</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>RollDownField__c</fullName>
+        <description>Target Field to Map values From Contact</description>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <inlineHelpText>Target Field to Map values From</inlineHelpText>
+        <label>Roll Down Field</label>
+        <metadataRelationshipControllingField>Person_360_Mapping__mdt.RollDownSObject__c</metadataRelationshipControllingField>
+        <referenceTo>FieldDefinition</referenceTo>
+        <relationshipLabel>Person_Roll_Downs</relationshipLabel>
+        <relationshipName>Person_Roll_Downs</relationshipName>
+        <required>false</required>
+        <type>MetadataRelationship</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>RollDownSObject__c</fullName>
+        <description>Target SObject to Roll down</description>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <inlineHelpText>Target SObject to Roll down</inlineHelpText>
+        <label>Roll Down SObject</label>
+        <referenceTo>EntityDefinition</referenceTo>
+        <relationshipLabel>Person_Roll_Downs</relationshipLabel>
+        <relationshipName>Person_Roll_Downs</relationshipName>
+        <required>true</required>
+        <type>MetadataRelationship</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>RollUpBlanks__c</fullName>
+        <defaultValue>true</defaultValue>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <label>Roll Up Blanks</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>RollUpSort__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>If true this will perform a sorting ORDER BY Start_Date__c DESC, createddate DESC to roll up to Contact</description>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <inlineHelpText>If true this will perform a sorting ORDER BY Start_Date__c DESC, createddate DESC to roll up to Contact</inlineHelpText>
+        <label>RollUp Sort</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>RollUpType__c</fullName>
+        <description>Mapped as Rollup Type identifier</description>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <inlineHelpText>Mapped as Rollup Type identifier</inlineHelpText>
+        <label>RollUpType</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>PRIMARY</fullName>
+                    <default>true</default>
+                    <label>PRIMARY</label>
+                </value>
+                <value>
+                    <fullName>PRIVATE</fullName>
+                    <default>false</default>
+                    <label>PRIVATE</label>
+                </value>
+                <value>
+                    <fullName>MONASH</fullName>
+                    <default>false</default>
+                    <label>MONASH</label>
+                </value>
+                <value>
+                    <fullName>BUSINESS</fullName>
+                    <default>false</default>
+                    <label>BUSINESS</label>
+                </value>
+                <value>
+                    <fullName>MOBILE</fullName>
+                    <default>false</default>
+                    <label>MOBILE</label>
+                </value>
+                <value>
+                    <fullName>ASSISTANT</fullName>
+                    <default>false</default>
+                    <label>ASSISTANT</label>
+                </value>
+                <value>
+                    <fullName>FAX</fullName>
+                    <default>false</default>
+                    <label>FAX</label>
+                </value>
+                <value>
+                    <fullName>LANDLINE</fullName>
+                    <default>false</default>
+                    <label>LANDLINE</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Type__c</fullName>
+        <description>Phone Type Mapping</description>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <inlineHelpText>Phone Type Mapping</inlineHelpText>
+        <label>Type</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Mobile</fullName>
+                    <default>true</default>
+                    <label>Mobile</label>
+                </value>
+                <value>
+                    <fullName>Assistant</fullName>
+                    <default>false</default>
+                    <label>Assistant</label>
+                </value>
+                <value>
+                    <fullName>Fax</fullName>
+                    <default>false</default>
+                    <label>Fax</label>
+                </value>
+                <value>
+                    <fullName>Undefined</fullName>
+                    <default>false</default>
+                    <label>Undefined</label>
+                </value>
+                <value>
+                    <fullName>Landline</fullName>
+                    <default>false</default>
+                    <label>Landline</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>Person 360 Mapping</label>
+    <listViews>
+        <fullName>ALLMDT</fullName>
+        <columns>MasterLabel</columns>
+        <columns>DeveloperName</columns>
+        <columns>ContactSourceField__c</columns>
+        <columns>RollDownSObject__c</columns>
+        <columns>RollDownField__c</columns>
+        <columns>IsPrimary__c</columns>
+        <columns>Classification__c</columns>
+        <columns>Type__c</columns>
+        <columns>RollUpType__c</columns>
+        <columns>RollUpSort__c</columns>
+        <columns>RollDirection__c</columns>
+        <columns>RollUpBlanks__c</columns>
+        <columns>RollDownBlanks__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>ALLMDT</label>
+    </listViews>
+    <listViews>
+        <fullName>Name</fullName>
+        <columns>MasterLabel</columns>
+        <columns>DeveloperName</columns>
+        <columns>ContactSourceField__c</columns>
+        <columns>RollDownSObject__c</columns>
+        <columns>RollDownField__c</columns>
+        <columns>IsPrimary__c</columns>
+        <columns>Classification__c</columns>
+        <columns>Type__c</columns>
+        <columns>RollUpType__c</columns>
+        <columns>RollUpSort__c</columns>
+        <columns>RollDirection__c</columns>
+        <columns>RollDownBlanks__c</columns>
+        <columns>RollUpBlanks__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>RollDownSObject__c</field>
+            <operation>equals</operation>
+            <value>Name</value>
+        </filters>
+        <label>Name</label>
+    </listViews>
+    <pluralLabel>Person360 Mappings</pluralLabel>
+    <validationRules>
+        <fullName>IsPrimaryCheck</fullName>
+        <active>true</active>
+        <description>Checks if Is Primary</description>
+        <errorConditionFormula>AND(
+IsPrimary__c,
+NOT(ISPICKVAL(RollUpType__c, &apos;PRIMARY&apos;))
+)</errorConditionFormula>
+        <errorDisplayField>RollUpType__c</errorDisplayField>
+        <errorMessage>Set to Primary if IsPrimary is true</errorMessage>
+    </validationRules>
+    <visibility>Public</visibility>
+</CustomObject>

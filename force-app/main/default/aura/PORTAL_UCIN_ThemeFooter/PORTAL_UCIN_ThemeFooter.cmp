@@ -1,0 +1,52 @@
+<!--Contains the black monash footer that appears at the bottom of most pages-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+	<aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+	<aura:attribute name='currentYear' type='String'/>
+	<ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}" />
+	<!-- social media logos -->
+	<div class="bg-black  font-body w-full px-4 sm:px-6 py-4 mt-4">
+		<div class="max-w-1300 m-auto flex">
+            <!--Social media links-->
+			<div class="text-sm text-white mt-4 flex bg-black">
+				<a href="https://www.instagram.com/monash_uni" target="_blank">
+					<c:svg class="fill-current w-10 sm:w-8 h-10 sm:h-8 mr-6 white" xlinkHref="{!$Resource.PORTAL_UCIN_Resources + '/Resources/icons/ico_instagram.svg#icoimg'}" ariaHidden="true"/>
+				</a>
+				<a href="https://www.linkedin.com/company/monash-university" target="_blank">
+                    <c:svg class="fill-current w-10 sm:w-8 h-10 sm:h-8 mr-6 white" xlinkHref="{!$Resource.PORTAL_UCIN_Resources + '/Resources/icons/ico_linkedin.svg#icoimg'}" ariaHidden="true"/>
+				</a>
+				<a href="https://www.facebook.com/Monash.University" target="_blank">
+                    <c:svg class="fill-current w-10 sm:w-8 h-10 sm:h-8 mr-6 white" xlinkHref="{!$Resource.PORTAL_UCIN_Resources + '/Resources/icons/ico_facebook.svg#icoimg'}" ariaHidden="true"/>
+                </a>
+                <a href="https://www.weibo.com/monashuniversityaust" target="_blank">
+                    <img src="{!$ContentAsset.weiboLogo}" height="40" width="40"/>
+				</a>
+			</div>
+		</div>
+
+        <!--Privacy, copyright, and Group of 8 information-->
+		<div class="max-w-1300 m-auto bg-black text-white flex relative">
+			<div class="w-full">
+				<p class="mt-2 text-white text-lg lg:text-base">
+					We acknowledge and pay respects to the Elders and Traditional Owners of the land on which our Australian campuses stand. <a class="underline" href= "https://www.monash.edu/indigenous-australians" target="_blank">Information for Indigenous Australians</a>
+				</p>
+			</div>
+		</div>
+		<div class="max-w-1300 m-auto bg-black text-white flex relative">
+			<div class="w-full">
+				<p class="mt-2 text-white text-lg lg:text-base">
+					Authorised by: Chief Marketing Officer, Strategic Marketing and Communications. <br></br>Maintained by: <a class="underline" href= "https://www.monash.edu/support-form" target="_blank">Monash University Webmaster Team</a>.
+				</p>
+			</div>
+		</div>
+		<div class="flex flex-wrap max-w-1300 m-auto bg-black text-white relative pb-4">
+			<div class="w-3/5 md:w-4/5 pr-10">
+				<p class="mt-2 text-white text-lg lg:text-base">
+					Copyright © {!v.currentYear} Monash University. ABN 12 377 614 012 <br></br> <a class="underline" href= "https://www.monash.edu/accessibility" target="_blank">Accessibility</a> - <a class="underline" href= "https://www.monash.edu/disclaimer-copyright" target="_blank">Disclaimer and copyright</a> - <a class="underline" href= "https://www.monash.edu/terms-and-conditions" target="_blank">Website terms and conditions</a> - <a class="underline" href= "https://publicpolicydms.monash.edu/Monash/documents/1909233" target="_blank">Data Protection and Privacy Procedure</a> - <a class="underline" href="#" onclick="{!c.onClickDataConsentSettings}">Data Consent Settings</a> <br></br> Monash University CRICOS Provider Number: 00008C, Monash College CRICOS Provider Number: 01857J. Monash University is a registered Australian University under the TEQSA Act 2011.
+				</p>
+			</div>
+            <div class="w-2/5 md:w-1/5 right-0 absolute" style="bottom: 1rem;">
+				<img src="{!$ContentAsset.GO8}" alt="Go8 Logo" />
+            </div>
+		</div>
+	</div>
+</aura:component>

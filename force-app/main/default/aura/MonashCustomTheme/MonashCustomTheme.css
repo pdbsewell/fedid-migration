@@ -1,0 +1,221 @@
+.THIS .nav-background {
+    background: #F6F6F6;
+}
+
+/*for expanding top FAQ's to bottom*/
+.THIS .mainContentArea {
+    margin-bottom: -36px;
+    position: relative;
+}
+
+.THIS .selfServiceProfileMenu .login .login-link span.slds-assistive-text {
+    text-transform: uppercase !important;
+    font-family: Roboto !important;
+    color: #006dae !important;
+}
+
+
+.THIS .forceCommunityNavigationMenu .navigationMenuWrapperCurtain {
+    width: 100%;
+    background-color: rgba(25, 25, 25, .5);
+}
+.THIS .forceCommunityActionsContainerMobile {
+    display: none !important;
+}
+
+.THIS .forceCommunityRecordListMobile::before { 
+    content: "My Questions";
+    color: #006dae !important;
+    font-family: "Century Schoolbook", "Georgia", "Times New Roman";
+    font-size: 1.5rem;
+    text-transform: none;
+}
+
+.THIS .listTitleContainer.uiBlock {
+    display: none !important;
+}
+
+.THIS #beta-feedback-container {
+    background-color : #006DAE !important;
+}
+
+.THIS #override-utilitiy-info span.slds-icon-utility-info {
+    display: inline-block !important;
+}
+
+.THIS .overlay {
+    z-index: 10000;
+}
+
+/* Hide Change Owner on the listview*/
+.THIS .forceListViewManagerHeader .slds-grid .test-lvmForceActionsContainer .branding-actions .slds-button { 
+    display: none; 
+}
+
+/*ALL MEDIA QUERIES*/
+
+/*MEDIA QUERIES START*/
+
+/* Custom, iPhone Retina up to Medium sized screens*/ 
+@media only screen and (min-width: 320px) and (max-width : 767px) {
+
+    .THIS .nav-login-responsive {
+        position: absolute;
+        right: 0;
+        margin: 0px 0px 0px 0px;
+    }
+
+    .THIS .uiPopupTrigger.selfServiceProfileMenuTrigger {
+        width: 100%; 
+    }
+
+    /*LOGGED OUT VIEW*/
+    .THIS .selfServiceProfileMenu .login .login-link span.slds-assistive-text {
+        width: 100px!important;
+        height: 40px!important;
+        color: black!important;
+        clip: unset!important;
+    }
+
+    .THIS .selfServiceProfileMenu .login .login-link .linkLabel {
+        display: inline-block !important;
+        font-size: .74em !important;
+        float: none !important;
+    }
+    
+    .THIS .selfServiceProfileMenu .login {
+        padding-right: 0.2em !important;
+        right: 88px !important;
+        
+    }
+
+    /*end*/
+
+    /*LOGGED IN VIEW*/
+    .THIS .selfServiceProfileMenuTrigger {
+        padding: 12px 14px !important;
+    }
+
+    .THIS .selfServiceProfileMenuTrigger .profileName {
+        display: inline-block !important;
+        color: black!important;
+        font-size: .74em !important;
+        float: none !important;
+    }/*end*/
+
+    .THIS .mainContentArea {
+        margin-right: 0rem !important;
+        margin-left: 0rem !important;
+    }
+
+    .THIS .body-mob-view {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+        margin-right: 0rem !important;
+        margin-left: 0rem !important;
+    }
+
+    .THIS .body-mob-view {
+        padding-left: 0.5rem !important;
+        padding-right: 0.5rem !important;
+        margin-right: 0rem !important;
+        margin-left: 0rem !important;
+    }
+
+    .THIS .navigationMenuWrapper.showElement .navigationMenu {
+        padding: 0px !important;
+        width: 60% !important;
+    }
+}
+
+/* LARGE SCREENS */
+@media only screen and (min-width : 768px) and (max-width : 1200px) {
+    .THIS .nav-login-responsive {
+        width:  20%;
+    }
+
+    /*LOGGED OUT VIEW*/
+    .THIS .selfServiceProfileMenu .login .login-link span.slds-assistive-text {
+        width: 100px!important;
+        height: 40px!important;
+        color: black!important;
+        clip: unset!important;
+        position: relative !important;
+        bottom: 22px !important;
+        left: 30px !important;
+    }
+
+    .THIS .selfServiceProfileMenu .login .login-link .linkLabel {
+        display: inline-block !important;
+        color: black!important;
+        font-size: .74em !important;
+        float: none !important;
+    }
+    
+    .THIS .selfServiceUserProfileMenu .login .linkLabel {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;        
+        font-weight: 700;
+        font-size: .75rem;
+	}
+    
+    .THIS .selfServiceProfileMenu .login {
+        padding-right: 0.2em !important;
+        right: 135px !important;
+    }
+
+    .THIS .selfServiceProfileMenu .login .login-link span svg.slds-button__icon {
+        position: relative !important;
+        right: 5px !important;
+    }
+
+    /*end*/
+}
+
+/*for header*/
+@media only screen and (min-width: 320px) and (max-width : 826px) {
+    .THIS .header-responsive {
+        display: flex;
+        justify-content: center !important;
+    }
+}
+
+
+/*MEDIA QUERIES END*/
+
+/*OVERRIDE SALESFORCE GENERATED BREAKPOINTS TO KEEP OUR STYLING*/
+@media only screen and (max-width: 47.937em) and (min-width: 20.0625em) {
+    .THIS .selfServiceProfileMenu .selfServiceProfileMenuTrigger {
+        top: -44px !important;
+    }
+}
+
+/*26/09/2017*/
+@media only screen and (min-aspect-ratio: 4/3) and (min-width: 48em), only screen and (min-width: 64.0625em) {
+    .THIS .selfServiceProfileMenu .login {
+        display: flex !important;
+        height: 24px !important;
+        padding: 18px !important;
+    }
+
+    .THIS .selfServiceProfileMenu .login .login-link span.slds-assistive-text {
+        bottom: 29px!important;
+    }
+}
+
+/* 19'th Feb Updated from Ayush due to Spring 20*/
+.THIS .login .login-link .linkLabel {
+    display: inline-block !important;
+    color: #006dae !important;
+    float: none !important;
+    margin-top: 5px !important;
+}
+
+.THIS .login {
+    right: 88px !important;
+}
+
+.THIS .comm-navigation .slds-list__item a {
+    color: #006dae !important;
+}

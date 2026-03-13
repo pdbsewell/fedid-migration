@@ -1,0 +1,561 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>CPA_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>Standard</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>Standard</fullName>
+        <fields>Name</fields>
+        <fields>Contact__c</fields>
+        <fields>Affiliation__c</fields>
+        <fields>Type__c</fields>
+        <label>Standard</label>
+    </compactLayouts>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Link between a contact point (Email, Phone, Address) and Affiliation of a person (Contact)</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>false</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Address_Details__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <complianceGroup>PII</complianceGroup>
+        <description>The actual address information that can be used instead of the address auto number.</description>
+        <externalId>false</externalId>
+        <formula>Address__r.Address_Link__c</formula>
+        <inlineHelpText>The full address</inlineHelpText>
+        <label>Address</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Address__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The address this contact point refers to. One of phone, email, address, and social is mandatory.</description>
+        <inlineHelpText>Please provide the address for this contact point affiliation.</inlineHelpText>
+        <label>Address</label>
+        <lookupFilter>
+            <active>true</active>
+            <errorMessage>The selected Address is not related to the contact</errorMessage>
+            <filterItems>
+                <field>Address__c.Contact__c</field>
+                <operation>equals</operation>
+                <valueField>$Source.Contact__c</valueField>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Address__c</referenceTo>
+        <relationshipLabel>Contact Point Affiliations</relationshipLabel>
+        <relationshipName>Contact_Point_Affiliations</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Affiliation_Active__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Indicates if the linked affiliation record is currently considered active</description>
+        <formula>Affiliation__r.Is_Active__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>The Affiliation is-active flag</inlineHelpText>
+        <label>Affiliation Active</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Affiliation_Details__c</fullName>
+        <externalId>false</externalId>
+        <formula>HYPERLINK(&apos;/&apos;+Affiliation__c,Affiliation__r.Account__r.Name + &apos; (&apos; +  Affiliation__r.Account__r.Callista_Org_Unit_Code__c  +&apos;)&apos; ,&apos;_self&apos; )</formula>
+        <label>Affiliation</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Affiliation__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <deleteConstraint>Cascade</deleteConstraint>
+        <description>The affiliation a contact point refers to.</description>
+        <inlineHelpText>Please provide the affiliation record the contact point should be linked to.</inlineHelpText>
+        <label>Affiliation</label>
+        <lookupFilter>
+            <active>true</active>
+            <errorMessage>The Affiliation must be for the same Contact</errorMessage>
+            <filterItems>
+                <field>Affiliation__c.Contact__c</field>
+                <operation>equals</operation>
+                <valueField>$Source.Contact__c</valueField>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Affiliation__c</referenceTo>
+        <relationshipLabel>Contact Point Affiliations</relationshipLabel>
+        <relationshipName>Contact_Point_Affiliations</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Classification__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>The type or classification of the contact point this CPA record is linked to,
+
+Note that for legacy mixed records this will show only 1 type, the first identified</description>
+        <externalId>false</externalId>
+        <formula>CASE(Type__c,
+&quot;Phone&quot;, text(Phone__r.Type__c),
+&quot;Email&quot;, text(Email__r.Classification__c),
+&quot;Address&quot;, text(Address__r.Type__c), 
+Type__c)</formula>
+        <inlineHelpText>The classification of the linked-to contact point</inlineHelpText>
+        <label>Classification</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Composite_Key__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <caseSensitive>true</caseSensitive>
+        <description>The unique combination of affiliation and contact point id.
+
+Only populated when the &quot;Generate UK for CPA&quot; feature switch (custom setting) is enabled.</description>
+        <externalId>true</externalId>
+        <inlineHelpText>System Field</inlineHelpText>
+        <label>Composite Key</label>
+        <length>36</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Contact_Point_Active__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Indicates that the linked contact point is active.
+
+Note this does not support legacy mixed contact points and will just report on the first one detected.</description>
+        <formula>IF(
+CASE(Type__c,
+&quot;Phone&quot;, if(Phone__r.Is_Active__c,1,0),
+&quot;Email&quot;, if(Email__r.Is_Active__c,1,0),
+&quot;Address&quot;, if(Address__r.Is_Active__c,1,0),
+0)=1,TRUE,FALSE)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>The contact point is-active flag</inlineHelpText>
+        <label>Contact Point Active</label>
+        <securityClassification>Public</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Contact__c</fullName>
+        <description>The Contact the contact point affiliation relates to.</description>
+        <inlineHelpText>Please provide the contact for the contact point affiliation.</inlineHelpText>
+        <label>Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Contact Point Affiliations</relationshipLabel>
+        <relationshipName>Contact_Point_Affiliations</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>true</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Email__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The email this contact point refers to. One of phone, email, address, and social is mandatory.</description>
+        <inlineHelpText>Please provide an email for the affiliation.</inlineHelpText>
+        <label>Email</label>
+        <lookupFilter>
+            <active>true</active>
+            <errorMessage>The Email address must be a child of the Contact</errorMessage>
+            <filterItems>
+                <field>Email__c.Contact__c</field>
+                <operation>equals</operation>
+                <valueField>$Source.Contact__c</valueField>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Email__c</referenceTo>
+        <relationshipLabel>Contact Point Affiliations</relationshipLabel>
+        <relationshipName>Contact_Point_Affiliations</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>End_Date__c</fullName>
+        <inlineHelpText>Not Implemented</inlineHelpText>
+        <label>End Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Is_Active__c</fullName>
+        <defaultValue>false</defaultValue>
+        <inlineHelpText>Not implemented</inlineHelpText>
+        <label>Is Active</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Is_Primary__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Primary by affiliation, as such only one combination of e.g. &quot;Affiliation AND Phone__c&quot; can be marked as primary for the Phone__c lookup. The same applies to Address__c and Email__c.
+If selected manually, all other records (relating to the same Affiliation and Contact Point (i.e. Phone__c, Address__c, and Email__c)) will be marked as non-primary (false).
+If none is selected (per Affiliation and Contact Point (i.e. Phone__c, Address__c, and Email__c)), the active entry with the latest Start_Date__c will be automatically marked as primary.Global primary (by Contact), as such only a single Email__c record can be flagged as primary per Contact Lookup.</description>
+        <inlineHelpText>Please indicate whether the email address is primary for this Contact.</inlineHelpText>
+        <label>Is Primary</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Phone__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The phone this contact point refers to. One of phone, email, address, and social is mandatory.</description>
+        <inlineHelpText>Please provide the phone this contact point refers to.</inlineHelpText>
+        <label>Phone</label>
+        <lookupFilter>
+            <active>true</active>
+            <errorMessage>The Phone number number be a child of the Contact</errorMessage>
+            <filterItems>
+                <field>Phone__c.Contact__c</field>
+                <operation>equals</operation>
+                <valueField>$Source.Contact__c</valueField>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Phone__c</referenceTo>
+        <relationshipLabel>Contact Point Affiliations</relationshipLabel>
+        <relationshipName>Contact_Point_Affiliations</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Primary_on_Contact__c</fullName>
+        <description>Indicates that the linked contact point is the primary CP record and has rolled-up to the Contact.
+
+Note that this does not support legacy mixed contact point affiliations and will report on the first looked found.</description>
+        <formula>IF(
+CASE(Type__c,
+&quot;Phone&quot;, if(Phone__r.Is_Primary__c,1,0),
+&quot;Email&quot;, if(Email__r.Is_Primary__c,1,0),
+&quot;Address&quot;, if(Address__r.Is_Primary__c,1,0),
+0)=1,TRUE,FALSE)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>Primary contact point</inlineHelpText>
+        <label>Primary on Contact</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Shown_on_Contact__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Indicates if the contact point information is visible on the Contact record. Non-primary records can still roll up to the Contact.
+
+Note that this does not support legacy mixed contact point affiliations and will report on the first looked found.</description>
+        <formula>IF(
+CASE(Type__c,
+&quot;Address&quot;, if(Address__r.Is_Primary__c,1,0),
+&quot;Phone&quot;, if(OR(Phone__r.Name==Contact__r.MobilePhone,Phone__r.Name==Contact__r.HomePhone,Phone__r.Name==Contact__r.Phone),1,0),
+&quot;Email&quot;, if(OR(Email__r.Name==Contact__r.Monash_Email_Address__c,Email__r.Name==Contact__r.Personal_Email__c),1,0),
+0)=1,TRUE,FALSE)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Shown on Contact</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Social__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>The social media profile/handle this contact point refers to. One of phone, email, address, and social is mandatory.</description>
+        <inlineHelpText>Please provide the phone this contact point refers to.</inlineHelpText>
+        <label>Social</label>
+        <referenceTo>Social__c</referenceTo>
+        <relationshipLabel>Contact Point Affiliations</relationshipLabel>
+        <relationshipName>Contact_Point_Affiliations</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Start_Date__c</fullName>
+        <defaultValue>TODAY()</defaultValue>
+        <inlineHelpText>Not Implemented</inlineHelpText>
+        <label>Start Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Type__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>The type of contact point record this CPA is linked to  - Address, Phone or Email.
+
+Note that this will not support the legacy mixed contact point affiliation records and will report on the first found.</description>
+        <externalId>false</externalId>
+        <formula>If (not isblank(Phone__c), &quot;Phone&quot;,
+If (not isblank(Email__c), &quot;Email&quot;,
+If (not isblank(Address__c), &quot;Address&quot;, &quot;Invalid&quot;)))</formula>
+        <label>Type</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Contact Point Affiliation</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>Contact_Point_Affiliations</fullName>
+        <columns>NAME</columns>
+        <columns>Affiliation__c</columns>
+        <columns>Contact__c</columns>
+        <columns>Email__c</columns>
+        <columns>Phone__c</columns>
+        <columns>Address__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <filterScope>Everything</filterScope>
+        <label>Contact Point Affiliations</label>
+    </listViews>
+    <nameField>
+        <label>Name</label>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Contact Point Affiliations</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>Affiliation__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Phone__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Email__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Address__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Social__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Is_Primary__c</customTabListAdditionalFields>
+        <lookupDialogsAdditionalFields>Affiliation__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Is_Primary__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Phone__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Email__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Address__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Social__c</lookupDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Phone__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Email__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Address__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Social__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Is_Primary__c</lookupPhoneDialogsAdditionalFields>
+        <searchFilterFields>NAME</searchFilterFields>
+        <searchFilterFields>Affiliation__c</searchFilterFields>
+        <searchFilterFields>Phone__c</searchFilterFields>
+        <searchFilterFields>Email__c</searchFilterFields>
+        <searchFilterFields>Address__c</searchFilterFields>
+        <searchFilterFields>Social__c</searchFilterFields>
+        <searchFilterFields>Is_Primary__c</searchFilterFields>
+        <searchResultsAdditionalFields>Phone__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Email__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Address_Details__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Type__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Classification__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Primary_on_Contact__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>Contact_point_must_be_set</fullName>
+        <active>true</active>
+        <description>Either phone, email, or address must be set as contact point</description>
+        <errorConditionFormula>ISBLANK(Phone__c) &amp;&amp; ISBLANK(Email__c) &amp;&amp; ISBLANK(Address__c) &amp;&amp; ISBLANK(Social__c) &amp;&amp; NOT($Setup.Bypass_Mute_Request__c.Bypass_All_Validation_Rules__c)</errorConditionFormula>
+        <errorMessage>Either phone, email, address, or social must be set as contact point.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Polymorphic_Limit</fullName>
+        <active>true</active>
+        <errorConditionFormula>NOT (
+(NOT(ISBLANK(Phone__c)) &amp;&amp; ISBLANK(Email__c) &amp;&amp; ISBLANK(Address__c)) 
+|| 
+(NOT(ISBLANK(Email__c)) &amp;&amp; ISBLANK(Phone__c) &amp;&amp; ISBLANK(Address__c)) 
+|| 
+(NOT(ISBLANK(Address__c)) &amp;&amp; ISBLANK(Email__c) &amp;&amp; ISBLANK(Phone__c)))
+&amp;&amp;
+NOT($Setup.Bypass_Mute_Request__c.Bypass_All_Validation_Rules__c) &amp;&amp; ($Setup.Feature_Switch__c.Generate_UK_for_CPA__c)</errorConditionFormula>
+        <errorMessage>Only a single contact point can be referenced</errorMessage>
+    </validationRules>
+    <visibility>Public</visibility>
+</CustomObject>

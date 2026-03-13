@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata" fqn="launchFlowButton"><apiVersion>63.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__AppPage,lightning__RecordPage,lightning__HomePage">
+            <property 
+            name="flowApiName" 
+            type="String" 
+            label="Flow API Name" 
+            description="API Name of the Flow to launch in the modal"
+            />
+            <property 
+            name="buttonLabel" 
+            type="String" 
+            label="Button label" 
+            description="Label of the button to launch flow in the modal"
+            />
+            <property 
+            name="horizontalAlign" 
+            type="String" 
+            label="Button Alignment" 
+            description="Alignment of the button on the page"
+            />
+            <property 
+            name="modalSize" 
+            type="String" 
+            label="Modal size" 
+            description="Size of the new task modal" 
+            default="small"
+            />
+            <property 
+            name="modalHeader" 
+            type="String" 
+            label="Modal header label" 
+            description="Label of the Modal header, if any" 
+            />
+            <property 
+            name="modalSubHeader" 
+            type="String" 
+            label="Modal header content" 
+            description="Sub heading for the Modal header, if any" 
+            />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

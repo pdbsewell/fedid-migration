@@ -1,0 +1,247 @@
+<!--Contains options for the user to supply volunteering preferences-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="PORTAL_UCIN_MyProfileController">
+    
+    <aura:attribute name="enableVolunteer" type="Boolean" default="false"/>
+    <aura:attribute name="disableVolunteer" type="Boolean" default="false"/>
+    <aura:attribute name="volunteerStatus" type="String" default="Unknown"/>
+    <aura:attribute name="rolesList" type="List"/>
+    <aura:attribute name="rolesSelected" type="List"/>
+    <aura:attribute name="rolesListOne" type="List"/>
+    <aura:attribute name="rolesListTwo" type="List"/>
+    <aura:attribute name="skillsListOne" type="List"/>
+    <aura:attribute name="skillsListTwo" type="List"/>
+    <aura:attribute name="skillsSelected" type="List"/>
+    <aura:attribute name="interestAreasList" type="List"/>
+    <aura:attribute name="interestAreasListOne" type="List"/>
+    <aura:attribute name="interestAreasListTwo" type="List"/>
+    <aura:attribute name="interestAreasSelected" type="List"/>
+    <aura:attribute name="loaded" type="Boolean" default="true" />
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+
+    <div class="bg-gray-mon max-w-1300 m-auto slds-is-relative">	
+        <!-- Spinner -->
+        <div>
+            <aura:if isTrue="{!!v.loaded }">
+                <lightning:spinner alternativeText="Loading" />
+            </aura:if>
+        </div>
+        
+        <div class="px-4 sm:px-6 py-6 bg-white border-b-4 border-blue lg:border-b-0">
+            <!--Brief summary and radio button to volunteer or not-->
+            <div class="py-4 text-dark-grey">
+                <h1 class="text-3xl font-bold">My Skills</h1>
+                <p class="w-full pb-8 text-xl lg:text-lg">
+                    The information you provide here will enable us to provide you with opportunities that match your skills and expertise.
+                </p>
+                <aura:if isTrue="{!not(v.volunteerStatus == 'Not Active - Do Not Engage')}">
+                    <div class="inline-block">
+                        <p class="text-xl lg:text-lg">I would like to get involved through volunteering:  </p> 
+                    </div>
+                    <div class="inline-block py-1 lg:py-3 pl-8 text-xl lg:text-lg">
+                        <lightning:layout multipleRows="false">
+                            <lightning:input type="radio" label="Yes " name="option" onchange="{!c.handleRadio}" checked="{!v.enableVolunteer}" id="trueRadio" class ="font-bold font-body pr-4 text-xl lg:text-lg"/> 
+                            <lightning:input type="radio" label="No " name="option" onchange="{!c.handleRadio}" checked="{!v.disableVolunteer}" id="falseRadio" class ="font-bold font-body text-xl lg:text-lg"/>   
+                        </lightning:layout>
+                    </div>
+                </aura:if>
+            </div>
+
+            <!--Multiselect of Roles that a user may be interested in-->
+           <!-- <div class="py-4 text-dark-grey">
+                <h1 class="text-3xl font-bold">Your roles</h1>
+                <p class="w-full md:w-3/5 pb-8 text-xl lg:text-lg">Please select the roles that you are interested in volunteering for:</p>
+                <div class="block relative w-full rounded overflow-hidden">
+                    <div class="w-full mb-3 border-solid border-dark-grey border-b-2"></div>
+                    <table class="w-full">
+                        <tbody>
+                            <aura:iteration items="{!v.rolesList}" var="role">
+                                <tr class="w-full border-solid border-grey border-b-2">
+                                    <td class="w-full py-1 lg:py-3 pl-0 lg:pl-32">
+                                        <div class="w-full flex flex-row items-center">
+                                            <label class="w-full text-xl lg:text-lg">
+                                                {!role.label}
+                                            </label>
+                                            <input class="w-4 h-4 ml-4 lg:mr-4 appearance-none border-solid border-dark-grey border bg-white outline-none text-xl lg:text-lg" checked="{!role.filled}" type="checkbox" id="{!role.label}" onclick="{!c.checkRoleBox}" name="volunteer-roles" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                </div>
+            </div>-->
+            <!--        doubing role column here    -->
+             <div class="py-4 text-dark-grey">
+                <h1 class="text-3xl font-bold">Your roles</h1>
+                <p class="w-full md:w-3/5 pb-8">Please select the roles that you are interested in volunteering for:</p>
+                <div class="block relative w-full rounded overflow-hidden">
+                    <div class="w-full mb-3 border-solid border-dark-grey border-b-2"></div>
+                    <div class="w-full lg:flex lg:flex-wrap">
+                        <div class="w-full lg:w-1/2 flex flex-col">
+                            <table class="w-full">
+                                <tbody>
+                                    <aura:iteration items="{!v.rolesListOne}" var="role1">
+                                        <tr class="w-full border-solid border-grey border-b-2">
+                                            <td class="w-full py-1 lg:py-3 pl-0 lg:pl-32">
+                                                <div class="w-full flex flex-row items-center">
+                                                    <label class="w-full text-xl lg:text-lg" for="aoe-cdapo">
+                                                        {!role1.label}
+                                                    </label>
+                                                    <input class="w-4 h-4 ml-4 lg:mr-4 appearance-none border-solid border-dark-grey border bg-white outline-none text-xl lg:text-lg" checked="{!role1.filled}" type="checkbox" id="{!role1.label}" onclick="{!c.checkRoleBox}" name="volunteer-roles1" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </aura:iteration>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="w-full lg:w-1/2 flex flex-col">
+                            <table class="w-full">
+                                <tbody>
+                                    <aura:iteration items="{!v.rolesListTwo}" var="role2">
+                                        <tr class="w-full border-solid border-grey border-b-2">
+                                            <td class="w-full py-1 lg:py-3 pl-0 lg:pl-32">
+                                                <div class="w-full flex flex-row items-center">
+                                                    <label class="w-full text-xl lg:text-lg" for="aoe-cdapo">
+                                                        {!role2.label}
+                                                    </label>
+                                                    <input class="w-4 h-4 ml-4 lg:mr-4 appearance-none border-solid border-dark-grey border bg-white outline-none text-xl lg:text-lg" checked="{!role2.filled}" type="checkbox" id="{!role2.label}" onclick="{!c.checkRoleBox}" name="volunteer-roles2"/>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </aura:iteration>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- doubling role column ends -->
+            <!--Multiselect of Skills that a user may have arranged in two columns-->
+            <div class="py-4 text-dark-grey">
+                <h1 class="text-3xl font-bold">Your skills and expertise</h1>
+                <p class="w-full md:w-3/5 pb-8">Please select the skills and expertise which apply to you:</p>
+                <div class="block relative w-full rounded overflow-hidden">
+                    <div class="w-full mb-3 border-solid border-dark-grey border-b-2"></div>
+                    <div class="w-full lg:flex lg:flex-wrap">
+                        <div class="w-full lg:w-1/2 flex flex-col">
+                            <table class="w-full">
+                                <tbody>
+                                    <aura:iteration items="{!v.skillsListOne}" var="skill">
+                                        <tr class="w-full border-solid border-grey border-b-2">
+                                            <td class="w-full py-1 lg:py-3 pl-0 lg:pl-32">
+                                                <div class="w-full flex flex-row items-center">
+                                                    <label class="w-full text-xl lg:text-lg" for="aoe-cdapo">
+                                                        {!skill.label}
+                                                    </label>
+                                                    <input class="w-4 h-4 ml-4 lg:mr-4 appearance-none border-solid border-dark-grey border bg-white outline-none text-xl lg:text-lg" type="checkbox" checked="{!skill.filled}" id="{!skill.label}" onclick="{!c.checkSkillsBox}" name="skills-one" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </aura:iteration>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="w-full lg:w-1/2 flex flex-col">
+                            <table class="w-full">
+                                <tbody>
+                                    <aura:iteration items="{!v.skillsListTwo}" var="skill2">
+                                        <tr class="w-full border-solid border-grey border-b-2">
+                                            <td class="w-full py-1 lg:py-3 pl-0 lg:pl-32">
+                                                <div class="w-full flex flex-row items-center">
+                                                    <label class="w-full text-xl lg:text-lg" for="aoe-cdapo">
+                                                        {!skill2.label}
+                                                    </label>
+                                                    <input class="w-4 h-4 ml-4 lg:mr-4 appearance-none border-solid border-dark-grey border bg-white outline-none text-xl lg:text-lg" type="checkbox" checked="{!skill2.filled}" id="{!skill2.label}" onclick="{!c.checkSkillsBox}" name="skills-two" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </aura:iteration>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--Multiselect where a user can choose the 3 areas which most interest them-->
+           <!-- <div class="py-4 text-dark-grey">
+                <h1 class="text-3xl font-bold">Your interest areas</h1>
+                <p class="w-full md:w-3/5 pb-8">Please choose your top three areas of interest:</p>
+                <div class="block relative w-full rounded overflow-hidden">
+                    <div class="w-full mb-3 border-solid border-dark-grey border-b-2"></div>
+                    <table class="w-full">
+                        <tbody>
+                            <aura:iteration items="{!v.interestAreasList}" var="areas">
+                                <tr class="w-full border-solid border-grey border-b-2">
+                                    <td class="w-full py-1 lg:py-3 pl-0 lg:pl-32">
+                                        <div class="w-full flex flex-row items-center">
+                                            <label class="w-full text-xl lg:text-lg" for="aoe-cdapo">
+                                                {!areas.label}
+                                            </label>
+                                            <input class="w-4 h-4 ml-4 lg:mr-4 appearance-none border-solid border-dark-grey border bg-white outline-none text-xl lg:text-lg" type="checkbox" checked="{!areas.filled}" id="{!areas.label}" onclick="{!c.checkAreasBox}" name="interest-areas" />
+                                        </div>
+                                    </td>
+                                </tr>
+                            </aura:iteration>
+                        </tbody>
+                    </table>
+                </div>
+            </div>-->
+            <!-- Double column for areas of interest     -->
+             <div class="py-4 text-dark-grey">
+                <h1 class="text-3xl font-bold">Your interest areas</h1>
+                <p class="w-full md:w-3/5 pb-8">Please choose your top three areas of interest:</p>
+                <div class="block relative w-full rounded overflow-hidden">
+                    <div class="w-full mb-3 border-solid border-dark-grey border-b-2"></div>
+                    <div class="w-full lg:flex lg:flex-wrap">
+                        <div class="w-full lg:w-1/2 flex flex-col">
+                            <table class="w-full">
+                                <tbody>
+                                    <aura:iteration items="{!v.interestAreasListOne}" var="areas">
+                                        <tr class="w-full border-solid border-grey border-b-2">
+                                            <td class="w-full py-1 lg:py-3 pl-0 lg:pl-32">
+                                                <div class="w-full flex flex-row items-center">
+                                                    <label class="w-full text-xl lg:text-lg" for="aoe-cdapo">
+                                                        {!areas.label}
+                                                    </label>
+                                                    <input class="w-4 h-4 ml-4 lg:mr-4 appearance-none border-solid border-dark-grey border bg-white outline-none text-xl lg:text-lg" type="checkbox" checked="{!areas.filled}" id="{!areas.label}" onclick="{!c.checkAreasBox}" name="interest-areas1" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </aura:iteration>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="w-full lg:w-1/2 flex flex-col">
+                            <table class="w-full">
+                                <tbody>
+                                    <aura:iteration items="{!v.interestAreasListTwo}" var="areas2">
+                                        <tr class="w-full border-solid border-grey border-b-2">
+                                            <td class="w-full py-1 lg:py-3 pl-0 lg:pl-32">
+                                                <div class="w-full flex flex-row items-center">
+                                                    <label class="w-full text-xl lg:text-lg" for="aoe-cdapo">
+                                                        {!areas2.label}
+                                                    </label>
+                                                    <input class="w-4 h-4 ml-4 lg:mr-4 appearance-none border-solid border-dark-grey border bg-white outline-none text-xl lg:text-lg" type="checkbox" checked="{!areas2.filled}" id="{!areas2.label}" onclick="{!c.checkAreasBox}" name="interest-areas2" />
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </aura:iteration>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Double column for areas of interest  ends here   -->
+            <button class="mt-6 py-2 px-16 bg-blue hover:bg-blue text-white font-bold text-2xl sm:text-xl" type="button" onclick="{!c.savePreferences}">
+                Save
+            </button>
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Custom Metadata to setup available email from per Enquiry Record Types</description>
+    <fields>
+        <fullName>Active__c</fullName>
+        <defaultValue>false</defaultValue>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Controls if the setting is enabled or disabled</inlineHelpText>
+        <label>Active</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Applied_to_Faculty__c</fullName>
+        <description>used to filter Email From Addresses based on Faculty</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Applied to Faculty</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Business and Economics</fullName>
+                    <default>true</default>
+                    <label>Business and Economics</label>
+                </value>
+                <value>
+                    <fullName>Engineering</fullName>
+                    <default>false</default>
+                    <label>Engineering</label>
+                </value>
+                <value>
+                    <fullName>MADA</fullName>
+                    <default>false</default>
+                    <label>MADA</label>
+                </value>
+                <value>
+                    <fullName>Arts</fullName>
+                    <default>false</default>
+                    <label>Arts</label>
+                </value>
+                <value>
+                    <fullName>Education</fullName>
+                    <default>false</default>
+                    <label>Education</label>
+                </value>
+                <value>
+                    <fullName>Information Technology</fullName>
+                    <default>false</default>
+                    <label>Information Technology</label>
+                </value>
+                <value>
+                    <fullName>Law</fullName>
+                    <default>false</default>
+                    <label>Law</label>
+                </value>
+                <value>
+                    <fullName>MNHS</fullName>
+                    <default>false</default>
+                    <label>MNHS</label>
+                </value>
+                <value>
+                    <fullName>MSI</fullName>
+                    <default>false</default>
+                    <label>MSI</label>
+                </value>
+                <value>
+                    <fullName>MUARC</fullName>
+                    <default>false</default>
+                    <label>MUARC</label>
+                </value>
+                <value>
+                    <fullName>Pharmacy and Pharmaceutical Sciences</fullName>
+                    <default>false</default>
+                    <label>Pharmacy and Pharmaceutical Sciences</label>
+                </value>
+                <value>
+                    <fullName>Science</fullName>
+                    <default>false</default>
+                    <label>Science</label>
+                </value>
+                <value>
+                    <fullName>MSDI</fullName>
+                    <default>false</default>
+                    <label>MSDI</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Applied_to_School__c</fullName>
+        <description>Schools or Sub Faculties for MNHS and Science Faculties</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Apply if school exist. e.g for MNHS and Science Faculties</inlineHelpText>
+        <label>Applied to School</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>true</sorted>
+                <value>
+                    <fullName>Australian Regenerative Medicine Institute</fullName>
+                    <default>true</default>
+                    <label>Australian Regenerative Medicine Institute</label>
+                </value>
+                <value>
+                    <fullName>Biological Sciences</fullName>
+                    <default>false</default>
+                    <label>Biological Sciences</label>
+                </value>
+                <value>
+                    <fullName>Biomedicine Discovery Institute Graduate School &amp; School of Biomedical Sciences</fullName>
+                    <default>false</default>
+                    <label>Biomedicine Discovery Institute Graduate School &amp; School of Biomedical Sciences</label>
+                </value>
+                <value>
+                    <fullName>Chemistry</fullName>
+                    <default>false</default>
+                    <label>Chemistry</label>
+                </value>
+                <value>
+                    <fullName>Clinical Sciences</fullName>
+                    <default>false</default>
+                    <label>Clinical Sciences</label>
+                </value>
+                <value>
+                    <fullName>Earth, Environment Sciences</fullName>
+                    <default>false</default>
+                    <label>Earth, Environment Sciences</label>
+                </value>
+                <value>
+                    <fullName>Eastern Health Clinical School</fullName>
+                    <default>false</default>
+                    <label>Eastern Health Clinical School</label>
+                </value>
+                <value>
+                    <fullName>Mathematics</fullName>
+                    <default>false</default>
+                    <label>Mathematics</label>
+                </value>
+                <value>
+                    <fullName>Medicine, Nursing &amp; Health Sciences</fullName>
+                    <default>false</default>
+                    <label>Medicine, Nursing &amp; Health Sciences</label>
+                </value>
+                <value>
+                    <fullName>Nursing &amp; Midwifery</fullName>
+                    <default>false</default>
+                    <label>Nursing &amp; Midwifery</label>
+                </value>
+                <value>
+                    <fullName>Physics &amp; Astronomy</fullName>
+                    <default>false</default>
+                    <label>Physics &amp; Astronomy</label>
+                </value>
+                <value>
+                    <fullName>Primary &amp; Allied Health Care</fullName>
+                    <default>false</default>
+                    <label>Primary &amp; Allied Health Care</label>
+                </value>
+                <value>
+                    <fullName>Psychological Sciences &amp; Turner Institute</fullName>
+                    <default>false</default>
+                    <label>Psychological Sciences &amp; Turner Institute</label>
+                </value>
+                <value>
+                    <fullName>Public Health</fullName>
+                    <default>false</default>
+                    <label>Public Health</label>
+                </value>
+                <value>
+                    <fullName>Rural Health</fullName>
+                    <default>false</default>
+                    <label>Rural Health</label>
+                </value>
+                <value>
+                    <fullName>School of Translational Medicine</fullName>
+                    <default>false</default>
+                    <label>School of Translational Medicine</label>
+                </value>
+                <value>
+                    <fullName>Science</fullName>
+                    <default>false</default>
+                    <label>Science</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>From_Address__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>From Address available for the enquiry record type</inlineHelpText>
+        <label>From Address</label>
+        <required>false</required>
+        <type>Email</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Order__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Order of how addresses are shown</inlineHelpText>
+        <label>Order</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Record_Type_DeveloperName__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Enquiry Type API Name</inlineHelpText>
+        <label>Record Type DeveloperName</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Send_Email_Quick_Action_API_Name__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>API Name for the quick action relevant for the enquiry record type</inlineHelpText>
+        <label>Send Email Quick Action API Name</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Enquiry Email From Address Mapping</label>
+    <listViews>
+        <fullName>Faculty_Graduate_Research</fullName>
+        <columns>MasterLabel</columns>
+        <columns>DeveloperName</columns>
+        <columns>Record_Type_DeveloperName__c</columns>
+        <columns>Applied_to_Faculty__c</columns>
+        <columns>From_Address__c</columns>
+        <columns>Active__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>MasterLabel</field>
+            <operation>contains</operation>
+            <value>Graduate Research</value>
+        </filters>
+        <filters>
+            <field>MasterLabel</field>
+            <operation>notContain</operation>
+            <value>MGE</value>
+        </filters>
+        <label>Faculty Graduate Research</label>
+        <language>en_US</language>
+    </listViews>
+    <listViews>
+        <fullName>MGE_Email_From_Mappings</fullName>
+        <columns>MasterLabel</columns>
+        <columns>DeveloperName</columns>
+        <columns>Order__c</columns>
+        <columns>Record_Type_DeveloperName__c</columns>
+        <columns>From_Address__c</columns>
+        <columns>Active__c</columns>
+        <columns>Send_Email_Quick_Action_API_Name__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Record_Type_DeveloperName__c</field>
+            <operation>equals</operation>
+            <value>MGE_Enquiry</value>
+        </filters>
+        <label>MGE Email From Mappings</label>
+        <language>en_US</language>
+    </listViews>
+    <pluralLabel>Enquiry Email From Address Mappings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -1,0 +1,846 @@
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" 
+                controller="StudyPreferenceService"
+                access="global" >
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <aura:attribute name="applicationId" type="String" access="global" />
+    <aura:attribute name="appId" type="Id" description="the current application Id parsed from URL arguments"/>
+    <aura:attribute name="application" type="Application__c" description="the current application"/>
+
+    <aura:attribute name="user" type="User" description="the current community user"/>
+    <aura:attribute name="citizenshipType" type="String" description="the citizenship type of the applicant, reused for search"/>
+    <aura:attribute name="studyType" type="String" description="Study type of the application"/>
+    <aura:attribute name="sourceSystem" type="String" description="Source system of the application"/>
+    <aura:attribute name="disableRemoveACP" type="Boolean" default="false" description="disable ACP remove button"/>
+    <aura:attribute name="contactId" type="Id" description="the current Contact Id based on logged in userapp"/>
+    <aura:attribute name="contact" type="Contact" description="the current Contact based on logged in userapp"/>
+
+    <aura:attribute name="STATE" type="String" default="SEARCH" description="the state of the component"/>
+
+    <!-- ACPs -->
+    <aura:attribute name="acps" type="List" description="ACPs attached to this application"/>
+    <aura:attribute name="addedOfferingIds" type="List" description="the Ids of the Course Offerings already added to this Application"/>
+    <aura:attribute name="noACPsText" type="String" default="You have not added any courses yet." />
+    <aura:attribute name="acpIdToRemove" type="Id" default="" description="the id to store during the delete popup"/>
+    <aura:attribute name="showRemoveACP" type="Boolean" default="false" description="show/hide the remove modal"/>
+    <aura:attribute name="highlightedRow" type="Integer" default="-1" description="which row to highlight"/>
+    <!-- END ACPs -->
+
+    <!-- SEARCH attributes -->
+    <aura:attribute name="showInlineResults" type="Boolean" default="false" description="show/hide inline results"/>
+    <aura:attribute name="searchInlineResults" type="List" description="list of short listed results for auto complete"/>
+    <aura:attribute name="searchString" type="string"/>
+    <aura:attribute name="IconName" type="string" default="standard:article"/>
+    <aura:attribute name="inlineMessage" type="string" default=""/>
+
+    <aura:attribute name="selectedCourseCodes" type="List" default="[]" description="store the selected Course Code(s)"/>
+    <aura:attribute name="selectedCourseNames" type="List" default="[]" description="courses selected, used for display"/>
+    <!-- END SEARCH attributes -->
+
+    <!-- COURSE START -->
+    <aura:attribute name="selectedCourseStarts" type="List" default="[]" description="start dates selected"/>
+    <!-- END COURSE START -->
+
+    <!-- Course Offerings -->
+    <aura:attribute name="showSearchSpinner" type="Boolean" default="false" description="show/hide the spinner in the search panel"/>
+    <aura:attribute name="showOfferingSpinner" type="Boolean" default="false" description="show/hide the spinner in the offerings panel"/>
+    <aura:attribute name="offeringsByCourseCode" type="List" description="a map of offerings by course code, see apex code for details"/>
+    <aura:attribute name="totalOfferings" type="Integer" description="total offerings"/>
+
+        <!-- refine results -->
+    <aura:attribute name="unitSets" type="List" default="[]" description="if any of the selected courses have unit sets"/>
+
+    <aura:attribute name="filteredCourseOfferings" type="List" description="the filtered results"/>
+    <aura:attribute name="selectedCourseOfferings" type="List" default="[]" description="the selected course offerings from the search"/>
+    <aura:attribute name="disableAddOffering" type="Boolean" default="true" description="only enable after there is an offering selected"/>
+
+    <aura:attribute name="attendanceTypeOptions" type="List" description="attendance type filter options"/>
+    <aura:attribute name="courseStartOptions" type="List" description="course start filter options"/>
+    <aura:attribute name="locationOptions" type="List" description="location filter options"/>
+
+        <!-- Filters -->
+    <aura:attribute name="filterAttendanceType" type="List" description="attendance types checked"/>
+    <aura:attribute name="filterLocation" type="List" description="locations checked"/>
+    <aura:attribute name="filterCourseStart" type="List" description="course starts checked"/>
+
+
+        <!-- area of study -->
+    <aura:attribute name="showAreaOfStudy" type="Boolean" default="false" description="show/hide Area of Study modal"/>
+    <aura:attribute name="courseCodeForAreaOfStudy" type="String" default="" description="course code to select streamsareas of study"/>
+    <aura:attribute name="areaOfStudyCourse" type="String" default="" description="the Course Title for the Area of Study selected"/>
+    <aura:attribute name="areasOfStudyOfferings" type="List" description="the Area of Study offerings for this Unit Set"/>
+    <aura:attribute name="selectedAreasOfStudy" type="List" description="the selected Areas of Study, only committed on Add"/>
+            <!-- temp to store the selection in case the user cancels the Area of Study update -->
+    <aura:attribute name="currentSelectedAreasOfStudy" type="List" description="the selected Areas of Study, only committed on Add"/>
+
+
+        <!-- accordion -->
+    <aura:attribute name="openSectionsResults" type="List" default="['Offerings']" description="accordion settings"/>
+    <aura:attribute name="openSectionsMain" type="List" default="['Search', 'ACPs']" description="accordion settings"/>
+    <aura:attribute name="showFilters" type="Boolean" default="true" description="show/hide the filter options"/>
+
+        <!-- alert for too many ACPs-->
+    <aura:attribute name="showErrorAlert" type="Boolean" default="false" description="show any save errors"/>
+
+    <!-- END Course Offerings -->
+
+
+    <aura:attribute name="showSpinner" type="Boolean" default="false" description="show the spinner for the page"/>
+    <aura:attribute name="showInlineSpinner" type="Boolean" default="false"/>
+    <!-- Unit preferences -->
+    <aura:attribute name="source" type="String" default="" access="public" />
+    <aura:attribute name="onesem" type="Boolean" default="false" description="one sem"/>
+    <aura:attribute name="twosem" type="Boolean" default="false" description="two sem"/>
+    <aura:attribute name="facultyOptions" type="List" description="valid options for Faculty"/> 
+    <aura:attribute name="campusOptions" type="List" description="valid options for Campus"/>
+    <aura:attribute name="uosearchKey" type="String" description="search for unit"/>
+    <aura:attribute name="unitOfferingsResults" type="List" description="Unit Offerings results"/>
+    <aura:attribute name="uoCampusKey" type="String" description="campus selection for Unit offerings search"/>
+    <aura:attribute name="uoFacultyKey" type="String" description="faculty selection for Unit offerings search"/>
+    <aura:attribute name="showUOSections" type="Boolean" default="false" description="show/hide Unit offerings sections"/>
+    <aura:attribute name="showStudyDuration" type="Boolean" default="false" description="show/hide Duration of study section"/>
+    <aura:attribute name="createdByNominator" type="Boolean" default="true" description="flag to indicate if the application was created by the nominator"/>
+    <aura:attribute name="MAApplication" type="Boolean" default="false" description="MA application?"/>
+    <aura:attribute name="acpCapText" type="String" default="up to 5 courses" description="Number of ACP allowed to be created"/>
+
+    <!-- Event for handling ACP Addition and Removal -->
+    <aura:registerEvent name="acpEvent" type="c:PartnerApplicationACPEvent"/>
+
+    <div>
+        <h1 style="font-weight:bold;">STUDY PREFERENCES</h1>
+        <aura:if isTrue="{!!v.MAApplication}">
+            <p>In this section you may apply for up to 5 course choices. Your choices should be listed as most desired first (number one). You must have at least one course on your list to submit this application.</p>
+            <aura:set attribute="else">
+                <p>In this section you may apply for 1 course choice. You must have at least one course on your list to submit this application.</p>
+            </aura:set>
+        </aura:if>
+    </div>
+    <div class="slds-section ">
+        <!-- LOADING SPINNER -->
+        <div class="{!if(v.showSpinner == true, '', 'slds-hide')}">
+            <lightning:spinner aura:id="spinner" alternativeText="Saving"/>
+        </div>
+        <!-- END LOADING SPINNER -->
+        <div class="{!if(v.showStudyDuration, 'slds-show', 'slds-hide')}">
+            <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col">
+                    <div class="sectionContainer slds-wrap">
+                        <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                        <div class="sectionContainerBody slds-size_5-of-5">
+                            <div class="slds-size_5-of-5">
+                                <span class="fieldTitle"><h2>Duration of study<sup class="requiredField">*</sup></h2></span>
+                            </div>
+                          
+                            <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                <div style="font-size:20px;font-family:Roboto">
+                                    How many semesters do you plan to stay?
+                                </div>
+                            </div>
+                            <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                    <ul class="slds-list_horizontal  slds-wrap">
+                                        <li class="slds-item" style="font-size:14px;font-family:Roboto !important;margin-right: 50px;">
+                                            <lightning:input type="checkbox" style="width: 25px;float:left;"
+                                            checked="{!if(v.application.Duration_of_Study__c=='1',true,false)}"
+                                            label=""
+                                            aura:id="onesem"
+                                            name="onesem"
+                                            onchange="{!c.onChangeOneSem}"
+                                            disabled="{!if(or(and(v.createdByNominator,v.source == ''),v.application.Campus_Location__c == 'Online'),true,false)}"
+                                            />
+                                            One semester</li>
+                                        <li class="slds-item" style="font-size:14px;font-family:Roboto !important;">
+                                            <lightning:input type="checkbox" style="width: 25px;float:left;"
+                                            label=""
+                                            aura:id="twosem"
+                                            name="twosem"
+                                            checked="{!if(v.application.Duration_of_Study__c=='2',true,false)}"
+                                            onchange="{!c.onChangeTwoSem}"
+                                            disabled="{!if(or(and(v.createdByNominator,v.source == ''),v.application.Campus_Location__c == 'Online'),true,false)}"
+                                            />Two semesters</li>
+                                    </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-grid slds-gutters slds-wrap">
+            <div class="slds-col">
+                <!-- My Course Preferences -->
+                <div class="sectionContainer slds-wrap">
+                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                    <div class="sectionContainerBody slds-size_5-of-5">
+                        <div class="slds-size_5-of-5">
+                            <h2>My Course Preferences</h2>
+                        </div>
+                        <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                            <div>
+                                <aura:If isTrue="{!v.acps.length > 0}">
+                                    <aura:if isTrue="{!!v.MAApplication}">
+                                        <p>Your courses should be listed as most desired first (number one).</p>
+                                        <aura:set attribute="else">
+                                            <p>Your course is listed.</p>
+                                        </aura:set>
+                                    </aura:if>
+                                    <aura:if isTrue="{!v.acps.length > 1}"><p>Use the blue arrows below to reorder them.</p></aura:if>
+                                    <!-- ACPs -->
+                                    <div class="slds-m-top--medium">
+                                        <div class="">
+            
+                                            <table id="appCourseTable" class="slds-table slds-table--bordered slds-table--cell-buffer slds-no-row-hover">
+                                                    <thead>
+                                                    <tr class="slds-text-title--caps">
+                                                        <th scope="col">
+                                                            <div class="slds-truncate slds-align_absolute-center"></div>
+                                                        </th>
+                                                        <th scope="col">
+                                                            <div class="slds-truncate slds-align_absolute-center">
+                                                            <div class="{!if(v.acps.length > 1, '', 'slds-hide')}">Reorder</div>
+                                                            </div>
+                                                        </th>
+                                                        <th scope="col">
+                                                            <div class="slds-truncate slds-align_absolute-center" title="Order">Order</div>
+                                                        </th>
+                                                        <th scope="col">
+                                                            <div class="slds-cell-wrap" title="Course Code, Title &amp; Unit">
+                                                                Course Code &amp; Title
+                                                            </div>
+                                                        </th>
+                                                        <th scope="col">
+                                                            <div class="slds-cell-wrap" title="Arrangement">Full/part time, on/off campus</div>
+                                                        </th>
+                                                        <th scope="col">
+                                                            <div class="slds-cell-wrap" title="Type of Place">Fee Type</div>
+                                                        </th>
+                                                        <th scope="col">
+                                                            <div class="slds-cell-wrap" title="Location">Location</div>
+                                                        </th>
+                                                        <th scope="col">
+                                                            <div class="slds-cell-wrap" title="Course Start">Course Start</div>
+                                                        </th>
+                                                        <th scope="col">
+            
+                                                        </th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody class="slds-text-body_small">
+                                                    <aura:iteration items="{!v.acps}" var="acp" indexVar="index">
+                                                        <tr>
+                                                            <aura:if isTrue="{!acp.Course_Offering__r.Active__c == false}">
+                                                                <th scope="col" style="background-color: #ffffff; color: #333333;">
+                                                                    <div class="slds-align_absolute-center ">
+                                                                        <lightning:helptext iconName="utility:warning"
+                                                                                            iconVariant="error"
+                                                                                            content="This course preference is no longer available. Please remove it from your list, then search again to find an available course offering."/>
+                                                                    </div>
+                                                                </th>
+                                                                <aura:set attribute="else">
+                                                                    <th scope="col" style="background-color: #ffffff; color: #333333;"></th>
+                                                                </aura:set>
+                                                            </aura:if>
+                                                            <th scope="col" style="background-color: #ffffff; color: #333333;">
+                                                                <div class="slds-truncate slds-align_absolute-center ">
+                                                                    <lightning:button label=""
+                                                                                      iconPosition="left"
+                                                                                      variant="brand"
+                                                                                      name="{!acp.Id}"
+                                                                                      class="{!if(index == 0,'slds-hide acpButton','upRender acpButton')}"
+                                                                                      onclick="{!c.moveACPUp}">
+                                                                        <lightning:icon iconName="utility:up" size="x-small" alternativeText="up" variant="inverse"/>
+                                                                    </lightning:button>
+            
+                                                                    <lightning:button label=""
+                                                                                      iconPosition="left"
+                                                                                      variant="brand"
+                                                                                      name="{!acp.Id}"
+                                                                                      class="{!if(index == v.acps.length - 1,'slds-hide acpButton','downRender acpButton')}"
+                                                                                      onclick="{!c.moveACPDown}">
+                                                                        <lightning:icon iconName="utility:down" size="x-small" alternativeText="down" variant="inverse"/>
+                                                                    </lightning:button>
+                                                                </div>
+                                                            </th>
+                                                            <th scope="col" style="background-color: #ffffff; color: #333333;">
+                                                                <div class="slds-truncate slds-text-body_small slds-align_absolute-center" >{!acp.Preference_Number__c}</div>
+                                                            </th>
+                                                            <th scope="col" style="background-color: #ffffff; color: #333333;">
+                                                                <div class="slds-cell-wrap slds-text-body_small">
+                                                                    <aura:If isTrue="{!acp.Unit_Set_Description__c != null}">
+                                                                        {!acp.Course_Code__c}&nbsp;-&nbsp;{!acp.Course_Title__c}/&nbsp;{!acp.Unit_Set_Description__c}
+                                                                        <aura:set attribute="else">
+                                                                            {!acp.Course_Code__c}&nbsp;-&nbsp;{!acp.Course_Title__c}
+                                                                        </aura:set>
+                                                                    </aura:If>
+                                                                </div>
+                                                            </th>
+                                                            <th scope="col" style="background-color: #ffffff; color: #333333;">
+                                                                <div class="slds-cell-wrap slds-text-body_small" >
+                                                                    {!acp.Attendance_Type_Description__c}&nbsp;{!acp.Attendance_Mode_Description__c}
+                                                                </div>
+                                                            </th>
+                                                            <th scope="col" style="background-color: #ffffff; color: #333333;">
+                                                                <div class="slds-cell-wrap slds-text-body_small">{!acp.Type_of_Place_Description__c}</div>
+                                                            </th>
+                                                            <th scope="col" style="background-color: #ffffff; color: #333333;">
+                                                                <div class="slds-cell-wrap slds-text-body_small" >{!acp.Location_Code__c}</div>
+                                                            </th>
+                                                            <th scope="col" style="background-color: #ffffff; color: #333333;">
+                                                                <div class="slds-cell-wrap slds-text-body_small" >{!acp.Commencement_Period__c}</div>
+                                                            </th>
+                                                            <th scope="col" style="background-color: #ffffff; color: #333333;">
+                                                                <div class="slds-truncate slds-text-body_small">
+                                                                    <lightning:button label=""
+                                                                                      iconPosition="left"
+                                                                                      name="{!acp.Id}"
+                                                                                      onclick="{!c.showRemovePopup}"
+                                                                                      variant="destructive"
+                                                                                      disabled="{!v.disableRemoveACP}"
+                                                                                      class="acpButton">
+                                                                        <lightning:icon iconName="utility:delete" size="x-small" alternativeText="delete" variant="inverse"/>
+                                                                    </lightning:button>
+                                                                </div>
+                                                            </th>
+                                                        </tr>
+                                                    </aura:iteration>
+                                                    </tbody>
+                                                </table>
+            
+            
+                                        </div>
+                                    </div>
+                                    <aura:set attribute="else">
+                                        <p>You have not added any courses yet.</p><!--<a onclick="{!c.focusSearch}" >Search for Courses below</a>.</p>-->
+                                        <p>Search for your courses below by name or course code. Tick the box next to a course in the search results and then click 'Add course(s)' to move them to your personal course list. </p>
+                                    </aura:set>
+                                </aura:If>
+                                <!-- END ACPs -->
+                                <!-- Remove ACP Popup -->
+                                <div class="{!if(v.showRemoveACP, '', 'slds-hide')}">
+                                    <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper"
+                                         class="slds-modal slds-fade-in-open slds-modal--prompt">
+                                        <div class="slds-modal__container">
+                                            <div class="slds-modal__header slds-theme--alert-texture slds-theme--error">
+                                                <h3 class="slds-text-heading--small" id="prompt-heading-id" style="color: #ffffff;">Remove Preference?</h3>
+                                            </div>
+                                            <div class="slds-modal__footer slds-theme--default">
+                                                <lightning:button label="Remove"
+                                                                  iconPosition="left"
+                                                                  variant="destructive"
+                                                                  onclick="{!c.confirmRemoveACP}">
+                                                </lightning:button>
+                                                <lightning:button label="Cancel"
+                                                                  iconPosition="left"
+                                                                  class="slds-button slds-button--neutral"
+                                                                  onclick="{!c.cancelRemoveACP}">
+                                                </lightning:button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-backdrop slds-backdrop--open"></div>
+                                </div>
+                                <!-- END - Remove ACP Popup -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <aura:if isTrue="{!and(v.acps.length>0,  v.showStudyDuration)}">
+            <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col">
+                    <!-- My Course Preferences -->
+                    <div class="sectionContainer slds-wrap">
+                        <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                        <div class="sectionContainerBody slds-size_5-of-5">
+                            <div class="slds-size_5-of-5">
+                                <h2>Unit selection</h2>
+                            </div>
+                            <div class="slds-size_5-of-5">
+                                <div style="font-size:16px;font-family:Roboto;font-weight:bold;margin-top:10px;">
+                                    Search for unit
+                                </div>
+                            </div>
+                            <div class="slds-size_5-of-5">
+                                <div style="font-size:16px;font-family:Roboto;margin-top:10px;">
+                                    You need to create a Study Plan for the first semester of your stay only.  If you are coming for two semesters, you can finalise your study plan for the second semester of your stay once you are here at Monash.<br/><br/>
+                                    To find available units, type the Unit Code, Unit Title or keyword(s) and hit “enter” or click “Search”. To add a unit to your Study Plan click the + button next to the Unit Code in the Search Results.
+                                    <br/><br/>
+                                    If the unit you are searching for does not appear then please check the<a href="https://handbook.monash.edu/"> Handbook </a>to ensure that it is offered in the Teaching Period and on the Campus you have selected in the Course Preference above.
+                                    <br/><br/>
+                                    If the unit is greyed out then it is not available/open to Exchange and Study Abroad students.
+                               </div>
+                            </div>
+                            <div class="slds-size_5-of-5">
+                                <c:UnitOfferingEverLoadingTable appId="{!v.applicationId}" onesem="{!v.onesem}" twosem="{!v.twosem}" applicationCampusLocation="{!v.application.Campus_Location__c}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+        <div class="{!if( !v.showStudyDuration || (v.showStudyDuration&amp;&amp;v.acps.length == 0), 'slds-show', 'slds-hide')}">
+            <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col">
+                    <!-- Search Courses -->
+                    <div class="sectionContainer slds-wrap">
+                        <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                        <div class="sectionContainerBody slds-size_5-of-5">
+                            <div class="slds-size_5-of-5">
+                                <h2>Search Courses</h2>
+                            </div>
+                            <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                <div aura:id="anchorSearch"/>
+                                <div class="{!if(v.STATE == 'SEARCH', '', 'slds-hide')}">
+                                    <div class="slds-is-relative">
+                                        <lightning:spinner class="{!if(v.showSearchSpinner == true, '' , 'slds-hide')}"/>
+                                        <div>
+                                        <!-- search -->
+                                        <div class="slds-form">
+                                            <div class="slds-form-element">
+                                                <div class="">
+                                                    <div class="slds-show">
+                                                        <lightning:input label="Start typing course name..."
+                                                                        aura:id="lookupField"
+                                                                        onchange="{!c.keyPressSearch}"
+                                                                        class=""
+                                                                        value="{!v.searchString}"
+                                                                        placeholder="Start typing course name.."
+                                                                        type="search"
+                                                                        variant="label-hidden"
+                                                                        style="width: 80%;"
+                                                                        />
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <!--This part is for Display typehead lookup result List-->
+                                            <div class="{!if(v.showInlineResults == true,'', 'slds-hide')}">
+                                                <div aura:id="anchorResults"
+                                                        class="slds-text-body_small slds-m-top--small slds-is-relative">
+                                                    <p class="">
+                                                        <aura:if isTrue="{!v.searchInlineResults.length > 0}">
+                                                            Showing {!v.searchInlineResults.length} matching Courses, select 1 or more and click <span style="font-weight: bold">'Show Start Dates'</span>
+                                                            <aura:set attribute="else">
+                                                                No matching courses, try different search terms
+                                                            </aura:set>
+                                                        </aura:if>
+                                                    </p>
+                                                    <ui:scrollerWrapper class="inlineScroll slds-box--border slds-m-top--small slds-m-bottom--small slds-is-relative" >
+                                                        <ul class="slds-has-dividers_bottom-space">
+                                                            <aura:iteration items="{!v.searchInlineResults}" var="courseCode">
+                                                                <li class="slds-item">
+                                                                        <lightning:input type="checkbox"
+                                                                                        class="fullWidth"
+                                                                                        value="{!courseCode.Course_Code__c}"
+                                                                                        label="{!courseCode.Course_Code__c + ' - ' + courseCode.Course_Title__c}"
+                                                                                        aura:id="{!courseCode.Course_Code__c}"
+                                                                                        name="{!courseCode.Course_Code__c}"
+                                                                                        onchange="{!c.onChangeCourseCode}"
+                                                                        />
+                                                                </li>
+                                                            </aura:iteration>
+                                                        </ul>
+                                                    </ui:scrollerWrapper>
+
+                                                    <div class="">
+                                                        <lightning:button label="Show Start Dates"
+                                                                        iconPosition="left"
+                                                                        variant="brand"
+                                                                        onclick="{!c.searchOfferings}"
+                                                                        disabled="{!v.selectedCourseCodes.length == 0}">
+                                                        </lightning:button>
+                                                    </div>
+
+                                                    <div class="{!if(v.showInlineSpinner == true, '', 'slds-hide')}">
+
+                                                        <lightning:spinner class=""
+                                                                        variant="brand"
+                                                                        size="small"
+                                                                        aura:id="inlineSpinner"/>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                        <!-- END Search -->
+                                    </div>
+                                </div>
+
+                                <!-- COURSE START -->
+                                <!-- END COURSE START -->
+                                <div class="{!if(v.STATE =='COURSE_START', '', 'slds-hide')}">
+                                    <div class="slds-m-left--large ">
+                                        <div class="">
+                                            <p class="slds-text-title slds-text-color_default">When do you want to start studying?</p>
+                                            <div class="slds-m-top--small">
+                                                <ul class="slds-m-left--medium slds-list_vertical-space slds-text-title_caps slds-text-color_default" style="font-style: italic; font-weight: bold">
+                                                    <aura:iteration var="course" items="{!v.selectedCourseNames}" indexVar="idx">
+                                                        <li class="slds-item">{!course}</li></aura:iteration>
+                                                </ul>
+                                            </div>
+                                        </div>
+
+                                        <div class="slds-m-top--medium">
+                                            <!--p class="slds-text-title_caps">When do you want to start Studying?</p-->
+                                            <div class="slds-m-left--small" >
+                                                <aura:iteration var="option" items="{!v.courseStartOptions}">
+                                                    <lightning:input type="checkbox"
+                                                                    value="{!option.value}"
+                                                                    label="{!option.label}"
+                                                                    aura:id="courseStartCheckbox"
+                                                                    onchange="{!c.onUpdateCourseStart}"
+                                                    />
+                                                </aura:iteration>
+                                            </div>
+                                        </div>
+
+                                        <div class="slds-m-top--medium">
+                                            <lightning:button label="View Course Options"
+                                                            iconPosition="left"
+                                                            variant="brand"
+                                                            iconName=""
+                                                            disabled="{!v.selectedCourseStarts.length == 0}"
+                                                            onclick="{!c.showOfferings}">
+                                            </lightning:button>
+                                            <lightning:button label="Start Again"
+                                                            iconPosition="left"
+                                                            iconName="utility:refresh"
+                                                            variant="neutral"
+                                                            onclick="{!c.searchAgain}">
+                                            </lightning:button>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- COURSE OFFERINGS -->
+                                <div class="{!if(v.STATE=='COURSE_OFFERINGS','slds-show','slds-hide')}">
+                                    <div class="slds-is-relative">
+                                        <lightning:spinner class="{!if(v.showOfferingSpinner == true, '' , 'slds-hide')}"/>
+                                    </div>
+
+
+                                    <!-- Area of Study Popup -->
+                                    <div class="{!if(v.showAreaOfStudy, '', 'slds-hide')}">
+
+                                        <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper"
+                                            class="slds-modal slds-fade-in-open slds-modal--prompt slds-modal_large">
+                                            <div class="slds-modal__container" >
+                                                <div class="slds-modal__header slds-theme--alt-inverse">
+                                                    <h3 class="slds-text-heading--small" id="prompt-heading-id" style="color:#ffffff;">Streams for <span style="font-style: italic">{!v.areaOfStudyCourse}</span></h3>
+                                                </div>
+                                                <div class="slds-modal__content slds-p-around--medium">
+                                                    <p class="slds-text-body_small">Select 1 or more Streams and click <span style="font-weight: bold">'Update Selection'</span>. A Stream is considered a Course Option.</p>
+                                                    <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-m-top--medium slds-no-row-hover">
+                                                        <thead>
+                                                        <tr class="slds-text-title--caps">
+                                                            <!-- th scope="col">
+                                                                <div class="slds-cell-wrap" title="SELECT"></div>
+                                                            </th-->
+                                                            <th scope="col">
+                                                                <div class="slds-cell-wrap" title="Course Code and Title">Stream Code &amp; Title</div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="slds-cell-wrap" title="AttendanceType">Fee Type</div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="slds-cell-wrap" title="AttendanceType">Full/Part Time, On/Off Campus</div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="slds-cell-wrap" title="Location">Location</div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="slds-cell-wrap" title="CommencementPeriod">Course Start</div>
+                                                            </th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody class="slds-text-align--left slds-text-body_small">
+                                                        <aura:iteration items="{!v.areasOfStudyOfferings}" var="offering">
+                                                            <tr>
+                                                                <td scope="col">
+                                                                    <div class="slds-cell-wrap slds-large" title="select">
+                                                                        <lightning:input type="checkbox"
+                                                                                        value="{!offering.Id}"
+                                                                                        label="{!offering.Unit_Set_Code__c + ' - ' + offering.Unit_Set_Description__c}"
+                                                                                        aura:id="{!offering.Id}"
+                                                                                        onchange="{!c.onChangeAreaOfStudy}"
+                                                                                        checked="{!offering.selected}"
+                                                                                        disabled="{!offering.added}"
+                                                                        />
+                                                                    </div>
+                                                                </td>
+                                                                <!-- td scope="col">
+                                                                    <div class="slds-cell-wrap">
+                                                                        {!offering.Unit_Set_Code__c + ' - ' + offering.Unit_Set_Description__c}
+                                                                    </div>
+                                                                </td-->
+                                                                <td class="slds-cell-wrap ">{!offering.Type_of_Place_Description__c}</td>
+                                                                <td class="slds-cell-wrap ">{!offering.Attendance_Type_Description__c}, {!offering.Attendance_Mode_Description__c}</td>
+                                                                <td class="slds-cell-wrap ">{!offering.Location_Code__c}</td>
+                                                                <td class="slds-cell-wrap ">{!offering.Admission_Calendar_Description__c}</td>
+                                                            </tr>
+                                                        </aura:iteration>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <div class="slds-modal__footer slds-theme--default">
+                                                    <lightning:button label="Update Selection"
+                                                                    iconPosition="left"
+                                                                    variant="brand"
+                                                                    onclick="{!c.addAreasOfStudy}">
+                                                    </lightning:button>
+                                                    <lightning:button label="Cancel"
+                                                                    iconPosition="left"
+                                                                    variant="neutral"
+                                                                    onclick="{!c.cancelAreaOfStudy}">
+                                                    </lightning:button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-backdrop slds-backdrop--open"></div>
+                                    </div>
+                                    <!-- END - Area of Study Popup -->
+
+                                    <div class="slds-m-left--large">
+                                        <div class="slds-text-title_caps slds-box--border slds-color__background_gray-3 slds-text-color_default">
+                                            <div class="slds-m-around--medium">
+                                                <p>Course Options for</p>
+                                                <ul class="slds-m-top--small slds-m-left--medium slds-list_vertical-space" style="font-style: italic; font-weight: bold">
+                                                    <aura:iteration var="course" items="{!v.selectedCourseNames}" indexVar="idx">
+                                                        <li class="slds-item">{!course}</li></aura:iteration>
+                                                </ul>
+                                                <div class="slds-m-bottom--small slds-m-top--medium">
+                                                    <p>Starting In</p>
+                                                    <ul class="slds-m-top--small slds-m-left--medium slds-list_vertical-space" style="font-style: italic; font-weight: bold">
+                                                        <aura:iteration var="start" items="{!v.selectedCourseStarts}" indexVar="idx">
+                                                            <li class="slds-item">{!start}</li></aura:iteration>
+                                                    </ul>
+
+                                                    <lightning:button label="Change Start Dates"
+                                                                    class="slds-m-left--medium slds-m-top--medium"
+                                                                    iconPosition="left"
+                                                                    iconName="utility:edit"
+                                                                    variant="neutral"
+                                                                    onclick="{!c.backToCourseStarts}">
+                                                    </lightning:button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div aura:id="anchorOfferings"></div>
+
+                                        <!-- offerings -->
+                                        <div class="slds-m-top--medium">
+                                            <aura:if isTrue="{!!v.MAApplication}">
+                                                <p>Select up to 5 courses and click <span style="font-weight: bold">'Add to Application'</span></p>
+                                                <aura:set attribute="else">
+                                                    <p>Select only 1 course and click <span style="font-weight: bold">'Add to Application'</span></p>                                            </aura:set>
+                                            </aura:if>
+                                            
+                                            <!--
+                                            <p class="slds-text-body_small">You currently have {!v.acps.length} course option<aura:if isTrue="{!v.acps.length != 1}">s</aura:if>. You may have a maximum of 5.</p>
+                                            -->
+                                            <!-- div class="">
+                                                <p class="slds-text-body_small slds-text-color_error">* - requires a Stream to be selected</p>
+                                            </div-->
+
+
+                                            <div class="slds-m-top--medium slds-m-bottom--medium" aura:id="divOfferings">
+                                                <div class="slds-m-top--small">
+                                                    <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-no-row-hover">
+                                                        <thead>
+                                                        <tr class="slds-text-title--caps">
+
+                                                            <th scope="col">
+                                                                <div class="slds-cell-wrap" title="Course Code and Title">Course Code &amp; Title</div>
+                                                            </th>
+
+                                                            <th scope="col">
+                                                                <div class="slds-cell-wrap" title="Type of Place">Fee Type</div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="slds-cell-wrap" title="AttendanceType">Full/Part Time, On/Off Campus</div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="slds-cell-wrap" title="Location">Location</div>
+                                                            </th>
+                                                            <th scope="col">
+                                                                <div class="slds-cell-wrap" title="CommencementPeriod">Course Start</div>
+                                                            </th>
+                                                        </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                        <aura:iteration items="{!v.filteredCourseOfferings}" var="offeringWrapper" indexVar="idx">
+                                                            <!-- standalone offerings -->
+                                                            <aura:if isTrue="{!offeringWrapper.hasUnitSets == false}">
+                                                                <aura:iteration items="{!offeringWrapper.offerings}" var="offering">
+                                                                    <tr id="{!offering.Id}" data-id="{!offering.Id}">
+                                                                        <td scope="col">
+                                                                            <div class="slds-cell-wrap" title="select">
+                                                                                <lightning:input type="checkbox"
+                                                                                                value="{!offering.Id}"
+                                                                                                label="{!offering.Course_Code__c + ' - ' + offering.Course_Title__c}"
+                                                                                                aura:id="{!offering.Id}"
+                                                                                                disabled="{!offering.added}"
+                                                                                                onchange="{!c.onChangeCourseOffering}"
+                                                                                />
+                                                                            </div>
+                                                                        </td>
+
+                                                                        <td scope="col">
+                                                                            <div class="slds-cell-wrap slds-text-body_small">
+                                                                                {!offering.Type_of_Place_Description__c}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td scope="col">
+                                                                            <div class="slds-cell-wrap slds-text-body_small">
+                                                                                {!offering.Attendance_Type_Description__c}, {!offering.Attendance_Mode_Description__c}
+                                                                            </div>
+                                                                        </td>
+                                                                        <td scope="col">
+                                                                            <div class="slds-cell-wrap slds-text-body_small">{!offering.Location_Code__c}</div>
+                                                                        </td>
+                                                                        <td scope="col">
+                                                                            <div class="slds-cell-wrap slds-text-body_small">{!offering.Admission_Calendar_Description__c}</div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </aura:iteration>
+                                                            </aura:if>
+                                                            <!-- END standalone offerings -->
+
+                                                            <!-- Areas of Study only use the 1st element of the offerings -->
+                                                            <aura:if isTrue="{!offeringWrapper.hasUnitSets}">
+                                                                <tr>
+                                                                    <td scope="col">
+                                                                        <div class="slds-cell-wrap slds-small slds-button_small " >
+                                                                            <!--
+                                                                            <div class="slds-cell-wrap slds-text-body_regular">
+                                                                                <p>{!offeringWrapper.offerings[0].Course_Code__c} - {!offeringWrapper.offerings[0].Course_Title__c}</p>
+                                                                                <p class="slds-text-body_small" style="font-style: italic">{!offeringWrapper.offerings.length} {!if(offeringWrapper.offerings.length == 1, ' stream ', ' streams ')} available</p>
+                                                                            </div>
+                                                                            -->
+                                                                            <lightning:input type="checkbox"
+                                                                                            label="{!offeringWrapper.offerings[0].Course_Code__c+' - '+offeringWrapper.offerings[0].Course_Title__c + ' - '
+                                                                                            + '(' + offeringWrapper.offerings.length + ' streams available) choose ONE only (can be changed after enrolment)'}"
+                                                                                            name="{!offeringWrapper.courseCode + ':::' + offeringWrapper.offerings[0].Location_Code__c + ':::' + offeringWrapper.offerings[0].Type_of_Place_Description__c + ':::' + offeringWrapper.offerings[0].Attendance_Type_Description__c + '::' + offeringWrapper.offerings[0].Attendance_Mode_Description__c}"
+                                                                                            aura:id="{!offeringWrapper.courseCode}"
+                                                                                            checked="{!offeringWrapper.areaSelected}"
+                                                                                            onchange="{!c.onChangeAreaOfStudyParent}"
+                                                                            />
+                                                                            <div class="slds-cell-wrap slds-text-body_small slds-m-left--large">
+                                                                                <ul class="slds-list--dotted">
+                                                                                    <aura:iteration var="areaOfStudy" items="{!offeringWrapper.offerings}">
+                                                                                        <aura:if isTrue="{!areaOfStudy.selected == true}">
+                                                                                            <li class="slds-item slds-text-body_small">{!areaOfStudy.Unit_Set_Code__c} - {!areaOfStudy.Unit_Set_Description__c} - {!areaOfStudy.Admission_Calendar_Description__c}</li>
+                                                                                        </aura:if>
+                                                                                    </aura:iteration>
+                                                                                </ul>
+                                                                                <aura:if isTrue="{!offeringWrapper.areaSelected}">
+                                                                                    <lightning:button label="Change Selected Streams"
+                                                                                                    name="{!offeringWrapper.courseCode + ':::' + offeringWrapper.offerings[0].Location_Code__c + ':::' + offeringWrapper.offerings[0].Type_of_Place_Description__c + ':::' + offeringWrapper.offerings[0].Attendance_Type_Description__c + '::' + offeringWrapper.offerings[0].Attendance_Mode_Description__c}"
+                                                                                                    iconName="utility:edit"
+                                                                                                    onclick="{!c.onClickSelectStreams}"
+                                                                                                    variant="neutral"
+                                                                                    />
+                                                                                    <aura:set attribute="else">
+                                                                                        <lightning:button label="Select Streams"
+                                                                                                        name="{!offeringWrapper.courseCode + ':::' + offeringWrapper.offerings[0].Location_Code__c + ':::' + offeringWrapper.offerings[0].Type_of_Place_Description__c + ':::' + offeringWrapper.offerings[0].Attendance_Type_Description__c + '::' + offeringWrapper.offerings[0].Attendance_Mode_Description__c}"
+                                                                                                        iconName="utility:add"
+                                                                                                        onclick="{!c.onClickSelectStreams}"
+                                                                                                        variant="brand"
+                                                                                        />
+                                                                                    </aura:set>
+                                                                                </aura:if>
+                                                                            </div>
+                                                                        </div>
+
+                                                                    </td>
+                                                                    <td scope="col">
+                                                                        <div class="slds-cell-wrap slds-text-body_small">
+                                                                            {!offeringWrapper.offerings[0].Type_of_Place_Description__c}
+                                                                        </div>
+                                                                    </td>
+                                                                    <td scope="col">
+                                                                        <div class="slds-cell-wrap slds-text-body_small">
+                                                                            {!offeringWrapper.offerings[0].Attendance_Type_Description__c}, {!offeringWrapper.offerings[0].Attendance_Mode_Description__c}
+                                                                        </div>
+                                                                    </td>
+                                                                    <td scope="col">
+                                                                        <div class="slds-cell-wrap slds-text-body_small">{!offeringWrapper.offerings[0].Location_Code__c}</div>
+                                                                    </td>
+                                                                    <td scope="col">
+                                                                        <div class="slds-cell-wrap slds-text-body_small">{!offeringWrapper.offerings[0].Admission_Calendar_Description__c}</div>
+                                                                    </td>
+                                                                </tr>
+
+                                                            </aura:if>
+                                                            <!-- END Areas of Study -->
+
+
+
+                                                        </aura:iteration>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="">
+                                                <lightning:button label="Add to Application"
+                                                                iconPosition="left"
+                                                                iconName="utility:add"
+                                                                variant="brand"
+                                                                disabled="{!if(and(v.selectedAreasOfStudy.length == 0,  v.selectedCourseOfferings.length==0),'true','false')}"
+                                                                onclick="{!c.addCourseOfferings}">
+                                                </lightning:button>
+
+                                                <lightning:button label="Start Again"
+                                                                iconPosition="left"
+                                                                iconName="utility:refresh"
+                                                                variant="neutral"
+                                                                onclick="{!c.searchAgain}">
+                                                </lightning:button>
+                                            </div>
+                                        </div>
+
+                                        <!-- END offerings -->
+
+
+                                    </div>
+
+                                    <!-- Remove ACP Popup -->
+                                    <div class="{!if(v.showErrorAlert, '', 'slds-hide')}">
+                                        <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper"
+                                            class="slds-modal slds-fade-in-open slds-modal--prompt">
+                                            <div class="slds-modal__container">
+                                                <div class="slds-modal__header slds-theme--alert-texture slds-theme--error">
+                                                    <h3 class="slds-text-heading--small" id="prompt-heading-id" style="color: #ffffff;">Error</h3>
+                                                </div>
+                                                <div class="slds-modal__content">                                                
+                                                    <aura:if isTrue="{!!v.MAApplication}">
+                                                        <p class="slds-align_absolute-center">You have a total of more than 5 Preferences</p>
+                                                        <aura:set attribute="else">
+                                                            <p class="slds-align_absolute-center">You have more than 1 Preferences</p>
+                                                        </aura:set>
+                                                    </aura:if>
+                                                </div>
+                                                <div class="slds-modal__footer slds-theme--default">
+                                                    <lightning:button label="Ok"
+                                                                    iconPosition="left"
+                                                                    class="slds-button slds-button--neutral"
+                                                                    onclick="{!c.closeError}">
+                                                    </lightning:button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-backdrop slds-backdrop--open"></div>
+                                    </div>
+                                    <!-- END - Remove ACP Popup -->
+
+                                </div>
+                                <!-- END COURSE OFFERINGS -->
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

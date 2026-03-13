@@ -1,0 +1,25 @@
+<aura:component controller="ServiceConsoleCasesController"
+    implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="case" type="Case" />
+    <aura:attribute name="isLoading" type="Boolean" default="false" />
+    
+    <div class="slds-is-relative">
+        <aura:if isTrue="{!v.isLoading}">
+            <lightning:spinner></lightning:spinner>
+        </aura:if>
+        
+        <header class="slds-modal__header">
+            <h2 class="slds-modal__title">Mark As Spam</h2>
+        </header>
+        <div class="slds-modal__content slds-p-around_medium">
+            <p>Mark this case as spam to remove contact association and put it in the Spam queue.</p>
+        </div>
+        <footer class="slds-modal__footer">
+            <lightning:button label="Cancel" onclick="{!c.cancel}" />
+            <lightning:button class="slds-button slds-button_brand" label="Confirm" onclick="{!c.confirm}" value="false" />
+        </footer>
+    </div>
+</aura:component>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <attributes>
+        <formula>$User.FirstName</formula>
+        <key>firstName</key>
+    </attributes>
+    <attributes>
+        <formula>$User.LastName</formula>
+        <key>lastName</key>
+    </attributes>
+    <contactEmail>unicrm.coreadmin@monash.edu</contactEmail>
+    <description>Support Hybrid SSO with Salesforce as identity provider</description>
+    <iconUrl>https://www.okta.com/sites/default/files/media/image/2021-03/Logo_Okta_Blue_RGB.png</iconUrl>
+    <label>Monash Login Anyone SSO</label>
+    <logoUrl>https://www.okta.com/sites/default/files/media/image/2021-03/Logo_Okta_Blue_RGB.png</logoUrl>
+    <samlConfig>
+        <acsUrl>https://hybridlogin.monash.edu/sso/saml2/0oa1vy5k5wvYQhtwh3l7</acsUrl>
+        <encryptionType>AES_128</encryptionType>
+        <entityUrl>https://www.okta.com/saml2/service-provider/spelpdxcshwxytxnbtlz</entityUrl>
+        <issuer>https://unicrm.my.salesforce.com</issuer>
+        <samlNameIdFormat>Persistent</samlNameIdFormat>
+        <samlSigningAlgoType>SHA256</samlSigningAlgoType>
+        <samlSubjectType>Username</samlSubjectType>
+    </samlConfig>
+    <startUrl>https://hybridlogin.monash.edu</startUrl>
+</ConnectedApp>

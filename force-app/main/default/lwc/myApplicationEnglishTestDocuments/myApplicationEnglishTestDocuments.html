@@ -1,0 +1,21 @@
+<!-- My Application Documents -->
+<template>
+    <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="12" class="slds-m-right_medium">
+        <template if:true={checklistItems}>
+            <c-document-english-test-checklist-assessment-community-group
+                    application-id={applicationId}
+                    onfilepreview={onFilePreview}
+                    checklist-items={checklistItems}
+                    applicant-id={application.fields.Applicant__c.value}
+                    application-name={application.fields.Name.value}
+                    application-status={applicationStatus}
+                    application-study-type={application.fields.Type_of_Study__c.value}
+            ></c-document-english-test-checklist-assessment-community-group>
+        </template>
+        <template if:false={checklistItems}>
+            <!-- Loading spinner while retrieving applicant -->
+            <c-document-checklist-assessment-community-loader loader-count="10"></c-document-checklist-assessment-community-loader>
+        </template>
+    </lightning-layout-item>
+
+</template>

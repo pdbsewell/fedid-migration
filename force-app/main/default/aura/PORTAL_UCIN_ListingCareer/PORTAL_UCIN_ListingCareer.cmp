@@ -1,0 +1,87 @@
+<aura:component controller="PORTAL_UCIN_ListingController" implements="forceCommunity:availableForAllPageTypes" access="global">
+    <!--Static-->
+    <aura:attribute name="title" type="String" required="true"/>
+    <aura:attribute name="maxNumberOfRecords" type="Integer" required="true" default="20"/>
+
+    <!--Queried values-->
+    <aura:attribute name="recordTypeDeveloperName" type="String" required="true"/>
+    <aura:attribute name="category" type="String" required="true"/>
+    <aura:attribute name="listingList" type="Listing__c[]"/>
+
+    <!--Spinner-->
+    <aura:attribute name="loaded" type="Boolean" default="true" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+    <ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}"/>
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    
+	<div class="bg-gray-mon max-w-1300 m-auto slds-is-relative">
+        <!-- Spinner -->
+		<div>
+			<aura:if isTrue="{!!v.loaded }">
+				<lightning:spinner alternativeText="Loading" />
+			</aura:if>
+        </div>
+        
+        <div class="block lg:hidden w-full bg-white">
+        	<h2 class="w-full px-4 sm:px-6 pt-6 text-3xl sm:text-3xl lg:text-5xl leading-bitmore uppercase">{!v.title}</h2>
+        </div>
+        <div class="block lg:hidden w-full bg-white pb-6">
+            <span class="absolute w-1/2 sm:w-1/4 sm:border-b-5 border-solid border-b-4 border-green"></span>
+        </div>
+    	<div class="w-full bg-gray-mon h-full flex flex-wrap justify-between">
+            <h2 class="hidden lg:block w-full px-4 sm:px-6 py-6 text-3xl sm:text-3xl lg:text-5xl leading-bitmore uppercase bg-white">{!v.title}</h2>
+
+            <!--Iteration over career type listings-->
+            <aura:iteration items="{!v.listingList}" var="li">
+                <div class="w-full">
+                    <div class="relative h-full bg-white sm:px-6 sm:pb-6 pt-6 sm:pt-0 border-b-4 border-green sm:border-b-0">
+                        <span class="hidden lg:block absolute w-1/3 border-solid border-t-4 border-green"></span>
+                        <div class="flex flex-col sm:flex-row w-full h-full align-start lg:border-solid lg:border-dark-grey lg:border sm:shadow-lg lg:shadow-none">
+                            <aura:if isTrue="{!empty(li.Header_Video_URL__c)}">
+                                <div class="w-355px sm:w-1/2 lg:w-490 lg:min-h-276px h-200px sm:min-h-206px sm:max-h-620px sm:hidden self-center px-4 sm:px-6">
+                                    <img class="w-full h-auto" src="{!li.Header_Image_from_URL__c}"/>
+                                  </div>
+                            </aura:if>
+                            <div class="flex-1 order-3 sm:order-none px-4 sm:px-6 py-6 sm:w-2/3">
+                                <h3 class="text-3xl leading-bitmore lg:leading-tight font-bold text-dark-grey bold dark-grey">
+                                    <lightning:formattedRichText class="text-3xl leading-bitmore lg:leading-tight font-bold text-dark-grey bold dark-grey" value="{!li.Header_Content__c}"/>
+                                </h3>
+                                <div class="pt-4 pb-12 text-dark-grey ucin-listing-body text-xl lg:text-lg">
+                                    <!--<aura:unescapedHtml value="{!li.Body_Content__c}"/>-->
+                                    <lightning:formattedRichText value="{!li.Body_Content__c}"/>
+                                </div>
+                                <aura:if isTrue="{!not(empty(li.Title_URL__c))}">
+                                    <a class="bg-white border-blue text-blue border-solid border-2 px-6 py-2 hover:text-blue bg-white font-semibold text-xl lg:text-lg ucin-button" href="{!li.Title_URL__c}" target="_blank">
+                                        <span class="">Find out more</span>
+                                    </a>
+                                </aura:if>
+                            </div>
+                            <aura:if isTrue="{!not(empty(li.Header_Video_URL__c))}">
+                                <div class="flex-1 order-2 sm:order-none h-full w-full inline-block self-center px-4 sm:px-0">
+                                    <div class="relative">
+                                        <div class="relative h-0 pb-5/8 bg-grey">
+                                            <iframe
+                                            class="absolute w-full h-full left-0"
+                                            src="{!li.Header_Video_URL__c}"
+                                            frameBorder="0"
+                                            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"                 
+                                            allowFullScreen="true" />
+                                        </div>
+                                    </div>
+                                </div>
+                            	<aura:set attribute="else">
+                                    <aura:if isTrue="{!not(empty(li.Header_Image_from_URL__c))}">
+                                		<div class="hidden w-355px sm:w-1/2 lg:w-490 lg:min-h-276px h-200px sm:min-h-206px sm:max-h-620px sm:flex-initial sm:h-full sm:inline-block self-center">
+                                    		<img class="h-full object-cover " src="{!li.Header_Image_from_URL__c}"/>
+                                		</div>
+                                    </aura:if>
+                                </aura:set>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+            </aura:iteration>
+		</div>
+    </div>
+</aura:component>

@@ -1,0 +1,115 @@
+<template>
+    <div class="slds">
+        <lightning-spinner if:true={showSpinner} alternative-text="Saving" variant="brand"></lightning-spinner>
+
+        <!-- page heading and desciption-->
+        <div style="font-family:Roboto Condensed;font-size:14px;">
+                <h1 style="font-weight:bold;">English Proficiency</h1>
+        </div>
+        <div class="grtParagraph">Applicants are required to meet the University's <a href="https://www.monash.edu/graduate-research/study/apply/english-language-proficiency-requirements-for-admission" target="_blank">minimum English language proficiency requirements</a>. Please indicate how you meet these requirements. Based on your response you may be required to provide relevant supporting documentation in the <b>Documents section</b>.</div>
+       
+        <div class="slds-m-top--medium"></div>
+
+        <!-- English Proficiency Form-->
+        <div class="sectionContainer slds-wrap" data-testid="englishProficiencySection">
+            <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+            <div class="sectionContainerBody slds-size_5-of-5">
+                <div class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_1-of-5">
+                        <span style="font-weight:bold;">
+                            Declaration
+                        </span>
+                    </div>
+                    <div class="slds-col slds-size_3-of-5">
+                        I have read and understood the 
+                        <a href="https://www.monash.edu/graduate-research/study/apply/english-language-proficiency-requirements-for-admission" class="slds-text-link slds-p-left_x-small" target="_blank">
+                            Monash University English language proficiency requirements.
+                        </a> 
+                    </div>
+                    <div class="slds-col slds-size_1-of-5">
+                        <div style="float:right">
+                            <lightning-input
+                            name="consentDeclarationEngProf"
+                            data-id="consentDeclarationEngProf"
+                            type="checkbox"
+                            required
+                            checked={declarationSigned}
+                            onchange={handleDeclarationChange}
+                            variant="label-hidden"
+                            value={declarationSigned} 
+                            disabled={contactQualificationRecord.Id}>
+                            </lightning-input>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <template if:true={declarationSigned}>
+                <div class="sectionContainerBody slds-p-top_medium slds-size_5-of-5">
+                    <div class="slds-size_5-of-5 slds-p-top_medium slds-border_top">
+                        <lightning-select
+                            name="englishQualification"
+                            label="How do you satisfy these requirements?"
+                            value={contactQualificationRecord.English_Proficiency__c}
+                            options={englishQualificationPicklistOptions}
+                            onchange={handleEnglishQualificationChange}
+                            required >
+                        </lightning-select>
+                    </div>
+                </div>
+                <div class="sectionContainerBody slds-p-top_medium slds-size_5-of-5">
+                    <div class="slds-size_5-of-5">
+                        <span>
+                            Please note, you will not be eligible for a Monash Scholarship if you choose either of the following options -
+                        </span>
+                        <ul class="slds-list_dotted slds-m-left_medium">
+                            <li>I wish to be considered for an English language program if I cannot meet the University's English language </li>
+                            <li>I do not satisfy the English language proficiency requirements</li>
+                        </ul>
+                    </div>
+                </div>
+                <template if:true={showTestNamePicklist}>
+                    <div class="sectionContainerBody slds-p-top_medium slds-size_5-of-5">
+                        <span>Any English language proficiency test must be valid at the time of your proposed commencement date.</span>
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_2-of-5">
+                                <lightning-select
+                                    name="testName"
+                                    label="Test Name"
+                                    value={contactQualificationRecord.Qualification__c}
+                                    options={testNamePicklistOptions}
+                                    onchange={handleTestNameChange}
+                                    required >
+                                </lightning-select>
+                            </div>
+                            <div class="slds-col slds-size_3-of-5">
+                                <template if:true={showDateCompleted}>
+                                    <lightning-input 
+                                    max={today} 
+                                    data-id="dateSelected" 
+                                    type="date" 
+                                    label="Date Completed" 
+                                    value={contactQualificationRecord.Date_Achieved__c} 
+                                    onchange={handleDateCompletedChange} 
+                                    required> 
+                                    </lightning-input>
+                                </template>
+                                <template if:true={showDateToBeCompleted}>
+                                    <lightning-input 
+                                    min={today} 
+                                    data-id="dateToBeSelected" 
+                                    type="date" 
+                                    label="Date to be Completed" 
+                                    value={contactQualificationRecord.Expected_date_of_completion__c} 
+                                    onchange={handleDateToBeCompletedChange}
+                                    required>
+                                    </lightning-input>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </template>
+        </div>
+    </div>
+    
+</template>

@@ -1,0 +1,2294 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Affiliation_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Affiliation_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>Standard</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>Standard</fullName>
+        <fields>Name</fields>
+        <fields>Account__c</fields>
+        <fields>Contact__c</fields>
+        <fields>Is_Active__c</fields>
+        <fields>Is_Primary__c</fields>
+        <label>Standard</label>
+    </compactLayouts>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Links a person (Contact) with an entity, e.g. company (or organisational unit), club, school etc.</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Account_Communications__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Account communication preferences, i.e. whom to reach out to for the particular areas, e.g. tax receipts to be sent or stewardship.</description>
+        <inlineHelpText>This field indicates which types of communication are to be received on behalf of the Account</inlineHelpText>
+        <label>Account Communications</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Tax receipt</fullName>
+                    <default>false</default>
+                    <label>Tax receipt</label>
+                </value>
+                <value>
+                    <fullName>Stewardship</fullName>
+                    <default>false</default>
+                    <label>Stewardship</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>5</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Account__c</fullName>
+        <description>The contact (person) of the affiliation to an account (organisation)</description>
+        <inlineHelpText>Please provide the account of the affiliation.</inlineHelpText>
+        <label>Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Affiliations</relationshipLabel>
+        <relationshipName>Affiliations</relationshipName>
+        <relationshipOrder>1</relationshipOrder>
+        <reparentableMasterDetail>true</reparentableMasterDetail>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>true</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Composite_Key__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <caseSensitive>true</caseSensitive>
+        <description>Composite key comprised of Contact Id + Account Id + RecordType ID. Defined as &quot;unique&quot;. Value maintained by trigger. Essentially ensures there can be only one record for the same contact-account-record type combination.</description>
+        <externalId>true</externalId>
+        <inlineHelpText>Composite key comprised of Contact Id + Account Id + RecordType ID. Defined as &quot;unique&quot;. Value maintained by trigger. Essentially ensures there can be only one record for the same contact-account-record type combination.</inlineHelpText>
+        <label>Composite Key</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Contact_Name__c</fullName>
+        <description>Contact name as a clickable link on Affiliattion</description>
+        <externalId>false</externalId>
+        <formula>HYPERLINK(&quot;/lightning/r/Contact/&quot;+Contact__r.Id+&quot;/view&quot;, Contact__r.Full_Name__c , &quot;_self&quot;)</formula>
+        <inlineHelpText>Click to view contact</inlineHelpText>
+        <label>Contact Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Contact__c</fullName>
+        <description>The contact (person) of the affiliation to an account (organisation)</description>
+        <label>Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Affiliations</relationshipLabel>
+        <relationshipName>Affiliations</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>true</reparentableMasterDetail>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Department__c</fullName>
+        <description>Field is to store the Department linked to the Affiliation</description>
+        <externalId>false</externalId>
+        <label>Department</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Description__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Provide details of the type of Affiliation the person has with the Account</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Provide details of the type of Affiliation the person has with the Account</inlineHelpText>
+        <label>Description</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>End_Date__c</fullName>
+        <description>This defines the date until the email address is valid for.</description>
+        <inlineHelpText>Please provide the date the affiliation is valid through, or leave it empty if it is not known or not end dated.</inlineHelpText>
+        <label>End Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Engagement_Scoring_Applied__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Indicator to flag records that need to be scored for alumni engagement. It&apos;s updated to true after the score record (which has a lookup to the affiliation) is created.</description>
+        <label>Engagement Scoring Applied</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Engagement_Scoring_Date__c</fullName>
+        <description>The dynamic calculation of 12 months from the affiliation end date</description>
+        <formula>DATE(
+YEAR( End_Date__c ) + FLOOR( ( MONTH ( End_Date__c ) + 12 - 1 ) / 12 ),
+MOD( MONTH ( End_Date__c ) + 12 - 1 +
+IF( DAY ( End_Date__c ) &gt; CASE( MOD( MONTH( End_Date__c ) + 12 - 1, 12 ) + 1,
+2, 28,
+4, 30,
+6, 30,
+9, 30,
+11, 30,
+31 ), 1, 0 ), 12 ) + 1,
+IF( DAY( End_Date__c ) &gt; CASE( MOD( MONTH( End_Date__c ) + 12 - 1, 12 ) + 1,
+2, 28,
+4, 30,
+6, 30,
+9, 30,
+11, 30,
+31 ),
+1, DAY( End_Date__c )
+)
+)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Engagement Scoring Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Is_Active__c</fullName>
+        <businessStatus>DeprecateCandidate</businessStatus>
+        <defaultValue>true</defaultValue>
+        <description>Indicates whether an email address is active, usually when end date is in the past or the start date is in the future. This value Is automatically (by a scheduled process) set to &quot;false&quot; if End_Date__c is populated and in the past or the Start_Date__c is in the future.
+If manually set/changed to &quot;True&quot; (&quot;False&quot;), then the End_Date__c is automatically removed (added with the current date).</description>
+        <inlineHelpText>Please indicate whether the affiliation is active or not (inactive).</inlineHelpText>
+        <label>Is Active</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Is_Alumni__c</fullName>
+        <description>Is the affiliate contact a Monash Alumni?</description>
+        <externalId>false</externalId>
+        <formula>IF(
+INCLUDES(Contact__r.Contact_Profile__c,&quot;Alumni&quot;),
+IMAGE(&quot;/resource/1500335404000/GraphicsPackNew/fatcow/farmfresh/16/tick.png&quot;, &quot;Yes&quot;), IMAGE(&quot;/resource/1500335404000/GraphicsPackNew/fatcow/farmfresh/16/cross.png&quot;, &quot;No&quot;)
+)</formula>
+        <inlineHelpText>Is the affiliate contact a Monash Alumni?</inlineHelpText>
+        <label>Is Alumni</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Is_Primary__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Global primary affiliation (per Contact), as such only a single Affiliation__c record, can be flagged as primary per Contact lookup.
+If selected manually, all other records (for the Contact) will be marked as non-primary (false)
+If none are selected, the active entry with the highest priority RecordType is chosen with an emphasis on the student lifecycle as the dominant use case in the CRM.</description>
+        <inlineHelpText>Please indicate whether the affiliation is primary for this Contact.</inlineHelpText>
+        <label>Is Primary</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Opportunity__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <inlineHelpText>Opportunity with which this placement is associated.</inlineHelpText>
+        <label>Opportunity</label>
+        <referenceTo>Opportunity</referenceTo>
+        <relationshipLabel>Affiliations</relationshipLabel>
+        <relationshipName>Affiliations</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Position_Level__c</fullName>
+        <description>To apply an additional level of detail to the affiliation</description>
+        <inlineHelpText>To apply an additional level of detail to the affiliation</inlineHelpText>
+        <label>Position Level</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Member</fullName>
+                    <default>false</default>
+                    <label>Member</label>
+                </value>
+                <value>
+                    <fullName>Committee Member</fullName>
+                    <default>false</default>
+                    <label>Committee Member</label>
+                </value>
+                <value>
+                    <fullName>Board Member</fullName>
+                    <default>false</default>
+                    <label>Board Member</label>
+                </value>
+                <value>
+                    <fullName>Alumni</fullName>
+                    <default>false</default>
+                    <label>Alumni</label>
+                </value>
+                <value>
+                    <fullName>Alumni No Degree</fullName>
+                    <default>false</default>
+                    <label>Alumni No Degree</label>
+                </value>
+                <value>
+                    <fullName>Associate Dean</fullName>
+                    <default>false</default>
+                    <label>Associate Dean</label>
+                </value>
+                <value>
+                    <fullName>Senior Leader</fullName>
+                    <default>false</default>
+                    <label>Senior Leader</label>
+                </value>
+                <value>
+                    <fullName>Founder/Entrepreneur</fullName>
+                    <default>false</default>
+                    <label>Founder/Entrepreneur</label>
+                </value>
+                <value>
+                    <fullName>Senior Professional</fullName>
+                    <default>false</default>
+                    <label>Senior Professional</label>
+                </value>
+                <value>
+                    <fullName>Expert</fullName>
+                    <default>false</default>
+                    <label>Expert</label>
+                </value>
+                <value>
+                    <fullName>Professional</fullName>
+                    <default>false</default>
+                    <label>Professional</label>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                    <label>Other</label>
+                </value>
+                <value>
+                    <fullName>Estate Bequestor</fullName>
+                    <default>false</default>
+                    <label>Estate Bequestor</label>
+                </value>
+                <value>
+                    <fullName>Estate Executor</fullName>
+                    <default>false</default>
+                    <label>Estate Executor</label>
+                </value>
+                <value>
+                    <fullName>Estate Testator</fullName>
+                    <default>false</default>
+                    <label>Estate Testator</label>
+                </value>
+                <value>
+                    <fullName>MITI placements</fullName>
+                    <default>false</default>
+                    <label>MITI placements</label>
+                </value>
+                <value>
+                    <fullName>WIL placements</fullName>
+                    <default>false</default>
+                    <label>WIL placements</label>
+                </value>
+                <value>
+                    <fullName>Agent</fullName>
+                    <default>false</default>
+                    <label>Agent</label>
+                </value>
+                <value>
+                    <fullName>Partner</fullName>
+                    <default>false</default>
+                    <label>Partner</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Position__c</fullName>
+        <description>Position related to the affiliation (account)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Please provide the position of the contact (e.g. HR Manager, Principal Consultant).</inlineHelpText>
+        <label>Position</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Program__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>If the Opportunity associated with this placement consists of a number of separate placement programs, please provide the name of the individual program with which this placement is associated.</inlineHelpText>
+        <label>Program</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Ready_to_Archive__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Validate Archive Status</description>
+        <label>Ready to Archive</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Roles__c</fullName>
+        <description>To store the Role of the linked Affiliation</description>
+        <label>Roles</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Agent</fullName>
+                    <default>false</default>
+                    <label>Agent</label>
+                </value>
+                <value>
+                    <fullName>Partner</fullName>
+                    <default>false</default>
+                    <label>Partner</label>
+                </value>
+                <value>
+                    <fullName>Board Member</fullName>
+                    <default>false</default>
+                    <label>Board Member</label>
+                </value>
+                <value>
+                    <fullName>Chair</fullName>
+                    <default>false</default>
+                    <label>Chair</label>
+                </value>
+                <value>
+                    <fullName>Co-Founder</fullName>
+                    <default>false</default>
+                    <label>Co-Founder</label>
+                </value>
+                <value>
+                    <fullName>Founder</fullName>
+                    <default>false</default>
+                    <label>Founder</label>
+                </value>
+                <value>
+                    <fullName>Current Employee</fullName>
+                    <default>false</default>
+                    <label>Current Employee</label>
+                </value>
+                <value>
+                    <fullName>Former Employee</fullName>
+                    <default>false</default>
+                    <label>Former Employee</label>
+                </value>
+                <value>
+                    <fullName>Owner</fullName>
+                    <default>false</default>
+                    <label>Owner</label>
+                </value>
+                <value>
+                    <fullName>Volunteer</fullName>
+                    <default>false</default>
+                    <label>Volunteer</label>
+                </value>
+                <value>
+                    <fullName>Senior Management</fullName>
+                    <default>false</default>
+                    <label>Senior Management</label>
+                </value>
+                <value>
+                    <fullName>Strategic Relationship</fullName>
+                    <default>false</default>
+                    <label>Strategic Relationship</label>
+                </value>
+                <value>
+                    <fullName>Educator/Guest</fullName>
+                    <default>false</default>
+                    <label>Educator/Guest</label>
+                </value>
+                <value>
+                    <fullName>Regional Manager</fullName>
+                    <default>false</default>
+                    <label>Regional Manager</label>
+                </value>
+                <value>
+                    <fullName>Associate Dean</fullName>
+                    <default>false</default>
+                    <label>Associate Dean</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>4</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Share_Contact_to_Account_Role__c</fullName>
+        <description>When set to Read or Edit shares Contact with lowest Role in related Partner Account 
+- No Sharing
+- Read
+- Edit</description>
+        <inlineHelpText>When set to Read or Edit shares Contact with lowest Role in related Partner Account
+- No Sharing
+- Read
+- Edit</inlineHelpText>
+        <label>Share Contact to Account Role</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>No Sharing</fullName>
+                    <default>true</default>
+                    <label>No Sharing</label>
+                </value>
+                <value>
+                    <fullName>Read</fullName>
+                    <default>false</default>
+                    <label>Read</label>
+                </value>
+                <value>
+                    <fullName>Edit</fullName>
+                    <default>false</default>
+                    <label>Edit</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Share_Force_Recalculation__c</fullName>
+        <description>Updates to this field result in Apex managed sharing to be re-evaluated for this affiliation record. Is a quick way to re establish a related ContactShare record if things get out of whack.</description>
+        <inlineHelpText>Updates to this field result in Apex managed sharing to be re-evaluated for this affiliation record. Is a quick way to re establish a related ContactShare record if things get out of whack.</inlineHelpText>
+        <label>Share Force Recalculation</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Sharing_Composite_Key__c</fullName>
+        <description>Composite key comprised of: Contact Id + Account Id.  Defined as &quot;unique&quot;. Value maintained by trigger. Essentially ensures there can be only one sharing related affilation record for the same contact-account combination. Which would otherwise lead to sharing ambiguities.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Composite key comprised of: Contact Id + Account Id.  Defined as &quot;unique&quot;. Value maintained by trigger. Essentially ensures there can be only one sharing related affilation record for the same contact-account combination. Which would otherwise lead to sharing ambiguities.</inlineHelpText>
+        <label>Sharing Composite Key</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Start_Date__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>TODAY()</defaultValue>
+        <description>The date the email address is valid from.</description>
+        <inlineHelpText>Please provide a date indicating the valid from for the affiliation</inlineHelpText>
+        <label>Start Date</label>
+        <required>true</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>isActive__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>indicates if the Affiliation record is active or not, based on the end date.</description>
+        <formula>IF( 
+
+AND( 
+ NOT(ISNULL(End_Date__c)),
+ TODAY() &gt;= End_Date__c
+), 
+
+FALSE, 
+TRUE)</formula>
+        <inlineHelpText>indicates if the Affiliation record is active or not, based on the end date.</inlineHelpText>
+        <label>is Active</label>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <label>Affiliation</label>
+    <listViews>
+        <fullName>Active_Affiliations_with_Account_Comms</fullName>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>Contact__c</columns>
+        <columns>Is_Active__c</columns>
+        <columns>Is_Primary__c</columns>
+        <columns>Account_Communications__c</columns>
+        <columns>Position__c</columns>
+        <columns>Start_Date__c</columns>
+        <columns>End_Date__c</columns>
+        <columns>RECORDTYPE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Is_Active__c</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <filters>
+            <field>Account__c</field>
+            <operation>contains</operation>
+            <value>Gandel Foundation</value>
+        </filters>
+        <filters>
+            <field>Account_Communications__c</field>
+            <operation>includes</operation>
+            <value>Stewardship</value>
+        </filters>
+        <label>Active Affiliations with Account Comms</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>External_Relations_Development_and_Alumni_ERDA</roleAndSubordinatesInternal>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Affiliations_with_Acc_Comms</fullName>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>Contact__c</columns>
+        <columns>Is_Active__c</columns>
+        <columns>Is_Primary__c</columns>
+        <columns>Account_Communications__c</columns>
+        <columns>Position__c</columns>
+        <columns>Start_Date__c</columns>
+        <columns>End_Date__c</columns>
+        <columns>RECORDTYPE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Is_Active__c</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <filters>
+            <field>Account_Communications__c</field>
+            <operation>includes</operation>
+            <value>Tax receipt,Stewardship</value>
+        </filters>
+        <filters>
+            <field>Account__c</field>
+            <operation>contains</operation>
+            <value>besen family foundation</value>
+        </filters>
+        <label>Affiliations with Acc Comms</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>External_Relations_Development_and_Alumni_ERDA</roleAndSubordinatesInternal>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>Contact__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>Is_Active__c</columns>
+        <columns>Is_Primary__c</columns>
+        <columns>Position__c</columns>
+        <columns>RECORDTYPE</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>Alumni_Affiliations</fullName>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>Contact__c</columns>
+        <columns>Is_Active__c</columns>
+        <columns>Is_Primary__c</columns>
+        <columns>Start_Date__c</columns>
+        <columns>RECORDTYPE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Affiliation__c.Alumni</value>
+        </filters>
+        <label>Alumni Affiliations</label>
+        <sharedTo>
+            <role>External_Relations_Development_and_Alumni_ERDA</role>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Applicant_Affiliations</fullName>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>Contact__c</columns>
+        <columns>Is_Active__c</columns>
+        <columns>Share_Contact_to_Account_Role__c</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Affiliation__c.Applicant</value>
+        </filters>
+        <label>Applicant Affiliations</label>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Associate_Dean_Affiliations</fullName>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>Contact__c</columns>
+        <columns>Is_Active__c</columns>
+        <columns>Share_Contact_to_Account_Role__c</columns>
+        <columns>UPDATEDBY_USER</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Affiliation__c.Employee</value>
+        </filters>
+        <filters>
+            <field>Roles__c</field>
+            <operation>equals</operation>
+            <value>Associate Dean</value>
+        </filters>
+        <label>Associate Dean Affiliations</label>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Current_employment_affiliations_alumni</fullName>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>Contact__c</columns>
+        <columns>End_Date__c</columns>
+        <columns>Position__c</columns>
+        <columns>Position_Level__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Affiliation__c.Industry_Contact</value>
+        </filters>
+        <filters>
+            <field>Account__c</field>
+            <operation>equals</operation>
+            <value>Monash University Global</value>
+        </filters>
+        <filters>
+            <field>Is_Active__c</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <filters>
+            <field>Is_Primary__c</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <label>Active primary employment affiliations</label>
+    </listViews>
+    <listViews>
+        <fullName>Industry_Contact_Affiliations</fullName>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>Contact__c</columns>
+        <columns>Is_Active__c</columns>
+        <columns>Is_Primary__c</columns>
+        <columns>Position__c</columns>
+        <columns>Position_Level__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Affiliation__c.Industry_Contact</value>
+        </filters>
+        <label>Industry Contact Affiliations</label>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Industry_Contacts</fullName>
+        <columns>NAME</columns>
+        <columns>Account__c</columns>
+        <columns>Contact__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>Is_Active__c</columns>
+        <columns>Is_Primary__c</columns>
+        <columns>Position__c</columns>
+        <columns>RECORDTYPE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>RECORDTYPE</field>
+            <operation>equals</operation>
+            <value>Affiliation__c.Industry_Contact</value>
+        </filters>
+        <label>Industry Contacts</label>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>Recent_Affiliations</fullName>
+        <columns>NAME</columns>
+        <columns>Is_Active__c</columns>
+        <columns>Is_Primary__c</columns>
+        <columns>Contact__c</columns>
+        <columns>Start_Date__c</columns>
+        <columns>End_Date__c</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>RECORDTYPE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>LAST_UPDATE</field>
+            <operation>greaterOrEqual</operation>
+            <value>LAST_N_DAYS:7</value>
+        </filters>
+        <label>Recent Affiliations</label>
+    </listViews>
+    <nameField>
+        <displayFormat>AFL-{0000000}</displayFormat>
+        <label>Affiliation ID</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Affiliations</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>Agent</fullName>
+        <active>true</active>
+        <description>An agent to Monash, e.g. for course applications.</description>
+        <label>Agent</label>
+        <picklistValues>
+            <picklist>Account_Communications__c</picklist>
+            <values>
+                <fullName>Stewardship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Tax receipt</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Position_Level__c</picklist>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Roles__c</picklist>
+            <values>
+                <fullName>Board Member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Chair</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Co-Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Current Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Educator%2FGuest</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Former Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Owner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Senior Management</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Strategic Relationship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Volunteer</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Share_Contact_to_Account_Role__c</picklist>
+            <values>
+                <fullName>Edit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No Sharing</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Read</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Alumni</fullName>
+        <active>true</active>
+        <description>Alumni or former student of Monash</description>
+        <label>Alumni</label>
+        <picklistValues>
+            <picklist>Account_Communications__c</picklist>
+            <values>
+                <fullName>Stewardship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Tax receipt</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Position_Level__c</picklist>
+            <values>
+                <fullName>Alumni</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Alumni No Degree</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Roles__c</picklist>
+            <values>
+                <fullName>Board Member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Chair</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Co-Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Current Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Educator%2FGuest</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Former Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Owner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Senior Management</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Strategic Relationship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Volunteer</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Share_Contact_to_Account_Role__c</picklist>
+            <values>
+                <fullName>Edit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No Sharing</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Read</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Applicant</fullName>
+        <active>true</active>
+        <description>An applicant for a course or program at Monash</description>
+        <label>Applicant</label>
+        <picklistValues>
+            <picklist>Account_Communications__c</picklist>
+            <values>
+                <fullName>Stewardship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Tax receipt</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Position_Level__c</picklist>
+            <values>
+                <fullName>Agent</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Partner</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Roles__c</picklist>
+            <values>
+                <fullName>Agent</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Board Member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Chair</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Co-Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Current Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Educator%2FGuest</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Former Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Owner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Partner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Senior Management</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Strategic Relationship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Volunteer</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Share_Contact_to_Account_Role__c</picklist>
+            <values>
+                <fullName>Edit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No Sharing</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Read</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Donor</fullName>
+        <active>true</active>
+        <description>A donor to Monash</description>
+        <label>Donor</label>
+        <picklistValues>
+            <picklist>Account_Communications__c</picklist>
+            <values>
+                <fullName>Stewardship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Tax receipt</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Position_Level__c</picklist>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Roles__c</picklist>
+            <values>
+                <fullName>Board Member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Chair</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Co-Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Current Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Educator%2FGuest</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Former Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Owner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Senior Management</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Strategic Relationship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Volunteer</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Share_Contact_to_Account_Role__c</picklist>
+            <values>
+                <fullName>Edit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No Sharing</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Read</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Employee</fullName>
+        <active>true</active>
+        <description>Employee of Monash or another organisation</description>
+        <label>Employee</label>
+        <picklistValues>
+            <picklist>Account_Communications__c</picklist>
+            <values>
+                <fullName>Stewardship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Tax receipt</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Position_Level__c</picklist>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Roles__c</picklist>
+            <values>
+                <fullName>Associate Dean</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Regional Manager</fullName>
+                <default>true</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Share_Contact_to_Account_Role__c</picklist>
+            <values>
+                <fullName>Edit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No Sharing</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Read</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Industry_Contact</fullName>
+        <active>true</active>
+        <description>A professional in the industry.</description>
+        <label>Industry Contact</label>
+        <picklistValues>
+            <picklist>Account_Communications__c</picklist>
+            <values>
+                <fullName>Stewardship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Tax receipt</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Position_Level__c</picklist>
+            <values>
+                <fullName>Expert</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Founder%2FEntrepreneur</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Professional</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Senior Leader</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Senior Professional</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Roles__c</picklist>
+            <values>
+                <fullName>Board Member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Chair</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Co-Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Current Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Educator%2FGuest</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Former Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Owner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Senior Management</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Strategic Relationship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Volunteer</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Share_Contact_to_Account_Role__c</picklist>
+            <values>
+                <fullName>Edit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No Sharing</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Read</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Member</fullName>
+        <active>true</active>
+        <description>Member of an association or club.</description>
+        <label>Member</label>
+        <picklistValues>
+            <picklist>Account_Communications__c</picklist>
+            <values>
+                <fullName>Stewardship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Tax receipt</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Position_Level__c</picklist>
+            <values>
+                <fullName>Board Member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Committee Member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Estate Bequestor</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Estate Executor</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Estate Testator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Member</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Roles__c</picklist>
+            <values>
+                <fullName>Board Member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Chair</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Co-Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Current Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Educator%2FGuest</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Former Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Owner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Senior Management</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Strategic Relationship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Volunteer</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Share_Contact_to_Account_Role__c</picklist>
+            <values>
+                <fullName>Edit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No Sharing</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Read</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Monash_Affiliate</fullName>
+        <active>true</active>
+        <description>Staff with vested interest in an Account</description>
+        <label>Monash Affiliate</label>
+        <picklistValues>
+            <picklist>Account_Communications__c</picklist>
+            <values>
+                <fullName>Stewardship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Tax receipt</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Position_Level__c</picklist>
+            <values>
+                <fullName>Alumni</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Alumni No Degree</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Associate Dean</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Board Member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Committee Member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Estate Bequestor</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Estate Executor</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Estate Testator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Expert</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Founder%2FEntrepreneur</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>MITI placements</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Professional</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Senior Leader</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Senior Professional</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>WIL placements</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Roles__c</picklist>
+            <values>
+                <fullName>Board Member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Chair</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Co-Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Current Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Educator%2FGuest</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Former Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Owner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Senior Management</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Strategic Relationship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Volunteer</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Share_Contact_to_Account_Role__c</picklist>
+            <values>
+                <fullName>Edit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No Sharing</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Read</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Placement</fullName>
+        <active>true</active>
+        <description>Affiliation Placement</description>
+        <label>Placement</label>
+        <picklistValues>
+            <picklist>Account_Communications__c</picklist>
+            <values>
+                <fullName>Stewardship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Tax receipt</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Position_Level__c</picklist>
+            <values>
+                <fullName>MITI placements</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>WIL placements</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Roles__c</picklist>
+            <values>
+                <fullName>Board Member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Chair</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Co-Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Current Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Educator%2FGuest</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Former Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Owner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Senior Management</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Strategic Relationship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Volunteer</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Share_Contact_to_Account_Role__c</picklist>
+            <values>
+                <fullName>Edit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No Sharing</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Read</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Prospective_Student</fullName>
+        <active>true</active>
+        <description>Prospective or future student</description>
+        <label>Prospective Student</label>
+        <picklistValues>
+            <picklist>Account_Communications__c</picklist>
+            <values>
+                <fullName>Stewardship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Tax receipt</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Position_Level__c</picklist>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Roles__c</picklist>
+            <values>
+                <fullName>Board Member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Chair</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Co-Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Current Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Educator%2FGuest</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Former Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Owner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Senior Management</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Strategic Relationship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Volunteer</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Share_Contact_to_Account_Role__c</picklist>
+            <values>
+                <fullName>Edit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No Sharing</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Read</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Researcher</fullName>
+        <active>true</active>
+        <description>Monash Researcher</description>
+        <label>Researcher</label>
+        <picklistValues>
+            <picklist>Account_Communications__c</picklist>
+            <values>
+                <fullName>Stewardship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Tax receipt</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Position_Level__c</picklist>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Roles__c</picklist>
+            <values>
+                <fullName>Board Member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Chair</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Co-Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Current Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Educator%2FGuest</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Former Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Owner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Senior Management</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Strategic Relationship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Volunteer</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Share_Contact_to_Account_Role__c</picklist>
+            <values>
+                <fullName>Edit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No Sharing</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Read</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Scholar</fullName>
+        <active>true</active>
+        <description>Private</description>
+        <label>Scholar</label>
+        <picklistValues>
+            <picklist>Account_Communications__c</picklist>
+            <values>
+                <fullName>Stewardship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Tax receipt</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Position_Level__c</picklist>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Roles__c</picklist>
+            <values>
+                <fullName>Board Member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Chair</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Co-Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Current Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Educator%2FGuest</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Former Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Owner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Senior Management</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Strategic Relationship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Volunteer</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Share_Contact_to_Account_Role__c</picklist>
+            <values>
+                <fullName>Edit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No Sharing</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Read</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>School_Contact</fullName>
+        <active>true</active>
+        <description>Business</description>
+        <label>School Contact</label>
+        <picklistValues>
+            <picklist>Account_Communications__c</picklist>
+            <values>
+                <fullName>Stewardship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Tax receipt</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Position_Level__c</picklist>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Roles__c</picklist>
+            <values>
+                <fullName>Board Member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Chair</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Co-Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Current Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Educator%2FGuest</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Former Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Owner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Senior Management</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Strategic Relationship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Volunteer</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Share_Contact_to_Account_Role__c</picklist>
+            <values>
+                <fullName>Edit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No Sharing</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Read</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Student</fullName>
+        <active>true</active>
+        <description>Current student</description>
+        <label>Student</label>
+        <picklistValues>
+            <picklist>Account_Communications__c</picklist>
+            <values>
+                <fullName>Stewardship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Tax receipt</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Position_Level__c</picklist>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Roles__c</picklist>
+            <values>
+                <fullName>Board Member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Chair</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Co-Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Current Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Educator%2FGuest</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Former Employee</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Founder</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Owner</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Senior Management</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Strategic Relationship</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Volunteer</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Share_Contact_to_Account_Role__c</picklist>
+            <values>
+                <fullName>Edit</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>No Sharing</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Read</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <searchLayouts>
+        <customTabListAdditionalFields>Account__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Contact__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Is_Primary__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Is_Active__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Start_Date__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>End_Date__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Position__c</customTabListAdditionalFields>
+        <lookupDialogsAdditionalFields>Account__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Contact__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Start_Date__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>End_Date__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Is_Primary__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Is_Active__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Position__c</lookupDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Account__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Contact__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Is_Primary__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Is_Active__c</lookupPhoneDialogsAdditionalFields>
+        <searchFilterFields>NAME</searchFilterFields>
+        <searchFilterFields>Account__c</searchFilterFields>
+        <searchFilterFields>Contact__c</searchFilterFields>
+        <searchFilterFields>Start_Date__c</searchFilterFields>
+        <searchFilterFields>End_Date__c</searchFilterFields>
+        <searchFilterFields>Is_Primary__c</searchFilterFields>
+        <searchFilterFields>Is_Active__c</searchFilterFields>
+        <searchFilterFields>Position__c</searchFilterFields>
+        <searchResultsAdditionalFields>Account__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Contact__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Is_Primary__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Is_Active__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Start_Date__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>End_Date__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Position__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ControlledByParent</sharingModel>
+    <startsWith>Vowel</startsWith>
+    <visibility>Public</visibility>
+</CustomObject>

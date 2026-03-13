@@ -1,0 +1,3236 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>stores one or more interests registered against an Enquiry</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Alias__c</fullName>
+        <description>The name of record migrated from source org</description>
+        <externalId>true</externalId>
+        <label>Alias</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Attendance_Mode__c</fullName>
+        <label>Attendance Mode</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>On Campus</fullName>
+                    <default>false</default>
+                    <label>On Campus</label>
+                </value>
+                <value>
+                    <fullName>Off Campus</fullName>
+                    <default>false</default>
+                    <label>Off Campus</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Case__c</fullName>
+        <description>all enquiry interests are derived from a case record</description>
+        <label>Enquiry</label>
+        <referenceTo>Case</referenceTo>
+        <relationshipLabel>Enquiry Interests</relationshipLabel>
+        <relationshipName>Enquiry_Interests</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Commencement_Year__c</fullName>
+        <description>The year that a person is interested to commence their study</description>
+        <label>Commencement Year</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>2016</fullName>
+                    <default>false</default>
+                    <label>2016</label>
+                </value>
+                <value>
+                    <fullName>2017</fullName>
+                    <default>false</default>
+                    <label>2017</label>
+                </value>
+                <value>
+                    <fullName>2018</fullName>
+                    <default>false</default>
+                    <label>2018</label>
+                </value>
+                <value>
+                    <fullName>2019</fullName>
+                    <default>false</default>
+                    <label>2019</label>
+                </value>
+                <value>
+                    <fullName>Nov 2020</fullName>
+                    <default>false</default>
+                    <label>Nov 2020</label>
+                </value>
+                <value>
+                    <fullName>2020</fullName>
+                    <default>false</default>
+                    <label>2020</label>
+                </value>
+                <value>
+                    <fullName>2021</fullName>
+                    <default>false</default>
+                    <label>2021</label>
+                </value>
+                <value>
+                    <fullName>2022</fullName>
+                    <default>false</default>
+                    <label>2022</label>
+                </value>
+                <value>
+                    <fullName>2023</fullName>
+                    <default>false</default>
+                    <label>2023</label>
+                </value>
+                <value>
+                    <fullName>2024</fullName>
+                    <default>false</default>
+                    <label>2024</label>
+                </value>
+                <value>
+                    <fullName>2025</fullName>
+                    <default>false</default>
+                    <label>2025</label>
+                </value>
+                <value>
+                    <fullName>2026</fullName>
+                    <default>false</default>
+                    <label>2026</label>
+                </value>
+                <value>
+                    <fullName>2027</fullName>
+                    <default>false</default>
+                    <label>2027</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Course_Managing_Faculty__c</fullName>
+        <description>pulls managing faculty through to enquiry interest, or , if no course linked then presents the text field equivalent if keyed in at Enquiry Interest level</description>
+        <externalId>false</externalId>
+        <formula>IF(NOT(ISBLANK( Course__c )),
+ TEXT(Course__r.Managing_Faculty__c) ,  Managing_Faculty__c )</formula>
+        <label>Course Managing Faculty</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Course_Title_Text__c</fullName>
+        <description>placeholder for legacy data, and surfaced via formula field</description>
+        <externalId>false</externalId>
+        <label>Course Title Text</label>
+        <length>250</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Course_Title__c</fullName>
+        <description>for use in the console sidebar view</description>
+        <externalId>false</externalId>
+        <formula>IF(
+NOT(ISBLANK(Course__r.Course_Description__c )),
+Course__r.Course_Description__c,
+   IF(NOT(ISBLANK(Course_Title_Text__c)), Course_Title_Text__c,
+&quot;&quot;))</formula>
+        <label>Course Title</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Course__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>if person is interested in a specific course, this field links to that course record.</description>
+        <label>Course</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>Course__c.Depreciated__c</field>
+                <operation>equals</operation>
+                <value>False</value>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Course__c</referenceTo>
+        <relationshipLabel>Enquiry Interests</relationshipLabel>
+        <relationshipName>Enquiry_Interests</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Detailed_Study_Area__c</fullName>
+        <label>Detailed Study Area</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>Study_Area__c</controllingField>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Aeronautical engineering</fullName>
+                    <default>false</default>
+                    <label>Aeronautical engineering</label>
+                </value>
+                <value>
+                    <fullName>Aerospace engineering</fullName>
+                    <default>false</default>
+                    <label>Aerospace engineering</label>
+                </value>
+                <value>
+                    <fullName>Biological engineering</fullName>
+                    <default>false</default>
+                    <label>Biological engineering</label>
+                </value>
+                <value>
+                    <fullName>Chemical engineering</fullName>
+                    <default>false</default>
+                    <label>Chemical engineering</label>
+                </value>
+                <value>
+                    <fullName>Civil engineering</fullName>
+                    <default>false</default>
+                    <label>Civil engineering</label>
+                </value>
+                <value>
+                    <fullName>Computer science</fullName>
+                    <default>false</default>
+                    <label>Computer science</label>
+                </value>
+                <value>
+                    <fullName>Computer systems engineering</fullName>
+                    <default>false</default>
+                    <label>Computer systems engineering</label>
+                </value>
+                <value>
+                    <fullName>Electrical engineering</fullName>
+                    <default>false</default>
+                    <label>Electrical engineering</label>
+                </value>
+                <value>
+                    <fullName>Electronics</fullName>
+                    <default>false</default>
+                    <label>Electronics</label>
+                </value>
+                <value>
+                    <fullName>Engineering technology</fullName>
+                    <default>false</default>
+                    <label>Engineering technology</label>
+                </value>
+                <value>
+                    <fullName>Environmental engineering</fullName>
+                    <default>false</default>
+                    <label>Environmental engineering</label>
+                </value>
+                <value>
+                    <fullName>Industrial engineering</fullName>
+                    <default>false</default>
+                    <label>Industrial engineering</label>
+                </value>
+                <value>
+                    <fullName>Infrastructure engineering</fullName>
+                    <default>false</default>
+                    <label>Infrastructure engineering</label>
+                </value>
+                <value>
+                    <fullName>Maintenance engineering</fullName>
+                    <default>false</default>
+                    <label>Maintenance engineering</label>
+                </value>
+                <value>
+                    <fullName>Materials engineering</fullName>
+                    <default>false</default>
+                    <label>Materials engineering</label>
+                </value>
+                <value>
+                    <fullName>Mechanical engineering</fullName>
+                    <default>false</default>
+                    <label>Mechanical engineering</label>
+                </value>
+                <value>
+                    <fullName>Mechatronics engineering</fullName>
+                    <default>false</default>
+                    <label>Mechatronics engineering</label>
+                </value>
+                <value>
+                    <fullName>Mining engineering</fullName>
+                    <default>false</default>
+                    <label>Mining engineering</label>
+                </value>
+                <value>
+                    <fullName>Pulp and paper technologies</fullName>
+                    <default>false</default>
+                    <label>Pulp and paper technologies</label>
+                </value>
+                <value>
+                    <fullName>Robotics</fullName>
+                    <default>false</default>
+                    <label>Robotics</label>
+                </value>
+                <value>
+                    <fullName>Software engineering</fullName>
+                    <default>false</default>
+                    <label>Software engineering</label>
+                </value>
+                <value>
+                    <fullName>Traffic engineering</fullName>
+                    <default>false</default>
+                    <label>Traffic engineering</label>
+                </value>
+                <value>
+                    <fullName>Transport engineering</fullName>
+                    <default>false</default>
+                    <label>Transport engineering</label>
+                </value>
+                <value>
+                    <fullName>Accounting</fullName>
+                    <default>false</default>
+                    <label>Accounting</label>
+                </value>
+                <value>
+                    <fullName>Actuarial studies</fullName>
+                    <default>false</default>
+                    <label>Actuarial studies</label>
+                </value>
+                <value>
+                    <fullName>Banking</fullName>
+                    <default>false</default>
+                    <label>Banking</label>
+                </value>
+                <value>
+                    <fullName>Business administration</fullName>
+                    <default>false</default>
+                    <label>Business administration</label>
+                </value>
+                <value>
+                    <fullName>Business information systems</fullName>
+                    <default>false</default>
+                    <label>Business information systems</label>
+                </value>
+                <value>
+                    <fullName>Business statistics</fullName>
+                    <default>false</default>
+                    <label>Business statistics</label>
+                </value>
+                <value>
+                    <fullName>Business strategy</fullName>
+                    <default>false</default>
+                    <label>Business strategy</label>
+                </value>
+                <value>
+                    <fullName>Business systems</fullName>
+                    <default>false</default>
+                    <label>Business systems</label>
+                </value>
+                <value>
+                    <fullName>Commerce</fullName>
+                    <default>false</default>
+                    <label>Commerce</label>
+                </value>
+                <value>
+                    <fullName>eBusiness</fullName>
+                    <default>false</default>
+                    <label>eBusiness</label>
+                </value>
+                <value>
+                    <fullName>Econometrics</fullName>
+                    <default>false</default>
+                    <label>Econometrics</label>
+                </value>
+                <value>
+                    <fullName>Economics</fullName>
+                    <default>false</default>
+                    <label>Economics</label>
+                </value>
+                <value>
+                    <fullName>Finance</fullName>
+                    <default>false</default>
+                    <label>Finance</label>
+                </value>
+                <value>
+                    <fullName>Human resources</fullName>
+                    <default>false</default>
+                    <label>Human resources</label>
+                </value>
+                <value>
+                    <fullName>Industrial relations</fullName>
+                    <default>false</default>
+                    <label>Industrial relations</label>
+                </value>
+                <value>
+                    <fullName>Information management</fullName>
+                    <default>false</default>
+                    <label>Information management</label>
+                </value>
+                <value>
+                    <fullName>International business</fullName>
+                    <default>false</default>
+                    <label>International business</label>
+                </value>
+                <value>
+                    <fullName>Knowledge management</fullName>
+                    <default>false</default>
+                    <label>Knowledge management</label>
+                </value>
+                <value>
+                    <fullName>Leadership</fullName>
+                    <default>false</default>
+                    <label>Leadership</label>
+                </value>
+                <value>
+                    <fullName>Management</fullName>
+                    <default>false</default>
+                    <label>Management</label>
+                </value>
+                <value>
+                    <fullName>Marketing</fullName>
+                    <default>false</default>
+                    <label>Marketing</label>
+                </value>
+                <value>
+                    <fullName>MBA</fullName>
+                    <default>false</default>
+                    <label>MBA</label>
+                </value>
+                <value>
+                    <fullName>Organisational leadership</fullName>
+                    <default>false</default>
+                    <label>Organisational leadership</label>
+                </value>
+                <value>
+                    <fullName>Project management</fullName>
+                    <default>false</default>
+                    <label>Project management</label>
+                </value>
+                <value>
+                    <fullName>Public policy</fullName>
+                    <default>false</default>
+                    <label>Public policy</label>
+                </value>
+                <value>
+                    <fullName>Records management</fullName>
+                    <default>false</default>
+                    <label>Records management</label>
+                </value>
+                <value>
+                    <fullName>Risk management</fullName>
+                    <default>false</default>
+                    <label>Risk management</label>
+                </value>
+                <value>
+                    <fullName>Sport and outdoor recreation</fullName>
+                    <default>false</default>
+                    <label>Sport and outdoor recreation</label>
+                </value>
+                <value>
+                    <fullName>Sport management</fullName>
+                    <default>false</default>
+                    <label>Sport management</label>
+                </value>
+                <value>
+                    <fullName>Supply chain</fullName>
+                    <default>false</default>
+                    <label>Supply chain</label>
+                </value>
+                <value>
+                    <fullName>Sustainability</fullName>
+                    <default>false</default>
+                    <label>Sustainability</label>
+                </value>
+                <value>
+                    <fullName>Tourism</fullName>
+                    <default>false</default>
+                    <label>Tourism</label>
+                </value>
+                <value>
+                    <fullName>Arts</fullName>
+                    <default>false</default>
+                    <label>Arts</label>
+                </value>
+                <value>
+                    <fullName>Communication technologies</fullName>
+                    <default>false</default>
+                    <label>Communication technologies</label>
+                </value>
+                <value>
+                    <fullName>Communications</fullName>
+                    <default>false</default>
+                    <label>Communications</label>
+                </value>
+                <value>
+                    <fullName>Digital arts</fullName>
+                    <default>false</default>
+                    <label>Digital arts</label>
+                </value>
+                <value>
+                    <fullName>Film and television</fullName>
+                    <default>false</default>
+                    <label>Film and television</label>
+                </value>
+                <value>
+                    <fullName>Graphic design</fullName>
+                    <default>false</default>
+                    <label>Graphic design</label>
+                </value>
+                <value>
+                    <fullName>Information and knowledge management</fullName>
+                    <default>false</default>
+                    <label>Information and knowledge management</label>
+                </value>
+                <value>
+                    <fullName>Information studies</fullName>
+                    <default>false</default>
+                    <label>Information studies</label>
+                </value>
+                <value>
+                    <fullName>Information technologies</fullName>
+                    <default>false</default>
+                    <label>Information technologies</label>
+                </value>
+                <value>
+                    <fullName>Journalism</fullName>
+                    <default>false</default>
+                    <label>Journalism</label>
+                </value>
+                <value>
+                    <fullName>Languages</fullName>
+                    <default>false</default>
+                    <label>Languages</label>
+                </value>
+                <value>
+                    <fullName>Librarianship</fullName>
+                    <default>false</default>
+                    <label>Librarianship</label>
+                </value>
+                <value>
+                    <fullName>Library studies</fullName>
+                    <default>false</default>
+                    <label>Library studies</label>
+                </value>
+                <value>
+                    <fullName>Linguistics</fullName>
+                    <default>false</default>
+                    <label>Linguistics</label>
+                </value>
+                <value>
+                    <fullName>Media</fullName>
+                    <default>false</default>
+                    <label>Media</label>
+                </value>
+                <value>
+                    <fullName>Multimedia</fullName>
+                    <default>false</default>
+                    <label>Multimedia</label>
+                </value>
+                <value>
+                    <fullName>Public relations</fullName>
+                    <default>false</default>
+                    <label>Public relations</label>
+                </value>
+                <value>
+                    <fullName>Retail</fullName>
+                    <default>false</default>
+                    <label>Retail</label>
+                </value>
+                <value>
+                    <fullName>Visual communication</fullName>
+                    <default>false</default>
+                    <label>Visual communication</label>
+                </value>
+                <value>
+                    <fullName>Visual culture</fullName>
+                    <default>false</default>
+                    <label>Visual culture</label>
+                </value>
+                <value>
+                    <fullName>Visual design</fullName>
+                    <default>false</default>
+                    <label>Visual design</label>
+                </value>
+                <value>
+                    <fullName>Animation</fullName>
+                    <default>false</default>
+                    <label>Animation</label>
+                </value>
+                <value>
+                    <fullName>Architecture</fullName>
+                    <default>false</default>
+                    <label>Architecture</label>
+                </value>
+                <value>
+                    <fullName>Art education</fullName>
+                    <default>false</default>
+                    <label>Art education</label>
+                </value>
+                <value>
+                    <fullName>Creative arts</fullName>
+                    <default>false</default>
+                    <label>Creative arts</label>
+                </value>
+                <value>
+                    <fullName>Curatorial studies</fullName>
+                    <default>false</default>
+                    <label>Curatorial studies</label>
+                </value>
+                <value>
+                    <fullName>Drama</fullName>
+                    <default>false</default>
+                    <label>Drama</label>
+                </value>
+                <value>
+                    <fullName>Drawing</fullName>
+                    <default>false</default>
+                    <label>Drawing</label>
+                </value>
+                <value>
+                    <fullName>Fine arts</fullName>
+                    <default>false</default>
+                    <label>Fine arts</label>
+                </value>
+                <value>
+                    <fullName>Gallery management</fullName>
+                    <default>false</default>
+                    <label>Gallery management</label>
+                </value>
+                <value>
+                    <fullName>Games development</fullName>
+                    <default>false</default>
+                    <label>Games development</label>
+                </value>
+                <value>
+                    <fullName>Industrial design</fullName>
+                    <default>false</default>
+                    <label>Industrial design</label>
+                </value>
+                <value>
+                    <fullName>Installation</fullName>
+                    <default>false</default>
+                    <label>Installation</label>
+                </value>
+                <value>
+                    <fullName>Interior architecture</fullName>
+                    <default>false</default>
+                    <label>Interior architecture</label>
+                </value>
+                <value>
+                    <fullName>Media arts</fullName>
+                    <default>false</default>
+                    <label>Media arts</label>
+                </value>
+                <value>
+                    <fullName>Multimedia design</fullName>
+                    <default>false</default>
+                    <label>Multimedia design</label>
+                </value>
+                <value>
+                    <fullName>Music</fullName>
+                    <default>false</default>
+                    <label>Music</label>
+                </value>
+                <value>
+                    <fullName>Painting</fullName>
+                    <default>false</default>
+                    <label>Painting</label>
+                </value>
+                <value>
+                    <fullName>Performance</fullName>
+                    <default>false</default>
+                    <label>Performance</label>
+                </value>
+                <value>
+                    <fullName>Photography</fullName>
+                    <default>false</default>
+                    <label>Photography</label>
+                </value>
+                <value>
+                    <fullName>Print making</fullName>
+                    <default>false</default>
+                    <label>Print making</label>
+                </value>
+                <value>
+                    <fullName>Product design</fullName>
+                    <default>false</default>
+                    <label>Product design</label>
+                </value>
+                <value>
+                    <fullName>Sculpture</fullName>
+                    <default>false</default>
+                    <label>Sculpture</label>
+                </value>
+                <value>
+                    <fullName>Theatre studies</fullName>
+                    <default>false</default>
+                    <label>Theatre studies</label>
+                </value>
+                <value>
+                    <fullName>Visual arts</fullName>
+                    <default>false</default>
+                    <label>Visual arts</label>
+                </value>
+                <value>
+                    <fullName>Adult and work-based learning</fullName>
+                    <default>false</default>
+                    <label>Adult and work-based learning</label>
+                </value>
+                <value>
+                    <fullName>Adult learning and development</fullName>
+                    <default>false</default>
+                    <label>Adult learning and development</label>
+                </value>
+                <value>
+                    <fullName>Counselling</fullName>
+                    <default>false</default>
+                    <label>Counselling</label>
+                </value>
+                <value>
+                    <fullName>Early childhood education</fullName>
+                    <default>false</default>
+                    <label>Early childhood education</label>
+                </value>
+                <value>
+                    <fullName>Education</fullName>
+                    <default>false</default>
+                    <label>Education</label>
+                </value>
+                <value>
+                    <fullName>Gifted education</fullName>
+                    <default>false</default>
+                    <label>Gifted education</label>
+                </value>
+                <value>
+                    <fullName>Inclusive and gifted education</fullName>
+                    <default>false</default>
+                    <label>Inclusive and gifted education</label>
+                </value>
+                <value>
+                    <fullName>Information Communication Technology (ICT) education</fullName>
+                    <default>false</default>
+                    <label>Information Communication Technology (ICT) education</label>
+                </value>
+                <value>
+                    <fullName>Literacy</fullName>
+                    <default>false</default>
+                    <label>Literacy</label>
+                </value>
+                <value>
+                    <fullName>Mathematics and science education</fullName>
+                    <default>false</default>
+                    <label>Mathematics and science education</label>
+                </value>
+                <value>
+                    <fullName>Mentoring and coaching</fullName>
+                    <default>false</default>
+                    <label>Mentoring and coaching</label>
+                </value>
+                <value>
+                    <fullName>Music education</fullName>
+                    <default>false</default>
+                    <label>Music education</label>
+                </value>
+                <value>
+                    <fullName>Numeracy</fullName>
+                    <default>false</default>
+                    <label>Numeracy</label>
+                </value>
+                <value>
+                    <fullName>Primary education</fullName>
+                    <default>false</default>
+                    <label>Primary education</label>
+                </value>
+                <value>
+                    <fullName>Psychology (counselling)</fullName>
+                    <default>false</default>
+                    <label>Psychology (counselling)</label>
+                </value>
+                <value>
+                    <fullName>Psychology (educational and developmental)</fullName>
+                    <default>false</default>
+                    <label>Psychology (educational and developmental)</label>
+                </value>
+                <value>
+                    <fullName>Regional and community education and development</fullName>
+                    <default>false</default>
+                    <label>Regional and community education and development</label>
+                </value>
+                <value>
+                    <fullName>School leadership</fullName>
+                    <default>false</default>
+                    <label>School leadership</label>
+                </value>
+                <value>
+                    <fullName>Secondary education</fullName>
+                    <default>false</default>
+                    <label>Secondary education</label>
+                </value>
+                <value>
+                    <fullName>Teachers of English to speakers of other languages (TESOL)</fullName>
+                    <default>false</default>
+                    <label>Teachers of English to speakers of other languages (TESOL)</label>
+                </value>
+                <value>
+                    <fullName>Teaching</fullName>
+                    <default>false</default>
+                    <label>Teaching</label>
+                </value>
+                <value>
+                    <fullName>Teaching and teacher education</fullName>
+                    <default>false</default>
+                    <label>Teaching and teacher education</label>
+                </value>
+                <value>
+                    <fullName>Work and learning studies</fullName>
+                    <default>false</default>
+                    <label>Work and learning studies</label>
+                </value>
+                <value>
+                    <fullName>Atmospheric sciences</fullName>
+                    <default>false</default>
+                    <label>Atmospheric sciences</label>
+                </value>
+                <value>
+                    <fullName>Biology</fullName>
+                    <default>false</default>
+                    <label>Biology</label>
+                </value>
+                <value>
+                    <fullName>Computational science</fullName>
+                    <default>false</default>
+                    <label>Computational science</label>
+                </value>
+                <value>
+                    <fullName>Energy</fullName>
+                    <default>false</default>
+                    <label>Energy</label>
+                </value>
+                <value>
+                    <fullName>Engineering</fullName>
+                    <default>false</default>
+                    <label>Engineering</label>
+                </value>
+                <value>
+                    <fullName>Environmental health</fullName>
+                    <default>false</default>
+                    <label>Environmental health</label>
+                </value>
+                <value>
+                    <fullName>Geography</fullName>
+                    <default>false</default>
+                    <label>Geography</label>
+                </value>
+                <value>
+                    <fullName>Regional and community development</fullName>
+                    <default>false</default>
+                    <label>Regional and community development</label>
+                </value>
+                <value>
+                    <fullName>Renewable energy</fullName>
+                    <default>false</default>
+                    <label>Renewable energy</label>
+                </value>
+                <value>
+                    <fullName>Transport</fullName>
+                    <default>false</default>
+                    <label>Transport</label>
+                </value>
+                <value>
+                    <fullName>Urban water</fullName>
+                    <default>false</default>
+                    <label>Urban water</label>
+                </value>
+                <value>
+                    <fullName>Water recycling</fullName>
+                    <default>false</default>
+                    <label>Water recycling</label>
+                </value>
+                <value>
+                    <fullName>Anthropology</fullName>
+                    <default>false</default>
+                    <label>Anthropology</label>
+                </value>
+                <value>
+                    <fullName>Art theory</fullName>
+                    <default>false</default>
+                    <label>Art theory</label>
+                </value>
+                <value>
+                    <fullName>Australian Indigenous studies</fullName>
+                    <default>false</default>
+                    <label>Australian Indigenous studies</label>
+                </value>
+                <value>
+                    <fullName>Criminology</fullName>
+                    <default>false</default>
+                    <label>Criminology</label>
+                </value>
+                <value>
+                    <fullName>Crisis</fullName>
+                    <default>false</default>
+                    <label>Crisis</label>
+                </value>
+                <value>
+                    <fullName>Cultures</fullName>
+                    <default>false</default>
+                    <label>Cultures</label>
+                </value>
+                <value>
+                    <fullName>Disaster</fullName>
+                    <default>false</default>
+                    <label>Disaster</label>
+                </value>
+                <value>
+                    <fullName>Emergency management</fullName>
+                    <default>false</default>
+                    <label>Emergency management</label>
+                </value>
+                <value>
+                    <fullName>English</fullName>
+                    <default>false</default>
+                    <label>English</label>
+                </value>
+                <value>
+                    <fullName>Ethics</fullName>
+                    <default>false</default>
+                    <label>Ethics</label>
+                </value>
+                <value>
+                    <fullName>Hazards</fullName>
+                    <default>false</default>
+                    <label>Hazards</label>
+                </value>
+                <value>
+                    <fullName>Historical studies</fullName>
+                    <default>false</default>
+                    <label>Historical studies</label>
+                </value>
+                <value>
+                    <fullName>Human security</fullName>
+                    <default>false</default>
+                    <label>Human security</label>
+                </value>
+                <value>
+                    <fullName>Humanitarian</fullName>
+                    <default>false</default>
+                    <label>Humanitarian</label>
+                </value>
+                <value>
+                    <fullName>Humanities</fullName>
+                    <default>false</default>
+                    <label>Humanities</label>
+                </value>
+                <value>
+                    <fullName>International studies</fullName>
+                    <default>false</default>
+                    <label>International studies</label>
+                </value>
+                <value>
+                    <fullName>Outdoor recreation</fullName>
+                    <default>false</default>
+                    <label>Outdoor recreation</label>
+                </value>
+                <value>
+                    <fullName>Peace and conflict</fullName>
+                    <default>false</default>
+                    <label>Peace and conflict</label>
+                </value>
+                <value>
+                    <fullName>Philosophy</fullName>
+                    <default>false</default>
+                    <label>Philosophy</label>
+                </value>
+                <value>
+                    <fullName>Politics</fullName>
+                    <default>false</default>
+                    <label>Politics</label>
+                </value>
+                <value>
+                    <fullName>Psychology</fullName>
+                    <default>false</default>
+                    <label>Psychology</label>
+                </value>
+                <value>
+                    <fullName>Security</fullName>
+                    <default>false</default>
+                    <label>Security</label>
+                </value>
+                <value>
+                    <fullName>Social work</fullName>
+                    <default>false</default>
+                    <label>Social work</label>
+                </value>
+                <value>
+                    <fullName>Sociology</fullName>
+                    <default>false</default>
+                    <label>Sociology</label>
+                </value>
+                <value>
+                    <fullName>Theology</fullName>
+                    <default>false</default>
+                    <label>Theology</label>
+                </value>
+                <value>
+                    <fullName>Women&apos;s studies</fullName>
+                    <default>false</default>
+                    <label>Women&apos;s studies</label>
+                </value>
+                <value>
+                    <fullName>Computing</fullName>
+                    <default>false</default>
+                    <label>Computing</label>
+                </value>
+                <value>
+                    <fullName>Data management</fullName>
+                    <default>false</default>
+                    <label>Data management</label>
+                </value>
+                <value>
+                    <fullName>Distributed systems</fullName>
+                    <default>false</default>
+                    <label>Distributed systems</label>
+                </value>
+                <value>
+                    <fullName>Information systems</fullName>
+                    <default>false</default>
+                    <label>Information systems</label>
+                </value>
+                <value>
+                    <fullName>Information technology</fullName>
+                    <default>false</default>
+                    <label>Information technology</label>
+                </value>
+                <value>
+                    <fullName>Internet systems</fullName>
+                    <default>false</default>
+                    <label>Internet systems</label>
+                </value>
+                <value>
+                    <fullName>Library and information studies</fullName>
+                    <default>false</default>
+                    <label>Library and information studies</label>
+                </value>
+                <value>
+                    <fullName>Network computing</fullName>
+                    <default>false</default>
+                    <label>Network computing</label>
+                </value>
+                <value>
+                    <fullName>Programming and software</fullName>
+                    <default>false</default>
+                    <label>Programming and software</label>
+                </value>
+                <value>
+                    <fullName>Programming and software development</fullName>
+                    <default>false</default>
+                    <label>Programming and software development</label>
+                </value>
+                <value>
+                    <fullName>Scientific computing</fullName>
+                    <default>false</default>
+                    <label>Scientific computing</label>
+                </value>
+                <value>
+                    <fullName>Advocacy</fullName>
+                    <default>false</default>
+                    <label>Advocacy</label>
+                </value>
+                <value>
+                    <fullName>Business law</fullName>
+                    <default>false</default>
+                    <label>Business law</label>
+                </value>
+                <value>
+                    <fullName>Commercial law</fullName>
+                    <default>false</default>
+                    <label>Commercial law</label>
+                </value>
+                <value>
+                    <fullName>Communications law</fullName>
+                    <default>false</default>
+                    <label>Communications law</label>
+                </value>
+                <value>
+                    <fullName>Contracts</fullName>
+                    <default>false</default>
+                    <label>Contracts</label>
+                </value>
+                <value>
+                    <fullName>Copyright</fullName>
+                    <default>false</default>
+                    <label>Copyright</label>
+                </value>
+                <value>
+                    <fullName>Criminal law</fullName>
+                    <default>false</default>
+                    <label>Criminal law</label>
+                </value>
+                <value>
+                    <fullName>Cyber law</fullName>
+                    <default>false</default>
+                    <label>Cyber law</label>
+                </value>
+                <value>
+                    <fullName>Defamation</fullName>
+                    <default>false</default>
+                    <label>Defamation</label>
+                </value>
+                <value>
+                    <fullName>Diplomacy</fullName>
+                    <default>false</default>
+                    <label>Diplomacy</label>
+                </value>
+                <value>
+                    <fullName>Environmental law</fullName>
+                    <default>false</default>
+                    <label>Environmental law</label>
+                </value>
+                <value>
+                    <fullName>Family law</fullName>
+                    <default>false</default>
+                    <label>Family law</label>
+                </value>
+                <value>
+                    <fullName>Forensic law</fullName>
+                    <default>false</default>
+                    <label>Forensic law</label>
+                </value>
+                <value>
+                    <fullName>Human rights</fullName>
+                    <default>false</default>
+                    <label>Human rights</label>
+                </value>
+                <value>
+                    <fullName>Intellectual property</fullName>
+                    <default>false</default>
+                    <label>Intellectual property</label>
+                </value>
+                <value>
+                    <fullName>International law</fullName>
+                    <default>false</default>
+                    <label>International law</label>
+                </value>
+                <value>
+                    <fullName>Law</fullName>
+                    <default>false</default>
+                    <label>Law</label>
+                </value>
+                <value>
+                    <fullName>Leadership, policy and change</fullName>
+                    <default>false</default>
+                    <label>Leadership, policy and change</label>
+                </value>
+                <value>
+                    <fullName>Media law</fullName>
+                    <default>false</default>
+                    <label>Media law</label>
+                </value>
+                <value>
+                    <fullName>Mediation</fullName>
+                    <default>false</default>
+                    <label>Mediation</label>
+                </value>
+                <value>
+                    <fullName>Negotiation</fullName>
+                    <default>false</default>
+                    <label>Negotiation</label>
+                </value>
+                <value>
+                    <fullName>Non-adversarial justice</fullName>
+                    <default>false</default>
+                    <label>Non-adversarial justice</label>
+                </value>
+                <value>
+                    <fullName>Patents</fullName>
+                    <default>false</default>
+                    <label>Patents</label>
+                </value>
+                <value>
+                    <fullName>Taxation</fullName>
+                    <default>false</default>
+                    <label>Taxation</label>
+                </value>
+                <value>
+                    <fullName>Trade</fullName>
+                    <default>false</default>
+                    <label>Trade</label>
+                </value>
+                <value>
+                    <fullName>Addiction studies</fullName>
+                    <default>false</default>
+                    <label>Addiction studies</label>
+                </value>
+                <value>
+                    <fullName>Ambulance</fullName>
+                    <default>false</default>
+                    <label>Ambulance</label>
+                </value>
+                <value>
+                    <fullName>Behavioural neuroscience</fullName>
+                    <default>false</default>
+                    <label>Behavioural neuroscience</label>
+                </value>
+                <value>
+                    <fullName>Behavioural studies</fullName>
+                    <default>false</default>
+                    <label>Behavioural studies</label>
+                </value>
+                <value>
+                    <fullName>Biomedical sciences</fullName>
+                    <default>false</default>
+                    <label>Biomedical sciences</label>
+                </value>
+                <value>
+                    <fullName>Biostatistics</fullName>
+                    <default>false</default>
+                    <label>Biostatistics</label>
+                </value>
+                <value>
+                    <fullName>Biotechnology</fullName>
+                    <default>false</default>
+                    <label>Biotechnology</label>
+                </value>
+                <value>
+                    <fullName>Dietetics</fullName>
+                    <default>false</default>
+                    <label>Dietetics</label>
+                </value>
+                <value>
+                    <fullName>Drug design</fullName>
+                    <default>false</default>
+                    <label>Drug design</label>
+                </value>
+                <value>
+                    <fullName>Drug discovery biology</fullName>
+                    <default>false</default>
+                    <label>Drug discovery biology</label>
+                </value>
+                <value>
+                    <fullName>Emergency health</fullName>
+                    <default>false</default>
+                    <label>Emergency health</label>
+                </value>
+                <value>
+                    <fullName>Family medicine</fullName>
+                    <default>false</default>
+                    <label>Family medicine</label>
+                </value>
+                <value>
+                    <fullName>Formulation science</fullName>
+                    <default>false</default>
+                    <label>Formulation science</label>
+                </value>
+                <value>
+                    <fullName>General practice</fullName>
+                    <default>false</default>
+                    <label>General practice</label>
+                </value>
+                <value>
+                    <fullName>Health</fullName>
+                    <default>false</default>
+                    <label>Health</label>
+                </value>
+                <value>
+                    <fullName>Health professional education</fullName>
+                    <default>false</default>
+                    <label>Health professional education</label>
+                </value>
+                <value>
+                    <fullName>Indigenous health</fullName>
+                    <default>false</default>
+                    <label>Indigenous health</label>
+                </value>
+                <value>
+                    <fullName>International health</fullName>
+                    <default>false</default>
+                    <label>International health</label>
+                </value>
+                <value>
+                    <fullName>Medical acupuncture</fullName>
+                    <default>false</default>
+                    <label>Medical acupuncture</label>
+                </value>
+                <value>
+                    <fullName>Medical imaging</fullName>
+                    <default>false</default>
+                    <label>Medical imaging</label>
+                </value>
+                <value>
+                    <fullName>Medical ultrasound</fullName>
+                    <default>false</default>
+                    <label>Medical ultrasound</label>
+                </value>
+                <value>
+                    <fullName>Medicinal chemistry</fullName>
+                    <default>false</default>
+                    <label>Medicinal chemistry</label>
+                </value>
+                <value>
+                    <fullName>Mental health</fullName>
+                    <default>false</default>
+                    <label>Mental health</label>
+                </value>
+                <value>
+                    <fullName>Midwifery</fullName>
+                    <default>false</default>
+                    <label>Midwifery</label>
+                </value>
+                <value>
+                    <fullName>Neurosciences</fullName>
+                    <default>false</default>
+                    <label>Neurosciences</label>
+                </value>
+                <value>
+                    <fullName>Nuclear medicine</fullName>
+                    <default>false</default>
+                    <label>Nuclear medicine</label>
+                </value>
+                <value>
+                    <fullName>Nursing</fullName>
+                    <default>false</default>
+                    <label>Nursing</label>
+                </value>
+                <value>
+                    <fullName>Nutrition</fullName>
+                    <default>false</default>
+                    <label>Nutrition</label>
+                </value>
+                <value>
+                    <fullName>Occupational health</fullName>
+                    <default>false</default>
+                    <label>Occupational health</label>
+                </value>
+                <value>
+                    <fullName>Occupational therapy</fullName>
+                    <default>false</default>
+                    <label>Occupational therapy</label>
+                </value>
+                <value>
+                    <fullName>Paramedic studies</fullName>
+                    <default>false</default>
+                    <label>Paramedic studies</label>
+                </value>
+                <value>
+                    <fullName>Pharmaceutical sciences</fullName>
+                    <default>false</default>
+                    <label>Pharmaceutical sciences</label>
+                </value>
+                <value>
+                    <fullName>Pharmacy</fullName>
+                    <default>false</default>
+                    <label>Pharmacy</label>
+                </value>
+                <value>
+                    <fullName>Physiotherapy</fullName>
+                    <default>false</default>
+                    <label>Physiotherapy</label>
+                </value>
+                <value>
+                    <fullName>Public health</fullName>
+                    <default>false</default>
+                    <label>Public health</label>
+                </value>
+                <value>
+                    <fullName>Radiation therapy</fullName>
+                    <default>false</default>
+                    <label>Radiation therapy</label>
+                </value>
+                <value>
+                    <fullName>Radiography</fullName>
+                    <default>false</default>
+                    <label>Radiography</label>
+                </value>
+                <value>
+                    <fullName>Radiotherapy</fullName>
+                    <default>false</default>
+                    <label>Radiotherapy</label>
+                </value>
+                <value>
+                    <fullName>Rural health</fullName>
+                    <default>false</default>
+                    <label>Rural health</label>
+                </value>
+                <value>
+                    <fullName>Surgery</fullName>
+                    <default>false</default>
+                    <label>Surgery</label>
+                </value>
+                <value>
+                    <fullName>Wound care</fullName>
+                    <default>false</default>
+                    <label>Wound care</label>
+                </value>
+                <value>
+                    <fullName>Astrophysics</fullName>
+                    <default>false</default>
+                    <label>Astrophysics</label>
+                </value>
+                <value>
+                    <fullName>Chemistry</fullName>
+                    <default>false</default>
+                    <label>Chemistry</label>
+                </value>
+                <value>
+                    <fullName>Climate studies</fullName>
+                    <default>false</default>
+                    <label>Climate studies</label>
+                </value>
+                <value>
+                    <fullName>Earth sciences</fullName>
+                    <default>false</default>
+                    <label>Earth sciences</label>
+                </value>
+                <value>
+                    <fullName>Environmental science</fullName>
+                    <default>false</default>
+                    <label>Environmental science</label>
+                </value>
+                <value>
+                    <fullName>Food science</fullName>
+                    <default>false</default>
+                    <label>Food science</label>
+                </value>
+                <value>
+                    <fullName>Geosciences</fullName>
+                    <default>false</default>
+                    <label>Geosciences</label>
+                </value>
+                <value>
+                    <fullName>Geotechnical engineering</fullName>
+                    <default>false</default>
+                    <label>Geotechnical engineering</label>
+                </value>
+                <value>
+                    <fullName>Hydrology</fullName>
+                    <default>false</default>
+                    <label>Hydrology</label>
+                </value>
+                <value>
+                    <fullName>Marine and freshwater biology</fullName>
+                    <default>false</default>
+                    <label>Marine and freshwater biology</label>
+                </value>
+                <value>
+                    <fullName>Materials sciences</fullName>
+                    <default>false</default>
+                    <label>Materials sciences</label>
+                </value>
+                <value>
+                    <fullName>Mathematical sciences</fullName>
+                    <default>false</default>
+                    <label>Mathematical sciences</label>
+                </value>
+                <value>
+                    <fullName>Medical bioscience</fullName>
+                    <default>false</default>
+                    <label>Medical bioscience</label>
+                </value>
+                <value>
+                    <fullName>Meteorology</fullName>
+                    <default>false</default>
+                    <label>Meteorology</label>
+                </value>
+                <value>
+                    <fullName>Physics</fullName>
+                    <default>false</default>
+                    <label>Physics</label>
+                </value>
+                <value>
+                    <fullName>Psychiatry</fullName>
+                    <default>false</default>
+                    <label>Psychiatry</label>
+                </value>
+                <value>
+                    <fullName>Veterinary bioscience</fullName>
+                    <default>false</default>
+                    <label>Veterinary bioscience</label>
+                </value>
+                <value>
+                    <fullName>Zoology</fullName>
+                    <default>false</default>
+                    <label>Zoology</label>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Counselling</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Psychology (counselling)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Psychology (educational and developmental)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <controllingFieldValue>Environment and sustainability</controllingFieldValue>
+                <valueName>Environmental health</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Psychology</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Social work</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Addiction studies</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Ambulance</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Behavioural neuroscience</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Behavioural studies</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Biomedical sciences</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Biostatistics</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Biotechnology</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Dietetics</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Drug design</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Drug discovery biology</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Emergency health</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Family medicine</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Formulation science</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>General practice</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Health</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Health professional education</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Indigenous health</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>International health</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Medical acupuncture</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Medical imaging</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Medical ultrasound</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Medicinal chemistry</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Mental health</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Midwifery</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Neurosciences</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Nuclear medicine</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Nursing</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Nutrition</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Occupational health</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Occupational therapy</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Paramedic studies</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Pharmaceutical sciences</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Pharmacy</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Physiotherapy</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Public health</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Radiation therapy</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Radiography</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Radiotherapy</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Rural health</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Surgery</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Medicine, health, pharmacy</controllingFieldValue>
+                <valueName>Wound care</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Computer science</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <controllingFieldValue>Environment and sustainability</controllingFieldValue>
+                <valueName>Sustainability</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <controllingFieldValue>Environment and sustainability</controllingFieldValue>
+                <valueName>Atmospheric sciences</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <controllingFieldValue>Environment and sustainability</controllingFieldValue>
+                <valueName>Biology</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <controllingFieldValue>Environment and sustainability</controllingFieldValue>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Computational science</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <controllingFieldValue>Environment and sustainability</controllingFieldValue>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Geography</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Scientific computing</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Astrophysics</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Chemistry</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Climate studies</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Earth sciences</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Environmental science</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Food science</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Geosciences</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Geotechnical engineering</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Hydrology</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Marine and freshwater biology</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Materials sciences</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Mathematical sciences</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Medical bioscience</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Meteorology</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Physics</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Psychiatry</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Veterinary bioscience</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Science</controllingFieldValue>
+                <valueName>Zoology</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <valueName>Accounting</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <valueName>Actuarial studies</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <valueName>Banking</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <valueName>Business administration</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Business information systems</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <valueName>Business statistics</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <valueName>Business strategy</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <valueName>Business systems</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <valueName>Commerce</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>eBusiness</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <valueName>Econometrics</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <valueName>Economics</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <valueName>Finance</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Human resources</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Industrial relations</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Information management</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <valueName>International business</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Knowledge management</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Leadership</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <valueName>Management</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <valueName>Marketing</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <valueName>MBA</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <valueName>Organisational leadership</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Project management</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Public policy</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Records management</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Risk management</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <controllingFieldValue>Environment and sustainability</controllingFieldValue>
+                <valueName>Sport and outdoor recreation</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <valueName>Sport management</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <valueName>Supply chain</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Business</controllingFieldValue>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Tourism</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Arts</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <valueName>Communication technologies</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <valueName>Communications</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <valueName>Digital arts</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <valueName>Film and television</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <valueName>Graphic design</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <valueName>Information and knowledge management</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <valueName>Information studies</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <valueName>Information technologies</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <valueName>Journalism</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Languages</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Librarianship</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <valueName>Library studies</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Linguistics</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <valueName>Media</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Multimedia</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <valueName>Public relations</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <valueName>Retail</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Visual communication</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Visual culture</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Communication and media</controllingFieldValue>
+                <valueName>Visual design</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <valueName>Animation</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <controllingFieldValue>Environment and sustainability</controllingFieldValue>
+                <valueName>Architecture</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <valueName>Art education</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <valueName>Creative arts</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <valueName>Curatorial studies</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Drama</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <valueName>Drawing</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Fine arts</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <valueName>Gallery management</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Games development</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <valueName>Industrial design</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <valueName>Installation</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <controllingFieldValue>Environment and sustainability</controllingFieldValue>
+                <valueName>Interior architecture</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <valueName>Media arts</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Multimedia design</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Music</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <valueName>Painting</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Performance</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <valueName>Photography</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <valueName>Print making</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <valueName>Product design</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <valueName>Sculpture</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Theatre studies</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Design, creative art, architecture</controllingFieldValue>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Visual arts</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Adult and work-based learning</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Adult learning and development</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Early childhood education</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Education</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Gifted education</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Inclusive and gifted education</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Information Communication Technology (ICT) education</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Literacy</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Mathematics and science education</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Mentoring and coaching</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Music education</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Numeracy</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Primary education</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Regional and community education and development</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>School leadership</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Secondary education</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Teachers of English to speakers of other languages (TESOL)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Teaching</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Teaching and teacher education</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Work and learning studies</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <valueName>Aeronautical engineering</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <valueName>Aerospace engineering</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <valueName>Biological engineering</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <valueName>Chemical engineering</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <controllingFieldValue>Environment and sustainability</controllingFieldValue>
+                <valueName>Civil engineering</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Computer systems engineering</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Electrical engineering</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <valueName>Electronics</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <valueName>Engineering technology</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <valueName>Environmental engineering</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <controllingFieldValue>Environment and sustainability</controllingFieldValue>
+                <valueName>Industrial engineering</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <valueName>Infrastructure engineering</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <valueName>Maintenance engineering</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <valueName>Materials engineering</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <valueName>Mechanical engineering</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <valueName>Mechatronics engineering</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <valueName>Mining engineering</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <valueName>Pulp and paper technologies</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <valueName>Robotics</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Software engineering</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <valueName>Traffic engineering</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Engineering</controllingFieldValue>
+                <valueName>Transport engineering</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Environment and sustainability</controllingFieldValue>
+                <valueName>Energy</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Environment and sustainability</controllingFieldValue>
+                <valueName>Engineering</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Environment and sustainability</controllingFieldValue>
+                <valueName>Renewable energy</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Environment and sustainability</controllingFieldValue>
+                <valueName>Transport</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Environment and sustainability</controllingFieldValue>
+                <valueName>Urban water</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Environment and sustainability</controllingFieldValue>
+                <valueName>Water recycling</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Anthropology</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Art theory</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Australian Indigenous studies</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Criminology</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Crisis</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Cultures</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Disaster</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Emergency management</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>English</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Ethics</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Hazards</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Historical studies</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Human security</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Humanitarian</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Humanities</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>International studies</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Outdoor recreation</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Peace and conflict</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Philosophy</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Politics</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Security</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Sociology</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Theology</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <valueName>Women&apos;s studies</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Humanities and culture</controllingFieldValue>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Library and information studies</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Computing</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Data management</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Distributed systems</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Information systems</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Information technology</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Internet systems</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Network computing</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Programming and software</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Information technology</controllingFieldValue>
+                <valueName>Programming and software development</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Advocacy</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Business law</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Commercial law</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Communications law</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Contracts</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Copyright</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Criminal law</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Cyber law</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Defamation</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Diplomacy</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Environmental law</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Family law</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Forensic law</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Human rights</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Intellectual property</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>International law</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Law</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Leadership, policy and change</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Media law</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Mediation</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Negotiation</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Non-adversarial justice</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Patents</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Taxation</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Law, policy</controllingFieldValue>
+                <valueName>Trade</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Faculty_Code__c</fullName>
+        <externalId>false</externalId>
+        <formula>Course__r.Faculty_Code__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Faculty Code</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Faculty_Description__c</fullName>
+        <externalId>false</externalId>
+        <formula>Course__r.Faculty_Description__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Faculty Description</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Faculty_PickList__c</fullName>
+        <description>used to populate the Enquiry Interest Faculty on Enquiry Interest</description>
+        <label>Faculty</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Art, Design and Architecture</fullName>
+                    <default>false</default>
+                    <label>Art, Design and Architecture</label>
+                </value>
+                <value>
+                    <fullName>Arts</fullName>
+                    <default>false</default>
+                    <label>Arts</label>
+                </value>
+                <value>
+                    <fullName>Business and Economics</fullName>
+                    <default>false</default>
+                    <label>Business and Economics</label>
+                </value>
+                <value>
+                    <fullName>Education</fullName>
+                    <default>false</default>
+                    <label>Education</label>
+                </value>
+                <value>
+                    <fullName>Engineering</fullName>
+                    <default>false</default>
+                    <label>Engineering</label>
+                </value>
+                <value>
+                    <fullName>Information Technology</fullName>
+                    <default>false</default>
+                    <label>Information Technology</label>
+                </value>
+                <value>
+                    <fullName>Law</fullName>
+                    <default>false</default>
+                    <label>Law</label>
+                </value>
+                <value>
+                    <fullName>Medicine, Nursing and Health Sciences</fullName>
+                    <default>false</default>
+                    <label>Medicine, Nursing and Health Sciences</label>
+                </value>
+                <value>
+                    <fullName>Monash College</fullName>
+                    <default>false</default>
+                    <label>Monash College</label>
+                </value>
+                <value>
+                    <fullName>Pharmacy and Pharmaceutical Sciences</fullName>
+                    <default>false</default>
+                    <label>Pharmacy and Pharmaceutical Sciences</label>
+                </value>
+                <value>
+                    <fullName>Science</fullName>
+                    <default>false</default>
+                    <label>Science</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>LastModifiedCustom__c</fullName>
+        <description>require a custom datetime stamp for use on console remoting WHERE clause - known limitation of remoting SOQL</description>
+        <formula>LastModifiedDate</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>LastModifiedCustom</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Level_of_Study__c</fullName>
+        <description>migrated over from original UniCRM v1.  Can be manually populated when creating an enquiry interest, or might be populated via a webform. Refers to the level of study a person is interested in undertaking.</description>
+        <label>Level of Study</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Undergraduate</fullName>
+                    <default>false</default>
+                    <label>Undergraduate</label>
+                </value>
+                <value>
+                    <fullName>Postgraduate</fullName>
+                    <default>false</default>
+                    <label>Postgraduate</label>
+                </value>
+                <value>
+                    <fullName>Diploma</fullName>
+                    <default>false</default>
+                    <label>Diploma</label>
+                </value>
+                <value>
+                    <fullName>English Language</fullName>
+                    <default>false</default>
+                    <label>English Language</label>
+                </value>
+                <value>
+                    <fullName>Monash University Foundation Year</fullName>
+                    <default>false</default>
+                    <label>Monash University Foundation Year</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Location__c</fullName>
+        <description>the location a person is interested in studying at i.e. the preferred campus.</description>
+        <label>Location</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Alfred</fullName>
+                    <default>false</default>
+                    <label>Alfred</label>
+                </value>
+                <value>
+                    <fullName>Berwick</fullName>
+                    <default>false</default>
+                    <label>Berwick</label>
+                </value>
+                <value>
+                    <fullName>Caulfield</fullName>
+                    <default>false</default>
+                    <label>Caulfield</label>
+                </value>
+                <value>
+                    <fullName>City</fullName>
+                    <default>false</default>
+                    <label>City</label>
+                </value>
+                <value>
+                    <fullName>Clayton</fullName>
+                    <default>false</default>
+                    <label>Clayton</label>
+                </value>
+                <value>
+                    <fullName>Gippsland</fullName>
+                    <default>false</default>
+                    <label>Gippsland</label>
+                </value>
+                <value>
+                    <fullName>Parkville</fullName>
+                    <default>false</default>
+                    <label>Parkville</label>
+                </value>
+                <value>
+                    <fullName>Peninsula</fullName>
+                    <default>false</default>
+                    <label>Peninsula</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Managing_Faculty_Code__c</fullName>
+        <externalId>false</externalId>
+        <label>Managing Faculty Code</label>
+        <length>10</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Managing_Faculty__c</fullName>
+        <description>Migrated over from original UniCRM, this field captures either the manually selected Faculty of interest if the Faculty picklist is used, or the inferred faculty of interest if a course is selected.</description>
+        <externalId>false</externalId>
+        <label>Managing Faculty</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Matching_ID__c</fullName>
+        <externalId>true</externalId>
+        <label>Matching ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Mode__c</fullName>
+        <description>The mode of study a person is interested in doing i.e. full time or part time.</description>
+        <label>Mode</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>FT</fullName>
+                    <default>false</default>
+                    <label>FT</label>
+                </value>
+                <value>
+                    <fullName>PT</fullName>
+                    <default>false</default>
+                    <label>PT</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Name_of_Institution__c</fullName>
+        <description>mapped over by apex from case, when web channel used</description>
+        <externalId>false</externalId>
+        <label>Name of Institution</label>
+        <length>200</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>OriginalId__c</fullName>
+        <description>used for external data mapping activities</description>
+        <externalId>true</externalId>
+        <label>OriginalId</label>
+        <length>18</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Person__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <label>Person</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Enquiry Interests</relationshipLabel>
+        <relationshipName>Enquiry_Interests</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Selected__c</fullName>
+        <defaultValue>false</defaultValue>
+        <label>Selected</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Specialisation__c</fullName>
+        <externalId>false</externalId>
+        <label>Specialisation</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Specialisation_f__c</fullName>
+        <description>surfaces the specialisation selected at time of course selection</description>
+        <externalId>false</externalId>
+        <formula>IF(
+   NOT(ISBLANK(Course__r.Specialisation__c)),
+                                             Course__r.Specialisation__c, Case__r.Course_Specialisation__c  
+)</formula>
+        <label>Specialisation</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Study_Area_Picklist__c</fullName>
+        <label>Study Area Picklist</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Business</fullName>
+                    <default>false</default>
+                    <label>Business</label>
+                </value>
+                <value>
+                    <fullName>Communication and media</fullName>
+                    <default>false</default>
+                    <label>Communication and media</label>
+                </value>
+                <value>
+                    <fullName>Design, creative art, architecture</fullName>
+                    <default>false</default>
+                    <label>Design, creative art, architecture</label>
+                </value>
+                <value>
+                    <fullName>Education</fullName>
+                    <default>false</default>
+                    <label>Education</label>
+                </value>
+                <value>
+                    <fullName>Engineering</fullName>
+                    <default>false</default>
+                    <label>Engineering</label>
+                </value>
+                <value>
+                    <fullName>Environment and sustainability</fullName>
+                    <default>false</default>
+                    <label>Environment and sustainability</label>
+                </value>
+                <value>
+                    <fullName>Humanities and culture</fullName>
+                    <default>false</default>
+                    <label>Humanities and culture</label>
+                </value>
+                <value>
+                    <fullName>Information technology</fullName>
+                    <default>false</default>
+                    <label>Information technology</label>
+                </value>
+                <value>
+                    <fullName>Law, policy</fullName>
+                    <default>false</default>
+                    <label>Law, policy</label>
+                </value>
+                <value>
+                    <fullName>Medicine, health, pharmacy</fullName>
+                    <default>false</default>
+                    <label>Medicine, health, pharmacy</label>
+                </value>
+                <value>
+                    <fullName>Science</fullName>
+                    <default>false</default>
+                    <label>Science</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Study_Area__c</fullName>
+        <label>Study Area</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Business</fullName>
+                    <default>false</default>
+                    <label>Business</label>
+                </value>
+                <value>
+                    <fullName>Communication and media</fullName>
+                    <default>false</default>
+                    <label>Communication and media</label>
+                </value>
+                <value>
+                    <fullName>Design, creative art, architecture</fullName>
+                    <default>false</default>
+                    <label>Design, creative art, architecture</label>
+                </value>
+                <value>
+                    <fullName>Education</fullName>
+                    <default>false</default>
+                    <label>Education</label>
+                </value>
+                <value>
+                    <fullName>Engineering</fullName>
+                    <default>false</default>
+                    <label>Engineering</label>
+                </value>
+                <value>
+                    <fullName>Environment and sustainability</fullName>
+                    <default>false</default>
+                    <label>Environment and sustainability</label>
+                </value>
+                <value>
+                    <fullName>Humanities and culture</fullName>
+                    <default>false</default>
+                    <label>Humanities and culture</label>
+                </value>
+                <value>
+                    <fullName>Information technology</fullName>
+                    <default>false</default>
+                    <label>Information technology</label>
+                </value>
+                <value>
+                    <fullName>Law, policy</fullName>
+                    <default>false</default>
+                    <label>Law, policy</label>
+                </value>
+                <value>
+                    <fullName>Medicine, health, pharmacy</fullName>
+                    <default>false</default>
+                    <label>Medicine, health, pharmacy</label>
+                </value>
+                <value>
+                    <fullName>Science</fullName>
+                    <default>false</default>
+                    <label>Science</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Valid_Enquiry_Interest__c</fullName>
+        <formula>/*NOT(AND(
+ISBLANK(Study_Area__c),
+ISBLANK(Managing_Faculty_Code__c)
+))*/
+true</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Valid Enquiry Interest</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <label>Enquiry Interest</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Course__c</columns>
+        <columns>Course_Managing_Faculty__c</columns>
+        <columns>Course_Title__c</columns>
+        <columns>Case__c</columns>
+        <columns>Faculty_PickList__c</columns>
+        <columns>Faculty_Code__c</columns>
+        <columns>Faculty_Description__c</columns>
+        <columns>LastModifiedCustom__c</columns>
+        <columns>Location__c</columns>
+        <columns>Managing_Faculty__c</columns>
+        <columns>Managing_Faculty_Code__c</columns>
+        <columns>Person__c</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>INT-{000000}</displayFormat>
+        <label>Enquiry Interest Reference</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Enquiry Interests</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>Course_or_Study_Area_Required</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(
+ ISBLANK( Course__c ),
+ ISBLANK( TEXT( Study_Area__c ))
+)</errorConditionFormula>
+        <errorMessage>Please provide Course OR Study Area to save this record.</errorMessage>
+    </validationRules>
+    <visibility>Public</visibility>
+    <webLinks>
+        <fullName>Delete_Selected</fullName>
+        <availability>online</availability>
+        <displayType>massActionButton</displayType>
+        <linkType>javascript</linkType>
+        <masterLabel>Delete Selected</masterLabel>
+        <openType>onClickJavaScript</openType>
+        <protected>false</protected>
+        <requireRowSelection>true</requireRowSelection>
+        <url>console.log(&apos;clicked&apos;); // TODO</url>
+    </webLinks>
+</CustomObject>

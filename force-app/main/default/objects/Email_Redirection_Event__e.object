@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>InDevelopment</deploymentStatus>
+    <description>Platform event when an Email Message has been Redirected</description>
+    <eventType>HighVolume</eventType>
+    <fields>
+        <fullName>Action__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field to describe what action needs to take place within the platform event</description>
+        <externalId>false</externalId>
+        <isFilteringDisabled>false</isFilteringDisabled>
+        <isNameField>false</isNameField>
+        <isSortingDisabled>false</isSortingDisabled>
+        <label>Action</label>
+        <length>64</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Parameter__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <isFilteringDisabled>false</isFilteringDisabled>
+        <isNameField>false</isNameField>
+        <isSortingDisabled>false</isSortingDisabled>
+        <label>Parameter</label>
+        <length>4028</length>
+        <securityClassification>Internal</securityClassification>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <label>Email Redirection Event</label>
+    <pluralLabel>Emails Redirection Event</pluralLabel>
+    <publishBehavior>PublishAfterCommit</publishBehavior>
+</CustomObject>

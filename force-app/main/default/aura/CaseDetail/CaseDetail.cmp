@@ -1,0 +1,428 @@
+<!-- 
+ @name CaseDetail
+ -->
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId" access="global" controller="LightningCaseDetailController">
+    <ltng:require scripts="{!$Resource.jQuery321}" afterScriptsLoaded="{!c.init}"/>
+  <!--  <ltng:require scripts="{!$Resource.SLDS231}"/>	-->
+
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="fileList" type="Object"/>
+    <aura:attribute name="myComments" type="String"/>
+    <aura:attribute name="caseId" type="String"/>
+    <aura:attribute name="showEnquiry" type="boolean" default="false"/>
+    <aura:attribute name="filesProcessed" type="Integer" default="0"/>
+    <aura:attribute name="enquiryClosed" type="boolean" default="false"/>
+    <aura:attribute name="isOpen" type="boolean" default="true"/>
+    <aura:attribute name="showCaseAttachment" type="boolean" default="false"/>
+    <aura:attribute name="selectedFiles" type="String[]"/>    
+    <aura:attribute name="successMessage" type="String"/>
+    <aura:attribute name="dummyText" type="String"/>
+    <aura:attribute name="hidelastCommunication" type="boolean" default="true"/>
+    <aura:attribute name="showReplySection" type="boolean" default="false"/>
+    <aura:attribute name="allowedFileTypes" type="String[]"/>
+    <aura:attribute name="showPrevConversation" type="boolean" default="false"/>
+    <aura:attribute name="emailFromInitial" type="String"/>  
+    <aura:attribute name="caseDetails" type="caseWrapper"/>  
+    <aura:attribute name="AttachmentList" type="Attachment[]"/>      
+    
+    <aura:attribute name="lastEmailWrapperList" type="emailWrapper[]"/>  
+    <aura:attribute name="emailList" type="emailWrapper[]"/>  
+    
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+
+    <aura:if isTrue="{!v.showSpinner}">  
+        <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+            <div class="slds-modal__container" aura:id="block">
+                <div class="slds-modal__header spinner-text">
+                    {!$Label.c.Enquiry_Update_Comment}<c:Spinner type="bubbles" width="64" height="64" color="blue" show="{!v.showSpinner}" />   
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+    </aura:if>
+
+    <aura:if isTrue="{!v.isOpen}">    
+        <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container" aura:id="block">
+                <div class="slds-modal__header">
+                    <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.init}">
+                        X
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <div class="slds-col slds-p-horizontal--small  slds-medium-order--12 slds-large-order--12">
+                        <p id="header99" class="login-text">Your enquiry has been succesfully Closed.</p>
+                    </div>
+                </div>             
+            </div>
+        </div>
+        
+        <div class="slds-backdrop slds-backdrop--open">
+        </div>
+    </aura:if>
+
+    <div class="slds-grid slds-wrap">
+        <div class="slds-grid">
+            <div class="slds-p-right_small">
+                <span class="slds-icon_container slds-m-top_xx-small">
+                    <img src="{!$Resource.detailPageIcon}" class="detailpage-icon" alt=""/>
+                </span>
+            </div>
+            <div>
+                <h1 class="header-style">{!v.caseDetails.caseRec.Subject}</h1>
+            </div>
+        </div>
+    </div>
+
+    <div id="topDiv">
+        <!-- Enquiry detail page markup start-->
+
+        <div class="slds-p-around--large bg-gray-edgetoedge-responsive">
+
+            <div class="slds-grid slds-wrap slds-p-left--large slds-p-right--large slds-p-bottom--large">
+
+                <aura:if isTrue="{!and(v.caseDetails.caseRec.Status!='Closed',v.caseDetails.caseRec.Status!='Solved')}">
+                    <aura:iteration items="{!v.caseDetails.fieldList}" var="fieldsVar">
+                        <div class="slds-grid_align-spread slds-large-size_2-of-12 slds-medium-size_4-of-12 slds-small-size_4-of-12 slds-size_6-of-12 slds-p-top--large main-fields">
+                            <div class="custom-font">
+                                <p class="bold-text-header">{!fieldsVar.fieldLabel}</p>
+                                <p class="">{!fieldsVar.fieldValue}</p>
+                            </div>                                     
+                        </div>       
+                    </aura:iteration>
+                    <div class="slds-grid_align-spread slds-large-size_2-of-12 slds-medium-size_6-of-12 slds-small-size_4-of-12 slds-size_6-of-12 "/>
+                    
+                </aura:if>
+                
+                <aura:if isTrue="{!or(v.caseDetails.caseRec.Status=='Closed',v.caseDetails.caseRec.Status=='Solved')}">
+
+                    <aura:iteration items="{!v.caseDetails.fieldList}" var="fieldsVar">
+                        <div class="slds-large-size_2-of-12 slds-medium-size_6-of-12 slds-size_6-of-12 main-fields">
+                            <div class="custom-font">
+                                <p class="bold-text-header">{!fieldsVar.fieldLabel}</p>
+                                <p class="">{!fieldsVar.fieldValue}</p>
+                            </div>                                     
+                        </div>     
+                    </aura:iteration>  
+                </aura:if>
+            </div>
+        </div>
+
+
+        
+        <div class="slds-p-horizontal_xx-large bg-gray-edgetoedge-responsive">
+            <div class="slds-grid slds-wrap">
+                <div class="header-text  slds-p-bottom_small blue-custom-font">
+                    Question
+                </div>
+                <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+                    <div class="white-tile">
+                        <div class="slds-p-horizontal_large slds-is-relative">
+                            
+                            <div class="slds-p-top_medium blue-text custom-font"> 
+                                <b> {!v.caseDetails.createdByName} </b> &nbsp;&nbsp; {!v.caseDetails.caseCreatedDateTime} 
+                            </div>
+                            
+                            
+                            <div class="slds-text-align_right slds-is-absolute chevron-icon">
+                                <aura:if isTrue="{!v.AttachmentList.length>0}">                                    
+                                    <aura:if isTrue="{!!v.showCaseAttachment}">
+                                        <div class="slds-text-align_right slds-is-absolute chevron-icon">
+                                            <lightning:button class="white-Button" onclick="{!c.showHideAttachment}">
+                                                <lightning:icon class="white-Button" iconName="utility:chevrondown" size="medium"/>
+                                            </lightning:button>
+                                        </div>
+                                    </aura:if>
+                                    <aura:if isTrue="{!v.showCaseAttachment}">
+                                        <div class="slds-text-align_right slds-is-absolute chevron-icon">
+                                            <lightning:button class="white-Button" onclick="{!c.showHideAttachment}">
+                                                <lightning:icon iconName="utility:chevronup" size="medium"/>
+                                            </lightning:button>
+                                        </div>
+                                    </aura:if>
+                                </aura:if>
+                            </div>
+                            
+                            <div class="slds-p-top_medium slds-p-bottom_medium custom-font ques-desc">
+                                <p class="long-content-style">{!v.caseDetails.Description} &nbsp;</p>
+                                <aura:if isTrue="{!v.AttachmentList.length>0}">
+                                    <lightning:icon iconName="utility:attach" size="small"/>
+                                </aura:if>
+                            </div>
+                            <aura:if isTrue="{!v.AttachmentList.length>0}"> 
+                                <div class="slds-p-top_medium white-tile custom-font">
+                                    <aura:if isTrue="{!v.showCaseAttachment}">
+                                        <div class="email-attachment border-class" align="right">
+                                            <aura:iteration items="{!v.AttachmentList}" var="attachVar">                                               
+                                                <p class="">
+                                                    <span><lightning:icon iconName="utility:attach" size="small"/><a href="{!v.caseDetails.attachmentLink+attachVar.attach.Id}" target="_self">{!attachVar.truncatedName}</a>
+                                                    </span> &nbsp; &nbsp; {!attachVar.attachmentCreatedDate}
+                                                </p>
+                                            </aura:iteration>
+                                        </div>
+                                    </aura:if>
+                                </div>
+                            </aura:if>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="slds-p-horizontal_xx-large slds-p-top_large bg-gray-edgetoedge-responsive">
+            <div class="header-text slds-p-top--small slds-p-bottom--medium blue-custom-font ">
+                Communication history                        
+            </div> 
+            
+            <div class="slds-grid slds-wrap">
+                <aura:if isTrue="{!!v.showPrevConversation}">
+                    <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-is-relative parent">
+                        <span onclick="{!c.showPreviousCommunication}">
+                            <div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                <div class="line"></div>
+                                
+                                <div class="slds-is-absolute text">
+                                    {!v.emailList.length-1} older messages
+                                </div>
+                            </div>
+                        </span>
+                    </div>
+                    <div class="last-Conversation">&nbsp;</div>
+                </aura:if>
+                
+                <aura:iteration items="{!v.emailList}" var="emailListPaginatedVar">
+                    <aura:if isTrue="{!emailListPaginatedVar.isVisible}">
+                        <aura:if isTrue="{!emailListPaginatedVar.isCommunityUser}">
+                            <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 slds-m-bottom_xxx-small slds-m-top_x-small">
+                                <div class="comm-history-bg">
+                                    <div class="slds-p-horizontal_large slds-is-relative">
+                                        <aura:if isTrue="{!emailListPaginatedVar.showBody!=true}">
+                                            <div class="slds-p-top_medium blue-text custom-font"> 
+                                                <b> {!emailListPaginatedVar.FromAddress} </b> &nbsp;&nbsp; {!emailListPaginatedVar.createdDate}
+                                            </div>
+                                            <div class="slds-text-align_right slds-is-absolute chevron-icon">
+                                                <lightning:button class="white-Button" onclick="{!c.showHideDescription}" aura:id="{!emailListPaginatedVar.emailId}" name="{!emailListPaginatedVar.emailId}">
+                                                    <lightning:icon class="white-Button" iconName="utility:chevrondown" size="medium"/>
+                                                </lightning:button>                                            
+                                            </div>
+                                            <div class="slds-p-top_medium slds-p-bottom_medium slds-text-heading_small blue-text custom-font" hidden="{!emailListPaginatedVar.hasAttachment}">
+                                                {!emailListPaginatedVar.Subject} 
+                                            </div> 
+                                            <div class="slds-p-top_medium slds-p-bottom_medium slds-text-heading_small blue-text custom-font" hidden="{!!emailListPaginatedVar.hasAttachment}">
+                                                {!emailListPaginatedVar.Subject} <lightning:icon iconName="utility:attach" size="small"/>
+                                            </div> 
+                                        </aura:if>
+                                        <aura:if isTrue="{!emailListPaginatedVar.showBody==true}">
+                                            <div class="slds-p-top_medium blue-text custom-font"> 
+                                                <b> {!emailListPaginatedVar.FromAddress} </b> &nbsp;&nbsp; {!emailListPaginatedVar.createdDate}
+                                            </div>
+                                            <div class="slds-text-align_right slds-is-absolute chevron-icon">
+                                                <lightning:button class="white-Button" onclick="{!c.showHideDescription}" aura:id="{!emailListPaginatedVar.emailId}" name="{!emailListPaginatedVar.emailId}">
+                                                    <lightning:icon iconName="utility:chevronup" size="medium"/>
+                                                </lightning:button>
+                                            </div>
+                                            <div class="slds-p-top_medium slds-p-bottom_medium slds-text-heading_small blue-text custom-font" hidden="{!emailListPaginatedVar.hasAttachment}">
+                                                {!emailListPaginatedVar.Subject}
+                                            </div> 
+                                            <div class="slds-p-top_medium slds-p-bottom_medium slds-text-heading_small blue-text custom-font" hidden="{!!emailListPaginatedVar.hasAttachment}">
+                                                {!emailListPaginatedVar.Subject} <lightning:icon iconName="utility:attach" size="small"/>
+                                            </div>
+                                            <div class="slds-p-top_medium white-tile custom-font"> 
+                                                <div class="slds-assistive_text">
+                                                    <p><ui:outputRichText value="{!emailListPaginatedVar.HtmlBody}" class="next-line-p"/>
+                                                        <aura:if isTrue="{!emailListPaginatedVar.showFullBody!=true}">
+                                                            <lightning:buttonicon iconName="utility:threedots" size="small" onclick="{!c.showFullBody}" name="{!emailListPaginatedVar.emailId}"/>
+                                                        </aura:if>
+                                                        <aura:if isTrue="{!emailListPaginatedVar.showFullBody==true}">
+                                                            <ui:outputRichText value="{!emailListPaginatedVar.originalBody}" class="next-line-p"/>
+                                                        </aura:if>
+                                                    </p>                                               
+                                                </div>
+                                                
+                                                <div class="email-attachment border-class" align="right" hidden="{!!emailListPaginatedVar.hasAttachment}">
+                                                    <aura:iteration items="{!emailListPaginatedVar.attachmentWrapperList}" var="attachVar">
+                                                        <p class="">
+                                                            <span><lightning:icon iconName="utility:attach" size="small"/><a href="{!v.caseDetails.attachmentLink+attachVar.attach.Id}" target="_self">{!attachVar.truncatedName}</a>
+                                                            </span> &nbsp; &nbsp; {!attachVar.attachmentCreatedDate}
+                                                        </p>
+                                                    </aura:iteration>
+                                                </div>
+                                            </div>
+                                            <div class="slds-p-top_medium blue-tile custom-font"> 
+                                            </div>
+                                        </aura:if>	
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:if>
+                        <aura:if isTrue="{!!emailListPaginatedVar.isCommunityUser}">
+                            <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 slds-m-bottom_xxx-small">
+                                <div class="comm-history-bg blue-background white-text">
+                                    
+                                    <div class="slds-grid slds-p-horizontal_large slds-is-relative">
+                                        <div>
+                                            <div class="slds-p-top_medium white-text custom-font"> 
+                                                <b> {!emailListPaginatedVar.FromAddress} </b> &nbsp;&nbsp; {!emailListPaginatedVar.createdDate}
+                                            </div>
+                                            <div class="slds-p-top_medium slds-p-bottom_medium slds-text-heading_small white-text custom-font" hidden="{!emailListPaginatedVar.hasAttachment}">
+                                                {!emailListPaginatedVar.Subject}
+                                            </div> 
+                                            <div class="slds-p-top_medium slds-p-bottom_medium slds-text-heading_small white-text custom-font" hidden="{!!emailListPaginatedVar.hasAttachment}">
+                                                {!emailListPaginatedVar.Subject} <lightning:icon iconName="utility:attach" size="small"/>
+                                            </div>  
+                                        </div>
+
+                                        <aura:if isTrue="{!emailListPaginatedVar.showBody!=true}">
+                                            <div class="slds-grid slds-grid_vertical-align-center slds-col_bump-left">
+                                                <lightning:button class="blue-Button" onclick="{!c.showHideDescription}" aura:id="{!emailListPaginatedVar.emailId}" name="{!emailListPaginatedVar.emailId}">
+                                                    <lightning:icon iconName="utility:chevrondown" size="medium"/>
+                                                </lightning:button>
+                                            </div>
+                                        </aura:if>
+                                        <aura:if isTrue="{!emailListPaginatedVar.showBody==true}">
+                                            <div class="slds-grid slds-grid_vertical-align-center slds-col_bump-left">
+                                                <lightning:button class="blue-Button" onclick="{!c.showHideDescription}" aura:id="{!emailListPaginatedVar.emailId}" name="{!emailListPaginatedVar.emailId}">
+                                                    <lightning:icon iconName="utility:chevronup" size="medium"/>
+                                                </lightning:button>
+                                            </div>
+                                        </aura:if>
+                                    </div>
+
+                                </div>
+                                <div class="comm-history-bg">
+                                    <div class="slds-p-horizontal_large slds-is-relative">
+                                        <aura:if isTrue="{!emailListPaginatedVar.showBody==true}">                                        
+                                            <div class="slds-p-top_medium white-tile custom-font"> 
+                                                <div class="slds-assistive_text">
+                                                    <p><ui:outputRichText value="{!emailListPaginatedVar.HtmlBody}" class="next-line-p"/></p>
+                                                    <aura:if isTrue="{!emailListPaginatedVar.showFullBody!=true}">
+                                                        <lightning:buttonicon iconName="utility:threedots" size="small" onclick="{!c.showFullBody}" name="{!emailListPaginatedVar.emailId}"/>
+                                                    </aura:if>
+                                                    <aura:if isTrue="{!emailListPaginatedVar.showFullBody==true}">
+                                                        <ui:outputRichText value="{!emailListPaginatedVar.originalBody}" class="next-line-p"/>
+                                                    </aura:if>
+                                                </div>
+                                                <div class="email-attachment border-class" align="right" hidden="{!!emailListPaginatedVar.hasAttachment}">
+                                                    <aura:iteration items="{!emailListPaginatedVar.attachmentWrapperList}" var="attachVar">
+                                                        <p class="">
+                                                            <span><lightning:icon iconName="utility:attach" size="small"/><a href="{!v.caseDetails.attachmentLink+attachVar.attach.Id}" target="_self">{!attachVar.truncatedName}</a>
+                                                            </span> &nbsp; &nbsp; {!attachVar.attachmentCreatedDate}
+                                                        </p>
+                                                    </aura:iteration>
+                                                </div>
+                                            </div>
+                                            <div class="slds-p-top_medium gray-tile custom-font"> 
+                                            </div>
+                                        </aura:if>
+                                    </div>
+                                </div>    
+                            </div>
+                        </aura:if>
+                    </aura:if>
+                </aura:iteration> 
+
+                <aura:if isTrue="{!!v.showReplySection}">
+                    <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 slds-text-align--right slds-p-top--medium btn-responsive">
+                       <!-- <ui:button class="button-style" press="{!c.showReplySection}">
+                            <span><lightning:icon iconName="utility:reply" size="small" class="blue-Button"/></span> Reply
+                        </ui:button> -->
+                    </div>
+                </aura:if>
+
+            </div>
+            
+            <div id="replySection">
+                <div class="slds-container_large slds-container_center slds-p-top_large">
+                    <div class="header-text slds-p-bottom_small blue-custom-font">
+                        New message
+                    </div>
+                    <div class="custom-border white-tile">
+                        <div class="slds-grid slds-wrap slds-p-around_large">
+
+                            <div class="slds-grid slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+                                <div class="slds-col_bump-left slds-p-bottom_medium">
+                                    <lightning:buttonIcon iconName="utility:delete" variant="bare" onclick="{!c.hideReplySection }" alternativeText="Delete New Message" size="large"/>
+                                </div>
+                            </div>
+
+                            <!-- MESSAGE -->
+                            <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 slds-is-relative">
+                                <lightning:inputRichText value="{!v.myComments}" placeholder="Please type your message..." aura:id="myComments"/>
+                                
+                                <aura:if isTrue="{!v.hidelastCommunication}">
+                                    <lightning:buttonIcon iconName="utility:threedots" variant="bare" onclick="{! c.showlastCommunication }" alternativeText="..." />
+                                </aura:if>
+
+                                <aura:if isTrue="{!!v.hidelastCommunication}">
+                                    <ui:outputRichText value="{!v.caseDetails.oldConversation}"/>
+                                </aura:if>
+                            </div>
+
+                            <!-- ATTACHMENT -->
+                            <div class="slds-size--12-of-12 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-p-top--large">
+                                <div class="slds-grid slds-wrap graybg">
+                                    <div class="slds-large-size_5-of-12 slds-medium-size_6-of-12 slds-size_12-of-12 slds-p-around--medium">                        
+                                        <div class="monash-blue-font blue-custom-font slds-p-bottom--small">
+                                            Attachments (optional)
+                                        </div>
+                                        <div class="slds-grid slds-wrap slds-p-around_small div-scroll-attachment">
+                                            <div class="slds-size_12-of-12">
+                                                <aura:iteration items="{!v.selectedFiles}" var="selectedFile">
+                                                    <div class="label-style">
+                                                        <div class="slds-grid slds-truncate_container_75">
+                                                            <span>
+                                                                <lightning:buttonIcon iconName="utility:attach" size="small" class="slds-m-bottom_xx-small"/>
+                                                            </span>
+                                                            <span class="slds-truncate">
+                                                                {!selectedFile}
+                                                            </span>
+                                                            <span>
+                                                                <lightning:buttonIcon iconName="utility:delete" size="small" class="slds-m-bottom_xx-small" onclick="{!c.removeFile}" value="{!selectedFile}"/>
+                                                            </span>
+                                                        </div>
+                                                    </div>                          
+                                                </aura:iteration>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="slds-large-size_7-of-12 slds-medium-size_6-of-12 slds-size_12-of-12 select-border" id="uploadDiv">
+                                        <div class="uploadIcon slds-align_absolute-center">
+                                            <img  src="{!$Resource.uploadIcon}" class="uploadIcon" alt=""/>
+                                        </div>
+                                        <div class="slds-align_absolute-center">
+                                            <span class="drop-file-text">Drop files here</span>
+                                        </div>
+                                        <div class="slds-align_absolute-center">
+                                            <span class="drop-file-text">or</span>
+                                        </div>
+                                        <div class="slds-align_absolute-center slds-p-around_small">                       
+                                            <input style="display:none" data-buttonText="Select files" id="file-upload" type="file" class="file" aura:id="file" multiple="true" onchange="{!c.upload}"/>
+                                            <button id="uploadFile" class="button-style" onclick="{!c.clickFileUpload}">Select files</button>
+                                        </div>
+                                    </div>
+                                    <div class="slds-large-size_1-of-12" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 slds-text-align--right slds-p-top--medium btn-responsive">
+                    <ui:button class="button-style" press="{!c.updateEnquiry}">
+                        <span class="slds-icon_container">
+                            <img src="{!$Resource.send_inverse}" alt=""/>
+                        </span>
+                        Send
+                    </ui:button>
+                </div>
+
+            </div>
+           
+                
+            <div class="slds-align_absolute-center slds-p-around_small">
+            </div>
+        </div>
+    </div>
+</aura:component>

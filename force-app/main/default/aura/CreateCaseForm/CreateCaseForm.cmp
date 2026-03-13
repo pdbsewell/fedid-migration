@@ -1,0 +1,334 @@
+<!--
+    @name: CreateCaseForm
+* Modifications Log 
+* 2025-04-14   Ven Vairavan  Redirect IT enquiries to ContactUs - EPCP-4691
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller="LightningCreateCaseController" access="global" >
+
+    <ltng:require scripts="{!$Resource.jQuery321}" afterScriptsLoaded="{!c.init}"/>
+ <!--   <ltng:require scripts="{!$Resource.SLDS231}"/> -->
+
+    <!-- initialize attributes start -->
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="filesProcessed" type="Integer" default="0"/>
+    <aura:attribute name="fileList" type="Object"/>
+    <aura:attribute name="firstName" type="String" default=""/>
+    <aura:attribute name="userType" type="String" default=""/>
+    <aura:attribute name="enquiryType" type="String" default="Student"/>
+    <aura:attribute name="isButtonClicked" type="boolean" default="false"/>
+    <aura:attribute name="newCase" type="case"
+                    default="{ 'sobjectType': 'Case',
+                             'Channel__c': '',
+                             'Origin': '',
+                             'Supplied_First_Name__c': '',
+                             'Supplied_Last_Name__c':'',
+                             'SuppliedEmail':'',
+                             'Community_Status__c':'',
+                             'Description':'',
+                             'Subject':'',
+                             'SuppliedPhone':''
+                             }"/>
+    <aura:attribute name="suggestionArticleList" type="KnowledgeArticleVersion[]" />
+    <aura:attribute name="suggestionArticleSummary" type="sobject" />
+    <aura:attribute name="parentId" type="Id"/>
+    <aura:attribute name="selectedFiles" type="String[]"/>
+    <aura:attribute name="allowedFileTypes" type="String[]"/>
+    <aura:attribute name="monashEmails" type="String[]"/>
+    <aura:attribute name="error" type="Boolean" default="false"/>
+
+    <!-- for toggling submit button upon completing mandatory fields -->
+    <aura:attribute name="disableSubmit" type="Boolean" default="true"/>
+    <!-- initialize attributes end -->
+
+    <!-- recaptcha vars -->
+    <aura:attribute name="showCaptcha" type="Boolean" default="true"/>
+    <aura:attribute name="rateLimitKey" type="String"/>
+    <aura:attribute name="isSecurityChallengePassed" type="Boolean" default="false"/>
+    <aura:attribute name="captchaResponseKey" type="String" access="public"/>
+	<aura:attribute name="captchaBypassToken" type="String" access="public"/>
+
+    <!-- spinner -->
+    <aura:if isTrue="{!v.showSpinner}">  
+        <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+            <div class="slds-modal__container" aura:id="block">
+                <div class="slds-modal__header spinner-text">
+                    {!$Label.c.Enquiry_Creation_Message}<c:Spinner type="bubbles" width="64" height="64" color="blue" show="{!v.showSpinner}" />   
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+    </aura:if>
+    
+    <!-- content start -->
+    <div class="slds-grid slds-wrap slds-p-bottom_xx-large">
+        <!-- 
+            add margins as it needs to be removed from MonashCustomTheme
+         -->
+        <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+            <div class="slds-container_x-large slds-container_center">
+                <div class="slds-m-horizontal_xx-large content-responsive">
+                    <div class="slds-m-horizontal_x-large">
+
+                        <div class="slds-size--12-of-12 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                            <div class="slds-grid slds-wrap">
+                                <div class="slds-grid">
+                                    <div class="slds-p-right_small">
+                                        <span class="slds-icon_container slds-m-top_xx-small">
+                                            <img src="{!$Resource.detailPageIcon}" class="detailpage-icon" alt=""/>
+                                        </span>
+                                    </div>
+                                    <div>
+                                        <h1 class="headlineTitle">
+                                            <span class="hline">
+                                                <span class="uiOutputText" >Hello</span>{!v.firstName}, <span class="uiOutputText">{!$Label.c.Community_Hello_Message}</span>
+                                            </span>
+                                        </h1>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>                       
+                        
+                        <div class="slds-grid slds-wrap">
+                            
+                            <div class="slds-size--12-of-12 slds-medium-size--2-of-2 slds-large-size--1-of-2 slds-p-top--large slds-hide slds-col input-responsive" id="firstname">
+                                <div class="slds-m-right_small">
+                                    <ui:inputText aura:id="firstname" label="First name"
+                                                  class="slds-input field-name label-style"
+                                                  labelClass="slds-form-element__label"
+                                                  value="{!v.newCase.Supplied_First_Name__c}"
+                                                  placeholder="please enter your first name"
+                                                  />
+                                </div>
+                            </div>
+                            
+                            <div class="slds-size--12-of-12 slds-medium-size--2-of-2 slds-large-size--1-of-2 slds-p-top--large slds-hide slds-col input-responsive" id="lastname">
+                                <div class="slds-m-right_small">
+                                    <ui:inputText aura:id="lastname" label="Last name"
+                                                  class="slds-input field-name label-style"
+                                                  labelClass="slds-form-element__label"
+                                                  value="{!v.newCase.Supplied_Last_Name__c}"
+                                                  placeholder="please enter your last name"
+                                                  />
+                                </div>
+                            </div>
+                            
+                            <div class="slds-size--12-of-12 slds-medium-size--2-of-2 slds-large-size--1-of-2 slds-p-top--large slds-hide slds-col input-responsive" id="email">
+                                <div class="slds-m-right_small">
+                                    <ui:inputEmail aura:id="email" label="Email"
+                                                   class="slds-input field-name"
+                                                   labelClass="slds-form-element__label"
+                                                   value="{!v.newCase.SuppliedEmail}"
+                                                   placeholder="please enter your email"
+                                                   change="{!c.validateEmail}"
+                                                   />
+                                </div>
+                            </div>
+                            
+                            <div class="slds-size--12-of-12 slds-medium-size--2-of-2 slds-large-size--1-of-2 slds-p-top--large slds-hide slds-col input-responsive" id="Phone">
+                                <div class="slds-m-right_small">
+                                    <ui:inputEmail aura:id="phone" label="Phone (optional)"
+                                                   class="slds-input field-name"
+                                                   labelClass="slds-form-element__label"
+                                                   value="{!v.newCase.SuppliedPhone}"
+                                                   placeholder="please enter your phone number"
+                                                   />
+                                </div>
+                            </div>
+
+                        </div>
+                        
+                        <div class="slds-size--12-of-12 slds-medium-size--6-of-12 slds-large-size--6-of-12 slds-hide" id="interim-div-hr">
+                            
+                        </div>
+                        
+                        <div class="slds-size--12-of-12 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-p-top--x-large">
+                            <p class="slds-form-element__label">My question is about: </p>
+                        </div>
+                        
+                        <!-- QUESTION ABOUT START -->
+
+                        <div class="slds-grid slds-wrap slds-grid_align-spread">
+
+                            <div class="question-container slds-col slds-large-size--3-of-12">
+                                <div class="radio-border" aura:id="student-radio" onclick="{!c.handleCheckboxStudent}" id="Student">
+                                    <div class="slds-grid slds-m-around_small">
+                                        <div class="slds-grid slds-grid_vertical-align-center">
+                                            <ui:inputRadio aura:id="Student" 
+                                                name="EnquiryType" 
+                                                label="General services Library, enrolment, fees, courses, exams, parking, staff &amp; student ID cards and more"
+                                                labelClass="slds-assistive-text"
+                                                class="radio-style" 
+                                                value="true" 
+                                                updateOn="click" 
+                                                click="{!c.validateRequiredFields}" />
+                                        </div>
+                                        <div class="slds-m-left_small hover-state radio-content-responsive">
+                                            <h4 class="radio-header slds-p-bottom_x-small">General services</h4>
+                                            <p class="radio-body">Library, enrolment, fees, courses, exams, parking, staff &amp; student ID cards and more</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="question-container slds-col slds-large-size--3-of-12">
+                                <div class="radio-border" aura:id="hr-radio" onclick="{!c.handleCheckboxHR}" id="HR">
+                                    <div class="slds-grid slds-m-around_small">
+                                        <div class="slds-grid slds-grid_vertical-align-center">
+                                            <ui:inputRadio aura:id="HR" 
+                                                name="EnquiryType" 
+                                                label="Human resources services, Timesheets, pay, employment, HR policy, forms and other staff-related questions"
+                                                labelClass="slds-assistive-text"
+                                                class="radio-style" 
+                                                updateOn="click" 
+                                                click="{!c.validateRequiredFields}"/>
+                                        </div>
+                                        <div class="slds-m-left_small hover-state radio-content-responsive">
+                                            <h4 class="radio-header slds-p-bottom_x-small">Human resources services</h4>
+                                            <p class="radio-body">Timesheets, pay, employment, HR policy, forms and other staff-related questions</p>
+                                        </div>                          
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="question-container slds-col slds-large-size--3-of-12">
+                                <div class="radio-border" aura:id="it-radio" onclick="{!c.handleCheckboxIT}" id="IT">
+                                    <div class="slds-grid slds-m-around_small">
+                                        <div class="slds-grid slds-grid_vertical-align-center">
+                                            <ui:inputRadio aura:id="IT" 
+                                                name="EnquiryType" 
+                                                label="IT support, Passwords, accounts, computers, software, hardware and all things IT-related"
+                                                labelClass="slds-assistive-text"
+                                                class="radio-style" 
+                                                updateOn="click" 
+                                                click="{!c.validateRequiredFields}"/>
+                                        </div>
+                                        <div class="slds-m-left_small hover-state radio-content-responsive">
+                                            <h4 class="radio-header slds-p-bottom_x-small">IT support</h4>
+                                            <p class="radio-body">Passwords, accounts, computers, software, hardware and all things IT-related</p>
+                                        </div>                          
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- QUESTION ABOUT END -->
+						<aura:if isTrue="{!v.enquiryType != 'IT'}">
+                        <div class="slds-size--12-of-12 slds-medium-size--6-of-12 slds-large-size--6-of-12 slds-p-top--large" aura:id="subject-div">
+                            <ui:inputText aura:id="Subject" 
+                                          value="{!v.newCase.Subject}" 
+                                          label="I need help with" 
+                                          labelClass="slds-form-element__label"
+                                          class="slds-input" 
+                                          placeholder="Subject..." 
+                                          maxlength="80" 
+                                          updateOn="keyup" 
+                                          keyup="{!c.validateRequiredFields}" />
+                        </div >     
+                        
+                        <div class="slds-size--12-of-12 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-p-top--large  slds-hide" aura:id="question-div">
+                            <ui:inputSelect aura:id="hrQuestion" 
+                                            value="{!v.newCase.Community_Status__c}" 
+                                            label="I need help with" 
+                                            labelClass="slds-form-element__label"
+                                            change="{!c.validateRequiredFields}" />
+                        </div>
+                        
+                        <div class="slds-size--12-of-12 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-p-top--large">
+                            <ui:inputTextArea aura:id="description" 
+                                            value="{!v.newCase.Description}" 
+                                            rows="5" 
+                                            label="Description" 
+                                            labelClass="slds-form-element__label"
+                                            placeholder="Type your question..." 
+                                            updateOn="keyup" 
+                                            keyup="{!c.validateRequiredFields}"/>
+                        </div>
+                        </aura:if>
+                        <aura:if isTrue="{!v.enquiryType == 'IT'}">
+                        <div aura:id="contactUsMsg">
+                              <div class="contact-us-message" style="font-size:20px; padding-top:10px; padding-left:10px;">
+                                  <br/>
+                                  <p style="font-size:25px; color:#005daa;"><b>Contact us</b></p>
+                                <p style="font-size:15px;">
+                                  If you need help with IT at Monash, please contact
+                                  <a href="http://www.monash.edu/esolutions/contact" target="_blank"><b>eSolutions Service Desk</b></a>.
+                                </p>
+                              </div>
+                        </div>
+                        </aura:if>
+                        <!-- ATTACHMENTS START -->
+						<aura:if isTrue="{!v.enquiryType != 'IT'}">
+                        <div class="slds-size--12-of-12 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-p-top--large">
+                            <div class="slds-grid slds-wrap graybg">
+                                <div class="slds-large-size_5-of-12 slds-medium-size_6-of-12 slds-size_12-of-12 slds-p-around--medium"> 
+                                    <!-- rate limit number of attachments -->
+                       
+                                    <div class="blue-custom-font slds-p-bottom--small slds-p-left--medium">
+                                        Attachments (optional - max. 3)
+                                    </div>
+                                    <div class="slds-grid slds-wrap slds-p-around_small div-scroll-attachment slds-scrollable">
+                                        <div class="">
+                                            <aura:iteration items="{!v.selectedFiles}" var="selectedFiles">
+                                                <div>
+                                                    <lightning:buttonIcon iconName="utility:attach" size="small" class="slds-m-bottom_xx-small"/>
+                                                    {!selectedFiles}                                    	
+                                                    <lightning:buttonIcon iconName="utility:delete" size="small" class="slds-m-bottom_xx-small" onclick="{!c.removeFile}" value="{!selectedFiles}"/>
+                                                </div>                          
+                                            </aura:iteration>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="slds-large-size_7-of-12 slds-medium-size_6-of-12 slds-size_12-of-12 select-border" id="uploadDiv">
+                                    <div class="uploadIcon slds-align_absolute-center">
+                                        <img  src="{!$Resource.uploadIcon}" class="uploadIcon" alt=""/>
+                                    </div>
+                                    <div class="slds-align_absolute-center">
+                                        <span class="drop-file-text">Drop files here</span>
+                                    </div>
+                                    <div class="slds-align_absolute-center">
+                                        <span class="drop-file-text">or</span>
+                                    </div>
+                                    <div class="slds-align_absolute-center slds-p-around_small">                       
+                                        <input 
+                                            style="display:none" 
+                                            data-buttonText="Select files"
+                                            label = "Drop files here"
+                                            labelClass = "slds-assistive-text" 
+                                            id="file-upload" 
+                                            type="file" 
+                                            class="file" 
+                                            aura:id="file" 
+                                            multiple="true" 
+                                            onchange="{!c.captureupload}"/>
+                                        <button id="uploadFile" class="select-file-btn hover-state">Select files</button>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="slds-size--12-of-12 slds-medium-size--10-of-12 slds-large-size--10-of-12 slds-p-top--large">
+                            <a onclick="{!c.redirectPrivacyStatement}" class="label-style-blue">Monash Privacy Statement</a>
+                        </div>
+                        <div class="slds-size--12-of-12 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-p-top--large">
+                            <div class="slds-grid slds-wrap button-container-responsive">
+                                <div class="slds-col_bump-left">
+                                    <div class="slds-grid slds-grid_vertical">
+                                        <aura:if isTrue="{!v.showCaptcha}">
+                                            <div class="slds-col slds-col--padded slds-size_10-of-12 slds-align_absolute-right">
+                                                <c:reCaptcha aura:id="captchaComp" oncaptchachange="{!c.handleDispatchCaptchaEvent}"></c:reCaptcha>
+                                            </div>
+                                        </aura:if>
+                                        <div class="slds-col slds-col--padded slds-size_10-of-12 slds-align_absolute-left slds-p-left_medium slds-var-m-top_x-small">
+                                            <ui:button aura:id="submitBtn" disabled="{!v.disableSubmit}" class="Save submit-btn hover-state" label="Submit" press="{!c.save}" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- content end -->
+</aura:component>

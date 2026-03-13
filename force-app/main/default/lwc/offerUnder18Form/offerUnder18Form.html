@@ -1,0 +1,159 @@
+<!--
+  @File Name          : offerUnder18Form.html
+  @Description        : 
+  @Author             : Jasmin Joy Rudio
+  @Group              : 
+  @Last Modified By   : jasmin.rudio@monash.edu
+  @Last Modified On   : 2/27/2020, 2:12:49 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    12/6/2019   Jasmin Joy Rudio     Initial Version
+-->
+<template>
+    <template if:true={spinner}>
+        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </template>
+
+    <br>    <!-- using br in this lwc to align with the rest of the implementation... -->
+    <div class="slds-form">
+        <div class="form-question">
+            <template if:true={isGuardianHavingEmailRadioGroupOptions.data}>
+                <lightning-radio-group
+                    label="Does your parent / guardian have an email address?"
+                    onchange={handleGuardianHasEmailChange}
+                    options={isGuardianHavingEmailRadioGroupOptions.data.values}
+                    value={offerRecord.Guardian_has_Email_Address__c.value} 
+                    disabled={isDisabled}
+                    type="button"
+                    style="padding-left:0!important;"></lightning-radio-group>
+            </template>
+        </div>
+    </div>
+
+    <template if:true={isGuardianHavingEmail}>
+        <template if:true={objectInfo.data}>
+            <h3 class="section-heading">Parent / Guardian contact information</h3>
+
+            <p>
+                Please fill out your parent’s / guardian's contact information below.
+            </p>
+            <br>
+            <p>
+                An email request for the second signature will be sent to the email 
+                address below once you have signed this offer. Your parent / guardian 
+                must digitally sign this offer before it can be fully accepted / 
+                processed by Monash, so please ensure you enter your parent's / 
+                guardian's email correctly!
+            </p>
+            <br>
+            <p>
+                You will receive an email notification as soon as your parent / guardian has completed signing.
+            </p>
+            <br>
+            <div class="slds-form">
+                <div class="slds-form-element_compound">
+                    <div class="slds-form-element__row">
+                        <div class="slds-size_1-of-2">
+                            <lightning-input type="text"
+                                label="First Name"
+                                name="Guardian_First_Name__c"
+                                value={offerRecord.Guardian_First_Name__c.value}
+                                onchange={handleTextChange}
+                                maxlength={objectInfo.data.fields.Guardian_First_Name__c.length}
+                                disabled={isDisabled}>
+                            </lightning-input>    
+                        </div>
+                        <div class="slds-size_1-of-2">
+                            <lightning-input type="text"
+                                label="Last Name"
+                                name="Guardian_Last_Name__c"
+                                value={offerRecord.Guardian_Last_Name__c.value}
+                                onchange={handleTextChange}
+                                maxlength={objectInfo.data.fields.Guardian_Last_Name__c.length}
+                                disabled={isDisabled}>
+                            </lightning-input>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form-element_compound">
+                    <div class="slds-form-element__row">
+                        <div class="slds-size_1-of-1">
+                            <lightning-input type="email"
+                                label="Email"
+                                name="Guardian_Email__c"
+                                value={offerRecord.Guardian_Email__c.value}
+                                onchange={handleTextChange}
+                                maxlength={objectInfo.data.fields.Guardian_Email__c.length}
+                                disabled={isDisabled}>
+                            </lightning-input>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-form-element_compound">
+                    <div class="slds-form-element__row">
+                        <div class="slds-size_1-of-2">
+                            <template if:true={TypePicklistValues.data}>
+                                <lightning-combobox name="Guardian_Relationship_Type__c"
+                                                    label="Relation to applicant (you)"
+                                                    value={guardianInfo.Guardian_Relationship_Type__c}
+                                                    placeholder="- Select -"
+                                                    class="select-option-box"
+                                                    options={TypePicklistValues.data.values}
+                                                    onchange={handlePicklistChange} 
+                                                    disabled={isDisabled}>
+                                </lightning-combobox>
+                            </template>
+                        </div>
+                        <template if:false={disabledAttr}>
+                            <div class="slds-size_1-of-2">
+                                <lightning-input type="text"
+                                    label="If other, please specify:"
+                                    name="Guardian_Other_Relationship_Type__c"
+                                    value={guardianInfo.Guardian_Other_Relationship_Type__c}
+                                    onchange={handleTextChange}
+                                    maxlength={objectInfo.data.fields.Guardian_Other_Relationship_Type__c.length}
+                                    disabled={disabledAttr}>
+                                </lightning-input>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                
+            </div>
+            <!--
+            <template if:true={updatedContent}>
+                <lightning-formatted-rich-text value={updatedContent}></lightning-formatted-rich-text>
+            </template>
+            <lightning-input type="checkbox"
+                label="My guardian does not have an email address"
+                name="Guardian_Email_Provided__c"
+                checked={guardianInfo.Guardian_Email_Provided__c}
+                onchange={handleCheckboxChange}
+                disabled={guardianHasEmail}
+                class="under18Checkbox">
+            </lightning-input> -->
+        </template>
+    </template>
+    <template if:true={isGuardianNotHavingEmail}>
+        
+        <h3 class="section-heading">No parental / guardian contact information</h3>
+        <p>It is your responsibility to digitally sign the offer document.</p>
+        <br>
+        <p>
+            Once you have signed the offer, you will need to download a physical 
+            copy of the offer and have your parent/guardian sign the hardcopy 
+            version of the document.
+        </p>
+        <br>
+        <p>
+            You will then need to upload a copy of the signed hardcopy document 
+            to your <em>Acceptance Document Checklist</em> which can be accessed 
+            via the <em>Upload Docs</em> button on your offer from the My.App homepage once you 
+            have digitally signed.
+        </p>
+        
+    </template>
+
+    <c-offer-managed-clauses offer-id={offerRecord.Id.value} location="U18 Section" quote-clauses={quoteClauses}></c-offer-managed-clauses>
+    
+</template>

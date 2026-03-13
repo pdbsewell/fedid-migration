@@ -1,0 +1,57 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
+    <aura:attribute name="rows" type="object[]" default="[]"/>
+    <aura:attribute name="headers" type="String[]" default="[]"/>
+    <aura:attribute name="showTable" type="Boolean" default="false"/>
+    <aura:attribute name="recordId" type="Id"/>
+    
+    <c:EngageCSVParserDataHandler rows="{!v.rows}" headers="{!v.headers}" showTable="{!v.showTable}" recordId="{!v.recordId}"/>
+
+    <aura:if isTrue="{!v.showTable}">
+    	<div class="slds-card slds-card_boundary">
+  			<div class="slds-card__header slds-grid">
+      			<header class="slds-media slds-media_center slds-has-flexi-truncate">
+        			<div class="slds-media__figure">
+            			<lightning:icon iconName="doctype:gsheet" size="small"/>
+        			</div>
+      				<div class="slds-media__body">
+        				<h2>
+            				<b><span class="slds-text-heading_small">Event Members to Create</span></b>
+        				</h2>
+      				</div>
+      				<div class="slds-text-title slds-float--right"> Number of Rows: {!v.rows.length} </div>
+  				</header>
+			</div>
+
+			<div class= "slds-p-horizontal_small">
+				<div style="width: 100%; max-height: 50%; overflow: auto;">
+			        <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-max-medium-table_stacked-horizontal slds-scrollable_x">
+			            <thead>
+			                <tr class="slds-text-title--caps">
+			                	<th scope="col">
+							    	<div class="slds-truncate" title="Row Number">#</div>
+								</th>
+			                    <aura:iteration items="{!v.headers}" var="head">
+			                    <th scope="col">
+			                        <div class="slds-truncate" title="{!head}">{!head}</div>
+			                    </th>
+			                    </aura:iteration>
+			                </tr>
+			            </thead>
+			            <tbody>
+			                <aura:iteration items="{!v.rows}" var="row" indexVar="rowIndex">
+			                    <tr>
+							    <td data-label="">
+							    	<div class="slds-truncate" title="{!rowIndex + 1}">{!rowIndex + 1}</div>
+								</td>
+			                    <aura:iteration items="{!v.headers}" var="head" indexVar="i">
+			                       <c:EngageCSVParserTableCell row="{!row}" colIdx="{!i}"/>
+			                    </aura:iteration>
+			                    </tr>
+			                </aura:iteration>
+			            </tbody>
+			        </table>
+		    	</div>
+	    	</div>
+        </div>
+	</aura:if>
+</aura:component>

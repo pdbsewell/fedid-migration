@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Calls EnglishTestScoreInterface which sends a HTTP Callout to Callista</description>
+        <name>Invoke_English_Test_outbound_callout</name>
+        <label>Invoke English Test outbound callout</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>EnglishTestScoreInterface</actionName>
+        <actionType>apex</actionType>
+        <faultConnector>
+            <targetReference>Nebula_Log_Entry</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>EnglishTestScoreInterface</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>Nebula_Log_Entry</name>
+        <label>Nebula Log Entry</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Nebula__FlowRecordLogEntry</actionName>
+        <actionType>apex</actionType>
+        <dataTypeMappings>
+            <typeName>T__record</typeName>
+            <typeValue>Contact_Qualification__c</typeValue>
+        </dataTypeMappings>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <stringValue>Contact_Qualification_AS_English_Score</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Error encountered when sending HTTP Callout</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>record</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>scenario</name>
+            <value>
+                <stringValue>English Test</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>tagsString</name>
+            <value>
+                <stringValue>English Test</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowRecordLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <description>Verifies whether Contact Qual record is an English Test and has Person Id</description>
+        <name>Is_English_Test</name>
+        <label>Is English Test?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Non English Test</defaultConnectorLabel>
+        <rules>
+            <name>English_Test</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Contact__r.Has_Person_ID__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Qualification_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>English Test</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Invoke_English_Test_outbound_callout</targetReference>
+            </connector>
+            <label>English Test</label>
+        </rules>
+    </decisions>
+    <description>Flow to initiate the &apos;Update English Test score to Callista&apos; process</description>
+    <environments>Default</environments>
+    <interviewLabel>Contact Qualification : AS : English Score {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Contact Qualification : AS : English Score</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Is_English_Test</targetReference>
+        </connector>
+        <filterFormula>{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = false &amp;&amp; CONTAINS({!$Label.Bypass_Specific_Flow}, &quot;ConQualASEnglishScore,&quot;) = false</filterFormula>
+        <object>Contact_Qualification__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

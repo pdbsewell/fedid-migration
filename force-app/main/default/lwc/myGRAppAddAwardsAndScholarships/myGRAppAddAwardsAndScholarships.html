@@ -1,0 +1,201 @@
+<template>
+    <div class="slds">
+        <!-- DELETE CONFIRMATION POPUP -->
+        <div if:true={showConfirmDelete}>
+
+            <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header slds-theme--error slds-theme--alert-texture">
+                        <h2 class="slds-text-heading--small" id="prompt-heading-id" style="color: #ffffff;">{label.app_DeleteConfirmation}</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <p>Are you sure you want to delete this award? Please note any document uploaded as part of this claim will also be deleted.</p>
+                    </div>
+                    <div class="slds-modal__footer slds-theme--default">
+                        <lightning-button label="Yes"
+                                          icon-position="left"
+                                          variant="brand"
+                                          onclick={onClickConfirmDelete}>
+                        </lightning-button>&nbsp;
+                        <lightning-button label="No"
+                                          icon-position="left"
+                                          variant="neutral"
+                                          onclick={onClickCancelDelete}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+        </div>
+
+        <!-- ALERT: ANY Errors on save-->
+        <div if:true={showErrors}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h3 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Please complete the following:</h3>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <ul class="slds-list_dotted slds-text-align--left">
+                            <template for:each={saveErrors} for:item="error">
+                                <li key={error}>{error}</li>
+                            </template>
+                        </ul>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={onClickCloseErrors}>Close</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+
+        <!-- page heading and desciption-->
+        <div>
+                <h1 style="font-weight:bold;">Awards, Prizes & Scholarships</h1>
+                <div class="grtParagraph">Please provide details of up to five awards, prizes and/or scholarships gained in your academic career. Details of additional awards, prizes and/or scholarships may be provided in your Curriculum Vitae (CV).</div>
+                <ul class="slds-list_dotted" >
+                    <li class="grtParagraph">You will be required to upload supporting documentation in the <b>Documents section</b>.</li>
+                </ul>            
+        </div>
+        <c-my-g-r-app-declaration 
+        application-id={applicationId} 
+        qualification-name="Do you have any awards, prizes or scholarships" 
+        record-type-name={recTypeDevName} 
+        ondeclarationchange={handleDeclarationChange}
+        >
+        </c-my-g-r-app-declaration>
+        <template if:true={declarationSigned}>
+            <div class="sectionContainer slds-wrap slds-p-top_large" if:true={isStateStart}>
+                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                    <div class="sectionContainerBody slds-size_5-of-5">
+                        <div class="slds-size_5-of-5">
+                            <h2>Awards, Prizes & Scholarships </h2>
+                        </div>
+                        <div class="slds-size_5-of-5">
+                            <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                                <thead>
+                                <tr class="slds-text-title--caps">
+                                    <th scope="col">
+                                        <div title="posTH">Award Type</div>
+                                    </th>
+                                    <th scope="col" class="hideOnMobile">
+                                        <div title="empTH">Institution/Awarding body</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate slds-align_absolute-center" title="Action" >Action</div>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!-- ITERATION FOR Qualifications -->
+                                <template for:each={contactQualifications} for:item="qualification">                                    
+                                    <tr key={qualification.Id}>
+                                        <td>
+                                            <div class="slds-truncate" style="max-width: 330px;">
+                                                {qualification.Other_Qualification__c}
+                                            </div>
+                                        </td>
+                                        
+                                        <td>
+                                            <div class="slds-truncate" style="max-width: 330px;">
+                                                {qualification.Relevant_Institution_Name__c}
+                                            </div>
+                                        </td>
+                                        <td data-label="Action">
+                                            <div class="slds-truncate slds-align--absolute-center">                                            
+                                                <lightning-button-icon variant="bare" icon-position="left" name={qualification.Id} onclick={onClickEdit} icon-name="utility:edit" size="medium" alternative-text="Edit"></lightning-button-icon>&nbsp;
+                                                <lightning-button-icon variant="bare" icon-position="left" name={qualification.Id} onclick={onClickDelete} icon-name="utility:close" size="medium" alternative-text="Remove item"></lightning-button-icon> 
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                                    
+                                <!-- END - ITERATION FOR APPLICATION Qualification PROVIDED -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                
+
+                <div class="slds-p-vertical--large">
+                    
+                </div>
+
+                <!-- ADD NEW BUTTON -->
+                <div if:false={isNewDisabled} class="slds-button-group slds-p-left_medium" role="group">
+                    <button class="secondaryButton" onclick={onClickAddNew} style="margin-top: 10px;">
+                        <lightning-icon class="secondaryIcon" icon-name="utility:add" size="small"></lightning-icon>&nbsp;&nbsp;Add New Award
+                    </button>
+                </div>
+            </div>
+            <!-- qualification form input fields -->
+            <div class="sectionContainer" if:true={isStateEdit}>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                    <br/>
+                    <lightning-select name="awardType"
+                                    data-id="awardType"
+                                    label="Award Name"
+                                    value={contactQualification.Evidence_Type__c}
+                                    required="true"
+                                    options={awardTypeList}
+                                    onchange={onFieldChange}   
+                                    ></lightning-select> 
+                    <lightning-input if:true={otherAwardType} name="otherAwardType"
+                                    data-id="otherAwardType"
+                                    label="Name of Award/Prize/Scholarship"
+                                    required="true"
+                                    max-length="200"
+                                    onchange={onFieldChange}
+                                    value={contactQualification.Other_Qualification__c}></lightning-input>  
+                    <lightning-input name="instituteName"
+                                    data-id="instituteName"
+                                    value={contactQualification.Other_Institution__c}
+                                    required="true"
+                                    max-length="200"
+                                    label="Institution/Awarding body"
+                                    onchange={onFieldChange}></lightning-input>
+                    <lightning-select name="dateAchieved"
+                                    data-id="dateAchieved" 
+                                    label="Year Awarded"
+                                    value={yearAwarded}
+                                    required="true"
+                                    options={yearAwardedOptions}
+                                    onchange={onFieldChange}></lightning-select>
+                    <lightning-textarea name="natureOfAward" 
+                                        label="Nature of Award/Prize/Scholarship" 
+                                        data-id="natureOfAward"
+                                        field-level-help="(e.g. for best result in subject or unit; prize for
+                                                overall performance in a degree or
+                                                qualification; etc.)"
+                                        required="true"
+                                        max-length="1000"
+                                        onchange={onFieldChange}
+                                        value={contactQualification.Description__c}>
+                                    </lightning-textarea> 
+                    <lightning-textarea name="standingOfAward" 
+                                        label="Prestige/Standing of
+                                                Award/Prize/Scholarship" 
+                                        data-id="standingOfAward"
+                                        field-level-help="(e.g. value; how many students eligible; etc.)"
+                                        required="true"
+                                        max-length="1000"
+                                        onchange={onFieldChange}
+                                        value={contactQualification.Standing_of_Award__c}>
+                                    </lightning-textarea>                                                        
+                    <div class="slds-form-element slds-p-vertical--large">
+                        <div class="slds-m-top_medium">                    
+                            <button class="primaryButton" onclick={saveCurrentQualification} style="margin-right: 15px;">
+                                Save
+                            </button>
+                            <button class="secondaryButton" onclick={onClickCancel}>
+                                Cancel
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+    <lightning-spinner if:true={showSpinner} alternative-text="Saving" variant="brand"></lightning-spinner>
+</template>

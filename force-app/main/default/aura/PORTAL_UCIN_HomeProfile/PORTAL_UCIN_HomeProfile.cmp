@@ -1,0 +1,68 @@
+<!--Contains profile information to be displayed on the Home page-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="PORTAL_UCIN_MyProfileController">
+	<ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}" />
+    <aura:attribute name="contactId" type="String"/>
+    <aura:attribute name="contact" type="sObject"/>
+    <aura:attribute name="affil" type="sObject"/>
+    <aura:attribute name="firstAndLastName" type="String"/>
+    <aura:attribute name="areasOfInterest" type="List"/>
+    <aura:attribute name="degreeList" type="List"/>
+	<aura:attribute name="loaded" type="Boolean" default="true" />
+
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+	<lightning:notificationsLibrary aura:id="notifLib"/>
+
+	<div class="body-copy-font w-full h-full slds-is-relative">
+		<!-- Spinner -->
+		<div>
+			<aura:if isTrue="{!!v.loaded }">
+				<lightning:spinner alternativeText="Loading" />
+			</aura:if>
+		</div>
+
+		<div class="w-full">
+			<div class="relative flex flex-row flex-wrap h-full bg-white ">
+                <!--The name, employment, and first 3 areas of interest for the user-->
+				<h2 class="text-3xla sm:text-5xl leading-bitmore w-full uppercase">Your Profile</h2>
+				<div class="w-1/2 flex flex-col pr-1 pb-16">
+					<h4 class="flex-1 pt-4 uppercase text-xl sm:text-lg">
+                        {!v.firstAndLastName}
+					</h4>
+					<div class="py-4 small">
+						<small class="uppercase font-bold my-1 text-xl sm:text-lg">Employment<br/></small>
+						<aura:if isTrue="{!v.affil}">
+							<small>{!v.affil.Position__c}<br/></small>
+							<small>{!v.affil.Account__r.Name}</small>
+						</aura:if>						
+					</div>
+					<div>
+						<p class="uppercase font-bold my-1 text-xl sm:text-lg">Areas of Interest</p>
+						<ul class="list-disc pl-4 text-xl sm:text-lg">
+                            <aura:iteration items="{!v.areasOfInterest}" var="aoi">
+                                <li>{!aoi}</li>
+                            </aura:iteration>
+						</ul>
+					</div>
+				</div>    
+                <div class="w-1/2 flex flex-col align-center justify-between ol-1 pb-16">
+                    <!--Contains the Profile picture in a separate component-->
+					<div class="sm:max-h-18rem w-auto h-auto self-center">
+						<aura:if isTrue="{!v.contact.Id}">
+							<c:PORTAL_UCIN_ProfilePicture recordId="{!v.contact.Id}" size="homePage"/>	
+						</aura:if>
+                    </div>
+                    <!--Lists the first two degrees-->
+					<div class="py-2 text-xl sm:text-lg">
+                        <aura:iteration items="{!v.degreeList}" var="degree">
+                            <small class="uppercase text-blue font-bold text-sm">{!degree.name}<br/></small>
+                            <small class="uppercase font-bold text-sm">Class of <lightning:formattedDateTime value="{!degree.year}" year="numeric" /><br/></small>
+                        </aura:iteration>
+						
+					</div>					
+				</div>
+            </div>
+            <a class="absolute block bottom-0 lg:right-0 bg-blue self-center p-2 font-semibold text-white hover:text-white text-center text-xl lg:text-lg ucin-button" href="/ascendportal/s/myprofile/">Update details</a>
+		</div>
+	</div>
+    
+</aura:component>

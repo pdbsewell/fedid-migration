@@ -1,0 +1,28 @@
+<!--
+ - Created by trentdelaney on 14/8/18.
+ -->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" description="ApplicationTable" controller="ApplicationTableController">
+
+    <!--Design Attributes-->
+    <aura:attribute name="fieldSet" type="String" default="" />
+    <aura:attribute name="targetObject" type="String" default="" />
+    <aura:attribute name="clause" type="String" default="" />
+    <aura:attribute name="isEditable" type="Boolean" default="false" />
+
+    <!--Form Data-->
+    <aura:attribute name="columns" type="List" />
+    <aura:attribute name="data" type="Object"/>
+
+    <!--Handlers-->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+
+
+    <lightning:datatable
+            keyField="id"
+            data="{!v.data}"
+            columns="{! v.columns }"
+            onrowaction="{! c.handleRowAction }"
+            resizeColumnDisabled="true"
+            hideCheckboxColumn="true"/>
+</aura:component>

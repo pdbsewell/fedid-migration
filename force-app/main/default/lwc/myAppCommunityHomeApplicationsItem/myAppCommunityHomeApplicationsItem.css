@@ -1,0 +1,134 @@
+.applicationActionsMenu {
+	width: 90%;
+}
+
+.applicationItem {
+	border: 1px solid #75B0D3;
+	background-color: #EDEDED;
+	width: 85%;
+}
+
+.applicationItem:hover {
+	cursor: pointer;
+}
+
+.selectedApplicationItem{
+	background-color: #FFF;
+	border: 1px solid #75B0D3;
+	width: 85%;
+}
+
+.selectedApplicationItem:hover {
+	cursor: pointer;
+}
+
+.applicationChevronIcon {
+	box-sizing: border-box;
+	height: 12px;
+	width: 21px;
+	transform: rotate(270deg);
+	float: left;
+    margin-top: 25px;
+}
+
+.homeAction {
+	width: 160px; 
+	height: 40px; 
+	font-size: 16px;
+}
+
+.homeCancelApplication {
+	background-color: #C23934;
+}
+.homeCancelApplication:hover {
+    background-color: #ae332e;
+}
+
+.applicationAction {
+	width: 47.2%; 
+	height: 30px; 
+	font-size: 13px;
+}
+
+.notificationPosition {
+    position: absolute; 
+	border-radius: .75rem; 
+	top: -0.3rem; 
+    right: -0.25rem;
+    background-color: rgb(194, 57, 52);
+}
+
+.notificationIcon {
+    line-height: 1.3; 
+    width: 1.3rem;
+    height: 1.3rem;
+    padding: 0 .15rem;
+    color: rgb(255, 255, 255);
+    font-family: 'Salesforce Sans',Arial,sans-serif;
+    font-weight: 700;
+    font-size: .75rem;
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.selectedApplicationContainer {
+	opacity: 1;
+}
+
+.selectedApplicationContainer:hover {
+	opacity: 1;
+}
+
+.nonSelectedApplicationContainer {
+	opacity: 0.6;
+}
+
+.nonSelectedApplicationContainer:hover {
+	opacity: 1;
+}
+
+/**/
+/* pad */
+/**/
+@media screen and (max-width: 980px) {
+	
+}
+
+/**/
+/* phone */
+/**/
+@media screen and (max-width: 767px) {
+	.applicationActionsMenu {
+		width: 100%;
+	}
+
+	.applicationItem {
+		border: 1px solid #75B0D3;
+		background-color: #EDEDED;
+		width: 100%;
+	}
+
+	.selectedApplicationItem{
+		background-color: #FFF;
+		border: 1px solid #75B0D3;
+		width: 100%;
+	}
+	
+	.applicationAction {
+		width: 50%; 
+		height: 30px; 
+		font-size: 13px;
+	}
+}
+
+
+.btn:focus,
+.btn--blue:focus {
+  outline: 3px solid #0057b8; /* or another accessible color */
+  outline-offset: 2px;
+}
+
+.btn:hover,
+.btn--blue:hover {
+  background-color: #004a99; /* darker hover color */
+}

@@ -1,0 +1,28 @@
+<!--
+    @name: isBrowserChromeComponent 
+ -->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+	<aura:attribute name="isChrome" type="Boolean" default="false"/>
+
+	<aura:handler name="init" value="{!this}" action="{!c.doBrowserCheck}" />
+
+	<aura:renderIf isTrue="{!!v.isChrome}" >
+        <div aura:id="message-container">
+            <div class="slds-notify_container slds-is-relative">
+                <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert">
+                    <div class="slds-notify__content slds-grid slds-text-align--left">
+                        <div class="slds-grid slds-grid_vertical-align-center">
+                            <lightning:icon iconName="utility:warning" variant="inverse" size="small"/>
+                        </div>
+                        <div class="slds-p-horizontal_x-small">
+                            <span class="slds-assistive-text">For the best experience with this site, please use Google Chrome as your browser.</span>
+                            For the best experience with this site, please use Google Chrome as your browser.&nbsp;
+                            <a href="https://www.google.com/chrome/browser/desktop/" target="_blank" class="slds-text-link"><b>Download Chrome</b></a>
+                        </div>
+                    </div>
+                     <lightning:buttonIcon class="slds-notify__close slds-button_icon-inverse" iconName="utility:close" variant="bare" alternativeText="Close message" size="large" onclick="{!c.closeMessage}"/>
+                </div>
+            </div>
+        </div>
+    </aura:renderIf>
+</aura:component>

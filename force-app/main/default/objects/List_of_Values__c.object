@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>List_of_Values_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>List_Of_Values</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>List_Of_Values</fullName>
+        <fields>Name</fields>
+        <fields>Type__c</fields>
+        <fields>Description__c</fields>
+        <fields>Is_Active__c</fields>
+        <label>List Of Values</label>
+    </compactLayouts>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Generic container for Callista Reference Data
+
+When querying, check active flags and record type for records relevant to the usage.</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>Read</externalSharingModel>
+    <fields>
+        <fullName>Applicant_Use__c</fullName>
+        <defaultValue>false</defaultValue>
+        <label>Applicant Use</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Applicant_Value__c</fullName>
+        <externalId>false</externalId>
+        <label>Applicant Value</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Category_Level_1__c</fullName>
+        <externalId>false</externalId>
+        <label>Category Level 1</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Category_Level_2__c</fullName>
+        <externalId>false</externalId>
+        <label>Category Level 2</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Description__c</fullName>
+        <externalId>false</externalId>
+        <label>Description</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Enquiry_Type__c</fullName>
+        <externalId>false</externalId>
+        <label>Enquiry Type</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Government_Code__c</fullName>
+        <description>Additional information for some record types</description>
+        <externalId>false</externalId>
+        <label>Government Code</label>
+        <length>10</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Is_Active_System_Code__c</fullName>
+        <defaultValue>true</defaultValue>
+        <label>Is Active System Code</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Is_Active__c</fullName>
+        <defaultValue>true</defaultValue>
+        <label>Is Active</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Outcome_Path__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <externalId>false</externalId>
+        <label>Outcome Path</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Public</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>SS_CodeReason__c</fullName>
+        <description>Code and Reason Formula field. Course Discontinuation SS-69</description>
+        <externalId>false</externalId>
+        <formula>System_Code__c + &apos; - &apos; + Value__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Code Reason</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>System_Code_Description__c</fullName>
+        <description>Description of the system code value</description>
+        <externalId>false</externalId>
+        <label>System Code Description</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>System_Code__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field to describe Main Category</description>
+        <externalId>false</externalId>
+        <label>System Code</label>
+        <length>100</length>
+        <required>true</required>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>System_Default__c</fullName>
+        <defaultValue>false</defaultValue>
+        <label>System Default</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>TypeMergeField__c</fullName>
+        <externalId>false</externalId>
+        <formula>Enquiry_Type__c + &apos; &gt; &apos; + Category_Level_1__c + &apos; &gt; &apos; + Category_Level_2__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Title</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Type__c</fullName>
+        <description>A record type for each list of values
+
+Lookups to this table should filter on type, as well as the active flag</description>
+        <label>Type</label>
+        <required>true</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Change Of Residency Faculty Name</fullName>
+                    <default>false</default>
+                    <label>Change Of Residency Faculty Name</label>
+                </value>
+                <value>
+                    <fullName>Change Of Residency Visa Subclass</fullName>
+                    <default>false</default>
+                    <label>Change Of Residency Visa Subclass</label>
+                </value>
+                <value>
+                    <fullName>ADM_CNDTNL_OFFER_STATUS</fullName>
+                    <default>false</default>
+                    <label>Conditional Offer Response</label>
+                </value>
+                <value>
+                    <fullName>ADM_DOC_STATUS</fullName>
+                    <default>false</default>
+                    <label>Documentation</label>
+                </value>
+                <value>
+                    <fullName>ADM_ENTRY_QUAL_STATUS</fullName>
+                    <default>false</default>
+                    <label>Entry Qualification</label>
+                </value>
+                <value>
+                    <fullName>ADM_OFFER_RESP_STATUS</fullName>
+                    <default>false</default>
+                    <label>Offer Response</label>
+                </value>
+                <value>
+                    <fullName>ADM_OFFER_DFRMNT_STATUS</fullName>
+                    <default>false</default>
+                    <label>Offer Deferment</label>
+                </value>
+                <value>
+                    <fullName>ADM_OUTCOME_STATUS</fullName>
+                    <default>false</default>
+                    <label>Outcome</label>
+                </value>
+                <value>
+                    <fullName>Intermission Reason</fullName>
+                    <default>false</default>
+                    <label>Intermission Reason</label>
+                </value>
+                <value>
+                    <fullName>SS_DiscontinuationReason</fullName>
+                    <default>false</default>
+                    <label>Discontinuation Reason</label>
+                </value>
+                <value>
+                    <fullName>CaseCategorisation</fullName>
+                    <default>true</default>
+                    <label>CaseCategorisation</label>
+                </value>
+                <value>
+                    <fullName>Reason for COE</fullName>
+                    <default>false</default>
+                    <label>Reason for COE</label>
+                </value>
+                <value>
+                    <fullName>Student Support</fullName>
+                    <default>false</default>
+                    <label>Student Support</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Unique_Key__c</fullName>
+        <caseSensitive>false</caseSensitive>
+        <description>Non user field
+Combination of Value and System Code to allow upserts</description>
+        <externalId>true</externalId>
+        <label>Unique Key</label>
+        <length>150</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Value__c</fullName>
+        <description>Value supplied to Callista via the integrations
+
+Unique within a type</description>
+        <externalId>false</externalId>
+        <label>Value</label>
+        <length>50</length>
+        <required>true</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>List of Values</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Type__c</columns>
+        <columns>Value__c</columns>
+        <columns>Description__c</columns>
+        <columns>System_Code__c</columns>
+        <columns>System_Code_Description__c</columns>
+        <columns>Is_Active__c</columns>
+        <columns>Is_Active_System_Code__c</columns>
+        <columns>Applicant_Value__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>Outcome</fullName>
+        <columns>NAME</columns>
+        <columns>Type__c</columns>
+        <columns>Value__c</columns>
+        <columns>Description__c</columns>
+        <columns>System_Code__c</columns>
+        <columns>System_Code_Description__c</columns>
+        <columns>Is_Active__c</columns>
+        <columns>Is_Active_System_Code__c</columns>
+        <columns>Applicant_Value__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Type__c</field>
+            <operation>equals</operation>
+            <value>ADM_OUTCOME_STATUS</value>
+        </filters>
+        <label>Outcome</label>
+    </listViews>
+    <nameField>
+        <label>Name</label>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>List of Values</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>Type__c</customTabListAdditionalFields>
+        <lookupDialogsAdditionalFields>Type__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Value__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Description__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>System_Code__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>System_Code_Description__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Government_Code__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Is_Active__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Is_Active_System_Code__c</lookupDialogsAdditionalFields>
+        <searchFilterFields>Type__c</searchFilterFields>
+        <searchFilterFields>Value__c</searchFilterFields>
+        <searchFilterFields>System_Code__c</searchFilterFields>
+        <searchFilterFields>Applicant_Use__c</searchFilterFields>
+        <searchFilterFields>Government_Code__c</searchFilterFields>
+        <searchFilterFields>Is_Active__c</searchFilterFields>
+        <searchFilterFields>Is_Active_System_Code__c</searchFilterFields>
+        <searchFilterFields>System_Default__c</searchFilterFields>
+        <searchResultsAdditionalFields>Enquiry_Type__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Category_Level_1__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Category_Level_2__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>TypeMergeField__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Is_Active__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Description__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Value__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>System_Code__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>System_Code_Description__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>Read</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

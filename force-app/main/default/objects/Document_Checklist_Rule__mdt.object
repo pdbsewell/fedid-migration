@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Rules executed to automatically generate document checklists</description>
+    <fields>
+        <fullName>Active__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Defines if the rule can be calculated or not</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Active</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Cancellation_Rule__c</fullName>
+        <description>Field used to manage how the checklist is auto-cancelled</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Select &quot;Requested&quot; if auto-cancellation only applies when both applicants and assessors did not worked on the checklist</inlineHelpText>
+        <label>Cancellation Rule</label>
+        <required>true</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Always</fullName>
+                    <default>true</default>
+                    <label>Always</label>
+                </value>
+                <value>
+                    <fullName>Never</fullName>
+                    <default>false</default>
+                    <label>Never</label>
+                </value>
+                <value>
+                    <fullName>Draft Application</fullName>
+                    <default>false</default>
+                    <label>Draft Application</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Criteria__c</fullName>
+        <description>Defines the evaluation criteria for the function, leave blank if should always return as true</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Defines the evaluation criteria for the function, leave blank if should always return as true</inlineHelpText>
+        <label>Criteria</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Document_Request_Type__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Document Request Type for Callista integration</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Document Request Type</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Document_Type__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Document Type for Callista integration</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Document Type</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Helptext_Email__c</fullName>
+        <description>Help text shown on the results sent out via email</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Helptext - Email</label>
+        <length>32768</length>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Helptext_UI__c</fullName>
+        <description>Help text shown on the results visible to UI</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Helptext - UI</label>
+        <length>32768</length>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Outcome__c</fullName>
+        <description>Value that is returned in the event the result returns true</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Value that is returned in the event the result returns true</inlineHelpText>
+        <label>Outcome</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Rule_Object_Type__c</fullName>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Rule Object Type</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Application</fullName>
+                    <default>true</default>
+                    <label>Application</label>
+                </value>
+                <value>
+                    <fullName>Qualification</fullName>
+                    <default>false</default>
+                    <label>Qualification</label>
+                </value>
+                <value>
+                    <fullName>Work Experience</fullName>
+                    <default>false</default>
+                    <label>Work Experience</label>
+                </value>
+                <value>
+                    <fullName>SBQQ Quote</fullName>
+                    <default>false</default>
+                    <label>SBQQ Quote</label>
+                </value>
+                <value>
+                    <fullName>Opportunity</fullName>
+                    <default>false</default>
+                    <label>Opportunity</label>
+                </value>
+                <value>
+                    <fullName>Application Course Preference</fullName>
+                    <default>false</default>
+                    <label>Application Course Preference</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Sort_Order__c</fullName>
+        <description>Used to sort the rules results in order</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Sort Order</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Type__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Defines the Task that should be spawned when the checklist is updated.</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Set the Task that should be spawned when the checklist is updated.</inlineHelpText>
+        <label>Type</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Age</fullName>
+                    <default>false</default>
+                    <label>Age</label>
+                </value>
+                <value>
+                    <fullName>Credit</fullName>
+                    <default>false</default>
+                    <label>Credit</label>
+                </value>
+                <value>
+                    <fullName>Course Prerequisite</fullName>
+                    <default>false</default>
+                    <label>Course Prerequisite</label>
+                </value>
+                <value>
+                    <fullName>GTE</fullName>
+                    <default>false</default>
+                    <label>GTE</label>
+                </value>
+                <value>
+                    <fullName>Name Change</fullName>
+                    <default>false</default>
+                    <label>Name Change</label>
+                </value>
+                <value>
+                    <fullName>Qualification</fullName>
+                    <default>false</default>
+                    <label>Qualification</label>
+                </value>
+                <value>
+                    <fullName>Residency</fullName>
+                    <default>false</default>
+                    <label>Residency</label>
+                </value>
+                <value>
+                    <fullName>Visa</fullName>
+                    <default>false</default>
+                    <label>Visa</label>
+                </value>
+                <value>
+                    <fullName>Work Experience</fullName>
+                    <default>false</default>
+                    <label>Work Experience</label>
+                </value>
+                <value>
+                    <fullName>Payment</fullName>
+                    <default>false</default>
+                    <label>Payment</label>
+                </value>
+                <value>
+                    <fullName>Contract</fullName>
+                    <default>false</default>
+                    <label>Contract</label>
+                </value>
+                <value>
+                    <fullName>Under 18</fullName>
+                    <default>false</default>
+                    <label>Under 18</label>
+                </value>
+                <value>
+                    <fullName>OSHC</fullName>
+                    <default>false</default>
+                    <label>OSHC</label>
+                </value>
+                <value>
+                    <fullName>Offer Conditions</fullName>
+                    <default>false</default>
+                    <label>Offer Conditions</label>
+                </value>
+                <value>
+                    <fullName>Unit Prerequisite</fullName>
+                    <default>false</default>
+                    <label>Unit Prerequisite</label>
+                </value>
+                <value>
+                    <fullName>Course</fullName>
+                    <default>false</default>
+                    <label>Course</label>
+                </value>
+                <value>
+                    <fullName>Curriculum Vitae</fullName>
+                    <default>false</default>
+                    <label>Curriculum Vitae</label>
+                </value>
+                <value>
+                    <fullName>Application Documents</fullName>
+                    <default>false</default>
+                    <label>Application Documents</label>
+                </value>
+                <value>
+                    <fullName>Research Program</fullName>
+                    <default>false</default>
+                    <label>Research Program</label>
+                </value>
+                <value>
+                    <fullName>Previous Application</fullName>
+                    <default>false</default>
+                    <label>Previous Application</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Version__c</fullName>
+        <description>Grouping where the document checklist rule is included</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Version</label>
+        <referenceTo>Document_Checklist_Rule_Version__mdt</referenceTo>
+        <relationshipLabel>Document Checklist Rules</relationshipLabel>
+        <relationshipName>Document_Checklist_Rules</relationshipName>
+        <required>true</required>
+        <type>MetadataRelationship</type>
+        <unique>false</unique>
+    </fields>
+    <label>Document Checklist Rule</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>Sort_Order__c</columns>
+        <columns>MasterLabel</columns>
+        <columns>DeveloperName</columns>
+        <columns>Active__c</columns>
+        <columns>Rule_Object_Type__c</columns>
+        <columns>Type__c</columns>
+        <columns>Version__c</columns>
+        <columns>Criteria__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>Assessment_Version_1</fullName>
+        <columns>Sort_Order__c</columns>
+        <columns>MasterLabel</columns>
+        <columns>DeveloperName</columns>
+        <columns>Active__c</columns>
+        <columns>Rule_Object_Type__c</columns>
+        <columns>Type__c</columns>
+        <columns>Version__c</columns>
+        <columns>Criteria__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Version__c</field>
+            <operation>equals</operation>
+            <value>Assessment_Version_1</value>
+        </filters>
+        <label>Assessment Version 1</label>
+    </listViews>
+    <listViews>
+        <fullName>Assessment_Version_2</fullName>
+        <columns>Sort_Order__c</columns>
+        <columns>MasterLabel</columns>
+        <columns>DeveloperName</columns>
+        <columns>Active__c</columns>
+        <columns>Rule_Object_Type__c</columns>
+        <columns>Type__c</columns>
+        <columns>Version__c</columns>
+        <columns>Criteria__c</columns>
+        <columns>Outcome__c</columns>
+        <columns>Document_Request_Type__c</columns>
+        <columns>Document_Type__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Version__c</field>
+            <operation>equals</operation>
+            <value>Assessment_Version_2</value>
+        </filters>
+        <label>Assessment Version 2</label>
+        <language>en_US</language>
+    </listViews>
+    <listViews>
+        <fullName>Offer_Acceptance_Version_1</fullName>
+        <columns>Sort_Order__c</columns>
+        <columns>MasterLabel</columns>
+        <columns>DeveloperName</columns>
+        <columns>Active__c</columns>
+        <columns>Rule_Object_Type__c</columns>
+        <columns>Type__c</columns>
+        <columns>Version__c</columns>
+        <columns>Criteria__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Version__c</field>
+            <operation>equals</operation>
+            <value>Offer_Acceptance_Version_1</value>
+        </filters>
+        <label>Offer Acceptance Version 1</label>
+    </listViews>
+    <pluralLabel>Document Checklist Rules</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -1,0 +1,87 @@
+<!--
+  @File Name          : offerSelectDeferAcp.html
+  @Description        : 
+  @Author             : jasmin.rudio@monash.edu
+  @Group              : 
+  @Last Modified By   : jasmin.rudio@monash.edu
+  @Last Modified On   : 6/4/2020, 4:03:40 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    5/27/2020   jasmin.rudio@monash.edu     Initial Version
+-->
+<template>
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </template>
+    <template if:false={isLoading}>
+        <ul class="slds-accordion">
+            <template for:each={offerDeferralList} for:item="data">
+                <li class="slds-accordion__list-item" key={data.oppty.Id} >
+                    <section class={data.sectionClass} data-section-id={data.oppty.Id}>
+                        <div class="slds-accordion__summary">
+                            <h3 class="slds-accordion__summary-heading" onclick={onSectionClick} data-target-id={data.oppty.Id}>
+                                <button aria-controls="accordion-details-01" aria-expanded="true" class="slds-button slds-button_reset slds-accordion__summary-action">
+                                    <svg class="slds-accordion__summary-action-icon slds-button__icon slds-button__icon_left" aria-hidden="true">
+                                        <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#down"></use>
+                                    </svg>
+                                    <span class="slds-accordion__summary-content" title={data.oppty.Name}> {data.oppty.Name}</span>
+                                </button>
+                            </h3>
+                        </div>
+                        <div class="slds-accordion__content" id={data.oppty.Id}>
+                            <div class="slds-scrollable slds-grow">
+                                <div class="slds-scrollable_x">
+                                    <div class="slds-grid slds-gutters">
+
+                                        <template for:each={data.acps} for:item="acpWrapper">
+                                            <div class="slds-col column-border" data-col-id={acpWrapper.acp.Id} key={acpWrapper.acp.Id}>
+                                                <p style="font-size:14px;">{acpWrapper.acp.ACP_ID__c} - {acpWrapper.acp.Course_Title__c}</p>
+                                                <p>Current Course Offering: <a href={acpWrapper.acp.currentOfferingLink} target="_blank">{acpWrapper.acp.Course_Offering__r.Academic_Year__c} {acpWrapper.acp.Course_Offering__r.Admission_Calendar_Type__c}</a></p>
+                                                <template if:true={data.latest}>
+                                                    <div class="slds-form-element">
+                                                        <div class="slds-form-element__legend slds-form-element__label">
+                                                            <span class="slds-required">*</span>
+                                                            Defer to
+                                                        </div>
+                                                        <div class="slds-form-element__control">
+                                                            <template for:each={acpWrapper.availableOffering} for:item="offering">
+                                                                <span class="slds-radio" key={offering.Id}>
+                                                                    <input type="radio" data-acp-id={acpWrapper.acp.Id} data-current-offering={acpWrapper.acp.Course_Offering__c}
+                                                                            id={offering.Id} value={offering.Id} checked={offering.checked} onclick={onRadioSelect}/>
+                                                                    <label class="slds-radio__label" for={offering.Id}>
+                                                                        <span class="slds-radio_faux"></span>
+                                                                        <span class="slds-form-element__label">{offering.Academic_Year__c} {offering.Admission_Calendar_Type__c}</span>
+                                                                    </label> 
+                                                                </span>
+                                                            </template>
+                                                            <span class="slds-radio" key={acpWrapper.acp.Id}>
+                                                                <input type="radio" data-acp-id={acpWrapper.acp.Id} id={acpWrapper.acp.Id} value={acpWrapper.acp.Course_Offering__c}
+                                                                        name={acpWrapper.acp.Id} checked={acpWrapper.acp.ratainCurrentOffering} onclick={onRadioSelect}/>
+                                                                <label class="slds-radio__label" for={acpWrapper.acp.Id}>
+                                                                    <span class="slds-radio_faux"></span>
+                                                                    <span class="slds-form-element__label">No change</span>
+                                                                </label>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </li>
+            </template>
+        </ul>
+    </template>
+    <template if:false={hasRecords}>
+        <div class="slds-illustration slds-illustration_large" aria-hidden="true">
+            <img src="/img/chatter/OpenRoad.svg" class="slds-illustration__svg" alt=""/>
+            <div class="slds-text-color_weak">
+                <h3 class="slds-text-heading_medium">No signed offer available to defer.</h3>
+            </div>
+        </div>
+    </template>
+</template>

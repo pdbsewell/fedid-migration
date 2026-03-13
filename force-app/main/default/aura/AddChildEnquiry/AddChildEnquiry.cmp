@@ -1,0 +1,69 @@
+<aura:component implements="force:lightningQuickAction,flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
+    <lightning:utilityBarAPI aura:id="utilitybar" />
+    
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+    
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="showAddChildEnquirySpinner" type="Boolean" default="true" />
+    <aura:attribute name="saved" type="Boolean" default="false" />
+    
+    <!-- Case Record -->
+    <aura:attribute name="currentEnquiry" type="Object"/>
+    <aura:attribute name="enquiryError" type="String"/>
+    <force:recordData aura:id="caseRecordLoader"
+        recordId="{!v.recordId}"
+        fields="Id,RecordTypeId,RecordType.DeveloperName,ContactId"
+        targetFields="{!v.currentEnquiry}"
+        targetError="{!v.enquiryError}"
+        mode="EDIT"
+        recordUpdated="{!c.enquiryUpdated}"
+    />
+    
+    <div aria-hidden="false">
+        <div class="slds-panel__body slds-card_boundary slds-is-relative" style="min-height: 100px;">
+            <aura:if isTrue="{!v.showAddChildEnquirySpinner}">
+                <lightning:spinner variant="brand" />
+            </aura:if>
+            <aura:renderIf isTrue="{!!v.saved}">
+                <!-- Display the new contact form -->
+                <lightning:recordEditForm aura:id="childEnquiryForm"
+                                          objectApiName="Case"
+                                          recordTypeId="{!v.currentEnquiry.RecordTypeId}"
+                                          onload="{!c.handleChildEnquiryLoad}"
+                                          onsubmit="{!c.handleChildEnquirySubmit}"
+                                          onsuccess="{!c.handleChildEnquirySuccess}"
+                                          onerror="{!c.handleChildEnquiryError}">
+                    <!-- <lightning:messages /> -->
+                    <div class="slds-grid slds-wrap">
+                        <lightning:inputField class="slds-col--padded slds-size_1-of-2" fieldName="Enquiry_Type__c" />
+                        <lightning:inputField class="slds-col--padded slds-size_1-of-2" fieldName="Status" />
+                        
+                        <lightning:inputField class="slds-col--padded slds-size_1-of-2" fieldName="Category_Level_1__c" />
+                        <lightning:inputField class="slds-col--padded slds-size_1-of-2" fieldName="Student_Type__c" />
+                        
+                        <lightning:inputField class="slds-col--padded slds-size_1-of-2" fieldName="Category_Level_2__c" />
+                        <lightning:inputField aura:id="originField" class="slds-col--padded slds-size_1-of-2" fieldName="Origin" value="Social Media - International" onchange="{!c.originChanged}" />
+                        
+                        <lightning:inputField class="slds-col--padded slds-size_1-of-2" fieldName="Subject" />
+                        
+                        <span class="slds-col--padded slds-size_1-of-2">
+                            <span aura:id="socialMediaTypeFieldRequired" class="slds-float_left slds-show" style="float: left;padding-right: 2px; color: rgb(194, 57, 52); font-weight: 700;">*</span> 
+                            <lightning:inputField aura:id="socialMediaTypeField" fieldName="Social_Media_Type__c" />
+                        </span>
+                        
+                        <lightning:inputField class="slds-col--padded slds-size_1-of-1" fieldName="Description" />
+                        
+                        <aura:if isTrue="{!!v.showAddChildEnquirySpinner}">
+                            <lightning:button aura:id="submitChildEnquiryButton" type="submit" label="Add Child Enquiry" 
+                                              class="slds-button slds-button_brand slds-m-top_medium slds-col--padded slds-size_1-of-1 margin-top" />
+                        </aura:if>
+                    </div>
+                    
+                    <!-- hidden fields -->
+                    <lightning:inputField aura:id="enquiryParent" fieldName="ParentId" value="{!v.recordId}" class="slds-hide" />
+                    <lightning:inputField aura:id="enquiryContact" fieldName="ContactId" value="{!v.currentEnquiry.ContactId}" class="slds-hide" />
+                </lightning:recordEditForm>
+            </aura:renderIf>
+        </div>
+    </div>    
+</aura:component>

@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Add_Owner</name>
+        <label>Add Owner</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>OwnerList</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>$Record.Opportunity__r.OwnerId</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Notify_Offer_Owner</targetReference>
+        </connector>
+    </assignments>
+    <description>Sends notification to opportunity owner</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>NotifcationTitle</name>
+        <dataType>String</dataType>
+        <expression>TEXT({!$Record.Type__c}) &amp; &quot; - &quot; &amp; {!$Record.Opportunity__r.Name}</expression>
+    </formulas>
+    <formulas>
+        <name>NotificationBody</name>
+        <dataType>String</dataType>
+        <expression>TEXT({!$Record.Type__c}) &amp; &quot; has been found during the offer generation of &quot; &amp; {!$Record.Opportunity__r.Name} &amp; &quot;Please click this notification to see the error&quot;</expression>
+    </formulas>
+    <formulas>
+        <name>OpportunityOwnerId</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.Opportunity__r.OwnerId}</expression>
+    </formulas>
+    <formulas>
+        <name>OwnerId</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.Opportunity__r.OwnerId}</expression>
+    </formulas>
+    <interviewLabel>Offer Log : AI {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Offer Log : AI : Notify Offer Owner</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Add_Owner</targetReference>
+        </connector>
+        <filterFormula>{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False</filterFormula>
+        <object>Offer_Log__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <name>Notify_Offer_Owner</name>
+        <label>Notify Offer Owner</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <flowName>SendCustomNotification</flowName>
+        <inputAssignments>
+            <name>CustomNotificationTypeName</name>
+            <value>
+                <stringValue>Opportunity Preview Offer</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>NotificationBody</name>
+            <value>
+                <elementReference>NotificationBody</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>NotificationTitle</name>
+            <value>
+                <elementReference>NotifcationTitle</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>RecipientIds</name>
+            <value>
+                <elementReference>OwnerList</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <variables>
+        <name>OwnerList</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

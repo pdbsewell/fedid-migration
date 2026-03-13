@@ -1,0 +1,1183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Unit_Attempt_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>Unit_Attempt</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>Unit_Attempt</fullName>
+        <fields>Name</fields>
+        <fields>Title__c</fields>
+        <fields>Status__c</fields>
+        <fields>Student__c</fields>
+        <fields>Course_Attempt__c</fields>
+        <label>Unit Attempt</label>
+    </compactLayouts>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Unit (Subject) enrolment of the student.</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fieldSets>
+        <fullName>Bulk_Messaging_Filter</fullName>
+        <description>BMS - maybe
+
+Deprecated?</description>
+        <displayedFields>
+            <field>Unit_Code__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Academic_Year__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Calendar_Type__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Location__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Unit_Class__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Unit_Mode__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <displayedFields>
+            <field>Status__c</field>
+            <isFieldManaged>false</isFieldManaged>
+            <isRequired>false</isRequired>
+        </displayedFields>
+        <label>Bulk Messaging Filter</label>
+    </fieldSets>
+    <fields>
+        <fullName>ASN_Exclude__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>System field for excluding unit attempts from the ASN form.</description>
+        <inlineHelpText>A flag for specifically excluded unit attempts.</inlineHelpText>
+        <label>ASN Exclude</label>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ASN_Response_Date__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Captures the date when Student chose to change their results from the ASN form.</description>
+        <inlineHelpText>Captures the date when Student chose to change their results from the ASN form.</inlineHelpText>
+        <label>ASN Response Date</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>ASN_Response_Datetime__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Captures the datetime when Student chose to change their results from the ASN form.</description>
+        <inlineHelpText>Captures the datetime when Student chose to change their results from the ASN form.</inlineHelpText>
+        <label>ASN Response Datetime</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>ASN_Response__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>To hold ASN Response selection of the student - will contain either WDN or SFR</description>
+        <externalId>false</externalId>
+        <inlineHelpText>To hold ASN Response selection of the student - will contain either WDN or SFR</inlineHelpText>
+        <label>ASN Response</label>
+        <length>20</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Academic_Year__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>The academic year which the unit is attempted (started) in.</description>
+        <externalId>false</externalId>
+        <label>Academic Year</label>
+        <length>5</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Achieved_Credit_Points__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Credit points granted if the unit attempt was passed</description>
+        <externalId>false</externalId>
+        <label>Achieved Credit Points</label>
+        <precision>9</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Administrative_Unit_Status__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <externalId>false</externalId>
+        <label>Administrative Unit Status</label>
+        <length>10</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CI_Sequence_Number__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Calendar sequence number</description>
+        <externalId>false</externalId>
+        <label>CI Sequence Number</label>
+        <length>6</length>
+        <required>true</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Calendar_Type__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Type of the academic calendar associated with the unit attempt. This is referrenced in forming the External ID of Unit Attempt.</description>
+        <externalId>false</externalId>
+        <label>Calendar Type</label>
+        <length>20</length>
+        <required>true</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Course_Attempt__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Parent course attempt which the unit attempt is associated with.</description>
+        <label>Course Attempt</label>
+        <referenceTo>Course_Attempt__c</referenceTo>
+        <relationshipLabel>Unit Attempts</relationshipLabel>
+        <relationshipName>Unit_Attempts</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Course_Code__c</fullName>
+        <description>Course code which the unit is attempted under by the student.</description>
+        <externalId>false</externalId>
+        <formula>Course_Attempt__r.Course_Code__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Course Code</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Deleted_In_Source__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Indicates the record has been deleted in the source system and the record is a candidate for hard delete in Salesforce.
+
+Records marked as deleted in source need to be catered for in reporting etc.</description>
+        <label>Deleted In Source</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Discontinued_Date__c</fullName>
+        <description>Date when the unit attempt has been discontinued for the student.</description>
+        <label>Discontinued Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>EFTSL__c</fullName>
+        <externalId>false</externalId>
+        <label>EFTSL</label>
+        <precision>10</precision>
+        <required>false</required>
+        <scale>3</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Enrolled_Credit_Points__c</fullName>
+        <externalId>false</externalId>
+        <label>Enrolled Credit Points</label>
+        <precision>9</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Enrolment_Date__c</fullName>
+        <description>Date when the unit attempt is enrolled in for the student.</description>
+        <label>Enrolment Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Grade__c</fullName>
+        <description>Grade/Result given to the student on completed unit attempt.</description>
+        <externalId>false</externalId>
+        <label>Result</label>
+        <length>5</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Location__c</fullName>
+        <description>Teaching location code of the unit attempt.</description>
+        <externalId>false</externalId>
+        <label>Location</label>
+        <length>10</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Managing_Faculty__c</fullName>
+        <deleteConstraint>Restrict</deleteConstraint>
+        <description>Lookup to the Owner Org Unit - key is Org Unit Code and Org Unit Start Date</description>
+        <label>Managing Faculty</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Unit Attempts</relationshipLabel>
+        <relationshipName>Unit_Attempts</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Mark__c</fullName>
+        <description>Mark given to the student on completed unit attempt.</description>
+        <externalId>false</externalId>
+        <label>Mark</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Outcome_Date__c</fullName>
+        <description>Date when the outcome of the unit attempt has been set.</description>
+        <label>Outcome Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Outcome_Finalised__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Confirms if the outcome has been finalised for the unit attempt.
+
+All records received from Callsita are finalised (SQL enrichment filter enforced)</description>
+        <label>Outcome Finalised</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Override_Credit_Points_Reason__c</fullName>
+        <description>Describe the reason behind the credit points override.</description>
+        <label>Override Credit Points Reason</label>
+        <length>2000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Person_ID__c</fullName>
+        <description>Callista Person ID as received via the integration</description>
+        <externalId>false</externalId>
+        <label>Person ID</label>
+        <length>10</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Published_Date__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Populated with now() when the Outcome_Date__c field is populated/changed. It does not contain the value of the outcome date, rather it timestamps when it changes.</description>
+        <inlineHelpText>Result Published Date</inlineHelpText>
+        <label>Published Date</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Result_Type__c</fullName>
+        <label>Result Type</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>FAIL</fullName>
+                    <default>false</default>
+                    <label>Fail</label>
+                </value>
+                <value>
+                    <fullName>INCOMP</fullName>
+                    <default>false</default>
+                    <label>Incomplete</label>
+                </value>
+                <value>
+                    <fullName>PASS</fullName>
+                    <default>false</default>
+                    <label>Pass</label>
+                </value>
+                <value>
+                    <fullName>WITHDRAWN</fullName>
+                    <default>false</default>
+                    <label>Withdrawn</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Rule_Waived_Comments__c</fullName>
+        <description>Comments behind the waived rule on the unit attempt.</description>
+        <label>Rule Waived Comments</label>
+        <length>2000</length>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Rule_Waived_Date__c</fullName>
+        <description>Date when the waiving of the rule is applied on the unit attempt.</description>
+        <label>Rule Waived Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>SUA_External_Id__c</fullName>
+        <description>External identifier of the student unit attempt. It is a combination of Person I, Unit Code, Calendar Type and Academic Year in the following format:
+PERSON_ID-UNIT_CODE-CALENDAR_TYPE-ACADEMIC_YEAR
+e.g. 12345678-EDF4122-ACAD-YR-2018</description>
+        <externalId>true</externalId>
+        <label>SUA External ID</label>
+        <length>50</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Short_Title__c</fullName>
+        <externalId>false</externalId>
+        <label>Short Title</label>
+        <length>60</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Show_on_Official_Notifications__c</fullName>
+        <defaultValue>false</defaultValue>
+        <label>Show on Official Notifications</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <description>Status of the student&apos;s unit attempt</description>
+        <label>Status</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Completed</fullName>
+                    <default>false</default>
+                    <label>Completed</label>
+                </value>
+                <value>
+                    <fullName>Discontin</fullName>
+                    <default>false</default>
+                    <label>Discontinued</label>
+                </value>
+                <value>
+                    <fullName>Duplicate</fullName>
+                    <default>false</default>
+                    <label>Duplicate</label>
+                </value>
+                <value>
+                    <fullName>Enrolled</fullName>
+                    <default>false</default>
+                    <label>Enrolled</label>
+                </value>
+                <value>
+                    <fullName>Invalid</fullName>
+                    <default>false</default>
+                    <label>Invalid</label>
+                </value>
+                <value>
+                    <fullName>Unconfirm</fullName>
+                    <default>false</default>
+                    <label>Unconfirmed</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Student_Person_ID__c</fullName>
+        <description>Contains the Person_ID_unique__c of the related Student (Contact)</description>
+        <externalId>false</externalId>
+        <formula>Student__r.Person_ID_unique__c</formula>
+        <label>Student Person ID</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Student__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Student attemtping this specific unit attempt.</description>
+        <label>Student</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Unit Attempts</relationshipLabel>
+        <relationshipName>Unit_Attempts</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Teaching_Calendar__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Teaching calendar associated to the specific unit attempt.</description>
+        <label>Teaching Calendar</label>
+        <referenceTo>Calendar__c</referenceTo>
+        <relationshipLabel>Unit Attempts</relationshipLabel>
+        <relationshipName>Unit_Attempts</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Teaching_Period__c</fullName>
+        <externalId>false</externalId>
+        <label>Teaching Period</label>
+        <length>10</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Teaching_Responsibility__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Reports the Callista OU that has the major TR for the unit.</description>
+        <inlineHelpText>The Callista Org Unit with the major teaching responsibility for the Unit.</inlineHelpText>
+        <label>Teaching Responsibility</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Unit Attempts (Teaching Responsibility)</relationshipLabel>
+        <relationshipName>Responsibility</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Title__c</fullName>
+        <description>Unit Title</description>
+        <externalId>false</externalId>
+        <label>Title</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Unit_Class__c</fullName>
+        <label>Unit Class</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>DAY</fullName>
+                    <default>false</default>
+                    <label>DAY</label>
+                </value>
+                <value>
+                    <fullName>EVENING</fullName>
+                    <default>false</default>
+                    <label>EVENING</label>
+                </value>
+                <value>
+                    <fullName>ESP-EC</fullName>
+                    <default>false</default>
+                    <label>ESP ENHANCEMENT CENTRE</label>
+                </value>
+                <value>
+                    <fullName>ESP-TC</fullName>
+                    <default>false</default>
+                    <label>ESP DISTANCE TUTORIAL CENTRE</label>
+                </value>
+                <value>
+                    <fullName>WEEKEND</fullName>
+                    <default>false</default>
+                    <label>WEEKEND</label>
+                </value>
+                <value>
+                    <fullName>RES-DAY</fullName>
+                    <default>false</default>
+                    <label>DAY RESIDENTIAL</label>
+                </value>
+                <value>
+                    <fullName>RES-EVEN</fullName>
+                    <default>false</default>
+                    <label>EVENING RESIDENTIAL</label>
+                </value>
+                <value>
+                    <fullName>BLOCK</fullName>
+                    <default>false</default>
+                    <label>BLOCK</label>
+                </value>
+                <value>
+                    <fullName>BLOCK-ON</fullName>
+                    <default>false</default>
+                    <label>BLOCK OF ON CAMPUS CLASSES</label>
+                </value>
+                <value>
+                    <fullName>DE</fullName>
+                    <default>false</default>
+                    <label>DISTANCE EDUCATION</label>
+                </value>
+                <value>
+                    <fullName>OFF-EVEN</fullName>
+                    <default>false</default>
+                    <label>OFF CAMPUS EVENING CLASS</label>
+                </value>
+                <value>
+                    <fullName>OFF-DAY</fullName>
+                    <default>false</default>
+                    <label>OFF CAMPUS DAY CLASS</label>
+                </value>
+                <value>
+                    <fullName>OPEN-LEARN</fullName>
+                    <default>false</default>
+                    <label>OPEN LEARNING</label>
+                </value>
+                <value>
+                    <fullName>BLOCK-OFF</fullName>
+                    <default>false</default>
+                    <label>BLOCK OF OFF CAMPUS CLASSES</label>
+                </value>
+                <value>
+                    <fullName>FLEXIBLE</fullName>
+                    <default>false</default>
+                    <label>FLEXIBLE CLASS WITH ON AND OFF CAMPUS LEARNING</label>
+                </value>
+                <value>
+                    <fullName>SPLIT-ON</fullName>
+                    <default>false</default>
+                    <label>SPLIT BLOCK ON CAMPUS CLASSES</label>
+                </value>
+                <value>
+                    <fullName>SPLIT-OFF</fullName>
+                    <default>false</default>
+                    <label>SPLIT BLOCK OFF CAMPUS CLASSES</label>
+                </value>
+                <value>
+                    <fullName>EXT-CAND</fullName>
+                    <default>false</default>
+                    <label>EXTERNAL RESEARCH CANDIDATURE</label>
+                </value>
+                <value>
+                    <fullName>WEEKEND-ON</fullName>
+                    <default>false</default>
+                    <label>WEEKEND ON CAMPUS CLASSES</label>
+                </value>
+                <value>
+                    <fullName>WEEKEND-OF</fullName>
+                    <default>false</default>
+                    <label>WEEKEND OFF CAMPUS CLASSES</label>
+                </value>
+                <value>
+                    <fullName>DAY-OFF</fullName>
+                    <default>false</default>
+                    <label>DAY-OFF</label>
+                </value>
+                <value>
+                    <fullName>EVEN-OFF</fullName>
+                    <default>false</default>
+                    <label>EVEN-OFF</label>
+                </value>
+                <value>
+                    <fullName>OPEN-ONLIN</fullName>
+                    <default>false</default>
+                    <label>OPEN LEARNING - ONLINE DELIVERY ONLY</label>
+                </value>
+                <value>
+                    <fullName>EXAMCLIENT</fullName>
+                    <default>false</default>
+                    <label>COMMERCIAL CLIENT - EXAM ONLY</label>
+                </value>
+                <value>
+                    <fullName>OCL</fullName>
+                    <default>false</default>
+                    <label>OFFCAMPUS LEARNING - PRINT DELIVERY</label>
+                </value>
+                <value>
+                    <fullName>OCL-ONLINE</fullName>
+                    <default>false</default>
+                    <label>OFFCAMPUS LEARNING - PRINT &amp; ONLINE DELIVERY</label>
+                </value>
+                <value>
+                    <fullName>OCL-RESBLK</fullName>
+                    <default>false</default>
+                    <label>OFFCAMPUS LEARNING - WITH RESIDENTIAL BLOCK</label>
+                </value>
+                <value>
+                    <fullName>ONLINE</fullName>
+                    <default>false</default>
+                    <label>FULLY ELECTRONIC DELIVERY</label>
+                </value>
+                <value>
+                    <fullName>ONLINE-DAY</fullName>
+                    <default>false</default>
+                    <label>ELECTRONIC DELIVERY FOR DAY STUDENTS</label>
+                </value>
+                <value>
+                    <fullName>DE-ONLINE</fullName>
+                    <default>false</default>
+                    <label>DISTANCE EDUCATION - PRINT &amp; ONLINE DELIVERY</label>
+                </value>
+                <value>
+                    <fullName>EXAMINC</fullName>
+                    <default>false</default>
+                    <label>COMMERCIAL CLIENT - OUA EXAMS INCARCERATED</label>
+                </value>
+                <value>
+                    <fullName>EXAMOUA</fullName>
+                    <default>false</default>
+                    <label>COMMERCIAL CLIENT - OUA EXAMS ONLY</label>
+                </value>
+                <value>
+                    <fullName>MO</fullName>
+                    <default>false</default>
+                    <label>MONASH ONLINE</label>
+                </value>
+                <value>
+                    <fullName>ON-CAMPUS</fullName>
+                    <default>false</default>
+                    <label>ON-CAMPUS BETWEEN 8AM AND 9PM</label>
+                </value>
+                <value>
+                    <fullName>FLX-BLK</fullName>
+                    <default>false</default>
+                    <label>ON-CAMPUS OR ONLINE - BLOCK PERIOD</label>
+                </value>
+                <value>
+                    <fullName>ON-BLK</fullName>
+                    <default>false</default>
+                    <label>ON-CAMPUS - BLOCK PERIOD</label>
+                </value>
+                <value>
+                    <fullName>ON-EV</fullName>
+                    <default>false</default>
+                    <label>ON-CAMPUS - EVENING</label>
+                </value>
+                <value>
+                    <fullName>IMMERS-BLK</fullName>
+                    <default>false</default>
+                    <label>OUTSIDE OF A CLASSROOM/CAMPUS ENVIRONMENT - BLOCK PERIOD</label>
+                </value>
+                <value>
+                    <fullName>FLX-EV</fullName>
+                    <default>false</default>
+                    <label>ON-CAMPUS OR ONLINE - EVENING</label>
+                </value>
+                <value>
+                    <fullName>IMMERSIVE</fullName>
+                    <default>false</default>
+                    <label>OUTSIDE OF A CLASSROOM/CAMPUS ENVIRONMENT</label>
+                </value>
+                <value>
+                    <fullName>ONLINE-BLK</fullName>
+                    <default>false</default>
+                    <label>ONLINE ONLY - BLOCK PERIOD</label>
+                </value>
+                <value>
+                    <fullName>ONLINE-EV</fullName>
+                    <default>false</default>
+                    <label>ONLINE ONLY - EVENING</label>
+                </value>
+                <value>
+                    <fullName>ONL-EV-BLK</fullName>
+                    <default>false</default>
+                    <label>ONLINE ONLY - EVENING - BLOCK PERIOD</label>
+                </value>
+                <value>
+                    <fullName>ON-EV-BLK</fullName>
+                    <default>false</default>
+                    <label>ON-CAMPUS - EVENING - BLOCK PERIOD</label>
+                </value>
+                <value>
+                    <fullName>FLX-BLK-EV</fullName>
+                    <default>false</default>
+                    <label>ON-CAMPUS OR ONLINE - EVENING - BLOCK PERIOD</label>
+                </value>
+                <value>
+                    <fullName>BLENDED</fullName>
+                    <default>false</default>
+                    <label>ON-CAMPUS AND ONLINE</label>
+                </value>
+                <value>
+                    <fullName>BLD-EV</fullName>
+                    <default>false</default>
+                    <label>ON-CAMPUS AND ONLINE - EVENING</label>
+                </value>
+                <value>
+                    <fullName>BLD-BLK</fullName>
+                    <default>false</default>
+                    <label>ON-CAMPUS AND ONLINE - BLOCK PERIOD</label>
+                </value>
+                <value>
+                    <fullName>BLD-BLK-EV</fullName>
+                    <default>false</default>
+                    <label>ON-CAMPUS AND ONLINE - EVENING - BLOCK PERIOD</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Unit_Code__c</fullName>
+        <description>Code of the attempted unit.</description>
+        <externalId>false</externalId>
+        <label>Unit Code</label>
+        <length>20</length>
+        <required>true</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Unit_Level__c</fullName>
+        <externalId>false</externalId>
+        <label>Unit Level</label>
+        <length>1</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Unit_Mode__c</fullName>
+        <label>Unit Mode</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>Unit_Class__c</controllingField>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>ON</fullName>
+                    <default>false</default>
+                    <label>ON CAMPUS</label>
+                </value>
+                <value>
+                    <fullName>OFF</fullName>
+                    <default>false</default>
+                    <label>OFF CAMPUS</label>
+                </value>
+                <value>
+                    <fullName>COMPOSITE</fullName>
+                    <default>false</default>
+                    <label>ON/OFF CAMPUS</label>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>ON-EV-BLK</controllingFieldValue>
+                <controllingFieldValue>SPLIT-ON</controllingFieldValue>
+                <controllingFieldValue>WEEKEND-ON</controllingFieldValue>
+                <controllingFieldValue>DAY</controllingFieldValue>
+                <controllingFieldValue>EVENING</controllingFieldValue>
+                <controllingFieldValue>ESP-EC</controllingFieldValue>
+                <controllingFieldValue>RES-DAY</controllingFieldValue>
+                <controllingFieldValue>RES-EVEN</controllingFieldValue>
+                <controllingFieldValue>BLOCK</controllingFieldValue>
+                <controllingFieldValue>BLOCK-ON</controllingFieldValue>
+                <controllingFieldValue>ONLINE-DAY</controllingFieldValue>
+                <controllingFieldValue>ON-CAMPUS</controllingFieldValue>
+                <controllingFieldValue>ON-BLK</controllingFieldValue>
+                <controllingFieldValue>ON-EV</controllingFieldValue>
+                <valueName>ON</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>FLX-BLK-EV</controllingFieldValue>
+                <controllingFieldValue>BLENDED</controllingFieldValue>
+                <controllingFieldValue>BLD-BLK</controllingFieldValue>
+                <controllingFieldValue>BLD-BLK-EV</controllingFieldValue>
+                <controllingFieldValue>BLD-EV</controllingFieldValue>
+                <controllingFieldValue>FLEXIBLE</controllingFieldValue>
+                <controllingFieldValue>ESP-TC</controllingFieldValue>
+                <controllingFieldValue>FLX-BLK</controllingFieldValue>
+                <controllingFieldValue>FLX-EV</controllingFieldValue>
+                <valueName>COMPOSITE</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>DE</controllingFieldValue>
+                <controllingFieldValue>OFF-EVEN</controllingFieldValue>
+                <controllingFieldValue>OFF-DAY</controllingFieldValue>
+                <controllingFieldValue>OPEN-LEARN</controllingFieldValue>
+                <controllingFieldValue>BLOCK-OFF</controllingFieldValue>
+                <controllingFieldValue>SPLIT-OFF</controllingFieldValue>
+                <controllingFieldValue>EXT-CAND</controllingFieldValue>
+                <controllingFieldValue>WEEKEND</controllingFieldValue>
+                <controllingFieldValue>WEEKEND-OF</controllingFieldValue>
+                <controllingFieldValue>DAY-OFF</controllingFieldValue>
+                <controllingFieldValue>EVEN-OFF</controllingFieldValue>
+                <controllingFieldValue>OPEN-ONLIN</controllingFieldValue>
+                <controllingFieldValue>EXAMCLIENT</controllingFieldValue>
+                <controllingFieldValue>OCL</controllingFieldValue>
+                <controllingFieldValue>OCL-ONLINE</controllingFieldValue>
+                <controllingFieldValue>OCL-RESBLK</controllingFieldValue>
+                <controllingFieldValue>ONLINE</controllingFieldValue>
+                <controllingFieldValue>DE-ONLINE</controllingFieldValue>
+                <controllingFieldValue>EXAMINC</controllingFieldValue>
+                <controllingFieldValue>EXAMOUA</controllingFieldValue>
+                <controllingFieldValue>MO</controllingFieldValue>
+                <controllingFieldValue>IMMERS-BLK</controllingFieldValue>
+                <controllingFieldValue>IMMERSIVE</controllingFieldValue>
+                <controllingFieldValue>ONLINE-BLK</controllingFieldValue>
+                <controllingFieldValue>ONLINE-EV</controllingFieldValue>
+                <controllingFieldValue>ONL-EV-BLK</controllingFieldValue>
+                <valueName>OFF</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Unit_Offering__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Link to Unit Offering for the Unit Attempt</description>
+        <inlineHelpText>Link to Unit Offering for the Unit Attempt</inlineHelpText>
+        <label>Unit Offering</label>
+        <referenceTo>Unit_Offering__c</referenceTo>
+        <relationshipLabel>Unit Attempts</relationshipLabel>
+        <relationshipName>Unit_Attempts</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Unit_Version__c</fullName>
+        <description>Version of the attempted unit.</description>
+        <externalId>false</externalId>
+        <label>Unit Version</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Updated_At__c</fullName>
+        <label>Updated At</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <fields>
+        <fullName>Updated_By__c</fullName>
+        <externalId>false</externalId>
+        <label>Updated By</label>
+        <length>30</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Unit Attempt</label>
+    <listViews>
+        <fullName>ASN_Unit_Attempts</fullName>
+        <columns>NAME</columns>
+        <columns>Course_Attempt__c</columns>
+        <columns>Student_Person_ID__c</columns>
+        <columns>Status__c</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>ASN_Response_Date__c</field>
+            <operation>notEqual</operation>
+        </filters>
+        <label>ASN Unit Attempts</label>
+    </listViews>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Managing_Faculty__c</columns>
+        <columns>Course_Attempt__c</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>Student_Person_ID__c</columns>
+        <columns>Status__c</columns>
+        <columns>Administrative_Unit_Status__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <label>Name</label>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Unit Attempts</pluralLabel>
+    <searchLayouts>
+        <searchResultsAdditionalFields>Title__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Status__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Location__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Managing_Faculty__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Unit_Code__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Unit_Class__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Unit_Level__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Unit_Mode__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>CREATED_DATE</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ControlledByParent</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

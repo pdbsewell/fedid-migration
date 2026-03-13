@@ -1,0 +1,111 @@
+<!--
+ - Created by trentdelaney on 22/8/18.
+ -->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" 
+                description="ApplicationNavigation" 
+                controller="ApplicationNavigationController">
+    <!--Design Attributes-->
+    <aura:attribute name="nextPage" type="String" default="" />
+    <aura:attribute name="previousPage" type="String" default="" />
+    <aura:attribute name="progressApplication" type="Boolean" description="Defines the logic for progressing the application through statuses" default="False"/>
+
+    <aura:attribute name="nextPageLabel" type="String" default="Next Page" />
+    <aura:attribute name="previousPageLabel" type="String" default="Previous Page" />
+    <aura:attribute name="locationError" type="Boolean" default="false"/>
+
+    <aura:attribute name="validationError" type="Boolean" default="false"/>
+    <aura:attribute name="validationHeader" type="String" default=""/>
+    <aura:attribute name="validationMessage" type="String" default=""/>
+
+    <aura:attribute name="textType" type="Boolean" />
+
+    <!--Logic controllers-->
+    <aura:attribute name="appId" type="String" default="" />
+
+    <!--Handlers-->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+
+    <!-- error box for non-Australian campus applications -->
+    <div class="{!if(v.locationError == true, '', 'slds-hide')}" style="height: 640px;">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <aura:if isTrue="{!v.textType}" >
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <p>For applications to study outside of Australia, apply through <a href="https://applicant.connect.monash.edu.au/connect/webconnect" target="_blank" class="slds-text-link">Monash Online Admission portal</a></p>
+                    </div>
+                    <aura:set attribute="else">
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <p>Please ensure that you have filled out the country where you would like to study above.</p>
+                        </div>
+                    </aura:set>
+                </aura:if>
+
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick="{!c.onClickCloseAlert}">Close</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+    
+    <!-- Error box for validation errors -->
+    <div class="{!if(v.validationError == true, '', 'slds-hide')}" style="height: 640px;">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- modal header -->
+                <header class="slds-modal__header">
+                    <lightning:layout verticalAlign="center" horizontalAlign="center">
+                        <lightning:layoutItem>
+                            <lightning:icon iconName="utility:warning" variant="warning"/>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem padding="horizontal-small">
+                            <h2 id="modal-heading-01" class="slds-text-heading_large slds-hyphenate">
+                                {!v.validationHeader}
+                            </h2>
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </header>
+                <!-- modal content -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning:layout verticalAlign="center" horizontalAlign="center">
+                        <lightning:layoutItem>
+                            {!v.validationMessage}
+                        </lightning:layoutItem>
+                    </lightning:layout>
+                </div>
+                <!-- modal footer -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick="{!c.onClickCloseAlert}">Close</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+    
+    <!-- using modal error instead
+    <div class="{!if(v.locationError == true, '', 'slds-hide')}">
+        <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+            <span class="slds-assistive-text">Error</span>
+            <span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small" ></span>
+            <div class="">
+                <aura:unescapedHtml value="{!$Label.c.App_RedirectToOldPortal}" />
+            </div>   
+            <lightning:buttonIcon iconName="utility:close"
+                                          variant="bare"
+                                          class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse"
+                                          onclick="{!c.onClickCloseAlert}"
+                                          alternativeText="Close"
+                                          title="Close"/>
+        </div>
+    </div>
+-->
+    <div class="slds-align_absolute-center">
+        <aura:if isTrue="{!(v.previousPage != '')}" >
+            <lightning:button name="previousButton" label="{!v.previousPageLabel}" variant="neutral" onclick="{!c.previousPage}" />
+        </aura:if>
+        <aura:if isTrue="{!(v.nextPage != '')}" >
+            <lightning:button name="nextButton" label="{!v.nextPageLabel}" variant="brand" onclick="{!c.nextPage}" />
+        </aura:if>
+    </div>
+</aura:component>

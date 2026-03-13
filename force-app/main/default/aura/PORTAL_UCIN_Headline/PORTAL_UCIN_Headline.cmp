@@ -1,0 +1,20 @@
+<!--Headline component used across many of the community pages-->
+<aura:component implements="forceCommunity:availableForAllPageTypes">
+    <!--Takes in design attributes to display text-->
+    <aura:attribute name="title" type="String" required="true"/>
+    <aura:attribute name="summary" type="String"/>
+    <aura:attribute name="showHeaderImage" type="Boolean"/>
+    <ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}"/>
+    
+    <div class="bg-gray-mon max-w-1300 m-auto">
+        <div class="w-full my-4 bg-white">
+            <aura:if isTrue="{!v.showHeaderImage == true}">
+                <div class="bg-cover bg-center h-60px lg:h-24 p-4" style="{!'background-image:url('+$ContentAsset.03S4a00000004dP+')'}"></div>
+            </aura:if>
+            <div class="p-4 sm:p-6">
+                <h1 id="ucin-headline-title" class="text-3xla sm:text-h1xl leading-bitmore uppercase sans">{!v.title}</h1>
+                <p class="text-base sm:text-xl lg:text-lg leading-moresnug pt-2"><aura:unescapedHtml value="{!v.summary}"/></p>
+            </div>
+        </div>
+    </div>
+</aura:component>

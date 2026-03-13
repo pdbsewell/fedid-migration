@@ -1,0 +1,642 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Emergency_Contact_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Emergency_Contact_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>Emergency_Contact_Compact_Layout</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>Emergency_Contact_Compact_Layout</fullName>
+        <fields>Fullname__c</fields>
+        <fields>Relationship__c</fields>
+        <fields>Mobile_Phone__c</fields>
+        <fields>Alternate_Phone__c</fields>
+        <fields>Email_Address__c</fields>
+        <fields>Alternate_Email_Address__c</fields>
+        <fields>Preferred__c</fields>
+        <fields>Preferred_Language__c</fields>
+        <label>Emergency Contact Compact Layout</label>
+    </compactLayouts>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Emergency contact details for the student</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>false</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Active_From__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>TODAY()</defaultValue>
+        <description>Start of active date range (used by the active flag)</description>
+        <inlineHelpText>The start date from which this emergency contact should be considered</inlineHelpText>
+        <label>Active From</label>
+        <required>true</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Active_To__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>End of active date range (used by the active flag)</description>
+        <inlineHelpText>End of active date range</inlineHelpText>
+        <label>Active To</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Active__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Active status calculation</description>
+        <formula>AND(Active_From__c &lt;= TODAY(), BLANKVALUE(Active_To__c, TODAY()) &gt;= TODAY())</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>Calculated status based on the active date range</inlineHelpText>
+        <label>Active</label>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Alternate_Email_Address__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>A secondary email address</description>
+        <externalId>false</externalId>
+        <inlineHelpText>A secondary email address</inlineHelpText>
+        <label>Alternate Email Address</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Email</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Alternate_Phone__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>A secondary phone number</description>
+        <inlineHelpText>A secondary phone number</inlineHelpText>
+        <label>Alternate Phone</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Phone</type>
+    </fields>
+    <fields>
+        <fullName>Channel_Link__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Alt link to the Channel record</description>
+        <externalId>false</externalId>
+        <formula>Channel__r.Channel_Link__c</formula>
+        <label>Channel</label>
+        <required>false</required>
+        <securityClassification>Public</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Channel__c</fullName>
+        <deleteConstraint>Cascade</deleteConstraint>
+        <description>Callista source data for the Emergency Contact</description>
+        <label>Channel</label>
+        <referenceTo>Channel__c</referenceTo>
+        <relationshipLabel>Emergency Contacts</relationshipLabel>
+        <relationshipName>Emergency_Contacts</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>City__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Address field</description>
+        <externalId>false</externalId>
+        <label>City</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Contact__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Student owner of the EC</description>
+        <label>Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Emergency Contacts</relationshipLabel>
+        <relationshipName>Emergency_Contacts</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>true</reparentableMasterDetail>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>true</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Country__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Address Field
+
+ISO Country List for Emergency Contacts</description>
+        <label>Country</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Country_List_1</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Email_Address__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Primary email address</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Primary email address</inlineHelpText>
+        <label>Email Address</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Email</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Emergency_Contact_Name__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>The name details received from Callista. You will expect a channel to be linked if this field is populated. The UI will only show this field if it is populated.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The name of the emergency contact as supplied from Callista</inlineHelpText>
+        <label>Emergency Contact Name</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Emergency_Contact__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Self referencing field for listviews as an alternative to the auto-number</description>
+        <externalId>false</externalId>
+        <formula>HYPERLINK(&apos;/&apos;+Id, IF (ISBLANK( Emergency_Contact_Name__c ), trim(First_Name__c + &apos; &apos; + Last_Name__c),Emergency_Contact_Name__c) + &apos; (&apos; + Relationship__c +&apos;)&apos; ,&apos;_self&apos; )</formula>
+        <label>Emergency Contact</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>First_Name__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>First and given names of the EC.
+
+A validation rule ensures that a first or last name is entered, so mononymous names can be entered in either field.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>First and given names of the EC</inlineHelpText>
+        <label>First Name</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Fullname__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>The Callista supplied full name or the first &amp; last names concatenated</description>
+        <externalId>false</externalId>
+        <formula>IF(ISBLANK(Emergency_Contact_Name__c), TRIM(First_Name__c &amp; &apos; &apos; &amp; Last_Name__c), Emergency_Contact_Name__c)</formula>
+        <inlineHelpText>EC Full name</inlineHelpText>
+        <label>Full Name</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Key_UID__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <caseSensitive>true</caseSensitive>
+        <description>System Field - Unique Key Combination field</description>
+        <externalId>true</externalId>
+        <inlineHelpText>System Field - Unique Key Combination field</inlineHelpText>
+        <label>Key UID</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Last_Name__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>The surname or family name of the EC. 
+
+A validation rule ensures that a first or last name is entered, so mononymous names can be entered in either field.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The surname or family name of the EC</inlineHelpText>
+        <label>Last Name</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Mobile_Phone__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Primary phone number</description>
+        <inlineHelpText>Primary phone number</inlineHelpText>
+        <label>Mobile Phone</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Phone</type>
+    </fields>
+    <fields>
+        <fullName>Notes__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Additional details or instructions</description>
+        <inlineHelpText>Additional details or instructions related to reaching out to the EC</inlineHelpText>
+        <label>Notes</label>
+        <length>32768</length>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Post_Code__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Address field</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Address field</inlineHelpText>
+        <label>Post Code</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Preferred_Language__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>The preferred language of correspondence with the EC</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The preferred language of correspondence with the EC</inlineHelpText>
+        <label>Preferred Language</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Preferred__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>A manually selected field to indicate the preferred emergency contact. There are no restrictions on the number of preferred ECs indicated.</description>
+        <inlineHelpText>Indicates a preferred emergency contact</inlineHelpText>
+        <label>Preferred</label>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Relationship__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>A description of the relationship between the student and the EC</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Relationship of the EC with the Student</inlineHelpText>
+        <label>Relationship</label>
+        <length>255</length>
+        <required>true</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>State__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Address field</description>
+        <externalId>false</externalId>
+        <label>State</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Street_Name__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Address field</description>
+        <externalId>false</externalId>
+        <label>Street Name</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Timezone__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <inlineHelpText>The time zone the emergency contact resides in</inlineHelpText>
+        <label>Timezone</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>purecloud__Time_Zones</valueSetName>
+        </valueSet>
+    </fields>
+    <label>Emergency Contact</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Contact__c</columns>
+        <columns>First_Name__c</columns>
+        <columns>Last_Name__c</columns>
+        <columns>Relationship__c</columns>
+        <columns>Mobile_Phone__c</columns>
+        <columns>Alternate_Phone__c</columns>
+        <columns>Email_Address__c</columns>
+        <columns>Alternate_Email_Address__c</columns>
+        <columns>Preferred_Language__c</columns>
+        <columns>Active__c</columns>
+        <columns>LAST_UPDATE</columns>
+        <filterScope>Everything</filterScope>
+        <label>All Emergency Contacts</label>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>All_Active_Emergency_Contacts</fullName>
+        <columns>NAME</columns>
+        <columns>Contact__c</columns>
+        <columns>First_Name__c</columns>
+        <columns>Last_Name__c</columns>
+        <columns>Relationship__c</columns>
+        <columns>Mobile_Phone__c</columns>
+        <columns>Alternate_Phone__c</columns>
+        <columns>Email_Address__c</columns>
+        <columns>Alternate_Email_Address__c</columns>
+        <columns>Preferred_Language__c</columns>
+        <columns>Active__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Active__c</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <label>All Active Emergency Contacts</label>
+        <sharedTo>
+            <allInternalUsers></allInternalUsers>
+        </sharedTo>
+    </listViews>
+    <nameField>
+        <displayFormat>EC-{00000000}</displayFormat>
+        <label>Emergency Contact Id</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Emergency Contacts</pluralLabel>
+    <searchLayouts>
+        <searchResultsAdditionalFields>First_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Last_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Relationship__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Mobile_Phone__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Alternate_Phone__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Email_Address__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Alternate_Email_Address__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Preferred_Language__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Active_From__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>Enforce_date_range</fullName>
+        <active>true</active>
+        <description>Ensure that the active dates for a positive range</description>
+        <errorConditionFormula>blankvalue(Active_To__c,today()) &lt; Active_From__c</errorConditionFormula>
+        <errorMessage>The active to date field must be blank or follow the active from date field</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Enforce_minimum_contact_details</fullName>
+        <active>true</active>
+        <description>Ensure we have some minimum details for the EC record to be useful</description>
+        <errorConditionFormula>AND( 
+ISBLANK(Mobile_Phone__c), 
+ISBLANK(Alternate_Phone__c),
+ISBLANK(Alternate_Email_Address__c),
+ISBLANK(Email_Address__c),
+OR(ISBLANK(Street_Name__c),ISBLANK(Text(Country__c)))
+)</errorConditionFormula>
+        <errorMessage>Please supply a phone, email or minimum address details</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Enforce_minimum_name_details</fullName>
+        <active>true</active>
+        <description>We need a first or last name as a minimum</description>
+        <errorConditionFormula>AND(
+ISBLANK(First_Name__c),
+ISBLANK(Last_Name__c),
+ISBLANK(Emergency_Contact_Name__c)
+)</errorConditionFormula>
+        <errorMessage>Please supply a first or last name</errorMessage>
+    </validationRules>
+    <visibility>Public</visibility>
+</CustomObject>

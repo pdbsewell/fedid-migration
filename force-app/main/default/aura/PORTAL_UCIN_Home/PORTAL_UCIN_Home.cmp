@@ -1,0 +1,351 @@
+<!--Contains tiled content related to other pages and links to those pages-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="PORTAL_UCIN_ListingController" >
+    <ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}" />
+
+    <!--These attributes determine which Listings are retrieved-->
+    <aura:attribute name="category1" type="String" required="true"/>
+    <aura:attribute name="category2" type="String" required="true"/>
+    <aura:attribute name="category3" type="String" required="true"/>
+    <aura:attribute name="category4" type="String" required="true"/>
+    <aura:attribute name="category5" type="String" required="true"/>
+    <!--The attributes are used to access the Listing content-->
+    <aura:attribute name="headerListing" type ="Listing__c"/>
+    <aura:attribute name="tile1Listing" type ="Listing__c"/>
+    <aura:attribute name="tile2Listing" type ="Listing__c"/>
+    <aura:attribute name="tile3Listing" type ="Listing__c"/>
+    <aura:attribute name="tile5Listing" type ="Listing__c"/>
+    <aura:attribute name="eventList" type="List"/>
+    <aura:attribute name="loaded" type="Boolean" default="true" />
+    <aura:attribute name="formFactor" type="String" />
+
+    <aura:attribute name="libraryACSURL" type="String" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    
+    <div class="bg-gray-mon max-w-1300 m-auto slds-is-relative">
+        <!-- Spinner -->
+		<div>
+			<aura:if isTrue="{!!v.loaded }">
+				<lightning:spinner alternativeText="Loading" />
+			</aura:if>
+        </div>
+        
+        <!--The header-->
+        <div class="w-full my-4 bg-white">
+            <div class="bg-cover bg-center h-60px lg:h-64 p-4" style="{!'background-image:url('+$ContentAsset.03S4a00000004dP+')'}"></div>     
+            <div class="p-4 sm:p-6">
+                <h1 class="text-2xl sm:text-3xl lg:text-h3xl leading-tight sm:leading-bitmore lg:leading-tight uppercase sans"><lightning:formattedRichText value="{!v.headerListing.Header_Content__c}"/></h1>
+                <div class="flex flex-col sm:flex-row w-full h-full align-start">
+                    <p class="flex-1 text-base text-lg leading-moresnug sm:leading-bitmore lg:leading-moresnug font-body pt-4 roboto"><lightning:formattedRichText value="{!v.headerListing.Body_Content__c}"/></p>
+                    <aura:if isTrue="{!not(empty(v.headerListing.Header_Video_URL__c))}">
+                        <div class="max-w-md flex-1 order-2 sm:order-none h-full w-full inline-block self-center pt-4 sm:px-0">
+                            <div class="relative h-0 pb-5/8 bg-grey">
+                                <iframe
+                                        class="absolute w-full h-full left-0"
+                                        src="{!v.headerListing.Header_Video_URL__c}"
+                                        frameBorder="0"
+                                        allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"                 
+                                        allowFullScreen="true" />
+                            </div>
+                        </div>
+                    </aura:if>
+                </div>
+            </div>
+        </div>
+        <div class="w-full bg-gray-mon h-full flex flex-wrap justify-between">
+            <!--The Top left tile-->
+            <div class="lg:w-1/3-spaced w-full mb-4">
+                <div class="relative h-full bg-white border-solid border-b-4 border-purple px-4 sm:px-6 py-6">
+                    <h2 class="text-3xla sm:text-2.1875rem lg:text-5xl leading-bitmore uppercase">
+                        <lightning:formattedRichText class="text-3xla sm:text-2.1875rem lg:text-5xl leading-bitmore uppercase" value="{!v.tile1Listing.Header_Content__c}"/>
+                    </h2>
+
+                    <div class="flex sm:flex-row flex-col justify-between pt-4 pb-16">
+                        <div class="flex-1 pr-12 text-xl sm:text-lg lg:text-lg leading-bitmore roboto">
+                            <lightning:formattedRichText value="{!v.tile1Listing.Body_Content__c}"/>
+                        </div>
+                    </div>
+                    <div class="flex sm:flex-row flex-col justify-between pb-16">
+                        <div class="sm:max-h-18rem sm:max-w-sm sm:order-none order-first max-w-full flex-1 self-center">
+                            <aura:if isTrue="{!not(empty(v.tile1Listing.Header_Image_from_URL__c))}">
+                                <img class="sm:max-h-18rem w-auto h-auto" src="{!v.tile1Listing.Header_Image_from_URL__c}" />
+                            </aura:if>
+                        </div>
+                    </div>
+                    <a class="absolute bottom-1.5rem bg-blue border-blue border-solid border-2 px-6 py-2 bg-white font-semibold hover:text-white text-xl lg:text-lg ucin-button" href="/ascendportal/s/directory/">
+                        <span style="text-align:center" class="text-white">
+                            Find contacts
+                        </span>
+                    </a>                   
+                </div>
+            </div>
+            <!--The Top centre tile-->
+            <div class="lg:w-1/3-spaced sm:w-1/2-spaced w-full mb-4 h2-sm-text-21875rem h2-lg-text-5xl">
+                <div class="relative h-full bg-white border-solid border-b-4 border-purple px-4 sm:px-6 py-6">
+                    <h2 class="text-3xla sm:text-2.1875rem lg:text-5xl leading-bitmore uppercase">
+                        <lightning:formattedRichText class="text-3xla sm:text-2.1875rem lg:text-5xl leading-bitmore uppercase" value="Library Access"/>
+                    </h2>
+                    <div class="flex sm:flex-row flex-col justify-between pt-4 pb-16">
+                        <div class="flex-1 pr-12 text-xl sm:text-lg lg:text-lg leading-bitmore roboto">
+                            <lightning:formattedRichText value="{!v.tile5Listing.Body_Content__c}"/>
+                        </div>
+                    </div>
+                    <div class="flex sm:flex-row flex-col justify-between pb-16">
+                        <div class="sm:max-h-18rem sm:max-w-sm sm:order-none order-first max-w-full flex-1 self-center">
+                            <aura:if isTrue="{!not(empty(v.tile1Listing.Header_Image_from_URL__c))}">
+                                <img class="sm:max-h-18rem w-auto h-auto" src="{!v.tile5Listing.Header_Image_from_URL__c}" />
+                            </aura:if>
+                        </div>
+                    </div>
+                    <a class="absolute bottom-1.5rem bg-blue border-blue border-solid border-2 px-6 py-2 bg-white font-semibold hover:text-white text-xl lg:text-lg ucin-button" href="/ascendportal/s/library/">
+                        <span style="text-align:center" class="text-white">
+                            Explore resources
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <!--The Top right tile-->
+            <div class="lg:w-1/3-spaced sm:w-1/2-spaced w-full mb-4 h2-sm-text-21875rem h2-lg-text-5xl">
+                <div class="relative h-full bg-white border-solid border-b-4 border-blue px-4 sm:px-6 py-6">
+                <c:PORTAL_UCIN_HomeProfile />
+                </div>
+            </div>
+            <!--The bottom left tile-->
+            <div class="lg:w-1/3-spaced sm:w-1/2-spaced w-full mb-4">
+                <div class="relative h-full bg-white border-solid border-b-4 border-indigo px-4 sm:px-6 py-6">
+                    <h2 class="text-3xla sm:text-2.1875rem lg:text-5xl leading-bitmore uppercase">
+                        <lightning:formattedRichText class="text-3xla sm:text-2.1875rem lg:text-5xl leading-bitmore uppercase" value="{!v.tile2Listing.Header_Content__c}"/>
+                    </h2>
+                    <div class="flex sm:flex-row flex-col justify-between pt-4 pb-12">
+                        <div class="flex-1 pr-12 text-xl sm:text-lg lg:text-lg leading-bitmore roboto">
+                            <lightning:formattedRichText value="{!v.tile2Listing.Body_Content__c}"/>
+                        </div>
+                    </div>
+                    <div class="py-4">
+                        <a class="absolute bottom-1.5rem bg-blue border-blue border-solid border-2 px-6 py-2 bg-white font-semibold hover:text-white text-xl lg:text-lg ucin-button" href="/ascendportal/s/get-involved/"><span class="text-white">Learn more</span></a>
+                    </div>
+                </div>
+            </div>
+            <!--The bottom right tile-->
+            <div class="lg:w-2/3-spaced w-full mb-4">
+                <div class="relative h-full bg-white border-solid border-b-4 border-green">
+                    <div class="flex w-full h-full align-start">
+                        <div class="flex flex-col sm:block flex-1 w-2/3 sm:w-1/2">
+                            <div class="pt-6 pb-2 px-4 sm:px-6">
+                                <h2 class="text-3xla sm:text-2.1875rem lg:text-5xl leading-bitmore uppercase">
+                                    <lightning:formattedRichText class="text-3xla sm:text-2.1875rem lg:text-5xl leading-bitmore uppercase" value="{!v.tile3Listing.Header_Content__c}"/>
+                                </h2>
+                            </div>
+                            <div class="block sm:hidden sm:flex-initial h-full w-full sm:inline-block self-center w-1/3 sm:w-1/2 pt-4 md:pt-0">
+                                <aura:if isTrue="{!not(empty(v.tile3Listing.Header_Image_from_URL__c))}">
+                                    <img class="h-full w-full object-cover" src="{!v.tile3Listing.Header_Image_from_URL__c}" alt="Alumni" />
+                                </aura:if>
+                            </div>
+                            <div class="pt-6 pb-16 px-4 sm:px-6 text-xl sm:text-lg lg:text-lg leading-bitmore roboto">
+                                <lightning:formattedRichText value="{!v.tile3Listing.Body_Content__c}"/>
+                            </div>
+                            <div class="py-4">
+                                <a class="absolute bottom-1.5rem bg-blue border-blue border-solid border-2 px-6 py-2 bg-white ml-4 sm:ml-6 font-semibold hover:text-white text-xl lg:text-lg ucin-button" href="/ascendportal/s/careers/"><span class="text-white">Find out more</span></a>
+                            </div>
+                        </div>
+                        <div class="hidden sm:block lg:flex sm:flex-initial h-full sm:inline-block self-center w-1/3 sm:w-1/2">
+                            <aura:if isTrue="{!not(empty(v.tile3Listing.Header_Image_from_URL__c))}">
+                                <img class="h-full w-full object-cover" src="{!v.tile3Listing.Header_Image_from_URL__c}" alt="Alumni" />
+                            </aura:if>
+                        </div>
+                    </div>
+                    
+                    
+                </div>
+            </div>
+        </div>
+        <!--The events carousel-->
+        <div class="flex items-center bg-white">
+            <div class="w-1/2 pt-6 pb-2 px-4 sm:px-6">
+                <h2 class="text-3xla sm:text-2.1875rem lg:text-5xl leading-bitmore uppercase">Events</h2>
+            </div>
+            <div class="w-1/2 pt-6 pb-2 px-4 sm:px-6">
+                <a class="font-semibold border border-blue bg-blue px-4 py-2 text-white float-right hover:text-white text-xl lg:text-lg ucin-button" href="/ascendportal/s/events/">View All Events</a>
+            </div>
+        </div>
+        
+        <div class="flex flex-col pt-4 mb-4 bg-white border-b-4 border-red h-auto ucin-carousel">
+            <div class="flex sm:hidden pb-2 flex-row shadow">
+            	<div class="self-center py-2">
+                    
+                    <div class="slds-carousel">
+                        <div class="slds-carousel__stage">
+                            <div class="slds-carousel__panels" style="transform:translateX(-0%)">
+                                <div id="content-id-01" class="w-full sm:w-full md:w-1/2 lg:w-1/3 bg-white pb-4 slds-carousel__panel" role="tabpanel" aria-hidden="true" aria-labelledby="indicator-id-01">
+                                    <div class="w-full relative">
+                                        <img src="{!v.eventList[0].pictureSrc}" class="w-full sm:h-72 lg:w-full" />
+                                        <h4 class="absolute bottom-0 max-w-3/4 px-4 py-2 text-white mb-4 bg-blue font-bold text-2xl sm:text-xl lg:text-lg leading-tight sm:leading-snug lg:leading-tight">{!v.eventList[0].Name}</h4>
+                                    </div>
+                                    <div class="px-4 sm:px-6 pt-6 pb-16 relative text-xl lg:text-lg">
+                                        <table class='w-full my-4 text-left text-base leading-snug text-primary font-sans'>
+                                            <tbody>
+                                                <tr>
+                                                    <th class="w-1/5 font-bold text-xl lg:text-lg pb-2 align-top">DATE:</th>
+                                                    <aura:if isTrue="{!not(empty(v.eventList[0].Start_Date_Time__c))}">
+                                                        <aura:if isTrue="{!not(empty(v.eventList[0].End_Date_Time__c))}">
+                                                            <td class="text-xl lg:text-lg align-top pb-4 pl-4">
+                                                                <lightning:formattedDateTime class='js-no-comma' value="{!v.eventList[0].Start_Date_Time__c}" day="numeric" month="short" weekday="short" hour="numeric" minute="2-digit" timeZone="Australia/Melbourne"/>
+                                                                - 
+                                                                <lightning:formattedDateTime class='js-no-comma' value="{!v.eventList[0].End_Date_Time__c}" day="numeric" month="short" weekday="short" hour="numeric" minute="2-digit" timeZone="Australia/Melbourne"/>
+                                                            </td>
+                                                            <aura:set attribute="else">
+                                                                <td class="text-xl lg:text-lg align-top pb-4 pl-4">
+                                                                    <lightning:formattedDateTime class='js-no-comma' value="{!v.eventList[0].Start_Date_Time__c}" day="numeric" month="short" weekday="short" hour="numeric" minute="2-digit" timeZone="Australia/Melbourne"/></td>
+                                                            </aura:set>
+                                                        </aura:if>
+                                                        <td></td>
+                                                    </aura:if>
+                                                </tr>
+                                                <tr>
+                                                    <th class="w-1/5 font-bold text-xl lg:text-lg align-top pb-4">LOCATION:</th>
+                                                    <td class="text-xl lg:text-lg align-top pb-4 pl-4">
+                                                        <aura:if isTrue="{!v.eventList[0].Online_Event__c}">
+                                                            Online
+                                                            <aura:set attribute="else">
+                                                                <aura:if isTrue="{!v.eventList[0].Country__c == 'Australia'}">
+                                                                    <aura:if isTrue="{!not(empty(v.eventList[0].Street__c))}">
+                                                                        {!v.eventList[0].Street__c}
+                                                                    </aura:if>
+                                                                    <aura:if isTrue="{!not(empty(v.eventList[0].City__c))}">
+                                                                        <aura:if isTrue="{!not(empty(v.eventList[0].Street__c))}">
+                                                                            , 
+                                                                        </aura:if>
+                                                                        {!v.eventList[0].City__c}
+                                                                    </aura:if>
+                                                                    <aura:set attribute="else">
+                                                                        <aura:if isTrue="{!not(empty(v.eventList[0].Street__c))}">
+                                                                            {!v.eventList[0].Street__c}
+                                                                        </aura:if>
+                                                                        <aura:if isTrue="{!not(empty(v.eventList[0].Country__c))}">
+                                                                            <aura:if isTrue="{!not(empty(v.eventList[0].Street__c))}">
+                                                                                , 
+                                                                            </aura:if>
+                                                                            {!v.eventList[0].Country__c}
+                                                                        </aura:if>
+                                                                    </aura:set>
+                                                                </aura:if>
+                                                            </aura:set>
+                                                        </aura:if>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <lightning:formattedRichText class='.body-copy-font leading-normal sm:leading-bitmore' value="{!v.eventList[0].Body_Content__c}"/>
+                                        <a class="font-semibold border-2 border-blue px-4 py-2 absolute right-0 bottom-0 mr-4 sm:mr-6 bg-white text-blue hover:text-blue text-xl lg:text-lg ucin-button" href="{!v.eventList[0].Event_URL__c}" target="_blank">View event</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                    
+                    
+                </div>
+            </div>
+            <div class="hidden sm:flex pb-2 flex-row shadow justify-between">
+                <aura:iteration items="{!v.eventList}" var="event" indexVar="idx">
+                    <div class="{!idx >= 2 ? 'hidden lg:block w-full sm:w-1/2-spaced lg:w-1/3-spaced mb-4 bg-white pb-4 shadow-lg' : 'w-full sm:w-1/2-spaced lg:w-1/3-spaced mb-4 bg-white pb-4 shadow-lg'}">
+                        <div class="w-full relative">
+                            <aura:if isTrue="{!event.pictureSrc != null}">
+                                <img src="{!event.pictureSrc}" class="w-full sm:h-250px lg:w-full" />
+                                <h4 class="absolute text-2xl bottom-0 max-w-3/4 px-4 py-2 text-white mb-4 bg-blue-transparent font-bold text-2xl sm:text-xl lg:text-lg leading-tight sm:leading-snug lg:leading-tight">{!event.Name}</h4>
+                            <aura:set attribute="else">
+                                <div class="no-image-spacer"/>
+                                <h4 class="absolute text-2xl bottom-0 max-w-3/4 px-4 py-2 text-white mb-4 bg-blue font-bold text-2xl sm:text-xl lg:text-lg leading-tight sm:leading-snug lg:leading-tight">{!event.Name}</h4>
+                            </aura:set>
+                            </aura:if>
+                            <h4 class="absolute text-2xl bottom-0 max-w-3/4 px-4 py-2 text-white mb-4 bg-blue font-bold text-2xl sm:text-xl lg:text-lg leading-tight sm:leading-snug lg:leading-tight">{!event.Name}</h4>
+                        </div>
+                        <div class="px-4 sm:px-6 pt-6 pb-16 relative text-xl lg:text-lg">
+                            <table class='w-full my-4 text-left text-base leading-snug text-primary font-sans'>
+                                <tbody>
+                                    <tr>
+                                        <th class="w-1/5 font-bold text-xl lg:text-lg pb-2 align-top">DATE:</th>
+                                        <aura:if isTrue="{!not(empty(event.Start_Date_Time__c))}">
+                                            <aura:if isTrue="{!not(empty(event.End_Date_Time__c))}">
+                                                <td class="text-xl lg:text-lg align-top pb-4 pl-4">
+                                                    <lightning:formattedDateTime class='js-no-comma' value="{!event.Start_Date_Time__c}" day="numeric" month="short" weekday="short" hour="numeric" minute="2-digit" timeZone="Australia/Melbourne"/>
+                                                    - 
+                                                    <lightning:formattedDateTime class='js-no-comma' value="{!event.End_Date_Time__c}" day="numeric" month="short" weekday="short" hour="numeric" minute="2-digit" timeZone="Australia/Melbourne"/>
+                                                </td>
+                                                <aura:set attribute="else">
+                                                    <td class="text-xl lg:text-lg align-top pb-4 pl-4">
+                                                        <lightning:formattedDateTime class='js-no-comma' value="{!event.Start_Date_Time__c}" day="numeric" month="short" weekday="short" hour="numeric" minute="2-digit" timeZone="Australia/Melbourne"/></td>
+                                                </aura:set>
+                                            </aura:if>
+                                            <td></td>
+                                        </aura:if>
+                                    </tr>
+                                    <tr>
+                                        <th class="w-1/5 font-bold text-xl lg:text-lg align-top pb-4">LOCATION:</th>
+                                        <td class="text-xl lg:text-lg align-top pb-4 pl-4">
+                                            <aura:if isTrue="{!event.Online_Event__c}">
+                                                Online
+                                                <aura:set attribute="else">
+                                                    <aura:if isTrue="{!event.Country__c == 'Australia'}">
+                                                        <aura:if isTrue="{!not(empty(event.Street__c))}">
+                                                            {!event.Street__c}
+                                                        </aura:if>
+                                                        <aura:if isTrue="{!not(empty(event.City__c))}">
+                                                            <aura:if isTrue="{!not(empty(event.Street__c))}">
+                                                                , 
+                                                            </aura:if>
+                                                            {!event.City__c}
+                                                        </aura:if>
+                                                        <aura:set attribute="else">
+                                                            <aura:if isTrue="{!not(empty(event.Street__c))}">
+                                                                {!event.Street__c}
+                                                            </aura:if>
+                                                            <aura:if isTrue="{!not(empty(event.Country__c))}">
+                                                                <aura:if isTrue="{!not(empty(event.Street__c))}">
+                                                                    , 
+                                                                </aura:if>
+                                                                {!event.Country__c}
+                                                            </aura:if>
+                                                        </aura:set>
+                                                    </aura:if>
+                                                </aura:set>
+                                            </aura:if>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <lightning:formattedRichText class='body-copy-font leading-normal sm:leading-bitmore' value="{!event.Body_Content__c}"/>
+                        	<a class="font-semibold border-2 border-blue px-4 py-2 absolute right-0 bottom-0 mr-4 sm:mr-6 bg-white text-blue hover:text-blue text-xl lg:text-lg ucin-button" href="{!event.Event_URL__c}" target="_blank">View event</a>
+                        </div>
+                    </div>
+                </aura:iteration>
+            </div>
+        </div>
+
+        <div class="block sm:hidden relative w-full">
+            <div class="relative pb-2/5">
+                <a href="https://www.monash.edu/alumni/community/monash-life" target="_blank"> <img class="w-full h-auto" src="{!$ContentAsset.03S4a00000004Ml}" alt="" />
+                </a>
+            </div>
+          <!--  <span class="absolute bottom-5rem left-2rem text-6xl font-extrabold uppercase text-white">
+                Change It.
+            </span>
+            <span class="absolute bottom-1.5rem left-2rem text-6xl font-extrabold uppercase text-green">
+                For Good<span class="text-white">.</span>
+            </span>-->
+        </div>
+        
+        <div class="hidden sm:block container-xl relative w-full">
+          <a href="https://www.monash.edu/students/admin/fees/discounts/alumni" target="_blank">  <img src="{!$ContentAsset.03S4a00000004Ml}" alt="" />
+           </a>
+          <!--  <span class="absolute bottom-3.5rem md:bottom-5rem left-2rem text-4xl md:text-6xl font-extrabold uppercase text-white">
+                Change It.
+            </span>
+            <span class="absolute bottom-1.5rem left-2rem text-4xl md:text-6xl font-extrabold uppercase text-green">
+                For Good<span class="text-white">.</span>
+            </span>-->
+        </div>
+
+    </div>
+</aura:component>

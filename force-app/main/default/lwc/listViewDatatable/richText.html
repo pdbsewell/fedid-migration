@@ -1,0 +1,10 @@
+<template>
+    <template lwc:if={wrapText}>
+        <lightning-formatted-rich-text value={value} class="slds-truncate" style="white-space: normal">
+        </lightning-formatted-rich-text>
+    </template>
+    <template lwc:else>
+        <lightning-formatted-rich-text value={value}>
+        </lightning-formatted-rich-text>
+    </template>
+</template>

@@ -1,0 +1,562 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:hasRecordId" access="global" controller="ApplicationNavigationController">
+    <aura:attribute name="recordId" type="String" default="{!recordId}"/>
+    <aura:attribute name="applicationName" type="String" />
+    <aura:attribute name="openedStep" type="Integer" default="0"/>
+    <aura:attribute name="navigationDisabled" type="Boolean" default="false" />
+    <aura:attribute name="navigationEvent" type="String" default="" />
+    <aura:attribute name="sourcesystem" type="String" default="" />
+    <aura:attribute name="myAppFeatures" type="object" />
+    <aura:attribute name="typeOfStudy" type="String" default="" />
+    <aura:attribute name="scrollPosition"  type="Integer" />
+    <aura:attribute name="textType" type="Boolean" />
+    <aura:attribute name="locationError" type="Boolean" default="false"/>
+    <aura:attribute name="validationError" type="Boolean" default="false"/>
+    <aura:attribute name="validationHeader" type="String" default=""/>
+    <aura:attribute name="validationMessage" type="String" default=""/>
+    <aura:attribute name="studydurationfilled" type="Boolean" default="false"/>
+    <aura:attribute name="steps" type="object"/>
+    <aura:attribute name="openedGRStep" type="String" default="Declaration"/>
+    <aura:attribute name="documentsSubtitle" type="String" default="To speed up processing of your application, upload your supporting evidence below. If you don’t have them ready right away, you may skip this step and still complete your application!"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="grStepsReset" event="c:MyGRStepsReset" action="{!c.handleSteps}" />
+
+    <aura:method name="changeSection" action="{!c.changeSection}">
+        <aura:attribute name="sectionName" type="String"/>
+    </aura:method>
+
+    <aura:method name="nextPage" action="{!c.nextPage}">
+    </aura:method>
+
+    <!-- quickly read application details -->
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="applicationRecord" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    <aura:attribute name="applicantPrivacyConfirmation" type="Boolean" default="false"/>
+    <aura:attribute name="originalApplicantPrivacyConfirmation" type="Boolean" default="false"/>
+    <force:recordData aura:id="recordLoader"
+                      fields="Id,Partner_Controlled__c,Applicant_Privacy_Confirmation__c,Partner_Privacy_Confirmation__c,Type_of_Study__c,Source_System__c,Owner.Name,Graduate_Research_Application_Type__c"
+                      recordId="{!v.recordId}"
+                      targetFields="{!v.applicationRecord}"
+                      targetError="{!v.recordError}"
+                      recordUpdated="{!c.handleRecordUpdated}" />
+
+    <aura:attribute name="customLabelDocumentsHeader" type="String" />
+    <aura:attribute name="customLabelQualificationHeader" type="String" />
+    <aura:attribute name="customLabelWorkExperience" type="String" />
+
+    <aura:renderIf isTrue="{!v.applicationRecord}">
+        <!-- notifications -->
+        <!-- error box for non-Australian campus applications -->
+        <div class="{!if(v.locationError == true, '', 'slds-hide')}" style="z-index: 999;">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- modal header -->
+                    <header class="slds-modal__header">
+                        <lightning:layout verticalAlign="center" horizontalAlign="center">
+                            <lightning:layoutItem>
+                                <lightning:icon iconName="utility:warning" variant="warning"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem padding="horizontal-small">
+                                <h2 id="modal-heading-01" class="slds-text-heading_large slds-hyphenate">
+                                    Where do you want to study
+                                </h2>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </header>
+
+                    <aura:if isTrue="{!v.textType}" >
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <p>For applications to study outside of Australia, apply through <a href="https://applicant.connect.monash.edu.au/connect/webconnect" target="_blank" class="slds-text-link">Monash Online Admission portal</a></p>
+                        </div>
+                        <aura:set attribute="else">
+                            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                                <p>Please ensure that you have filled out the country where you would like to study above.</p>
+                            </div>
+                        </aura:set>
+                    </aura:if>
+
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick="{!c.onClickCloseAlert}">Close</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+        <!-- Error box for validation errors -->
+        <div class="{!if(v.validationError == true, '', 'slds-hide')}" style="z-index: 999;">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- modal header -->
+                    <header class="slds-modal__header">
+                        <lightning:layout verticalAlign="center" horizontalAlign="center">
+                            <lightning:layoutItem>
+                                <lightning:icon iconName="utility:warning" variant="warning"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem padding="horizontal-small">
+                                <h2 id="modal-heading-01" class="slds-text-heading_large slds-hyphenate">
+                                    {!v.validationHeader}
+                                </h2>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </header>
+                    <!-- modal content -->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning:layout verticalAlign="center" horizontalAlign="center">
+                            <lightning:layoutItem>
+                                <aura:unescapedHtml value="{!v.validationMessage}"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                    <!-- modal footer -->
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick="{!c.onClickCloseAlert}">Close</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap;background-color:#91B1CE">
+            <div class="applicationStepsContainer">
+                <aura:if isTrue="{!v.applicationRecord.Type_of_Study__c != 'Graduate Research'}">
+                    <c:myAppApplicationFormSidebar aura:id="navigationComponent"
+                                                   applicationRecordId="{!v.recordId}"
+                                                   onstepchange="{!c.handleStepChange}"
+                                                   onchangeapplicationname="{!c.changeApplicationName}"
+                                                   typeOfStudy="{!v.applicationRecord.Type_of_Study__c}"/>
+                    <aura:set attribute="else">
+                        <c:myGRAppFormSidebar aura:id="navigationComponent"
+                                              applicationRecordId="{!v.recordId}"
+                                              onstepchange="{!c.handleStepChange}"
+                                              onchangeapplicationname="{!c.changeApplicationName}"
+                                              onloadapp="{!c.setInitSteps}"/>
+                    </aura:set>
+
+
+                </aura:if>
+            </div>
+            <!--<div style="flex-basis: 100%; height: 0;"></div>--> <div style="background-color:#91B1CE;width:30px;"> </div>
+            <div id="appForm" class="applicationForm" style="flex: 1;background-color:#FFFFFF;margin-top:30px;margin-right:90px;">
+                <!-- declaration -->
+                <aura:if isTrue="{!v.openedStep == 1}">
+                    <div class="declarationForm">
+                        <h1 style="font-weight:bold;">PRIVACY DECLARATION</h1>
+                        <aura:if isTrue="{!v.applicationRecord.Type_of_Study__c == 'Graduate Research'}">
+                            <p>By proceeding with this application, I confirm that I have read and understood the <a target="_blank" class="slds-text-link" href="https://www.monash.edu/__data/assets/pdf_file/0004/1595263/Admissions-Data-Protection-and-Privacy-Collection-Statement.pdf">Admissions Data Protection and Privacy Collection Statement</a> which will apply to any personal information that I submit to Monash in my application.</p>
+                            <p>By creating a new application, you agree to Monash Graduate Research staff having view-only access to the draft application prior to submission.</p>
+                            <p>For more information about Data Protection and Privacy at Monash University please see our <a target="_blank" class="slds-text-link" href="https://www.monash.edu/__data/assets/pdf_file/0003/790086/Privacy.pdf">Data Protection and Privacy Procedure</a> or <a target="_blank" class="slds-text-link" href="https://www.monash.edu/connect">contact Monash Connect</a>.</p>
+                            <aura:set attribute="else">
+                                <p>By proceeding with this application, I confirm that I have read and understood the <a target="_blank" class="slds-text-link" href="https://www.monash.edu/__data/assets/pdf_file/0004/1595263/Admissions-Data-Protection-and-Privacy-Collection-Statement.pdf">admissions privacy collection statement</a> which will apply to any personal information that I submit to Monash in my application.</p>
+                                <p>For more information about Data Protection and Privacy at Monash University please see our <a target="_blank" class="slds-text-link" href="https://www.monash.edu/__data/assets/pdf_file/0011/1595270/Student-Data-Management-and-Privacy-Collection-Statement.pdf">Data Protection and Privacy Procedure</a> or <a target="_blank" class="slds-text-link" href="https://www.monash.edu/connect">contact Monash Connect</a>.</p>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </aura:if>
+                <!-- personal details -->
+                <aura:if isTrue="{!v.openedStep == 2}">
+                    <div class="slds-is-relative">
+                        <div>
+                            <h1 style="font-weight:bold;">PERSONAL DETAILS</h1>
+                            <aura:if isTrue="{!v.applicationRecord.Type_of_Study__c == 'Graduate Research'}">
+                                <p>Personal details provided to the University on your application should be the same as the details on the identity documents you provide.</p>
+                                <aura:set attribute="else">
+                                    <p>Personal details are attached to each application that you submit to the University. Please provide details as shown in your Passport or an Australian Birth Certificate.</p>
+                                </aura:set>
+                            </aura:if>
+                        </div>
+                        <c:PersonalDetails aura:id="childPersonalDetails" sourcesystem="{!v.sourcesystem}" applicationId="{!v.recordId}"/>
+                    </div>
+                </aura:if>
+                <!--START OF COURSEWORK STEPS -->
+                <aura:if isTrue="{!v.applicationRecord.Type_of_Study__c != 'Graduate Research'}">
+                    <!-- course preference -->
+                    <aura:if isTrue="{!v.openedStep == 3}">
+                        <div class="slds-is-relative">
+                            <c:appAddCourse applicationId="{!v.recordId}" source="partner"/>
+                        </div>
+                    </aura:if>
+                    <!-- educational history -->
+                    <aura:if isTrue="{!v.openedStep == 4}">
+                        <div class="slds-is-relative">
+                            <div>
+                                <aura:if isTrue="{!or(v.applicationRecord.Type_of_Study__c == 'Study Abroad', v.applicationRecord.Type_of_Study__c == 'Exchange')}">
+                                    <h1 style="font-weight:bold;">EDUCATIONAL HISTORY</h1>
+                                    <p>All course applications require you to declare all attempted and completed tertiary studies.</p>
+                                    <aura:set attribute="else">
+                                        <aura:unescapedHtml value="{!v.customLabelQualificationHeader}"/>
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+                            <div class="slds-size_5-of-5">
+                                <!--MGROI-263-->
+                                    <aura:if isTrue="{!and(v.myAppFeatures.English_Verification__c, v.applicationRecord.Type_of_Study__c =='Coursework')}">
+                                        <c:myAppAddQualificationNew aura:id="childAppAddQualificationNewLWC" applicationId="{!v.recordId}" />
+                                        <aura:set attribute="else">
+                                            <c:myAppAddQualification aura:id="childAppAddQualificationLWC" applicationId="{!v.recordId}" />
+                                        </aura:set>
+                                    </aura:if>
+                            </div>
+
+                            <aura:if isTrue="{!!or(v.applicationRecord.Type_of_Study__c == 'Study Abroad', v.applicationRecord.Type_of_Study__c == 'Exchange')}">
+                                <div class="slds-grid slds-gutters slds-wrap">
+                                    <div class="slds-col">
+                                        <!-- Work Experience -->
+                                        <div class="sectionContainer slds-wrap">
+                                            <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                                            <div class="sectionContainerBody slds-size_5-of-5">
+                                                <div class="slds-size_5-of-5">
+                                                    <h2>Work Experience</h2>
+                                                </div>
+                                                <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                                    <p>{!v.customLabelWorkExperience}</p>
+                                                </div>
+
+                                                <div class="slds-size_5-of-5">
+                                                    <c:myAppAddWorkExperience applicationId="{!v.recordId}" />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </aura:if>
+                        </div>
+                    </aura:if>
+                    <!-- sponsorship / proxy -->
+                    <aura:if isTrue="{!v.openedStep == 5}">
+                        <div class="slds-is-relative">
+                            <div>
+                                <h1 style="font-weight:bold;">Sponsorship/Proxy Details</h1>
+                                <p>If your funding is arranged with an external body or if you have a proxy and you give permission for them to interact with Monash on your behalf, fill in the details below.</p>
+                            </div>
+                            <!--MGROI-265-->
+                                <c:myAppSponsorship applicationId="{!v.recordId}"></c:myAppSponsorship>
+                        </div>
+                    </aura:if>
+                    <!-- Document upload -->
+                    <aura:if isTrue="{!v.openedStep == 6}">
+                        <div class="slds-is-relative">
+                            <div>
+                                <h1 style="font-weight:bold;">Documents</h1>
+                                <aura:if isTrue="{!and(v.myAppFeatures.English_Verification__c, v.applicationRecord.Type_of_Study__c =='Coursework')}">
+                                    <aura:unescapedHtml value="{!v.customLabelDocumentsHeader}" />
+                                </aura:if>
+                                <aura:set attribute="else">
+                                    <p>Please make sure that all documents are uploaded based on your application information.</p>
+                                </aura:set>
+                            </div>
+                                <!-- New component for English proficiency -->
+                                <aura:if isTrue="{!and(v.myAppFeatures.English_Verification__c, v.applicationRecord.Type_of_Study__c =='Coursework')}">
+                                    <c:myApplicationEnglishTestDocuments aura:id="childAppAddQualificationLWC" applicationId="{!v.recordId}" />
+                                    <aura:set attribute="else">
+                                <c:myApplicationDocuments pageTitle="Document Requirements" pageSubTitle="{!v.documentsSubtitle}" applicationId="{!v.recordId}"></c:myApplicationDocuments>
+                                    </aura:set>
+                                </aura:if>
+                        </div>
+                    </aura:if>
+                    <!-- review -->
+                    <aura:if isTrue="{!v.openedStep == 7}">
+                        <div class="slds-is-relative">
+                            <div>
+                                <h1 style="font-weight:bold;">Review</h1>
+                                <p>Review details below to ensure that all information is true and correct.</p>
+                            </div>
+                                <c:myApplicationReview applicationId="{!v.recordId}" />
+                        </div>
+                    </aura:if>
+                    <!-- application processing fee -->
+                    <aura:if isTrue="{!v.openedStep == 8}">
+                        <div class="slds-is-relative">
+                            <div>
+                                <h1 style="font-weight:bold;">Processing Fee</h1>
+                                <p>An application processing fee may be applicable for processing of your application to Monash University.</p>
+                            </div>
+                            <c:WUPaymentGateway applicationId="{!v.recordId}" />
+                        </div>
+                    </aura:if>
+                    <!-- submission declaration -->
+                    <aura:if isTrue="{!v.openedStep == 9}">
+                        <div class="slds-is-relative">
+                            <div>
+                                <h1 style="font-weight:bold;">Student Declaration</h1>
+                                <p>You must read, understand and agree with the statement below to submit your application.</p>
+                                <p>If you have questions about, do not understand, or do not consent to any statement below, save your draft and contact <a target="_blank" class="slds-text-link" href="https://www.monash.edu/connect">Monash Connect</a> prior to submitting.</p>
+                            </div>                           
+                                <c:myAppDeclarationForm applicationId="{!v.recordId}" onchangesection="{!c.changeSection}" />
+                        </div>
+                    </aura:if>
+                    <!-- receipt -->
+                    <aura:if isTrue="{!v.openedStep == 10}">
+                        <aura:if isTrue="{!v.applicationRecord.Source_System__c == 'AgentPortal'}">
+
+                            <div class="slds-is-relative">
+                                <div>
+                                    <h1>APPLICATION SENT TO AGENT</h1>
+                                    <p>Your application has been successfully submitted to your Agent <b>{!v.applicationRecord.OwnerName}</b> for their final review and submissions to Monash University.</p>
+                                    <p>Your application number is <b>{!v.applicationName}</b> Please keep note of this reference number in case you need to discuss your application with your Agent or with Monash University.</p>
+                                    <br/>
+                                </div>
+                            </div>
+                            <aura:set attribute="else">
+
+                                <div class="slds-is-relative">
+                                    <div>
+                                        <h1>Application Receipt</h1>
+                                        <p>Your application has been successfully submitted for assessment.</p>
+                                        <p>Your receipt number is <b>{!v.applicationName}</b> Please make sure you keep note of this reference number in case you ever need to discuss your application with us.</p>
+                                        <br/>
+                                        <p>We’ve emailed you a confirmation of this submission, including your application reference number.</p>
+                                        <p>Please note that your email provider may classify our email as spam. If you do not receive our email, check your spam folder. If you have any questions, please refer to our <a target="_blank" href="https://www.monash.edu/admissions/apply/help/faqs" style="text-decoration: none;">FAQs webpage.</a></p>
+                                    </div>
+                                </div>
+                            </aura:set>
+                        </aura:if>
+
+                    </aura:if>
+                    <!--END OF COURSEWORK STEPS-->
+
+                    <!--START OF HDR STEPS-->
+                    <aura:set attribute="else">
+                        <!--Application Details-->
+                        <aura:if isTrue="{!v.openedStep == 3}">
+                            <div class="slds-is-relative">
+                                <c:myGRAppAddCourse
+                                        aura:id = "myGRAppAddCourse"
+                                        applicationId="{!v.recordId}"
+                                        onreformsteps="{!c.handleSteps}"
+                                        onsavesuccess="{!c.handleSaveSuccessEventGR}"/>
+                            </div>
+                        </aura:if>
+                        <!--Research Program-->
+                        <aura:if isTrue="{!v.openedStep == 4}">
+                            <div class="slds-is-relative">
+                                <c:myGRResearchProgram
+                                        aura:id="myGRResearchProgram"
+                                        applicationId="{!v.recordId}"
+                                        onsavesuccess="{!c.handleSaveSuccessEventGR}"/>
+                            </div>
+                        </aura:if>
+                        <!--English Proficiency-->
+                        <aura:if isTrue="{!v.openedStep == 5}">
+                            <div class="slds-is-relative">
+                                <c:myGRAppEnglishProficiency
+                                        aura:id="myGRAPPEnglishProficiency"
+                                        applicationId="{!v.recordId}"
+                                        onsavesuccess="{!c.handleSaveSuccessEventGR}"/>
+                            </div>
+                        </aura:if>
+                        <!--Qualifications-->
+                        <aura:if isTrue="{!v.openedStep == 6}">
+                            <div class="slds-is-relative">
+                                <!--ENTER YOUR COMPONENTS HERE-->
+                                <c:myGRAppAddQualification applicationId="{!v.recordId}"
+                                                           aura:id="myGRAppAddQualification"/>
+                            </div>
+                        </aura:if>
+                        <!--Awards, Prizes & Scholarship-->
+                        <aura:if isTrue="{!v.openedStep == 7}">
+                            <div class="slds-is-relative">
+                                <!--ENTER YOUR COMPONENTS HERE-->
+                                <c:myGRAppAddAwardsAndScholarships aura:id="myGRAppAddAwardsAndScholarships" applicationId="{!v.recordId}"/>
+                            </div>
+                        </aura:if>
+                        <!--Employment & Research Experience-->
+                        <aura:if isTrue="{!v.openedStep == 8}">
+                            <div class="slds-is-relative">
+                                <!--ENTER YOUR COMPONENTS HERE-->
+                                <c:myGRAppEmploymentExperience aura:id="myGRAppEmploymentExperience" applicationId="{!v.recordId}"/>
+                            </div>
+                        </aura:if>
+                        <!--Referees-->
+                        <aura:if isTrue="{!v.openedGRStep == 'Referees'}">
+                            <div class="slds-is-relative">
+                                <!--ENTER YOUR COMPONENTS HERE-->
+                                <c:myGRAppAddReferee aura:id="myGRAppAddReferee" applicationId="{!v.recordId}"/>
+                            </div>
+                        </aura:if>
+                        <!--Publications-->
+                        <aura:if isTrue="{!v.openedGRStep == 'Publications'}">
+                            <div class="slds-is-relative">
+                                <!--ENTER YOUR COMPONENTS HERE-->
+                                <c:myGRAppAddPublications aura:id="myGRAppAddPublications" applicationId="{!v.recordId}"/>
+                            </div>
+                        </aura:if>
+                        <!--Creative Works-->
+                        <aura:if isTrue="{!v.openedGRStep == 'Creative Works'}">
+                            <div class="slds-is-relative">
+                                <!--ENTER YOUR COMPONENTS HERE-->
+                                <c:myGRAppAddCreativeWorks aura:id="myGRAppAddCreativeWorks" applicationId="{!v.recordId}"/>
+                            </div>
+                        </aura:if>
+                        <!--Music-->
+                        <aura:if isTrue="{!v.openedGRStep == 'Music'}">
+                            <div class="slds-is-relative">
+                                <!--ENTER YOUR COMPONENTS HERE-->
+                                <c:myGRAppAddMusic aura:id="myGRAppAddMusic" applicationId="{!v.recordId}"/>
+                            </div>
+                        </aura:if>
+                        <!--Theatre Performance-->
+                        <aura:if isTrue="{!v.openedGRStep == 'Theatre Performance'}">
+                            <div class="slds-is-relative">
+                                <!--ENTER YOUR COMPONENTS HERE-->
+                                <c:myGRAppAddTheatrePerformance aura:id="myGRAppAddTheatrePerformance" applicationId="{!v.recordId}"/>
+                            </div>
+                        </aura:if>
+                        <!--Exhibitions-->
+                        <aura:if isTrue="{!v.openedGRStep == 'Exhibitions'}">
+                            <div class="slds-is-relative">
+                                <!--ENTER YOUR COMPONENTS HERE-->
+                                <c:myGRAppAddExhibitions aura:id="myGRAppAddExhibitions" applicationId="{!v.recordId}"/>
+                            </div>
+                        </aura:if>
+                        <!--Additional Supporting Information-->
+                        <aura:if isTrue="{!v.openedGRStep == 'Additional Supporting Information'}">
+                            <div class="slds-is-relative">
+                                <!--ENTER YOUR COMPONENTS HERE-->
+                                <c:myGRAppMiscellaneousItems aura:id="myGRAppMiscellaneousItems" applicationId="{!v.recordId}"/>
+                            </div>
+                        </aura:if>
+                        <!--Agent-->
+                        <aura:if isTrue="{!v.openedGRStep == 'Agent'}">
+                            <div class="slds-is-relative">
+                                <!--ENTER YOUR COMPONENTS HERE-->
+                                <c:myGRApplicationAgent aura:id="myGRAPPAgent" applicationId="{!v.recordId}" onsavesuccess="{!c.handleSaveSuccessEventGR}"/>
+                            </div>
+                        </aura:if>
+                        <!--Documents-->
+                        <aura:if isTrue="{!v.openedGRStep == 'Documents'}">
+                            <div class="slds-is-relative">
+                                <div>
+                                    <h1 style="font-weight:bold;">Documents</h1>
+                                    <p>Please make sure that all documents are uploaded based on your application information.</p>
+                                </div>
+                                <c:myApplicationDocuments
+                                        pageTitle="Document Requirements"
+                                        pageSubTitle="{!v.documentsSubtitle}"
+                                        applicationId="{!v.recordId}"
+                                        aura:id="myDocuments">
+                                </c:myApplicationDocuments>
+
+                                <!--ENTER YOUR COMPONENTS HERE-->
+                            </div>
+                        </aura:if>
+
+                        <!--Validate & Submit'-->
+                        <aura:if isTrue="{!v.openedGRStep == 'Validate &amp; Submit' }">
+                            <div class="slds-is-relative">
+                                <!--ENTER YOUR COMPONENTS HERE-->
+                                <c:myGRApplicationReview applicationId="{!v.recordId}"/>
+                            </div>
+                        </aura:if>
+                    </aura:set>
+                    <!--END OF HDR STEPS-->
+                </aura:if>
+                <br/>
+                <div class="slds-is-relative">
+                        <aura:if isTrue="{!and(v.applicationRecord.Type_of_Study__c != 'Graduate Research', v.openedStep == 10)}">
+                           <button class="secondaryButton" style="margin-right: 15px;" onclick="{!c.navigateToHomePage}" disabled="{!v.navigationDisabled}">
+                           <lightning:icon class="secondaryIcon" iconName="utility:chevronleft" size="small" />&nbsp;&nbsp;&nbsp;&nbsp;Back to Home
+                          </button>
+                        </aura:if>
+                        
+                    <aura:if isTrue="{!or(
+                                    and(v.applicationRecord.Type_of_Study__c != 'Graduate Research', v.openedStep != 10),
+                                    and(v.applicationRecord.Type_of_Study__c == 'Graduate Research', v.openedStep != 19)
+                                    )
+                                    }">
+
+                        <aura:if isTrue="{!or(and(v.applicationRecord.Type_of_Study__c != 'Graduate Research',
+                                    and(v.openedStep != 0, and(v.openedStep != 1, v.openedStep != 9))
+                                    ),
+                                    and(v.applicationRecord.Type_of_Study__c == 'Graduate Research',
+                                    and(v.openedStep != 0, and(v.openedStep != 1, v.openedStep != 19))
+                                    ))
+                                    }">
+                            <div class="custom-tooltip-wrapper">
+                                <button class="secondaryButton" style="margin-right: 15px;" onclick="{!c.previousPage}" disabled="{!v.navigationDisabled}">
+                                <lightning:icon class="secondaryIcon" iconName="utility:chevronleft" size="small" />&nbsp;&nbsp;&nbsp;&nbsp;PREVIOUS
+                                </button>
+                                <span class="custom-tooltip">Your unsaved details will be lost</span>
+                            </div>
+                        </aura:if>
+                
+                        <aura:if isTrue="{!v.openedStep == 1}" >
+                                <button class="primaryButton" onclick="{!c.nextPage}" disabled="{!v.navigationDisabled}">
+                                    CONTINUE&nbsp;&nbsp;&nbsp;&nbsp;<lightning:icon class="primaryIcon" iconName="utility:chevronright" size="small" />
+                                </button>
+                        </aura:if>
+                    
+                        <aura:if isTrue="{!and(or(
+                                    and(v.applicationRecord.Type_of_Study__c != 'Graduate Research', and(v.openedStep != 0,and(v.openedStep != 1, v.openedStep != 9))),
+                                    and(v.applicationRecord.Type_of_Study__c == 'Graduate Research', and(v.openedStep != 0,and(v.openedStep != 1, v.openedGRStep != 'Validate &amp; Submit')))
+                                    ))
+                                    }">
+                            <button class="primaryButton" onclick="{!c.nextPage}" disabled="{!v.navigationDisabled}">
+                                    SAVE &amp; CONTINUE&nbsp;&nbsp;&nbsp;&nbsp;<lightning:icon class="primaryIcon" iconName="utility:chevronright" size="small" />
+                                </button>
+                        </aura:if>
+
+                        <aura:if isTrue="{!or(
+                                    and(v.applicationRecord.Type_of_Study__c != 'Graduate Research', v.openedStep != 9),
+                                    and(v.applicationRecord.Type_of_Study__c == 'Graduate Research', v.openedStep != 19)
+                                    )
+                                    }">    
+                            <button style="float:right" class="slds-button" onclick="{!c.saveandExit}" disabled="{!v.navigationDisabled}">
+                                    <img src="{!$Resource.myappsaveicon}" class="save-icon" alt=""/> &nbsp;&nbsp; <h4 style=" text-decoration: underline;">SAVE &amp; EXIT</h4>&nbsp;&nbsp;&nbsp;&nbsp;
+                            </button>
+                        </aura:if> 
+                        <aura:if isTrue="{!v.navigationDisabled}">
+                            <lightning:spinner alternativeText="Loading" size="medium" variant="brand" />
+                        </aura:if>
+                    </aura:if>
+                </div>
+            </div>
+        </div>
+
+        <!-- hack to hide the chatter file previewer actions - please revisit when salesforce changes their class name for previewer actions -->
+        <aura:html tag="style">
+            button[title="View File Details"].previewerAction {
+                display: none !important;
+            }
+
+            button[title="Upload New Version"].previewerAction {
+                display: none !important;
+            }
+
+            button[title="Edit File Details"].previewerAction{
+                display: none !important;
+            }
+
+            button[title="Delete"].previewerAction {
+                display: none !important;
+            }
+
+            a[title="Show More"].menuButton {
+                display: none !important;
+            }
+
+            .contentRegion {
+                padding: 0 !important;
+                margin-top: 0px !important;
+                margin-bottom: 0px !important;
+            }
+
+            .siteforceServiceBody .cCenterPanel {
+
+            }
+
+            .corneredInput input {
+                border: 2px solid #707070 !important;
+                border-radius: 0 !important;
+            }
+
+            .invalidCorneredInput input {
+                border: 2px solid rgb(194, 57, 52) !important;
+                border-radius: 0 !important;
+            }
+
+            .boxCorneredInput input {
+                border-radius: 0 !important;
+            }
+        </aura:html>
+    </aura:renderIf>
+</aura:component>

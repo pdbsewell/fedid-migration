@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>49.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Cases_Found</name>
+        <label>Cases Found</label>
+        <locationX>354</locationX>
+        <locationY>214</locationY>
+        <defaultConnectorLabel>[Default Outcome]</defaultConnectorLabel>
+        <rules>
+            <name>True</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>LimitedCases</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>deleted_Limited_View</targetReference>
+            </connector>
+            <label>True</label>
+        </rules>
+    </decisions>
+    <interviewLabel>delete Limited View {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>delete Limited View</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordDeletes>
+        <name>deleted_Limited_View</name>
+        <label>deleted Limited View</label>
+        <locationX>568</locationX>
+        <locationY>213</locationY>
+        <inputReference>LimitedCases</inputReference>
+    </recordDeletes>
+    <recordLookups>
+        <name>Limited_Cases</name>
+        <label>Limited Cases</label>
+        <locationX>148</locationX>
+        <locationY>215</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Cases_Found</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ParentId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>parentId</elementReference>
+            </value>
+        </filters>
+        <object>Case</object>
+        <outputReference>LimitedCases</outputReference>
+        <queriedFields>Id</queriedFields>
+    </recordLookups>
+    <startElementReference>Limited_Cases</startElementReference>
+    <status>Active</status>
+    <variables>
+        <name>LimitedCases</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Case</objectType>
+    </variables>
+    <variables>
+        <name>parentId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <stringValue></stringValue>
+        </value>
+    </variables>
+</Flow>

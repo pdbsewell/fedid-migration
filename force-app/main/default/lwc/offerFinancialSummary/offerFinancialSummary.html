@@ -1,0 +1,108 @@
+<!--
+  @File Name          : offerFinancialSummary.html
+  @Description        : 
+  @Author             : Jasmin Joy Rudio
+  @Group              : 
+  @Last Modified By   : jasmin.rudio@monash.edu
+  @Last Modified On   : 3/12/2020, 5:06:46 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    10/29/2019   Jasmin Joy Rudio     Initial Version
+-->
+<template>
+    
+    <div if:true={hasRendered} class="slds-form financial-summary">
+        <table class="slds-grid financial-summary-desktop" if:false={isMobile}>
+            <tr>
+                <th class="slds-size_2-of-4">Course Name</th>
+                <th class="slds-size_1-of-4">Fee Type</th>
+                <th class="slds-size_1-of-4">Amount Payable in Australian Dollars A$</th>
+            </tr>
+            <template for:each={quotelineItems} for:item="item">
+                <tr key={item.quoteLine.Id}  if:true={item.quoteLine.hasDeductable}>
+                    <td>
+                        <lightning-formatted-rich-text value={item.element.description} class="rich-text"></lightning-formatted-rich-text>
+                    </td>
+                    <td>
+                        <span if:true={item.quoteLine.showDeposit}>Deposit</span>
+                    </td>
+                    <td>
+                        <span if:true={item.quoteLine.showNetTotal}>
+                            <span if:true={item.quoteLine.showNoDepositClause}>{noDepositClause}</span>
+                            <span if:false={item.quoteLine.showNoDepositClause}> $A {item.quoteLine.Net_Deposit__c}</span>
+                           </span>  
+                        
+                    </td>
+                </tr>
+            </template>
+            <tr>
+                <td>
+                    <div class="slds-form">
+                        <b>Total amount to be paid for accepting the offer</b><br/>
+                        <p>In addition to the online signature, the full deposit payment must be made to accept this offer.</p>
+                    </div>
+                </td>
+                <td>Total Deposit</td>
+                <td>$A {quoteTotal}</td>                
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <div class="slds-form">
+                        <c-offer-managed-clauses offer-id={offerId} location="Payment summary" label="Please Note" quote-clauses={quoteClauseList}></c-offer-managed-clauses>
+                    </div>
+                </td>              
+            </tr>
+        </table>
+
+
+        <div class="financial-summary-mobile" if:true={isMobile}>
+            <template for:each={quotelineItems} for:item="item">
+                <div key={item.quoteLine.Id}>
+                    <lightning-formatted-rich-text value={item.element.description} class="rich-text"></lightning-formatted-rich-text>
+                </div>
+                
+                <div key={item.quoteLine.Id}>
+                    <div class="slds-form-element slds-form-element_horizontal" if:true={item.quoteLine.showDeposit}>
+                        <div class="slds-form-element__control form-content" >
+                            <div class="label-div"><label>Fee Type:</label>
+                                <span>Deposit</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slds-form-element slds-form-element_horizontal">
+                        <div class="slds-form-element__control form-content">
+                            <div class="label-div"><label>Amount Payable in Australian Dollars A$:</label>
+                                <div if:true={item.quoteLine.showNetTotal}>
+                                    <span if:true={item.quoteLine.showNoDepositClause}>{noDepositClause}</span>
+                                    <span if:false={item.quoteLine.showNoDepositClause}> $A {item.quoteLine.Net_Deposit__c}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <hr key={item.quoteLine.Id}>
+
+            </template>
+            <div class="slds-form-element slds-form-element_horizontal">            
+                <div class="slds-form-element__control form-content" >
+                    <b>Total amount to be paid for accepting the offer</b><br/>
+                    <p>In addition to the online signature, the full deposit payment must be made to accept this offer.</p>    
+                    <div class="label-div"><label>Total Deposit:</label>
+                        <span>$A {quoteTotal}</span>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <div class="slds-form-element slds-form-element_horizontal">
+                <c-offer-managed-clauses offer-id={offerId} location="Payment summary" label="Please Note" quote-clauses={quoteClauseList}></c-offer-managed-clauses>
+            </div>
+        </div>
+
+
+
+    </div>
+    <br/>
+    <br/>
+    
+</template>

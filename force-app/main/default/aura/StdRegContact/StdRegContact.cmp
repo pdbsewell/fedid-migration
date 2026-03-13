@@ -1,0 +1,395 @@
+<aura:component  implements="force:appHostable,forceCommunity:availableForAllPageTypes" access="global" controller="StdRegController">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.unaffiliatedWithOrg}" action="{!c.resetOrgNameError}"/>
+
+    <aura:attribute name="coNamePar" type="String" default="" />
+    <aura:attribute name="selectedCourseOffering" type="Object" default=""/>
+    <aura:attribute name="applicant" type="Object" default=""/> 
+    <aura:attribute name="isLoading" type="Boolean" default="false" />
+    <aura:attribute name="showUpload" type="Boolean" default="" />
+    <aura:attribute name="saved" type="Boolean" default="false" />
+    <aura:attribute name="newContact" type="Object[]"/>
+    <aura:attribute name="currentState" type="String" default="" />
+    <aura:attribute name="hasValidationErrors" type="Boolean" default="false" />
+    <aura:attribute name="exception" type="String" default="" />
+    <aura:attribute name="copyadd" type="Boolean" default="false" />
+    <aura:attribute name="mainError" type="String" default=""/>
+    <aura:attribute name="contactId" type="String" default=""/>
+    <aura:attribute name="appId" type="String" default=""/>
+    <aura:attribute name="enqId" type="String" default=""/>
+    <aura:attribute name="saveMode" type="String" default="save"/>
+    <aura:attribute name="saveMsg" type="String" default=""/>
+    <aura:attribute name="grayouteditbtn" type="Boolean" default="true"/>
+    <aura:attribute name="ValidationMsg" type="String"  default=""/>
+    <aura:attribute name="showstateText" type="Boolean" default="false"/>
+    <aura:attribute name="showorgstateText" type="Boolean" default="false"/>
+    <aura:attribute name="unaffiliatedWithOrg" type="Boolean" default="false"/>
+    <aura:registerEvent name="CatchAction" type="c:CatchAction"/>
+    <aura:registerEvent name="Tab1Save" type="c:Tab1Save"/>
+
+    <div style="padding-top:10px;" />
+    <center>
+        <aura:if isTrue="{!(v.mainError!='')}">
+            <div style="text-align:center;font-weight:bold;font-variant:small-caps;font-family:'Salesforce Sans',Arial,sans-serif;">
+                <label class="slds-checkbox__label">
+                    <span class="slds-checkbox_faux"></span>
+                    <span class="slds-form-element__label" style="font-variant:small-caps;color:red;font-weight:bold;font-size:15px;font-family:'Salesforce Sans',Arial,sans-serif;">
+                                    {!v.mainError}</span>
+                </label>
+            </div>
+        </aura:if>
+    </center>
+
+    <aura:If isTrue="{!v.exception != ''}">
+        <div style="padding-top:10px;" />
+        <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert">
+           <lightning:icon iconName="utility:sentiment_negative" size="medium" alternativeText="negative"/>
+            <span style="font-size:10px;font-weight:bold;font-variant:small-caps;font-family:'Salesforce Sans',Arial,sans-serif;">
+            &nbsp;&nbsp;<ui:outputText value="  We are sorry. Something went wrong with the registration. Please try again later by refreshing the page or contact Monash University  "/>
+            &nbsp;&nbsp;</span>
+            <lightning:icon iconName="utility:sentiment_negative" size="medium" alternativeText="negative"/>
+        </div>
+    </aura:If>
+
+    <aura:If isTrue="{!(v.mainError=='')}">
+        <aura:If isTrue="{!(v.saveMsg!='')}">
+            <div  class="slds-notify slds-notify--alert slds-theme--success slds-theme--alert-texture" role="alert">
+                <span  class="slds-assistive-text">Success</span>
+                <lightning:icon iconName="utility:smiley_and_people" size="medium" alternativeText="positive"/>
+                <span style="font-size:10px;font-weight:bold;font-variant:small-caps;font-family:'Salesforce Sans',Arial,sans-serif;">
+                &nbsp;&nbsp;<ui:outputText value="{!v.saveMsg}"/> &nbsp;&nbsp;</span>
+                <lightning:icon iconName="utility:smiley_and_people" size="medium" alternativeText="positive"/>
+            </div>
+        </aura:If>
+        <form>
+            <div class="slds-grid slds-grid_align-center  slds-grid--pull-padded slds-wrap">
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_x-small">
+                        <div class="slds-form-element__control">
+                            <ui:inputSelect label="Title"
+                                            class="margin-bottom-20" aura:id="title"
+                                            labelClass="slds-form-element__label"
+                                            value="{!v.newContact.title}"
+                                            change="{!c.resetError}"
+                                            required="true"/>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-grid_align-center slds-grid--pull-padded slds-wrap">
+
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_x-small">
+                        <div class="slds-form-element__control">
+                            <ui:inputText aura:id="fname" label="First Name"
+                                          class="dynamic"
+                                          labelClass="slds-form-element__label"
+                                          change="{!c.resetError}"
+                                          value="{!v.newContact.firstname}" required="true"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_x-small">
+                        <div class="slds-form-element__control">
+                            <ui:inputText aura:id="lname" label="Last Name"
+                                          class="dynamic"
+                                          labelClass="slds-form-element__label"
+                                          change="{!c.resetError}"
+                                          value="{!v.newContact.lastname}" required="true"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-grid_align-center slds-grid--pull-padded slds-wrap">
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_x-small">
+                        <div class="slds-form-element__control">
+                            <ui:inputText aura:id="prefname" label="Preferred Name"
+                                          class="dynamic"
+                                          labelClass="slds-form-element__label"
+                                          value="{!v.newContact.preferredName}" required="false"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-grid_align-center slds-wrap">
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_x-small">
+                        <div class="slds-form-element__control">
+                            <ui:inputText aura:id="jtitle" label="Job Title"
+                                          class="dynamic"
+                                          labelClass="slds-form-element__label"
+                                          change="{!c.resetError}"
+                                          value="{!v.newContact.jtitle}" required="true"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_x-small">
+                        <div class="slds-form-element__control">
+                            <ui:inputText aura:id="email1" label="Email"
+                                          class="dynamic"
+                                          labelClass="slds-form-element__label"
+                                          change="{!c.resetError}"
+                                          value="{!v.newContact.email}" required="true"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid slds-grid_align-center slds-wrap">
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_x-small">
+                        <div class="slds-form-element__control">
+                            <ui:inputText aura:id="mnumber" label="Mobile Number"
+                                          class="dynamic"
+                                          labelClass="slds-form-element__label"
+                                          change="{!c.resetError}"
+                                          value="{!v.newContact.mnumber}" required="true"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_xx-small">
+                        <div class="slds-form-element__control">
+                            <ui:inputText aura:id="staddress" label="Street Address"
+                                          class="dynamic"
+                                          labelClass="slds-form-element__label"
+                                          change="{!c.resetError}"
+                                          value="{!v.newContact.stadd}" required="true" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid slds-grid_align-center  slds-grid--pull-padded slds-wrap">
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_x-small">
+                        <div class="slds-form-element__control">
+                            <ui:inputText aura:id="suburb" label="Suburb"
+                                          class="dynamic"
+                                          labelClass="slds-form-element__label"
+                                          change="{!c.resetError}"
+                                          value="{!v.newContact.suburb}" required="true"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_x-small">
+                        <div class="slds-form-element__control">
+                            <ui:inputSelect aura:id="con" label="Country"
+                                            class="dynamic"
+                                            labelClass="slds-form-element__label"
+                                            change="{!c.populateState}"
+                                            value="{!v.newContact.con}" required="true"/>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="slds-grid slds-grid_align-center  slds-grid--pull-padded slds-wrap">
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_x-small">
+                        <aura:If isTrue="{!(v.showstateText)}">
+                            <div class="slds-form-element__control">
+                                <ui:inputText aura:id="stateText" label="State"
+                                              class="dynamic"
+                                              labelClass="slds-form-element__label"
+                                              change="{!c.resetError}"
+                                              value="{!v.newContact.stateText}" required="true" />
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="slds-form-element__control">
+                                    <ui:inputSelect aura:id="statePLV" label="State"
+                                                    class="dynamic"
+                                                    labelClass="slds-form-element__label"
+                                                    change="{!c.resetError}"
+                                                    value="{!v.newContact.statePLV}" required="true"/>
+                                </div>
+                            </aura:set>
+                        </aura:If>
+                    </div>
+                </div>
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_x-small">
+                        <div class="slds-form-element__control">
+                            <ui:inputText aura:id="postcode" label="PostCode"
+                                          class="dynamic"
+                                          labelClass="slds-form-element__label"
+                                          change="{!c.resetError}"
+                                          value="{!v.newContact.postcode}" required="true"/>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="slds-grid slds-grid_align-center slds-wrap">
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_x-small">
+                        <div class="slds-form-element__control">
+                            <ui:inputText aura:id="orga" label="Organisation Name"
+                                      class="dynamic"
+                                      labelClass="slds-form-element__label"
+                                      change="{!c.resetError}"
+                                      value="{!v.newContact.orga}" required="{!!(v.unaffiliatedWithOrg)}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_x-small">
+                        <div class="slds-form-element__control slds-p-top_xx-large">
+                            <lightning:input
+                                type="checkbox"
+                                label="I do not have an affiliation with an organisation"
+                                name="unaffiliatedWithOrg"
+                                checked="{!v.unaffiliatedWithOrg}"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <div class="slds-grid slds-grid_align-center slds-wrap">
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_x-small">
+                        <div class="slds-form-element__control" style="font-variant:small-caps;font-size:14px;font-family:'Salesforce Sans',Arial,sans-serif;">
+                                <ui:inputCheckbox aura:id="copyadd" change="{!C.copyadd_onChange}" value="{!v.copyadd}"/>
+                                        Copy Address to Organisation Address?
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid slds-grid_align-center slds-wrap">
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_x-small">
+                        <div class="slds-form-element__control">
+                            <ui:inputText aura:id="orgstadd" label="Organisation Street Address"
+                                          class="dynamic"
+                                          labelClass="slds-form-element__label"
+                                          change="{!c.resetError}"
+                                          value="{!v.newContact.orgstadd}"/>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_x-small">
+                        <div class="slds-form-element__control">
+                            <ui:inputText aura:id="orgasuburb" label="Organisation Suburb"
+                                          class="dynamic"
+                                          labelClass="slds-form-element__label"
+                                          change="{!c.resetError}"
+                                          value="{!v.newContact.orgasuburb}"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-grid slds-grid_align-center slds-wrap">
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_x-small">
+                        <div class="slds-form-element__control">
+                            <ui:inputSelect aura:id="orgacon" label="Organisation Country"
+                                            class="dynamic"
+                                            labelClass="slds-form-element__label"
+                                            change="{!c.populateOrgState}"
+                                            value="{!v.newContact.orgacon}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_x-small">
+                        <aura:If isTrue="{!(v.showorgstateText)}">
+                            <div class="slds-form-element__control">
+                                <ui:inputText aura:id="orgstateText" label="Organisation State"
+                                              class="dynamic"
+                                              labelClass="slds-form-element__label"
+                                              change="{!c.resetError}"
+                                              value="{!v.newContact.orgstateText}"/>
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="slds-form-element__control">
+                                    <ui:inputSelect aura:id="orgstatePLV" label="Organisation State"
+                                                    class="dynamic"
+                                                    labelClass="slds-form-element__label"
+                                                    change="{!c.resetError}"
+                                                    value="{!v.newContact.orgstatePLV}"/>
+                                </div>
+                            </aura:set>
+                        </aura:If>
+                    </div>
+                </div>
+            </div>
+
+            <div class="slds-grid slds-grid_align-center  slds-grid--pull-padded slds-wrap">
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_x-small">
+                        <div class="slds-form-element__control">
+                            <ui:inputText aura:id="orgapcode" label="Organisation Postcode"
+                                          class="dynamic"
+                                          labelClass="slds-form-element__label"
+                                          change="{!c.resetError}"
+                                          value="{!v.newContact.orgapcode}"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="slds-col">
+                    <div class="slds-text-align_left slds-m-around_x-small">
+                        <div class="slds-form-element__control">
+                            <ui:inputSelect label="How did you hear about us ?"
+                                            class="dynamic" aura:id="heardfrom"
+                                            labelClass="slds-form-element__label"
+                                            value="{!v.newContact.heardfrom}"
+                                            change="{!c.resetError}" required="true"
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <center>
+                <aura:if isTrue="{!(v.ValidationMsg!='')}">
+                    <div style="text-align:center;padding-top:10px;font-weight:bold;font-variant:small-caps;font-family:'Salesforce Sans',Arial,sans-serif;">
+                        <label class="slds-checkbox__label">
+                            <span class="slds-checkbox_faux"></span>
+                            <span class="slds-form-element__label" style="font-variant:small-caps;color:red;font-weight:bold;font-size:15px;font-family:'Salesforce Sans',Arial,sans-serif;">
+                                    {!v.ValidationMsg}</span>
+                        </label>
+                    </div>
+                </aura:if>
+            </center>
+            <div class="slds-align_absolute-center" style="padding-top:20px;">
+                <lightning:buttonGroup class="button-group-styling">
+                    <aura:if isTrue="{!v.isLoading}">
+                        <div class="slds-col" padding="around-small">
+                            <c:Spinner type="bars" width="80" height="34" color="rgb(0, 112, 210)" show="true" />
+                        </div>
+                    </aura:if>
+                    <div class="slds-col" padding="around-small">
+                        <lightning:button   variant="brand" aura:id="savebtn"  onclick="{!c.saveRecord}"  iconName="utility:database" label="Save &amp; Proceed" />
+
+                    </div>
+                    <div class="slds-col" padding="around-small">
+                        <lightning:button aura:id="editbtn"  disabled="{!v.grayouteditbtn}" variant="brand" onclick="{!c.editRecord}" iconName="utility:edit" label="Edit" />
+                    </div>
+                    <aura:if isTrue="{!v.isLoading}">
+                        <div class="slds-col" padding="around-small">
+                            <c:Spinner type="bars" width="80" height="34" color="rgb(0, 112, 210)" show="true" />
+                        </div>
+                    </aura:if>
+
+                </lightning:buttonGroup>
+            </div>
+
+
+
+        </form>
+    </aura:If>
+
+</aura:component>

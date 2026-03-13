@@ -1,0 +1,5 @@
+({
+    loadBioDetails : function(component, event) {
+        
+    }
+})

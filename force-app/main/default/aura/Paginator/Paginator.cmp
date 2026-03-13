@@ -1,0 +1,26 @@
+<aura:component >
+    
+    <aura:attribute name="page" type="integer"/>
+    <aura:attribute name="pages" type="integer"/>
+    <aura:attribute name="total" type="integer"/>
+    
+    <aura:registerEvent name="pagePrevious" type="c:PaginatorPageChange"/>
+    <aura:registerEvent name="pageNext" type="c:PaginatorPageChange"/>
+    
+    <div class="container">
+        <div class="left">
+            <aura:if isTrue="{!v.page > 1}">
+                <!--lightning:buttonIcon iconName="utility:left" variant="border" onclick="{!c.previousPage}" /-->
+                <lightning:button label="&#60;" onclick="{!c.previousPage}" />
+            </aura:if>
+        </div>
+        <div class="centered">{!v.total} record(s) • page {!v.page} of {!v.pages}</div>
+        <div class="right">
+            <aura:if isTrue="{!v.page &lt; v.pages}">
+                <!--lightning:buttonIcon iconName="utility:right" variant="border" onclick="{!c.previousPage}" / -->
+                <lightning:button label="&#62;" onclick="{!c.nextPage}" />
+            </aura:if>
+        </div>
+    </div>	
+    
+</aura:component>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <applicationVisibilities>
+        <application>HR_Service_Console</application>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <description>Assign this permission set to enable lightning experience with Classic switcher</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>HR CRM - Enable Lightning With Classic Switcher</label>
+    <license>Salesforce</license>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>AllowLightningLogin</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>LightningExperienceUser</name>
+    </userPermissions>
+</PermissionSet>

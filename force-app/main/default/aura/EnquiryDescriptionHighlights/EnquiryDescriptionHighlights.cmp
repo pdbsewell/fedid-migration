@@ -1,0 +1,43 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId">
+    <!-- Spinner variables -->
+    <aura:attribute name="showEnquiryDescriptionSpinner" default="true" type="Boolean" />
+    
+    <!-- Case Record -->
+    <aura:attribute name="currentEnquiry" type="Object"/>
+    <aura:attribute name="enquiryError" type="String"/>
+    <force:recordData aura:id="caseRecordLoader"
+        recordId="{!v.recordId}"
+        fields="Id,Description,Rich_Description__c"
+        targetFields="{!v.currentEnquiry}"
+        targetError="{!v.enquiryError}"
+        mode="VIEW"
+        recordUpdated="{!c.enquiryUpdated}"
+    />
+    
+    <article class="slds-card slds-card_boundary slds-is-relative slds-scrollable">
+        <div class="slds-p-top_x-small slds-p-left_small slds-p-right_small slds-p-bottom_small slds-scrollable">
+            <lightning:recordViewForm recordId="{!v.recordId}" 
+                                      objectApiName="Case">
+                
+                <aura:if isTrue="{!v.showEnquiryDescriptionSpinner}">
+                    <div class="slds-box" style="border: none;">
+                        <lightning:spinner variant="brand" />
+                    </div>
+                </aura:if>
+        
+                <aura:if isTrue="{!v.currentEnquiry.Rich_Description__c != null}">
+                    <lightning:outputField fieldName="Rich_Description__c" />
+                </aura:if>
+                
+                <aura:if isTrue="{! and(v.currentEnquiry.Rich_Description__c == null, v.currentEnquiry.Description != null) }">
+                    <lightning:outputField fieldName="Description" />
+                </aura:if>
+                
+                <aura:if isTrue="{! and(v.currentEnquiry.Rich_Description__c == '', v.currentEnquiry.Description == '', v.showEnquiryDescriptionSpinner == 'false') }">
+                    Enquiry Client Question is blank
+                </aura:if>
+                
+            </lightning:recordViewForm>
+        </div>
+    </article>
+</aura:component>

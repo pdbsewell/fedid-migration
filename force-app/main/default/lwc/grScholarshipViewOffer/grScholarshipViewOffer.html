@@ -1,0 +1,401 @@
+<template>
+    <div class="slds slds-is-relative slds-p-left_large slds-p-right_large boxContainer">
+        <!-- Show statement for no offer has been loaded -->
+        <template if:true={isNoOffer}>
+            <div class="slds-grid--pull-padded section-float" data-id="no-offer">
+                                
+                <div class="slds-p-vertical--x-large" style="padding-top:10px !important">
+                    <div class="slds-text-body--regular">
+                        <p>
+                            Thank you for your Graduate Research Scholarship application. Due to the highly competitive nature of scholarships we regret to advise that your application on this occasion has been unsuccessful.
+                        </p>
+                        <p>
+                            For feedback or more information, please refer to our Frequently Asked Questions. Please note that if you already have a scholarship to study at Monash, this scholarship will remain unchanged.
+                        </p>
+                        <template if:false={showScholarshipOnlySection}>
+                            <p>
+                                Please advise if you wish for your application for admission (without scholarship) to be assessed. You cannot change your response once it has been saved.
+                            </p>
+                            <p class="slds-form-element__label">
+                                <abbr class="slds-required" title="required">*</abbr>
+                                You must respond by&nbsp;<lightning-formatted-date-time month="long" year="numeric" day="2-digit" value={offerAcceptanceDate}></lightning-formatted-date-time>&nbsp;otherwise we will assume that you do not want your application to be assessed further.
+                            </p>
+                            <lightning-radio-group
+                                name="proceedWithoutOffer"
+                                data-id="proceedWithoutOffer"
+                                variant="label-hidden"
+                                required
+                                type="button"
+                                disabled={proceedWithoutOffer}
+                                options={items}
+                                onchange={onFieldChange}
+                                value={proceedWithoutOffer}>
+                            </lightning-radio-group>
+                            <br/>
+                        </template>                            
+                        
+                        <p>
+                            Monash University appreciates the time you invested in your application and we would like to wish you every personal and professional success in the future.
+                        </p>
+                    </div>
+                </div>
+                <div if:false={showScholarshipOnlySection} class="slds-grid slds-gutters">
+                    <div class="slds-col slds-size_5-of-12 slds-text-align_right">
+                        <lightning-button label="Save"
+                                            icon-position="left"
+                                            variant="brand"
+                                            disabled={proceedWithoutOffer}
+                                            onclick={handleUpdate}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Show statement for FacultyScholarshipOnly loaded -->
+        <template if:true={isFacultyScholarshipSponsorshipWithoutOffer}>
+            <div class="slds-grid--pull-padded section-float" data-id="faculty-scholarship-only">
+                                
+                <div class="slds-p-vertical--x-large" style="padding-top:10px !important">
+                    <div class="slds-text-body--regular">
+                        <p>
+                            Congratulations! On behalf of Monash University, I am pleased to advise that you have been awarded a {scholarshipType}. If you have not yet received your scholarship offer letter, it will be emailed to you from the Faculty within 5 business days.
+                        </p>
+                        <p>
+                            We would like to take this opportunity to congratulate you again and wish you every success with your graduate research studies at Monash University.
+                        </p>
+                        
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Show full offer here -->
+        <template if:true={isOffer}>
+            <div class="slds-grid--pull-padded section-float">                                
+                <div class="slds-p-vertical--x-large" style="padding-top:10px !important">
+                    <div class="slds-text-body--regular">
+                        <div class="slds-grid slds-gutters">
+                            <div class="slds-col slds-size_8-of-12" data-id="offer-header">
+                                <div if:true={monashCandidateId} class="slds-m-bottom_small container" data-id="applicant-id">
+                                    Monash Id: {monashCandidateId}
+                                </div>
+                                <div class="slds-m-bottom_small container" data-id="published-date">
+                                    <lightning-formatted-date-time month="long" year="numeric" day="2-digit" value={scholarshipPublishedDate}></lightning-formatted-date-time>
+                                </div>
+                                <div class="container" data-id="full-name">
+                                    {quoteData.Contact_Access__r.Full_Name__c}
+                                </div>
+                                <div class="container">
+                                    {quoteData.Contact_Access__r.MailingStreet}
+                                </div>
+                                <div class="container">
+                                    {addressLine2}
+                                </div>
+                                <div class="slds-m-bottom_small container">
+                                    {quoteData.Contact_Access__r.MailingCountry}
+                                </div>
+        
+                                <div class="slds-m-bottom_small container">
+                                    Dear {quoteData.Contact_Access__r.First_Name__c},
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size_4-of-12 slds-m-top_small">
+                                <img src={monashLogoUrl} class="header-row__logo-img monash-logo" alt="Monash University"/>
+                            </div>
+                        </div>
+                        
+
+                        <h2>Centrally Awarded Scholarship</h2>
+                        <p>Congratulations! On behalf of Monash University, I am pleased to advise that you have been awarded the following scholarship/s:</p>
+                        <template for:each={offerDescription} for:item="description" for:index="index"> 
+                            <div key={description} class="slds-box slds-m-bottom_small container" data-id={index}>
+                                <div class="slds-grid slds-gutters">
+                                    <div class="slds-col slds-size_4-of-12 slds-border_right">
+                                        <b>Name and Value of Scholarship</b>
+                                    </div>
+                                    <div class="slds-col slds-size_8-of-12" data-id="description">
+                                        {description}
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+
+                        <div class="slds-m-bottom_small container">
+                            The information below is applicable to all scholarships offered:
+                        </div>
+                        
+                        <div class="slds-box slds-m-bottom_small container" data-id="common-info">
+                            <div class="slds-grid slds-gutters slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 slds-border_right slds-border_bottom">
+                                    <b>Duration of Scholarship/s</b>
+                                </div>
+                                <div class="slds-col slds-size_8-of-12 slds-border_bottom" data-id="duration">
+                                    {durationOfScholarship}
+                                </div>
+                            </div>
+                            <div if:true={isOfferConditional} class="slds-grid slds-gutters slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 slds-border_right slds-border_bottom">
+                                    <b>Conditional Offer</b>
+                                </div>
+                                <div class="slds-col slds-size_8-of-12 slds-border_bottom" data-id="condition">
+                                    <template for:each={offerConditions} for:item="condition">
+                                        <div class="slds-m-bottom_small" key={condition}>
+                                            {condition}
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 slds-border_right slds-border_bottom">
+                                    <b>Conditions and Benefits</b>
+                                </div>
+                                <div class="slds-col slds-size_8-of-12 slds-border_bottom" data-id="benefits">
+                                    Available in the <a href="https://www.monash.edu/graduate-research/future-students/scholarships/scholarship-policy-and-procedures" target="_blank">Scholarship Policy and Procedures</a>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 slds-border_right slds-border_bottom">
+                                    <b>Status</b>
+                                </div>
+                                <div class="slds-col slds-size_8-of-12 slds-border_bottom" data-id="status">
+                                    {quoteStatus}
+                                </div>
+                            </div>
+                            <div if:false={isOfferAcceptedOrDeclined} class="slds-grid slds-gutters slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 slds-border_right slds-border_bottom">
+                                    <b>Expiry Date</b>
+                                </div>
+                                <div class="slds-col slds-size_8-of-12 slds-border_bottom" data-id="expiry-date-details">
+                                    <lightning-formatted-date-time month="long" year="numeric" day="2-digit" value={quoteData.SBQQ__ExpirationDate__c} data-id="expiry-date-value"></lightning-formatted-date-time>
+                                    <div data-id="expiry-date-text">Please ensure that you respond to your offer prior to this date. Should you decline or not respond prior to the expiry date, the offer will be withdrawn.</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div if:true={isFacultyScholarhipOnly} class="slds-m-bottom_small container" data-id="faculty-scholarhip-text">
+                            In addition to this offer, I am pleased to advise that you have also been awarded a Faculty Stipend Scholarship. 
+                            If you have not yet received your scholarship offer letter, it will be emailed to you from the Faculty within 5 business days.
+                        </div>
+
+                        <div if:true={isFacultySponsorshipOnly} class="slds-m-bottom_small container" data-id="faculty-sponsorship-text">
+                            In addition to this offer, I am pleased to advise that you have also been awarded a Faculty Tuition-paying Scholarship. 
+                            If you have not yet received your scholarship offer letter, it will be emailed to you from the Faculty within 5 business days.
+                        </div>
+
+                        <div if:true={isFacultyScholarshipAndSponsorship} class="slds-m-bottom_small container" data-id="faculty-scholarhip-and-sponsorship-text">
+                            In addition to this offer, I am pleased to advise that you have also been awarded a Faculty Stipend Scholarship and Faculty Tuition-paying Scholarship. 
+                            If you have not yet received your scholarship offer letter, it will be emailed to you from the Faculty within 5 business days.
+                        </div>
+
+                        <div if:false={showScholarshipOnlySection} class="slds-m-bottom_small container">
+                            The scholarship is conditional upon receiving an offer of admission to the following course:
+                        </div>
+                        <div if:true={showScholarshipOnlySection} class="slds-m-bottom_small container">
+                            The scholarship is only valid for the course named below:
+                        </div>
+                        
+                        <div class="slds-box slds-m-bottom_small container" data-id="course-details">
+                            <div class="slds-grid slds-gutters slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 slds-border_right slds-border_bottom">
+                                    <b>Course Name</b>
+                                </div>
+                                <div class="slds-col slds-size_8-of-12 slds-border_bottom" data-id="course-name">
+                                    {quoteData.courseName}
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 slds-border_right slds-border_bottom">
+                                    <b>Faculty</b>
+                                </div>
+                                <div class="slds-col slds-size_8-of-12 slds-border_bottom" data-id="course-faculty">
+                                    {quoteData.SBQQ__Opportunity2__r.Application_Course_Preference__r.Managing_Faculty__c}
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 slds-border_right slds-border_bottom">
+                                    <b>Academic Unit</b>
+                                </div>
+                                <div class="slds-col slds-size_8-of-12 slds-border_bottom" data-id="course-aou">
+                                    {quoteData.SBQQ__Opportunity2__r.Application_Course_Preference__r.Academic_Org_Unit_Name__c}
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 slds-border_right slds-border_bottom">
+                                    <b>Attendance Type</b>
+                                </div>
+                                <div class="slds-col slds-size_8-of-12 slds-border_bottom" data-id="course-attendancetype">
+                                    {quoteData.attendanceType}
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 slds-border_right slds-border_bottom">
+                                    <b>Attendance Mode</b>
+                                </div>
+                                <div class="slds-col slds-size_8-of-12 slds-border_bottom" data-id="course-attendancemode">
+                                    {quoteData.attendanceMode}
+                                </div>
+                            </div>
+                            <div if:true={admissionApplicationStatus} class="slds-grid slds-gutters slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 slds-border_right slds-border_bottom">
+                                    <b>Status of Admission Application</b>
+                                </div>
+                                <div class="slds-col slds-size_8-of-12 slds-border_bottom" data-id="course-status">
+                                    {admissionApplicationStatus}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div if:true={showRTPStipendSectionDomestic} class="slds-m-bottom_small container" data-id="rtpstipend-domestic-text">
+                            Australian citizens, New Zealand citizens and Australian permanent residents are granted an RTP Fees Offset to cover the cost of 
+                            course tuition fees. {rtpStipendYearValueRange}, and may vary by indexation in subsequent years. As part of these arrangements there is a legislative 
+                            requirement that you acknowledge the Australian Government's support in any published materials related to your research project. 
+                            This relates to any time, both during and after completion of your graduate research degree. 
+                            Materials include items such as books, articles, newsletters or other literary or artistic works which relate to your research project. 
+                            The acknowledgement must include the mention of your support through an "Australian Government Research Training Program (RTP) Scholarship".
+                        </div>
+                        <div if:true={showRTPStipendSectionInternational} class="slds-m-bottom_small container" data-id="rtpstipend-international-text">
+                            As a RTP Stipend awardee, there is a legislative requirement that you acknowledge the Australian Government's support in any published
+                             materials related to your research project. This relates to any time, both during and after completion of your graduate research 
+                             degree. Materials include items such as books, articles, newsletters or other literary or artistic works which relate to your 
+                             research project. The acknowledgement must include the mention of your support through an "Australian Government Research Training 
+                             Program (RTP) Scholarship".
+                        </div>
+                        <div if:true={showScholarshipOnlySection} class="slds-m-bottom_small container" data-id="ssonly-text">
+                            You will need to complete 
+                            the <a href="https://gradresearchforms.apps.monash.edu/banking-details-form" target="_blank">scholarship banking details form</a> to 
+                            start receiving your scholarship payments.
+                        </div>
+                        <div class="slds-m-bottom_small container" data-id="contact-text">
+                            If you have any queries regarding this offer, please contact the Admissions Team on +61 3 9905 1538 or email at <a href="mailto:mgro-apply@monash.edu">mgro-apply@monash.edu</a>.
+                        </div>
+                        <div class="slds-m-bottom_small container">
+                            We would like to take this opportunity to congratulate you again and wish you every success with your graduate research studies at Monash University.
+                        </div>
+                        <div class="slds-m-bottom_small container">
+                            Kind Regards,
+                        </div>
+                        <div class="container">
+                            Academic Director - Research Training
+                        </div>
+                        <div class="container">
+                            <b>Monash Graduate Research Office</b>
+                        </div>
+                        <div data-id="monashAddress">
+                            <div class="container">
+                                Monash University
+                            </div>
+                            <div class="container">
+                                Chancellery Building D
+                            </div>
+                            <div class="container">
+                                26 Sports Walk
+                            </div>
+                            <div class="slds-m-bottom_small container">
+                                Monash University, VIC 3800, Australia
+                            </div>
+                            <div class="container">
+                                Phone: +61 3 9905 1538 | Email: <a href="mailto:mgro-apply@monash.edu">mgro-apply@monash.edu</a>
+                            </div>
+                            <div class="slds-m-bottom_small container">
+                                Campus Map: <a href="https://www.monash.edu/campuses/clayton" target="_blank">www.monash.edu/campuses/clayton/</a>
+                            </div>
+                            <div class="container">
+                                CRICOS Provider No. 00008C
+                            </div>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div if:false={isOfferExpired} class="slds-box slds-m-bottom_small container"  data-id="footer-response">
+                        <div if:true={isOfferReadyToAcceptDecline}>
+                            Please indicate below whether you wish to accept or decline this offer and save the page when your response is complete. Please note that
+                            a declined offer cannot be reinstated.
+                            <div class="slds-grid slds-gutters slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 slds-text-align_right slds-m-top_small">
+                                    <abbr class="slds-required" title="required">*</abbr>
+                                        I wish to:
+                                </div>
+                                <div class="slds-col slds-size_8-of-12">
+                                    <lightning-radio-group
+                                        name="acceptOrDecline"
+                                        data-id="acceptOrDecline"
+                                        variant="label-hidden"
+                                        required
+                                        type="button"
+                                        options={acceptDecline}
+                                        onchange={onFieldChange}
+                                        value={acceptOrDecline}>
+                                    </lightning-radio-group>
+                                </div>
+                            </div>
+                            <div if:true={isDeclinedSelected} class="slds-grid slds-gutters slds-m-bottom_small">
+                                <div class="slds-col slds-size_4-of-12 slds-text-align_right slds-m-top_small">
+                                    <abbr class="slds-required" title="required">*</abbr>
+                                    Please provide your reasons for
+                                    declining this offer:
+                                </div>
+                                <div class="slds-col slds-size_8-of-12">
+                                    <lightning-textarea name="declineReason"  
+                                        variant="label-hidden"
+                                        data-id="declineReason"
+                                        required="true"
+                                        max-length="1000"
+                                        onchange={onFieldChange}
+                                        >
+                                    </lightning-textarea>
+                                </div>
+                            </div>                            
+                        </div>
+                        
+                        <div if:true={isOfferAccepted} data-id="accept-declaration">
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-12">
+                                    <lightning-input type="checkbox" name="input1" required checked={checkbox1} disabled={isOfferAcceptedOrDeclined}></lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_11-of-12" data-id="input1-text">
+                                    I have read the <a href="https://www.monash.edu/graduate-research/study/scholarships/fees-scholarships/scholarship-policy-and-procedures" target="_blank"> Scholarship Policy and Procedures</a> and 
+                                    agree to abide by them and any subsequent amendments which may be made during the tenure of the award.
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-gutters">
+                                <div class="slds-col slds-size_1-of-12">
+                                    <lightning-input type="checkbox" name="input2" checked={checkbox2} required disabled={isOfferAcceptedOrDeclined}></lightning-input>
+                                </div>
+                                <div class="slds-col slds-size_11-of-12" data-id="input2-text">                                
+                                    I understand that:
+                                    <ul class="slds-list_dotted">
+                                        <li>there are penalties for noncompliance with these conditions.</li>
+                                        <li>the University may terminate any scholarship if I have misrepresented my past and/or present circumstances and that this
+                                            termination may take place at any stage during the course I undertake.</li>
+                                        <li>I must not accept and take up a concurrent scholarship from more than one institution.</li>
+                                        <li>the University must provide the Australian Government's Department of Education, Employment and Workplace Relations with the information regarding my application upon request.</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div if:true={isOfferReadyToAcceptDecline} class="slds-grid slds-gutters slds-m-top_small">
+                            <div class="slds-col slds-size_12-of-12 slds-text-align_center">
+                                <lightning-button label="Save"
+                                                    icon-position="left"
+                                                    variant="brand"
+                                                    onclick={handleUpdate}>
+                                </lightning-button>
+                            </div>
+                            
+                        </div>
+                        <div if:true={isOfferDeclined} class="slds-grid slds-gutters slds-m-top_small" data-id="declined">
+                            <div class="slds-col slds-size_4-of-12 slds-text-align_right">
+                                <b>Decline Reason:</b>
+                            </div>
+                            <div class="slds-col slds-size_8-of-12 slds-text-align_left" data-id="decline-reason">
+                                {quoteData.Decline_Reason__c}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+    <lightning-spinner if:true={showSpinner} class="slds-align_absolute-center" variant="brand" ></lightning-spinner>
+</template>

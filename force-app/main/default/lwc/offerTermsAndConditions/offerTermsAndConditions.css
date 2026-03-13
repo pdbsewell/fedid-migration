@@ -1,0 +1,11 @@
+.terms-and-conditions ol {
+    list-style: none;
+}
+
+.terms-and-conditions ol li {
+    counter-increment: li-index;
+}
+
+.terms-and-conditions ol li::before {
+	content: counter(li-index, lower-latin) ") ";
+}

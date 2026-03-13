@@ -1,0 +1,70 @@
+<template>
+    <article class={cardClass} style="box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10);" onclick={toggleSelected}>
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <template if:true={isCurrent}>
+                        <div class="slds-card__header-title" style="cursor: context-menu; text-decoration: none;">                     
+                            <div><b>{courseOffering.Course_Code__c}<template if:true={courseOffering.Course_Version_Number__c}> v{courseOffering.Course_Version_Number__c}</template> • {courseOffering.Academic_Year__c}<template if:true={courseOffering.Admission_Alternate_Code__c}>/{courseOffering.Admission_Alternate_Code__c}</template><template if:true={courseOffering.Commencement_Period__c}> • {courseOffering.Commencement_Period__c}</template><template if:false={courseOffering.Commencement_Period__c}><template if:true={courseOffering.Admission_Calendar_Description__c}> • {courseOffering.Admission_Calendar_Description__c}</template></template></b></div>
+                            <div class="slds-m-left_small" style="margin-top: -2px;"><lightning-badge label="Currrent"></lightning-badge></div>   
+                        </div>
+                        <div class="slds-card__header-title" style="cursor: context-menu; text-decoration: none;">
+                            {courseOffering.Course_Title__c}
+                        </div>
+                    </template>
+                    <template if:false={isCurrent}>
+                        <div class="slds-card__header-title" style="cursor: context-menu; text-decoration: none;">
+                            <b>{courseOffering.Course_Code__c}<template if:true={courseOffering.Course_Version_Number__c}> v{courseOffering.Course_Version_Number__c}</template> • {courseOffering.Academic_Year__c}<template if:true={courseOffering.Admission_Alternate_Code__c}>/{courseOffering.Admission_Alternate_Code__c}</template><template if:true={courseOffering.Commencement_Period__c}> • {courseOffering.Commencement_Period__c}</template><template if:false={courseOffering.Commencement_Period__c}><template if:true={courseOffering.Admission_Calendar_Description__c}> • {courseOffering.Admission_Calendar_Description__c}</template></template></b>
+                        </div>
+                        <div class="slds-card__header-title" style="cursor: context-menu; text-decoration: none;">
+                            {courseOffering.Course_Title__c}
+                        </div>
+                    </template>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <!-- card body -->
+            <div class="slds-text-body_regular">
+                <lightning-layout multiple-rows>
+                    <!-- attendance mode type -->
+                    <lightning-layout-item size="12">
+                        <lightning-layout>
+                            <lightning-layout-item size="4">Att. Mode/Type:</lightning-layout-item>
+                            <lightning-layout-item size="8">{selectedAttendanceModeType}</lightning-layout-item>
+                        </lightning-layout>                                                                        
+                    </lightning-layout-item>
+                    <!-- admission category -->
+                    <lightning-layout-item size="12">
+                        <lightning-layout>
+                            <lightning-layout-item size="4">ADM Cat:</lightning-layout-item>
+                            <lightning-layout-item size="8">{courseOffering.Admission_Category__c}</lightning-layout-item>
+                        </lightning-layout>                                                                        
+                    </lightning-layout-item>
+                    <!-- location -->
+                    <lightning-layout-item size="12">                                                                    
+                        <lightning-layout>
+                            <lightning-layout-item size="4">Location:</lightning-layout-item>
+                            <lightning-layout-item size="8">{courseOffering.Location_Code__c}</lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                    <!-- unit set -->
+                    <lightning-layout-item size="12">                                                                    
+                        <lightning-layout>
+                            <lightning-layout-item size="4">Unit Set:</lightning-layout-item>
+                            <lightning-layout-item size="8">{courseOffering.Unit_Set_Code__c}</lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                    <!-- version 
+                    <lightning-layout-item size="12">                                                                    
+                        <lightning-layout>
+                            <lightning-layout-item size="4">Version:</lightning-layout-item>
+                            <lightning-layout-item size="8">{courseOffering.Unit_Set_Version__c}</lightning-layout-item>
+                        </lightning-layout>
+                    </lightning-layout-item>
+                    -->
+                </lightning-layout>
+            </div>
+        </div>
+    </article>
+</template>

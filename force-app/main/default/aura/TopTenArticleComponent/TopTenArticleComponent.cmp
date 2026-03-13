@@ -1,0 +1,38 @@
+<!--
+ @name TopTenArticleComponent
+-->
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"  access="global"
+                controller="LightningTopTenController">
+
+    <ltng:require scripts="{!$Resource.jQuery321}" afterScriptsLoaded="{!c.doInit}"/>
+
+    <aura:attribute name="topTenArticleList" type="TopTenArticle__c[]" />
+
+    <!-- inline styling required to override default -->
+    <div id="main-component" class="slds-grid slds-wrap overflow" style="background-color: #F6F6F6;position: relative;width: 100vw;left: calc(-50vw + 50%);">
+        <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 slds-p-bottom_medium">
+            <div class="slds-container_x-large slds-container_center remove-margin-mobile-view">
+                <div class="slds-m-horizontal_xx-large">
+                    <div class="slds-m-horizontal_large">
+
+                        <div class="faq-text-responsive slds-p-top_large slds-p-left_xx-large slds-p-bottom_large">Top FAQs</div>
+
+                        <div class="background-white slds-p-around_large">
+                            <ul>
+                                <aura:iteration items="{!v.topTenArticleList}" var="topTenArticleList"  >
+                                    <li class="faq-list hover-state"> 
+                                        <div class="slds-m-horizontal_x-large">
+                                            <a class="faq-text-color" href="javascript:void(0);" onclick="{!c.redirectToArticle}" id="{!topTenArticleList.ArticleType__c}">{!topTenArticleList.Title__c}</a>
+                                        </div>
+                                    </li>
+                                    <div class="divider-style slds-m-vertical_medium" />
+                                </aura:iteration>
+                            </ul>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

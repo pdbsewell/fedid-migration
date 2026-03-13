@@ -1,0 +1,188 @@
+<!--Contains the Blue Contact Monash Alumni banner that appears at the bottom of many pages-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+    <!--Design attribute which determines whether to use the full width version or not-->
+    <aura:attribute name="contentType" type="String" default="Default"/>
+    <aura:attribute name="isDesktop" type="Boolean" />
+    <ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!--Full width version of the banner-->
+    <aura:if isTrue="{!v.contentType == 'Full Width'}">
+        <div class="bg-gray-mon">
+            <div class="flex flex-wrap justify-center bg-blue mt-4">
+                <h4 class="uppercase text-white text-h3xl lg:text-4xl mb-2 leading-none w-full block pt-8 px-4 sm:px-6">Contact Monash Alumni</h4>
+                <div class="w-full flex flex-wrap px-4 sm:px-6 pt-4 pb-8 lg:flex leading-normal">
+                    <div class="w-full sm:w-1/2 lg:w-2/5">
+                        <div class="py-2">
+                            <p class="uppercase text-white font-bold text-2xl lg:text-xl">Phone</p>
+                            <p class="text-white font-body text-2xl lg:text-xl">+61 3 9903 4602</p>
+                        </div>
+                        <div class="py-2">
+                            <p class="uppercase text-white font-bold text-2xl lg:text-xl">Email</p>
+                            <a class="text-white font-body text-2xl lg:text-xl" href="mailto:monashalumni@monash.edu">monashalumni@monash.edu</a>
+                        </div>
+                        <div class="py-2">
+                            <p class="uppercase text-white font-bold text-2xl lg:text-xl">The team</p>
+                            <a class="text-white underline font-body text-2xl lg:text-xl" href="https://www.monash.edu/alumni/contact/our-team" target="_blank">Meet our team</a>
+                        </div>
+                    </div>
+                    <div class="w-full sm:w-1/2 lg:w-3/5">
+                        <p class="w-full py-2 uppercase text-white font-bold">Connect</p>
+                        <div class="lg:flex">
+                            <p class="w-full lg:w-1/3 h-12 text-white block items-center">
+                                <a class="inline-flex mr-4" href="https://www.linkedin.com/groups/74440" target="_blank">
+                                    <c:svg class="fill-current w-10 sm:w-8 h-10 sm:h-8 white mr-4" xlinkHref="{!$Resource.PORTAL_UCIN_Resources + '/Resources/icons/ico_linkedin.svg#icoimg'}" ariaHidden="true"/>
+                                    <span class="font-bold text-2xl lg:text-xl">#MonashAlumni</span>
+                                </a>
+                            </p>
+                            <p class="w-full lg:w-1/3 h-12 text-white items-center">
+                                <a class="inline-flex" href="https://www.facebook.com/monashalumni" target="_blank">
+                                    <c:svg class="fill-current w-10 sm:w-8 h-10 sm:h-8 mr-4 white" xlinkHref="{!$Resource.PORTAL_UCIN_Resources + '/Resources/icons/ico_facebook.svg#icoimg'}" ariaHidden="true"/>
+                                    <span class="font-bold text-2xl lg:text-xl">#MonashAlumni</span>
+                                </a>
+                            </p>
+                            <p class="w-full lg:w-1/3 h-12 text-white items-center">
+                                <a class="inline-flex" href="https://www.instagram.com/monashalumni/" target="_blank">
+                                    <c:svg class="fill-current w-10 sm:w-8 h-10 sm:h-8 mr-4" xlinkHref="{!$Resource.PORTAL_UCIN_Resources + '/Resources/icons/ico_instagram.svg#icoimg'}" ariaHidden="true"/>
+                                    <span class="font-bold text-2xl lg:text-xl">#MonashAlumni</span>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--Limited width version of the banner-->
+        <aura:set attribute="else">
+            <div class="bg-gray-mon max-w-1300 m-auto">
+                <div class="flex flex-wrap justify-center bg-blue mt-4">
+                    
+                    <aura:if isTrue="{!v.contentType == 'Donation'}">
+                        <h4 class="uppercase text-white text-h3xl lg:text-4xl mb-2 leading-none w-full block pt-8 px-4 sm:px-6">Contact Donor Relations</h4>
+                        <div class="w-full flex flex-wrap px-4 sm:px-6 pt-4 pb-8 lg:flex leading-normal">
+                            <div class="w-full sm:w-1/2 lg:w-2/5">
+                                <div class="py-2">
+                                    <span class="uppercase text-white font-bold text-2xl lg:text-xl">Phone</span><br/>
+                                    <span class="text-white font-body text-2xl lg:text-xl">+61 3 9903 1608</span>
+                                </div>
+                                <div class="py-2">
+                                    <span class="uppercase text-white font-bold text-2xl lg:text-xl">Email</span><br/>
+                                    <a class="text-white underline font-body text-2xl lg:text-xl" href="mailto:donor.relations@monash.edu">donor.relations@monash.edu</a>
+                                </div>
+                            </div>
+                            <div class="w-full sm:w-1/2 lg:w-3/5">
+                                <p class="w-full py-2 uppercase text-white font-bold text-2xl lg:text-xl">Connect</p>
+                                <div class="lg:flex">
+                                    <p class="w-full lg:w-1/3 h-12 text-white block items-center">
+                                        <a class="inline-flex mr-4" href="https://www.linkedin.com/groups/74440" target="_blank">
+                                            <c:svg class="fill-current w-10 sm:w-8 h-10 sm:h-8 white mr-4" xlinkHref="{!$Resource.PORTAL_UCIN_Resources + '/Resources/icons/ico_linkedin.svg#icoimg'}" ariaHidden="true"/>
+                                            <span class="font-bold text-2xl lg:text-xl">#MonashAlumni</span>
+                                        </a>
+                                    </p>
+                                    <p class="w-full lg:w-1/3 h-12 text-white items-center">
+                                        <a class="inline-flex" href="https://www.facebook.com/monashalumni" target="_blank">
+                                            <c:svg class="fill-current w-10 sm:w-8 h-10 sm:h-8 mr-4 white" xlinkHref="{!$Resource.PORTAL_UCIN_Resources + '/Resources/icons/ico_facebook.svg#icoimg'}" ariaHidden="true"/>
+                                            <span class="font-bold text-2xl lg:text-xl">#MonashAlumni</span>
+                                        </a>
+                                    </p>
+                                    <p class="w-full lg:w-1/3 h-12 text-white items-center">
+                                        <a class="inline-flex" href="https://www.instagram.com/monashalumni/" target="_blank">
+                                            <c:svg class="fill-current w-10 sm:w-8 h-10 sm:h-8 mr-4" xlinkHref="{!$Resource.PORTAL_UCIN_Resources + '/Resources/icons/ico_instagram.svg#icoimg'}" ariaHidden="true"/>
+                                            <span class="font-bold text-2xl lg:text-xl">#MonashAlumni</span>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                 <aura:set attribute="else">
+                            <!-- Service desk footer starts here -->
+					<aura:if isTrue="{!v.contentType == 'ServiceDesk'}">
+                        <h4 class="uppercase text-white text-h3xl lg:text-4xl mb-2 leading-none w-full block pt-8 px-4 sm:px-6">CONTACT MONASH SERVICE DESK</h4>
+                        <div class="w-full flex flex-wrap px-4 sm:px-6 pt-4 pb-8 lg:flex leading-normal">
+                            <div class="w-full sm:w-1/2 lg:w-2/5">
+                                <div class="py-2">
+                                    <span class="uppercase text-white font-bold text-2xl lg:text-xl">Phone</span><br/>
+                                    <span class="text-white font-body text-2xl lg:text-xl">+61 3 9903 2777</span>
+                                </div>
+                                <div class="py-2">
+                                    <span class="uppercase text-white font-bold text-2xl lg:text-xl">Email</span><br/>
+                                    <a class="text-white underline font-body text-2xl lg:text-xl" href="mailto:servicedesk@monash.edu">servicedesk@monash.edu</a>
+                                </div>
+                            </div>
+                            <div class="w-full sm:w-1/2 lg:w-3/5">
+                                <p class="w-full py-2 uppercase text-white font-bold text-2xl lg:text-xl">Connect</p>
+                                <div class="lg:flex">
+                                    <p class="w-full lg:w-1/3 h-12 text-white block items-center">
+                                        <a class="inline-flex mr-4" href="https://www.linkedin.com/groups/74440" target="_blank">
+                                            <c:svg class="fill-current w-10 sm:w-8 h-10 sm:h-8 white mr-4" xlinkHref="{!$Resource.PORTAL_UCIN_Resources + '/Resources/icons/ico_linkedin.svg#icoimg'}" ariaHidden="true"/>
+                                            <span class="font-bold text-2xl lg:text-xl">#MonashAlumni</span>
+                                        </a>
+                                    </p>
+                                    <p class="w-full lg:w-1/3 h-12 text-white items-center">
+                                        <a class="inline-flex" href="https://www.facebook.com/monashalumni" target="_blank">
+                                            <c:svg class="fill-current w-10 sm:w-8 h-10 sm:h-8 mr-4 white" xlinkHref="{!$Resource.PORTAL_UCIN_Resources + '/Resources/icons/ico_facebook.svg#icoimg'}" ariaHidden="true"/>
+                                            <span class="font-bold text-2xl lg:text-xl">#MonashAlumni</span>
+                                        </a>
+                                    </p>
+                                    <p class="w-full lg:w-1/3 h-12 text-white items-center">
+                                        <a class="inline-flex" href="https://www.instagram.com/monashalumni/" target="_blank">
+                                            <c:svg class="fill-current w-10 sm:w-8 h-10 sm:h-8 mr-4" xlinkHref="{!$Resource.PORTAL_UCIN_Resources + '/Resources/icons/ico_instagram.svg#icoimg'}" ariaHidden="true"/>
+                                            <span class="font-bold text-2xl lg:text-xl">#MonashAlumni</span>
+                                        </a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+		<!-- Service desk footer ends here		-->
+                        <aura:set attribute="else">
+                            <h4 class="uppercase text-white text-h3xl lg:text-4xl mb-2 leading-none w-full block pt-8 px-4 sm:px-6">Contact Monash Alumni</h4>
+                            <div class="w-full flex flex-wrap px-4 sm:px-6 pt-4 pb-8 lg:flex leading-normal">
+                                <div class="w-full sm:w-1/2 lg:w-2/5">
+                                    <div class="py-2">
+                                        <span class="uppercase text-white font-bold text-2xl lg:text-xl">Phone</span><br/>
+                                        <span class="text-white font-body text-2xl lg:text-xl">+61 3 9903 4602</span>
+                                    </div>
+                                    <div class="py-2">
+                                        <span class="uppercase text-white font-bold text-2xl lg:text-xl">Email</span><br/>
+                                        <a class="text-white underline font-body text-2xl lg:text-xl" href="mailto:monashalumni@monash.edu">monashalumni@monash.edu</a>
+                                    </div>
+                                    <div class="py-2">
+                                        <span class="uppercase text-white font-bold text-2xl lg:text-xl">The team</span><br/>
+                                        <a class="text-white underline font-body text-2xl lg:text-xl" href="https://www.monash.edu/alumni/contact/our-team" target="_blank">Meet our team</a>
+                                    </div>
+                                </div>
+                                <div class="w-full sm:w-1/2 lg:w-3/5">
+                                    <p class="w-full py-2 uppercase text-white font-bold text-2xl lg:text-xl">Connect</p>
+                                    <div class="lg:flex">
+                                        <p class="w-full lg:w-1/3 h-12 text-white block items-center">
+                                            <a class="inline-flex mr-4" href="https://www.linkedin.com/groups/74440" target="_blank">
+                                                <c:svg class="fill-current w-10 sm:w-8 h-10 sm:h-8 white mr-4" xlinkHref="{!$Resource.PORTAL_UCIN_Resources + '/Resources/icons/ico_linkedin.svg#icoimg'}" ariaHidden="true"/>
+                                                <span class="font-bold text-2xl lg:text-xl">#MonashAlumni</span>
+                                            </a>
+                                        </p>
+                                        <p class="w-full lg:w-1/3 h-12 text-white items-center">
+                                            <a class="inline-flex" href="https://www.facebook.com/monashalumni" target="_blank">
+                                                <c:svg class="fill-current w-10 sm:w-8 h-10 sm:h-8 mr-4 white" xlinkHref="{!$Resource.PORTAL_UCIN_Resources + '/Resources/icons/ico_facebook.svg#icoimg'}" ariaHidden="true"/>
+                                                <span class="font-bold text-2xl lg:text-xl">#MonashAlumni</span>
+                                            </a>
+                                        </p>
+                                        <p class="w-full lg:w-1/3 h-12 text-white items-center">
+                                            <a class="inline-flex" href="https://www.instagram.com/monashalumni/" target="_blank">
+                                                <c:svg class="fill-current w-10 sm:w-8 h-10 sm:h-8 mr-4" xlinkHref="{!$Resource.PORTAL_UCIN_Resources + '/Resources/icons/ico_instagram.svg#icoimg'}" ariaHidden="true"/>
+                                                <span class="font-bold text-2xl lg:text-xl">#MonashAlumni</span>
+                                            </a>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:set>
+                    </aura:if>
+                </aura:set>
+              </aura:if>
+                </div>
+            </div>
+        </aura:set>
+    </aura:if>
+</aura:component>

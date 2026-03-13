@@ -1,0 +1,12 @@
+<template>
+    <lightning-quick-action-panel title="Quick Action Title">
+        <template if:true={showSpinner}> 
+            <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+        </template>
+        <template if:false={showSpinner}> 
+            <template if:true={editAccess}> 
+                <c-attach-collaborators oppty-record-id={recordId} onclose={closeAction}></c-attach-collaborators>
+            </template>
+        </template>
+    </lightning-quick-action-panel> 
+</template>

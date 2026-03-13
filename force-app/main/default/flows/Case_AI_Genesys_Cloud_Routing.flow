@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Create_Records_for_Genesys_Cloud_Routing_Request</name>
+        <label>Create Records for Genesys Cloud Routing Request</label>
+        <locationX>314</locationX>
+        <locationY>539</locationY>
+        <actionName>Nebula__FlowRecordLogEntry</actionName>
+        <actionType>apex</actionType>
+        <dataTypeMappings>
+            <typeName>T__record</typeName>
+            <typeValue>purecloud__PureCloud_Routing_Request__c</typeValue>
+        </dataTypeMappings>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <stringValue>Case_AI_Genesys_Cloud_Routing</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowRecordLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>62.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <description>Check if the Flow is to be Bypassed</description>
+        <name>Check_Flow_Bypassing</name>
+        <label>Check Flow Bypassing</label>
+        <locationX>314</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Proceed_With_Flow</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Genesys_Cloud_Routing</targetReference>
+            </connector>
+            <label>Proceed With Flow</label>
+        </rules>
+    </decisions>
+    <description>Genesys flow to create routing records on Case creation</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>TrimComma</name>
+        <dataType>String</dataType>
+        <expression>SUBSTITUTE({!$Record.MC_Faculty__c}, &apos;,&apos;, &apos;&apos;)</expression>
+    </formulas>
+    <interviewLabel>Case : AI : Genesys Cloud Routing {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Case : AI : Genesys Cloud Routing</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>Genesys Cloud Routing</description>
+        <name>Genesys_Cloud_Routing</name>
+        <label>Genesys Cloud Routing</label>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
+        <faultConnector>
+            <targetReference>Create_Records_for_Genesys_Cloud_Routing_Request</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>purecloud__Attributes__c</field>
+            <value>
+                <stringValue>Enquiry_Number={!$Record.CaseNumber},Enquiry_Type={!$Record.Enquiry_Type__c},Category_Level_1={!$Record.Category_Level_1__c},Category_Level_2={!$Record.Category_Level_2__c},Category_Level_3={!$Record.Category_Level_3__c},Student_Type={!$Record.Student_Type__c},MC_Faculty={!TrimComma},Case_Owner_Name={!$Record.Case_Owner_String__c},Interaction_ID={!$Record.Interaction_ID__c},Owned_By_Queue={!$Record.Owned_By_Queue__c},Course_Code={!$Record.Course_Code__c},Enquiry_Origin={!$Record.Origin}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>purecloud__Inbound_Email_Flow__c</field>
+            <value>
+                <stringValue>Salesforce Enquiry Routing</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>purecloud__Salesforce_Object_ID__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>purecloud__PureCloud_Routing_Request__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <start>
+        <locationX>188</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Flow_Bypassing</targetReference>
+        </connector>
+        <filterLogic>(1 AND 2 AND 3 AND 4 AND 5 AND 6 AND 7 AND 8 AND 9) AND (10 OR 11 OR 12 OR 13 OR 14 OR 15 OR 16 OR 17 OR 18 OR 19)</filterLogic>
+        <filters>
+            <field>Owned_By_Queue__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Open</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Terminate_Genesys_Routing__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Origin</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>LivePerson - Messaging</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Origin</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Chat</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Origin</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Chat - ABC</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Origin</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Chatbot - Live Chat</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Origin</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Chatbot - VTAC Live Chat</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Enquiry_Type__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>JRG</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Case_Owner_String__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Monash Connect Current Student</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Case_Owner_String__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>MPass Card Office</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Case_Owner_String__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Monash Connect - Advisors</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Case_Owner_String__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Monash Connect Course Advice</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Case_Owner_String__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>myResearch Support</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Case_Owner_String__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Retention</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Case_Owner_String__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Monash Connect Enrolments</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Case_Owner_String__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Monash Connect Future Student</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Case_Owner_String__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Monash Connect Airport Pickup</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Case_Owner_String__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>MC - Change of Personal Details</stringValue>
+            </value>
+        </filters>
+        <object>Case</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

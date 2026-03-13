@@ -1,0 +1,50 @@
+<template>
+    <div class="slds-form-element__control">
+        <p><lightning-formatted-text value={questionText}></lightning-formatted-text></p>
+    </div>
+    <!-- this will rendered as RadioButton-->
+    <template if:true={showRadioButton}>
+        <div class="slds-form-element__control">
+            <lightning-radio-group name="radioGroup"
+                label=""
+                options={listOptions}
+                value={answers}
+                type="radio"
+                onchange={handleChangeValue}> 
+            </lightning-radio-group>    
+        </div>
+    </template> 
+    <!-- this will rendered as text-->
+    <template if:true={showText}>
+        <div class="slds-form-element__control">
+            <lightning-input type="Text" name="input1" value={answers} onchange={handleChangeText}></lightning-input>
+        </div>
+    </template> 
+     <!-- this will rendered as Pisklist-->
+    <template if:true={showPicklist}>
+        <div class="slds-form-element__control">
+            <lightning-combobox
+                name="questions"
+                label=""
+                value={answers} 
+                placeholder="Select option"
+                options={listOptions}
+                onchange={handleChangeValue}>
+            </lightning-combobox>
+        </div>
+    </template>
+    <!-- this will rendered as Multi-Picklist-->
+    <template if:true={showMultiPicklist}>
+        <div class="slds-form-element__control">
+            <lightning-dual-listbox id="selectOptions"
+                name="Select Options"
+                label=""
+                source-label="Available Options"
+                selected-label="Selected Options"
+                value={answers}
+                options={listOptions}
+                onchange={handleChangeValue}>
+            </lightning-dual-listbox>
+        </div>
+    </template>
+</template>

@@ -1,0 +1,49 @@
+<!--
+/*
+ * Copyright (c) 2019, UC Innovation, Inc.  All Rights Reserved.
+ *                     http://www.ucinnovation.com
+ *
+ * This source code is licensed, not sold, and is subject to a written
+ * license agreement.  Among other things, no portion of this source
+ * code may be copied, transmitted, disclosed, displayed, distributed,
+ * translated, used as the basis for a derivative work, or used, in
+ * whole or in part, for any program or purpose other than its intended
+ * use in compliance with the license agreement as part of UC Innovation's
+ * software.  This source code and certain of the algorithms contained
+ * within it are confidential trade secrets of UC Innovation, Inc.
+ * and may not be used as the basis for any other
+ * software, hardware, product or service.
+ */
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global">
+	<aura:attribute name="volunteerJobList" type="Object[]" />
+	<aura:attribute name="volunteerJobListToDisplay" type="Object[]" />      
+    
+    <aura:attribute name="contact" type="Contact" />
+    
+    <aura:attribute name="displayMode" type="String" default="List" access="public"/>
+    <aura:attribute name="recordType" type="String" default="Volunteer" access="public"/>
+    <aura:attribute name="scope" type="String" default="All" access="public"/>
+    <aura:attribute name="sharing" type="String" default="All" access="public"/>
+    <aura:attribute name="relevance" type="String" default="All" access="public"/>
+    <aura:attribute name="showSignup" type="String" default="Yes" access="public"/>
+    
+    <aura:attribute name="showAddress" type="String" default="Yes" access="public"/>
+    <aura:attribute name="maxItems" type="String" default="10" access="public"/>
+    <aura:attribute name="showMap" type="String" default="No" access="public"/>
+    <aura:attribute name="headerImagePosition" type="String" default="Left" access="public"/>
+    
+    <aura:attribute name="itemsPerPage" type="Integer" default="5" />
+    <aura:attribute name="previousButtonDisabled" type="Boolean" default="true" />
+    <aura:attribute name="nextButtonDisabled" type="Boolean" default="false" />
+    <aura:attribute name="totalNumberOfPages" type="Integer" />
+    <aura:attribute name="currentPage" type="Integer" default="1" />
+    
+    <aura:attribute name="mapMarkers" type="Object"/>
+    <aura:attribute name="center" type="Object"/>
+    
+    <aura:attribute name="zoomLevel" type="Integer" default="6"/>
+    <aura:attribute name="markersTitle" type="String" default="UC Innovation HQ" />
+    <aura:attribute name="showFooter" type="Boolean" default="true" />
+</aura:component>

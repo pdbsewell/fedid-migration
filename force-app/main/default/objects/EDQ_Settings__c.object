@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>Setting used to control certain features of Experian data validation</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Email_Validation_Show_Generic_Error__c</fullName>
+        <defaultValue>true</defaultValue>
+        <description>Show generic error message from Experian Email Validation Generic Error Message custom label</description>
+        <inlineHelpText>Show generic error message from Experian Email Validation Generic Error Message custom label</inlineHelpText>
+        <label>Email Validation Show Generic Error</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Max_Address_Suggestions__c</fullName>
+        <defaultValue>7</defaultValue>
+        <description>The maximum number of suggestions a search request should return</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The maximum number of suggestions a search request should return</inlineHelpText>
+        <label>Max Address Suggestions</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Phone_Validation_Show_Generic_Error__c</fullName>
+        <defaultValue>true</defaultValue>
+        <description>Show generic error message from Experian Phone Validation Generic Error Message custom label</description>
+        <inlineHelpText>Show generic error message from Experian Phone Validation Generic Error Message custom label</inlineHelpText>
+        <label>Phone Validation Show Generic Error</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Top_Countries__c</fullName>
+        <defaultValue>&quot;AUSTRALIA,CHINA,INDIA,ITALY,MALAYSIA,SOUTH AFRICA&quot;</defaultValue>
+        <description>Countries to appear at the top of the picklist.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Countries to appear at the top of the picklist.</inlineHelpText>
+        <label>Top Countries</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>EDQ Settings</label>
+    <visibility>Public</visibility>
+</CustomObject>

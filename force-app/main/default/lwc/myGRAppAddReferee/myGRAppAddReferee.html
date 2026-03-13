@@ -1,0 +1,195 @@
+<template>
+    <div class="slds">
+        <!-- DELETE CONFIRMATION POPUP -->
+        <div if:true={showConfirmDelete}>
+
+            <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header slds-theme--error slds-theme--alert-texture">
+                        <h2 class="slds-text-heading--small" id="prompt-heading-id" style="color: #ffffff;">{label.app_DeleteConfirmation}</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <p>Are you sure you want to delete this referee? Please note any document uploaded as part of this claim will also be deleted.</p>
+                    </div>
+                    <div class="slds-modal__footer slds-theme--default">
+                        <lightning-button label="Yes"
+                                          icon-position="left"
+                                          variant="brand"
+                                          onclick={onClickConfirmDelete}>
+                        </lightning-button>&nbsp;
+                        <lightning-button label="No"
+                                          icon-position="left"
+                                          variant="neutral"
+                                          onclick={onClickCancelDelete}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+        </div>
+
+        <!-- ALERT: ANY Errors on save-->
+        <div if:true={showErrors}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h3 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Please complete the following:</h3>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <ul class="slds-list_dotted slds-text-align--left">
+                            <template for:each={saveErrors} for:item="error">
+                                <li key={error}>{error}</li>
+                            </template>
+                        </ul>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={onClickCloseErrors}>Close</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+
+        <!-- page heading and desciption-->
+        <div>
+                <h1 style="font-weight:bold;">Referees</h1>
+                <div class="grtParagraph">You are required to provide details of at least two referees who have both personal and professional knowledge of your academic abilities and can assess your research potential.</div>
+                <ul class="slds-list_dotted" >
+                    <li class="grtParagraph">When you provide referee details you authorise Monash University to contact and discuss your application with your referees directly. Your referees will only be contacted should further information be required.</li>
+                    <li class="grtParagraph">You may also upload a written reference provided by a referee that you list here (optional) in the <b>Documents section</b>.</li>
+                </ul>      
+        </div>
+        <br/>
+        
+        <div class="sectionContainer slds-wrap" if:true={isStateStart}>
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                    <div class="slds-size_5-of-5">
+                        <h2>Referees </h2>
+                    </div>
+                    <div class="slds-size_5-of-5">
+                        <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                            <thead>
+                            <tr class="slds-text-title--caps">
+                                <th scope="col">
+                                    <div title="posTH">Name</div>
+                                </th>                                
+                                <th scope="col" class="hideOnMobile">
+                                    <div title="empTH">Organisation</div>
+                                </th>
+                                <th scope="col">
+                                    <div title="posTH">Position</div>
+                                </th>
+                                <th scope="col">
+                                    <div class="slds-truncate slds-align_absolute-center" title="Action" >Action</div>
+                                </th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <!-- ITERATION FOR Qualifications -->
+                            <template for:each={contactQualifications} for:item="qualification">                                    
+                                <tr key={qualification.Id}>
+                                    <td>
+                                        <div class="slds-truncate" style="max-width: 250px;">
+                                            {qualification.Referee_Name__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate" style="max-width: 250px;">
+                                            {qualification.Relevant_Institution_Name__c}
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="slds-truncate" style="max-width: 250px;">
+                                            {qualification.Position__c}
+                                        </div>
+                                    </td>
+                                    <td data-label="Action">
+                                        <div class="slds-truncate slds-align--absolute-center">                                            
+                                            <lightning-button-icon variant="bare" icon-position="left" name={qualification.Id} onclick={onClickEdit} icon-name="utility:edit" size="medium" alternative-text="Edit"></lightning-button-icon>&nbsp;
+                                            <lightning-button-icon variant="bare" icon-position="left" name={qualification.Id} onclick={onClickDelete} icon-name="utility:close" size="medium" alternative-text="Remove item"></lightning-button-icon> 
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                                
+                            <!-- END - ITERATION FOR APPLICATION Qualification PROVIDED -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            
+
+            <div class="slds-p-vertical--large">
+                
+            </div>
+
+            <!-- ADD NEW BUTTON -->
+            <div if:false={isNewDisabled} class="slds-button-group slds-p-left_medium" role="group">
+                <button class="secondaryButton" onclick={onClickAddNew} style="margin-top: 10px;">
+                    <lightning-icon class="secondaryIcon" icon-name="utility:add" size="small"></lightning-icon>&nbsp;&nbsp;Add a new Referee
+                </button>
+            </div>
+        </div>
+        <!-- qualification form input fields -->
+        <div class="sectionContainer" if:true={isStateEdit}>
+            <div class="sectionContainerBody slds-size_5-of-5">
+            <br/>
+            <lightning-input name="name"
+                             data-id="name"
+                             label="Name"
+                             maxlength="200"
+                             required="true"
+                             onchange={onFieldChange}
+                             value={contactQualification.Referee_Name__c}></lightning-input>
+            <lightning-input name="position"
+                             data-id="position"
+                             label="Position Held"
+                             required="true"
+                             maxlength="200"
+                             onchange={onFieldChange}
+                             value={contactQualification.Position__c}></lightning-input> 
+            <lightning-input name="organisation"
+                             data-id="organisation"
+                             value={contactQualification.Other_Institution__c}
+                             required="true"
+                             maxlength="200"
+                             label="Institution/Organisation name"
+                             onchange={onFieldChange}></lightning-input>                              
+            <lightning-select name="country"
+                             data-id="country" 
+                             label="Institution/Organisation country"
+                             value={contactQualification.Qualification_Country__c}
+                             required="true"
+                             options={countryOptions}
+                             onchange={onFieldChange}></lightning-select>  
+            <lightning-input name="email"
+                             data-id="email"
+                             label="Referee's email address"
+                             required="true"
+                             maxlength="200"
+                             type="email" 
+                             onchange={onFieldChange}
+                             value={contactQualification.Email__c}></lightning-input>
+            <lightning-input name="relationship"
+                             data-id="relationship"
+                             maxlength="200"
+                             label="Referee's relationship to you"
+                             required="true"
+                             onchange={onFieldChange}
+                             value={contactQualification.Relationship__c}></lightning-input>                                                     
+            <div class="slds-form-element slds-p-vertical--large">
+                <div class="slds-m-top_medium">                    
+                    <button class="primaryButton" onclick={saveCurrentQualification} style="margin-right: 15px;">
+                        Save
+                    </button>
+                    <button class="secondaryButton" onclick={onClickCancel}>
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    <lightning-spinner if:true={showSpinner} alternative-text="Saving" variant="brand"></lightning-spinner>
+</template>

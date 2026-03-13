@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata"><apiVersion>63.0</apiVersion>
+    <isExposed>true</isExposed>
+    <description>A LWC Bundle</description>
+    <targets>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="origin" type="String" label="Origin" description="Origin where the component is called"/>
+        </targetConfig>
+    </targetConfigs>
+    <masterLabel>myAppManageSmsMFA</masterLabel>
+</LightningComponentBundle>

@@ -1,0 +1,36 @@
+<!-- 
+    @name: CustomSearchLightningComponent
+ -->
+<aura:component implements="forceCommunity:availableForAllPageTypes,forceCommunity:searchInterface" controller="LightningSearchComponent" access="global" >
+
+    <ltng:require scripts="{!$Resource.jQuery321}" afterScriptsLoaded="{!c.init}"/>
+   <!-- <ltng:require scripts="{!$Resource.SLDS231}"/> -->
+    <aura:attribute name="SearchText" type="String" default=""/>
+    <aura:attribute name="SearchArticleList" type="sobject[]" default=""/>
+    <aura:attribute name="searchPageUrl" type="string" required="false"/>
+    
+    <div class="slds-container_large slds-container_center">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 slds-is-relative">
+                <label class="slds-assistive-text" for="SearchId">Article Search Bar</label>
+                <input type="text" name="Search FAQs" class="form-control" id="SearchId"  placeholder="Search FAQs" onkeyup="{!c.searchKeyChange}" onkeydown="{!c.handleEnterEvent}" onfocus="{!c.handlefocus}"/>
+
+                <button class="header-row-search-icon" name="search_icon" title="Search" onclick="{!c.handlebutton}"><lightning:icon iconName="utility:search" class="button-color"/></button>
+
+                <div class="slds-container_x-large slds-container_center slds-show" id="suggestresults"> 
+                    <div role="listbox" class="Article_search_results" id="listbox-unique-id">
+                        <ul class="slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid" role="listbox">
+                            <aura:iteration items="{!v.SearchArticleList}" var="SuggestedArticles">
+                                <li class="">
+                                    <a class="search-results" href="javascript:void(0);" onclick="{!c.redirectToArticle}" id="{!SuggestedArticles.Id}">{!SuggestedArticles.Title}</a>   
+                                </li> 
+                            </aura:iteration>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+</aura:component>

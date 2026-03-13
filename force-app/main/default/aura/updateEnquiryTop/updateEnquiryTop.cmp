@@ -1,0 +1,37 @@
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,force:lightningQuickAction,force:hasRecordId" access="global" controller="LightningUpdateEnquiryController">
+    <ltng:require scripts="{!$Resource.jQuery321}" afterScriptsLoaded="{!c.init}"/>
+    <aura:attribute name="myComments" type="String"/>
+    <aura:attribute name="caseId" type="String"/>
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="enquiryClosed" type="boolean" default="false"/>
+    
+    <div class="slds-grid slds-wrap">
+        <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+            <div id="enquiryButton" style="display:none">
+                <div class="sfdc">
+                    <ui:button aura:id="closeEnquiry" label="Resolve Enquiry" press="{!c.closeEnquiry}" class="sfdc_button"/>
+                </div>        
+            </div>	
+        </div>
+        
+        <div id="Result" style="display:none">
+            <div class="" id="Open">
+                {!$Label.c.Enquiry_Update_Message}
+            </div>
+            <div class="" id="Closed">
+                {!$Label.c.Enquiry_Closure_Message}
+            </div>
+            <ui:button aura:id="back" label="Back" press="{!c.refreshCase}" class="sfdc_button"/>
+        </div>
+        
+        <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+            <div id="enquiryForm" style="display:none">
+                <lightning:inputRichText aura:id="inputComment" value="{!v.myComments}"/>                
+                <div class="slds-p-top--large">
+                    <ui:button aura:id="submitButton" label="Submit" press="{!c.updateEnquiry}" class="sfdc_button"/>
+                    <ui:button aura:id="cancel" label="Cancel" press="{!c.cancel}" class="sfdc_button"/>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

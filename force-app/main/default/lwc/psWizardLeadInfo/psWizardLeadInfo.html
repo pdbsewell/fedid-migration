@@ -1,0 +1,49 @@
+<!--
+  @File Name          : psWizardLeadInfo.html
+  @Description        : Lead Info section for Prospective Student Wizard component
+  @Author             : Nick Guia
+  @Group              : Lead Management
+-->
+<template>
+    <div>
+        <lightning-accordion allow-multiple-sections-open active-section-name="prospectiveStudentLeadInfo">
+            <lightning-record-edit-form 
+                object-api-name="Lead" 
+                record-id={_leadId}
+                onload={handleFormLoad}>
+
+                <lightning-messages></lightning-messages>
+                <template if:true={isLoading}>
+                    <div style="min-height: 400px;" class="slds-is-relative">
+                        <div class="slds-align_absolute-center">
+                            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                        </div>
+                    </div>
+                </template>
+                <template if:false={isLoading}>
+                    <lightning-accordion-section 
+                        name="prospectiveStudentLeadInfo" 
+                        label="Prospective Student Lead Information"
+                        title="Prospective Student Lead Information">
+                        <lightning-layout multiple-rows="true">
+                            <template for:each={_fieldConfig.prospectiveStudentLeadInfo} for:item='fieldInfo'>
+                                <lightning-layout-item 
+                                    key={fieldInfo.key} 
+                                    size="12" 
+                                    large-device-size={fieldInfo.largeDeviceSize}>
+                                    <lightning-input-field 
+                                        data-id={fieldInfo.key} 
+                                        data-item={fieldInfo.fieldName} 
+                                        field-name={fieldInfo.fieldName}
+                                        onchange={updateRecordObject}>
+                                    </lightning-input-field>
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout>
+                    </lightning-accordion-section>
+                </template>
+            </lightning-record-edit-form>
+            
+        </lightning-accordion>
+    </div>
+</template>

@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Log_the_Error</name>
+        <label>Log the Error</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Nebula__FlowRecordLogEntry</actionName>
+        <actionType>apex</actionType>
+        <dataTypeMappings>
+            <typeName>T__record</typeName>
+            <typeValue>Roles__c</typeValue>
+        </dataTypeMappings>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <elementReference>FlowName</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Create or Update Record failed</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>record</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>scenario</name>
+            <value>
+                <elementReference>Scenario</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowRecordLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Set_Scenario_for_logging_BM</name>
+        <label>Set Scenario for logging</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>Scenario</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Branch Manager update failed</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Log_the_Error</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_Scenario_for_logging_PA</name>
+        <label>Set Scenario for logging</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>Scenario</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Principal Agent update failed</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Log_the_Error</targetReference>
+        </connector>
+    </assignments>
+    <constants>
+        <name>FlowName</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Role_AS_Handle_Roles</stringValue>
+        </value>
+    </constants>
+    <decisions>
+        <name>What_is_the_new_Role_being_added</name>
+        <label>What is the new Role being added ?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>No</defaultConnectorLabel>
+        <rules>
+            <name>Principal_Agent</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>$Setup.Agent_Onboarding_Settings__c.Role_RT_Developer_Name__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Role__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Principal Agent</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Principal_Agent_lookup_on_Account</targetReference>
+            </connector>
+            <label>Principal Agent</label>
+        </rules>
+        <rules>
+            <name>Branch_Manager</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>$Setup.Agent_Onboarding_Settings__c.Role_RT_Developer_Name__c</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Role__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Branch Manager</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Agency_s_Branch_Manager_Lookup</targetReference>
+            </connector>
+            <label>Branch Manager</label>
+        </rules>
+    </decisions>
+    <description>Migrated from the Role Object Base PB Process Builder</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>formula_Identify_Branch_Manager</name>
+        <dataType>Boolean</dataType>
+        <expression>ISNEW() &amp;&amp; 
+ISPICKVAL({!$Record.Role__c} , &apos;Branch Manager&apos; ) &amp;&amp; 
+{!$Record.RecordType.DeveloperName} = $Setup.Agent_Onboarding_Settings__c.Role_RT_Developer_Name__c</expression>
+    </formulas>
+    <formulas>
+        <name>formula_Identify_Principal_Agent</name>
+        <dataType>Boolean</dataType>
+        <expression>ISNEW() &amp;&amp; 
+ISPICKVAL({!$Record.Role__c} , &apos;Principal Agent&apos; ) &amp;&amp; 
+{!$Record.RecordType.DeveloperName} = $Setup.Agent_Onboarding_Settings__c.Role_RT_Developer_Name__c</expression>
+    </formulas>
+    <interviewLabel>Role : AS : Handle Roles {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Role : AS : Handle Roles</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Agency_s_Branch_Manager_Lookup</name>
+        <label>Update Agency&apos;s Branch Manager Lookup</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <faultConnector>
+            <targetReference>Set_Scenario_for_logging_BM</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Branch_Manager__c</field>
+            <value>
+                <elementReference>$Record.Contact__r.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record.Account__r</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Principal_Agent_lookup_on_Account</name>
+        <label>Update Principal Agent lookup on Account</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <faultConnector>
+            <targetReference>Set_Scenario_for_logging_PA</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Principal_Agent__c</field>
+            <value>
+                <elementReference>$Record.Contact__r.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record.Account__r</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>What_is_the_new_Role_being_added</targetReference>
+        </connector>
+        <filterFormula>{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False</filterFormula>
+        <object>Roles__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>Scenario</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

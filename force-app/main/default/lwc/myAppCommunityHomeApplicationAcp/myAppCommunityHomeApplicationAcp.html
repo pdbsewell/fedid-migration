@@ -1,0 +1,187 @@
+<template>
+    <!-- desktop -->
+    <div>
+        <div class="acpContainer slds-m-bottom_medium" style="display: flex;">
+            <!-- acp visual cue - desktop-->
+            <div class="slds-size_2-of-12 slds-small-size_2-of-12 slds-medium-size_2-of-12 slds-large-size_2-of-12" style="display: flex;">
+                <div class={acpIcon}>
+                    <center class="slds-p-vertical_medium slds-p-left--medium" >
+                        <img src={acpNumberIcon} style="width: 35px;" />
+                    </center>
+                </div>
+                <div class="acpIcon">
+                    <center class="slds-p-vertical_medium">
+                        <img src={acpIcon} style="width: 35px;" />
+                    </center>
+                </div>
+            </div>
+            <!-- content -->
+            <div class="slds-size_10-of-12 slds-small-size_9-of-12 slds-medium-size_9-of-12 slds-large-size_10-of-12 slds-p-vertical_small">        
+                <!-- acp header -->
+                <div class="slds-size_12-of-12" style="font-size: 14px;">
+                    <b>
+                        {applicationCoursePreference.Course_Code__c} 
+                        - {applicationCoursePreference.Course_Title__c}
+                    </b>
+                    <template if:false={isGraduateResearch}>
+                        <template if:true={retrieveUnitSetDescription}>
+                            <div style="font-size: 15px;">{retrieveUnitSetDescription}</div>
+                        </template>
+                    </template>
+                    <template if:true={isGraduateResearch}>
+                        <template if:false={isAdmission}>
+                            <div style="font-size: 15px;">(Scholarship {applicationCoursePreference.Application__r.Scholarship_Round_Description__c})</div>
+                        </template>
+                    </template>
+                </div>        
+                <div class="slds-size_12-of-12 slds-m-top_xx-small" style="font-size: 15px;">
+                    <!-- show acp status for submitted applications -->
+                    <template if:true={parentApplicationSubmitted}>
+                        <div class="slds-size_12-of-12" if:false={isGraduateResearch}>
+                            <div class="slds-float_left slds-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                Status
+                            </div>
+                            <div class="slds-float_left slds-size_8-of-12 slds-small-size_12-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12">                                
+                                <template if:true={applicationCoursePreference.Outcome_Status_LOV__c}>
+                                    <span class={acpStatus}>{applicationCoursePreferenceStatus}</span>
+                                </template>
+                                <template if:false={applicationCoursePreference.Outcome_Status_LOV__c}>
+                                    Not Started
+                                </template>
+                            </div>
+                        </div>
+                        <!-- only show section for domestic -->
+                        <template if:true={isDomestic}>
+                            <template if:true={applicationCoursePreference.Offer_Response_Date__c}>
+                                <div class="slds-size_12-of-12">
+                                    <div class="slds-float_left slds-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                        Offer Expiry
+                                    </div>
+                                    <div class="slds-float_left slds-size_8-of-12 slds-small-size_12-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                        <lightning-formatted-date-time value={applicationCoursePreference.Offer_Response_Date__c} day="2-digit"></lightning-formatted-date-time> 
+                                        <lightning-formatted-date-time style="margin-left: 5px;" value={applicationCoursePreference.Offer_Response_Date__c} month="long"></lightning-formatted-date-time> 
+                                        <lightning-formatted-date-time style="margin-left: 5px;" value={applicationCoursePreference.Offer_Response_Date__c} year="numeric"></lightning-formatted-date-time>
+                                    </div>
+                                </div>                                                       
+                                <template if:false={determineExpired}>
+                                    <template if:true={showOfferButton}>
+                                        <div class="slds-size_12-of-12">
+                                            <div class="slds-float_left slds-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                                Offer Response
+                                            </div>
+                                            <div class="slds-float_left slds-size_8-of-12 slds-small-size_12-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                                <!-- respond offer button -->
+                                                <button class="btn btn--blue respondAction" onclick={openRespondForm}>
+                                                    <b>Respond</b>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </template>
+                                    <template if:false={showOfferButton}>
+                                        <template if:true={applicationCoursePreference.Offer_Response_Status_LOV__c}>
+                                            <div class="slds-size_12-of-12">
+                                                <div class="slds-float_left slds-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                                    Offer Response
+                                                </div>
+                                                <div class="slds-float_left slds-size_8-of-12 slds-small-size_12-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                                    {applicationCoursePreference.Offer_Response_Status_LOV__r.Applicant_Value__c}
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </template>
+                                </template>
+                                <template if:true={determineExpired}>
+                                    <div class="slds-size_12-of-12">
+                                        <div class="slds-float_left slds-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                            Offer Response
+                                        </div>
+                                        <div class="slds-float_left slds-size_8-of-12 slds-small-size_12-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                            Response not received before Offer Expiry Date.
+                                        </div>
+                                    </div>
+                                </template>
+                            </template>
+                        </template>
+                    </template>
+                </div>
+                <div data-component="additionalDetailsDesktop" class="slds-size_12-of-12" style="font-size: 14px;">   
+                    <template if:true={applicationCoursePreference.Course_Offering__r}>
+                        <template if:false={isGraduateResearch}>
+                            <template if:true={applicationCoursePreference.Course_Offering__r.Admission_Calendar_Description__c}>
+                                <div class="slds-size_12-of-12">
+                                    <div class="slds-float_left slds-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                        Start date
+                                    </div>
+                                    <div class="slds-float_left slds-size_8-of-12 slds-small-size_12-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                        {applicationCoursePreference.Course_Offering__r.Admission_Calendar_Description__c}
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
+                        <template if:true={isGraduateResearch}>
+                            <template if:false={isScholarship}>
+                                <div class="slds-size_12-of-12">
+                                    <div class="slds-float_left slds-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                        Commencement Date
+                                    </div>
+                                    <div class="slds-float_left slds-size_8-of-12 slds-small-size_12-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                        <lightning-formatted-date-time
+                                            value={applicationCoursePreference.Proposed_Commencement_Date__c}
+                                            year="numeric"
+                                            day="2-digit"
+                                            month="long"
+                                            time-zone="UTC">
+                                        </lightning-formatted-date-time>
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
+                        <template if:true={applicationCoursePreference.Course_Offering__r.Attendance_Mode_Description__c}>
+                            <div class="slds-size_12-of-12" if:false={isGraduateResearch}>
+                                <div class="slds-float_left slds-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                    Attendance
+                                </div>
+                                <div class="slds-float_left slds-size_8-of-12 slds-small-size_12-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                    {attendanceMode}
+                                </div>
+                            </div>
+                            <template if:true={applicationCoursePreference.Course_Offering__r.Attendance_Type_Description__c}>
+                                <div class="slds-size_12-of-12" if:true={isGraduateResearch}>
+                                    <div class="slds-float_left slds-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                        Attendance
+                                    </div>
+                                    <div class="slds-float_left slds-size_8-of-12 slds-small-size_12-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                        {applicationCoursePreference.Course_Offering__r.Attendance_Type_Description__c}, {attendanceMode} 
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
+                        <template if:true={getLocation}>
+                            <div class="slds-size_12-of-12">
+                                <div class="slds-float_left slds-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                    Location
+                                </div>
+                                <div class="slds-float_left slds-size_8-of-12 slds-small-size_12-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                    {getLocation}
+                                </div>
+                            </div>
+                        </template>
+                        <template if:false={isGraduateResearch}>
+                            <template if:true={applicationCoursePreference.Course_Offering__r.Attendance_Type_Description__c}>
+                                <div class="slds-size_12-of-12">
+                                    <div class="slds-float_left slds-size_4-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                        Fee type
+                                    </div>
+                                    <div class="slds-float_left slds-size_8-of-12 slds-small-size_12-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                        {applicationCoursePreference.Course_Offering__r.Attendance_Type_Description__c}, {attendanceMode}
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+</template>

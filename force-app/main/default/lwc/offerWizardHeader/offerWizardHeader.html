@@ -1,0 +1,65 @@
+<template>
+    <lightning-card title="Applicant" icon-name="standard:contact">
+        <div class="slds-m-around_medium">
+            <dl class="slds-list_inline slds-grid" style="width:100%">
+                <div class="slds-col slds-size_2-of-12">
+                    <dt class="slds-acp_label slds-text-color_weak slds-truncate" title="Name">Name: </dt>
+                    <dd class=" slds-acp_detail slds-truncate">
+                        <lightning-formatted-text value={firstname}></lightning-formatted-text>
+                        <lightning-formatted-text value={contact.LastName}></lightning-formatted-text>
+                    </dd>
+                </div>
+                <template if:false={isMononymousName}>
+                    <div class="slds-col slds-size_2-of-12">
+                        <dt class="slds-acp_label slds-text-color_weak slds-truncate" title="Name">Legal First Name: </dt>
+                        <dd class=" slds-acp_detail slds-truncate">
+                            <lightning-formatted-text value={contact.First_Name__c}></lightning-formatted-text>
+                        </dd>
+                    </div>
+                </template>
+                <template if:true={isMononymousName}>
+                    <div class="slds-col slds-size_2-of-12">
+                        <dt class="slds-acp_label slds-text-color_weak slds-truncate" title="Name">Legal Name (Mononymous): </dt>
+                        <dd class=" slds-acp_detail slds-truncate">
+                            <lightning-formatted-text value={contact.Last_Name__c}></lightning-formatted-text>
+                        </dd>
+                    </div>
+                </template>
+                <div class="slds-col slds-size_2-of-12">
+                    <dt class="slds-acp_label slds-text-color_weak slds-truncate" title="Name">Person ID: </dt>
+                    <dd class=" slds-acp_detail slds-truncate">
+                        <lightning-formatted-text value={contact.Person_ID__c}></lightning-formatted-text>
+                    </dd>
+                </div>
+                <div class="slds-col slds-size_2-of-12">
+                    <dt class="slds-acp_label slds-text-color_weak slds-truncate" title="Phone">Phone: </dt>
+                    <dd class="slds-acp_detail slds-truncate">
+                        <lightning-formatted-phone value={phoneNumber}></lightning-formatted-phone>
+                    </dd>
+                </div>
+                <div class="slds-col slds-size_2-of-12">
+                    <dt class="slds-acp_label slds-text-color_weak slds-truncate" title="Email">Email: </dt>
+                    <dd class="slds-acp_detail slds-truncate">
+                        <lightning-formatted-email value={contact.Email}></lightning-formatted-email>
+                    </dd>
+                </div>
+                <div class="slds-col slds-size_2-of-12">
+                    <dt class="slds-acp_label slds-text-color_weak slds-truncate" title="Residency Status">Residency Status: </dt>
+                    <dd class="slds-acp_detail slds-truncate">
+                        <lightning-formatted-text value={contact.Residency_Status__c}></lightning-formatted-text>
+                    </dd>
+                </div>
+                <template if:true={showDestinationACPSubmissionLocation}>
+                    <div class="slds-col slds-size_4-of-12">
+                        <dt class="slds-acp_label slds-text-color_weak slds-truncate" title="Destination ACP Submission Location">
+                            Destination ACP Submission Location:
+                        </dt>
+                        <dd class="slds-acp_detail slds-truncate">
+                            <lightning-formatted-text value={destinationACPSubmissionLocation}></lightning-formatted-text>
+                        </dd>
+                    </div>
+                </template>
+            </dl>
+        </div>
+    </lightning-card>
+</template>

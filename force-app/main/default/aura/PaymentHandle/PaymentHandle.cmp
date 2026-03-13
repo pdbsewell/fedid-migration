@@ -1,0 +1,23 @@
+<aura:component implements="force:appHostable,forceCommunity:availableForAllPageTypes" access="global" controller="StdRegController">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="alreadyPaidMsg" type="String" default="" />
+    <aura:attribute name="paymentRec" type="Object" default=""/>
+
+    <aura:If isTrue="{!v.alreadyPaidMsg!=''}">
+        <div style="padding-top:30px;height: 4rem;">
+            <h1 style="text-align:center;">
+                {!v.alreadyPaidMsg}
+            </h1>
+        </div>
+        <aura:set attribute="else">
+
+            <div style="padding-top:30px;font-variant:small-caps;color:rgb(0, 112, 210);font-weight:bold;font-size:15px;font-family:'Salesforce Sans',Arial,sans-serif;">
+                Thanks for registering. Redirecting !!
+            </div>
+
+            <div class="slds-col" padding="around-small">
+                <c:Spinner type="bars" width="80" height="34" color="rgb(0, 112, 210)" show="true" />
+            </div>
+        </aura:set>
+    </aura:If>
+</aura:component>

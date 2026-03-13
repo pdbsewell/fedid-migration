@@ -1,0 +1,227 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="AppDeclarationFormCC">
+    <aura:attribute name="parent" type="Aura.Component" />
+    <aura:attribute name="applicationId" type="String" access="global" />   
+    <aura:attribute name="appId" type="String" default=""/>
+    <aura:attribute name="appRecord" type="Application__c" default="{'sobjectType' : 'Application__c'}"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <aura:attribute name="backDisabled" type="Boolean" default="false"/>
+    <aura:attribute name="submitDisabled" type="Boolean" default="false"/>
+    <aura:attribute name="acceptDisabled" type="Boolean" default=""/>
+    <aura:attribute name="showCCButton" type="Boolean" default="false"/>
+
+    <aura:attribute name="citizenship" type="String" default=""/>
+    <aura:attribute name="fullname" type="String" default=""/>
+    
+    <aura:attribute name="listErrorItems" type="List" description="list of error objects"/>
+    <aura:attribute name="showErrors" type="Boolean" default="false" description="show/hide error modal box"/>
+
+    <aura:attribute name="showPayment" type="Boolean" default="false"/>
+    
+    <div class="{!if(v.showErrors == true, '', 'slds-hide')}" style="">
+      <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+                <h3 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Please complete the following errors</h3>
+            </header>
+          <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">              
+              <aura:iteration items="{!v.listErrorItems}" var="errorTuple">
+                  <div>
+                      <p>In section <a id="{!'errorSection:::' + errorTuple.label}" href="" onclick="{!c.navigateToSection}">{!errorTuple.label}</a>:</p>
+                      <!--<p>In section {!errorTuple.label}:</p>-->
+                      <ul class="slds-list--dotted">
+                          <aura:iteration items="{!errorTuple.errors}" var="errorItem">
+                              <li>{!errorItem}</li>
+                          </aura:iteration>
+                      </ul>
+                  </div>
+              </aura:iteration>
+          </div>
+          <footer class="slds-modal__footer">
+            <button class="slds-button slds-button_neutral" onclick="{!c.onClickCloseAlert}">Close</button>
+          </footer>
+        </div>
+      </section>
+      <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+
+    <!-- Payment Modal -->
+    <aura:if isTrue="{!v.showPayment}">
+        <c:creditcard fee="{!v.appRecord.Fee_Amount__c}" context="{!v.appId}" onclosemodal="{!c.closePayment}" onpaymentsuccess="{!c.submitApplication}"/>
+    </aura:if>
+    
+    <div class="slds slds-is-relative">
+        <aura:if isTrue="{!and(v.appId != '',v.appId != null)}">
+            <!-- Loading spinner while retrieving applicant -->
+            <aura:if isTrue="{!!v.appRecord.Applicant__r.Last_Name__c}">
+                <div class="forceListViewPlaceholder">
+                    <!-- Stencil loader -->
+                    <aura:iteration items="1,2,3,4,5,6,7,8,9,10,11,12,13,14,15" var="item">
+                        <div style="height: 40px;"></div>
+                        <!--<div data-aura-rendered-by="471:0" class="forcePlaceholder" data-aura-class="forcePlaceholder">
+                            <div class="placeholder table_list_line_item ">
+                                <div class="body border-bottom">
+                                    <div class="text-body-col">
+                                        <div class="text text-short"></div>
+                                        <div class="text text-short"></div>
+                                        <div class="text text-short"></div>
+                                        <div class="text text-short"></div>
+                                        <div class="text text-short"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>-->
+                    </aura:iteration>
+                </div>
+                <!-- Spinner loader -->
+                <lightning:spinner class="slds-align_absolute-center" variant="brand" />
+            </aura:if>
+            <!-- Show statement once applicant has been loaded -->
+            <aura:if isTrue="{!v.appRecord.Applicant__r.Last_Name__c}">
+                <div class="slds-grid--pull-padded section-float">
+                    <div class="slds-align--left" style="color:black !important;font-weight:bold;font-family:Roboto Condensed !important;font-size:20px !important;">
+                        Applicant Declaration for {!v.fullname}
+                    </div>
+                    
+                    <div class="slds-p-vertical--x-large" style="padding-top:10px !important">
+                        <div class="slds-text-body--regular">
+                            <ol class="slds-list--ordered" style="font-family:Roboto Condensed;font-size:16px;">
+                                <!-- Statement 1 - removed texts inside () SFTD-321 -->                             
+                                <li>
+                                    <span>
+                                        I, {!v.fullname}, confirm that I am intentionally applying and want to be considered for a course at Monash University.
+                                        If I am under 18 years of age, I have obtained my parent/guardian permission to submit this application.<!-- (In the case of international students, this requires the inclusion of an ‘Under 18 Form’ with your application documents.)-->
+                                    </span>
+                                </li>
+                                <!-- Statement 2 -->
+                                <li>
+                                    I warrant that the information I, or any person acting on my behalf (such as my agent, representative or home institution), 
+                                    have supplied in this application, or provided in support of my application, is correct and complete. 
+                                    Should I notice a mistake, I will contact Monash University as soon as possible to correct the information.
+                                </li>
+                                <!-- Statement 3 -->
+                                <li>
+                                    I agree that Monash University may contact me using the details I have provided with this application to request outstanding or 
+                                    additional requirements, request outstanding or additional information, and/or to inform me of the progress of my application.
+                                </li>
+                                <!-- Statement 4 -->
+                                <li>
+                                    I acknowledge that the provision of incomplete information or the withholding or non-provision of information relating to 
+                                    my application (e.g. supporting documents such as academic transcripts or test results, identity documents such as passport details) 
+                                    may result in the University refusing to assess my application, withdrawing a course offer, or cancelling my enrolment.
+                                </li>
+                                <!-- Statement 5 -->
+                                <li>
+                                    Should the University determine that I have submitted incorrect information or a false document, I understand the University will 
+                                    disclose this information to other relevant tertiary institutions and regulatory bodies.
+                                </li>
+                                <!-- Statement 6 -->
+               			<li>
+					  I understand the University can request, gather and/or verify my study, work, and test claims within this application. 
+					  This may include but is not limited to: contacting current or past employer referees to verify employment, requesting electronic results 
+					  from educational institutions to verify and authenticate educational study claims (i.e., QualSearch), electronically verify test 
+					  results to authenticate test outcomes (i.e., IELTS, TOEFL verification services), and looking up visa statuses (using VEVO).
+				</li>
+				<!-- Statement 7 -->
+				<li>
+				  When required, I consent to the University providing information in relation to my application and my enrolment at Monash University to my sponsor.
+				</li>
+				<!-- Statement 8 -->
+				<li>
+				  I understand that if any educational body or institution does not supply electronic records, I will be responsible for supplying 
+				  documentation to support my educational history so that the assessment of my application is possible.
+				</li>
+				<!-- Statement 9 -->
+				<li>
+				  I understand that by clicking submit I am providing sensitive information such as whether I have a medical condition or criminal record. 
+				  I also understand that if I answered yes to having a criminal record or medical condition, I may be required to submit further 
+				  sensitive information (e.g. about my health and any criminal record) to progress my application.
+				</li>
+				<!-- Statement 10 -->
+				<li>
+				  I agree to pay the application processing fee amount shown on the payment page if not zero, waived or handled by an agent.
+				  Non-payment may result in the University refusing to assess my application.
+				</li>
+				<!-- Statement 11 -->
+				<li>
+				  Should I receive a course offer, I am aware of the estimated course fees at Monash University and/or living costs associated with 
+				  physically attending classes. I understand that the total course fees do not cover the cost of books, materials, field trips or 
+				  any additional cost related to my course, unless otherwise specified.
+				</li>
+				<!-- Statement 12 -->
+				<li>
+				  I agree that Monash University may cancel my application or admission if its continuation may, in the opinion of the University, 
+				  place the University in breach of any applicable law, including any law that implements UN sanctions.
+				</li>
+				<!-- Statement 13 -->
+				<li>
+				  I have read and understood the University's Data Protection and Privacy Procedure (<a href="https://www.monash.edu/privacy-monash/privacy-collection-statements" class="slds-text-link" target="_blank">Monash University Australia</a>, 
+				  <a href="https://www.monash.edu.my/__data/assets/pdf_file/0008/517355/Personal-Data-Protection-Notice-MUM.pdf" class="slds-text-link" target="_blank">Monash University Malaysia</a>, 
+				  <a href="https://www.monashcollege.edu.au/privacy" class="slds-text-link" target="_blank">Monash College</a>) and the purposes for which my personal information will be 
+				  used as set out in the <a href="https://www.monash.edu/__data/assets/pdf_file/0004/1595263/Admissions-Data-Protection-and-Privacy-Collection-Statement.pdf" class="slds-text-link" target="_blank">Admissions Collection Statement</a>.
+				</li>
+				<!-- Statement 14 -->
+				<li>
+				  If applying to study in Australia under a student visa, I declare that I am a <a href="https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/student-500/genuine-temporary-entrant" class="slds-text-link" target="_blank">Genuine Temporary Entrant (GTE)</a> and a Genuine Student, and that I have
+				  read and understood the <a href="https://immi.homeaffairs.gov.au/visas/getting-a-visa/visa-listing/student-500#Overview" class="slds-text-link" target="_blank">terms and conditions of the Student Visa</a> as defined on the Department of Home Affairs website. 
+				  I understand that if the University forms the opinion that I am not a Genuine Temporary Entrant it may refuse to assess my application, withdraw an offer of a place or cancel my confirmation of enrolment (COE).
+				</li>
+    			 </ol>
+                        </div>
+                    </div>
+                </div>
+                <!-- conditional show/hide Acceptance buttons -->
+                <div class="slds-grid">
+                    <div class="slds-col">
+                       <span>
+                          <button class="secondaryButton" onclick="{!c.backToPaymentOrReview}" disabled="{!v.backDisabled}">
+                             <lightning:icon class="blueFill" iconName="utility:chevronleft" size="small" />
+                             <span style="padding-left: 1em;">PREVIOUS</span>
+                          </button>
+                       </span>
+                       <span style="padding-left: 1em;">
+                          <aura:if isTrue="{!v.showCCButton}">
+                             <button aura:id="acceptPay" class="primaryButton" onclick="{!c.pay}" disabled="{!v.submitDisabled}">
+                                ACCEPT &amp; PAY
+                                <span style="padding-left: 1em;">
+                                   <lightning:icon class="primaryIcon" iconName="utility:check" size="small" />
+                                </span>
+                             </button>
+                             <aura:set attribute="else">
+                                <aura:if isTrue="{!and(v.appRecord.Source_System__c!='AgentPortal')}">
+                                   <button aura:id="acceptButton" class="primaryButton" onclick="{!c.submitApplication}" disabled="{!v.submitDisabled}">
+                                      ACCEPT &amp; SUBMIT
+                                      <span style="padding-left: 1em;">
+                                         <lightning:icon class="primaryIcon" iconName="utility:check" size="small" />
+                                      </span>
+                                   </button>
+                                   <aura:set attribute="else">
+                                      <button  aura:id="acceptButton" class="primaryButton" onclick="{!c.sendToAgent}" disabled="{!v.acceptDisabled}">
+                                         ACCEPT STUDENT DECLARATION
+                                         <span style="padding-left: 1em;">
+                                            <lightning:icon class="primaryIcon" iconName="utility:check" size="small" />
+                                         </span>
+                                      </button>
+                                   </aura:set>
+                                </aura:if>
+                             </aura:set>
+                          </aura:if>
+                       </span>
+                    </div>
+                    <div class="slds-col">
+                       <button style="float:right" class="slds-button" onclick="{!c.saveandExit}" disabled="{!v.navigationDisabled}">
+                          <img src="{!$Resource.myappsaveicon}" class="save-icon" alt=""/>
+                          <span style="padding-left: 1em;">
+                                 <h4 style=" text-decoration: underline;">SAVE &amp; EXIT</h4>
+                          </span>
+                       </button>
+                       <aura:if isTrue="{!v.submitDisabled}">
+                          <lightning:spinner alternativeText="Loading" size="medium" variant="brand" />
+                       </aura:if>
+                    </div>
+                </div>
+            </aura:if>
+        </aura:if>
+    </div>
+</aura:component>

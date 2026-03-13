@@ -1,0 +1,131 @@
+<template>
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open" aria-modal="true" aria-label="Apply to monash">
+        <div class="slds-modal__container"> 
+            <header class="slds-modal__header slds-modal__header_empty">
+                <br /><br />
+                <h2 id="modalHeading" class="slds-text-heading_large slds-hyphenate" style="font-weight: bold;color:black;line-height: 57px;font-size: 40px;">
+                    APPLY TO MONASH</h2><br />
+                <p class="slds-p-horizontal_large headingText">
+                    <lightning-formatted-rich-text value={modalSubHeading}></lightning-formatted-rich-text>
+                </p>
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close"
+                    onclick={closeAppForm}>
+                    <lightning-icon icon-name="utility:close" variant="bare" size="small"></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium slds-is-relative" id="modal-content-id-1" style="overflow: initial;">
+                <div if:false={blankScreen} class="slds-box sectionContainerTopBorder">
+                    <lightning-layout if:true={countryScreen} multiple-rows="true" padding="horizontal-small" class="slds-m-top_xx-small" pull-to-boundary="small">
+                        <template for:each={countryOptions} for:item="item">
+                            <lightning-layout-item key={item.label} size="6" small-device-size="12" medium-device-size="6" large-device-size="6" padding="around-small">
+                                <div if:true={item.imageURL} class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-visual-picker countryBox" role="button" tabindex="0" data-id={item.label} onclick={handleCountryChange} onkeydown={handleKeydown}>
+                                    <div class="imageIcon">
+                                        <img src={item.imageURL} class="banner-img" />
+                                    </div>
+                                    <div class="countryName">{item.label}</div>
+                                </div>
+                            </lightning-layout-item>  
+                        </template>                              
+                    </lightning-layout>
+
+                    <lightning-layout if:true={studyTypeScreen} multiple-rows="true" padding="horizontal-small" class="slds-m-top_xx-small" pull-to-boundary="small">
+                        <template for:each={sTOptions} for:item="item">
+                            <lightning-layout-item key={item.label} size="6" small-device-size="12" medium-device-size="6" large-device-size="6" padding="around-small">
+                                <div if:true={item.label} class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-visual-picker courseBox" role="button" tabindex="0" data-id={item.label} onclick={handleStudyTypeChange} onkeydown={handleKeydown}>
+                                    <div class="imageIcon">
+                                        <img src={item.image} class="banner-img" />
+                                    </div>
+                                    <div class="slds-grid slds-grid_vertical">
+                                        <div class="slds-col slds-text-align_left headingText">
+                                            <span>{item.label}</span>
+                                        </div>
+                                        <div class="slds-col slds-text-align_left lightText">
+                                            <span>{item.value}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>  
+                        </template>          
+                    </lightning-layout>
+
+                    <lightning-layout if:true={gradResearchQualifierScreen} multiple-rows="true" padding="horizontal-small" class="slds-m-top_xx-small" pull-to-boundary="small">
+                        <template for:each={gradResearchAndExchangeOption} for:item="item">
+                            <lightning-layout-item key={item} size="6" small-device-size="12" medium-device-size="6" large-device-size="6" padding="around-small">
+                                <div class="slds-size_1-of-2 slds-max-small-size_1-of-1 slds-visual-picker countryBox" role="button" tabindex="0" data-id={item} onclick={handleGradResearchAndExchange} onkeydown={handleKeydown}>
+                                    <div class="slds-grid slds-grid_vertical">
+                                        <div class="slds-col slds-p-left_small headingText">
+                                            <span>{item}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>  
+                        </template>          
+                    </lightning-layout>
+
+                    <lightning-layout if:true={summaryScreen} multiple-rows="true" padding="horizontal-small" class="slds-m-top_xx-small" pull-to-boundary="small">
+                        <lightning-layout-item size="6" small-device-size="12" medium-device-size="6" large-device-size="6" padding="around-small">
+                            <div class="slds-grid slds-grid_vertical">
+                                <div class="slds-col slds-text-align_left lightText">
+                                    <span>Name</span>
+                                </div>
+                                <div class="slds-col slds-text-align_left headingText">
+                                    <span>{userDetails.Name}</span>
+                                </div>
+                                <br/>
+                                <div class="slds-col slds-text-align_left lightText">
+                                    <span>Email</span>
+                                </div>
+                                <div class="slds-col slds-text-align_left headingText">
+                                    <span>{userDetails.Email}</span>
+                                </div>
+                                <br/>
+                                <div class="slds-col slds-text-align_left lightText">
+                                    <span>Study Location</span>
+                                </div>
+                                <div class="slds-col slds-text-align_left headingText">
+                                    <span>{location}</span>
+                                </div>
+                                <br/>
+                                <div class="slds-col slds-text-align_left lightText">
+                                    <span>Study Type</span>
+                                </div>
+                                <div class="slds-col slds-text-align_left headingText">
+                                    <span>{sTValue}</span>
+                                </div>                                    
+                            </div>
+                        </lightning-layout-item>         
+                    </lightning-layout>
+                </div>
+                <div if:true={isResearchInMalaysia}>
+                    <p><b>Please note that successful applicants to Monash Malaysia may be invited to apply for a scholarship administered by Monash Malaysia on successful offer or acceptance of their offer. An application for Research Degree Only is a necessary precursor for scholarship consideration.</b></p>
+                </div>
+                <template if:true={isLoading}>
+                    <lightning-spinner alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
+                </template>
+                <template if:true={summaryScreen}>
+                    <lightning-layout horizontal-align="space">
+                        <lightning-layout-item>
+                            <button class="btn btn--blue homeAction" onclick={createDraftApplication}>
+                                Continue application
+                            </button>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </template>
+                <br/>
+                <div if:false={blankScreen} class="slds-grid slds-grid_vertical">
+                    <div class="slds-col slds-text-align_center headingText">
+                        <a href="javascript:void(0);" onclick={handleBack} role="button" tabindex="0" onkeydown={handleKeydown}>Back</a>
+                    </div>
+                </div>
+
+                <div if:true={blankScreen} class="slds-grid slds-grid_vertical">
+                    <div class="slds-col slds-text-align_center headingText">
+                        <a href="javascript:void(0);" onclick={closeAppForm} role="button" tabindex="0" onkeydown={handleKeydown}>Back to Home</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

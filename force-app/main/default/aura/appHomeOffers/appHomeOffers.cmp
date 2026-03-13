@@ -1,0 +1,433 @@
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes"
+                access="global"
+                controller="appHomeOffersCC">
+
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="user" type="User" description="current user object"/>
+    <aura:attribute name="showComponent" type="Boolean" default="false" description="toggle if thsi component needs to show"/>
+    <aura:attribute name="submittedApplications" type="List" description="the list of submitted applications"/>
+    <aura:attribute name="haveOffers" type="Boolean" default="false" description="any offers available"/>
+
+    <aura:attribute name="showSpinner" type="Boolean" default="false" description="show the spinner for the page"/>
+
+    <!-- response popup -->
+    <aura:attribute name="showResponsePopup" type="Boolean" default="false" description="show the popup for responding to an offer"/>
+    <!-- <aura:attribute name="showCongratsPopup" type="Boolean" default="false" description="show the popup for next steps after accepting an offer"/> -->
+    <aura:attribute name="confirmMsgContent" type="String" default=""/>
+    <aura:attribute name="confirmMsgTitle" type="String" default=""/>
+
+    <aura:attribute name="showConfirmPopup" type="Boolean" default="false" description="show the confirmation popup after Accept/Reject is clicked"/>
+
+    <aura:attribute name="showConfirmReject" type="Boolean" default="false" description="show the confirm popup for rejection"/>
+    <aura:attribute name="selectedACPId" type="Id" description="the selected ACP for responding within a popup"/>
+    <aura:attribute name="selectedACP" type="Application_Course_Preference__c" description="the selected ACP for responding"/>
+    <aura:attribute name="mockFullOffer" type="Boolean" default="false"/>
+
+
+    <!-- END ATTRIBUTES -->
+
+    <div class="slds-section slds-text-body_small">
+        <!-- LOADING SPINNER -->
+        <div class="{!if(v.showSpinner == true, '', 'slds-hide')}">
+            <lightning:spinner aura:id="spinner" alternativeText="Saving"/>
+        </div>
+        <!-- END LOADING SPINNER -->
+
+        <div class="{!if(v.showResponsePopup, '', 'slds-hide')}">
+            <div class="" style="">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <div class="slds-modal__header slds-theme--alt-inverse slds-clearfix">
+                            <div class="slds-float_right">
+                                <lightning:buttonIcon iconName="utility:close"
+                                                      alternativeText="close respond to offer popup"
+                                                      size="large"
+                                                      variant="bare-inverse"
+                                                      onclick="{!c.closeRespondPopup}"
+                                />
+                            </div>
+                            <h2 class="slds-text-heading--small" id="prompt-heading-id">Confirm Your Offer Response</h2>
+                        </div>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <p><b>Course Title: </b> {!v.selectedACP.Course_Code__c} - {!v.selectedACP.Course_Title__c} {!if(empty(v.selectedACP.Unit_Set_Description__c), '', ' - ' + v.selectedACP.Unit_Set_Description__c)}</p>
+                            <aura:if isTrue="{!not(empty(v.selectedACP.Course_Offering__r.Attendance_Mode_Description__c))}">
+                                <p><b>Attendance Mode: </b>{!v.selectedACP.Course_Offering__r.Attendance_Mode_Description__c}</p>
+                            </aura:if>
+                            <aura:if isTrue="{!not(empty(v.selectedACP.Course_Offering__r.Location_Description__c))}">
+                                <p><b>Location: </b> {!v.selectedACP.Course_Offering__r.Location_Description__c}</p>
+                            </aura:if>
+                            <aura:if isTrue="{!not(empty(v.selectedACP.Course_Offering__r.Admission_Calendar_Description__c))}">
+                                <p><b>Intake: </b> {!v.selectedACP.Course_Offering__r.Admission_Calendar_Description__c}</p>
+                            </aura:if>
+                            <aura:if isTrue="{!not(empty(v.selectedACP.Offer_Response_Date__c))}">
+                                <p><b>Offer Expiry Date: </b> {!v.selectedACP.Offer_Response_Date__c}</p>
+                            </aura:if>
+                            <aura:if isTrue="{!not(empty(v.selectedACP.Course_Offering__r.Type_of_Place_Description__c))}">
+                                <p><b>Fee Type: </b> {!v.selectedACP.Course_Offering__r.Type_of_Place_Description__c}</p>
+                            </aura:if>
+                            <aura:if isTrue="{!v.mockFullOffer}">
+                                <p><b>Offer Type: </b> Full Offer</p>
+                                <aura:set attribute="else">
+                                    <p><b>Offer Type: </b> {!v.selectedACP.Outcome_Status_LOV__r.Applicant_Value__c}</p>
+                                </aura:set>
+                            </aura:if>
+
+                            <aura:if isTrue="{!!v.mockFullOffer}">
+                                <aura:if isTrue="{!and(and(v.selectedACP.Outcome_Status_LOV__c!=null, v.selectedACP.Outcome_Status_LOV__r.Value__c== 'OFFER-COND'),not(empty(v.selectedACP.Conditional_Offer_Status_LOV__r.Applicant_Value__c)))}">
+                                    <p><b>Offer Condition(s) Status: </b> {!v.selectedACP.Conditional_Offer_Status_LOV__r.Applicant_Value__c}</p>
+                                </aura:if>
+                                <aura:if isTrue="{!and(and(greaterthan(v.selectedACP.Offer_Condition__c.length,45), v.selectedACP.Outcome_Status_LOV__r.Value__c== 'OFFER-COND'),not(empty(v.selectedACP.Offer_Condition__c)))}">
+                                    <b> Conditions to be fulfilled before enrollment:</b>
+                                    <ui:outputRichText  class="slds-popover__body" value="{!v.selectedACP.Offer_Condition__c}" />
+                                </aura:if>
+                                <aura:if isTrue="{!and(and(lessthan(v.selectedACP.Offer_Condition__c.length,45), v.selectedACP.Outcome_Status_LOV__r.Value__c== 'OFFER-COND'),not(empty(v.selectedACP.Offer_Condition__c)))}">
+                                    <p><b> Conditions to be fulfilled before enrollment: </b> {!v.selectedACP.Offer_Condition__c}</p>
+                                </aura:if>
+                                <aura:if isTrue="{!v.selectedACP.Outcome_Status_LOV__c!=null}">
+                                    <aura:if isTrue="{!and(and(v.selectedACP.Conditional_Offer_Status_LOV__c!=null, or(v.selectedACP.Conditional_Offer_Status_LOV__r.Value__c== 'SATISFIED', v.selectedACP.Conditional_Offer_Status_LOV__r.Value__c== 'WAIVED')),and(v.selectedACP.Outcome_Status_LOV__r.Value__c== 'OFFER-COND',not(empty(v.selectedACP.Conditional_Offer_Satisfied_Date__c))))}">
+                                        <p><b>Conditional Offer Satisfied Date: </b> {!v.selectedACP.Conditional_Offer_Satisfied_Date__c}</p>
+                                    </aura:if>
+                                </aura:if>
+                            </aura:if>
+                            <br/>
+                            <aura:if isTrue="{!v.selectedACP.Application__r.Credit_Intention__c}">
+                                <p>Your application for credit (recognition of prior learning) outcome will be communicated to you separately.</p>
+                            </aura:if>
+
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <div class="slds-m-around_none slds-grid slds-gutters_xxx-small">
+                                <div class="slds-text-align_left slds-col slds-size_3-of-5">
+                                </div>
+                                <div class="slds-col slds-size_2-of-5">
+                                    <lightning:button label="Reject"
+                                                      iconPosition="left"
+                                                      variant="destructive"
+                                                      onclick="{!c.rejectACP}">
+                                    </lightning:button>
+                                    <lightning:button label="Accept"
+                                                      iconPosition="left"
+                                                      variant="brand"
+                                                      class="slds-button slds-button--neutral"
+                                                      onclick="{!c.acceptACP}">
+                                    </lightning:button>
+                                </div>
+                            </div>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </div>
+        <!-- END RESPONSE POPUP -->
+
+        <!--CONFIRMATION POPUP START -->
+        <div class="{!if(v.showConfirmPopup, '', 'slds-hide')}">
+            <div class="" style="">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <div class="slds-modal__header slds-theme--alt-inverse slds-clearfix">
+                            <div class="slds-float_right">
+                                <lightning:buttonIcon iconName="utility:close"
+                                                      alternativeText="close confirmation popup"
+                                                      size="large"
+                                                      variant="bare-inverse"
+                                                      onclick="{!c.closeConfirmPopup}"
+                                />
+                            </div>
+                            <h2 class="slds-text-heading--small" id="prompt-heading-id">{!v.confirmMsgTitle}</h2>
+                        </div>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <aura:unescapedHtml value="{!v.confirmMsgContent}" />
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <div class="slds-m-around_none slds-grid slds-gutters_xxx-small">
+                                <div class="slds-text-align_left slds-col slds-size_3-of-5">
+                                </div>
+                                <div class="slds-col slds-size_2-of-5">
+
+                                    <lightning:button label="OK"
+                                                      iconPosition="left"
+                                                      variant="brand"
+                                                      class="slds-button slds-button--neutral"
+                                                      onclick="{!c.closeConfirmPopup}">
+                                    </lightning:button>
+                                </div>
+                            </div>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </div>
+        <!-- CONFIRMATION POPUP END -->
+
+        <!-- CONFIRM REJECT POPUP -->
+        <div class="{!if(v.showConfirmReject, '', 'slds-hide')}">
+            <div class="" style="">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <div class="slds-modal__header slds-theme--error">
+                            <div class="slds-float_right">
+                                <lightning:buttonIcon iconName="utility:close"
+                                                      alternativeText="cancel rejection of this offer"
+                                                      size="large"
+                                                      variant="bare-inverse"
+                                                      onclick="{!c.closeConfirmReject}"
+                                />
+                            </div>
+                            <h2 class="slds-text-heading--small" id="prompt-heading-id">Reject Offer?</h2>
+                        </div>
+                        <div class="slds-modal__content slds-p-around_medium slds-wrap" id="modal-content-id-1">
+                            <p><b>Course Title: </b> {!v.selectedACP.Course_Code__c} - {!v.selectedACP.Course_Title__c} {!if(empty(v.selectedACP.Unit_Set_Description__c), '', ' - ' + v.selectedACP.Unit_Set_Description__c)}</p>
+                            <aura:if isTrue="{!not(empty(v.selectedACP.Course_Offering__r.Attendance_Mode_Description__c))}">
+                                <p><b>Attendance Mode: </b>{!v.selectedACP.Course_Offering__r.Attendance_Mode_Description__c}</p>
+                            </aura:if>
+                            <aura:if isTrue="{!not(empty(v.selectedACP.Course_Offering__r.Location_Description__c))}">
+                                <p><b>Location: </b> {!v.selectedACP.Course_Offering__r.Location_Description__c}</p>
+                            </aura:if>
+                            <aura:if isTrue="{!not(empty(v.selectedACP.Course_Offering__r.Admission_Calendar_Description__c))}">
+                                <p><b>Intake: </b> {!v.selectedACP.Course_Offering__r.Admission_Calendar_Description__c}</p>
+                            </aura:if>
+                            <aura:if isTrue="{!not(empty(v.selectedACP.Offer_Response_Date__c))}">
+                                <p><b>Offer Expiry Date: </b> {!v.selectedACP.Offer_Response_Date__c}</p>
+                            </aura:if><aura:if isTrue="{!not(empty(v.selectedACP.Course_Offering__r.Type_of_Place_Description__c))}">
+                                <p><b>Fee Type: </b> {!v.selectedACP.Course_Offering__r.Type_of_Place_Description__c}</p>
+                            </aura:if>
+
+                            <aura:if isTrue="{!v.mockFullOffer}">
+                                <p><b>Offer Type: </b> Full Offer</p>
+                                <aura:set attribute="else">
+                                    <aura:if isTrue="{!v.selectedACP.Outcome_Status_LOV__c!=null}">
+                                        <p><b>Offer Type: </b> {!v.selectedACP.Outcome_Status_LOV__r.Applicant_Value__c}</p>
+                                    </aura:if>
+                                </aura:set>
+                            </aura:if>
+                            <aura:if isTrue="{!!v.mockFullOffer}">
+                                <aura:if isTrue="{!and(and(v.selectedACP.Outcome_Status_LOV__c!=null, v.selectedACP.Outcome_Status_LOV__r.Value__c== 'OFFER-COND'),not(empty(v.selectedACP.Conditional_Offer_Status_LOV__r.Applicant_Value__c)))}">
+                                    <p><b>Offer Condition(s) Status: </b> {!v.selectedACP.Conditional_Offer_Status_LOV__r.Applicant_Value__c}</p>
+                                </aura:if>
+                                <aura:if isTrue="{!and(and(greaterthan(v.selectedACP.Offer_Condition__c.length,45), v.selectedACP.Outcome_Status_LOV__r.Value__c== 'OFFER-COND'),not(empty(v.selectedACP.Offer_Condition__c)))}">
+                                    <b> Conditions to be fulfilled before enrollment:</b>
+                                    <ui:outputRichText  class="slds-popover__body" value="{!v.selectedACP.Offer_Condition__c}" />
+                                </aura:if>
+                                <aura:if isTrue="{!and(and(lessthan(v.selectedACP.Offer_Condition__c.length,45), v.selectedACP.Outcome_Status_LOV__r.Value__c== 'OFFER-COND'),not(empty(v.selectedACP.Offer_Condition__c)))}">
+                                    <p><b> Conditions to be fulfilled before enrollment: </b> {!v.selectedACP.Offer_Condition__c}</p>
+                                </aura:if>
+                                <aura:if isTrue="{!v.selectedACP.Outcome_Status_LOV__c!=null}">
+                                    <aura:if isTrue="{!and(and(v.selectedACP.Conditional_Offer_Status_LOV__c!=null, or(v.selectedACP.Conditional_Offer_Status_LOV__r.Value__c== 'SATISFIED', v.selectedACP.Conditional_Offer_Status_LOV__r.Value__c== 'WAIVED')),and(v.selectedACP.Outcome_Status_LOV__r.Value__c== 'OFFER-COND',not(empty(v.selectedACP.Conditional_Offer_Satisfied_Date__c))))}">
+                                        <p><b>Conditional Offer Satisfied Date: </b> {!v.selectedACP.Conditional_Offer_Satisfied_Date__c}</p>
+                                    </aura:if>
+                                </aura:if>
+                            </aura:if>
+                            <br/>
+                            <aura:if isTrue="{!v.selectedACP.Application__r.Credit_Intention__c}">
+                                <p>Your application for credit (recognition of prior learning) outcome will be communicated to you separately.</p>
+                            </aura:if>
+
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <div class="slds-m-around_none slds-grid slds-gutters_xxx-small">
+                                <div class="slds-text-align_left slds-col slds-size_3-of-5">
+                                    <p class="slds-text-body_small">This action cannot be undone</p>
+                                </div>
+                                <div class="slds-col slds-size_2-of-5">
+                                    <lightning:button label="Cancel"
+                                                      iconPosition="left"
+                                                      variant="neutral"
+                                                      class="slds-button"
+                                                      onclick="{!c.closeConfirmReject}">
+                                    </lightning:button>
+                                    <lightning:button label="Reject"
+                                                      iconPosition="left"
+                                                      variant="destructive"
+                                                      class="slds-button"
+                                                      onclick="{!c.confirmReject}">
+                                    </lightning:button>
+                                </div>
+                            </div>
+                        </footer>
+
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </div>
+        <!-- END RESPONSE POPUP -->
+
+
+        <!-- alert banner for response -->
+
+        <div class="{!if(v.haveOffers, '', 'slds-hide')}">
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-m-bottom--medium" style="background-color: #216ff0" role="alert">
+                <h2 class="white-text" style="font-weight: bold">Congratulations! You have offers awaiting your response.</h2>
+            </div>
+        </div>
+        <!-- END alert banner for response -->
+
+
+        <!-- main table -->
+        <div class="{!if(v.showComponent, '', 'slds-hide')}">
+            <div class="slds-container_center slds-text-body_small">
+                <div class="slds-color__background_gray-4" style="padding-top: 0.5em; padding-bottom: 0.5em">
+                    <h2 class="slds-text-heading_small slds-m-left_medium">Submitted Applications</h2>
+                </div>
+
+
+                <aura:iteration var="app" items="{!v.submittedApplications}">
+
+                    <div class="slds-m-bottom_xx-large">
+                        <div class="slds-text-title_caps slds-m-around_medium slds-clearfix" style="font-weight: bold">
+                            <div class="slds-float_left">                                
+                                <lightning:button variant="base" 
+                                                  label="{!app.headerName}"
+                                                  name="{!app.applicationId}"
+                                                  onclick="{!c.goToApplicationDetails}" />
+                            </div>
+                            <div class="slds-float_right">
+                                <!-- comments option -->
+                                <aura:if isTrue="{!app.APPLICATION_COMMENT_COUNT != 0}">
+                                    <lightning:button
+                                            name="{!app.applicationId}"
+                                            variant="brand"
+                                            class="slds-text-body_small"
+                                            iconName="utility:prompt"
+                                            onclick="{!c.addDocument}">       
+                                        <span>{!app.APPLICATION_COMMENT_COUNT + ' ' + if(app.APPLICATION_COMMENT_COUNT == 1,'Comment','Comments')}</span>
+                                        
+                                        <aura:if isTrue="{!app.APPLICATION_UNREAD_COMMENT_COUNT != 0}">
+                                            <span class="notificationPosition" title="{!'You have ' + app.APPLICATION_UNREAD_COMMENT_COUNT + ' new unread ' + if(app.APPLICATION_COMMENT_COUNT == 1,'comment','comments')}">
+                                                <span class="notificationIcon">{!app.APPLICATION_UNREAD_COMMENT_COUNT}</span>
+                                            </span>
+                                        </aura:if>
+                                    </lightning:button>
+                                </aura:if>
+                                
+                                <!-- documents option -->
+                                <lightning:button name="{!app.applicationId}"
+                                                  variant="brand"
+                                                  class="slds-text-body_small"
+                                                  iconName="utility:open_folder"
+                                                  onclick="{!c.addDocument}">        
+                                    <span>Documents</span>
+                                    <aura:if isTrue="{!app.OUTSTANDING_CHECKLIST != 0}">
+                                        <span class="notificationPosition" title="{!'You have ' + app.OUTSTANDING_CHECKLIST + ' checklist ' + if(app.OUTSTANDING_CHECKLIST == 1,'item','items') + ' outstanding'}">
+                                            <span class="notificationIcon">{!app.OUTSTANDING_CHECKLIST}</span>
+                                        </span>
+                                    </aura:if>
+                                </lightning:button>
+                            </div>
+                        </div>
+                        <table id="appOfferTable" class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout slds-no-row-hover">
+                            <thead>
+                            <tr class="slds-text-title_caps" style="vertical-align:top">
+                                <th scope="col" title="Preference Number" class="" style="font-weight: bold;width:5%">
+                                    <div class="slds-truncate slds-cell-wrap" >#</div>
+                                </th>
+                                <!--th scope="col" title="Application Date" class="slds-size_1-of-12">
+                                    <div class="slds-truncate slds-cell-wrap">Application Date</div>
+                                </th-->
+
+                                <th scope="col" title="Course Title" class="" style="font-weight: bold">
+                                    <div class="slds-truncate slds-cell-wrap slds-text-align_left">Course Title</div>
+                                </th>
+                                <th scope="col" title="Attendance Mode" class="" style="font-weight: bold">
+                                    <div class="slds-truncate slds-cell-wrap slds-text-align_left">Attendance Mode</div>
+                                </th>
+                                <th scope="col" title="Location" style="font-weight: bold;width:10%">
+                                    <div class="slds-truncate slds-cell-wrap">Location</div>
+                                </th>
+                                <th scope="col" title="Period" style="font-weight: bold">
+                                    <div class="slds-truncate slds-cell-wrap">Period</div>
+                                </th>
+                                <th scope="col" title="Fee Type" class="" style="font-weight: bold">
+                                    <div class="slds-truncate slds-cell-wrap">Fee Type</div>
+                                </th>
+                                <th scope="col" title="Outcome" class="" style="font-weight: bold">
+                                    <div class="slds-truncate slds-cell-wrap">Outcome</div>
+                                </th>
+                                <th scope="col" title="Offer Expiry Date" class="" style="font-weight: bold;">
+                                    <div class="slds-truncate slds-cell-wrap" >Offer Expiry Date</div>
+                                </th>
+                                <th scope="col" title="Offer Response" class="" style="font-weight: bold">
+                                    <div class="slds-truncate slds-cell-wrap">Offer Response</div>
+                                </th>
+                            </tr>
+                            </thead>
+
+                            <tbody class="slds-text-body_small">
+
+                            <aura:iteration var="pref" items="{!app.acps}">
+                                <tr style="vertical-align: top">
+                                    <td data-label="Preference Number" class="cellACP">
+                                        <div class="slds-cell-wrap slds-align-top">{!pref.Preference_Number__c}</div>
+                                    </td>
+                                    <!--td data-label="Application Date" style="padding:0">
+                                        <div class="slds-cell-wrap">{!pref.Application__r.Submitted_Date__c}</div>
+                                    </td-->
+                                    <td data-label="Course Title" class="cellACP">
+                                        <div class="slds-truncate slds-cell-wrap slds-align-top">
+                                            {!pref.Course_Code__c} - {!pref.Course_Title__c} {!if(empty(pref.Unit_Set_Description__c), '', ' - ' + pref.Unit_Set_Description__c)}
+                                        </div>
+                                    </td>
+                                    <td data-label="Attendance Mode" class="cellACP">
+                                        <div class="slds-cell-wrap slds-align-top">{!pref.Course_Offering__r.Attendance_Mode_Description__c}</div>
+                                    </td>
+                                    <td data-label="Location" class="cellACP">
+                                        <div class="slds-cell-wrap">{!pref.Course_Offering__r.Location_Description__c}</div>
+                                    </td>
+                                    <td data-label="Period" class="cellACP">
+                                        <div class="slds-cell-wrap">{!pref.Course_Offering__r.Admission_Calendar_Description__c}</div>
+                                    </td>
+                                    <td data-label="Fee Type" class="cellACP">
+                                        <div class="slds-cell-wrap">{!pref.Course_Offering__r.Type_of_Place_Description__c}</div>
+                                    </td>
+
+
+                                    <td scope="col" class="cellACP">
+                                        <div class="slds-cell-wrap">{!pref.offerType}</div>
+                                    </td>
+
+                                    <td scope="col" class="cellACP">
+                                        <div class="slds-cell-wrap">{!pref.Offer_Response_Date__c}</div>
+                                    </td>
+                                    <td scope="col" class="" style="vertical-align: center">
+                                        <div class="slds-cell-wrap">
+
+                                            <!-- available for response -->
+                                            <aura:if isTrue="{!pref.showOfferButton}">
+                                                <lightning:button label="Respond"
+                                                                  name="{!pref.Id}"
+                                                                  iconPosition="left"
+                                                                  variant="brand"
+                                                                  class="slds-button slds-button--neutral"
+                                                                  onclick="{!c.respondToACP}">
+                                                </lightning:button>
+                                            </aura:if>
+                                            <!-- responded -->
+                                            <aura:if isTrue="{!and(!pref.showOfferButton, !pref.expired)}">
+                                                {!pref.Offer_Response_Status_LOV__r.Applicant_Value__c}
+                                            </aura:if>
+                                            <!-- expired -->
+
+                                            <aura:if isTrue="{!pref.expired}">
+                                                Response not received before Offer Expiry Date.
+                                            </aura:if>
+
+                                        </div>
+                                    </td>
+
+
+                                </tr>
+                            </aura:iteration>
+                            </tbody>
+                        </table>
+                    </div>
+                </aura:iteration>
+            </div>
+
+        </div>
+    </div>
+
+</aura:component>

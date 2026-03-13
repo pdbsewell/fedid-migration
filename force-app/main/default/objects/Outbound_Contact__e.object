@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Publishes an event whenever core details of a contact changes. This is used:
+1. To capture changes to Alumni Contacts to be picked up by MiX which in turn forwards to Monash Talent</description>
+    <eventType>HighVolume</eventType>
+    <fields>
+        <fullName>CRM_Id__c</fullName>
+        <description>Unique CRM id for a contact</description>
+        <externalId>false</externalId>
+        <isFilteringDisabled>false</isFilteringDisabled>
+        <isNameField>false</isNameField>
+        <isSortingDisabled>false</isSortingDisabled>
+        <label>CRM Id</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Is_Alumni__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Indicates of the Contact is an Alumni</description>
+        <isFilteringDisabled>false</isFilteringDisabled>
+        <isNameField>false</isNameField>
+        <isSortingDisabled>false</isSortingDisabled>
+        <label>Is Alumni</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Is_Student__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Indicates of a Contact is a student</description>
+        <isFilteringDisabled>false</isFilteringDisabled>
+        <isNameField>false</isNameField>
+        <isSortingDisabled>false</isSortingDisabled>
+        <label>Is Student</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Record_Id__c</fullName>
+        <description>Record Id of the Contact</description>
+        <externalId>false</externalId>
+        <isFilteringDisabled>false</isFilteringDisabled>
+        <isNameField>false</isNameField>
+        <isSortingDisabled>false</isSortingDisabled>
+        <label>Record Id</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Outbound Contact</label>
+    <pluralLabel>Outbound Contacts</pluralLabel>
+    <publishBehavior>PublishAfterCommit</publishBehavior>
+</CustomObject>

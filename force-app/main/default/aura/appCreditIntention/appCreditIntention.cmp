@@ -1,0 +1,126 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="appCreditIntentionCC">
+    <aura:attribute name="appId" type="String" default=""/>
+    <aura:attribute name="errorMessage" type="String" default="" />
+    <aura:attribute name="applicationRecord" type="Application__c" 
+                    default="{'sobjectType' : 'Application__c',
+                             'Applying_for_Credit__c' : '' }"/>
+    <aura:attribute name="isExpanded" type="Boolean" default="true"/>
+    <aura:attribute name="isEditForm" type="Boolean" default="false"/>
+    <!-- set this to true if used on review mode -->
+    <aura:attribute name="isReviewMode" type="Boolean" default="false"/>
+    <aura:attribute name="applyForCredit" type="String" default=""/>
+    <aura:attribute name="showCreditIntentionLabel" type="Boolean" default="false"/>
+    <aura:attribute name="onlineCreditURL" type="String" default=""/>
+
+	<aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+
+	<!--Form Controllers -->
+	<aura:attribute name="editable" type="Boolean" default="false" />
+	<aura:attribute name="picklistOptions" type="String[]" />
+	
+    <div class="slds">
+    	<!-- SPINNER -->
+        <span id="Accspinner" style="display:none">
+            <lightning:spinner variant="neutral" size="medium" alternativeText="Loading"/>
+        </span>
+        <!-- END - SPINNER -->
+        <div class="slds-section section-float">
+        	<div id="creditIntentionDiv">
+	        	<aura:If isTrue="{!!v.editable}">
+		        	<!-- COLLAPSIBLE HEADER -->
+		        	<h3 class="slds-section__title" id="creditIntentDiv">
+		                <lightning:button label="Credit Intention"
+		                        iconPosition="left"
+		                        title="{!if(v.isExpanded, 'Collapse', 'Expand' )}"
+		                        class="slds-button slds-section__title-action header-collapsible"
+		                        onclick="{!c.showHideComponent}"
+		                        variant="inverse" />
+		            </h3>
+		            <!-- END - COLLAPSIBLE HEADER -->
+
+		            <!-- REVIEW ONLY HEADER -->
+		            <aura:set attribute="else">
+			            <div class="slds-col--padded slds-grid slds-wrap slds-grid--pull-padded">
+			                <div class="slds-p-top--x-large">
+			                    <h3 class="slds-section__title">Credit Intention</h3>
+			                </div>
+			            </div>
+			        </aura:set>
+		            <!-- END - REVIEW ONLY HEADER -->
+	            </aura:If>
+            </div>
+		    <!-- ERROR MESSAGE -->
+		    <!-- <aura:If isTrue="{!v.errorMessage != ''}">
+		        <div class="slds-notify slds-notify-&-alert slds-theme-&-error slds-theme-&-alert-texture" role="alert" id="ci_errorDiv">
+		            <span class="slds-assistive-text">Error</span>
+		            {!v.errorMessage}
+		        </div>
+		    </aura:If> -->
+		    <!-- END - ERROR MESSAGE -->
+
+		    <!-- ONLY SHOW WHEN EXPANDED -->
+            <div class="{!if(v.isExpanded, '', 'slds-hide')}">
+            	<div class="slds-col--padded slds-p-vertical--medium">
+	            	<form class="slds-form--stacked">
+	            		<!-- DO NOT SHOW IF USED IN REVIEW MODE -->
+		                <div class="{!if(!v.editable, 'slds-hide', '')}">
+			            	<div class="slds-text--regular">
+			                    <aura:unescapedHtml value="{!$Label.c.App_IntendingToApplyForCredit}" />
+			                </div>
+                        </div>
+
+		                <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-vertical--medium">
+	                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+	                        	<div class="{!if(v.editable, '', 'slds-hide')}">
+			                        <div class="slds-form-element__control">
+			                                <ui:inputSelect label="I intend to apply for credit"
+			                                                class="dynamic" aura:id="creditOptions"
+			                                                labelClass="slds-form-element__label"
+			                                                value="{!v.applyForCredit}"
+			                                                required="true"
+			                                                change="{!c.saveCreditIntention}"/>
+											<lightning:select label="Credit Intention"
+															  onchange="{!c.saveCreditIntention}"
+															  value="{!v.applyForCredit}">
+												<aura:iteration items="{!v.picklistOptions}" var="option" >
+													<option value="{!option}" >{!option.label}</option>
+												</aura:iteration>
+
+											</lightning:select>
+		                            </div>
+		                    	</div>
+
+		                    	<div class="{!if(v.editable, 'slds-hide', '')}">
+		                            <div class="slds-text-title">I intend to apply for credit</div>
+		                            <div class="slds-text-body--regular">
+		                            	<div class="{!if(or(v.applicationRecord.Applying_for_Credit__c == null, v.applicationRecord.Applying_for_Credit__c == ''), 'slds-hide', '')}">
+			                                <ui:outputText value="{!v.applicationRecord.Applying_for_Credit__c}"/>
+			                            </div>
+			                            <div class="{!if(or(v.applicationRecord.Applying_for_Credit__c == null, v.applicationRecord.Applying_for_Credit__c == ''), '', 'slds-hide')}">
+			                                <div class="slds-text--regular">
+			                                    <i>Not Specified</i>
+			                                </div>
+			                            </div>
+		                            </div>
+	                            </div>
+	                        </div>
+	                    </div>
+	                    <!-- DO NOT SHOW IF USED IN REVIEW MODE -->
+	                    <!--<div class="{!if(v.isReviewMode, 'slds-hide', '')}">
+
+		                	<div class="{!if(v.showCreditIntentionLabel, '', 'slds-hide')}">
+			                	<div class="slds-p-vertical-medium">
+				                    <div class="slds-text-regular">
+				                        <aura:unescapedHtml value="{!$Label.c.App_ApplyingForCredit}" />&nbsp;
+				                        <a href="{!v.onlineCreditURL}" target="_blank"> Online Credit Application </a>
+				                    </div>
+				                </div>
+			                </div>
+		                </div>-->
+		            </form>
+	            </div>
+            </div>
+            <!-- END - ONLY SHOW WHEN EXPANDED -->
+		</div>
+    </div>
+</aura:component>

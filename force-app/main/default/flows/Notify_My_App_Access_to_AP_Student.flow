@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Notify_My_App_Access_to_AP_Student</name>
+        <label>Notify My App Access to AP Student</label>
+        <locationX>50</locationX>
+        <locationY>863</locationY>
+        <actionName>Application__c.Notify_My_App_Access_to_AP_Student</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Application__c.Notify_My_App_Access_to_AP_Student</nameSegment>
+    </actionCalls>
+    <actionCalls>
+        <name>Notify_Student_of_Agent_Edits</name>
+        <label>Notify  Student of Agent Edits</label>
+        <locationX>314</locationX>
+        <locationY>863</locationY>
+        <actionName>Application__c.Notify_Agent_Edits_To_Student</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Application__c.Notify_Agent_Edits_To_Student</nameSegment>
+    </actionCalls>
+    <apiVersion>58.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>Assigning Application&apos;s-&gt;ApplicantId in the variable for later reference</description>
+        <name>Get_ApplicantId</name>
+        <label>Get ApplicantId</label>
+        <locationX>314</locationX>
+        <locationY>323</locationY>
+        <assignmentItems>
+            <assignToReference>ApplicantId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Applicant__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_User_Record</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Applications count for the contact</description>
+        <name>Get_Applications_count</name>
+        <label>Get Applications count</label>
+        <locationX>314</locationX>
+        <locationY>647</locationY>
+        <assignmentItems>
+            <assignToReference>ApplicationCount</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>applicationRecords</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>First_time_Sending_Application_to_Applicant</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Decision based on the flag Agent Edits After Applicant Acceptance</description>
+        <name>First_time_Sending_Application_to_Applicant</name>
+        <label>First time Sending Application to Applicant?</label>
+        <locationX>314</locationX>
+        <locationY>755</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>First_Time_sending_Application_to_Student</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Agent_Edits_After_Applicant_Acceptance__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>UserId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>applicationRecords</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>ApplicationCount</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>1.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Notify_My_App_Access_to_AP_Student</targetReference>
+            </connector>
+            <label>First Time sending Application to Student</label>
+        </rules>
+        <rules>
+            <name>Sending_Application_Edits_after_Acceptance_to_Student</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Agent_Edits_After_Applicant_Acceptance__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>UserId</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Notify_Student_of_Agent_Edits</targetReference>
+            </connector>
+            <label>Sending Application Edits after Acceptance to Student</label>
+        </rules>
+    </decisions>
+    <description>Flow to notify Applicant of:
+- MyApp access provisioning
+- Agent editing the Application</description>
+    <environments>Default</environments>
+    <interviewLabel>Notify My App Access to AP Student {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Notify My App Access to AP Student</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Get all the applications attached to the contact</description>
+        <name>Get_All_Applications_Attached</name>
+        <label>Get All Applications Attached</label>
+        <locationX>314</locationX>
+        <locationY>539</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Applications_count</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Applicant__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>ApplicantId</elementReference>
+            </value>
+        </filters>
+        <object>Application__c</object>
+        <outputReference>applicationRecords</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Applicant_Name__c</queriedFields>
+    </recordLookups>
+    <recordLookups>
+        <description>Get an active User Record for the Contact Id</description>
+        <name>Get_User_Record</name>
+        <label>Get User Record</label>
+        <locationX>314</locationX>
+        <locationY>431</locationY>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_All_Applications_Attached</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ContactId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>ApplicantId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>IsActive</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>User</object>
+        <outputAssignments>
+            <assignToReference>UserId</assignToReference>
+            <field>Id</field>
+        </outputAssignments>
+    </recordLookups>
+    <start>
+        <locationX>188</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_ApplicantId</targetReference>
+        </connector>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterFormula>AND(
+    {!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False,
+    ISBLANK( {!$Record.Name}) = False,
+    {!$Record.Source_System__c}=&apos;AgentPortal&apos;,
+    TEXT({!$Record.Status__c})=&apos;Sent Draft Application to Applicant&apos;,
+    ISBLANK( {!$Record.Agent__c}) = False,
+    ISBLANK( {!$Record.Applicant__c}) = False,
+    TEXT({!$Record.MyApp_User_Status__c}) = &apos;Provisioned&apos;
+)</filterFormula>
+        <object>Application__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Obsolete</status>
+    <variables>
+        <name>ApplicantId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>Application count for all the applications for the contact</description>
+        <name>ApplicationCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <name>applicationRecords</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <objectType>Application__c</objectType>
+    </variables>
+    <variables>
+        <name>UserId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

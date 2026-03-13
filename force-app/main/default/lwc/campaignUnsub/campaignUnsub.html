@@ -1,0 +1,121 @@
+<!--
+  @File Name          : campaignUnsub.html
+  @Description        : Component that enables unsubscribe from Campaign
+  @Author             : Nick Guia
+  @Group              : Lead Management
+-->
+<template>
+    <div class="slds-is-relative">
+
+        <!-- SPINNER -->
+        <template if:true={isLoading}>
+            <div class="slds-align_absolute-center">
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </div>
+        </template>
+        
+        <div>
+            <template if:true={isRenderUnsub}>
+                <div class="slds-section slds-is-open">
+                    <h3 class="slds-section__title" style="background-color: rgb(243, 242, 242);">
+                        <span class="slds-truncate slds-m-left_medium">Campaign Unsubscribe</span>
+                    </h3>
+
+                    <div class="slds-section__content section__content slds-p-horizontal_small">
+                        <lightning-record-edit-form object-api-name="Case">
+                            <lightning-layout multiple-rows="true">
+
+                                    <lightning-layout-item 
+                                        size="12" 
+                                        large-device-size="12">
+                                        <lightning-input 
+                                            type="checkbox" 
+                                            label="Select All" 
+                                            name="all"
+                                            field-level-help="Unsubscribe from All"
+                                            checked={isAllUnsub}
+                                            onchange={updateAll}>
+                                        </lightning-input>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item 
+                                        size="12" 
+                                        large-device-size="12">
+                                        <lightning-input 
+                                            type="checkbox" 
+                                            label="Monash Info and Events for Prospective Students" 
+                                            name="mie"
+                                            field-level-help="Are you thinking of studying at Monash? Keep up-to-date with the latest on our courses and events"
+                                            checked={isMieUnsub}
+                                            onchange={handleMie}>
+                                        </lightning-input>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item 
+                                        size="12" 
+                                        large-device-size="12">
+                                        <lightning-input 
+                                            type="checkbox" 
+                                            label="Open Day" 
+                                            name="openDay"
+                                            field-level-help="Are you interested in attending this year's Open Day Events? Keep up-to-date with the latest Open Day updates."
+                                            checked={isOpenDayUnsub}
+                                            onchange={handleOpenDay}>
+                                        </lightning-input>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item
+                                        size="12" 
+                                        large-device-size="12">
+                                        <lightning-input 
+                                            type="checkbox" 
+                                            label="Market Research" 
+                                            name="mr"
+                                            field-level-help="Your feedback is vital in helping us improve our student experience and how we communicate. Let us know your thoughts."
+                                            checked={isMrUnsub}
+                                            onchange={handleMr}>
+                                        </lightning-input>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item 
+                                        size="12" 
+                                        large-device-size="12">
+                                        <lightning-combobox
+                                            name="unsubReason"
+                                            label="Unsubscribe Reason"
+                                            placeholder="Select unsubscribe reason (optional)"
+                                            options={unsubReasonOptions}
+                                            onchange={updateUnsubReason}>
+                                        </lightning-combobox>
+                                    </lightning-layout-item>
+
+                                    <lightning-layout-item 
+                                        alignment-bump="left"
+                                        padding="around-small"
+                                        class="slds-p-top_small">
+                                        <lightning-button 
+                                            label="Unsubscribe" 
+                                            title="Unsubscribe" 
+                                            onclick={handleUnsub}
+                                            disabled={isUnsubDisabled}>
+                                        </lightning-button>
+                                    </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-record-edit-form>
+                    </div>
+                </div>
+            </template>
+            <template if:true={isRenderMsg}>
+                <c-sticky-notification>
+                    <lightning-icon slot="icon" 
+                        icon-name="utility:info" 
+                        variant="inverse">
+                    </lightning-icon>
+                    <h2 class="slds-text-heading_small" slot="content">
+                        Unsubscribe unavailable. This Enquiry does not have a related Contact.
+                    </h2>
+                </c-sticky-notification>
+            </template>
+        </div>
+    </div>
+</template>

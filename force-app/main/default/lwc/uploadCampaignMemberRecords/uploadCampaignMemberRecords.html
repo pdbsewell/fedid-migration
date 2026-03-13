@@ -1,0 +1,151 @@
+<template>
+    <div class="outer-wrap">
+    <lightning-quick-action-panel header="Upload Campaign Members and OCR Records">
+        <lightning-spinner if:true={loading}></lightning-spinner>
+        <template if:true={fieldLabels.length}>
+            <div class="slds-p-around_medium">
+                <a onclick={downloadSampleFile}><div style="font-weight: 600;">Download Sample CSV File</div></a><br/>
+                Please leave the column header names as is and update the values in row 2 onwards.
+            </div>
+            <div class="slds-p-around_medium">
+                <h2>Select CSV File</h2>
+                <lightning-input
+                        type="file"
+                        multiple="false"
+                        accept=".csv"
+                        onchange={fileSelected}>
+                </lightning-input>
+            </div>
+        </template>
+
+        <!-- Mapping Selection -->
+        <template if:true={renderSection}>
+            <div class="slds-p-around_medium mapping-input">
+                <h2>Map Fields</h2>
+                <template if:true={mappingOptions}>
+                    <template for:each={mappingOptions} for:item="mo">
+                        <lightning-combobox
+                                key={mo.key}
+                                label={mo.label}
+                                name={mo.fieldName}
+                                value={mo.selected}
+                                options={csvColumnOptions}
+                                onchange={mappingChange} read-only=true>
+                        </lightning-combobox>
+                    </template>
+                    <lightning-combobox
+                                name="Engagement Type"
+                                label="Engagement Type"
+                                value={engageTypePicklistSelectedValue}
+                                options={engageTypePicklistOptions}
+                                onchange={setEngageTypePicklistSelectedValue} 
+                                required=true}>
+                    </lightning-combobox>
+                </template>
+            </div>
+        </template>
+        
+
+        <!-- Data Preview -->
+        <template if:true={csvColumnOptions.length}>
+            <template if:true={recordsToInsert.length}>
+                <div class="slds-p-around_medium">
+                    <h2>Verify Data</h2>
+                    <div style={datatableHeight} class="table-container">
+                        <lightning-datatable
+                                key-field="key"
+                                hide-checkbox-column
+                                data={recordsToInsert}
+                                columns={fieldLabels}>
+                        </lightning-datatable>
+                    </div>
+                    <p>Unique Rows: {recordsToInsert.length}</p>
+                    <template if:true={duplicateCount}>
+                        <p>Duplicates Removed: {duplicateCount}</p>
+                    </template>
+                </div>
+            </template>
+        </template>
+        
+
+        <!-- Error Output Section -->
+        <template if:true={errorMessage}>
+            <div class="slds-p-around_medium">
+                <h2>Server Error</h2>
+                <p class="error-message">{errorMessage}</p>
+            </div>
+        </template>
+        <template if:true={errors.length}>
+            <div class="slds-p-around_medium">
+                <h2>Errors</h2>
+                <div style={errorsTableHeight} class="table-container">
+                    <lightning-datatable
+                            key-field="key"
+                            hide-checkbox-column
+                            show-row-number-column
+                            data={errors}
+                            columns={errorColumns}>
+                    </lightning-datatable>
+                </div>
+                <lightning-button
+                        label="Download Errors"
+                        title="Download action"
+                        icon-name="utility:download"
+                        class="slds-m-left_x-small"
+                        onclick={downloadErrorsCsv}>
+                </lightning-button>
+            </div>
+        </template>
+
+        <!-- Button Row -->
+        <div class="slds-p-around_medium">
+            <template if:true={recordsToInsert.length}>
+                <lightning-button
+                        variant="brand"
+                        label="Insert"
+                        disabled={noRows}
+                        title="Save" onclick={openModal}
+                        class="slds-m-left_small">
+                </lightning-button>
+            </template>
+            <lightning-button
+                    variant="neutral"
+                    label="Cancel"
+                    title="Cancel" onclick={close}
+                    class="slds-m-left_small">
+            </lightning-button>
+        </div>
+
+        <!-- Confirmation Modal -->
+        <template if:true={confirmationModalVisible}>
+            <div class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header">
+                        <h1 class="slds-modal__title slds-hyphenate">Insert Campaign Members and OCR Records?</h1>
+                    </div>
+                    <div class="slds-modal__content slds-p-around_medium modal-body">
+                        {recordsToInsert.length} record(s) will be logged under Campaign Members and OCR records.
+                    </div>
+                    <!--Footer-->
+                    <div class="slds-modal__footer">
+                        <lightning-button
+                                variant="brand"
+                                label="Insert"
+                                title="Save" onclick={insertRecords}
+                                class="slds-m-left_small">
+                        </lightning-button>
+                        <lightning-button
+                                variant="neutral"
+                                label="Cancel"
+                                title="Cancel" onclick={closeModal}
+                                class="slds-m-left_small">
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+        </template>
+
+    </lightning-quick-action-panel>
+    </div>
+</template>

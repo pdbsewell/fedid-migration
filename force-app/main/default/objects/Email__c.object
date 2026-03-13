@@ -1,0 +1,663 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Email_Record_Page</content>
+        <formFactor>Small</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Email_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>Standard</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>Standard</fullName>
+        <fields>Name</fields>
+        <fields>Classification__c</fields>
+        <fields>Is_Active__c</fields>
+        <fields>Is_Primary__c</fields>
+        <fields>Unreachable__c</fields>
+        <label>Standard</label>
+    </compactLayouts>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Aligned__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>System indicator - Are the Email contact and the Channel contact the same record?
+
+Introduced to assist in finding issues created by contact merge.
+
+Will show true for Email records not linked to Channels.</description>
+        <formula>BLANKVALUE(Channel__r.Contact__c, Contact__c) == Contact__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>Channel and Email Contact records align</inlineHelpText>
+        <label>Aligned</label>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Callista_address_type__c</fullName>
+        <description>The address type as defined in Callista</description>
+        <externalId>false</externalId>
+        <formula>TEXT(Channel__r.Type__c)</formula>
+        <label>Callista address type</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Callista_rollup_rank__c</fullName>
+        <description>The ranking of Callista address types used to prioritise which types should take priority for a rollup of Callista addresses. A lower value indicates a higher priority than a higher value</description>
+        <externalId>false</externalId>
+        <formula>CASE(Callista_address_type__c,
+&quot;GRADUATION-APPL&quot;, &quot;70&quot;,
+&quot;POSTAL&quot;, &quot;10&quot;,
+&quot;POSTAL-EXT&quot;, &quot;20&quot;,
+&quot;OS-POSTAL&quot;, &quot;30&quot;,
+&quot;HOME&quot;, &quot;40&quot;,
+&quot;OS-HOME&quot;, &quot;50&quot;,
+&quot;MAILING&quot;, &quot;60&quot;,
+&quot;AP-EMAIL&quot;, &quot;80&quot;,
+&quot;&quot;)</formula>
+        <label>Callista rollup rank</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Channel_Link__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>A link to the descriptive channel name field rather than the auto-number</description>
+        <externalId>false</externalId>
+        <formula>Channel__r.Channel_Link__c</formula>
+        <label>Channel</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Channel__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Channel lookup field for the Contact Point object record</description>
+        <inlineHelpText>Lookup to Channel for Callista sourced records</inlineHelpText>
+        <label>Channel</label>
+        <lookupFilter>
+            <active>true</active>
+            <errorMessage>Email channels must be for the same Contact record</errorMessage>
+            <filterItems>
+                <field>Channel__c.Contact__c</field>
+                <operation>equals</operation>
+                <valueField>$Source.Contact__c</valueField>
+            </filterItems>
+            <filterItems>
+                <field>Channel__c.Type__c</field>
+                <operation>notEqual</operation>
+                <value>EMERCONT</value>
+            </filterItems>
+            <infoMessage>Search for all non-emergency contact channels for this contact</infoMessage>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Channel__c</referenceTo>
+        <relationshipLabel>Emails</relationshipLabel>
+        <relationshipName>Emails</relationshipName>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Classification__c</fullName>
+        <description>Defines how the email address is classified, i.e. in which context it is used.
+ Classification of the email which is used to roll-up the email address to the Contact, if certain conditions are met.</description>
+        <inlineHelpText>Please provide a classification of the email address.</inlineHelpText>
+        <label>Classification</label>
+        <required>true</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Contact_Point_Classification</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Contact__c</fullName>
+        <description>Relationship to Contact.</description>
+        <inlineHelpText>Please provide the contact record this email address is linked to.</inlineHelpText>
+        <label>Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Email Addresses</relationshipLabel>
+        <relationshipName>Emails</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>true</reparentableMasterDetail>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>End_Date__c</fullName>
+        <description>This defines the date until the email address is valid for.</description>
+        <inlineHelpText>Please provide the date the email address is valid through, or leave it empty if it is not known or not end dated.</inlineHelpText>
+        <label>End Date</label>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>External_System_ID__c</fullName>
+        <caseSensitive>true</caseSensitive>
+        <description>Unique ID used to identify records in an external system.</description>
+        <externalId>true</externalId>
+        <inlineHelpText>Unique ID used to identify records in an external system.</inlineHelpText>
+        <label>External System ID</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Is_Active__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>true</defaultValue>
+        <description>Indicates whether an email address is active, usually when end date is in the past or the start date is in the future. This value Is automatically (by a scheduled process) set to &quot;false&quot; if End_Date__c is populated and in the past or the Start_Date__c is in the future.
+If manually set/changed to &quot;True&quot; (&quot;False&quot;), then the End_Date__c is automatically removed (added with the current date).</description>
+        <inlineHelpText>Please indicate whether the email address is active or not (inactive).</inlineHelpText>
+        <label>Active</label>
+        <securityClassification>Public</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Is_Deleted__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Deleted In Source from Channel</description>
+        <label>Is Deleted</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Is_Primary__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>Global primary (by Contact), as such only a single Email__c record can be flagged as primary per Contact Lookup.
+If selected manually, all other records (for the Contact) will be marked as non-primary (false)
+If none are selected, the entry with the latest Start_Date__c will be automatically marked as primary.</description>
+        <inlineHelpText>Please indicate whether the email address is primary for this Contact.</inlineHelpText>
+        <label>Primary</label>
+        <securityClassification>Public</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Key_UID__c</fullName>
+        <caseSensitive>false</caseSensitive>
+        <description>System Field - Unique Key Combination field</description>
+        <externalId>true</externalId>
+        <inlineHelpText>System Field - Unique Key Combination field</inlineHelpText>
+        <label>Key UID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Primary_set_by__c</fullName>
+        <description>Use as indicator if the record (only if Is_Primary__c changed) has been modified by user or system.</description>
+        <externalId>false</externalId>
+        <label>Primary set by</label>
+        <length>80</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Source__c</fullName>
+        <description>Source of the email address.</description>
+        <inlineHelpText>Please enter source of the email address, i.e. how were the details obtained.</inlineHelpText>
+        <label>Source</label>
+        <required>true</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Contact_Point_Source</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Start_Date__c</fullName>
+        <description>The date the email address is valid from.</description>
+        <inlineHelpText>Please provide a date indicating the valid from for the email address</inlineHelpText>
+        <label>Start Date</label>
+        <required>true</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Unreachable_Reason__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Reason code / description for an unreachable email address as per response received from the email server as per definition https://help.salesforce.com/s/articleView?id=000336492&amp;type=1</description>
+        <inlineHelpText>Reason why an email is marked as unreachable.</inlineHelpText>
+        <label>Unreachable Reason</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Complaints</fullName>
+                    <default>false</default>
+                    <label>Your email is blocked due to complaints.</label>
+                </value>
+                <value>
+                    <fullName>Spamblocked</fullName>
+                    <default>false</default>
+                    <label>The remote mail server has rejected this message due to characteristics of spam.</label>
+                </value>
+                <value>
+                    <fullName>Content</fullName>
+                    <default>false</default>
+                    <label>Message was filtered due to content.</label>
+                </value>
+                <value>
+                    <fullName>URL Block</fullName>
+                    <default>false</default>
+                    <label>Emails containing your URLs are blocked.</label>
+                </value>
+                <value>
+                    <fullName>High Unknown Address Pct</fullName>
+                    <default>false</default>
+                    <label>Email is blocked due to the high quantity or percentage of unknown or inactive addresses on your list.</label>
+                </value>
+                <value>
+                    <fullName>Authentication</fullName>
+                    <default>false</default>
+                    <label>Message lacks required authentication.</label>
+                </value>
+                <value>
+                    <fullName>User Unknown</fullName>
+                    <default>false</default>
+                    <label>Address is non-existent at the domain</label>
+                </value>
+                <value>
+                    <fullName>Domain Unknown</fullName>
+                    <default>false</default>
+                    <label>Recipient domain doesn&apos;t exist.</label>
+                </value>
+                <value>
+                    <fullName>Bad Address</fullName>
+                    <default>false</default>
+                    <label>Syntax Email address in invalid.</label>
+                </value>
+                <value>
+                    <fullName>Mailbox Full</fullName>
+                    <default>false</default>
+                    <label>Recipient&apos;s mailbox is full or has exceeded storage allocation.</label>
+                </value>
+                <value>
+                    <fullName>Inactive Account</fullName>
+                    <default>false</default>
+                    <label>Address is temporarily unavailable.</label>
+                </value>
+                <value>
+                    <fullName>Temporary Domain Failure</fullName>
+                    <default>false</default>
+                    <label>Receiving domain temporarily unavailable.</label>
+                </value>
+                <value>
+                    <fullName>Server Too Busy</fullName>
+                    <default>false</default>
+                    <label>Receiving email server is temporarily overwhelmed with delivery attempts from you and other senders.</label>
+                </value>
+                <value>
+                    <fullName>Data Format Error</fullName>
+                    <default>false</default>
+                    <label>Email is rejected due to formatting or line length errors.</label>
+                </value>
+                <value>
+                    <fullName>Network Error</fullName>
+                    <default>false</default>
+                    <label>Connection lost or timed out during delivery.</label>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                    <label>This address does not accept mail or this email has been blocked by recipient.</label>
+                </value>
+                <value>
+                    <fullName>Unknown</fullName>
+                    <default>false</default>
+                    <label>Unknown.</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Unreachable__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Indicates that the email is not reachable (hard bounce) and emails attempted to be sent cannot be delivered. This checkbox is enabled if an email address has a status of &quot;HELD&quot; in Marketing Cloud, that is emails are not sent anymore.</description>
+        <inlineHelpText>Indicates if the email address cannot be reached anymore.</inlineHelpText>
+        <label>Unreachable</label>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Verification_Status__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Verification Status of the record.</description>
+        <label>Verification Status</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Email_Verification_Status</valueSetName>
+        </valueSet>
+    </fields>
+    <label>Email</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>All_records</fullName>
+        <columns>NAME</columns>
+        <columns>Start_Date__c</columns>
+        <columns>End_Date__c</columns>
+        <columns>Is_Primary__c</columns>
+        <columns>Is_Active__c</columns>
+        <columns>Classification__c</columns>
+        <columns>Source__c</columns>
+        <columns>Contact__c</columns>
+        <columns>Channel__c</columns>
+        <columns>LAST_UPDATE</columns>
+        <columns>UPDATEDBY_USER.ALIAS</columns>
+        <filterScope>Everything</filterScope>
+        <label>All Emails</label>
+    </listViews>
+    <listViews>
+        <fullName>All_unreachable_Emails</fullName>
+        <columns>NAME</columns>
+        <columns>Unreachable_Reason__c</columns>
+        <columns>Start_Date__c</columns>
+        <columns>End_Date__c</columns>
+        <columns>Is_Primary__c</columns>
+        <columns>Is_Active__c</columns>
+        <columns>Classification__c</columns>
+        <columns>Source__c</columns>
+        <columns>Contact__c</columns>
+        <columns>Channel__c</columns>
+        <columns>LAST_UPDATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Unreachable__c</field>
+            <operation>equals</operation>
+            <value>1</value>
+        </filters>
+        <label>All Unreachable Emails</label>
+    </listViews>
+    <nameField>
+        <label>Email Address</label>
+        <trackHistory>true</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Emails</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>Start_Date__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>End_Date__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Is_Primary__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Is_Active__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Classification__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Contact__c</customTabListAdditionalFields>
+        <lookupDialogsAdditionalFields>Is_Primary__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Start_Date__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>End_Date__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Is_Active__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Classification__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Contact__c</lookupDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Classification__c</lookupPhoneDialogsAdditionalFields>
+        <searchFilterFields>NAME</searchFilterFields>
+        <searchFilterFields>Start_Date__c</searchFilterFields>
+        <searchFilterFields>End_Date__c</searchFilterFields>
+        <searchFilterFields>Is_Primary__c</searchFilterFields>
+        <searchFilterFields>Is_Active__c</searchFilterFields>
+        <searchFilterFields>Classification__c</searchFilterFields>
+        <searchResultsAdditionalFields>Start_Date__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>End_Date__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Is_Primary__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Is_Active__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Classification__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Contact__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>Cannot_create_Callista_records</fullName>
+        <active>true</active>
+        <description>End users cannot create or update a record with the source field set to &quot;Callista&quot; as these are created through integration only.</description>
+        <errorConditionFormula>AND(
+  NOT(CONTAINS($User.Username, &apos;autoproc@&apos;)),
+  $Profile.Name &lt;&gt; &apos;System Administrator&apos;,
+  OR(
+    AND( ISNEW(), ISPICKVAL(Source__c, &apos;Callista&apos;) ),
+    AND( ISCHANGED(Source__c), ISPICKVAL(Source__c, &apos;Callista&apos;) )
+  ),
+  NOT($Setup.Bypass_Mute_Request__c.Bypass_All_Validation_Rules__c)
+)</errorConditionFormula>
+        <errorDisplayField>Source__c</errorDisplayField>
+        <errorMessage>End users cannot create or update a record with the source field set to &quot;Callista&quot;.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Is_valid_email_address</fullName>
+        <active>true</active>
+        <description>The entered email address is not in a valid format (i.e. abc@xyz.com).</description>
+        <errorConditionFormula>AND(
+	
+	NOT(
+
+  REGEX(
+
+    Name,
+
+    &quot;^[a-zA-Z0-9`~!#$\\\\%^&amp;*\\-+=_./?{|}\\\&apos;]+@[a-zA-Z0-9-]+\\.[a-zA-Z0-9-.]+$&quot;
+
+  )
+  
+  ),
+       
+  NOT($Setup.Bypass_Mute_Request__c.Bypass_All_Validation_Rules__c)
+
+)</errorConditionFormula>
+        <errorDisplayField>Name</errorDisplayField>
+        <errorMessage>Please provide a correctly formatted email address (e.g. abc@xyz.com).</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Start_date_must_not_be_older</fullName>
+        <active>true</active>
+        <description>Ensures that the start date is not older than the end date</description>
+        <errorConditionFormula>AND(
+	IF (!ISBLANK(End_Date__c), Start_Date__c &gt; End_Date__c, FALSE), 
+    NOT($Setup.Bypass_Mute_Request__c.Bypass_All_Validation_Rules__c))</errorConditionFormula>
+        <errorDisplayField>End_Date__c</errorDisplayField>
+        <errorMessage>The end date must be equal or later than the start date.</errorMessage>
+    </validationRules>
+    <visibility>Public</visibility>
+</CustomObject>

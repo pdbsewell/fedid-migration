@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Verify_Course_Infomation</name>
+        <label>Verify Course Infomation</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>None of the above</defaultConnectorLabel>
+        <rules>
+            <name>Monash_Business_School</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>CheckIfMonashBusinessSchool</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Application_Course_Preference_AS_PD_ACP_Emails_Bus_Eco_Flow</targetReference>
+            </connector>
+            <label>Monash Business School</label>
+        </rules>
+        <rules>
+            <name>Default_Faculty</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>CheckIfDefaultFaculty</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Application_Course_Preference_AS_PD_ACP_Emails_Faculty_Default_Flow</targetReference>
+            </connector>
+            <label>Default Faculty</label>
+        </rules>
+    </decisions>
+    <description>The parent process builder for PD ACP emails which directs records to the relevant faculty-specific PBs</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>CheckIfDefaultFaculty</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+OR(
+ISNEW(), 
+OR(
+ISCHANGED({!$Record.Status__c}),
+ISCHANGED({!$Record.Course_Confirmed__c})
+)
+),
+NOT(ISBLANK({!$Record.Managing_Faculty_Text__c})),
+{!$Record.Course_Type_Text__c} = &apos;Short_Course&apos;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>CheckIfMonashBusinessSchool</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+OR(
+ISNEW(), 
+OR(
+ISCHANGED({!$Record.Status__c}),
+ISCHANGED({!$Record.Course_Confirmed__c} )
+)
+),
+{!$Record.Managing_Faculty_Text__c} = &apos;Faculty of Business &amp; Economics&apos;,
+{!$Record.Course_Type_Text__c} = &apos;Short_Course&apos;
+)</expression>
+    </formulas>
+    <interviewLabel>Application Course Preference : AS : {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Application Course Preference : AS : PD ACP Emails Parent</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Verify_Course_Infomation</targetReference>
+        </connector>
+        <filterFormula>{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False</filterFormula>
+        <object>Application_Course_Preference__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <name>Application_Course_Preference_AS_PD_ACP_Emails_Bus_Eco_Flow</name>
+        <label>Application Course Preference : AS : PD ACP Emails Bus Eco Flow</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <flowName>Application_Course_Preference_AS_PD_ACP_Emails_Bus_Eco_Flow</flowName>
+        <inputAssignments>
+            <name>GetApplicationCoursePreference</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
+        <name>Application_Course_Preference_AS_PD_ACP_Emails_Faculty_Default_Flow</name>
+        <label>Application Course Preference : AS : PD ACP Emails Faculty Default Flow</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <flowName>Application_Course_Preference_AS_PD_ACP_Emails_Faculty_Default_Flow</flowName>
+        <inputAssignments>
+            <name>GetApplicationCoursePreference</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+</Flow>

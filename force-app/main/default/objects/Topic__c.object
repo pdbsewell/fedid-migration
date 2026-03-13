@@ -1,0 +1,941 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>This object captures the various topics that could be discussed during a MonTRACK call</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>false</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Alias__c</fullName>
+        <description>The name of record migrated from source org</description>
+        <externalId>true</externalId>
+        <label>Alias</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Description__c</fullName>
+        <description>Captures a range of topics that can be discussed. It depends on the type of topic selected</description>
+        <label>Description</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>Type__c</controllingField>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>No topic discussed</fullName>
+                    <default>false</default>
+                    <label>No topic discussed</label>
+                </value>
+                <value>
+                    <fullName>Academic - Attendance (lectures, tutorials, labs etc.)</fullName>
+                    <default>false</default>
+                    <label>Academic - Attendance (lectures, tutorials, labs etc.)</label>
+                </value>
+                <value>
+                    <fullName>Academic - English Proficiency spoken or written</fullName>
+                    <default>false</default>
+                    <label>Academic - English Proficiency spoken or written</label>
+                </value>
+                <value>
+                    <fullName>Academic - Essay, report and assignment writing</fullName>
+                    <default>false</default>
+                    <label>Academic - Essay, report and assignment writing</label>
+                </value>
+                <value>
+                    <fullName>Academic - Exam anxiety</fullName>
+                    <default>false</default>
+                    <label>Academic - Exam anxiety</label>
+                </value>
+                <value>
+                    <fullName>Academic - Exam preparation/revision</fullName>
+                    <default>false</default>
+                    <label>Academic - Exam preparation/revision</label>
+                </value>
+                <value>
+                    <fullName>Academic - Exam timetable</fullName>
+                    <default>false</default>
+                    <label>Academic - Exam timetable</label>
+                </value>
+                <value>
+                    <fullName>Academic - Exam venue/transport</fullName>
+                    <default>false</default>
+                    <label>Academic - Exam venue/transport</label>
+                </value>
+                <value>
+                    <fullName>Academic - Lecturer/tutor issues</fullName>
+                    <default>false</default>
+                    <label>Academic - Lecturer/tutor issues</label>
+                </value>
+                <value>
+                    <fullName>Academic - Referencing and citing</fullName>
+                    <default>false</default>
+                    <label>Academic - Referencing and citing</label>
+                </value>
+                <value>
+                    <fullName>Academic - Results</fullName>
+                    <default>false</default>
+                    <label>Academic - Results</label>
+                </value>
+                <value>
+                    <fullName>Academic - Special consideration</fullName>
+                    <default>false</default>
+                    <label>Academic - Special consideration</label>
+                </value>
+                <value>
+                    <fullName>Academic - Timetable issues</fullName>
+                    <default>false</default>
+                    <label>Academic - Timetable issues</label>
+                </value>
+                <value>
+                    <fullName>Academic - Unit Advice</fullName>
+                    <default>false</default>
+                    <label>Academic - Unit Advice</label>
+                </value>
+                <value>
+                    <fullName>Academic - Workload/time management</fullName>
+                    <default>false</default>
+                    <label>Academic - Workload/time management</label>
+                </value>
+                <value>
+                    <fullName>Administration - Encumbrance</fullName>
+                    <default>false</default>
+                    <label>Administration - Encumbrance</label>
+                </value>
+                <value>
+                    <fullName>Administration - Enrolment queries/difficulties</fullName>
+                    <default>false</default>
+                    <label>Administration - Enrolment queries/difficulties</label>
+                </value>
+                <value>
+                    <fullName>Administration - Fees</fullName>
+                    <default>false</default>
+                    <label>Administration - Fees</label>
+                </value>
+                <value>
+                    <fullName>Administration - Financial issues/difficulties</fullName>
+                    <default>false</default>
+                    <label>Administration - Financial issues/difficulties</label>
+                </value>
+                <value>
+                    <fullName>Administration - Moodle</fullName>
+                    <default>false</default>
+                    <label>Administration - Moodle</label>
+                </value>
+                <value>
+                    <fullName>Administration - Orientation will miss/has missed</fullName>
+                    <default>false</default>
+                    <label>Administration - Orientation will miss/has missed</label>
+                </value>
+                <value>
+                    <fullName>Administration - Parking on campus</fullName>
+                    <default>false</default>
+                    <label>Administration - Parking on campus</label>
+                </value>
+                <value>
+                    <fullName>Administration - Parking permits</fullName>
+                    <default>false</default>
+                    <label>Administration - Parking permits</label>
+                </value>
+                <value>
+                    <fullName>Administration - Scholarships/bursaries</fullName>
+                    <default>false</default>
+                    <label>Administration - Scholarships/bursaries</label>
+                </value>
+                <value>
+                    <fullName>Administration - Semester dates</fullName>
+                    <default>false</default>
+                    <label>Administration - Semester dates</label>
+                </value>
+                <value>
+                    <fullName>Administratoin - IT issues</fullName>
+                    <default>false</default>
+                    <label>Administration - IT issues</label>
+                </value>
+                <value>
+                    <fullName>Course - Career</fullName>
+                    <default>false</default>
+                    <label>Course - Career</label>
+                </value>
+                <value>
+                    <fullName>Course - Change load</fullName>
+                    <default>false</default>
+                    <label>Course - Change load</label>
+                </value>
+                <value>
+                    <fullName>Course – Choice/preference</fullName>
+                    <default>false</default>
+                    <label>Course – Choice/preference</label>
+                </value>
+                <value>
+                    <fullName>Course - Credit/RPL</fullName>
+                    <default>false</default>
+                    <label>Course - Credit/RPL</label>
+                </value>
+                <value>
+                    <fullName>Course - Exchange/Abroad</fullName>
+                    <default>false</default>
+                    <label>Course - Exchange/Abroad</label>
+                </value>
+                <value>
+                    <fullName>Course - Intermission</fullName>
+                    <default>false</default>
+                    <label>Course - Intermission</label>
+                </value>
+                <value>
+                    <fullName>Course - Materials</fullName>
+                    <default>false</default>
+                    <label>Course - Materials</label>
+                </value>
+                <value>
+                    <fullName>Course - Placement/internship</fullName>
+                    <default>false</default>
+                    <label>Course - Placement/internship</label>
+                </value>
+                <value>
+                    <fullName>Course - Postgraduate supervision</fullName>
+                    <default>false</default>
+                    <label>Course - Postgraduate supervision</label>
+                </value>
+                <value>
+                    <fullName>Course - Progression</fullName>
+                    <default>false</default>
+                    <label>Course - Progression</label>
+                </value>
+                <value>
+                    <fullName>Course - Research projects</fullName>
+                    <default>false</default>
+                    <label>Course - Research projects</label>
+                </value>
+                <value>
+                    <fullName>Course - Transfer</fullName>
+                    <default>false</default>
+                    <label>Course - Transfer</label>
+                </value>
+                <value>
+                    <fullName>Course - Unit selection</fullName>
+                    <default>false</default>
+                    <label>Course - Unit selection</label>
+                </value>
+                <value>
+                    <fullName>Course - Unit wishes to withdraw</fullName>
+                    <default>false</default>
+                    <label>Course - Unit wishes to withdraw</label>
+                </value>
+                <value>
+                    <fullName>Course - Wishes to leave uni</fullName>
+                    <default>false</default>
+                    <label>Course - Wishes to leave uni</label>
+                </value>
+                <value>
+                    <fullName>Not enroling next semester</fullName>
+                    <default>false</default>
+                    <label>Not enroling next semester</label>
+                </value>
+                <value>
+                    <fullName>Offer - Accepting</fullName>
+                    <default>false</default>
+                    <label>Offer - Accepting</label>
+                </value>
+                <value>
+                    <fullName>Offer - Accepting another Monash course</fullName>
+                    <default>false</default>
+                    <label>Offer - Accepting another Monash course</label>
+                </value>
+                <value>
+                    <fullName>Offer - Awaiting further offer</fullName>
+                    <default>false</default>
+                    <label>Offer - Awaiting further offer</label>
+                </value>
+                <value>
+                    <fullName>Offer - Deferment</fullName>
+                    <default>false</default>
+                    <label>Offer - Deferment</label>
+                </value>
+                <value>
+                    <fullName>Offer - Has not received</fullName>
+                    <default>false</default>
+                    <label>Offer - Has not received</label>
+                </value>
+                <value>
+                    <fullName>Offer - Rejecting</fullName>
+                    <default>false</default>
+                    <label>Offer - Rejecting</label>
+                </value>
+                <value>
+                    <fullName>Offer - Rejecting - Accepted offer at another institution</fullName>
+                    <default>false</default>
+                    <label>Offer - Rejecting - Accepted offer at another institution</label>
+                </value>
+                <value>
+                    <fullName>Offer - Rejecting - Family/personal/health</fullName>
+                    <default>false</default>
+                    <label>Offer - Rejecting - Family/personal/health</label>
+                </value>
+                <value>
+                    <fullName>Offer - Rejecting - Other</fullName>
+                    <default>false</default>
+                    <label>Offer - Rejecting - Other</label>
+                </value>
+                <value>
+                    <fullName>Offer - Rejecting - Travel/gap year</fullName>
+                    <default>false</default>
+                    <label>Offer - Rejecting - Travel/gap year</label>
+                </value>
+                <value>
+                    <fullName>Offer - Rejecting - Work obligations</fullName>
+                    <default>false</default>
+                    <label>Offer - Rejecting - Work obligations</label>
+                </value>
+                <value>
+                    <fullName>Offer - Unsure - Course/career choice</fullName>
+                    <default>false</default>
+                    <label>Offer - Unsure - Course/career choice</label>
+                </value>
+                <value>
+                    <fullName>Offer - Unsure - Family/personal/health</fullName>
+                    <default>false</default>
+                    <label>Offer - Unsure - Family/personal/health</label>
+                </value>
+                <value>
+                    <fullName>Offer - Unsure - Other</fullName>
+                    <default>false</default>
+                    <label>Offer - Unsure - Other</label>
+                </value>
+                <value>
+                    <fullName>Offer - Unsure - Other offers</fullName>
+                    <default>false</default>
+                    <label>Offer - Unsure - Other offers</label>
+                </value>
+                <value>
+                    <fullName>Offer - Unsure - Work obligations</fullName>
+                    <default>false</default>
+                    <label>Offer - Unsure - Work obligations</label>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                    <label>Other</label>
+                </value>
+                <value>
+                    <fullName>Peronsal - Health/disability concerns</fullName>
+                    <default>false</default>
+                    <label>Personal - Health/disability concerns</label>
+                </value>
+                <value>
+                    <fullName>Personal - Accommodation</fullName>
+                    <default>false</default>
+                    <label>Personal - Accommodation</label>
+                </value>
+                <value>
+                    <fullName>Personal - Family commitments</fullName>
+                    <default>false</default>
+                    <label>Personal - Family commitments</label>
+                </value>
+                <value>
+                    <fullName>Personal - Homesick</fullName>
+                    <default>false</default>
+                    <label>Personal - Homesick</label>
+                </value>
+                <value>
+                    <fullName>Personal - Isolation/friends/getting involved</fullName>
+                    <default>false</default>
+                    <label>Personal - Isolation/friends/getting involved</label>
+                </value>
+                <value>
+                    <fullName>Personal - Job seeking</fullName>
+                    <default>false</default>
+                    <label>Personal - Job seeking</label>
+                </value>
+                <value>
+                    <fullName>Personal - Socialising too much</fullName>
+                    <default>false</default>
+                    <label>Personal - Socialising too much</label>
+                </value>
+                <value>
+                    <fullName>Personal - Transport</fullName>
+                    <default>false</default>
+                    <label>Personal - Transport</label>
+                </value>
+                <value>
+                    <fullName>Personal - Volunteering/leadership</fullName>
+                    <default>false</default>
+                    <label>Personal - Volunteering/leadership</label>
+                </value>
+                <value>
+                    <fullName>Personal - Work commitments</fullName>
+                    <default>false</default>
+                    <label>Personal - Work commitments</label>
+                </value>
+                <value>
+                    <fullName>Reason - Family commitments</fullName>
+                    <default>false</default>
+                    <label>Reason - Family commitments</label>
+                </value>
+                <value>
+                    <fullName>Reason - Financial reasons</fullName>
+                    <default>false</default>
+                    <label>Reason - Financial reasons</label>
+                </value>
+                <value>
+                    <fullName>Reason - Health</fullName>
+                    <default>false</default>
+                    <label>Reason - Health</label>
+                </value>
+                <value>
+                    <fullName>Reason - Not ready for university study</fullName>
+                    <default>false</default>
+                    <label>Reason - Not ready for university study</label>
+                </value>
+                <value>
+                    <fullName>Reason -Plan to study different course at different institution</fullName>
+                    <default>false</default>
+                    <label>Reason -Plan to study different course at different institution</label>
+                </value>
+                <value>
+                    <fullName>Reason - Plan to study different course at Monash</fullName>
+                    <default>false</default>
+                    <label>Reason - Plan to study different course at Monash</label>
+                </value>
+                <value>
+                    <fullName>Reason - Plan to study similar course at different institution</fullName>
+                    <default>false</default>
+                    <label>Reason - Plan to study similar course at different institution</label>
+                </value>
+                <value>
+                    <fullName>Reason - Relocation</fullName>
+                    <default>false</default>
+                    <label>Reason - Relocation</label>
+                </value>
+                <value>
+                    <fullName>Reason -Travel</fullName>
+                    <default>false</default>
+                    <label>Reason -Travel</label>
+                </value>
+                <value>
+                    <fullName>Reason - Unsure about course/career choice</fullName>
+                    <default>false</default>
+                    <label>Reason - Unsure about course/career choice</label>
+                </value>
+                <value>
+                    <fullName>Reason - Wish to extend deferment for additional 12 months (reason – travel, work, financial, relocation)</fullName>
+                    <default>false</default>
+                    <label>Reason - Wish to extend deferment for additional 12 months (reason – travel, work, financial, relocation)</label>
+                </value>
+                <value>
+                    <fullName>Reason - Working (F/T or P/T)</fullName>
+                    <default>false</default>
+                    <label>Reason - Working (F/T or P/T)</label>
+                </value>
+                <value>
+                    <fullName>Unsure if they will enrol next semester</fullName>
+                    <default>false</default>
+                    <label>Unsure if they will enrol next semester</label>
+                </value>
+                <value>
+                    <fullName>Yes they are enroling next semester</fullName>
+                    <default>false</default>
+                    <label>Yes they are enroling next semester</label>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>No topic discussed</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Academic - Attendance (lectures, tutorials, labs etc.)</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Academic - English Proficiency spoken or written</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Academic - Essay, report and assignment writing</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Academic - Exam anxiety</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Academic - Exam preparation/revision</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Academic - Exam timetable</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Academic - Exam venue/transport</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Academic - Lecturer/tutor issues</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Academic - Referencing and citing</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Academic - Results</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Academic - Special consideration</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Academic - Timetable issues</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Academic - Workload/time management</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Administration - Encumbrance</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Administration - Enrolment queries/difficulties</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Administration - Fees</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Administration - Financial issues/difficulties</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Administration - Moodle</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Administration - Orientation will miss/has missed</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Administration - Parking on campus</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Administration - Parking permits</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Administration - Scholarships/bursaries</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Administration - Semester dates</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Administratoin - IT issues</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Course - Career</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Course - Change load</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Course – Choice/preference</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Course - Credit/RPL</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Course - Exchange/Abroad</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Course - Intermission</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Course - Materials</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Course - Placement/internship</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Course - Postgraduate supervision</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Course - Progression</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Course - Research projects</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Course - Transfer</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Course - Unit selection</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Course - Unit wishes to withdraw</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Course - Wishes to leave uni</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Offer - Accepting</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Offer - Accepting another Monash course</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Offer - Awaiting further offer</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Offer - Deferment</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Offer - Has not received</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Offer - Rejecting - Accepted offer at another institution</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Offer - Rejecting - Family/personal/health</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Offer - Rejecting - Other</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Offer - Rejecting - Travel/gap year</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Offer - Rejecting - Work obligations</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Offer - Unsure - Course/career choice</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Offer - Unsure - Family/personal/health</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Offer - Unsure - Other</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Offer - Unsure - Other offers</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Offer - Unsure - Work obligations</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Peronsal - Health/disability concerns</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Personal - Accommodation</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Personal - Family commitments</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Personal - Homesick</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Personal - Isolation/friends/getting involved</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Personal - Job seeking</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Personal - Socialising too much</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Personal - Transport</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Personal - Volunteering/leadership</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Montrack</controllingFieldValue>
+                <valueName>Personal - Work commitments</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Round__c</fullName>
+        <description>Identifies the related call round</description>
+        <label>Round</label>
+        <referenceTo>Round__c</referenceTo>
+        <relationshipLabel>Transition Topics</relationshipLabel>
+        <relationshipName>Transition_Topics</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>true</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>SSA_Identified__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Identifies the SSA</description>
+        <label>SSA Identified</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Transition_Topics</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Student__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Identifies the student/contact</description>
+        <label>Student</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Transition Topics</relationshipLabel>
+        <relationshipName>Transition_Topics</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Type__c</fullName>
+        <description>Captures the type of topic</description>
+        <label>Type</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Not Applicable</fullName>
+                    <default>false</default>
+                    <label>Not Applicable</label>
+                </value>
+                <value>
+                    <fullName>Montrack</fullName>
+                    <default>false</default>
+                    <label>Montrack</label>
+                </value>
+                <value>
+                    <fullName>Other Campaign (Not Montrack) 1</fullName>
+                    <default>false</default>
+                    <label>Other Campaign (Not Montrack) 1</label>
+                </value>
+                <value>
+                    <fullName>Other Campaign (Not Montrack) 2</fullName>
+                    <default>false</default>
+                    <label>Other Campaign (Not Montrack) 2</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>Transition Topic</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>TT-{00000}</displayFormat>
+        <label>Transition Topic Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Transition Topics</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

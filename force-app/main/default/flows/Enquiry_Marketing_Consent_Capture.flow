@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Create_MIE_Subscription_members_0_0</name>
+        <label>Create MIE Subscription members</label>
+        <locationX>176</locationX>
+        <locationY>335</locationY>
+        <actionName>EnquiryMarketingConsentCapture</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>caseRecs</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>EnquiryMarketingConsentCapture</nameSegment>
+    </actionCalls>
+    <apiVersion>57.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <environments>Default</environments>
+    <interviewLabel>Enquiry Marketing Consent Capture {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Enquiry Marketing Consent Capture</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Create_MIE_Subscription_members_0_0</targetReference>
+        </connector>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterFormula>AND({!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False ,{!$Record.Marketing_Email_Opt_In__c}, ISPICKVAL({!$Record.Enquiry_Type__c},&apos;Future Course&apos;), {!$Record.Enquiry_Origin_Category__c}=&apos;Web&apos;, ISBLANK({!$Record.ContactId}) = False, ISBLANK({!$Record.Lead__c})= False)</filterFormula>
+        <object>Case</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

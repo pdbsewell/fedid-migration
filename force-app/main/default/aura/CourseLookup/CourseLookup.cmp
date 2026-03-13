@@ -1,0 +1,243 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="CourseLookupController">
+
+    <!-- Event Handlers -->
+    <aura:registerEvent name="navigateToED" type="c:NavigateToEnrolmentDetails"/>
+    <aura:registerEvent name="navigateToEOI" type="c:NavigateToEOI"/>
+    <!-- Handlers -->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+    <aura:handler event="c:NavigateToRegistration" action="{!c.NavigateToRegistrationCmp}"/>
+    <aura:handler event="c:NavigateToEOI" action="{!c.NavigateToEOICmp}"/>
+
+    <!-- Page Header -->
+    <div class="slds-page-header">
+      <div class="slds-page-header-styling"><img src="{!v.monashLogo}" alt="" /></div>
+    </div>
+
+    <!-- Progress Bar -->
+    <!-- <div class="slds">
+        <div aura:id="progressIndicator" class="slds-progress-bar slds-progress-bar_circular progress25" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25" role="progressbar">
+          <span class="slds-progress-bar__value">
+            <span class="slds-assistive-text">{!v.progression}</span>
+          </span>
+        </div>
+    </div> -->
+    
+    <!-- Attributes -->
+    <aura:attribute name="enrolmentDetailsSection" type="String" default="" />
+    <aura:attribute name="state" type="String" default="offering" />
+    <aura:attribute name="courseCode" type="String" default="" />
+    <aura:attribute name="progression" type="String" default="Progress: 25%" />
+    <aura:attribute name="headerText" type="String" default="Course Offerings" />
+    <aura:attribute name="courseDescription" type="String" default="" />
+    <aura:attribute name="courseOfferings" type="List" description="The items to be iterated over and processed."/> 
+
+    <aura:attribute name="showInstructions" type="Boolean" default="true" />    
+    <aura:attribute name="facultyEmail" type="String" default="" />
+    <aura:attribute name="FacultyCustomData" type="List" description="Faculty specfic data"/> 
+
+    <!-- Monash Resources -->
+    <aura:attribute name="termsAndConditions" type="String" default="http://www.monash.edu/education/future-students/courses/short-courses/payment"/>
+    <aura:attribute name="privacyPolicy" type="String" default="https://www.monash.edu/privacy-monash/privacy-collection-statements#monashuni"/>
+    <aura:attribute name="monashLogo" type="String" default="https://www.monash.edu/__data/assets/git_bridge/0006/509343/deploy/mysource_files/monash-logo-mono.svg"/>
+    <aura:attribute name="group8Logo" type="String" default="https://www.monash.edu/__data/assets/git_bridge/0006/509343/deploy/mysource_files/go8_logo_mono.svg"/>
+    <aura:attribute name="footerText" type="String" default="Maintained by: Monash eSolutions. Last updated: January 2020.
+
+    Copyright © 2020 Monash University. ABN 12 377 614 012 Accessibility - Disclaimer and copyright - Privacy, Monash University CRICOS Provider Number: 00008C, Monash College CRICOS Provider Number: 01857J. Monash University is a registered higher education provider under the TEQSA Act 2011.
+
+We acknowledge and pay respects to the Elders and Traditional Owners of the land on which our five Australian campuses stand. Information for Indigenous Australians."/>
+
+    <!-- Header Text -->
+    <aura:if isTrue="{!v.state == 'offering'}">
+      <div class="slds-page-header" aura:id="CourseOfferingsHeader">
+        <div class="slds-grid">
+          <div class="slds-col slds-has-flexi-truncate">
+            <span>
+                <p class="slds-text-heading--label" style="font-weight:bold; color:#006DAE;">Professional Development</p>
+            </span>
+            <span>
+                <p class="slds-text-heading--label heading">{!v.headerText}</p>
+            </span>
+          </div>
+        </div>
+      </div>
+      
+      <form class="slds-form--stacked" aura:id="CourseOfferingsSection">
+      
+        <div class="slds-grid" style="padding-left: 25px; padding-top: 1rem;">
+          <ui:outputText aura:id="coDescription" value="{!v.courseDescription}" class="slds-text-heading_large"/>
+        </div>
+
+        <aura:if isTrue="{!v.showInstructions}">
+          <div class="slds-grid" style="padding-top: 25px; padding-bottom: 25px; padding-left: 25px;">
+            <div class="slds-col">
+              <div class="slds-text-body_regular">Choose your preferred study location and start date from the following options, then book to reserve your place on the course or enquire for more information.
+              All prices in Australian dollars. Please ensure you have read and comply with the course pre-requisite requirements (if any) before continuing.</div>
+              <div class="slds-text-body_regular">                
+                
+                <aura:iteration items="{!v.FacultyCustomData}" var="fcData">                  
+                  <span style="display: block; padding-top: 10px;">This course is offered by {!fcData.Managing_Faculty__c}. If you have any question relates to application process, please contact the faculty on email <a href="{!'mailto:'+fcData.Faculty_Email__c}">{!fcData.Faculty_Email__c}</a> or phone {!fcData.Faculty_Phone_Label__c}.</span>
+                </aura:iteration>
+
+              </div>
+            </div>
+          </div>
+        </aura:if>
+
+        <aura:if isTrue="{!and( !v.showInstructions, v.facultyEmail != null )}">
+          <div class="slds-p-top--x-small" />
+            <div class="slds-notify slds-notify--alert slds-theme--offline slds-theme--alert-texture" role="alert" style="display:inline-block;" >
+            <ui:outputText value="This program is currently not available. Please email us ("/>
+            <!--ui:outputText value="&nbsp;"/-->
+            <a href="{!'mailto:'+v.facultyEmail}">{!v.facultyEmail}</a>            
+            <!--ui:outputText value="&nbsp;"/-->
+            <ui:outputText value=") to express interest in the next program"/>
+          </div>
+        </aura:if>
+
+        <aura:if isTrue="{!and( v.facultyEmail == null, v.showInstructions == false )}">
+        <!-- <aura:if isTrue="{!and( !v.showInstructions, v.facultyEmail == null )}"> -->
+          <div class="slds-p-top--x-small" />
+            <div class="slds-notify slds-notify--alert slds-theme--offline slds-theme--alert-texture" role="alert" style="display:inline-block;" >
+            <ui:outputText value="No valid course selected. Please contact "/>
+            <!--ui:outputText value="&nbsp;"/-->
+            <a href="https://www.monash.edu/connect">Monash Connect</a>
+            <!--ui:outputText value="&nbsp;"/-->
+            <ui:outputText value=" to find more information."/>
+          </div>
+        </aura:if>        
+
+        <!-- Course Offerings Table -->
+        <div class="div-table-wrapper ">
+          <table class="slds-table slds-table_bordered slds-table_cell-buffer slds-table_col-bordered">
+            <aura:if isTrue="{!and(v.courseOfferings != null)}">
+              <thead>
+                <tr class="slds-text-title_caps table-header-styling">
+                  <th scope="col">
+                    <div class="slds-truncate table-header" title="Location">Location</div>
+                  </th>
+                  <th scope="col">
+                    <div class="slds-truncate table-header" title="Commencing">Commencing</div>
+                  </th>
+                  <th scope="col">
+                    <div class="slds-truncate table-header" title="Commencing">Ending</div>
+                  </th>
+                  <th scope="col">
+                    <div class="slds-truncate table-header" title="Cost">Part of the day</div>
+                  </th>
+                  <th scope="col">
+                    <div class="slds-truncate table-header" title="Cost">Number of sessions</div>
+                  </th>
+
+                  <th scope="col" title="Available action"></th>
+                </tr>
+              </thead>
+            </aura:if>
+
+            <tbody>
+              <aura:iteration items="{!v.courseOfferings}" var="coRec">
+                <ui:outputText value="{!coRec.Id}" class="slds-hide" />
+                <aura:if isTrue="{!(coRec.Status__c == 'Available' || coRec.Status__c == 'Full'|| coRec.Status__c == 'EOI')}">
+                  <aura:if isTrue="{!not(coRec.Customised_course_offering__c)}">
+                    <tr> 
+                        <!-- Location -->
+                        <td scope="row" data-label="Location">
+                            <div class="slds-truncate">
+                              <aura:if isTrue="{!and(coRec.Venue__r.Name != null, coRec.Venue__r.Name != '')}">
+                                  {!coRec.Venue__r.Name}
+                              </aura:if>
+                            </div>
+                        </td>
+
+                        <!-- Commencing -->
+                        <td data-label="Commencing">
+                            <div class="slds-truncate">
+                                <aura:if isTrue="{!and(coRec.Start_Date__c != null, coRec.Start_Date__c != '')}">  
+                                    <ui:outputDate value="{!coRec.Start_Date__c}" format="DD-MM-YYYY"/>
+                                </aura:if>
+                            </div>
+                        </td>
+
+                        <!-- Ending -->
+                        <td data-label="Ending">
+                            <div class="slds-truncate">
+                                <aura:if isTrue="{!and(coRec.End_Date__c != null, coRec.End_Date__c != '')}">
+                                    <ui:outputDate value="{!coRec.End_Date__c}" format="DD-MM-YYYY"/>
+                                </aura:if>
+                            </div>
+                        </td> 
+
+                        <!-- Part of the day -->
+                        <td data-label="Part of the Day">
+                            <div class="slds-truncate">
+                                <aura:if isTrue="{!and(coRec.Part_of_the_Day__c != null, coRec.Part_of_the_Day__c != '')}">
+                                    {!coRec.Part_of_the_Day__c}
+                                </aura:if>
+                            </div>
+                        </td>
+
+                        <!-- Number of sessions -->
+                        <td data-label="Number of Sessions">
+                            <div class="slds-truncate" style="text-align: center;">
+                                <aura:if isTrue="{!and(coRec.No_of_Sessions__c != null, coRec.No_of_Sessions__c != '')}">
+                                    {!coRec.No_of_Sessions__c}
+                                </aura:if>
+                            </div>
+                        </td>
+
+                        <!-- Cost -->
+
+
+                        <td>
+                          <div class="slds-button-group" role="group">
+                            <lightning:buttonGroup >
+                                <aura:if isTrue="{!coRec.Status__c == 'Available'}">
+                                  
+                                  <div class="slds-truncate" style="padding-right: 5px;">
+                                    <lightning:button value="{!coRec}" variant="brand" label="Register" iconName="utility:adduser" iconPosition="left" onclick="{! c.handleRegistration }" class="button-styling"/>
+                                  </div>
+                                </aura:if>
+                                <aura:if isTrue="{!coRec.Status__c == 'EOI'}">
+                                    <div class="slds-truncate" style="padding-right: 5px;">
+                                        <lightning:button value="{!coRec}" variant="brand" label="Express your interest" iconName="utility:approval" iconPosition="left"  onclick="{!c.handleEOI}" class="button-styling"/>
+                                    </div>
+                                </aura:if>
+                                <aura:if isTrue="{!coRec.Status__c == 'Full'}">
+                                  <div class="slds-truncate">
+                                   
+                                    <lightning:button value="{!coRec}" variant="brand" label="Add to waiting list" iconName="utility:clock" iconPosition="left" onclick="{! c.handleWaitListing }" class="button-styling"/>
+                                  </div>
+                                </aura:if>
+                            </lightning:buttonGroup>
+                          </div>
+                        </td>
+                    </tr>
+                  </aura:if>
+                </aura:if>
+              </aura:iteration>
+            </tbody>
+          </table>
+        </div>
+      </form>
+      
+    </aura:if>
+    
+    {!v.enrolmentDetailsSection}
+
+    <!-- Footer -->
+    <!--  class="slds-docked-form-footer" -->
+    <div class="footer-wrapper-styling">
+          <!-- <div style="align:center; padding-left:10px; padding-right:10px;">
+            <ui:outputURL value="{!v.termsAndConditions}" label="Terms and Conditions" target="_blank" class="footer-styling" />
+          </div> -->
+          <div id="ui-privacy">
+            <ui:outputURL value="{!v.privacyPolicy}" label="Privacy Statement" target="_blank" class="footer-styling" />
+          </div>
+          
+          <div id="ui-footer-text" style="padding-top:10px;">{!v.footerText}</div>
+
+          <div id="ui-group8logo">
+            <img src="{!v.group8Logo}" alt="" />
+          </div>
+    </div>
+
+</aura:component>

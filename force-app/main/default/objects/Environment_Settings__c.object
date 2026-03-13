@@ -1,0 +1,622 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>Hierarchy Custom Setting that should contain all the feature controls for the environment. i.e. Enabling/Disabling auto processing of exploding leads.</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>AgentPortalURL__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <complianceGroup>GDPR</complianceGroup>
+        <description>AgentPoralURL - To be accessed from Email</description>
+        <externalId>false</externalId>
+        <label>AgentPortalURL</label>
+        <length>200</length>
+        <required>false</required>
+        <securityClassification>Public</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>AgentPortal_Affiliation__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>On/off for Affiliation creation for AgentPortal applications</description>
+        <inlineHelpText>On/off for Affiliation creation for AgentPortal applications</inlineHelpText>
+        <label>AgentPortal Affiliation</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>BMS_High_Volume_Factor__c</fullName>
+        <defaultValue>10000</defaultValue>
+        <description>Number field that defines how many campaign member there should be for the campaign to be considered as a high volume campaign.</description>
+        <externalId>false</externalId>
+        <label>BMS High Volume Factor</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Batch_Size__c</fullName>
+        <defaultValue>200</defaultValue>
+        <description>Control Person360ToggleIsActiveBatch records to process. Minimun is 1, maximum 200.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Control Person360ToggleIsActiveBatch records to process. Minimun is 1, maximum 200.</inlineHelpText>
+        <label>Batch Size</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Bypass_Course_Master_Rollup_Criteria__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Checkbox to bypass Course logic condition on whether it should trigger the Course Rollup (to Course Master) logic. This will be used mainly for migration</description>
+        <label>Bypass Course Master Rollup Criteria</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>CampusLocation_Australia__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Used to toggle Campus Location option Australia on Internal/Community pages</description>
+        <inlineHelpText>On/Off for the Campus Location - Australia option on my.app</inlineHelpText>
+        <label>Campus Location Australia</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>CampusLocation_Indonesia__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Used to toggle Campus Location option Indonesia on Internal/Community pages</description>
+        <inlineHelpText>On/Off for the Campus Location - Indonesia option on my.app</inlineHelpText>
+        <label>Campus Location Indonesia</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>CampusLocation_Malaysia__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Used to toggle Campus Location option Malaysia on Internal/Community pages</description>
+        <inlineHelpText>On/Off for the Campus Location - Malaysia option on my.app</inlineHelpText>
+        <label>Campus Location Malaysia</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>CampusLocation_SouthAfrica__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Used to toggle Campus Location option South Africa on Internal/Community pages</description>
+        <inlineHelpText>On/Off for the Campus Location - South Africa option on my.app</inlineHelpText>
+        <label>Campus Location South Africa</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Captcha_Key__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>The field to save the Key used for encryption and decryption</description>
+        <externalId>false</externalId>
+        <label>Captcha Key</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Contact_Enquiries_Report_Id__c</fullName>
+        <description>Id field for the report to be referenced on the Contact&apos;s Lightning Page</description>
+        <externalId>false</externalId>
+        <label>Contact Enquiries Report Id</label>
+        <length>18</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Contact_Loose_Match_Duplicate_Rule_Name__c</fullName>
+        <defaultValue>&quot;Contact_Loose_Match&quot;</defaultValue>
+        <description>The API name of the &quot;Loose Contact Matching&quot; duplicate rule being used</description>
+        <externalId>false</externalId>
+        <label>Contact Loose Match Duplicate Rule Name</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Contact_Merge_Job_Name__c</fullName>
+        <description>Duplicate Merge Job Name Criteria</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Duplicate Merge Job Name Criteria</inlineHelpText>
+        <label>Contact Merge Job Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Contact_Merge_Max_Records__c</fullName>
+        <defaultValue>200</defaultValue>
+        <description>Maximum Records retrieved per batch run</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Maximum Records retrieved per batch run</inlineHelpText>
+        <label>Contact Merge Max Records</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Contact_Merge_Max_Rerun__c</fullName>
+        <defaultValue>0</defaultValue>
+        <description>Contact Merge Max batch execution rerun count, set to 0 for max reruns</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Contact Merge Max batch execution rerun count, set to 0 for max reruns</inlineHelpText>
+        <label>Contact Merge Max Rerun</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Course_Advice_Queue_Id__c</fullName>
+        <description>Monash Connect Course Advice Queue Id</description>
+        <externalId>false</externalId>
+        <label>Course Advice Queue Id</label>
+        <length>20</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CssdURL__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>CSSD URL</description>
+        <externalId>false</externalId>
+        <label>CssdURL</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Public</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Deactivate_User_Delay_Days__c</fullName>
+        <description>Field that controls how many days should the system wait before deactivating the user related to the deactivated staff contact</description>
+        <externalId>false</externalId>
+        <label>Deactivate User Delay (Days)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Enquiry_Created_Date__c</fullName>
+        <description>Created date of enquiry. Used by BatchUpdateChannelMappingField.</description>
+        <externalId>false</externalId>
+        <label>Enquiry Created Date</label>
+        <length>30</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Exploding_Leads_Active__c</fullName>
+        <defaultValue>false</defaultValue>
+        <inlineHelpText>Check this boolean field if Staged Prospective Student records should automatically &quot;Explode&quot; to create different object records.</inlineHelpText>
+        <label>Exploding Leads Active</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Expose_FAQs_Active__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Switch to turn on/off exposing Customer or Public articles through the public site ArticleService</description>
+        <label>Expose FAQs Active</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>General_HR_Queue_Id__c</fullName>
+        <description>Record Id of General HR Queue</description>
+        <externalId>false</externalId>
+        <label>General HR Queue Id</label>
+        <length>20</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>HR_Enquiry_Record_Type_Id__c</fullName>
+        <description>HR Enquiry Record Type Id which is used in the Process Builder, Ask Monash Faculty partners Php Form processes.</description>
+        <externalId>false</externalId>
+        <label>HR Enquiry Record Type Id</label>
+        <length>20</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>MC_Current_Past_Course_Validation__c</fullName>
+        <defaultValue>false</defaultValue>
+        <inlineHelpText>Checkbox to activate/deactivate the Current Course Validation Rule coded on apex. Require associated course and managing faculty on wrapping up current course enquiries.</inlineHelpText>
+        <label>[MC] Current/Past Course Validation</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>MC_Future_Course_Validation__c</fullName>
+        <defaultValue>false</defaultValue>
+        <inlineHelpText>Checkbox to activate/deactivate the Future Course Validation Rule coded on apex. Require associated course or enquiry interest on wrapping up future course enquiries.</inlineHelpText>
+        <label>[MC] Future Course Validation</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Merge_Bypass_Org_Wide_Email__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Bypass using Org Wide no-reply email from Contact Merge Tool Notification</description>
+        <inlineHelpText>Bypass using Org Wide no-reply email from Contact Merge Tool Notification</inlineHelpText>
+        <label>Merge Bypass Org Wide Email</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>MonConSupport_Rec_Type__c</fullName>
+        <description>Mon con support Record type Id which is used in the PB Ask Monash Faculty partners Php Form processes</description>
+        <externalId>false</externalId>
+        <label>MonConSupport Rec Type ID</label>
+        <length>20</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>MyAppPortalURL__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <complianceGroup>GDPR</complianceGroup>
+        <description>MyAppPortalURL - URL to be accessed from Email</description>
+        <externalId>false</externalId>
+        <label>MyAppPortalURL</label>
+        <length>200</length>
+        <required>false</required>
+        <securityClassification>Public</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>MyCredsURL__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>My Creds URL</description>
+        <externalId>false</externalId>
+        <label>MyCredsURL</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Public</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>MyEqualsURL__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>My eQuals URL</description>
+        <externalId>false</externalId>
+        <label>MyEqualsURL</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Public</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Outbound_Call_Batch_Size__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Capture batch execution size for Outbound call record generation</description>
+        <externalId>false</externalId>
+        <label>Outbound Call Batch Size</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PARTNR_Agent_Person_Id__c</fullName>
+        <description>PARTNR Callista Agent Person ID</description>
+        <externalId>false</externalId>
+        <inlineHelpText>PARTNR Callista Agent Person ID</inlineHelpText>
+        <label>PARTNR Agent Person Id</label>
+        <length>10</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Person360IsActiveClause__c</fullName>
+        <description>For dynamic WHERE clause for Person360ToggleIsActiveBatch. LIMIT is required, minumum of 1, maximum of 10000.</description>
+        <inlineHelpText>For dynamic WHERE clause for Person360ToggleIsActiveBatch. LIMIT is required, minumum of 1, maximum of 10000.</inlineHelpText>
+        <label>Person360IsActiveClause</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Reassign_Loans_and_Grants__c</fullName>
+        <defaultValue>true</defaultValue>
+        <description>Reassigns to Loans and Grants Queue on reply</description>
+        <inlineHelpText>Reassigns to Loans and Grants Queue on reply</inlineHelpText>
+        <label>Reassign Loans and Grants</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Reopen_Enquiry_Rule_Active__c</fullName>
+        <defaultValue>true</defaultValue>
+        <description>Checkbox that controls whether to apply the enquiry reopen rules</description>
+        <label>Reopen Enquiry Rule Active</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ResidencyStatus_DOMAUS__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Used to toggle Residency Status option DOM-AUS on Internal/Community pages</description>
+        <inlineHelpText>On/Off for the Residency Status - DOM-AUS option on my.app</inlineHelpText>
+        <label>Residency Status DOM-AUS</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ResidencyStatus_DOMHV__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Used to toggle Residency Status option DOM-HV on Internal/Community pages</description>
+        <inlineHelpText>On/Off for the Residency Status - DOM-HV option on my.app</inlineHelpText>
+        <label>Residency Status DOM-HV</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ResidencyStatus_DOMIDNPR__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Used to toggle Residency Status option DOM-IDN-PR on Internal/Community pages</description>
+        <inlineHelpText>On/Off for the Residency Status - DOM-IDN-PR option on my.app</inlineHelpText>
+        <label>Residency Status DOM-IDN-PR</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ResidencyStatus_DOMIDN__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Used to toggle Residency Status option DOM-IDN on Internal/Community pages</description>
+        <inlineHelpText>On/Off for the Residency Status - DOM-IDN option on my.app</inlineHelpText>
+        <label>Residency Status DOM-IDN</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ResidencyStatus_DOMNZ__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Used to toggle Residency Status option DOM-NZ on Internal/Community pages</description>
+        <inlineHelpText>On/Off for the Residency Status - DOM-NZ option on my.app</inlineHelpText>
+        <label>Residency Status DOM-NZ</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ResidencyStatus_DOMPR__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Used to toggle Residency Status option DOM-PR on Internal/Community pages</description>
+        <inlineHelpText>On/Off for the Residency Status - DOM-PR option on my.app</inlineHelpText>
+        <label>Residency Status DOM-PR</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ResidencyStatus_DOMSA__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Used to toggle Residency Status option DOM-SA on Internal/Community pages</description>
+        <inlineHelpText>On/Off for the Residency Status - DOM-SA option on my.app</inlineHelpText>
+        <label>Residency Status DOM-SA</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ResidencyStatus_DOMSUN__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Used to toggle Residency Status option DOM-SUN on Internal/Community pages</description>
+        <inlineHelpText>On/Off for the Residency Status - DOM-SUN option on my.app</inlineHelpText>
+        <label>Residency Status DOM-SUN</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ResidencyStatus_INTIDNP__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Used to toggle Residency Status option INT-IDN-P on Internal/Community pages</description>
+        <inlineHelpText>On/Off for the Residency Status - INT-IDN-P option on my.app</inlineHelpText>
+        <label>Residency Status INT-IDN-P</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ResidencyStatus_INTIDN__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Used to toggle Residency Status option INT-IDN on Internal/Community pages</description>
+        <inlineHelpText>On/Off for the Residency Status - INT-IDN option on my.app</inlineHelpText>
+        <label>Residency Status INT-IDN</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ResidencyStatus_INTRNTNL__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Used to toggle Residency Status option INTRNTNL on Internal/Community pages</description>
+        <inlineHelpText>On/Off for the Residency Status - INTRNTNL option on my.app</inlineHelpText>
+        <label>Residency Status INTRNTNL</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ResidencyStatus_INTSA__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Used to toggle Residency Status option INT-SA on Internal/Community pages</description>
+        <inlineHelpText>On/Off for the Residency Status - INT-SA option on my.app</inlineHelpText>
+        <label>Residency Status INT-SA</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ResidencyStatus_INTSUNP__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Used to toggle Residency Status option INT-SUN-P on Internal/Community pages</description>
+        <inlineHelpText>On/Off for the Residency Status - INT-SUN-P option on my.app</inlineHelpText>
+        <label>Residency Status INT-SUN-P</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ResidencyStatus_INTSUN__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Used to toggle Residency Status option INT-SUN on Internal/Community pages</description>
+        <inlineHelpText>On/Off for the Residency Status - INT-SUN option on my.app</inlineHelpText>
+        <label>Residency Status INT-SUN</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>ResidencyStatus_INTTEP__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Used to toggle Residency Status option INT-TEP on Internal/Community pages</description>
+        <inlineHelpText>On/Off for the Residency Status - INT-TEP option on my.app</inlineHelpText>
+        <label>Residency Status INT-TEP</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Standard_Enquiry_Record_Type_Id__c</fullName>
+        <description>Standard Enquiry Record Type Id which is used in the Process Builder, Ask Monash Faculty partners Php Form processes.</description>
+        <externalId>false</externalId>
+        <label>Standard Enquiry Record Type Id</label>
+        <length>20</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>StudyType_Australia__c</fullName>
+        <description>To indicate the study type for Australia</description>
+        <externalId>false</externalId>
+        <label>StudyType Australia</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>StudyType_China__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>StudyTypes for China</description>
+        <externalId>false</externalId>
+        <label>StudyType China</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>StudyType_Indonesia__c</fullName>
+        <description>To indicate study type for Indonesia</description>
+        <externalId>false</externalId>
+        <label>StudyType Indonesia</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>StudyType_Malaysia__c</fullName>
+        <description>To indicate study type for Malaysia</description>
+        <externalId>false</externalId>
+        <label>StudyType Malaysia</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>System_Admin_User_Id__c</fullName>
+        <description>The User Id for the System Admin User</description>
+        <externalId>false</externalId>
+        <label>System Admin User Id</label>
+        <length>20</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Track_CRM_Ids__c</fullName>
+        <defaultValue>true</defaultValue>
+        <description>Turn on tracking for CRM Ids for Contact Merges</description>
+        <label>Track CRM Ids</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Transfer_Enquiry_Rule_Active__c</fullName>
+        <defaultValue>true</defaultValue>
+        <description>Checkbox that controls whether to apply the enquiry transfer rules</description>
+        <label>Transfer Enquiry Rule Active</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Transfer_Enquiry_Rule_Exclude_User__c</fullName>
+        <description>Exclude the default case owner to restrict transfer rules triggering on email-to-case</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Exclude the default case owner to restrict transfer rules triggering on email-to-case</inlineHelpText>
+        <label>Transfer Enquiry Rule Exclude User</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Environment Settings</label>
+    <visibility>Public</visibility>
+</CustomObject>

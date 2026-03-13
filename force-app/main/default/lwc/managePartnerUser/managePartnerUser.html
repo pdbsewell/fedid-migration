@@ -1,0 +1,146 @@
+<template>     
+    <!-- modal ready -->
+    <template if:true={modalReady}>
+        <header class="slds-modal__header">
+            <h2 id="modal-heading" class="slds-modal__title slds-hyphenate">
+                <template if:false={isReadOnly}>
+                    Enable Partner User
+                </template>
+                <template if:true={isReadOnly}>
+                    Update Partner User
+                </template>
+            </h2>
+        </header>
+        <div class="slds-modal__content slds-p-horizontal_medium slds-p-vertical_xx-small slds-modal_child slds-is-relative" id="modal-content-id">  
+            <template if:true={isPartnerEnabled}>  
+                <template if:true={showSpinner}>
+                    <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+                </template>
+                
+                <lightning-layout multiple-rows>                        
+                    <!-- Username -->
+                    <lightning-layout-item size="12"> 
+                        <div class="slds-p-vertical_xx-small slds-p-horizontal_x-small">
+                            <div class="slds-text-title">Username</div>
+                            <lightning-input class="usernameInput" variant="label-hidden" value={userDetails.Username} disabled={isReadOnly} onchange={handleUsernameChange}>
+                            </lightning-input> 
+                        </div>
+                    </lightning-layout-item>                
+                    <!-- Nickname -->   
+                    <lightning-layout-item size="12">     
+                        <div class="slds-p-vertical_xxx-small slds-p-horizontal_xx-small">
+                            <lightning-input class="nicknameInput" label="Community Name" variant="label-stacked" value={userDetails.Nickname} disabled={isReadOnly} field-level-help="Name shown on the portal" required="true" onchange={handleNicknameChange}>
+                            </lightning-input> 
+                        </div>
+                    </lightning-layout-item>                                
+                    <!-- Email -->     
+                    <lightning-layout-item size="12"> 
+                        <div class="slds-p-vertical_xx-small slds-p-horizontal_x-small">
+                            <div class="slds-text-title">Email</div>
+                            <lightning-input variant="label-hidden" value={userDetails.Email} disabled="true" onchange={handleEmailChange}>
+                            </lightning-input> 
+                        </div>
+                    </lightning-layout-item>             
+                    <!-- First Name -->    
+                    <lightning-layout-item size="12">    
+                        <div class="slds-p-vertical_xx-small slds-p-horizontal_x-small">
+                            <div class="slds-text-title">Given Name</div>
+                            <lightning-input variant="label-hidden" tabindex="0" value={userDetails.FirstName} disabled="true" onchange={handleFirstNameChange}>
+                            </lightning-input>
+                        </div>
+                    </lightning-layout-item>             
+                    <!-- Middle Name -->   
+                    <lightning-layout-item size="12">     
+                        <div class="slds-p-vertical_xx-small slds-p-horizontal_x-small">
+                            <div class="slds-text-title">Middle Name</div>
+                            <lightning-input variant="label-hidden" value={userDetails.MiddleName} disabled="true" onchange={handleMiddleNameChange}>
+                            </lightning-input> 
+                        </div>
+                    </lightning-layout-item>                           
+                    <!-- Last Name -->     
+                    <lightning-layout-item size="9"> 
+                        <div class="slds-p-vertical_xx-small slds-p-horizontal_x-small">
+                            <div class="slds-text-title">
+                                <abbr title="required" class="slds-required">*</abbr>
+                                Last Name
+                            </div>
+                            <lightning-input variant="label-hidden" value={userDetails.LastName} disabled="true" onchange={handleLastNameChange}>
+                            </lightning-input> 
+                        </div>
+                    </lightning-layout-item>                         
+                    <!-- Suffix -->     
+                    <lightning-layout-item size="3"> 
+                        <div class="slds-p-vertical_xx-small slds-p-horizontal_x-small">
+                            <div class="slds-text-title">Suffix</div>
+                            <lightning-input variant="label-hidden" value={userDetails.Suffix} disabled="true" onchange={handleSuffixChange}>
+                            </lightning-input> 
+                        </div>
+                    </lightning-layout-item>        
+                    <!-- Primary Account Holder --> 
+                    <lightning-layout-item size="4">
+                        <template if:true={userDetails.isPartnerActive}>
+                            <div class="slds-p-vertical_xxx-small slds-p-left_x-small">
+                                <lightning-input type="toggle" label="Primary Account Holder" checked={userDetails.PrimaryAcctHolder}
+                                onchange={handlePrimaryAcctHolderChange} disabled={originalPrimaryAcctHolderValue}>
+                                </lightning-input>
+                            </div>
+                        </template>
+                    </lightning-layout-item>
+                    <!-- Delegated Admin --> 
+                    <lightning-layout-item size="5"> 
+                        <template if:true={userDetails.isPartnerActive}>
+                            <div class="slds-p-vertical_xxx-small slds-p-horizontal_x-small slds-float_right">
+                                <lightning-input type="toggle" label="Delegated Administrator" 
+                                    checked={userDetails.DelegatedAdmin} onchange={handleDelegatedAdminChange} disabled={userDetails.PrimaryAcctHolder}>
+                                </lightning-input> 
+                            </div>
+                        </template>   
+                    </lightning-layout-item> 
+                    <!-- Partner Status -->
+                    <template if:true={isReadOnly}>
+                        <lightning-layout-item size="3">
+                            <div class="slds-p-vertical_xxx-small slds-p-horizontal_x-small slds-float_right">
+                                <lightning-input type="toggle" label="Status"
+                                    checked={userDetails.isPartnerActive} onchange={handleDeactivatePartnerChange} disabled={originalPrimaryAcctHolderValue}>
+                                </lightning-input>
+                            </div>
+                        </lightning-layout-item>
+                    </template>
+                </lightning-layout>                
+            </template>   
+            <template if:false={isPartnerEnabled}>
+                <div class="slds-is-relative">
+                    <div class="slds-text-heading_large slds-p-vertical_large slds-align_absolute-center">Parent Account is not a Enabled as a Partner.</div>       
+                </div>     
+            </template>
+            <template if:true={userDetails.isPartnerActive}>
+                <template if:true={userDetails.PrimaryAcctHolder}>
+                        <div class="slds-is-relative">
+                            <span>
+                                <div class="slds-text-body_small slds-var-p-around_medium slds-align_absolute-center">
+                                    <lightning-icon class="slds-m-right_small" icon-name="utility:warning" alternative-text="Warning!" variant="warning"
+                                    title="warning variant" size="small"></lightning-icon>
+                                    {warningText}
+                                </div>
+                            </span>
+                        </div>
+                </template>
+            </template>
+        </div>
+        <footer class="slds-modal__footer">
+            <button type="submit" class="slds-button slds-button_neutral" onclick={closeQuickAction} tabindex="-1" disabled={showSpinner}>Cancel</button>
+            <template if:false={isReadOnly}>
+                <lightning-button class="slds-m-left_x-small" variant="brand" label="Confirm and Enable" tabindex="-1" onclick={generatePartner}></lightning-button>
+            </template>
+            <template if:true={isReadOnly}>
+                <lightning-button class="slds-m-left_x-small" variant="brand" label="Confirm and Update" tabindex="-1" disabled={hasNoEdits} onclick={updatePartner}></lightning-button>
+            </template>        
+        </footer>   
+    </template>
+    <!-- modal loading -->
+    <template if:false={modalReady}>
+        <div class="slds-is-relative" style="height: 350px;">
+            <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+        </div>
+    </template>
+</template>

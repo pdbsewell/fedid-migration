@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>unicrm.coreadmin@monash.edu</contactEmail>
+    <description>DevHub Access for Jenkins User</description>
+    <label>DevHub</label>
+    <oauthConfig>
+        <callbackUrl>http://localhost:1717/OauthRedirect</callbackUrl>
+        <certificate>MIIDrTCCApUCFACRZIlIoNcPiXJlGPTykjBl/4aUMA0GCSqGSIb3DQEBCwUAMIGRMTIwMAYJKoZIhvcNAQkBFiNlc29sLWplbmtpbnMtdW5pY3JtYWRtaW5AbW9uYXNoLmVkdTEOMAwGA1UEAwwFcmVobDgxDTALBgNVBAsMBEVTT0wxGjAYBgNVBAoMEU1vbmFzaCBVbml2ZXJzaXR5MRIwEAYDVQQHDAlNZWxib3VybmUxDDAKBgNVBAgMA1ZJQzAgFw0yNTA0MDMwNTU4MzFaGA8yMjk5MDExNjA1NTgzMVowgZExMjAwBgkqhkiG9w0BCQEWI2Vzb2wtamVua2lucy11bmljcm1hZG1pbkBtb25hc2guZWR1MQ4wDAYDVQQDDAVyZWhsODENMAsGA1UECwwERVNPTDEaMBgGA1UECgwRTW9uYXNoIFVuaXZlcnNpdHkxEjAQBgNVBAcMCU1lbGJvdXJuZTEMMAoGA1UECAwDVklDMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAzxHKf1vGifyo6VFZUbsNsOgCO3FKZGsKwG0IPBDekQ/SqX+zj3lY42ON08+sAB65S1Etlwf/abgc4TB9Z8fJCiyB2T+aL7QD+Oh9W26LfOU1tEe9hLQ6DHYMlJzK0uM9KhzcfoGJWOZboCeVUark0STagVGAQZQSNd3CbLPTeXHCfF/28CFcc81YRgd5UD/VAArgHf5ak9CifGq7Yti5n3gdXheNsWft2x9OGCVpm8b9F0BvCWQ49inMOCcv0g0xOXYm46S4KI357XNbh/U0PvJGYHBhEgprCB9oZrdOL/4QW0YyEP+Cq+iFEx2mO/lEqc11HdHcSK9zGLUaebAK0QIDAQABMA0GCSqGSIb3DQEBCwUAA4IBAQAjlJSZLCqYY/wzTXfEO7yYLMn3N5d7hq8j/x4hA12/S6gP/3kuvPxjqJj9rWeda/exG8VvqApV06PnHm26Hq4bQhy+bSr3tB7hYTzmQx3LSwUih+mpLYZj8z0TdJEbnD1Xw/eGdqAFV3wRPz4/harp2W7zZ54orYrEl2La8oS74a8cbCStGQUDnAHIeWOyRIuwVYHglmElS9aaSP2LavfFsXO01FjYjTtlaGMxxa1cYCHRShKZvjiB/qodPxR47mK1OTiodGyF6OGu1HYsFBGhS5W1lKXqLaA/we5QketOo/Kw9FDRHd9M3LGrDm0h46N+7lMfX8/ex4+WBtLkrxNo</certificate>
+        <consumerKey>3MVG9mywN3hwYEwnV8jOpeEH05iKEl1yXBSsYkiuN3JL_ar13jQpDk1ZZwBpTRqacAG.eoo8znyW5pF6fzSS0</consumerKey>
+        <isAdminApproved>true</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
+        <isCodeCredentialEnabled>false</isCodeCredentialEnabled>
+        <isCodeCredentialPostOnly>false</isCodeCredentialPostOnly>
+        <isConsumerSecretOptional>false</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isNamedUserJwtEnabled>false</isNamedUserJwtEnabled>
+        <isPkceRequired>false</isPkceRequired>
+        <isRefreshTokenRotationEnabled>false</isRefreshTokenRotationEnabled>
+        <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>
+        <isSecretRequiredForTokenExchange>false</isSecretRequiredForTokenExchange>
+        <isTokenExchangeEnabled>false</isTokenExchangeEnabled>
+        <scopes>Api</scopes>
+        <scopes>Web</scopes>
+        <scopes>RefreshToken</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>ENFORCE</ipRelaxation>
+        <isTokenExchangeFlowEnabled>false</isTokenExchangeFlowEnabled>
+        <refreshTokenPolicy>specific_lifetime:14:DAYS</refreshTokenPolicy>
+    </oauthPolicy>
+    <permissionSetName>Dev Hub Access</permissionSetName>
+    <profileName>Limited Access User</profileName>
+    <profileName>System Administrator</profileName>
+    <sessionPolicy>
+        <sessionTimeout>60</sessionTimeout>
+    </sessionPolicy>
+</ConnectedApp>

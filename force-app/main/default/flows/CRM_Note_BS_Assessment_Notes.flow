@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Link_Application_from_ACP</name>
+        <label>Link Application from ACP</label>
+        <locationX>83</locationX>
+        <locationY>719</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Application__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Application_Course_Preference__r.Application__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Contact</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Link_Contact_from_ACP</name>
+        <label>Link Contact from ACP</label>
+        <locationX>83</locationX>
+        <locationY>611</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Contact__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Application_Course_Preference__r.Applicant__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Link_Application_from_ACP</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Link_Contact_from_Application</name>
+        <label>Link Contact from Application</label>
+        <locationX>347</locationX>
+        <locationY>719</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Contact__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Application__r.Applicant__r.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Get_Contact</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Update_Name</name>
+        <label>Update Name</label>
+        <locationX>281</locationX>
+        <locationY>395</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Name</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Type__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>ACP_is_linked</targetReference>
+        </connector>
+    </assignments>
+    <customErrors>
+        <name>ACP_Callista_Id_fields_missing_error</name>
+        <label>ACP Callista Id fields missing error</label>
+        <locationX>578</locationX>
+        <locationY>1427</locationY>
+        <customErrorMessages>
+            <errorMessage>One or more Callista fields are missing on the associated ACP record - Admission Application Number / Course Code / Application Sequence Number.</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <customErrors>
+        <name>Update_Error</name>
+        <label>Update Error - Note already synced</label>
+        <locationX>314</locationX>
+        <locationY>1319</locationY>
+        <customErrorMessages>
+            <errorMessage>Cannot update a Note synced to Callista</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <customErrors>
+        <name>Update_Error_no_Person_Id</name>
+        <label>Update Error - no Person Id</label>
+        <locationX>50</locationX>
+        <locationY>1211</locationY>
+        <customErrorMessages>
+            <errorMessage>Cannot create or update a Note without Person Id on the Contact.</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <decisions>
+        <name>ACP_is_linked</name>
+        <label>ACP is linked?</label>
+        <locationX>281</locationX>
+        <locationY>503</locationY>
+        <defaultConnector>
+            <targetReference>Application_is_linked</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>ACP_linked</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Application_Course_Preference__r.Id</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Link_Contact_from_ACP</targetReference>
+            </connector>
+            <label>ACP linked</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Application_is_linked</name>
+        <label>Application is linked?</label>
+        <locationX>479</locationX>
+        <locationY>611</locationY>
+        <defaultConnector>
+            <targetReference>Get_Contact</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Application_linked</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Application__r.Id</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Link_Contact_from_Application</targetReference>
+            </connector>
+            <label>Application linked</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_ACP_Callista_Id_fields</name>
+        <label>Check ACP Callista Id fields</label>
+        <locationX>710</locationX>
+        <locationY>1319</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>ACP_Callista_Id_fields_missing</name>
+            <conditionLogic>(1 OR 2 OR 3) AND 4</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Application_Course_Preference__r.Admission_Application_Number__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Application_Course_Preference__r.Course_Code__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Application_Course_Preference__r.Application_Sequence_Number__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>STDY-GRNT</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>ACP_Callista_Id_fields_missing_error</targetReference>
+            </connector>
+            <label>ACP Callista Id fields missing</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Flows_are_Enabled</name>
+        <label>Check Flows are Enabled</label>
+        <locationX>693</locationX>
+        <locationY>287</locationY>
+        <defaultConnectorLabel>Bypass</defaultConnectorLabel>
+        <rules>
+            <name>Run_Flow</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Name</targetReference>
+            </connector>
+            <label>Run Flow</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Person_Id_populated</name>
+        <label>Person Id populated?</label>
+        <locationX>281</locationX>
+        <locationY>1103</locationY>
+        <defaultConnector>
+            <targetReference>Synced_Callista_Note_Update</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Person_Id_is_not_populated</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Contact.Person_ID__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Error_no_Person_Id</targetReference>
+            </connector>
+            <label>Person Id is not populated</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Synced_Callista_Note_Update</name>
+        <label>Synced Callista Note Update?</label>
+        <locationX>512</locationX>
+        <locationY>1211</locationY>
+        <defaultConnector>
+            <targetReference>Check_ACP_Callista_Id_fields</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Prevent_Update</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Callista_Ref_Id__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Id</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Error</targetReference>
+            </connector>
+            <label>Prevent Update</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <interviewLabel>CRM Note : BS : Assessment {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>CRM Note : BS : Assessment Notes</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_Contact</name>
+        <label>Get Contact</label>
+        <locationX>281</locationX>
+        <locationY>995</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Person_Id_populated</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Contact__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Contact</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Person_ID__c</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>567</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Flows_are_Enabled</targetReference>
+        </connector>
+        <object>CRM_Notes__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

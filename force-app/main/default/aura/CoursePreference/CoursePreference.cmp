@@ -1,0 +1,520 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" 
+                access="global" controller="CoursePreferenceCC">
+
+    <aura:attribute name="isExpanded" type="Boolean" default="true"/>
+    <aura:attribute name="showList" type="Boolean" default="false"/>
+    <aura:attribute name="searchStr" type="String" default="" />
+    <aura:attribute name="searchCode" type="String" default="" />
+    <aura:attribute name="applicationRecord" type="String" default="" /> 
+
+    <aura:attribute name="selectedAttendType" type="String" default="" />
+    <aura:attribute name="selectedLocation" type="String" default="" />
+    <aura:attribute name="selectedPeriod" type="String" default="" />
+    <aura:attribute name="residencyStatus" type="String" default="" />
+    
+    <aura:attribute name="courseLocations" type="String[]" default="" />
+    <aura:attribute name="appCampusLocation" type="String" default="Australia"/>
+    
+    <!--For Pagination-->
+    <aura:attribute name="Currentpage" type="integer" default="0"/>
+    <aura:attribute name="Totalpages" type="integer" default="10"/>
+    <aura:attribute name="TotalRecords" type="integer" default="200"/>
+    <aura:attribute name="pageSize" type="String" default="20" />
+    <aura:attribute name="next" type="boolean"/>
+    <aura:attribute name="prev" type="boolean"/>
+
+    <!-- Delete attributes -->
+    <aura:attribute name="selRecToDelId" type="String" default=""/>
+    <aura:attribute name="showConfirmPopup" type="Boolean" default="false"/>
+
+    <!-- View Unit Sets attributes -->
+    <aura:attribute name="selRecToView" type="String" default=""/>
+    <aura:attribute name="showStatusPopup" type="Boolean" default="false"/>
+
+    <aura:attribute name="courseList" type="List" description="course search list"/>
+    <aura:attribute name="courseUnits" type="List" description="course units list"/>
+    <aura:attribute name="applicationCourses" type="List" description="Application course list"/>
+    <aura:attribute name="noResultText" type="String" default="No results found." />
+    <aura:attribute name="noDataText" type="String" default="No records to display." />
+    
+    <aura:attribute name="errorMessage" type="String" default="" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <!-- <aura:handler event="aura:waiting" action="{!c.waiting}"/> 
+    <aura:handler event="aura:doneWaiting" action="{!c.doneWaiting}"/> -->
+
+    <!--<aura:handler name="deleteCourseItem" event="c:deleteCourseEvent" action="{!c.deleteSelectedCourse}"/>-->
+
+    <div class="slds">
+        <!-- SPINNER -->
+        <!-- <span id="Accspinner" style="display:none">
+            <lightning:spinner variant="neutral" size="medium" alternativeText="Loading"/>
+        </span> -->
+        <!-- END - SPINNER -->
+        
+        <!-- ERROR MESSAGES -->
+        <div class="{!if(v.errorMessage!='', '', 'slds-hide')}" style="height: 640px;">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">                        
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Errors in your course selection</h2>
+                      </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">                        
+                    	<p>{!v.errorMessage}</p>                    
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick="{!c.onClickCloseError}">Close</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+        <!-- END ERROR MESSAGES -->
+        
+        <!-- CONFIRMATION POPUP -->
+        <aura:If isTrue="{!v.showConfirmPopup}">
+            <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header slds-theme--error slds-theme--alert-texture">
+                        <h2 class="slds-text-heading--small" id="prompt-heading-id">{!$Label.c.App_DeleteConfirmation}</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <p>
+                            {!$Label.c.App_DeleteConfirmationLabel}
+                        </p>
+                    </div>
+                    <div class="slds-modal__footer slds-theme--default">
+                        <lightning:button label="Yes"
+                            iconPosition="left"
+                            variant="brand"
+                            onclick="{!c.deleteAppCourse}" >
+                        </lightning:button>
+
+                        <lightning:button label="No"
+                            iconPosition="left"
+                            class="slds-button slds-button--neutral"
+                            onclick="{!c.cancelDelete}" >
+                        </lightning:button>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+        </aura:If>
+        <!-- END - CONFIRMATION POPUP -->
+
+        <!-- Unit sets/Area of Study Popup -->
+        
+        <div class="{!if(v.showStatusPopup==true, '', 'slds-hide')}">
+            <section role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                <div class="slds-modal__container">
+                    <!--<div class="modal-brand slds-modal__header slds-notify slds-notify_alert slds-theme_alert-texture" role="alert"-->
+					<header class="slds-modal__header">                        
+                        <div class="slds-text-heading_small" id="prompt-heading-id">Select at least one Area of Study</div>
+                    </header>
+                    <!--/div-->
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <table class="slds-table slds-table--bordered slds-table--cell-buffer" style="display: block; overflow-x: auto;">
+                            <tbody>
+                                <aura:iteration items="{!v.courseUnits}" var="crs">
+                                    <tr>
+                                        <aura:If isTrue="{!v.selRecToView == crs.course.Unique_Code__c}">
+                                            <td role="gridcell" class="slds-text-align--center">
+                                                <!-- <ui:inputRadio name="unit" value="{!crs.isSelected}"/> -->
+                                                <ui:inputCheckbox value="{!crs.isSelected}"/>
+                                            </td>
+                                            <td scope="col">
+                                                <div class="slds-truncate" >{!crs.course.Unit_Set_Code__c}</div>
+                                            </td>
+                                            <td role="col">
+                                                <div class="slds-truncate" >{!crs.course.Unit_Set_Description__c}</div>
+                                            </td>
+                                        </aura:If>
+                                    </tr>
+                                </aura:iteration>
+                            </tbody>
+                        </table>                         
+                    </div>
+                    <footer class="slds-modal__footer">                        
+                        <lightning:button label="OK"
+                                          iconPosition="left"
+                                          variant="brand"
+                                          onclick="{!c.closeViewModal}" >
+                        </lightning:button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+        </div>        
+        <!-- End Unit sets Popup -->
+
+        <div class="slds-section section-float">
+            <!--<h3 class="slds-section__title">
+                <lightning:button label="Course Preference"
+                        iconPosition="left"
+                        class="slds-button slds-section__title-action header-collapsible"
+                        onclick="{!c.showHideComponent}"
+                        variant="inverse" 
+                        title="{!if(v.isExpanded, 'collapse', 'expand' )}">
+                </lightning:button>
+            </h3>-->
+
+            <!-- ONLY SHOW WHEN EXPANDED -->
+            <aura:If isTrue="{!v.isExpanded}">
+                <div id="searchCourse" class="slds-col--padded ">
+                    <!--<br/>
+                    <div class="slds-text-regular">
+                        {!$Label.c.App_CoursePrefHelpText}
+                    </div>
+                    <br/>
+                    <aura:if isTrue="{!or((v.residencyStatus =='INTRNTNL'),(v.residencyStatus =='INT-TEP')) }" > 
+                    	<div class="slds-text-title">
+                      	  <aura:unescapedHtml value="{!$Label.c.App_PackagedOffer}" />
+                    	</div>
+                    	<br/>
+                    </aura:if>
+                    <aura:if isTrue="{! and((v.residencyStatus!='INTRNTNL'),(v.residencyStatus!='INT-TEP'))}" >
+                    	<div class="slds-text-title">
+                        	<aura:unescapedHtml value="{!$Label.c.App_CoursePrefGraduateCourseMsg}" />
+                    	</div>
+                    	<br/>
+                    </aura:if>    
+                    <div class="slds-text-title">
+                        <aura:unescapedHtml value="{!$Label.c.App_CoursePrefSearchHelp}" />
+                    </div>
+                    <br/>
+                    <aura:if isTrue="{! and((v.residencyStatus!='INTRNTNL'),(v.residencyStatus!='INT-TEP'))}" > 
+                    	<div class="slds-text-title">
+                        	<aura:unescapedHtml value="{!$Label.c.App_CoursePrefLinkToPortal}" />
+                    	</div>
+                    	<br/>
+                    </aura:if>-->
+                    <!--  Commented out for Sprint 1. Label Text need to be revised. SF01257
+                    <aura:if isTrue="{! or((v.residencyStatus=='INTRNTNL'),(v.residencyStatus=='INT-TEP'))}" > 
+                    	<div class="slds-text-title">
+                        	<aura:unescapedHtml value="{!$Label.c.App_DomesticApplicant}" />
+                    	</div>
+                    	<br/>
+                    </aura:if>
+                    -->                     
+                    <div class="slds-align_absolute-center">
+                        <form class="slds-form--inline">
+                            <input type="text" value="" disabled="disabled" style="border: 0 none; height: 1px; left: 0; margin: -99999em; position: absolute; top: 0; width: 1px;"/>
+                            <div class="slds-form-element">
+                                <div class="slds-form-element__control">
+                                    <ui:inputText aura:id="courseName" 
+                                                class="slds-input" 
+                                                value="{!v.searchStr}" 
+                                                placeholder="{!$Label.c.App_FindACourseLabel}" 
+                                                updateOn="keyup,change"
+                                                keypress="{!c.searchCoursesWhenEnterPressed}"
+                                                size="40"/>
+                                </div>
+                            </div>
+                            <div class="slds-form-element">
+                                <div class="slds-form-element__control">
+                                    <lightning:button label="Search"
+                                        iconPosition="left"
+                                        variant="brand"
+                                        onclick="{!c.searchCourses}" 
+                                        disabled="{!v.searchStr == ''}">
+                                    </lightning:button>
+                                </div>
+                            </div>
+                            <div id="waitingDiv" class="slds-card__header" style="position:relative; display:none;">
+                                <div class="slds-form--compound">
+                                    <div></div>
+                                    <div class="slds-spinner_container" aura:id="uploadSpinner">
+                                        <div class="slds-spinner slds-spinner--medium slds-spinner_brand" aria-hidden="false" role="alert">
+                                            <div class="slds-spinner__dot-a"></div>
+                                            <div class="slds-spinner__dot-b"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!--Search courses-->
+                    <div class="{!if(!v.showList, 'slds-hide', '')}">
+                        <div id="new" class="slds-p-top--x-large">
+                            <h4 >Search results ({!v.TotalRecords})</h4>
+                        </div>
+                        <div class="{!if(!v.courseList.length > 0, 'slds-hide', '')}">
+                            <div id="courseList">
+                                <div class="container">
+                                    <br/>
+                                    <form class="slds-form--inline">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" >Attendance Type</label>
+                                            <div class="slds-form-element__control">
+                                                <ui:inputSelect aura:id="attypes" 
+                                                                class="dynamic" 
+                                                                value="{!v.selectedAttendType}" 
+                                                                change="{!c.onSelectAttendanceType}"/>
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" >Location</label>
+                                            <div class="slds-form-element__control">
+                                                <ui:inputSelect aura:id="locations" 
+                                                                class="dynamic" 
+                                                                value="{!v.selectedLocation}" 
+                                                                change="{!c.onSelectLocation}" />
+                                            </div>
+                                        </div>
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label" >Commencement Period</label>
+                                            <div class="slds-form-element__control">
+                                                <ui:inputSelect aura:id="periods" 
+                                                                class="dynamic" 
+                                                                value="{!v.selectedPeriod}" 
+                                                                change="{!c.onSelectPeriod}" />
+                                            </div>
+                                        </div>
+                                        <fieldset class="slds-form-element">
+                                            <legend class="slds-form-element__legend slds-form-element__label"><br/></legend>
+                                            <div class="slds-form-element__control">
+                                                <div class="slds-form-element">
+                                                    <lightning:button label="Apply Filters"
+                                                        iconPosition="left"
+                                                        variant="brand"
+                                                        onclick="{!c.ApplyFilter}" >
+                                                    </lightning:button>
+                                                </div>
+                                                <div class="slds-form-element">
+                                                    <lightning:button label="Reset Filters"
+                                                        iconPosition="left"
+                                                        variant="brand"
+                                                        onclick="{!c.ResetFilter}" >
+                                                    </lightning:button>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                    <br/>
+                                </div>
+                                <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                                    <thead>
+                                        <tr class="slds-text-title--caps">
+                                            <th scope="col">
+                                                <div class="slds-truncate" title="select">Select</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-truncate"></div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-cell-wrap" title="Course Code and Title">Course Code &amp; Title</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-cell-wrap" title="Type of Place">Fee Type</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-cell-wrap" title="AttendanceType">Full/Part Time, On/Off Campus</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-cell-wrap" title="Location">Location</div>
+                                            </th>
+                                            <th scope="col">
+                                                <div class="slds-cell-wrap" title="CommencementPeriod">Course Start</div>
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <aura:iteration items="{!v.courseList}" var="crs">
+                                            <tr>
+                                                <td scope="col">
+                                                    <div class="slds-truncate">
+                                                    <ui:inputCheckbox label="" updateOn="change,click" value="{!crs.isSelected}">
+                                                        </ui:inputCheckbox>
+                                                    </div>
+                                                </td>
+                                                <td scope="col" >
+                                                    <div class="slds-truncate">
+                                                    <aura:If isTrue="{!crs.course.Unit_Set_Code__c != null}">
+                                                        <lightning:button label="Choose Area of Study"
+                                                                        iconPosition="left"
+                                                                        class="slds-button slds-button--brand buttonWrap"
+                                                                        onclick="{!c.showUnitSets}" 
+                                                                        name="{!crs.course.Unique_Code__c}"
+                                                                        variant="brand"
+                                                                        disabled="{!(!crs.isSelected)}">
+                                                        </lightning:button>
+                                                    </aura:If>
+                                                    </div>
+                                                </td>
+                                                <td scope="col">
+                                                    <div class="slds-cell-wrap">
+                                                         {!crs.course.Course_Code__c}&nbsp;-&nbsp;{!crs.course.Course_Title__c}
+                                                    </div>
+                                                </td>
+                                                <td scope="col">
+                                                    <div class="slds-cell-wrap">
+                                                        {!crs.course.Type_of_Place_Description__c}
+                                                    </div>
+                                                </td>
+                                                <td scope="col">
+                                                    <div class="slds-cell-wrap">
+                                                        {!crs.course.Attendance_Type_Description__c}&nbsp;,&nbsp;{!crs.course.Attendance_Mode_Description__c}
+                                                    </div>
+                                                </td>
+                                                <td scope="col">
+                                                    <div class="slds-cell-wrap">{!crs.course.Location_Code__c}</div>
+                                                </td>
+                                                <td scope="col">
+                                                    <div class="slds-cell-wrap">{!crs.course.Admission_Calendar_Description__c}</div>
+                                                </td>
+                                            </tr>
+                                        </aura:iteration>
+                                    </tbody>
+                                </table>
+
+                                <div id="divPaging" style="float:right;width: 75%;margin:1%">
+                                    <lightning:button label="First Page" class="slds-button slds-button--neutral" onclick="{!c.FirstPage}" disabled="{!v.prev}" />
+                                    <lightning:button label="Prev" class="slds-button slds-button--neutral" onclick="{!c.PreviousPage}" disabled="{!v.prev}" />
+                                    
+                                    <span style="margin-right: 10%; margin-left: 10%; vertical-align: middle;">page {!v.Currentpage} / {!v.Totalpages}</span>
+                                    
+                                    <lightning:button label="Next" class="slds-button slds-button--neutral" onclick="{!c.NextPage}" disabled="{!v.next}" />
+                                    <lightning:button label="Last Page" class="slds-button slds-button--neutral" onclick="{!c.LastPage}" disabled="{!v.next}" />
+                                </div>
+                                <br/>
+                                <div class="slds-p-vertical--x-large">
+                                    <lightning:button label="Add Course(s)"
+                                            iconPosition="left"
+                                            variant="brand"
+                                            onclick="{!c.addSelectedCourse}">
+                                    </lightning:button>
+                                     &nbsp;&nbsp;
+                                    <lightning:button label="Close Search"
+                                            iconPosition="left"
+                                            class="slds-button slds-button--neutral"
+                                            onclick="{!c.cancelSearch}">
+                                    </lightning:button>
+                                </div>
+                                <aura:If isTrue="{!v.errorMessage != ''}">
+                                    <div id="addCourseError">
+                                        <ui:message severity="error">{!v.errorMessage}</ui:message>
+                                    </div>
+                                </aura:If>
+                            </div>
+                        </div>
+
+                        <div class="{!if(v.courseList.length == 0, '', 'slds-hide')}">
+                            <ui:message severity="info">{!v.noResultText}</ui:message>
+                        </div>
+                    </div>
+
+                    <!--Application Courses-->
+                    <div id="myCourse" class="slds-p-vertical--x-large">
+                        <h4 >My Course Preference(s)</h4>
+                    </div>
+                    <aura:If isTrue="{!v.applicationCourses.length >0}">
+                        <table id="appCourseTable" class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                            <thead>
+                                <tr class="slds-text-title--caps">
+                                    <th scope="col">
+                                        <div class="slds-truncate">Reorder</div>
+                                    </th>
+                                    <th scope="col" width="7%">
+                                        <div class="slds-truncate" title="Order">Order</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-cell-wrap" title="Course Code, Title &amp; Unit">
+                                            Course Code &amp; Title
+                                        </div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-cell-wrap" title="Arrangement">Full/part time, on/off campus</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-cell-wrap" title="Type of Place">Fee Type</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-cell-wrap" title="Location">Location</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-cell-wrap" title="Course Start">Course Start</div>
+                                    </th>
+                                    <th scope="col">
+                                        
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <aura:iteration items="{!v.applicationCourses}" var="course" indexVar="index">
+                                    <tr>
+                                        <td scope="col" >
+                                            <div class="slds-truncate slds-align_absolute-center">
+                                            <lightning:button label=""
+                                                    iconPosition="left"
+                                                    
+                                                    variant="brand" 
+                                                    name="{!course.Id}"
+                                                    class="{!if(index==0,'slds-hide','upRender')}"
+                                                    onclick="{!c.reOrderUp}">
+                                                    <lightning:icon iconName="utility:up" size="x-small" alternativeText="up" variant="inverse"/>
+                                                </lightning:button>
+
+                                                <lightning:button label=""
+                                                    iconPosition="left"
+                                                    variant="brand" 
+                                                    name="{!course.Id}"
+                                                    class="{!if(index==v.applicationCourses.length - 1,'slds-hide','downRender')}"
+                                                    onclick="{!c.reOrderDown}">                                                    
+                                                    <lightning:icon iconName="utility:down" size="x-small" alternativeText="down" variant="inverse"/>
+                                                </lightning:button>
+                                            </div>
+                                        </td>
+                                        <td scope="col">
+                                            <div class="slds-truncate" >{!course.Preference_Number__c}</div>
+                                        </td>
+                                        <td scope="col" >
+                                            <div class="slds-cell-wrap" >
+                                                <aura:If isTrue="{!course.Unit_Set_Description__c != null}">
+                                                    {!course.Course_Code__c}&nbsp;-&nbsp;{!course.Course_Title__c}/&nbsp;{!course.Unit_Set_Description__c}
+                                                    <aura:set attribute="else">
+                                                        {!course.Course_Code__c}&nbsp;-&nbsp;{!course.Course_Title__c}
+                                                    </aura:set> 
+                                                </aura:If>
+                                            </div>
+                                        </td>
+                                        <td scope="col" >
+                                            <div class="slds-cell-wrap" >
+                                                {!course.Attendance_Type_Description__c}&nbsp;{!course.Attendance_Mode_Description__c}
+                                            </div>
+                                        </td>
+                                        <td scope="col">
+                                            <div class="slds-cell-wrap">{!course.Type_of_Place_Description__c}</div>
+                                        </td>
+                                        <td scope="col">
+                                            <div class="slds-cell-wrap" >{!course.Location_Code__c}</div>
+                                        </td>
+                                        <td scope="col">
+                                            <div class="slds-cell-wrap" >{!course.Commencement_Period__c}</div>
+                                        </td>
+                                        <th scope="col">
+                                            <div class="slds-truncate">
+                                            <lightning:button label=""
+                                                iconPosition="left"
+                                                name="{!course.Id}"
+                                                onclick="{!c.showConfirmDeletePopup}"
+                                                variant="destructive">
+                                                <lightning:icon iconName="utility:delete" size="x-small" alternativeText="delete" variant="inverse"/>
+                                            </lightning:button>
+                                            </div>
+                                        </th>
+                                    </tr>
+                                </aura:iteration>
+                            </tbody>
+                        </table>
+                        <aura:set attribute="else">
+                            <ui:message severity="info">{!v.noDataText}</ui:message>
+                        </aura:set>
+                        <br/>
+                    </aura:If>
+                </div>
+            </aura:If>
+        </div>
+    </div>
+    
+</aura:component>

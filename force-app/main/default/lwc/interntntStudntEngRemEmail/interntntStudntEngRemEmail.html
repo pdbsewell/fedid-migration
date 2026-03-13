@@ -1,0 +1,11 @@
+<template>
+    <!--LOADING SPINNER-->
+    <template if:true={showSpinner}> 
+        <div class="slds-is-relative" style="min-height: 200px;">
+            <lightning-spinner alternative-text="Loading" class="spins" variant="brand" size="large"></lightning-spinner>
+        </div>            
+    </template>
+    <!--LOADING SCREEN-->
+    <template if:false={showSpinner}> 
+    </template>
+</template>

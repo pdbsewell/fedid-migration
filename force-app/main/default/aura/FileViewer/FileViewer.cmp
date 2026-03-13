@@ -1,0 +1,69 @@
+<aura:component  implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes"
+                 controller="FileViewerCC"
+                 access="global" description="AttachmentViewer">
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <aura:attribute name="appId"   access="global" type="String" default="" />
+    <aura:attribute name="docType"  access="global" type="String" default="" />
+    <aura:attribute name="documents" type="Contact_Document__c[]" />
+    <aura:attribute type="Map" name="idLinkMap" access="global"  default="{}" />
+    <aura:attribute name="sectionLabels" type="Map" default="{ a: 'label1', b: 'label2' }" />
+    <aura:attribute name="customers" type="List" />
+    <div id="documentsListDiv" class="slds">
+
+        <div class="slds-section section-float">
+            <!--Main Content-->
+            <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                <thead>
+                <tr class="slds-text-title_caps">
+                    <th scope="col">
+                        <div class="slds-truncate" title="Document Type">Document Type</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="File Name">File Name </div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Upload Date">Upload Date</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Preview">Preview file</div>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <aura:iteration aura:id="testDocument" items="{!v.documents}" var="doc">
+                    <tr>
+                        <td data-label="Document Type">
+                            <div class="slds-truncate">{!doc.Document_Type__c}</div>
+                        </td>
+                        <td>
+                            <div class="slds-truncate">{!doc.Filename__c}</div>
+                        </td>
+                        <td>
+                            <div class="slds-truncate"><lightning:formattedDateTime value="{!doc.LastModifiedDate}"/></div>
+                        </td>
+                        <aura:iteration items="{!v.customers}" var="cus" indexVar="key">
+                            <aura:if isTrue="{!cus.key ==doc.Id}">
+                                <div class="slds-truncate">
+                                    <lightning:fileCard fileId="{!cus.value.Id}" description="{!cus.value.Description}"/>
+                                </div>
+
+                            </aura:if>
+
+                        </aura:iteration>
+                        <td>
+
+
+                        </td>
+                    </tr>
+                </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- This is an example of how to use the function -->
+
+
+
+    </div>
+
+</aura:component>

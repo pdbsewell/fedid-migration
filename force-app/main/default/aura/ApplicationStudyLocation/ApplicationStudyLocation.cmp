@@ -1,0 +1,576 @@
+<!--
+ - Created by trentdelaney on 31/8/18.
+ -->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes"
+                description="ApplicationStudyLocation"
+                controller="StudyLocationController">
+    <aura:attribute name="parent" type="Aura.Component" />
+    <aura:attribute name="applicationId" type="String" access="global" />
+    <aura:attribute name="appId" type="String" default=""/>
+    <aura:attribute name="app" type="Application__c" description="application record"/>
+
+    <aura:attribute name="campusLocation" type="String" default=""/>
+    <aura:attribute name="residencyStatus" type="String" default=""/>
+    <aura:attribute name="locationOptions" type="List"/>
+
+    <aura:attribute name="countryOptions" type="List" description="list of countries for citizenship question"/>
+    <aura:attribute name="filteredCountryOptions" type="Map" description="List of countries filtered by Study Location for Citizenship question" />
+    <aura:attribute name="residencyOptions" type="List" description="List of residency statuses"/>
+    <aura:attribute name="filteredResidencyOptions" type="Map" description="List of filtered Residency Statuses based on Study Location" />
+    <aura:attribute name="visaOptions" type="List" description="list of Visa Types for citizenship question"/>
+    <aura:attribute name="visaTypeRequired" type="Boolean" default="false" description="whether or not the visa type is required"/>
+    <aura:attribute name="wasDomestic" type="Boolean" default="False" />
+
+    <aura:attribute name="picklistPrevValues" type="Map" description="List of previous picklist values for Study Location and Citizenship Type fields" default="{}" />
+    <aura:attribute name="source" type="String" default="" access="public" />
+
+    <aura:registerEvent name="mapStudyLocation" type="c:selectedPicklistValue"/>
+    <aura:registerEvent name="grStepsReset" type="c:MyGRStepsReset"/>
+
+    <aura:attribute name="typeOfStudy" type="String" default=""/>
+    <aura:attribute name="todaysDate" type="String" default=""/>
+
+    <aura:method name="onClickSaveCitizenship" action="{!c.onClickSaveCitizenship}" access="public">
+        <aura:attribute name="callback" type="Function" />
+    </aura:method>
+
+    <aura:method name="validatePRDateField" action="{!c.validatePRDateField}" access="public">
+        <aura:attribute name="callback" type="Function" />
+    </aura:method>
+
+    <aura:attribute name="yesNoOptions" type="List"
+                    default="[{value:'Yes',label:'Yes'}
+                    ,{value:'No',label:'No'}]"
+                    description="yes or no for citizenship question"/>
+
+    <aura:attribute name="citizenshipType" type="String" default=""/>
+    <aura:attribute name="citizenshipTypeOptions" type="List"/>
+    <aura:attribute name="citizenshipTypeLocked" type="Boolean" default="false"/>
+
+    <aura:attribute name="showCitizenshipQuestions" type="Boolean" default="false"
+                    description="show/hide the citizenship questions component"/>
+
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+
+    <!--Form Control-->
+    <aura:attribute name="showConfirmCancel" type="Boolean" default="False"/>
+    <aura:attribute name="showConfirmCancelCitizenshipType" type="Boolean" default="False"/>
+
+    <aura:attribute name="visaQuestions" type="Map" />
+
+    <aura:attribute name="showSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="showErrors" type="Boolean" default="false"/>
+    <aura:attribute name="saveErrors" type="List" />
+    <aura:attribute name="attachDocsMessage" type="String" default="Please attach required documents as evidence at the end of this application" />
+    
+    <aura:attribute name="studyLocationSpinner" type="Boolean" default="true"/>
+    <aura:attribute name="applyForResidencyToggle" type="Boolean" default="false"/>
+
+
+
+    <!-- SAVE SPINNER -->
+    <div id="Accspinner" class="{!if(v.showSpinner == true, '', 'slds-hide')}">
+        <div class="slds-spinner_container">
+            <lightning:spinner variant="brand" size="medium" alternativeText="Loading"/>
+        </div>
+    </div>
+
+    <!-- SAVE ERRORS -->
+    <div class="{!if(v.showErrors == true, '', 'slds-hide')}" style="">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h3 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Please complete the following:</h3>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <ul class="slds-list_dotted slds-text-align--left">
+                        <aura:iteration items="{!v.saveErrors}" var="error">
+                            <li>{!error}</li>
+                        </aura:iteration>
+                    </ul>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick="{!c.onClickCloseAlert}">Close</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+    <!-- END SAVE ERRORS -->
+
+    <!-- CONFIRM CANCEL POPUP -->
+    <div class="{!if(v.showConfirmCancel, '', 'slds-hide')}">
+        <div class="" style="">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header slds-theme--error">
+                        <div class="slds-float_right">
+                            <lightning:buttonIcon iconName="utility:close"
+                                                  alternativeText="close this popup window"
+                                                  size="large"
+                                                  variant="bare-inverse"
+                                                  onclick="{!c.closeConfirmCancel}"
+                            />
+                        </div>
+                        <h2 class="slds-text-heading--small" id="prompt-heading-id">Change Study Location?</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <p>By changing your study location, your course preferences will be removed from your application and you will need to re-enter them in the Course Preferences section</p>
+                        <p style="font-weight: bold">Are you sure you want to continue?</p>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <div class="slds-m-around_none slds-grid slds-gutters_xxx-small">
+                            <div class="slds-text-align_left slds-col slds-size_2-of-5">
+                                <p class="slds-text-body_small">This action cannot be undone</p>
+                            </div>
+                            <div class="slds-col slds-size_3-of-5">
+                                <lightning:button label="No - Do not Cancel"
+                                                  iconPosition="left"
+                                                  variant="neutral"
+                                                  class="slds-button"
+                                                  onclick="{!c.closeConfirmCancel}">
+                                </lightning:button>
+                                <lightning:button label="Yes - Cancel"
+                                                  iconPosition="left"
+                                                  variant="destructive"
+                                                  class="slds-button"
+                                                  onclick="{!c.confirmCancel}">
+                                </lightning:button>
+                            </div>
+                        </div>
+                    </footer>
+
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </div>
+
+    <!-- Start KL SFTM-215 -->
+    <!-- CONFIRM CANCEL POPUP FOR SFTM-215, A DUPLICATE OF THE ABOVE, BUT NEEDED TO SUPPORT MODEL DIALOG FOR ANOTHER FIELD -->
+    <div class="{!if(v.showConfirmCancelCitizenshipType, '', 'slds-hide')}">
+        <div class="" style="">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header slds-theme--error">
+                        <div class="slds-float_right">
+                            <lightning:buttonIcon iconName="utility:close"
+                                                  alternativeText="close this popup window"
+                                                  size="large"
+                                                  variant="bare-inverse"
+                                                  onclick="{!c.closeConfirmCancelCitizenshipType}"
+                            />
+                        </div>
+                        <h2 class="slds-text-heading- -small" id="prompt-heading-id" style="color: #ffffff;">Change Citizenship Type?</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <p>By changing your citizenship type, your course preferences will be removed from your application and you will need to re-enter them in the Course Preferences section</p>
+                        <p style="font-weight: bold">Are you sure you want to continue?</p>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <div class="slds-m-around_none slds-grid slds-gutters_xxx-small">
+                            <div class="slds-text-align_left slds-col slds-size_2-of-5">
+                                <p class="slds-text-body_small">This action cannot be undone</p>
+                            </div>
+                            <div class="slds-col slds-size_3-of-5">
+                                <lightning:button label="No - Do not Cancel"
+                                                  iconPosition="left"
+                                                  variant="neutral"
+                                                  class="slds-button"
+                                                  onclick="{!c.closeConfirmCancelCitizenshipType}">
+                                </lightning:button>
+                                <lightning:button label="Yes - Cancel"
+                                                  iconPosition="left"
+                                                  variant="destructive"
+                                                  class="slds-button"
+                                                  onclick="{!c.confirmCancelCitizenshipType}">
+                                </lightning:button>
+                            </div>
+                        </div>
+                    </footer>
+
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </div>
+    <!-- End KL SFTM-215 -->
+    
+    <!-- KL SFTM-215, remarked and keeping original code for reference
+    <lightning:select value="{!v.campusLocation}"
+                      label="Where do you want to study?"
+                      required="true"
+                      onchange="{!c.setStudyLocation}">
+    -->
+
+    <div class="slds-is-relative">
+        <div class="{!if(v.campusLocation != 'South Africa', '', 'slds-hide')}" >
+            <aura:if isTrue="{!v.studyLocationSpinner}">
+                <lightning:spinner variant="brand" />
+            </aura:if>
+            <!-- KL,  SFTM-215 changes
+            <lightning:select name="citizenshipTypeSelect"
+                            value="{!v.app.Residency_Status__c}"
+                            label="Citizenship Type"
+                            required="true"
+                            onchange="{!c.setCitizenshipType}">
+            -->
+            <div class="fieldContainer slds-size_5-of-5">
+                <div class="slds-size_1-of-5">
+                    <span class="fieldTitle">Citizenship Type</span><sup class="requiredField">*</sup>
+                </div>
+                <div class="slds-size_4-of-5">
+                    <lightning:select aura:id="selectCitizenshipType"
+                                    value="{!v.residencyStatus}"
+                                    label="Citizenship Type"
+                                    required="true"
+                                    onchange="{!c.setCitizenshipType}"
+                                    variant="label-hidden">
+                        <aura:iteration var="option" items="{! v.residencyOptions}">
+                            <option aura:id="{! option.value }"
+                                    name="{! option.value }"
+                                    value="{! option.value }"
+                                    selected="{!if(v.app.Residency_Status__c == option.value,'true','')}">{! option.label }
+                            </option>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+            </div>
+            
+            <!--Student Pass availability-->
+            <aura:if isTrue="{!v.visaQuestions.studentpass == true}">
+                <div class="fieldContainer">
+                    <lightning:layout multipleRows="true" class="slds-size_5-of-5">
+                        <lightning:layoutItem size="10">
+                            <span class="fieldTitle">Have you obtained a student pass in {!v.campusLocation} before? </span><sup class="requiredField">*</sup>
+                        </lightning:layoutItem>
+                        <lightning:layoutItem size="2">
+                            <lightning:radioGroup name="Student Pass"
+                                                label="Have you obtained a student pass in Malaysia before?"
+                                                required="true"
+                                                type="button"
+                                                options="{!v.yesNoOptions}"
+                                                value="{!v.app.Student_Pass_Availability__c}" 
+                                                variant="label-hidden"/>
+                        </lightning:layoutItem>
+                       <!-- <lightning:layoutItem size="12">
+                            <div class="{!if(v.app.Student_Pass_Availability__c=='Yes', 'slds-text-color_error', 'slds-hide')}">{!v.attachDocsMessage}</div>
+                        </lightning:layoutItem>-->
+                    </lightning:layout>
+                </div>  
+            </aura:if>
+
+            <!--Country Conditions-->
+            <aura:if isTrue="{!v.visaQuestions.country == true}">
+                <div class="fieldContainer slds-size_5-of-5">
+                    <div class="slds-size_2-of-5">
+                        <span class="fieldTitle">Country of Citizenship</span><sup class="requiredField">*</sup>
+                    </div>
+                    <div class="slds-size_3-of-5">
+                        <lightning:select aura:id="selectCountry"
+                                        label="Country of Citizenship"
+                                        value="{!v.app.Citizenship_Country__c}"
+                                        required="true"
+                                        onchange=""
+                                        variant="label-hidden">
+                            <aura:iteration var="option" items="{! v.countryOptions}">
+                                <option value="{!option.value }" selected="{!if(v.app.Citizenship_Country__c==option.value,true,'')}">{!option.label }</option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+                </div>
+            </aura:if>
+
+            <!--GRT Permanent Residency Application Toggle-->
+            <aura:if isTrue="{!AND(v.visaQuestions.appDate == true, OR(v.residencyStatus != 'DOM-AUS', v.residencyStatus != 'DOM-PR', v.residencyStatus != 'DOM-'))}">
+                <div class="fieldContainer slds-size_5-of-5">
+                    <div class="slds-size_4-of-5" style="margin-top: 10px;">
+                        
+                        <span class="generalText">Have you applied for Australian Permanent Residency?</span><sup class="requiredField">*</sup>
+                    </div>
+                    <div class="slds-size_1-of-5" style="margin-top: 10px; margin-left: 20px;">
+                        <lightning:input label="Are you currently residing in Malaysia?"
+                            type="toggle"
+                            aura:id="applyForPermanentResidencyToggle"
+                            messageToggleActive="Yes"
+                            messageToggleInactive="No"
+                            onchange="{!c.handleCheckPermanentResidencyApplication}"
+                            variant="label-hidden" 
+                            value="{!v.app.Applied_For_Permanent_Residency__c}"
+                            checked="{!v.applyForResidencyToggle}"/>
+                    </div>
+                </div>
+            </aura:if>
+
+            <!--GRT Passport Application Date -->
+            <aura:if isTrue="{!AND(v.visaQuestions.appDate == true, v.applyForResidencyToggle)}">
+                <div class="fieldContainer slds-size_5-of-5">
+                    <div class="slds-size_2-of-5">
+                        <span class="fieldTitle">When did you apply for Permanent Residency?</span><sup class="requiredField">*</sup>
+                    </div>
+                    <div class="slds-size_3-of-5">               
+                        <lightning:input label="PR Application Date" 
+                                        aura:id="datePRApplication"
+                                        value="{!v.app.PR_Application_Date__c}" 
+                                        required="true" 
+                                        type="date"
+                                        variant="label-hidden" 
+                                        max="{!v.todaysDate}"/>
+                    </div>
+                </div>            
+            </aura:if>
+
+            <!--GRT Passport Number-->
+            <aura:if isTrue="{!OR(AND(v.visaQuestions.passportNumberGRT == true, v.applyForResidencyToggle), v.residencyStatus == 'DOM-PR')}">
+               <!-- <aura:if isTrue="{!OR(AND(v.applyForResidencyToggle, OR(v.residencyStatus == 'DOM-SUN', v.residencyStatus == 'DOM-IDN', v.residencyStatus == 'DOM-IDN-PR')), v.residencyStatus == 'DOM-PR', v.residencyStatus == 'INTRNTNL')}">-->
+
+                    <div class="fieldContainer slds-size_5-of-5">
+                        <div class="slds-size_2-of-5">
+                            <span class="fieldTitle">Please Provide your Passport Number:</span><sup class="requiredField">*</sup>
+                        </div>
+                        <div class="slds-size_3-of-5">                    
+                            <lightning:input label="Passport Number" 
+                                            value="{!v.app.Passport_Number__c}" 
+                                            required="true"
+                                            variant="label-hidden" />
+                        </div>
+                    </div>
+                <!--</aura:if>-->
+            </aura:if>
+
+            <!--Type Conditions-->
+            <aura:if isTrue="{!v.visaQuestions.type == true}">
+                <div class="fieldContainer slds-size_5-of-5" style="display: flex;">
+                    <div class="slds-size_1-of-5">
+                        <span class="fieldTitle">Visa Type</span>
+                    </div>
+                    <div class="slds-size_4-of-5">
+                        <lightning:select label="Visa Type"
+                                        value="{!v.app.Visa_Type__c}"
+                                        onchange="{!c.onChangeVisaType}"
+                                        variant="label-hidden">
+                            <aura:iteration var="option" items="{!v.visaOptions}">
+                                <option value="{! option.value }" selected="{!if(v.app.Visa_Type__c==option.value,true,'')}">{!option.label }</option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+                </div>            
+            </aura:if>
+
+            <!--Office Conditions-->
+            <aura:if isTrue="{!v.visaQuestions.office == true}">
+                <div class="fieldContainer slds-size_5-of-5">
+                    <div class="slds-size_1-of-5">
+                        <span class="fieldTitle">Which Australian Immigration Office issued your visa? </span><aura:if isTrue="{!v.visaTypeRequired}"><sup class="requiredField">*</sup></aura:if>
+                    </div>
+                    <div class="slds-size_4-of-5">
+                        <lightning:input label="Which Australian Immigration Office issued your visa?" 
+                                        value="{!v.app.Australian_Immigration_Office_Issued__c}" 
+                                        required="{!v.visaTypeRequired}"
+                                        variant="label-hidden" />
+                    </div>
+                </div>            
+            </aura:if>
+
+            <!-- hide sensitive questions to partners-->
+            <aura:if isTrue="{!v.source != 'partner'}">
+                <!--Visa Number Conditions-->
+                <aura:if isTrue="{!v.visaQuestions.visaNumber == true}">
+                    <div class="fieldContainer slds-size_5-of-5">
+                        <div class="slds-size_1-of-5">
+                            <span class="fieldTitle">Visa Number </span><aura:if isTrue="{!v.visaTypeRequired}"><sup class="requiredField">*</sup></aura:if>
+                        </div>
+                        <div class="slds-size_4-of-5">
+                            <lightning:input label="Visa Number" 
+                                            value="{!v.app.Visa_Number__c}" 
+                                            required="{!v.visaTypeRequired}"
+                                            variant="label-hidden" />
+                        </div>
+                    </div>
+                </aura:if>
+
+              
+
+                <!--Passport Number Conditions-->
+                <aura:if isTrue="{!v.visaQuestions.passportNumber == true}">
+                    <div class="fieldContainer slds-size_5-of-5">
+                        <div class="slds-size_1-of-5">
+                            <span class="fieldTitle">Passport Number </span><aura:if isTrue="{!v.visaTypeRequired}"><sup class="requiredField">*</sup></aura:if>
+                        </div>
+                        <div class="slds-size_4-of-5">                    
+                            <lightning:input label="Passport Number" 
+                                            value="{!v.app.Passport_Number__c}" 
+                                            required="{!v.visaTypeRequired}"
+                                            variant="label-hidden" />
+                        </div>
+                    </div>
+                </aura:if>
+
+                <!--Visa Start Date Conditions-->
+                <aura:if isTrue="{!v.visaQuestions.startDate == true}">
+                    <div class="fieldContainer slds-size_5-of-5">
+                        <div class="slds-size_1-of-5">
+                            <span class="fieldTitle">Visa Start Date </span><aura:if isTrue="{!v.visaTypeRequired}"><sup class="requiredField">*</sup></aura:if>
+                        </div>
+                        <div class="slds-size_4-of-5">               
+                            <lightning:input label="Visa Start Date" 
+                                            value="{!v.app.Visa_Start_Date__c}" 
+                                            required="{!v.visaTypeRequired}" 
+                                            type="date"
+                                            variant="label-hidden" />
+                        </div>
+                    </div>            
+                </aura:if>
+
+                <!--Visa End Date Conditions-->
+                <aura:if isTrue="{!v.visaQuestions.endDate == true}">
+                    <div class="fieldContainer slds-size_5-of-5">
+                        <div class="slds-size_1-of-5">
+                            <span class="fieldTitle">Visa End Date </span><aura:if isTrue="{!v.visaTypeRequired}"><sup class="requiredField">*</sup></aura:if>
+                        </div>
+                        <div class="slds-size_4-of-5">      
+                            <lightning:input label="Visa End Date" 
+                                            value="{!v.app.Visa_End_Date__c}" 
+                                            required="{!v.visaTypeRequired}" 
+                                            type="date" 
+                                            variant="label-hidden"/>
+                        </div>
+                    </div>            
+                </aura:if>
+
+                <aura:if isTrue="{!v.visaQuestions.refusedEntry == true}">
+	<div class="slds-size_5-of-5 slds-box" style="background-color:#cde2ef;">
+This section includes the collection of sensitive, special-category data such as criminal history (if applicable).
+        <br/>
+                                         
+                    <div class="fieldContainernoborder slds-size_5-of-5">
+                            <lightning:layout multipleRows="true" class="slds-size_5-of-5">
+                                <lightning:layoutItem size="9">
+                                    <span class="fieldTitle">
+                                    	{!$Label.c.Consent_Text}<sup class="requiredField">*</sup>
+				    </span>                                
+                                </lightning:layoutItem>
+                                <lightning:layoutItem size="3">
+                                    <lightning:radioGroup name="consent criminal history"
+                                    label="Criminal History consent"
+                                    required="true"
+                                    type="button"
+                                    options="{!v.yesNoOptions}"
+                                    value="{!v.app.Criminal_History_Opt_In__c}" 
+                                    variant="label-hidden"/>
+                                </lightning:layoutItem>
+                            </lightning:layout>
+                        </div>
+                </div>
+                    <div class="fieldContainer">
+                        <lightning:layout multipleRows="true" class="slds-size_5-of-5">
+                            <lightning:layoutItem size="9">
+                                <span class="fieldTitle">Have you ever been refused entry to any country? </span><sup class="requiredField">*</sup>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="3">
+                                <lightning:radioGroup name="Refused Entry"
+                                                    label="Have you been refused an entry visa to any country"
+                                                    required="true"
+                                                    type="button"
+                                                    options="{!v.yesNoOptions}"
+                                                    value="{!v.app.Refused_entry_visa_to_any_country__c}" 
+                                                    variant="label-hidden"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12">
+                                <div class="{!if(v.app.Refused_entry_visa_to_any_country__c=='Yes', 'slds-text-color_error', 'slds-hide')}">{!v.attachDocsMessage}</div>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>         
+
+                    <div class="fieldContainer">
+                        <lightning:layout multipleRows="true" class="slds-size_5-of-5">
+                            <lightning:layoutItem size="9">
+                                <span class="fieldTitle">Have you breached any visa conditions in any country? </span><sup class="requiredField">*</sup>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="3">     
+                                <lightning:radioGroup name="Breached"
+                                                    label="Have you breached any visa conditions in any country?"
+                                                    required="true"
+                                                    type="button"
+                                                    options="{!v.yesNoOptions}"
+                                                    value="{!v.app.Breached_visa_condition__c}" 
+                                                    variant="label-hidden"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12">
+                                <div class="{!if(v.app.Breached_visa_condition__c=='Yes', 'slds-text-color_error', 'slds-hide')}">{!v.attachDocsMessage}</div>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>   
+                    
+                    <div class="fieldContainer">
+                        <lightning:layout multipleRows="true" class="slds-size_5-of-5">
+                            <lightning:layoutItem size="9">
+                                <span class="fieldTitle">Do you have any medical or health issues that may prevent you from obtaining your visa? </span><sup class="requiredField">*</sup>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="3"> 
+                                <lightning:radioGroup name="Medical"
+                                                    label="Do you have any medical or health issues that may prevent you from obtaining your visa?"
+                                                    required="true"
+                                                    type="button"
+                                                    options="{!v.yesNoOptions}"
+                                                    value="{!v.app.Medical_health_prevent_visa__c}" 
+                                                    variant="label-hidden" />  
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12">
+                                <div class="{!if(v.app.Medical_health_prevent_visa__c=='Yes', 'slds-text-color_error', 'slds-hide')}">{!v.attachDocsMessage}</div>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                    
+                    <div class="fieldContainer">
+                        <lightning:layout multipleRows="true" class="slds-size_5-of-5">
+                            <lightning:layoutItem size="9">
+                                <span class="fieldTitle">Have you been issued a protection visa in any country to date? </span><sup class="requiredField">*</sup>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="3">   
+                                <lightning:radioGroup name="Protection"
+                                                    label="Have you been issued a protection visa in any country to date?"
+                                                    required="true"
+                                                    type="button"
+                                                    options="{!v.yesNoOptions}"
+                                                    value="{!v.app.Protection_visa_in_any_country__c}" 
+                                                    variant="label-hidden" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12">
+                                <div class="{!if(v.app.Protection_visa_in_any_country__c=='Yes', 'slds-text-color_error', 'slds-hide')}">{!v.attachDocsMessage}</div>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                    
+                    <div class="fieldContainer slds-size_5-of-5">
+                        <lightning:layout multipleRows="true" class="slds-size_5-of-5">
+                            <lightning:layoutItem size="9">
+                                <span class="fieldTitle">Have you been convicted of any crime or offence in any country? </span><sup class="requiredField">*</sup>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="3">   
+                                <lightning:radioGroup name="Crime"
+                                            label="Have you been convicted of any crime or offence in any country?"
+                                            required="true"
+                                            type="button"
+                                            options="{!v.yesNoOptions}"
+                                            value="{!v.app.Convicted_of_crime_offence__c}" 
+                                            variant="label-hidden" />
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="12">
+                                <div class="{!if(v.app.Convicted_of_crime_offence__c=='Yes', 'slds-text-color_error', 'slds-hide')}">{!v.attachDocsMessage}</div>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>            
+                </aura:if>
+            </aura:if>
+        </div>
+    </div>
+
+    <!--<br/>
+    <lightning:button label="Save Citizenship Information"
+                      aura:Id="saveBtn"
+                      iconPosition="left"
+                      variant="brand"
+                      onclick="{!c.onClickSaveCitizenship}"/>-->
+</aura:component>

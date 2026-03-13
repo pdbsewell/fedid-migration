@@ -1,0 +1,13 @@
+<template>
+    <c-apex-related-list
+        title="Callista Notes"
+        icon="standard:note"
+        record-id={recordId}
+        apex-data-provider="CallistaNotesController.CallistaNotesDataProvider"
+        notify-parent-on-click="true"
+        onrecordclick={handleRecordClick}
+        is-scrollable="true"
+        has-formatted-text="true"
+    >
+    </c-apex-related-list>
+</template>

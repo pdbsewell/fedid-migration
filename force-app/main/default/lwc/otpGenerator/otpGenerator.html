@@ -1,0 +1,149 @@
+<template>
+        <lightning-card class={cardBackground}>
+            <div slot="title">
+                <lightning-icon slot="actions" icon-name={cardIcon} size={cardSize} class="slds-m-right_x-small"></lightning-icon>
+                {cardTitle}
+                <template if:true={isVerified}>
+                    <span class="slds-text-body_small slds-text-color_weak slds-m-left_xx-small verification-time">
+                        {lastVerifyTime}
+                    </span>
+                </template>
+            </div>
+            <template if:true={isShowRefresh}>
+                <lightning-button-icon 
+                    icon-name="utility:refresh"  
+                    slot="actions"
+                    alternative-text="Refresh" 
+                    title="Refresh"
+                    class="slds-float_right" 
+                    onclick={handleRefreshVerification}>
+                </lightning-button-icon>
+            </template>
+            <template if:true={isInactive}>
+                <lightning-button 
+                    variant="neutral" 
+                    slot="actions"
+                    label="Verify" 
+                    title="Verify" 
+                    onclick={handleActivateVerification} 
+                    class="slds-float_right">
+                </lightning-button>
+            </template>
+            <template if:true={isShowCancel}>
+                <lightning-button 
+                    variant="neutral" 
+                    slot="actions"
+                    label="Cancel" 
+                    title="Cancel" 
+                    onclick={handleCancelVerification} 
+                    class="slds-float_right">
+                </lightning-button>
+            </template>
+            <template if:true={isVerified}>
+                <template if:true={isCacheResetEnabled}>
+                    <lightning-layout>
+                        <lightning-button 
+                            variant="brand" 
+                            label="Clear Cache" 
+                            title="Clear Cache" 
+                            onclick={clearContactVerified} 
+                            class="slds-m-left_large">
+                        </lightning-button>
+                    </lightning-layout>
+                </template>
+            </template>
+            <div class="slds-var-m-around_medium">
+                <template if:true={isLoading}>
+                    <div class="spinnerHolder">
+                        <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                    </div>
+                </template>
+                <template if:true={isUnverified}>
+                    <div class="slds-m-vertical_xx-small">
+                        Click to <strong>{otpChannel}</strong> a one-time verification code to contact.<br>
+                    </div>
+                    <lightning-layout>
+                        <lightning-button 
+                            variant="brand" 
+                            label="Send" 
+                            title="Send" 
+                            onclick={sendCodeToContact} 
+                            class="slds-m-vertical_xx-small">
+                        </lightning-button>
+                        <lightning-combobox
+                            class="slds-m-vertical_xx-small slds-m-left_x-small" 
+                            value={selectedAddress}
+                            placeholder={defaultAddress}
+                            options={options} 
+                            onchange={handleAddressChange}
+                            variant="label-hidden" > 
+                        </lightning-combobox>
+                        <template if:true={isShowEmailFallback}>
+                            <lightning-input 
+                                class="slds-m-vertical_x-small slds-m-left_small slds-text-color_weak channelSelectionFont" 
+                                type="checkbox" 
+                                label="Use email instead"
+                                onchange={handleEmailFallback}> 
+                            </lightning-input>
+                        </template>
+                        <template if:true={isShowSmsFallforward}>
+                            <lightning-input 
+                                class="slds-m-vertical_x-small slds-m-left_small slds-text-color_weak channelSelectionFont" 
+                                type="checkbox" 
+                                label="Use SMS instead"
+                                onchange={handleSmsFallforward}> 
+                            </lightning-input>
+                        </template>
+                    </lightning-layout>
+                </template>
+
+                <template if:true={isShowWaitingForCode}>
+                    <div class="slds-m-vertical_xx-small">
+                        A one-time code has been sent by {otpChannel} to the Contact.<br>
+                        <strong>Please request and enter code then click Verify:</strong>
+                    </div>
+                    <div class="slds-m-vertical_xx-small">
+                        <lightning-input 
+                            id="codeInput"
+                            type="text" 
+                            variant="label-hidden" 
+                            class="verify" >
+                        </lightning-input>
+                    </div>
+                    <lightning-layout>
+                        <div class="slds-m-vertical_xx-small">
+                            <lightning-button 
+                                variant="brand" 
+                                label="Verify" 
+                                title="Verify" 
+                                onclick={verifyOTP} 
+                                class="slds-m-vertical_xx-small">
+                            </lightning-button>
+                        </div>
+                            <template if:true={isShowExpiryTimer}>
+                                <lightning-layout>
+                                    <!-- <span class="slds-m-bottom_x-small">{code}</span> -->
+                                    <lightning-progress-ring
+                                        value={ringCounter}
+                                        variant={ringVariant}
+                                        class="slds-m-vertical_x-small slds-m-left_xx-small">
+                                    </lightning-progress-ring>
+                                    <p class="slds-m-vertical_small slds-m-left_xx-small">
+                                        Code expiring in {refreshCounter} second(s)
+                                    </p>
+                                </lightning-layout>
+                            </template>
+                    </lightning-layout>
+                </template>
+
+                <template if:true={isShowErrorPanel}>
+                    <div class="slds-m-vertical_medium">
+                        <div class="slds-text-color_error"> 
+                            {errMsg}
+                        </div>
+                    </div>
+                </template>     
+
+            </div>   
+        </lightning-card>
+</template>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>49.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Update Amount Due for Next Payment field on Recurring Gifts with Tender Type of Payroll Deduction with the Amount value. This is for use in the Mass Payment feature of Expedited Gift Processing to better track values and totals.</description>
+    <environments>Default</environments>
+    <interviewLabel>Update Amount Due for Next Payment {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>RG Update Amount Due for Next Payment</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Updates Amount Due for Next Payment to match Amount field on Recurring Gift. This is for use on Mass Payments in Expedited Gift Processing to track totals.</description>
+        <name>Update_Amount_Due_for_Next_Payment</name>
+        <label>Update Amount Due for Next Payment</label>
+        <locationX>182</locationX>
+        <locationY>404</locationY>
+        <inputAssignments>
+            <field>ucinn_ascendv2__Amount_Due_for_Next_Payment__c</field>
+            <value>
+                <elementReference>$Record.Amount</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>Update_Amount_Due_for_Next_Payment</targetReference>
+        </connector>
+        <filterFormula>ISPICKVAL({!$Record.Type}, &apos;Recurring&apos; ) &amp;&amp; CONTAINS({!$Record.ucinn_ascendv2__Tender_Type_for_Gifts__c}, &apos;Payroll Deduction&apos;) &amp;&amp; {!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False</filterFormula>
+        <object>Opportunity</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

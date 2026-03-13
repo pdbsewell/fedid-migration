@@ -1,0 +1,397 @@
+<template>
+    <template if:true={showSpinner}> 
+        <div class="slds-is-relative" style="min-height: 200px;">
+            <lightning-spinner alternative-text="Loading" class="spins" variant="brand" size="large"></lightning-spinner>
+        </div>            
+    </template>
+    <template if:false={showSpinner}>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12" >
+                <div class="slds-text-heading_large slds-text-align_center">
+                    Enrolment Amendment Information
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-combobox name="StaffOrg"
+                                    required
+                                    label="Staff Organisation Unit"
+                                    value={staffOrgUnitSelectedValue}
+                                    options={staffOrgUnitOptions}
+                                    onchange={handleStaffOrgUnitChange} >
+                </lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-combobox name="ReqType"
+                                    required
+                                    label="Request Type"
+                                    value={reqTypeSelectedValue}
+                                    options={reqTypeOptions}
+                                    onchange={handleReqTypeChange} >
+                </lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="number" label="How many individual student records ?" pattern="^(0|[1-9][0-9]*)$" max-length="3" max="999" min="0"
+                    value={howManyIndivStudentRecds} required onchange={handleHowManyIndivStudentRecdsChange}>
+                </lightning-input>
+            </lightning-layout-item>
+            <template if:true={otherFreeText}> 
+                <lightning-layout-item size="12" padding="around-small">
+                    <lightning-input type="text" required label="Details : " value={details} onchange={handleDetailsChange}>
+                    </lightning-input>
+                </lightning-layout-item>
+            </template>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Is this a bulk request, or a single-student ?"
+                    value={bulkSinglRequest} required onchange={handleBulkSinglRequestChange}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Comments/Further Information : "
+                    value={commentFurtherInfo} onchange={handleCommentFurtherInfo}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Course Code : "
+                    value={courseCode} required onchange={handleCourseCode}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="date" label="Date request was received from the Student : "
+                    value={reqReceiveDate} required onchange={handleReqReceiveDate}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="around-small">
+                <div class="slds-cell-wrap slds-truncate" style="word-wrap: break-word;">
+                    <lightning-input type="text" label="If the request is due to a University error, provide an additional explanation:  "
+                        value={reqUnivError} onchange={handleReqUnivError}>
+                    </lightning-input>
+                </div> 
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Number of units required : "
+                    value={noOfUnits} required onchange={handleNoOfUnits}>
+                </lightning-input>
+            </lightning-layout-item>
+
+            <!-- UNIT 1 -->
+            <lightning-layout-item size="12" padding="around-small"><b>UNIT 1</b></lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" pattern="^(0|[1-9][0-9]*)$" max-length="4" max="2199" min="0000" label="Year: " value={entry1Year} onchange={handleEntry1Year} >
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Unit Code : " value={entry1UnitCode} onchange={handleEntry1UnitCode}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Teaching Period : " value={entry1TeachingPeriod} onchange={handleEntry1TeachingPeriod}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Is this a standard date teaching period? (Yes/No)" value={entry1Standard} onchange={handleEntry1Standard}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="If ‘No’ non-standard TEACHING PERIOD must include URL  : " value={entry1NonStandard} onchange={handleEntry1NonStandard}>
+                </lightning-input>
+            </lightning-layout-item> 
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-combobox name="outcome1"
+                                    label="Outcome"
+                                    value={entry1Outcome}
+                                    options={outcomeOptions}
+                                    onchange={handleEntry1Outcome} >
+                </lightning-combobox>
+            </lightning-layout-item>
+
+            <!-- UNIT 2 -->
+            <lightning-layout-item size="12" padding="around-small"><b>UNIT 2</b></lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input  type="text" pattern="^(0|[1-9][0-9]*)$" max-length="4" max="2199" min="0000" label="Year: " value={entry2Year} onchange={handleEntry2Year}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Unit Code : " value={entry2UnitCode} onchange={handleEntry2UnitCode}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Teaching Period : " value={entry2TeachingPeriod} onchange={handleEntry2TeachingPeriod}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Is this a standard date teaching period? (Yes/No)" value={entry2Standard} onchange={handleEntry2Standard}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="If ‘No’ non-standard TEACHING PERIOD must include URL  : " value={entry2NonStandard} onchange={handleEntry2NonStandard}></lightning-input>
+            </lightning-layout-item> 
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-combobox name="outcome2"
+                                    label="Outcome"
+                                    value={entry2Outcome}
+                                    options={outcomeOptions}
+                                    onchange={handleEntry2Outcome} >
+                </lightning-combobox>
+            </lightning-layout-item>
+
+
+            <!-- ENTRY 3 -->
+            <lightning-layout-item size="12" padding="around-small"><b>UNIT 3</b></lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input  type="text" pattern="^(0|[1-9][0-9]*)$" max-length="4" max="2199" min="0000" label="Year: " value={entry3Year} onchange={handleEntry3Year}></lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Unit Code : " value={entry3UnitCode} onchange={handleEntry3UnitCode}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Teaching Period : " value={entry3TeachingPeriod} onchange={handleEntry3TeachingPeriod}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Is this a standard date teaching period? (Yes/No) " value={entry3Standard} onchange={handleEntry3Standard}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="If ‘No’ non-standard TEACHING PERIOD must include URL  : " value={entry3NonStandard} onchange={handleEntry3NonStandard}>
+                </lightning-input>
+            </lightning-layout-item> 
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-combobox name="outcome3"
+                                    label="Outcome"
+                                    value={entry3Outcome}
+                                    options={outcomeOptions}
+                                    onchange={handleEntry3Outcome} >
+                </lightning-combobox>
+            </lightning-layout-item>
+
+            <!-- UNIT 4 -->
+            <lightning-layout-item size="12" padding="around-small"><b>UNIT 4</b>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input  type="text" pattern="^(0|[1-9][0-9]*)$" max-length="4" max="2199" min="0000" label="Year: " value={entry4Year} onchange={handleEntry4Year}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Unit Code : " value={entry4UnitCode} onchange={handleEntry4UnitCode}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Teaching Period : " value={entry4TeachingPeriod} onchange={handleEntry4TeachingPeriod}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Is this a standard date teaching period? (Yes/No) " value={entry4Standard} onchange={handleEntry4Standard}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="If ‘No’ non-standard TEACHING PERIOD must include URL  : " value={entry4NonStandard} onchange={handleEntry4NonStandard}>
+                </lightning-input>
+            </lightning-layout-item> 
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-combobox name="outcome4"
+                                    label="Outcome"
+                                    value={entry4Outcome}
+                                    options={outcomeOptions}
+                                    onchange={handleEntry4Outcome} >
+                </lightning-combobox>
+            </lightning-layout-item>
+
+            <!-- UNIT 5 -->
+            <lightning-layout-item size="12" padding="around-small"><b>UNIT 5</b>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input  type="text" pattern="^(0|[1-9][0-9]*)$" max-length="4" max="2199" min="0000" label="Year: " value={entry5Year} onchange={handleEntry5Year}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Unit Code : " value={entry5UnitCode} onchange={handleEntry5UnitCode}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Teaching Period : " value={entry5TeachingPeriod} onchange={handleEntry5TeachingPeriod}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Is this a standard date teaching period? (Yes/No) " value={entry5Standard} onchange={handleEntry5Standard}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="If ‘No’ non-standard TEACHING PERIOD must include URL  : " value={entry5NonStandard} onchange={handleEntry5NonStandard}>
+                </lightning-input>
+            </lightning-layout-item> 
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-combobox name="outcome5"
+                                    label="Outcome"
+                                    value={entry5Outcome}
+                                    options={outcomeOptions}
+                                    onchange={handleEntry5Outcome} >
+                </lightning-combobox>
+            </lightning-layout-item>
+
+            <!-- UNIT 6 -->
+            <lightning-layout-item size="12" padding="around-small"><b>UNIT 6</b>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input  type="text" pattern="^(0|[1-9][0-9]*)$" max-length="4" max="2199" min="0000" label="Year: " value={entry6Year} onchange={handleEntry6Year}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Unit Code : " value={entry6UnitCode} onchange={handleEntry6UnitCode}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Teaching Period : " value={entry6TeachingPeriod} onchange={handleEntry6TeachingPeriod}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Is this a standard date teaching period? (Yes/No) " value={entry6Standard} onchange={handleEntry6Standard}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="If ‘No’ non-standard TEACHING PERIOD must include URL  : " value={entry6NonStandard} onchange={handleEntry6NonStandard}>
+                </lightning-input>
+            </lightning-layout-item> 
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-combobox name="outcome6"
+                                    label="Outcome"
+                                    value={entry6Outcome}
+                                    options={outcomeOptions}
+                                    onchange={handleEntry6Outcome} >
+                </lightning-combobox>
+            </lightning-layout-item>
+
+
+            <!-- UNIT 7 -->
+            <lightning-layout-item size="12" padding="around-small"><b>UNIT 7</b>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input  type="text" pattern="^(0|[1-9][0-9]*)$" max-length="4" max="2199" min="0000" label="Year: " value={entry7Year} onchange={handleEntry7Year}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Unit Code : " value={entry7UnitCode} onchange={handleEntry7UnitCode}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Teaching Period : " value={entry7TeachingPeriod} onchange={handleEntry7TeachingPeriod}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Is this a standard date teaching period? (Yes/No) " value={entry7Standard} onchange={handleEntry7Standard}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="If ‘No’ non-standard TEACHING PERIOD must include URL  : " value={entry7NonStandard} onchange={handleEntry7NonStandard}>
+                </lightning-input>
+            </lightning-layout-item> 
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-combobox name="outcome7"
+                                    label="Outcome"
+                                    value={entry7Outcome}
+                                    options={outcomeOptions}
+                                    onchange={handleEntry7Outcome} >
+                </lightning-combobox>
+            </lightning-layout-item>
+
+            <!-- UNIT 8 -->
+            <lightning-layout-item size="12" padding="around-small"><b>UNIT 8</b>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input  type="text" pattern="^(0|[1-9][0-9]*)$" max-length="4" max="2199" min="0000" label="Year: " value={entry8Year} onchange={handleEntry8Year}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Unit Code : " value={entry8UnitCode} onchange={handleEntry8UnitCode}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Teaching Period : " value={entry8TeachingPeriod} onchange={handleEntry8TeachingPeriod}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Is this a standard date teaching period? (Yes/No) " value={entry8Standard} onchange={handleEntry8Standard}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="If ‘No’ non-standard TEACHING PERIOD must include URL  : " value={entry8NonStandard} onchange={handleEntry8NonStandard}>
+                </lightning-input>
+            </lightning-layout-item> 
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-combobox name="outcome8"
+                                    label="Outcome"
+                                    value={entry8Outcome}
+                                    options={outcomeOptions}
+                                    onchange={handleEntry8Outcome} >
+                </lightning-combobox>
+            </lightning-layout-item>
+
+            <!-- UNIT 9 -->
+            <lightning-layout-item size="12" padding="around-small"><b>UNIT 9</b>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input  type="text" pattern="^(0|[1-9][0-9]*)$" max-length="4" max="2199" min="0000" label="Year: " value={entry9Year} onchange={handleEntry9Year}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Unit Code : " value={entry9UnitCode} onchange={handleEntry9UnitCode}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Teaching Period : " value={entry9TeachingPeriod} onchange={handleEntry9TeachingPeriod}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Is this a standard date teaching period? (Yes/No)" value={entry9Standard} onchange={handleEntry9Standard}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="If ‘No’ non-standard TEACHING PERIOD must include URL  : " value={entry9NonStandard} onchange={handleEntry9NonStandard}>
+                </lightning-input>
+            </lightning-layout-item> 
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-combobox name="outcome9"
+                                    label="Outcome"
+                                    value={entry9Outcome}
+                                    options={outcomeOptions}
+                                    onchange={handleEntry9Outcome} >
+                </lightning-combobox>
+            </lightning-layout-item>
+
+            <!-- UNIT 10 -->
+            <lightning-layout-item size="12" padding="around-small"><b>UNIT 10</b>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input  type="text" pattern="^(0|[1-9][0-9]*)$" max-length="4" max="2199" min="0000" label="Year: " value={entry10Year} onchange={handleEntry10Year}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Unit Code : " value={entry10UnitCode} onchange={handleEntry10UnitCode}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Teaching Period : " value={entry10TeachingPeriod} onchange={handleEntry10TeachingPeriod}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="Is this a standard date teaching period? (Yes/No) " value={entry10Standard} onchange={handleEntry10Standard}>
+                </lightning-input>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input type="text" label="If ‘No’ non-standard TEACHING PERIOD must include URL  : " value={entry10NonStandard} onchange={handleEntry10NonStandard}>
+                </lightning-input>
+            </lightning-layout-item> 
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-combobox name="outcome10"
+                                    label="Outcome"
+                                    value={entry10Outcome}
+                                    options={outcomeOptions}
+                                    onchange={handleEntry10Outcome} >
+                </lightning-combobox>
+            </lightning-layout-item>
+
+            <lightning-layout-item size="6" padding="around-small">
+                <div style="float: right;">
+                    <lightning-button label="Submit" variant="brand" onclick={submitOnClick} icon-name="utility:process" title="Submit">
+                    </lightning-button>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </template>
+</template>

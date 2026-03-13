@@ -1,0 +1,59 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global" controller="AgencyServerSideCC">
+    
+    <aura:attribute name="allAgencies" type="Object[]" />
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <!--
+		Changes added to handle pagination of records
+	-->
+    <aura:attribute name="displayMode" type="integer" default="1" />
+    <aura:attribute name="countryOfChoice" type="String" />
+    <aura:attribute name="firstChar" type="String" />
+    <aura:attribute name="soslSearchTerm" type="String" />
+    <aura:attribute name="page" type="integer"/>
+    <aura:attribute name="pages" type="integer"/>
+    <aura:attribute name="total" type="integer"/>
+    <aura:attribute name="pageSize" type="integer" access="global" default="10"/>
+    <aura:attribute name="displayBottomPaginator" type="boolean" default="true" />
+
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:searchAgenciesInitiated" action="{!c.doSearch}" />
+    <aura:handler event="c:resetInitiated" action="{!c.doInit}" />
+    <aura:handler event="c:filterAgencyByCountry" action="{!c.doCountryFilter}" />
+    <aura:handler event="c:filterAgencyBy1stAlphabet" action="{!c.doSearchBy1stAlphabet}" />
+    
+    <lightning:card title="Monash Agent Database" class="slds-card">
+
+        <div class="slds-p-left_medium slds-p-right_medium">
+            
+            <aura:if isTrue="{!v.loaded }">
+
+                <c:Paginator page="{!v.page}" pages="{!v.pages}" total="{!v.total}"
+                                     pagePrevious="{!c.onPagePrevious}" pageNext="{!c.onPageNext}"/>
+
+                <ul class="slds-list_vertical slds-has-dividers_top-space">
+                    <aura:iteration items="{!v.allAgencies}" var="item">
+                        
+                        <li class="slds-list__item">                   
+                            <!-- c:Agency agency="{!item}" / -->
+                            <c:AgencyLexOutCompatible agency="{!item}" />
+                        </li>
+                        
+                    </aura:iteration>
+                </ul>
+
+                <aura:if isTrue="{!v.displayBottomPaginator}">
+                    <c:Paginator page="{!v.page}" pages="{!v.pages}" total="{!v.total}"
+                                     pagePrevious="{!c.onPagePrevious}" pageNext="{!c.onPageNext}"/>
+                </aura:if>
+
+                <aura:set attribute="else">
+                    <lightning:spinner alternativeText="Loading" size="small" />
+                </aura:set>
+            </aura:if>
+            
+        </div>
+
+    </lightning:card>
+    
+</aura:component>

@@ -1,0 +1,203 @@
+<!--
+ - Created by trentdelaney on 2019-08-27.
+ -->
+
+<!-- Acp Toolkit -->
+<template>
+    <template if:true={spinner}>
+        <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+    </template>
+    <template if:true={modalOpen}>
+        <div class="demo-only" style="height: 640px;">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                            <lightning-icon icon-name="utility:close" size="medium"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Edit ACP</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <lightning-button label="Cancel" variant="neutral" onclick={closeModal}></lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <lightning-button label="Save" variant="brand" onclick={saveMethod}></lightning-button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+    <div class="slds-card">
+        <div class="slds-p-around--medium">
+            <div class="slds-text-heading_medium">ACP Control Panel</div>
+            <div class="slds-grid slds-wrap slds-gutters">
+                <div class="slds-col slds-size--1-of-4">
+                    <!--<lightning-input label="Course Code" value={courseCode} onchange={setCourseCode} type="text"></lightning-input>-->
+                    <lightning-combobox name="Course Code"
+                                        label="Course Code"
+                                        placeholder="Select a Course Code"
+                                        options={courseCodes}
+                                        value={courseCode}
+                                        onchange={setCourseCode}>
+                    </lightning-combobox>
+                </div>
+                <div class="slds-col slds-size--1-of-4">
+                    <lightning-combobox name="Course Name"
+                                        label="Course Name"
+                                        options={courseNames}
+                                        value={courseName}
+                                        onchange={setCourseName}>
+                    </lightning-combobox>
+                </div>
+                <div class="slds-col slds-size--1-of-4">
+                    <lightning-combobox name="Attendance Mode"
+                                        label="Attendance Mode"
+                                        options={attendanceModes}
+                                        value={attendanceMode}
+                                        onchange={setAttendanceMode}>
+                    </lightning-combobox>
+                </div>
+                <div class="slds-col slds-size--1-of-4">
+                    <lightning-combobox name="Location"
+                                        label="Location"
+                                        options={locations}
+                                        value={location}
+                                        onchange={setLocation}>
+                    </lightning-combobox>
+                </div>
+
+
+
+            </div>
+        </div>
+        <div class="slds-p-around--medium">
+            <div class="slds-float_left">
+                <lightning-button label="Search Course Offerings" onclick={searchCourseOffering}></lightning-button>            </div>
+        </div>
+
+        <div class="slds-p-around--medium">
+            <div class="slds-float_right">
+                <lightning-button label="Add ACPs" onclick={addACPFromCourseOffering}></lightning-button>
+            </div>
+        </div>
+        <div class="slds-p-around--medium">
+            <lightning-tabset>
+                <lightning-tab label="Add ACP to Application" id="1">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                        <thead>
+                        <tr class="slds-line-height_reset">
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Select">Select</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Course Title">Course Title</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Admission Category">Admission Category</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Admission Calendar Desc">Admission Calendar Desc</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Att Mode">Att Mode</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Location">Location</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Course Ver#">Course Ver#</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Faculty">Faculty</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Citizenship Type">Citizenship Type</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Att Type">Att Type</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Unit Set Code">Unit Set Code</div>
+                            </th>
+                            <th class="" scope="col">
+                                <div class="slds-truncate" title="Unit Set Desc">Unit Set Desc</div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <template for:each={courseOfferings} for:item="offering">
+                            <tr key={offering.Id} class="slds-hint-parent">
+                                <td data-label="Select">
+                                    <lightning-input label="" type="checkbox" onchange={addCourseOffering} value={offering.Id}></lightning-input>
+                                </td>
+                                <td data-label="Course Name">
+                                    <div class="slds-truncate" title={offering.Course_Title__c}>{offering.Course_Title__c}</div>
+                                </td>
+                                <td data-label="Admission Category">
+                                    <div class="slds-truncate" title={offering.Admission_Category__c}>{offering.Admission_Category__c}</div>
+                                </td>
+                                <td data-label="Admission Calendar Desc">
+                                    <div class="slds-truncate" title={offering.Admission_Calendar_Description__c}>{offering.Admission_Calendar_Description__c}</div>
+                                </td>
+                                <td data-label="Attendance Mode">
+                                    <div class="slds-truncate" title={offering.Attendance_Mode__c}>{offering.Attendance_Mode__c}</div>
+                                </td>
+                                <td data-label="Location">
+                                    <div class="slds-truncate" title={offering.Location_Description__c}>{offering.Location_Description__c}</div>
+                                </td>
+                                <td data-label="Course Version">
+                                    <div class="slds-truncate" title={offering.Course_Version_Number__c}>{offering.Course_Version_Number__c}</div>
+                                </td>
+                                <td data-label="Faculty">
+                                    <div class="slds-truncate" title={offering.Faculty__c}>{offering.Faculty__c}</div>
+                                </td>
+                                <td data-label="Citizenship Type">
+                                    <div class="slds-truncate" title={offering.Citizenship_Type__c}>{offering.Citizenship_Type__c}</div>
+                                </td>
+                                <td data-label="Attendance Type">
+                                    <div class="slds-truncate" title={offering.Attendance_Type__c}>{offering.Attendance_Type__c}</div>
+                                </td>
+                                <td data-label="Unit Set Code">
+                                    <div class="slds-truncate" title={offering.Unit_Set_Code__c}>{offering.Unit_Set_Code__c}</div>
+                                </td>
+                                <td data-label="Unit Set Description">
+                                    <div class="slds-truncate" title={offering.Unit_Set_Description__c}>{offering.Unit_Set_Description__c}</div>
+                                </td>
+                            </tr>
+                        </template>
+                        </tbody>
+                    </table>
+                </lightning-tab>
+                <!--<lightning-tab label="Update ACP">
+                    <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Course Name">Unique Key</div>
+                                </th>
+                                <th class="" scope="col">
+                                    <div class="slds-truncate" title="Course Code">Edit ACP</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each={acps} for:item="acp">
+                                <tr key={acp.Id} class="slds-hint-parent">
+                                    <td data-label="Course Name">
+                                        <div class="slds-truncate" title={acp.Unique_External_Id__c}>{acp.Unique_External_Id__c}</div>
+                                    </td>
+                                    <td data-label="Edit">
+                                        <div class=slds-truncate><lightning-button label="Edit" variant="brand" onclick={openModal} ></lightning-button> </div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </lightning-tab>-->
+            </lightning-tabset>
+        </div>
+    </div>
+</template>

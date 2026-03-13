@@ -1,0 +1,54 @@
+<template>
+
+    <div class="wrapper">
+
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+        </template>
+
+        <!-- Header -->
+        <div class="header">
+            <div>
+                <template if:false={eventSelectVisible}>
+                    <lightning-button-icon icon-name="utility:chevronleft"  variant="bare" size="medium" class=""
+                                           alternative-text="Back" title="Back" onclick={backToEventSelection}
+                    ></lightning-button-icon>
+                </template>
+            </div>
+            <h1>Schedule Calendly Event</h1>
+            <lightning-button-icon icon-name="utility:close"  variant="bare" size="medium" class="close-button"
+                                   alternative-text="Close" title="Close" onclick={closeAction}
+            ></lightning-button-icon>
+        </div>
+
+        <!-- Step 1 - Select event -->
+        <template if:true={eventSelectVisible}>
+            <div class="event-select">
+                <div class="event-select-header">
+                    <h2>Select Event Type</h2>
+                    <div class="search">
+                        <lightning-input label="" onchange={onFilterChange} type="text" placeholder="Search" variant="label-hidden"></lightning-input>
+                    </div>
+                </div>
+                <div class="event-grid-wrapper">
+                    <div class="event-grid">
+                        <template for:each={eventList} for:item="ev">
+                            <a href={ev.url} key={ev.id} onclick={onCalEventSelected} target="_blank" data-id={ev.id}>
+                                <div class="grid-item">
+                                    <h3>{ev.calendarName}</h3>
+                                    <h4>{ev.name}</h4>
+                                </div>
+                            </a>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Step 2 - Book via iframe -->
+        <div class="embed-section" style={embedSectionStyle}>
+            <div class="embed-div"></div>
+        </div>
+
+    </div>
+</template>

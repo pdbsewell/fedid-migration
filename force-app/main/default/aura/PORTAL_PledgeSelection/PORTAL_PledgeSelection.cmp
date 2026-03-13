@@ -1,0 +1,58 @@
+<!--
+/*
+ * Copyright (c) 2019, UC Innovation, Inc.  All Rights Reserved.
+ *                     http://www.ucinnovation.com
+ *
+ * This source code is licensed, not sold, and is subject to a written
+ * license agreement.  Among other things, no portion of this source
+ * code may be copied, transmitted, disclosed, displayed, distributed,
+ * translated, used as the basis for a derivative work, or used, in
+ * whole or in part, for any program or purpose other than its intended
+ * use in compliance with the license agreement as part of UC Innovation's
+ * software.  This source code and certain of the algorithms contained
+ * within it are confidential trade secrets of UC Innovation, Inc.
+ * and may not be used as the basis for any other
+ * software, hardware, product or service.
+ */
+-->
+
+<aura:component controller="PORTAL_LightningDataTableCtrl">
+    <c:PORTAL_MessageHandlingService aura:id="MessageHandlingService" />
+
+    <aura:attribute name="pledgeRecList" type="Object"/>
+    <aura:attribute name="pledgeColumnHeaders" type="List"/>
+    <aura:attribute name="selectedPledgeRec" type="Object" access="public"/>
+    <aura:attribute name="constituentId" type="String" access="public"/>
+    <aura:attribute name="organizationId" type="String" access="public"/>
+    <aura:attribute name="isNoActivePledgeAvailable" type="Boolean" access="private" default="false"/>
+    <aura:attribute name="readyToShowTable" type="Boolean" access="private" default="false"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <aura:method name="validatePledgeSelectionInfomationSync" action="{!c.validatePledgeSelectionInfomationSync}"/>
+
+    <div class="slds-size_1-of-1">
+        <fieldset class="slds-box slds-theme_default slds-container">
+            <legend class="slds-text-heading_medium slds-p-vertical_x-small">
+                <h1 class="slds-text-heading_medium">Select Designation(s)</h1>
+            </legend>
+
+            <aura:if isTrue="{!v.readyToShowTable}">
+                <aura:if isTrue="{!v.isNoActivePledgeAvailable == false}">
+                    <lightning:datatable data="{! v.pledgeRecList }" 
+                                        columns="{! v.pledgeColumnHeaders }" 
+                                        keyField="Id"
+                                        maxRowSelection="1"
+                                        onrowselection="{!c.pledgeSelected}"
+                                        resizeColumnDisabled="true"
+                                        minColumnWidth="1"
+                                        class="slds-no-row-hover slds-max-medium-table_stacked-horizontal"/>
+                </aura:if>
+
+                <aura:if isTrue="{!v.isNoActivePledgeAvailable}">
+                        <h1 class="slds-text-heading_medium">No active pledge.</h1>
+                </aura:if>
+            </aura:if>
+        </fieldset>
+    </div>
+</aura:component>

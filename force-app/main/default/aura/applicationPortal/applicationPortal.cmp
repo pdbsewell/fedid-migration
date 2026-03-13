@@ -1,0 +1,919 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" 
+                controller="applicationPortalCC">
+    
+    <ltng:require scripts="{!$Resource.StudFirst_datepicker_jquery}" />
+    <ltng:require styles="{!$Resource.StudFirst_datepicker_tinyDateCSS}" />
+    <ltng:require scripts="{!$Resource.StudFirst_datepicker_moment}" />
+    <ltng:require scripts="{!$Resource.StudFirst_datepicker_tinyDateJS}" />
+
+    <aura:attribute name="appId" type="Id" description="the current application Id"/>
+    <aura:attribute name="userRec" type="User" 
+                    default="{'sobjectType': 'User',
+                             'FirstName': '',
+                             'LastName': '',
+                             'Email': ''}" />
+    <aura:attribute name="isEdit" type="Boolean" 
+                    default="false" />
+    <aura:attribute name="campusOfStudy" type="String" default="false" />
+    <aura:attribute name="locationOptions" type="List" />
+    <aura:attribute name="CitizenshipType" type="String" default="false" />
+    <aura:attribute name="citizenshipTypeOptions" type="List" default="" />
+    
+    
+    <aura:attribute name="errorMessage" type="String" default="" />
+    <aura:attribute name="hasErrors" type="Boolean" default="false" />
+    <aura:attribute name="isPostalAustralia" type="String" default="false" />
+    <aura:attribute name="invalidDate" type="Boolean" default="false" />
+    <aura:attribute name="dobError" type="String" default="" />
+    <aura:attribute name="selectedGender" type="String" default="" />
+    
+    <aura:attribute name="showATSI" type="Boolean" default="false" />
+    <aura:attribute name="selectedATSI" type="String" default="" />
+    <aura:attribute name="selectedPostCode" type="String" default="" />
+    <aura:attribute name="selectedOSstate" type="String" default="" />
+    <aura:attribute name="selectedState" type="String" default="" />
+    <aura:attribute name="selectedOSPostalCode" type="String" default="" />
+    <aura:attribute name="selectedDOB" type="Date" default="" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <!--
+    <aura:handler event="aura:waiting" action="{!c.waiting}"/> 
+    <aura:handler event="aura:doneWaiting" action="{!c.doneWaiting}"/>
+-->
+    <aura:attribute name="showSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="itemsToLoad" type="Integer" default="0"/>
+    
+    <!-- disable save when international students are updating the application -->
+    <aura:attribute name="disableSave" type="Boolean" default="false"/>
+    <aura:attribute name="hideDependendPicklist" type="Boolean" default="false"/>
+    <aura:attribute name="showButtons" type="Boolean" default="true" access="global"/>
+    <aura:attribute name="isAgeAcknowledged" type="Boolean" default="false"/>
+    <aura:attribute name="showAgeCheckPopup" type="Boolean" default="false"/>
+    <aura:attribute name="initializeDatePicker" type="Boolean" default="true"/>
+    <!-- Disable other fields if its not their first time editing the form -->
+    <aura:attribute name="isDisabled" type="Boolean" default="false"/>
+    <aura:attribute name="homeRedirect" type="Boolean" default="false" />
+    
+    
+    <aura:attribute name="DomesticApplicant" type="Boolean" default="false"/>
+    
+    <!-- Disable update button if submitted already -->
+    <aura:attribute name="disableEditing" type="Boolean" default="true"/>
+
+    <div class="slds">
+        <span id="Accspinner" class="{!if(v.showSpinner == true, '', 'slds-hide')}">
+            <div class="slds-spinner_container">
+                <lightning:spinner variant="neutral" size="medium" alternativeText="Loading"/>
+            </div>
+        </span>
+        <aura:If isTrue="{!v.errorMessage != ''}">
+            <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert">
+                <span class="slds-assistive-text">Error</span>
+                {!v.errorMessage}
+            </div>
+        </aura:If>
+
+        <!-- QUALIFICATION POPUP -->
+        <aura:If isTrue="{!v.showAgeCheckPopup}">
+            <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                
+                <div class="slds-modal__container">
+                    <div class="modal-brand slds-modal__header slds-notify slds-notify_alert slds-theme_alert-texture" role="alert">
+                        <div class="slds-float--right">
+                            <lightning:button label=""
+                                    iconPosition="left"
+                                    class="x-button slds-button slds-notify__close slds-button--icon-inverse"
+                                    onclick="{!c.closeViewModal}">
+                                <lightning:icon iconName="utility:close" size="x-small" alternativeText="close"/>
+                            </lightning:button>
+                        </div>
+                        <h2 class="slds-text-heading--small" id="prompt-heading-id">{!$Label.c.App_ConfirmationLabel}</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                            {!$Label.c.App_Under16Alert}
+                        </div>
+                    </div>
+                    <div class="slds-modal__footer slds-theme--default">
+                        <lightning:button label="Yes"
+                                        iconPosition="left"
+                                        variant="brand"
+                                        onclick="{!c.continueSaving}" />
+                        <lightning:button label="No"
+                                        iconPosition="left"
+                                        class="slds-button slds-button--neutral"
+                                        onclick="{!c.closeViewModal}" />
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+        </aura:If>
+        <!-- END - QUALIFICATION POPUP -->
+ 
+        <div class="slds-section section-float">  
+            <aura:If isTrue="{!v.showButtons}">
+                <div class="slds-page-header">
+                    <div class="slds-grid">
+                        <div class="slds-col slds-has-flexi-truncate">
+                            <div class="slds-grid">
+                                <div class="slds-grid slds-no-space">
+                                    <aura:If isTrue="{!v.isEdit}">
+                                        <h1 class="slds-text-heading--medium" title="My Expenses">Update My Details</h1>
+                                        <aura:set attribute="else">
+                                            <h1 class="slds-text-heading--medium" title="My Expenses">{!v.userRec.FirstName}&nbsp;{!v.userRec.LastName}</h1>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </aura:If>
+
+            <div class="{!if(!v.isEdit, 'slds-hide', '')}">
+                <!-- EDIT VIEW -->
+                <div class="slds-col--padded slds-p-top--large">
+                    <div class="container">
+                        <center>
+                            <div class="slds-form-element">
+                                <aura:if isTrue="{!v.homeRedirect}" >
+                                    <lightning:button label="Save and Continue"
+                                                      iconPosition="left"
+                                                      variant="brand"
+                                                      onclick="{!c.saveRecordAndContinue}"
+                                                      disabled="{!v.disableSave}" />
+                                    <aura:set attribute="else">
+                                        <lightning:button label="Save"
+                                                          iconPosition="left"
+                                                          variant="brand"
+                                                          onclick="{!c.saveRecord}"
+                                                          disabled="{!v.disableSave}" />
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+                        </center>
+
+                        <aura:If isTrue="{!v.isDisabled}">
+                            <div class="slds-p-vertical--large">
+                                <div class="slds-text-body--regular">
+                                    <!--<aura:unescapedHtml value="{!$Label.c.App_ContactApplicantSupport}" />-->
+                                    <p>In order to change your personal details, please contact us on 1800-MONASH (1800 666274) from within Australia or +61 3 9902 6011 (9am - 5pm AEST) from outside Australia.</p>
+
+                                        <p>Alternatively, you can submit a request via <a href="https://connect.monash.edu/askmonash/s/contact">ask.monash.</a></p>
+                                </div>
+                            </div>
+                        </aura:If>
+
+                        <form class="slds-form--stacked">
+                            <div class="slds-p-bottom--x-large">
+                                <h3 class="slds-section__title">Personal Details</h3>
+                                <div class="slds-text-body--regular">{!$Label.c.App_EnterPersonalDetails}</div>
+                            </div>
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                <!-- FIRST GIVEN NAME -->
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                    <div class="slds-form-element__control">
+                                        <ui:inputSelect label="Title" 
+                                                        class="dynamic" aura:id="salutationOptions"
+                                                        labelClass="slds-form-element__label"
+                                                        change="{!c.salutation_onChange}" 
+                                                        value="{!v.userRec.App_Salutation__c}"
+                                                        required="true"
+                                                        disabled="{!v.isDisabled}"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                <!-- FIRST GIVEN NAME -->
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                    <div class="slds-form-element__control">
+                                        <ui:inputText aura:id="fName" label="First Given Name"
+                                                          class="slds-input"
+                                                          labelClass="slds-form-element__label"
+                                                          value="{!v.userRec.FirstName}"
+                                                          change="{!c.onChangeGeneralBehaviour}"
+                                                          maxlength="40"
+                                                          disabled="{!v.isDisabled}"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                <!-- OTHER LAST NAME -->
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                    <div class="slds-form-element__control">
+                                        <ui:inputText label="Middle Name"
+                                                      aura:id="otherName" 
+                                                      class="slds-input"
+                                                      labelClass="slds-form-element__label"
+                                                      value="{!v.userRec.Other_Given_Name__c}"
+                                                      change="{!c.onChangeGeneralBehaviour}"
+                                                      maxlength="255"
+                                                      disabled="{!v.isDisabled}" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                <!-- LAST NAME -->
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                    <div class="slds-form-element__control">
+                                        <ui:inputText label="Family Name"
+                                                      aura:id="lName" 
+                                                      class="slds-input"
+                                                      labelClass="slds-form-element__label"
+                                                      value="{!v.userRec.LastName}"
+                                                      required="true"
+                                                      change="{!c.onChangeGeneralBehaviour}"
+                                                      maxlength="80"
+                                                      disabled="{!v.isDisabled}" />
+
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                <!-- GENDER -->
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                    <div class="slds-form-element__control">
+                                        <ui:inputSelect label="Gender"
+                                                        aura:id="GenderOptions"
+                                                        class="dynamic" 
+                                                        labelClass="slds-form-element__label"
+                                                        value="{!v.selectedGender}"
+                                                        required="true"
+                                                        change="{!c.Gender_onChange}"
+                                                        disabled="{!v.isDisabled}" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                <!-- BIRTHDAY -->
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--3-of-8 slds-large-size--3-of-8">
+                                    <ui:inputDate aura:id="bday" label="Date of Birth" 
+                                        value="{!v.selectedDOB}"
+                                        class="ux-datepicker" 
+                                        labelClass="slds-form-element__label" 
+                                        format="DD/MM/YYYY" 
+                                        langLocale="en_AU" 
+                                        required="true" 
+                                        focus="{!c.initDatePicker}" 
+                                        change="{!c.dob_onChange}"
+                                        disabled="{!v.isDisabled}" >
+                                    </ui:inputDate>
+                                    <div aura:id="bdayError" class="slds-text-title slds-text-color_error">{!v.dobError}</div>
+                                </div>
+                                
+                                <div class="slds-size--1-of-2 slds-medium-size--1-of-8 slds-large-size--1-of-8 slds-m-top_x-large">
+                                    <aura:if isTrue="{!v.dobError == ''}">
+                                    	<em><small style="color:#666666;">
+                                        <ui:outputDate value="{!v.selectedDOB}" format="dd/MMM/yyyy"/>
+                                    	</small></em>
+                                    </aura:if>
+                                    
+                                </div>
+                                
+                            </div>
+                            <div class="slds-p-vertical--x-large">
+                                <h3 class="slds-section__title">Contact Details</h3>
+                                <div class="slds-text-body--regular">{!$Label.c.App_EnterEmailAddress}</div>
+                                <i><div class="slds-text-title">{!$Label.c.App_EmailMayBeInSpam}</div></i>
+                                
+                            </div>
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                <!-- EMAIL -->
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                    <ui:inputEmail aura:id="email" label="Email"
+                                                   class="slds-input"
+                                                   labelClass="slds-form-element__label"
+                                                   value="{!v.userRec.Email}"
+                                                   required="true"
+                                                   change="{!c.onChangeGeneralBehaviour}"
+                                                   disabled="{!v.isDisabled}" />
+                                    
+                                </div>
+                            </div>
+                            
+                            <div class="slds-p-top--x-large">
+                                <i><div class="slds-text-title">{!$Label.c.App_SupplyAtLeastOnePhone}</div></i>
+                            </div>
+                            
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                <!-- MOBILE -->
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                    <div class="slds-form-element__control">
+                                        <ui:inputPhone aura:id="mobile" label="Mobile"
+                                                      class="slds-input"
+                                                      labelClass="slds-form-element__label"
+                                                      value="{!v.userRec.MobilePhone}"
+                                                      change="{!c.onChangeGeneralBehaviour}"
+                                                      maxlength="20" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                <!-- PHONE -->
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                    <div class="slds-form-element__control">
+                                        <ui:inputPhone aura:id="homephone" label="Home Phone"
+                                                      class="slds-input"
+                                                      labelClass="slds-form-element__label"
+                                                      value="{!v.userRec.App_Home_Phone__c}"
+                                                      change="{!c.onChangeGeneralBehaviour}"
+                                                      maxlength="20" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                <!-- PHONE -->
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                    <div class="slds-form-element__control">
+                                        <ui:inputPhone aura:id="phone" label="Work Phone"
+                                                      class="slds-input"
+                                                      labelClass="slds-form-element__label"
+                                                      value="{!v.userRec.Phone}"
+                                                      change="{!c.onChangeGeneralBehaviour}"
+                                                      maxlength="20" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-p-vertical--x-large">
+                                <h3 class="slds-section__title">Address Details</h3>
+                                <div class="slds-text-body--regular">{!$Label.c.App_CurrentPostalAddress}</div>
+                            </div>
+                            
+                            <!-- ADDRESS TYPE -->
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                    <div class="slds-form-element__control">
+                                        <ui:inputSelect label="Is your current postal address in Australia?"
+                                                        aura:id="addressType"
+                                                        class="dynamic" 
+                                                        labelClass="slds-form-element__label"
+                                                        value="{!v.isPostalAustralia}"
+                                                        required="true"
+                                                        change="{!c.addressType_onChange}"/>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="{!if(v.isPostalAustralia != '', '', 'slds-hide')}">
+                                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                    <!-- POSTAL ADDRESS-->
+                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                        <div class="slds-form-element__control">
+                                            <ui:inputText aura:id="street" label="Street number and street"
+                                                          class="slds-input"
+                                                          labelClass="slds-form-element__label"
+                                                          value="{!v.userRec.Street}"
+                                                          required="true"
+                                                          change="{!c.onChangeGeneralBehaviour}"
+                                                          maxlength="40"/>
+
+                                            <ui:inputText aura:id="city" label="Suburb/Town"
+                                                          class="slds-input"
+                                                          labelClass="slds-form-element__label"
+                                                          value="{!v.userRec.City}"
+                                                          required="{!if(v.isPostalAustralia == 'Yes', true, false)}"
+                                                          change="{!c.onChangeGeneralBehaviour}"
+                                                          maxlength="40"/>
+                                            <div class="{!if(v.isPostalAustralia == 'Yes', '', 'slds-hide')}">
+                                                <ui:inputSelect label="State" 
+                                                                class="dynamic" aura:id="StateOptions"
+                                                                labelClass="slds-form-element__label"
+                                                                change="{!c.State_onChange}"
+                                                                value="{!v.selectedState}"
+                                                                required="true" />
+                                                <ui:inputText aura:id="postal" label="Postal code"
+                                                          class="slds-input"
+                                                          labelClass="slds-form-element__label"
+                                                          value="{!v.selectedPostCode}"
+                                                          required="true"
+                                                          change="{!c.onChangeGeneralBehaviour}"
+                                                          maxlength="4"/>
+                                            </div>   
+
+                                            <div class="{!if(v.isPostalAustralia == 'No', '', 'slds-hide')}">
+                                                <ui:inputText aura:id="osState" label="State/Region"
+                                                      class="slds-input"
+                                                      labelClass="slds-form-element__label"
+                                                      value="{!v.selectedOSstate}"
+                                                      change="{!c.onChangeGeneralBehaviour}" 
+                                                      maxlength="40"/>
+                                                <ui:inputSelect label="Country" 
+                                                                class="dynamic" aura:id="countryOptions"
+                                                                labelClass="slds-form-element__label"
+                                                                value="{!v.userRec.Country}"
+                                                                change="{!c.onChangeGeneralBehaviour}"
+                                                                required="true"/>
+                                                <ui:inputText aura:id="ospostal" label="Postal code/Zip code"
+                                                        class="slds-input"
+                                                        labelClass="slds-form-element__label"
+                                                        value="{!v.selectedOSPostalCode}"
+                                                        change="{!c.onChangeGeneralBehaviour}"
+                                                        maxlength="10"/>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="slds-p-vertical--x-large">
+                                <h3 class="slds-section__title">Other Personal Details</h3>
+                            </div>
+                            
+                            
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded" >
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                    <div class="slds-form-element__control">
+                                        <!--
+                                        <ui:inputSelect label="Location/Campus of Study"
+                                                        class="dynamic" aura:id="campusOfStudyOptions"
+                                                        labelClass="slds-form-element__label"
+                                                        change="{!c.campusOfStudy_onChange}"
+                                                        value="{!v.campusOfStudy}"
+                                                        required="true"
+                                                        disabled="{!v.isDisabled}" />
+-->
+                                        <lightning:select value="{!v.campusOfStudy}"
+                                                          label="Where do you want to study?"
+                                                          required="true"
+                                                          onchange="{!c.campusOfStudy_onChange}">        
+                                            <aura:iteration var="option" items="{! v.locationOptions}">
+                                                <option value="{! option.value }" 
+                                                        selected="{!if(v.campusOfStudy == option.value,'true','')}">{! option.label }
+                                                </option>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--<div class="{!if(and(and(v.campusOfStudy != '', v.campusOfStudy != null), !v.hideDependendPicklist), '', 'slds-hide')}">-->
+                            <div class="{!if(v.campusOfStudy == 'Australia' ,'', 'slds-hide')}">
+                                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                        <div class="slds-form-element__control">
+                                            <!--
+                                            <ui:inputSelect label="Citizenship Type"
+                                                            class="dynamic" aura:id="CitizenshipTypeOptions"
+                                                            labelClass="slds-form-element__label"
+                                                            change="{!c.CitizenshipType_onChange}"
+                                                            required="true"
+                                                            value="{!v.CitizenshipType}"
+                                                            disabled="{!v.isDisabled}" />
+                                            -->
+                                            <lightning:select value="{!v.CitizenshipType}"
+                                                              label="Citizenship Type"
+                                                              required=""
+                                                              disabled="{!v.isDisabled}"
+                                                              onchange="{!c.CitizenshipType_onChange}">        
+                                                <aura:iteration var="option" items="{! v.citizenshipTypeOptions}">
+                                                    <option value="{! option.value }" 
+                                                            selected="{!if(v.CitizenshipType == option.value,'true','')}">{! option.label }
+                                                    </option>
+                                                </aura:iteration>
+                                            </lightning:select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>                            
+
+                            <div class="{!if(v.campusOfStudy != 'Australia' ,'', 'slds-hide')}">
+                                <div class="slds-text-title app-errorText">
+                                    <aura:unescapedHtml value="{!$Label.c.App_RedirectToOldPortal}" />
+                                </div>
+                            </div>
+                            
+                            <div class="slds-p-top--x-large">
+                                <i><div class="slds-text-title">{!$Label.c.App_ProvidePreviousSurname}</div></i>
+                            </div>
+                            
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                <!-- PREVIOUS SURNAME -->
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                    <div class="slds-form-element__control">
+                                        <ui:inputText aura:id="prevsurname" label="Previous Family Name"
+                                                      class="slds-input"
+                                                      labelClass="slds-form-element__label"
+                                                      value="{!v.userRec.App_Previous_Surname__c}"
+                                                      change="{!c.onChangeGeneralBehaviour}"
+                                                      maxlength="100"
+                                                      disabled="{!v.isDisabled}" />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <aura:If isTrue="{!!v.isDisabled}">
+                                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                    <!-- IS PREVIOUS STUDENT -->
+                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                        <div class="slds-form-element  slds-p-vertical--x-large">
+                                            <label class="slds-checkbox--toggle slds-grid">
+                                                <span class="slds-form-element__label slds-m-bottom--none">{!$Label.c.App_PreviouslyStudiedLabel}</span>
+                                                <ui:inputCheckbox change="{!c.studiedBefore_onSelectChange}" 
+                                                                    value="{!v.userRec.App_Previously_Studied_at_Monash__c}" />
+                                                <span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
+                                                    <span class="slds-checkbox--faux"></span>
+                                                    <span class="slds-checkbox--on">Yes</span>
+                                                    <span class="slds-checkbox--off">No</span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </aura:If>
+
+                            <div aura:id="DivID" class="slds-hide">
+                                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                    <!-- PREVIOUS MONASH ID -->
+                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                        <div class="slds-form-element__control">
+                                            <ui:inputText aura:id="studentid" label="Previous Student Id"
+                                                      class="slds-input"
+                                                      labelClass="slds-form-element__label"
+                                                      value="{!v.userRec.App_Previous_Monash_ID__c}"
+                                                      change="{!c.PrevMonashId_onChange}"
+                                                      maxlength="8"
+                                                      disabled="{!v.isDisabled}" />
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                    <!-- PREVIOUS INSTITUTION -->
+                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                        <div class="slds-form-element__control">
+                                            <ui:inputSelect label="Previous Institution" 
+                                                        class="dynamic" aura:id="previousinstitution"
+                                                        labelClass="slds-form-element__label"
+                                                        change="{!c.PrevSchools_onChange}"
+                                                        value="{!v.userRec.App_Previous_Monash_Institution__c}"
+                                                        disabled="{!v.isDisabled}" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div id="AccessAndEquityDomesticDivId"
+                                 style="">
+                                <div class="slds-p-vertical--x-large">
+                                    <h3 class="slds-section__title">Access and Equity Details</h3>
+                                    <div class="slds-text-body--regular">{!$Label.c.App_DoesThisApplyToYou}</div>
+                                    <!-- everyone sees the disability questions -->
+                                    <div class="slds-p-vertical--x-large">                                    
+                                        <div>
+                                            <span class="required ">*</span>Do you have a disability, mental health or ongoing medical condition that may affect your studies or may prevent you to undertake full-time study?
+                                        </div>
+                                        <ui:inputRadio aura:id="disabilityRadioButtonNoID" name="others" label="No " change="{!c.hideTheDisabilityText}" value="false"/>
+                                        <ui:inputRadio aura:id="disabilityRadioButtonYesID" name="others" label="Yes " change="{!c.showTheDisabilityText}" value="false"/>
+                                        <div id="disabilityTextDivId" class="hiddenDiv slds-box">
+                                            Our Disability Support Services can provide a range of study supports for students with disability. Although Monash may contact you to provide further information from a relevant health professional outlining the potential impact of your condition on your intended study program, we encourage you to visit https://www.monash.edu/disability <a target="_blank" href="https://www.monash.edu/disability">https://www.monash.edu/disability</a>.
+                                        </div>
+                                        <ul id="disabilityErrorMessageUlId" class="hiddenDiv has-error uiInputDefaultError uiInput uiInputSelect uiInput--default uiInput--select" data-aura-class="uiInputDefaultError uiInput uiInputSelect uiInput--default uiInput--select"><li class="form-element__help">Disability field is required</li></ul>
+                                    </div>
+                                    <!-- ATSI -->
+                                    <div class="{!if(v.showATSI==true, '', 'slds-hide')}">
+                                        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                            <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                                <div class="slds-form-element__control">
+                                                    <ui:inputSelect label="I am an Australian Aboriginal and/or Torres Strait Islander." 
+                                                                class="dynamic" aura:id="atsiOptions"
+                                                                labelClass="slds-form-element__label"
+                                                                change="{!c.ATSI_onChange}"
+                                                                required="true"
+                                                                value="{!v.selectedATSI}"
+                                                                disabled="{!v.isDisabled}" /> 
+                                                </div>
+                                            </div>
+                                        </div>                                
+                                        <div class="slds-p-vertical--x-large">
+                                            <div class="slds-text-title">
+                                                <aura:unescapedHtml value="{!$Label.c.App_AboriginalOrTSIHelp}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+
+                            <div id="AccessAndEquityInternationalDivId" 
+                                 class="{!if(v.DomesticApplicant!=true,'','hiddenDiv')}">                            
+                                
+                            </div>
+
+                            <div class="slds-p-vertical--x-large">
+                                <center>
+                                    <div class="slds-form-element">
+                                        <aura:if isTrue="{!v.homeRedirect}" >
+                                            <lightning:button label="Save and Continue"
+                                                              iconPosition="left"
+                                                              variant="brand"
+                                                              onclick="{!c.saveRecordAndContinue}"
+                                                              disabled="{!v.disableSave}" />
+                                            <aura:set attribute="else">
+                                                <lightning:button label="Save"
+                                                                  iconPosition="left"
+                                                                  variant="brand"
+                                                                  onclick="{!c.saveRecord}"
+                                                                  disabled="{!v.disableSave}" />
+                                            </aura:set>
+                                        </aura:if>
+
+                                        <lightning:button label="Cancel"
+                                                iconPosition="left"
+                                                class="slds-button slds-button--neutral"
+                                                onclick="{!c.cancelEdit}" />
+                                    </div>
+                                </center>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="{!if(v.isEdit, 'slds-hide', '')}">
+                <!-- READ ONLY VIEW -->
+                
+                <div class="padded-div">
+                    
+                    <!-- 2018-07-18 removing Update My Details button instead of disabling form -->
+                    <center>
+                        <aura:If isTrue="{!v.disableEditing}">
+                            <div class="slds-p-vertical--large">
+                                <div class="slds-text-body--regular">
+                                    <!--<aura:unescapedHtml value="{!$Label.c.App_ContactApplicantSupport}" />-->
+                                    <p>In order to change your personal details, please contact us on 1800-MONASH (1800 666274) from within Australia or +61 3 9902 6011 (9am - 5pm AEST) from outside Australia.</p>
+
+                                    <p>Alternatively, you can submit a request via <a href="https://connect.monash.edu/askmonash/s/contact">ask.monash.</a></p>
+                                </div>
+
+                            </div>
+                            <aura:set attribute="else">
+                                <aura:If isTrue="{!v.showButtons}">
+                                    <div class="slds-form-element slds-p-vertical--large">
+                                        <lightning:button label="Update My Details"
+                                                    iconPosition="left"
+                                                    variant="brand"
+                                                    onclick="{!c.editDetails}" />       
+                                    </div>
+                                </aura:If>                        
+                            </aura:set>
+                        </aura:If>
+                    </center>
+                    
+                    <br/>
+                    <div class="slds-p-bottom--x-large">
+                        <h3 class="slds-section__title">Personal Details</h3>
+                    </div>
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                        <!-- TITLE -->
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                            <div class="slds-text-title">Title</div>
+                            <aura:If isTrue="{!and(v.userRec.App_Salutation__c != '', v.userRec.App_Salutation__c != null)}">
+                                <div class="slds-text-body--regular">{!v.userRec.App_Salutation__c}</div>
+                                <aura:set attribute="else">
+                                    <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                </aura:set>
+                            </aura:If>
+                        </div>
+
+                        <!-- FIRST NAME -->
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                            <div class="slds-text-title">First Given Name</div>
+                            <aura:If isTrue="{!and(v.userRec.FirstName != '', v.userRec.FirstName != null)}">
+                                <div class="slds-text-body--regular">{!v.userRec.FirstName}</div>
+                                <aura:set attribute="else">
+                                    <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                </aura:set>
+                            </aura:If>
+                        </div>
+                        <!-- LAST NAME -->
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                            <div class="slds-text-title">Family Name</div>
+                            <aura:If isTrue="{!v.userRec.LastName != ''}">
+                                <div class="slds-text-body--regular">{!v.userRec.LastName}</div>
+                                <aura:set attribute="else">
+                                    <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                </aura:set>
+                            </aura:If>
+                        </div>
+                        <!-- OTHER GIVEN NAME -->
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                            <div class="slds-text-title">Middle Name</div>
+                            <aura:If isTrue="{!and(v.userRec.Other_Given_Name__c != null, v.userRec.Other_Given_Name__c != '')}">
+                                <div class="slds-text-body--regular">{!v.userRec.Other_Given_Name__c}</div>
+                                <aura:set attribute="else">
+                                    <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                </aura:set>
+                            </aura:If>
+                        </div>
+                    </div>
+
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                        <!-- GENDER -->
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                            <div class="slds-text-title">Gender</div>
+                            <aura:If isTrue="{!and(v.userRec.App_Gender__c != '', v.userRec.App_Gender__c != null)}">
+                                <div class="slds-text-body--regular">{!v.selectedGender}</div>
+                                <aura:set attribute="else">
+                                    <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                </aura:set>
+                            </aura:If>
+                        </div>
+                        <!-- BIRTHDAY -->
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                            <div class="slds-text-title">Date of Birth</div>
+                            <aura:If isTrue="{!and(v.userRec.App_Birthdate__c != '',v.userRec.App_Birthdate__c != '') }">
+                                <div class="slds-text-body--regular">
+                                    <ui:outputDate value="{!v.selectedDOB}" format="dd/MMM/yyyy"/>
+                                </div>
+                                <aura:set attribute="else">
+                                    <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                </aura:set>
+                            </aura:If>
+                        </div>
+                    </div>
+                    
+                    <div class="slds-p-vertical--x-large">
+                        <h3 class="slds-section__title">Contact Details</h3>
+                    </div>
+                    
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                        <!-- MOBILE PHONE-->
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                            <div class="slds-text-title">Mobile</div>
+                            <aura:If isTrue="{!and(v.userRec.MobilePhone != null, v.userRec.MobilePhone != '')}">
+                                <div class="slds-text-body--regular">{!v.userRec.MobilePhone}</div>
+                                <aura:set attribute="else">
+                                    <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                </aura:set>
+                            </aura:If>
+                        </div>
+
+                        <!-- HOME PHONE -->
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                            <div class="slds-text-title">Home Phone</div>
+                            <aura:If isTrue="{!and(v.userRec.App_Home_Phone__c != null, v.userRec.App_Home_Phone__c != '')}">
+                                <div class="slds-text-body--regular">{!v.userRec.App_Home_Phone__c}</div>
+                                <aura:set attribute="else">
+                                    <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                </aura:set>
+                            </aura:If>
+                        </div>
+                        
+                        <!-- PHONE -->
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                            <div class="slds-text-title">Work Phone</div>
+                            <aura:If isTrue="{!and(v.userRec.Phone != null, v.userRec.Phone != '')}">
+                                <div class="slds-text-body--regular">{!v.userRec.Phone}</div>
+                                <aura:set attribute="else">
+                                    <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                </aura:set>
+                            </aura:If>
+                        </div>
+                        
+                        <!-- EMAIL -->
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                            <div class="slds-text-title">Email</div>
+                            <aura:If isTrue="{!v.userRec.Email != ''}">
+                                <div class="slds-text-body--regular">{!v.userRec.Email}</div>
+                                <aura:set attribute="else">
+                                    <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                </aura:set>
+                            </aura:If>
+                        </div>
+                        
+                    </div>
+                    
+                    <div class="slds-p-vertical--x-large">
+                        <h3 class="slds-section__title">Address Details</h3>
+                    </div>
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                        <!-- POSTAL ADDRESS-->
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                            <div class="slds-text-title">Postal Address</div>
+                            <aura:If isTrue="{!v.userRec.Street != null}">
+                                <aura:If isTrue="{!v.isPostalAustralia == 'Yes'}">
+                                    <div class="slds-text-body--regular">
+                                        {!v.userRec.Street},&nbsp;{!v.userRec.City},&nbsp;{!v.userRec.State},&nbsp;{!v.userRec.PostalCode}
+                                    </div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-text-body--regular">
+                                            {!v.userRec.Street},&nbsp;{!if(and(v.userRec.City != '', v.userRec.City != null), v.userRec.City+',&nbsp;', '')}{!if(and(v.userRec.State != '', v.userRec.State != null), v.userRec.State+',&nbsp;', '')}{!v.userRec.Country}{!if(and(v.userRec.PostalCode != '', v.userRec.PostalCode != null), ',&nbsp;'+v.userRec.PostalCode, '')}
+                                        </div>
+                                    </aura:set>
+                                </aura:If>
+                                <aura:set attribute="else">
+                                    <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                </aura:set>
+                            </aura:If>
+                        </div>
+                    </div>
+                    
+                    <div class="slds-p-vertical--x-large">
+                        <h3 class="slds-section__title">Other Personal Details</h3>
+                    </div>
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                        <!-- CITIZENSHIP TYPE -->
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                            <div class="slds-text-title">Citizenship Type</div>
+                            <aura:If isTrue="{!and(v.CitizenshipType != null, v.CitizenshipType != '')}">
+                                <div class="slds-text-body--regular">{!v.CitizenshipType}</div>
+                                <aura:set attribute="else">
+                                    <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                </aura:set>
+                            </aura:If>
+                        </div>
+
+                        <!-- PREVIOUS SURNAME -->
+                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                            <div class="slds-text-title">Previous Family Name</div>
+                            <aura:If isTrue="{!v.userRec.App_Previous_Surname__c != null}">
+                                <div class="slds-text-body--regular">{!v.userRec.App_Previous_Surname__c}</div>
+                                <aura:set attribute="else">
+                                    <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                </aura:set>
+                            </aura:If>
+                        </div>
+
+                    </div>
+                    
+                    <aura:If isTrue="{!v.userRec.App_Previously_Studied_at_Monash__c}">
+                        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                            <!-- PREVIOUSLY STUDIED DETAILS (SHOWN ONLY IF IT HAS VALUE) -->
+                            <!-- PREVIOUS ID -->
+                            <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                <div class="slds-text-title">Previous Student Id</div>
+                                <aura:If isTrue="{!v.userRec.App_Previous_Monash_ID__c != ''}">
+                                    <div class="slds-text-body--regular">{!v.userRec.App_Previous_Monash_ID__c}</div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                    </aura:set>
+                                </aura:If>
+                            </div>
+                            
+                            <!-- PREVIOUS INSTITUTION -->
+                            <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                <div class="slds-text-title">Previous Institution</div>
+                                <aura:If isTrue="{!v.userRec.App_Previous_Monash_Institution__c != null}">
+                                    <div class="slds-text-body--regular">{!v.userRec.App_Previous_Monash_Institution__c}</div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                    </aura:set>
+                                </aura:If>
+                            </div>
+                        </div>
+                    </aura:If>
+                    
+                    <!-- aura:If isTrue="{!v.userRec.App_Citizenship__c == 'INTERNATIONAL'}" -->
+                    <!-- READ ONLY -->
+                    <div style="">
+                        <div id="ReadOnlyAccessAndEquityInternationalDivId">
+                            <div class="slds-p-vertical--x-large">
+                                <h3 class="slds-section__title">Access and Equity Details</h3>
+                                <div class="slds-text-body--regular">{!$Label.c.App_DoesThisApplyToYou}</div>
+                                <br/>
+                                <div>
+                                    Do you have a disability, mental health or ongoing medical condition that may affect your studies or may prevent you to undertake full-time study?
+                                </div>
+                                <ui:inputRadio aura:id="rOnlyRadButNoId" disabled="true" name="others2" label="No " value="false"/>
+                                <ui:inputRadio aura:id="rOnlyRadButYesId" disabled="true" name="others2" label="Yes " value="false"/>
+                                <div id="disabilityTextDivId" class="hiddenDiv slds-box">
+                                    Our Disability Support Services can provide a range of study supports for students with disability. Although Monash may contact you to provide further information from a relevant health professional outlining the potential impact of your condition on your intended study program, we encourage you to visit <a target="_blank" href="https://www.monash.edu/disability">https://www.monash.edu/disability</a>.
+                                </div>
+                                <br/>
+                                <!-- ATSI FIELD -->
+                                <div id="AccessAndEquityDomesticDivId" class="{!if(v.showATSI == true,'', 'slds-hide')}">
+                                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                        
+                                        <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+
+                                            <!--
+                                            <p>ATSI Select: {!v.userRec.App_Aboriginal_or_Torres_Strait_Islander__c}</p>
+                                            -->
+                                            <aura:renderIf isTrue="{!v.userRec.App_Aboriginal_or_Torres_Strait_Islander__c == 'Yes'}">
+                                                <div id="AccessAndEquityDomesticDivId">
+                                                    <div class="slds-text-title">I am an Australian Aboriginal and/or Torres Strait Islander</div>
+                                                </div>
+                                            </aura:renderIf>
+                                            <aura:if isTrue="{!v.userRec.App_Aboriginal_or_Torres_Strait_Islander__c == 'No'}">
+                                                <div class="slds-text-title">I am not an Australian Aboriginal and/or Torres Strait Islander</div>
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.userRec.App_Aboriginal_or_Torres_Strait_Islander__c == null}">
+                                                <div class="slds-text-title">Please update your details to specify if you are an Australian Aboriginal and/or Torres Strait Islander</div>
+                                            </aura:if>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div> 
+        </div>
+    </div>
+</aura:component>

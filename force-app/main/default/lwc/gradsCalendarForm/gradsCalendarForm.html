@@ -1,0 +1,40 @@
+<!--
+ - Created by tom on 12/3/2025.
+ -->
+
+<!-- Grads Calendar Form -->
+<template>
+
+    <lightning-spinner lwc:if={loading}></lightning-spinner>
+
+    <!-- Calendar Selector -->
+    <c-grads-calendar-selector
+            calendars={calendars}
+            selected-calendar-id={selectedCalendarId}
+            label="Calendar Selection"
+            onselect={handleCalendarSelect}
+            ondeselect={handleCalendarDeselect}
+            onviewapp={handleViewExistingApp}
+            onexistingapp={handleExistingAppNotification}
+    ></c-grads-calendar-selector>
+
+    <!-- Buttons -->
+    <div class="slds-text-align_center slds-m-bottom_medium">
+        <lightning-button
+                variant="neutral"
+                label="Cancel"
+                title="Cancel"
+                onclick={handleCancelButton}
+                class="slds-m-left_x-small"
+        ></lightning-button>
+        <lightning-button
+                variant="brand"
+                label="Change Calendar"
+                title="Submit"
+                disabled={submitDisabled}
+                onclick={handleSubmitButton}
+                class="slds-m-left_x-small"
+        ></lightning-button>
+    </div>
+
+</template>

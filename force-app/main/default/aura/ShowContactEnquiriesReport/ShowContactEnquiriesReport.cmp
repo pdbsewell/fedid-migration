@@ -1,0 +1,15 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global">
+    <lightning:navigation aura:id="navigationService"/>
+    <lightning:workspaceAPI aura:id="workspaceService" />
+	
+	<aura:attribute name="simpleContact" type="Object" description="A simplified view record object to be displayed"/>
+    <aura:attribute name="recordError" type="String" description="An error message bound to force:recordData"/>
+    <force:recordData aura:id="contactRecordData"
+        fields="Id,Name"
+        recordId="{!v.recordId}"
+        targetError="{!v.recordError}"
+        targetFields ="{!v.simpleContact}"
+        mode="VIEW"/>
+    
+	<lightning:button class="slds-size_1-of-1" label="View All Contact 	Enquiries" title="View Enquiries" onclick="{! c.openContactEnquiriesReport }"/>
+</aura:component>

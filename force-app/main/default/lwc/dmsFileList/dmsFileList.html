@@ -1,0 +1,53 @@
+<template>
+    <div class="slds-is-relative">
+        <template if:false={loaded}>
+            <!-- Spinner loader <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none slds-is-relative"> -->
+            <lightning-spinner alternative-text="Loading" variant="brand" size="small"></lightning-spinner>
+        </template>
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                <article class="slds-card slds-card_boundary">
+                    <div class="slds-card__header slds-grid slds-is-relative">
+                        <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                            <div class="slds-media__body">
+                                <span class="slds-card__header-title">
+                                    <lightning-layout vertical-align="center">
+                                        <!-- header icon -->                           
+                                        <template if:false={isOtherChecklist}>
+                                            <lightning-layout-item>
+                                                <lightning-icon icon-name="standard:file" size="medium"></lightning-icon> 
+                                            </lightning-layout-item>
+                                        </template>     
+                                        <!-- header text -->
+                                        <lightning-layout-item padding="horizontal-small">   
+                                            <span style="font-weight: bold;">Historical Offers ({documentCount})</span>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </span>
+                            </div>
+                        </header>
+                    </div>
+                </article>
+            </lightning-layout-item>
+            <template if:true={documentList}>
+                <template for:each={documentList} for:item='documentItem'>
+                    <lightning-layout-item size="12" small-device-size="12" medium-device-size="6" large-device-size="6" padding="around-small" key={documentItem}>
+                        <!-- Show ui for file card -->
+                        <c-dms-file-card
+                            document-detail={documentItem}>
+                        </c-dms-file-card>
+                    </lightning-layout-item>
+                </template>
+            </template>
+            <template if:false={documentList}>
+                <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="around-small">
+                    <div class="slds-illustration slds-illustration_small" aria-hidden="true">
+                        <div class="slds-text-color_weak">
+                            <h3 class="slds-text-heading_medium">{message}</h3>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+    </div>
+</template>

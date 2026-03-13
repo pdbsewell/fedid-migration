@@ -1,0 +1,46 @@
+<aura:component access="global" implements="forceCommunity:availableForAllPageTypes" description="Aura component called on my.app offer acceptance documents page">
+    <aura:attribute name="opportunityId" type="String" />
+    <aura:attribute name="title" type="String" access="global" />
+    <aura:attribute name="subTitle" type="String" access="global" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <!-- Checklist View -->    
+    <c:documentChecklistOfferAcceptanceCommunityList 
+        pageTitle="{!v.title}" 
+        pageSubTitle="{!v.subTitle}" 
+        opportunityId="{!v.opportunityId}" 
+        onfilepreview="{!c.handleFilePreview}" />  
+
+    <!-- hack to hide the chatter file previewer actions - please revisit when salesforce changes their class name for previewer actions -->
+    <aura:html tag="style">
+        button[title="View File Details"].previewerAction { 
+            display: none !important; 
+        }
+
+        button[title="Upload New Version"].previewerAction { 
+            display: none !important; 
+        }
+
+        button[title="Edit File Details"].previewerAction{ 
+            display: none !important; 
+        }
+
+        button[title="Delete"].previewerAction { 
+            display: none !important; 
+        }
+
+        a[title="Show More"].menuButton {
+            display: none !important; 
+        }
+
+        .contentRegion {
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+        }
+
+        .siteforceServiceBody .cCenterPanel {
+            max-width: unset !important;
+        }
+    </aura:html> 
+</aura:component>

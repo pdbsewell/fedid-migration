@@ -1,0 +1,50 @@
+<!-- Doi List Views Page -->
+<template>
+    <!-- Header -->
+    <div class="slds-page-header slds-m-bottom_small">
+        <div class="slds-page-header__row">
+            <div class="slds-page-header__col-title">
+                <div class="slds-media">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name="custom:custom96" size="medium"></lightning-icon>
+                    </div>
+                    <h1 class="title">
+                        Declaration of Interest Overview
+                    </h1>
+                </div>
+            </div>
+            <!-- Buttons -->
+            <div class="slds-page-header__col-actions">
+                <div class="slds-page-header__controls">
+                    <div class="slds-page-header__control">
+                        <ul class="slds-button-group-list">
+                            <li>
+                                <lightning-button-icon icon-name="utility:refresh"
+                                                       alternative-text="Refresh"
+                                                       variant="border-filled"
+                                                       class="slds-m-left_xx-small"
+                                                       title="Refresh"
+                                                       onclick={clickRefresh}>
+                                </lightning-button-icon>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- List Views -->
+    <div class="slds-grid slds-gutters_x-small">
+        <div class="slds-col slds-size_4-of-12">
+            <c-lightning-list-view list-view-name="DoI_Review_Declaration"></c-lightning-list-view>
+        </div>
+        <div class="slds-col slds-size_4-of-12">
+            <c-lightning-list-view list-view-name="DoI_Review_Management_Plan"></c-lightning-list-view>
+        </div>
+        <div class="slds-col slds-size_4-of-12">
+            <c-lightning-list-view list-view-name="DoI_Pending_Update"></c-lightning-list-view>
+        </div>
+    </div>
+
+</template>

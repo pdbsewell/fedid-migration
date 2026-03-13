@@ -1,0 +1,118 @@
+<template>
+    <!-- Loading spinner -->
+    <template if:true={isLoading}>
+        <lightning-spinner alternative-text="Loading" size="large" variant="brand"></lightning-spinner>
+    </template>
+
+    <template if:true={countryISO}>
+        <div class="slds-m-around_medium">
+            <!--c-address-search-e-d-q 
+                                country-i-s-o-passed={countryISO}
+                                manual-fields-hidden="true">
+            </c-address-search-e-d-q-->
+            <lightning-layout>
+                <!-- Address search area -->
+                <lightning-layout-item size="12">
+                    <div class="slds-clearfix">
+                        <div class="slds-float_left">
+                            <label class="slds-m-bottom_none" style={addressSearchLabelCss}>{addressSearchlabel}</label>
+                        </div>
+                    </div>
+
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <div class="slds-combobox_container">
+                                <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click" 
+                                        style="border: 1px solid lightgray;border-radius: 3px;"
+                                        aria-expanded="false" 
+                                        aria-haspopup="listbox" 
+                                        role="combobox">
+
+                                    <template if:false={selectedRecord}>
+                                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                            <input type="text" 
+                                                    oninput={handleInputChange}
+                                                    class="slds-input slds-combobox__input"
+                                                    id="combobox-id-2"
+                                                    aria-autocomplete="list" 
+                                                    aria-controls="listbox-id-1" 
+                                                    autocomplete="off"                            
+                                                    role="textbox" 
+                                                    placeholder={placeholder} 
+                                                    value={textvalue}
+                                                    disabled={isSearchDisabled}/>
+                                            <span class="slds-icon_container slds-icon-utility-search slds-input__icon slds-input__icon_right">
+                                                <template if:false={isClearIconHidden}>
+                                                    <lightning-icon title="Clear" size="x-small" class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default slds-p-right_large" icon-name="utility:clear" onclick={handleClearField}></lightning-icon>
+                                                </template>
+
+                                                <svg class="slds-icon slds-icon slds-icon_x-small slds-icon-text-default" aria-hidden="true">
+                                                    <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#search"></use>
+                                                </svg>
+                                            </span>
+                                        </div>
+                                        
+                                        <div style="background: white;" id="listbox-id-4" class="slds-dropdown_fluid" role="listbox">
+                                            <ul class="slds-listbox slds-listbox_vertical" role="presentation">
+                                                <template if:true={searchRecords} for:each={searchRecords} for:item="record" for:index="index">
+                                                    <li onclick={handleSelect} role="presentation" class="slds-listbox__item" data-record-id={record.addressKey} key={record.addressKey}>
+                                                        <div data-id={record.Id} class="slds-media slds-listbox__option slds-listbox__option_entity slds-listbox__option_has-meta" role="option">
+                                                            <template if:false={doNotShowLocationIcon}>
+                                                                <span class="slds-media__figure slds-listbox__option-icon">
+                                                                    <span class="slds-icon_container slds-icon-standard-account">
+                                                                        <lightning-icon icon-name="standard:account" alternative-text="Address" size="x-small" title="Address"></lightning-icon>
+                                                                    </span>
+                                                                </span>
+                                                            </template>
+                                                            <span class="slds-media__body">
+                                                                <span class="slds-listbox__option-text slds-listbox__option-text_entity">
+                                                                    {record.addressText}
+                                                                </span>
+                                                            </span>
+                                                        </div>
+                                                    </li>
+                                                </template>
+                                            </ul>
+                                        </div>
+                                    </template>
+
+                                    <template if:true={selectedRecord}>
+                                        <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_left-right" role="none">
+                                            <template if:false={doNotShowLocationIcon}>
+                                                <span class="slds-icon_container slds-icon-standard-account slds-combobox__input-entity-icon" title={objectLabel}>
+                                                    <svg class="slds-icon slds-icon_small" aria-hidden="true">
+                                                        <use xlink:href={ICON_URL}></use>
+                                                    </svg>
+                                                    <span class="slds-assistive-text">{objectLabel}</span>
+                                                </span>
+                                            </template>
+                                            <input type="text" 
+                                                    class="slds-input slds-combobox__input slds-combobox__input-value" 
+                                                    id="combobox-id-6"
+                                                    title={fullAddress}
+                                                    aria-controls="listbox-id-5"  
+                                                    disabled
+                                                    autocomplete="off" 
+                                                    role="textbox" 
+                                                    placeholder="Select an Option…" 
+                                                    readonly="" 
+                                                    value={selectedRecord.addressText}/>
+                                            <button class="slds-button slds-button_icon slds-input__icon slds-input__icon_right" 
+                                                title="Remove selected option" onclick={resetDetails}>
+                                                <svg class="slds-button__icon" aria-hidden="true">
+                                                    <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#close"></use>
+                                                </svg>
+                                                <span class="slds-assistive-text">Remove selected option</span>
+                                            </button>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </lightning-layout-item>
+
+            </lightning-layout>
+        </div>
+    </template>
+</template>

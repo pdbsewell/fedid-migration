@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Error_Updating_Volunteer_Hours_End_Date_field</name>
+        <label>Error Updating Volunteer Hours - End Date field</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Nebula__FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <elementReference>FlowName</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Error Updating Volunteer Hours - End Date field</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>scenario</name>
+            <value>
+                <stringValue>Voulnteer Hours : AS : Update Fields</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
+        <name>Error_Updating_Volunteer_Hours_Field_Start_Date_Time</name>
+        <label>Error Updating Volunteer Hours Field - Start Date Time</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Nebula__FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <elementReference>FlowName</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Error Updating Volunteer Hours Field - Start Date Time</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>scenario</name>
+            <value>
+                <elementReference>FlowName</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <constants>
+        <description>API Name of the flow</description>
+        <name>FlowName</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Volunteer_Hours_AS_Update_Fields</stringValue>
+        </value>
+    </constants>
+    <decisions>
+        <description>Is End Date Blank?</description>
+        <name>Is_End_Date_Blank</name>
+        <label>Is End Date Blank</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Is_Planned_Start_Date_Time_Blank</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>End_Date_is_blank</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.End_Date__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_End_Date</targetReference>
+            </connector>
+            <label>End Date is blank</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Is Planned Start Date Time Blank?</description>
+        <name>Is_Planned_Start_Date_Time_Blank</name>
+        <label>Is Planned Start Date Time Blank</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Planned_Start_Date_Time_is_blank</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Planned_Start_Date_Time__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Planned_Start_Date_Time</targetReference>
+            </connector>
+            <label>Planned Start Date Time is blank</label>
+        </rules>
+    </decisions>
+    <description>Update fields on Volunteer Hours - End Date, Planned Start Date Time and Contact &gt; Volunteer Status. Migrated from,
+1. Volunteer Hours - Set End Date WF.
+2. Volunteer Hours - Set Planned Start Date &amp; Time WF
+3. ascend Set Active Volunteer Status PB</description>
+    <environments>Default</environments>
+    <interviewLabel>Volunteer Hours : AS : Update Fields {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Volunteer Hours : AS : Update Fields</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Set End Date to Start Date</description>
+        <name>Update_End_Date</name>
+        <label>Update End Date</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Is_Planned_Start_Date_Time_Blank</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Updating_Volunteer_Hours_End_Date_field</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>End_Date__c</field>
+            <value>
+                <elementReference>$Record.Start_Date__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Update Planned Start Date Time field</description>
+        <name>Update_Planned_Start_Date_Time</name>
+        <label>Update Planned Start Date Time</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <faultConnector>
+            <targetReference>Error_Updating_Volunteer_Hours_Field_Start_Date_Time</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Planned_Start_Date_Time__c</field>
+            <value>
+                <elementReference>$Record.Shift_Start_Date_Time__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Is_End_Date_Blank</targetReference>
+        </connector>
+        <filterFormula>{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False</filterFormula>
+        <object>Volunteer_Hours__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

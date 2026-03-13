@@ -1,0 +1,324 @@
+<template>
+    <template if:false={myContact}>
+        <div id="loading" class="loading">
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                <center>
+                    <div class="loadingSpinner">
+                        <lightning-spinner alternative-text="Loading.." size="medium"></lightning-spinner>
+                    </div>
+                </center>
+            </div>
+        </div>
+    </template>
+
+    <template if:true={myContact}>
+        <div class="body">
+            <div class="wrapper">
+                <div class="container">
+                    <div class="header">
+                        <div class="header_img"></div>
+                        <h1>{label.header}</h1>
+                        <p class="p_intro">{label.subHeader}</p>
+                    </div><!-- header -->
+
+                    <div class="block_1">
+
+                        <div class="pads"></div>
+
+                        <!-- CHANNELS -->
+                        <div class="preference_block">
+                            <span class="pref_line"></span>
+                            <h3>{label.channelHeader}</h3>
+
+                            <!-- GLOBAL -->
+                            <template if:true={myConsents.commercial__c}>
+                                <div class="pretty">
+                                    <input data-identifier="Commercial_Opt_Out__c" type="checkbox" id="Commercial" name="Commercial" checked={commercialOptOut} onchange={handleChannelChange}/>
+                                    <div class="pretty-inner checkmark">
+                                        <label for="Email">
+                                            <span  class="profile_field_name" >{fieldToLabelMap.Commercial_Opt_Out__c.Display_Label__c}</span>
+                                            <br/>
+                                            <span class="profile_field_description">{fieldToLabelMap.Commercial_Opt_Out__c.Display_Description__c}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- EMAIL -->
+                            <template if:true={myConsents.email__c}>
+                                <div class="pretty">
+                                    <input data-identifier="HasOptedOutOfEmail" type="checkbox" id="Email" name="Email" checked={emailOptOut} onchange={handleChannelChange}/>
+                                    <div class="pretty-inner checkmark">
+                                        <label for="Email">
+                                            <span  class="profile_field_name" >{fieldToLabelMap.HasOptedOutOfEmail.Display_Label__c}</span>
+                                            <br/>
+                                            <span class="profile_field_description">{fieldToLabelMap.HasOptedOutOfEmail.Display_Description__c}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- SMS -->
+                            <template if:true={myConsents.sms__c}>
+                                <div class="pretty">
+                                    <input data-identifier="SMS_Opt_Out__c" type="checkbox" id="SMS" name="SMS" checked={smsOptOut} onchange={handleChannelChange}/>
+                                    <div class="pretty-inner checkmark">
+                                        <label for="SMS">
+                                            <span  class="profile_field_name" >{fieldToLabelMap.SMS_Opt_Out__c.Display_Label__c}</span>
+                                            <br/>
+                                            <span class="profile_field_description">{fieldToLabelMap.SMS_Opt_Out__c.Display_Description__c}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- PHONE -->
+                            <template if:true={myConsents.phone__c}>
+                                <div class="pretty">
+                                    <input data-identifier="DoNotCall" type="checkbox" id="Phone" name="Phone" checked={phoneOptOut}  onchange={handleChannelChange}/>
+                                    <div class="pretty-inner checkmark">
+                                        <label for="Phone">
+                                            <span  class="profile_field_name" >{fieldToLabelMap.DoNotCall.Display_Label__c}</span>
+                                            <br/>
+                                            <span class="profile_field_description">{fieldToLabelMap.DoNotCall.Display_Description__c}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- DIRECT MAIL -->
+                            <template if:true={myConsents.mail__c}>
+                                <div class="pretty">
+                                    <input data-identifier="Direct_Mail_Opt_Out__c" type="checkbox" id="Mail" name="Mail" checked={mailOptOut} onchange={handleChannelChange}/>
+                                    <div class="pretty-inner checkmark">
+                                        <label for="Mail">
+                                            <span  class="profile_field_name" >{fieldToLabelMap.Direct_Mail_Opt_Out__c.Display_Label__c}</span>
+                                            <br/>
+                                            <span class="profile_field_description">{fieldToLabelMap.Direct_Mail_Opt_Out__c.Display_Description__c}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </template>
+                            <div class="pads"></div>
+                        </div><!-- preference block -->
+
+                        <!-- END OF CHANNELS -->
+
+                        <!-- PREFERENCES -->
+                        <div class="preference_block">
+
+                            <span class="pref_line"></span>
+                            <h3>{label.preferenceHeader}</h3>
+
+                            <!-- CORPORATE -->
+                            <template if:true={myConsents.corporate__c}>
+                                <div class="pretty">
+                                    <input data-identifier="Monash_Corporate__c" type="checkbox" id="Corporate" name="Corporate" checked={myContact.Monash_Corporate__c} onchange={handlePreferenceChange}/>
+                                    <div class="pretty-inner checkmark">
+                                        <label for="Corporate">
+                                            <span  class="profile_field_name" >{fieldToLabelMap.Monash_Corporate__c.Display_Label__c}</span>
+                                            <br/>
+                                            <span class="profile_field_description">{fieldToLabelMap.Monash_Corporate__c.Display_Description__c}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- COMMUNITY -->
+                            <template if:true={myConsents.community__c}>
+                                <div class="pretty">
+                                    <input data-identifier="Monash_Community__c" type="checkbox" id="Community" name="Community" checked={myContact.Monash_Community__c} onchange={handlePreferenceChange}/>
+                                    <div class="pretty-inner checkmark">
+                                        <label for="Community">
+                                            <span  class="profile_field_name" >{fieldToLabelMap.Monash_Community__c.Display_Label__c}</span>
+                                            <br/>
+                                            <span class="profile_field_description">{fieldToLabelMap.Monash_Community__c.Display_Description__c}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- STUDY -->
+                            <template if:true={myConsents.study__c}>
+                                <div class="pretty">
+                                    <input data-identifier="Study_at_Monash__c" type="checkbox" id="Study" name="Study" checked={myContact.Study_at_Monash__c} onchange={handlePreferenceChange}/>
+                                    <div class="pretty-inner checkmark">
+                                        <label for="Study">
+                                            <span  class="profile_field_name" >{fieldToLabelMap.Study_at_Monash__c.Display_Label__c}</span>
+                                            <br/>
+                                            <span class="profile_field_description">{fieldToLabelMap.Study_at_Monash__c.Display_Description__c}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- VOLUNTEER -->
+                            <template if:true={myConsents.volunteer__c}>
+                                <div class="pretty">
+                                    <input data-identifier="Volunteer_at_Monash__c" type="checkbox" id="Volunteer" name="Volunteer" checked={myContact.Volunteer_at_Monash__c} onchange={handlePreferenceChange}/>
+                                    <div class="pretty-inner checkmark">
+                                        <label for="Volunteer">
+                                            <span  class="profile_field_name" >{fieldToLabelMap.Volunteer_at_Monash__c.Display_Label__c}</span>
+                                            <br/>
+                                            <span class="profile_field_description">{fieldToLabelMap.Volunteer_at_Monash__c.Display_Description__c}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- GIVING -->
+                            <template if:true={myConsents.giving__c}>
+                                <div class="pretty">
+                                    <input data-identifier="Giving_to_Monash__c" type="checkbox" id="Giving" name="Giving" checked={myContact.Giving_to_Monash__c} onchange={handlePreferenceChange}/>
+                                    <div class="pretty-inner checkmark">
+                                        <label for="Giving">
+                                            <span  class="profile_field_name" >{fieldToLabelMap.Giving_to_Monash__c.Display_Label__c}</span>
+                                            <br/>
+                                            <span class="profile_field_description">{fieldToLabelMap.Giving_to_Monash__c.Display_Description__c}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- PARTNER -->
+                            <template if:true={myConsents.partner__c}>
+                                <div class="pretty">
+                                    <input data-identifier="Partner_with_Monash__c" type="checkbox" id="Partner" name="Partner" checked={myContact.Partner_with_Monash__c} onchange={handlePreferenceChange}/>
+                                    <div class="pretty-inner checkmark">
+                                        <label for="Partner">
+                                            <span  class="profile_field_name" >{fieldToLabelMap.Partner_with_Monash__c.Display_Label__c}</span>
+                                            <br/>
+                                            <span class="profile_field_description">{fieldToLabelMap.Partner_with_Monash__c.Display_Description__c}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- WORK -->
+                            <template if:true={myConsents.work__c}>
+                                <div class="pretty">
+                                    <input data-identifier="Work_at_Monash__c" type="checkbox" id="Work" name="Work" checked={myContact.Work_at_Monash__c} onchange={handlePreferenceChange}/>
+                                    <div class="pretty-inner checkmark">
+                                        <label for="Work">
+                                            <span  class="profile_field_name" >{fieldToLabelMap.Work_at_Monash__c.Display_Label__c}</span>
+                                            <br/>
+                                            <span class="profile_field_description">{fieldToLabelMap.Work_at_Monash__c.Display_Description__c}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </template>
+
+                            <!-- RESEARCH -->
+                            <template if:true={myConsents.research__c}>
+                                <div class="pretty">
+                                    <input data-identifier="Research_with_Monash__c" type="checkbox" id="Research" name="Research" checked={myContact.Research_with_Monash__c} onchange={handlePreferenceChange}/>
+                                    <div class="pretty-inner checkmark">
+                                        <label for="Research">
+                                            <span  class="profile_field_name" >{fieldToLabelMap.Research_with_Monash__c.Display_Label__c}</span>
+                                            <br/>
+                                            <span class="profile_field_description">{fieldToLabelMap.Research_with_Monash__c.Display_Description__c}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </template>
+                            <div class="pads"></div>
+                        </div><!-- preference block -->
+                        <!-- END OF PREFERENCES -->
+                        <!-- SUBSCRIPTIONS -->
+                        <template if:true={mySubscriptions}>
+                            <div class="preference_block">
+                                <span class="pref_line"></span>
+                                <h3>Subscription Preference</h3>
+
+                                <template for:each={mySubscriptions} for:item="row">
+                                    <div  key={row.Id} class="pretty">
+                                        <input data-identifier="Active__c" id={row.Id} name={row.Id} key={row.Id} type="checkbox" checked={row.Active__c} onchange={handleSubscriptionChange}/>
+                                        <div class="pretty-inner checkmark">
+                                            <label for={row.Id}>
+                                                <span  class="profile_field_name" >{row.Campaign.External_Label__c}</span>
+                                                <br/>
+                                                <span class="profile_field_description">{row.Campaign.External_Description__c}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </template>
+                                <div class="pads"></div>
+                            </div>
+                        </template>
+                        <!-- END OF SUBSCRIPTIONS -->
+                        <button type="button" class="global_btn" ><a target="_blank" class="primary_btn" onclick={openModal}>Save</a></button>
+                        <div class="pads"></div>
+                    </div><!-- block 1 -->
+                </div><!-- container -->
+            </div><!-- wrapper -->
+        </div>
+        <template if:true={openModalBox}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div id="myModal" class="modal">
+                    <!-- Modal content -->
+                    <div class="modal-content">
+                        <div class="modal-header-container">
+                            <template if:true={hasOptOutFlag}>
+                                <div class="close"><span class="close_x" onclick={closeModal}>X</span></div>
+                                <span id="modal-heading-01" class="modal-header">{headerMessage}</span>
+                            </template>
+                        </div>
+                        <div class="modal-body-container">
+                            <template if:true={hasOptOutFlag}>
+                                <h5>{label.modalSubHeaderOptOut}</h5>
+                                <div class="pretty-modal">
+                                    <span class="pref_line"></span>
+                                    <div class="pretty-inner">
+                                        <template if:true={contactHasOptOut}>
+                                            <h4>{label.modalOptOutChannels}</h4>
+                                            <template for:each={listContactOptOuts} for:item="row">
+                                                <div key={row} class="pretty">
+                                                    <div class="pretty-inner">
+                                                        <span class="modal_field_name">{row}</span>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </template>
+                                        <template if:true={subHasOptOut}>
+                                            <h4>{label.modalOptOutSubscriptions}</h4>
+                                            <template for:each={listSubOptOuts} for:item="row">
+                                                <div key={row} class="pretty">
+                                                    <div class="pretty-inner">
+                                                        <span class="modal_field_name">{row}</span>
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </template>
+                                    </div>
+                                    <h6>{label.modalOptOutReasonHeader}</h6>
+                                    <div class="pretty-reason">
+                                        <select id="reason" name="reason" class="reason-list" onchange={handleOptOutReason}>
+                                            <template for:each={reasons} for:item="row">
+                                                <option class="modal_field_name" value={row} key={row}>{row}</option>
+                                            </template>
+                                        </select>
+                                    </div>
+                                    <div class="buttons">
+                                        <button type="button" class="modal_btn"><a target="_blank" class="primary_btn" onclick={handleSave}>Proceed</a></button>
+                                        <button type="Cancel" class="modal_btn"><a target="_blank" class="cancel_btn" onclick={closeModal}>Cancel</a></button>
+                                    </div>
+                                    <div class="pads"></div>
+                                </div>
+                                <div class="pads"></div>
+                            </template>
+                            <template if:false={hasOptOutFlag}>
+                                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                                    <center>
+                                        <div class="thisSpinner">
+                                            <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                                        </div>
+                                    </center>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </template>
+    </template>
+</template>

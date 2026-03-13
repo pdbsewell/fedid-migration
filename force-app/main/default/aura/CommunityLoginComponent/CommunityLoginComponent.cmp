@@ -1,0 +1,45 @@
+<aura:component implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" controller="LightningUpdateEnquiryController">
+    <ltng:require scripts="{!$Resource.jQuery321}" afterScriptsLoaded="{!c.init}"/>
+  <!--  <ltng:require scripts="{!$Resource.SLDS231}"/> -->
+    <aura:attribute name="isOpen" type="boolean" default="false"/>
+    <aura:attribute name="isLoggedIn" type="boolean"/>    
+    <aura:attribute name="description" type="String"/>  
+    <aura:attribute name="URLSetting" type="CustomURLs__c"/>  
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <c:Spinner type="bubbles" width="64" height="64" color="blue" show="{!v.showSpinner}" />   
+    
+    <aura:if isTrue="{!v.isOpen}">  
+        <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+            <div class="slds-modal__container" aura:id="block">
+                <div class="slds-modal__header">
+                    <button class="slds-button slds-modal__close slds-button--icon-inverse" title="Close" onclick="{!c.closeModel}">
+                        X    
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                  
+                        <p id="header99" class="login-text">Login</p>
+                  
+                    
+                </div>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 slds-p-horizontal--small">
+                            <p class="login-desc">Please login to ask us a question or review a previous enquiry</p>
+                        </div>    
+                        <div class="slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-size_12-of-12 slds-p-horizontal--small slds-p-top--large">
+                            <button class="slds-button slds-button--brand btn-custom" onclick="{!c.studentRedirect}">I am a current student or staff</button>
+                        </div>
+                         <div class="slds-large-size_6-of-12 slds-medium-size_6-of-12 slds-size_12-of-12 slds-p-horizontal--small slds-p-top--large">
+                            <button class="slds-button slds-button--brand btn-custom" onclick="{!c.externalRedirect}">I am a visitor or past student</button>
+                        </div>
+                        
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+           
+        <div class="slds-backdrop slds-backdrop--open"></div>
+    </aura:if>  
+    
+</aura:component>

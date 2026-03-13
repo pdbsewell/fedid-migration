@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata" fqn="documentChecklistAssessmentInternalItem">
+    <apiVersion>62.0</apiVersion>
+    <description>UI for checklist item</description>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property label="File Column Count" name="fileColumnCount" type="String" default="2" datasource="1,2" description="Columns count for the files shown by the checklist"/>
+            <property label="View Type" name="viewType" type="String" datasource="Document Checklist,Contact Qualification,Application Course Preference,Age,Visa" description="Object page where the component is shown"/>
+            <objects>
+                <object>Application__c</object>
+                <object>Document_Checklist__c</object>
+                <object>Contact_Qualification__c</object>
+            </objects>
+        </targetConfig>
+    </targetConfigs>
+    <isExposed>true</isExposed>
+</LightningComponentBundle>

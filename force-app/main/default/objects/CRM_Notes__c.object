@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>CRM_Note_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>true</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Custom Note object to store admissions related Notes</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>Private</externalSharingModel>
+    <fields>
+        <fullName>Application_Course_Preference__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Lookup to ACP</description>
+        <label>Application Course Preference</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>$Source.Contact__c</field>
+                <operation>equals</operation>
+                <valueField>Application_Course_Preference__c.Applicant__c</valueField>
+            </filterItems>
+            <filterItems>
+                <field>$Source.Application__c</field>
+                <operation>equals</operation>
+                <valueField>Application_Course_Preference__c.Application__c</valueField>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Application_Course_Preference__c</referenceTo>
+        <relationshipLabel>CRM Notes</relationshipLabel>
+        <relationshipName>CRM_Notes</relationshipName>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Application__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Lookup to Application</description>
+        <label>Application</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>$Source.Contact__c</field>
+                <operation>equals</operation>
+                <valueField>Application__c.Applicant__c</valueField>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Application__c</referenceTo>
+        <relationshipLabel>CRM Notes</relationshipLabel>
+        <relationshipName>CRM_Notes</relationshipName>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Callista_Error__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Stores integration errors from Callista</description>
+        <label>Callista Error</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Callista_Ref_Id__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <caseSensitive>false</caseSensitive>
+        <description>Stores Callista Reference Id</description>
+        <externalId>true</externalId>
+        <label>Callista Ref Id</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Callista_Update_By__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field to store Callista Update By during data migration</description>
+        <externalId>false</externalId>
+        <label>Callista Update By</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Callista_Update_On__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field to store Callista Update On during data migration</description>
+        <externalId>false</externalId>
+        <label>Callista Update On</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Contact__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Lookup to Contact (Applicant)</description>
+        <label>Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>CRM Notes</relationshipLabel>
+        <relationshipName>CRM_Notes</relationshipName>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Text__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Text body of the Note</description>
+        <label>Text</label>
+        <length>5000</length>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>10</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Type__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Type of Note
+
+- a subset of note types from Callista relevant to assessments</description>
+        <label>Type</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>CENTRAL</fullName>
+                    <default>false</default>
+                    <label>CENTRAL ADMINISTRATION SERVICE NOTES</label>
+                </value>
+                <value>
+                    <fullName>CREDIT</fullName>
+                    <default>false</default>
+                    <label>FROM ONLINE CREDIT APP</label>
+                </value>
+                <value>
+                    <fullName>ESOS</fullName>
+                    <default>false</default>
+                    <label>ESOS INFORMATION</label>
+                </value>
+                <value>
+                    <fullName>FACULTY</fullName>
+                    <default>false</default>
+                    <label>FACULTY NOTES</label>
+                </value>
+                <value>
+                    <fullName>FEE-REFUND</fullName>
+                    <default>false</default>
+                    <label>FEE REFUND DETAILS</label>
+                </value>
+                <value>
+                    <fullName>FEES UNIT</fullName>
+                    <default>false</default>
+                    <label>FEES UNIT, STUDENT NOTES</label>
+                </value>
+                <value>
+                    <fullName>INTPAYMENT</fullName>
+                    <default>false</default>
+                    <label>INTERNATIONAL STUDENT OFFER ACCETANCES PAYMENT</label>
+                </value>
+                <value>
+                    <fullName>QL-SUMMARY</fullName>
+                    <default>false</default>
+                    <label>SUMMARY OF ACADEMIC &amp; ENGLISH QUALIFICATION &amp; CREDIT GRANTED</label>
+                </value>
+                <value>
+                    <fullName>SCHOLARSHP</fullName>
+                    <default>false</default>
+                    <label>SCHOLARSHIP</label>
+                </value>
+                <value>
+                    <fullName>STDY-GRNT</fullName>
+                    <default>false</default>
+                    <label>STUDY GRANT</label>
+                </value>
+                <value>
+                    <fullName>VTAC-IN-CR</fullName>
+                    <default>false</default>
+                    <label>VTAC-IN-CR</label>
+                </value>
+                <value>
+                    <fullName>VTAC-RMRKS</fullName>
+                    <default>false</default>
+                    <label>VTAC-RMRKS</label>
+                </value>
+                <value>
+                    <fullName>VTAC-IN-RM</fullName>
+                    <default>false</default>
+                    <label>VTAC-IN-RM</label>
+                </value>
+                <value>
+                    <fullName>GTE</fullName>
+                    <default>false</default>
+                    <label>GENUINE TEMPORARY ENTRANCE ADMISSION DETAILS</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>CRM Notes</label>
+    <nameField>
+        <label>CRM Notes Name</label>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>CRM Notes</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>Private</sharingModel>
+    <validationRules>
+        <fullName>Validate_INTPAYMENT_text_format</fullName>
+        <active>true</active>
+        <description>INTPAYMENT text format should always be - 
+
+Package Deposit: $1000
+OSHC: $500
+OSHC Sponsored: Y/N
+Tuition Sponsored: Y/N</description>
+        <errorConditionFormula>AND(
+  TEXT( Type__c ) = &apos;INTPAYMENT&apos;,
+  NOT(
+    REGEX(
+      Text__c,
+      &quot;^Package Deposit: \\$\\d+\\r?\\nOSHC: \\$\\d+\\r?\\nOSHC Sponsored: [YN]\\r?\\nTuition Sponsored: [YN]$&quot;
+    )
+  )
+)
+&amp;&amp; 
+NOT($Setup.Bypass_Mute_Request__c.Bypass_All_Validation_Rules__c)</errorConditionFormula>
+        <errorDisplayField>Text__c</errorDisplayField>
+        <errorMessage>Please check the format of the text.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Validate_STDYGRNT_text_format</fullName>
+        <active>true</active>
+        <description>ONLY record Alumni Discount or TNE discounts codes here, format as follows YYYY/1-10%AlumniDiscount or YYYY-TNE-5000X1</description>
+        <errorConditionFormula>AND(
+TEXT( Type__c ) = &apos;STDY-GRNT&apos;,
+NOT(
+REGEX(Text__c, &quot;^[0-9]{4}.*$&quot;)
+)
+)
+&amp;&amp;
+NOT($Setup.Bypass_Mute_Request__c.Bypass_All_Validation_Rules__c)</errorConditionFormula>
+        <errorDisplayField>Text__c</errorDisplayField>
+        <errorMessage>ONLY record Alumni Discount or TNE discounts codes here, format as follows YYYY/1-10%AlumniDiscount or YYYY-TNE-5000X1</errorMessage>
+    </validationRules>
+    <visibility>Public</visibility>
+</CustomObject>

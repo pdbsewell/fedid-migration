@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <description>To Store System Data Owner details</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>ByPassUser__c</fullName>
+        <description>To capture the user detail for which the updateOwner Logic is bypassed</description>
+        <externalId>false</externalId>
+        <label>ByPassUser</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>FederationId__c</fullName>
+        <description>To Store System Data Owner details of Contact and Account object. It is used in Apex code to ensure affiliated contacts are owned by a system data owner (rather than an individual user)</description>
+        <externalId>false</externalId>
+        <label>FederationId</label>
+        <length>20</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Object__c</fullName>
+        <description>To store the object name</description>
+        <externalId>false</externalId>
+        <label>Object</label>
+        <length>20</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ValidRecordTypes__c</fullName>
+        <description>Valid record types of affiliation for which update owner to system data owner logic should work</description>
+        <externalId>false</externalId>
+        <label>ValidRecordTypes</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>SystemDataOwnersSetting</label>
+    <visibility>Public</visibility>
+</CustomObject>

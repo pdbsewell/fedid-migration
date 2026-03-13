@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Custom metadata to purge records that are no longer needed in Production.</description>
+    <fields>
+        <fullName>Active__c</fullName>
+        <defaultValue>false</defaultValue>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Active</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>BatchSize__c</fullName>
+        <description>Batch size for the purge record</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>BatchSize</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Filter_By_Date__c</fullName>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Filter By Date</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>CreatedDate</fullName>
+                    <default>true</default>
+                    <label>Created Date</label>
+                </value>
+                <value>
+                    <fullName>LastModifiedDate</fullName>
+                    <default>false</default>
+                    <label>Last Modified Date</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Filter_Criteria__c</fullName>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Filter Criteria</label>
+        <length>32768</length>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Limit__c</fullName>
+        <description>Limited applied to the SOQL prior to the delete</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Limit</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Object__c</fullName>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Object</label>
+        <required>true</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Job_Control__c</fullName>
+                    <default>false</default>
+                    <label>Job Control</label>
+                </value>
+                <value>
+                    <fullName>PE_Business_Exception__c</fullName>
+                    <default>false</default>
+                    <label>Business Exceptions</label>
+                </value>
+                <value>
+                    <fullName>Exception_Log__c</fullName>
+                    <default>false</default>
+                    <label>Exception Logs</label>
+                </value>
+                <value>
+                    <fullName>Stg_CRICOS_Code__c</fullName>
+                    <default>false</default>
+                    <label>CRICOS Staging</label>
+                </value>
+                <value>
+                    <fullName>Stg_Calendar__c</fullName>
+                    <default>false</default>
+                    <label>Calendar Staging</label>
+                </value>
+                <value>
+                    <fullName>Stg_Calendar_Dates__c</fullName>
+                    <default>false</default>
+                    <label>Calendar Dates Staging</label>
+                </value>
+                <value>
+                    <fullName>Stg_Course__c</fullName>
+                    <default>false</default>
+                    <label>Course Staging</label>
+                </value>
+                <value>
+                    <fullName>Channel__c</fullName>
+                    <default>false</default>
+                    <label>Channel Staging</label>
+                </value>
+                <value>
+                    <fullName>Encumbrance__c</fullName>
+                    <default>false</default>
+                    <label>Encumbrances</label>
+                </value>
+                <value>
+                    <fullName>Contact</fullName>
+                    <default>false</default>
+                    <label>Contacts</label>
+                </value>
+                <value>
+                    <fullName>Unit_Set_Attempt__c</fullName>
+                    <default>false</default>
+                    <label>Unit Set Attempts</label>
+                </value>
+                <value>
+                    <fullName>Unit_Attempt__c</fullName>
+                    <default>false</default>
+                    <label>Unit Attempts</label>
+                </value>
+                <value>
+                    <fullName>Course_Attempt__c</fullName>
+                    <default>false</default>
+                    <label>Course Attempts</label>
+                </value>
+                <value>
+                    <fullName>contact_qualification__c</fullName>
+                    <default>false</default>
+                    <label>Contact Qualifications</label>
+                </value>
+                <value>
+                    <fullName>DuplicateRecordSet</fullName>
+                    <default>false</default>
+                    <label>Duplicate Record Sets</label>
+                </value>
+                <value>
+                    <fullName>Case</fullName>
+                    <default>false</default>
+                    <label>Enquiries</label>
+                </value>
+                <value>
+                    <fullName>EmailMessage</fullName>
+                    <default>false</default>
+                    <label>EmailMessage</label>
+                </value>
+                <value>
+                    <fullName>ucinn_ascendv2__Automated_Process_Log__c</fullName>
+                    <default>false</default>
+                    <label>Ascend Automated Process Logs</label>
+                </value>
+                <value>
+                    <fullName>ucinn_ascendv2__Log__c</fullName>
+                    <default>false</default>
+                    <label>Ascend Logs</label>
+                </value>
+                <value>
+                    <fullName>Address__c</fullName>
+                    <default>false</default>
+                    <label>Addresses</label>
+                </value>
+                <value>
+                    <fullName>Phone__c</fullName>
+                    <default>false</default>
+                    <label>Phones</label>
+                </value>
+                <value>
+                    <fullName>Name__c</fullName>
+                    <default>false</default>
+                    <label>Names</label>
+                </value>
+                <value>
+                    <fullName>Email__c</fullName>
+                    <default>false</default>
+                    <label>Emails</label>
+                </value>
+                <value>
+                    <fullName>Campaign</fullName>
+                    <default>false</default>
+                    <label>Campaign</label>
+                </value>
+                <value>
+                    <fullName>Application__c</fullName>
+                    <default>false</default>
+                    <label>Applications</label>
+                </value>
+                <value>
+                    <fullName>Chat_356_Log__c</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Chat_356_Log__c</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Older_than__c</fullName>
+        <defaultValue>1</defaultValue>
+        <description>Older than is the number of days - To be used in the query to delete all the records before that time</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>In Days</inlineHelpText>
+        <label>Older than</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Order_By__c</fullName>
+        <description>Prioritise records base on the order</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Order By</label>
+        <length>100</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Purge Records</label>
+    <listViews>
+        <fullName>Purge_Records</fullName>
+        <columns>DeveloperName</columns>
+        <columns>MasterLabel</columns>
+        <columns>Active__c</columns>
+        <columns>Object__c</columns>
+        <columns>Filter_By_Date__c</columns>
+        <columns>Filter_Criteria__c</columns>
+        <columns>Older_than__c</columns>
+        <columns>Order_By__c</columns>
+        <columns>Limit__c</columns>
+        <columns>BatchSize__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>Purge Records</label>
+        <language>en_US</language>
+    </listViews>
+    <pluralLabel>Purge Records</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

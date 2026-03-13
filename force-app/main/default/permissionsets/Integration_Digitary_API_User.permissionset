@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <classAccesses>
+        <apexClass>ApplicationDocumentContentWS</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ApplicationDocumentWS</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>Integration_Digitary</name>
+    </customPermissions>
+    <description>Grant access only to the resources necessary for Digitary Integration. This permission set is only available to users with &apos;Salesforce Integration&apos; user license. Note that this license does not have access to standard objects.</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Integration - Digitary API User</label>
+    <license>Salesforce Integration</license>
+</PermissionSet>

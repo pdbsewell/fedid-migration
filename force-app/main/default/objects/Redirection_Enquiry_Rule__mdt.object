@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Custom metadata used to automatically create an enquiry whenever a system address has been included on the ToAddress or CcAddress of an outbound email</description>
+    <fields>
+        <fullName>Active__c</fullName>
+        <defaultValue>false</defaultValue>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Active</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Clear_Related_Contact__c</fullName>
+        <defaultValue>false</defaultValue>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Clear Related Contact</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Enquiry_Redirection_Key__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Key compared with the Redirection Key on case. Cloning will occur if allowed and Key does not match.</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>If populated, this rule will support same record-type redirection. This value will be compared with the Redirection Key field on the original enquiry and trigger cloning event when a mismatch is found.</inlineHelpText>
+        <label>Enquiry Redirection Key</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>From_Enquiry_Record_Type__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>From Enquiry Record Type</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Internal_Comment_to_clone__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Internal comment posted on Clone/Redirected enquiry</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>{0} = original case number, {1} = original record type, {2} = clone case number, {3} = clone record type</inlineHelpText>
+        <label>Internal Comment to clone</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Internal_Comment_to_original__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Internal comment posted on original enquiry</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>{0} = original case number, {1} = original record type, {2} = clone case number, {3} = clone record type</inlineHelpText>
+        <label>Internal Comment to original</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Mark_original_as_parent__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>Original enquiries are marked as the parent of new redirected enquiries</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Mark original as parent</label>
+        <securityClassification>Internal</securityClassification>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Redirected_Enquiry_Type__c</fullName>
+        <description>Enquiry Type value to be set on cloned enquiry</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Redirected Enquiry Type</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Redirected_Group__c</fullName>
+        <description>Group value to be set on cloned enquiry</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Redirected Group</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Redirected_Origin__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Redirected Origin</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Redirected_Priority__c</fullName>
+        <description>Priority value to be set on cloned enquiry</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Redirected Priority</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Redirected_Queue__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Redirected Queue</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Redirected_Status__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Redirected Status</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Redirected_Student_Type__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Redirected Student Type</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Target_Email_Address__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Target Email Address</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Target_Enquiry_Record_Type__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Target Enquiry Record Type</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Target_Faculty__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Target Faculty</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Use_Assignment_Rules__c</fullName>
+        <defaultValue>true</defaultValue>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Checkbox to enable/disable running of Case Assignment rules</inlineHelpText>
+        <label>Use Assignment Rules</label>
+        <securityClassification>Internal</securityClassification>
+        <type>Checkbox</type>
+    </fields>
+    <label>Redirection Enquiry Rule</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>Active__c</columns>
+        <columns>MasterLabel</columns>
+        <columns>From_Enquiry_Record_Type__c</columns>
+        <columns>Target_Enquiry_Record_Type__c</columns>
+        <columns>Target_Faculty__c</columns>
+        <columns>Target_Email_Address__c</columns>
+        <columns>Redirected_Origin__c</columns>
+        <columns>Redirected_Queue__c</columns>
+        <columns>Redirected_Status__c</columns>
+        <columns>Redirected_Student_Type__c</columns>
+        <columns>Clear_Related_Contact__c</columns>
+        <columns>Use_Assignment_Rules__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+        <language>en_US</language>
+    </listViews>
+    <pluralLabel>Redirection Enquiry Rule</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

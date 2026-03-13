@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Outbound ACP event which will be published on update of Callista_Unique_Key_ADM__c on ACP</description>
+    <eventType>HighVolume</eventType>
+    <fields>
+        <fullName>CRM_Updates_Ready__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>A flag indicating if transfer job has run for the Applicant and ACP is ready for any updates from the Client which can then be passed on to Callista successfully.</description>
+        <isFilteringDisabled>false</isFilteringDisabled>
+        <isNameField>false</isNameField>
+        <isSortingDisabled>false</isSortingDisabled>
+        <label>CRM Updates Ready?</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Workflow_Response_Message__c</fullName>
+        <description>Response details from the integration destination</description>
+        <isFilteringDisabled>false</isFilteringDisabled>
+        <isNameField>false</isNameField>
+        <isSortingDisabled>false</isSortingDisabled>
+        <label>Workflow Response Message</label>
+        <length>32768</length>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Workflow_Status__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Status to indicate outcome of Transfer Job/ACP updates</description>
+        <isFilteringDisabled>false</isFilteringDisabled>
+        <isNameField>false</isNameField>
+        <isSortingDisabled>false</isSortingDisabled>
+        <label>Workflow Status</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Workflow_Type__c</fullName>
+        <description>Field to indicate whether it is for Transfer Job/ACP update</description>
+        <externalId>false</externalId>
+        <isFilteringDisabled>false</isFilteringDisabled>
+        <isNameField>false</isNameField>
+        <isSortingDisabled>false</isSortingDisabled>
+        <label>Workflow Type</label>
+        <length>25</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>crmApplicantId__c</fullName>
+        <description>Reference field which is sent back in the response to the client. This field is sent with the Platform event to identify the contact on the client&apos;s side.</description>
+        <externalId>false</externalId>
+        <isFilteringDisabled>false</isFilteringDisabled>
+        <isNameField>false</isNameField>
+        <isSortingDisabled>false</isSortingDisabled>
+        <label>crmApplicantId</label>
+        <length>25</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>crmApplicationId__c</fullName>
+        <description>CRM Application id(name) to tie CRM and OES</description>
+        <externalId>false</externalId>
+        <isFilteringDisabled>false</isFilteringDisabled>
+        <isNameField>false</isNameField>
+        <isSortingDisabled>false</isSortingDisabled>
+        <label>crmApplicationId</label>
+        <length>25</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>externalReferenceId__c</fullName>
+        <description>Reference field which is sent back in the response.to the client. This field is sent with the Platform event to identify the Application on the client&apos;s side.</description>
+        <externalId>false</externalId>
+        <isFilteringDisabled>false</isFilteringDisabled>
+        <isNameField>false</isNameField>
+        <isSortingDisabled>false</isSortingDisabled>
+        <label>externalReferenceId</label>
+        <length>25</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>ObdACP</label>
+    <pluralLabel>ObdACP</pluralLabel>
+    <publishBehavior>PublishImmediately</publishBehavior>
+</CustomObject>

@@ -1,0 +1,12 @@
+<template>
+    <!--<canvas id="imageCanvas" style="border:1px solid #d3d3d3;"></canvas>
+    <lightning-button label="Neutral" title="Non-primary action" onclick={handleClick} class="slds-m-left_x-small"></lightning-button>-->
+    <template if:false={isHtmlFile}>
+        <iframe class="fileFrame" src={fileUrl} style="height: 100vh;" onload={frameLoad}></iframe>
+    </template>
+    <template if:true={isHtmlFile}>
+        <div class="slds-p-around_medium">
+            <lightning-formatted-rich-text value={fileBlob}></lightning-formatted-rich-text>
+        </div>
+    </template>
+</template>

@@ -1,0 +1,96 @@
+<template>
+    <lightning-card title="Contact Team" icon-name="standard:team_member">
+        <template if:true={isEdited}>
+            <lightning-button label="Add" icon-name="utility:add" slot="actions" onclick={add}></lightning-button>&nbsp;
+            <template if:true={noSave}> 
+                <lightning-button style="margin-left: 4px;" label={toggleSaveLabel} icon-name="utility:save" slot="actions" onclick={handleSave}></lightning-button>
+            </template>&nbsp;
+            <lightning-button label="Cancel" style="margin-left: 4px;" icon-name="utility:cancel_file_request" slot="actions" onclick={handleCancel}> </lightning-button>
+        </template>
+        <template if:false={isEdited}>
+            <lightning-button label=Create/Update icon-name="utility:edit" slot="actions" onclick={onDoubleClickEdit}></lightning-button>
+        </template>
+        <div class="slds-p-around_x-small">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                    <thead>
+                        <tr class="">
+                            <th class="slds-size_3-of-10" scope="col">
+                                <div class="slds-truncate" title="TEAM ROLe">TEAM ROLE</div>
+                            </th>
+                            <th class="slds-size_3-of-10" scope="col">
+                                <div class="slds-truncate" title="User">USER</div> 
+                            </th>
+                            <th class="slds-size_1-of-10" scope="col">
+                                <div class="slds-truncate" title="ACTION">ACTION</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each = {myList} for:item = "item" for:index="indexVar">
+                            <tr key={item.key} class="slds-hint-parent">
+                                <td class="slds-size_3-of-10" data-label="TeamMemberRole" >
+                                    <div title="TeamMemberRole">
+                                        <template if:false={isEdited}>{item.Role__c}</template>
+                                        <template if:true={isEdited}>
+                                            <div class="slds-m-bottom_medium"> 
+                                                <template if:true={item.picklistdefaultvalue}>
+                                                    <lightning-combobox 
+                                                        data-index={indexVar}
+                                                        name={item.Index}
+                                                        label=""
+                                                        value={item.Role__c}
+                                                        placeholder=""
+                                                        class="select-option-box"
+                                                        options={rolePicklistOptions.data.values}
+                                                        onchange={handlePicklistChange} 
+                                                        disabled="true">
+                                                    </lightning-combobox>
+                                                </template>
+                                                <template if:false={item.picklistdefaultvalue}> 
+                                                    <lightning-combobox 
+                                                        data-index={indexVar}
+                                                        name={item.Index}
+                                                        label=""
+                                                        value={item.Role__c}
+                                                        placeholder=""
+                                                        class="select-option-box"
+                                                        options={rolePicklistOptions.data.values}
+                                                        onchange={handlePicklistChange} >
+                                                    </lightning-combobox> 
+                                                </template>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </td>
+                                <td class="slds-size_3-of-10" data-label="">
+                                    <div  title="">
+                                        <template if:false={isEdited} if:true={item.Team_Member__c}> 
+                                            <lightning-formatted-url value={item.UserUrl} label={item.UserName} target="_self"></lightning-formatted-url>
+                                        </template>
+                                        <template if:true={isEdited}>
+                                            <template if:true={item.Team_Member__c}>
+                                                <c-custom-lookup child-object-api-name='ContactTeam__c'  value={item.Team_Member__c} unique-key={item.Team_Member__c}
+                                                target-field-api-name='Team_Member__c' required='true' variant="label-hidden"  disabled="true" onvalueselected={handleSelection}></c-custom-lookup>
+                                            </template>
+                                            <template if:false={item.Team_Member__c}>
+                                                <c-custom-lookup child-object-api-name='ContactTeam__c' access-key={indexVar} value={item.Team_Member__c} unique-key={item.Id}
+                                                target-field-api-name='Team_Member__c' required='true' variant="label-hidden"  onvalueselected={handleSelection}></c-custom-lookup>   
+                                            </template>
+                                        </template>
+                                             
+                                    </div>
+                                </td>
+                                <td class="slds-size_1-of-10" data-label="delete">
+                                    <a name={indexVar} data-id={item.Id} onclick={remove}>
+                                        <template if:false={item.picklistdefaultvalue}>
+                                            <lightning-icon icon-name="utility:delete" alternative-text="delete"  size="small"></lightning-icon>
+                                        </template>
+                                    </a>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+             </table>
+        </div>
+    </lightning-card>
+</template>

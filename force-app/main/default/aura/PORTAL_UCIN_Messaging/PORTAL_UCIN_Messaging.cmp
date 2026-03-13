@@ -1,0 +1,55 @@
+<aura:component controller="PORTAL_UCIN_DirectoryController" implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute name="contactId" type="String"/>
+    <aura:attribute name="subject" type="String"/>
+    <aura:attribute name="body" type="String"/>
+    <aura:attribute name="contact" type="sObject"/>
+
+    <aura:attribute name="loaded" type="Boolean" default="true" />
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}"/>
+    <lightning:overlayLibrary aura:id="overlayModal"/>
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+
+    <div class="w-full slds-is-relative">
+        <div class="relative p-2 sm:p-4 lg:p-6">
+            <h2 class="w-full text-black lg:leading-loose pb-8 uppercase">New message</h2>
+            <span class="absolute right-0 top-0 text-blue px-4 py-1 border border-blue font-bold text-2xl sm:text-xl" onclick="{!c.closeModal}">X</span>
+            <form class="">
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-xl font-bold mb-2" for="firstname">
+                        To
+                    </label>
+                    <span class="text-xl">{!v.contact.Name}</span>
+                </div>
+                <div class="mb-4">
+                    <label class="block text-gray-700 text-xl font-bold mb-2" for="lastname">
+                        Subject
+                    </label>
+                    <ui:inputText class="border-black border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline no-border-radius tbx" 
+                                    placeholder="What's your message about?"
+                                    value="{!v.subject}"
+                                    updateOn="change"/>
+                </div>
+                <div class="mb-6">
+                    <label class="block text-gray-700 text-xl font-bold mb-2" for="email">
+                        Message
+                    </label>
+                    <ui:inputTextArea class="border-black border w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline no-border-radius tbxlong"
+                                        placeholder="Enter your message"
+                                        value="{!v.body}"
+                                        updateOn="change"/>
+                </div>
+                <div class="flex items-center justify-end">
+                    <a class="inline-block mr-6  align-baseline font-bold text-sm text-blue border border-blue hover:text-blue px-4 py-2 px-6 text-xl ucin-button" onclick="{!c.closeModal}">
+                        Cancel
+                    </a>
+                    <button class="bg-blue hover:bg-blue hover:text-white text-white font-bold py-2 px-4 focus:outline-none focus:shadow-outline px-6 text-xl ucin-button" onclick="{!c.SendMessage}" type="button">
+                        Send
+                    </button>
+        
+                </div>
+            </form>
+        </div>
+    </div>
+</aura:component>

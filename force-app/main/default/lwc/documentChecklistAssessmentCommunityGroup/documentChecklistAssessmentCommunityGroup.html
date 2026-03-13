@@ -1,0 +1,67 @@
+<template>
+    <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="12" class="slds-p-top_xx-small">
+        <div class="slds-is-relative">
+            <template if:true={checklistItems}>
+                <!-- <lightning-accordion allow-multiple-sections-open> -->
+                <template if:true={nestedChecklistItems} for:each={nestedChecklistItems} for:item='checklists'>
+                    <div key={checklists.name}>
+                        <lightning-layout multiple-rows class="slds-p-bottom_x-small">
+                            <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="12" class="slds-p-horizontal_small slds-p-vertical_xx-small">
+                                
+                                <article class="slds-card slds-card_boundary" style="box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10);">  
+                                    <lightning-layout vertical-align="center">
+                                        <lightning-layout-item>
+                                            <div onclick={handleDocumentsSectionClick} data-id={checklists.name} class="slds-p-right_small slds-p-vertical_xx-small slds-border_right slds-m-right_small slds-p-left_small" style="cursor: pointer;">                        
+                                                <template if:true={checklists.isVisible}>
+                                                    <lightning-icon icon-name="utility:chevrondown" size="x-small"></lightning-icon>
+                                                </template>
+                                                <template if:false={checklists.isVisible}>
+                                                    <lightning-icon icon-name="utility:chevronright" size="x-small"></lightning-icon>
+                                                </template>
+                                            </div>
+                                        </lightning-layout-item>
+    
+                                        <lightning-layout-item>
+                                            <p class="slds-text-heading_medium slds-p-top_small slds-text-title_bold">{checklists.name}</p>
+                                        </lightning-layout-item>
+                                        <!-- </template>  -->
+                                    </lightning-layout>                                                  
+                                    <!-- <lightning-accordion-section name={checklists.name} label={checklists.name}> -->
+                                        
+                                        <template if:true={checklists.isVisible} for:each={checklists.value} for:item='checklistItem'>
+                            
+                                            <div key={checklistItem.Id} class="slds-box sldxBoxOverride" >
+                                                
+                                                    <c-document-checklist-assessment-community-item checklist-item-id={checklistItem.Id} 
+                                                        application-id={applicationId}
+                                                        application-status={checklistItem.Application__r.Status__c} 
+                                                        is-other-checklist="false" 
+                                                        applicant-id={applicantId}
+                                                        applicant-user-record={applicantCommunityUser.data}
+                                                        onfilepreview={onFilePreview}
+                                                        contact-qualification={checklistItem.Contact_Qualification__r}
+                                                        application-name={applicationName}
+                                                        checklist-item-name={checklistItem.Name}
+                                                        application-study-type={applicationStudyType}
+                                                        checklist-group-name={checklists.name}>
+                                                </c-document-checklist-assessment-community-item> 
+                                            </div>
+                                        
+                                        </template>
+
+                                    <!-- </lightning-accordion-section> -->
+                                            
+                                </article>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </template>  
+            </template>
+            <template if:false={checklistItems}>
+                <!-- Loading spinner while retrieving applicant -->
+                <c-document-checklist-assessment-community-loader loader-count="10"></c-document-checklist-assessment-community-loader>
+            </template>                                
+        </div>
+    </lightning-layout-item>
+    
+</template>

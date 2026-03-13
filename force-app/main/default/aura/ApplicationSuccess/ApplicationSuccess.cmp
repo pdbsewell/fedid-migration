@@ -1,0 +1,39 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="ApplicationSuccessCC">
+	
+	<aura:attribute name="appId" type="String" default=""/>
+	<aura:attribute name="appRecord" type="Application__c" 
+                    default="{'sobjectType' : 'Application__c',
+                             'Status__c' : '',
+                             'Name' : '' }"/>
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+	<div class="slds">
+		<aura:renderIf isTrue="{!and(v.appRecord.Id != '',v.appRecord.Id != null)}">
+			<div class="slds-section section-float">
+				<div class="slds-align--absolute-center">
+					<div class="slds-text-heading--large">
+						{!$Label.c.App_SubmitSuccess}
+					</div>
+				</div>
+
+				<div class="slds-p-vertical--x-large">
+					<div class="slds-p-vertical--large slds-text-heading--medium">
+						{!$Label.c.App_ApplicationReceipt}
+					</div>
+					<div class="slds-text-body--regular">
+						{!$Label.c.App_SubmitSuccessMessage}&nbsp;<b>{!v.appRecord.Name}</b>&nbsp;{!$Label.c.App_SubmitSuccessMessage_2}
+					</div>
+
+					<div class="slds-p-vertical--large slds-text-body--regular">
+						{!$Label.c.App_SubmitSuccessMessage_3}
+					</div>
+
+					<div class="slds-text-body--regular ">
+						<aura:unescapedHtml value="{!$Label.c.App_SubmitSuccessMessage_4}" />
+					</div>
+					
+				</div>
+			</div>
+		</aura:renderIf>
+	</div>
+</aura:component>

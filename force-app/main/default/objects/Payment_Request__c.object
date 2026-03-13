@@ -1,0 +1,706 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>true</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>Commissions</fullName>
+        <fields>Account__c</fields>
+        <fields>Invoice_No__c</fields>
+        <fields>Invoice_Date__c</fields>
+        <fields>Requested_Amount__c</fields>
+        <fields>Status__c</fields>
+        <fields>Calculated_Payable_GST_Inclusive__c</fields>
+        <fields>Payable_Amount_Audit__c</fields>
+        <label>Commissions</label>
+    </compactLayouts>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Payment Requests for an account. Created initially for Agent Commissions</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>true</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Account__c</fullName>
+        <description>Account related to this Payment Request</description>
+        <label>Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Payment Requests</relationshipLabel>
+        <relationshipName>Payment_Requests</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>true</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Agent_Code__c</fullName>
+        <externalId>false</externalId>
+        <formula>Account__r.Callista_Org_Unit_Code__c</formula>
+        <label>Agent Code</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Calculated_Payable_Amount__c</fullName>
+        <description>Sum of Payable Amount from Payment Request Items</description>
+        <label>Calculated Payable Amount</label>
+        <summarizedField>Payment_Request_Item__c.Payable_Amount__c</summarizedField>
+        <summaryFilterItems>
+            <field>Payment_Request_Item__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Verified</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Payment_Request_Item__c.Payment_Request__c</summaryForeignKey>
+        <summaryOperation>sum</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Calculated_Payable_GST_Inclusive__c</fullName>
+        <externalId>false</externalId>
+        <formula>&apos;$&apos; + text(floor(Calculated_Payable_Amount__c)) + &apos;.&apos; + right( text((1 + Calculated_Payable_Amount__c - floor(Calculated_Payable_Amount__c)) * 100), 2) + &apos; / &apos; + IF(GST_Inclusive__c, &apos;Yes&apos;, &apos;No&apos;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Calculated Payable / GST Inclusive</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GL_Code__c</fullName>
+        <description>GL Code used for Agent Commissions</description>
+        <externalId>false</externalId>
+        <formula>&apos;735123&apos;</formula>
+        <label>GL Code</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GST_Inclusive__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Indicator if GST is included/ payable</description>
+        <label>GST Inclusive</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Invoice_Date__c</fullName>
+        <description>Date of the external invoice</description>
+        <label>Invoice Date</label>
+        <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Invoice_No__c</fullName>
+        <description>External Invoice number</description>
+        <externalId>false</externalId>
+        <label>Invoice No</label>
+        <length>16</length>
+        <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Payable_Amount_Audit__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( Payable_Amount_Mismatch__c = 0, &apos;MATCH&apos;, &apos;NO MATCH&apos;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Payable Amount Audit</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Payable_Amount_Mismatch__c</fullName>
+        <formula>Calculated_Payable_Amount__c - Requested_Amount__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Payable Amount Mismatch</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Requested_Amount_Ex_GST__c</fullName>
+        <label>Requested Amount (Ex GST)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Requested_Amount_GST__c</fullName>
+        <label>Requested Amount GST</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Requested_Amount__c</fullName>
+        <description>Requested amount specified in the invoice</description>
+        <label>Requested Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>SAP_Vendor_Id__c</fullName>
+        <externalId>false</externalId>
+        <formula>Account__r.SAP_Vendor_Id__c</formula>
+        <label>SAP Vendor Id</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <description>Status of the payment request</description>
+        <label>Status</label>
+        <required>true</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Draft</fullName>
+                    <default>true</default>
+                    <label>Draft</label>
+                </value>
+                <value>
+                    <fullName>In Dispute</fullName>
+                    <default>false</default>
+                    <label>In Dispute</label>
+                </value>
+                <value>
+                    <fullName>Pending new Invoice</fullName>
+                    <default>false</default>
+                    <label>Pending new Invoice</label>
+                </value>
+                <value>
+                    <fullName>Pending Approval</fullName>
+                    <default>false</default>
+                    <label>Pending Approval</label>
+                </value>
+                <value>
+                    <fullName>Approved</fullName>
+                    <default>false</default>
+                    <label>Approved</label>
+                </value>
+                <value>
+                    <fullName>Rejected</fullName>
+                    <default>false</default>
+                    <label>Rejected</label>
+                </value>
+                <value>
+                    <fullName>Submitted to SAP</fullName>
+                    <default>false</default>
+                    <label>Submitted to SAP</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Students_In_Dispute__c</fullName>
+        <description>Number of payment items in dispute</description>
+        <label># Students In Dispute</label>
+        <summaryFilterItems>
+            <field>Payment_Request_Item__c.Status__c</field>
+            <operation>equals</operation>
+            <value>In Dispute</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Payment_Request_Item__c.Payment_Request__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Students_Pending__c</fullName>
+        <description>total number of students that have not been verified</description>
+        <label># Students Pending</label>
+        <summaryFilterItems>
+            <field>Payment_Request_Item__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Entered, Awaiting Census, Not Enrolled, In Dispute</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Payment_Request_Item__c.Payment_Request__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Students_Total__c</fullName>
+        <description>Total number of students in the payment items</description>
+        <label># Students Total</label>
+        <summaryForeignKey>Payment_Request_Item__c.Payment_Request__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Students_Verified__c</fullName>
+        <description>number of payment items that have been verified</description>
+        <label># Students Verified</label>
+        <summaryFilterItems>
+            <field>Payment_Request_Item__c.Status__c</field>
+            <operation>equals</operation>
+            <value>Verified</value>
+        </summaryFilterItems>
+        <summaryForeignKey>Payment_Request_Item__c.Payment_Request__c</summaryForeignKey>
+        <summaryOperation>count</summaryOperation>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Summary</type>
+    </fields>
+    <fields>
+        <fullName>Submission_Date__c</fullName>
+        <description>The date when the Status changed to Submitted to SAP</description>
+        <label>Submission Date</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <label>Payment Request</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>RECORDTYPE</columns>
+        <columns>Account__c</columns>
+        <columns>Invoice_No__c</columns>
+        <columns>Invoice_Date__c</columns>
+        <columns>Requested_Amount__c</columns>
+        <columns>Status__c</columns>
+        <columns>Calculated_Payable_Amount__c</columns>
+        <columns>Payable_Amount_Audit__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>Approved</fullName>
+        <columns>NAME</columns>
+        <columns>RECORDTYPE</columns>
+        <columns>Account__c</columns>
+        <columns>Invoice_No__c</columns>
+        <columns>Invoice_Date__c</columns>
+        <columns>Requested_Amount__c</columns>
+        <columns>Calculated_Payable_Amount__c</columns>
+        <columns>Payable_Amount_Audit__c</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Approved</value>
+        </filters>
+        <label>Approved</label>
+    </listViews>
+    <listViews>
+        <fullName>Draft</fullName>
+        <columns>NAME</columns>
+        <columns>RECORDTYPE</columns>
+        <columns>Account__c</columns>
+        <columns>Invoice_No__c</columns>
+        <columns>Invoice_Date__c</columns>
+        <columns>Requested_Amount__c</columns>
+        <columns>Calculated_Payable_Amount__c</columns>
+        <columns>Payable_Amount_Audit__c</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Draft</value>
+        </filters>
+        <label>Draft</label>
+    </listViews>
+    <listViews>
+        <fullName>In_Dispute</fullName>
+        <columns>NAME</columns>
+        <columns>RECORDTYPE</columns>
+        <columns>Account__c</columns>
+        <columns>Invoice_No__c</columns>
+        <columns>Invoice_Date__c</columns>
+        <columns>Requested_Amount__c</columns>
+        <columns>Calculated_Payable_Amount__c</columns>
+        <columns>Payable_Amount_Audit__c</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>In Dispute</value>
+        </filters>
+        <label>In Dispute</label>
+    </listViews>
+    <listViews>
+        <fullName>Pending_Approval</fullName>
+        <columns>NAME</columns>
+        <columns>RECORDTYPE</columns>
+        <columns>Account__c</columns>
+        <columns>Invoice_No__c</columns>
+        <columns>Invoice_Date__c</columns>
+        <columns>Requested_Amount__c</columns>
+        <columns>Calculated_Payable_Amount__c</columns>
+        <columns>Payable_Amount_Audit__c</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Pending Approval</value>
+        </filters>
+        <label>Pending Approval</label>
+    </listViews>
+    <listViews>
+        <fullName>Pending_new_Invoice</fullName>
+        <columns>NAME</columns>
+        <columns>RECORDTYPE</columns>
+        <columns>Account__c</columns>
+        <columns>Invoice_No__c</columns>
+        <columns>Invoice_Date__c</columns>
+        <columns>Requested_Amount__c</columns>
+        <columns>Calculated_Payable_Amount__c</columns>
+        <columns>Payable_Amount_Audit__c</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Pending new Invoice</value>
+        </filters>
+        <label>Pending new Invoice</label>
+    </listViews>
+    <listViews>
+        <fullName>Ready_for_Submission_to_SAP</fullName>
+        <columns>NAME</columns>
+        <columns>Agent_Code__c</columns>
+        <columns>Calculated_Payable_Amount__c</columns>
+        <columns>Invoice_No__c</columns>
+        <columns>SAP_Vendor_Id__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Approved</value>
+        </filters>
+        <label>Ready for Submission to SAP</label>
+    </listViews>
+    <listViews>
+        <fullName>Submitted_to_SAP</fullName>
+        <columns>NAME</columns>
+        <columns>RECORDTYPE</columns>
+        <columns>Account__c</columns>
+        <columns>Invoice_No__c</columns>
+        <columns>Invoice_Date__c</columns>
+        <columns>Requested_Amount__c</columns>
+        <columns>Calculated_Payable_Amount__c</columns>
+        <columns>Payable_Amount_Audit__c</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>Submission_Date__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Submitted to SAP</value>
+        </filters>
+        <filters>
+            <field>Submission_Date__c</field>
+            <operation>greaterOrEqual</operation>
+            <value>LAST_N_DAYS:30</value>
+        </filters>
+        <label>Submitted to SAP Last 30 days</label>
+    </listViews>
+    <nameField>
+        <displayFormat>PR-{000000}</displayFormat>
+        <label>Payment Request Name</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Payment Requests</pluralLabel>
+    <recordTypeTrackFeedHistory>true</recordTypeTrackFeedHistory>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>Commission</fullName>
+        <active>true</active>
+        <compactLayoutAssignment>Commissions</compactLayoutAssignment>
+        <label>Commission</label>
+        <picklistValues>
+            <picklist>Status__c</picklist>
+            <values>
+                <fullName>Approved</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Draft</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>In Dispute</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Pending Approval</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Pending new Invoice</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Submitted to SAP</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Credit</fullName>
+        <active>true</active>
+        <label>Credit</label>
+        <picklistValues>
+            <picklist>Status__c</picklist>
+            <values>
+                <fullName>Approved</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Draft</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>In Dispute</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Pending Approval</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Pending new Invoice</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Rejected</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Submitted to SAP</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <searchLayouts>
+        <massQuickActions>Change_Status</massQuickActions>
+        <searchResultsAdditionalFields>RECORDTYPE</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Account__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Invoice_No__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Invoice_Date__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Requested_Amount__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Status__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Calculated_Payable_Amount__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Payable_Amount_Audit__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>CREATED_DATE</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>Validation_on_PendingApproval</fullName>
+        <active>true</active>
+        <description>Validation check on status change to Pending Approval</description>
+        <errorConditionFormula>AND(ISCHANGED( Status__c ), TEXT(Status__c) = &apos;Pending Approval&apos;, Students_Verified__c !=  Students_Total__c )</errorConditionFormula>
+        <errorMessage>Please make sure all the Payment Request Items have been verified</errorMessage>
+    </validationRules>
+    <visibility>Public</visibility>
+</CustomObject>

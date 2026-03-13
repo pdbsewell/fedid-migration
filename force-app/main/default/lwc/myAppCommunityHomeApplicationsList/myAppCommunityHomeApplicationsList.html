@@ -1,0 +1,78 @@
+<template>
+    <!-- application selection -->
+    <template if:true={selectedApplication}>
+        <!-- draft -->
+        <template if:false={isSubmitted}>
+            <div
+                class="slds-float_left slds-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_12-of-12 slds-large-size_12-of-12 slds-p-horizontal_small"
+                style="color: #505050;"
+            >
+                <div
+                    tabindex="-1"
+                    role="heading"
+                    aria-level="2"
+                    style="line-height: 21px; font-size: 24px; padding-bottom: 10px; word-wrap: break-word;"
+                >
+                    Welcome back {currentUserFirstName}
+                </div>
+            </div>
+
+            <!-- application items -->
+            <template for:each={applicationList} for:item="application">
+                <c-my-app-community-home-applications-item
+                    key={application.Id}
+                    application={application}
+                    app-source-system={appSourceSystem}
+                    selected-id={selectedApplication.Id}
+                    onapplicationchange={handleApplicationChange}
+                    outstanding-application-checklist-count={outstandingApplicationChecklistCount}
+                    total-application-comment-count={totalApplicationCommentCount}
+                    unread-application-comment-count={unreadApplicationCommentCount}
+                    oncancelapplication={openCancelApplication}
+                    onopenrespond={openRespondForm}
+                ></c-my-app-community-home-applications-item>
+            </template>
+        </template>
+
+        <!-- submitted -->
+        <template if:true={isSubmitted}>
+            <div
+                class="slds-float_left slds-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_4-of-12 slds-large-size_12-of-12 slds-p-horizontal_small"
+                style="color: #505050;"
+            >
+                <div
+                    tabindex="-1"
+                    role="heading"
+                    aria-level="2"
+                    style="line-height: 21px; font-size: 24px; padding-bottom: 10px; word-wrap: break-word;"
+                >
+                    Welcome back {currentUserFirstName}
+                </div>
+                <div
+                    tabindex="-1"
+                    role="heading"
+                    aria-level="3"
+                    style="color: black; padding-top: 10px; padding-bottom: 30px; line-height: 21px; font-size: 18px;"
+                >
+                    Your submitted applications are listed below
+                </div>
+            </div>
+            <br />
+            <template for:each={applicationList} for:item="application">
+                <c-my-app-community-home-applications-item
+                    key={application.Id}
+                    application={application}
+                    app-source-system={appSourceSystem}
+                    selected-id={selectedApplication.Id}
+                    onapplicationchange={handleApplicationChange}
+                    outstanding-application-checklist-count={outstandingApplicationChecklistCount}
+                    total-application-comment-count={totalApplicationCommentCount}
+                    unread-application-comment-count={unreadApplicationCommentCount}
+                    oncancelapplication={openCancelApplication}
+                    onopenrespond={openRespondForm}
+                ></c-my-app-community-home-applications-item>
+                &nbsp;
+            </template>
+        </template>
+    </template>
+</template>

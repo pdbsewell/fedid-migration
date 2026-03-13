@@ -1,0 +1,335 @@
+<!-- Contains header information for the Profile page and the tabs for Bio details, profession info, contact info, 
+Communication preferences, and degree information-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller="PORTAL_UCIN_MyProfileController">
+    <ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}" />
+
+    <!--These attributes track the active tab-->
+    <aura:attribute name="showBioDetails" type="Boolean" Default="true"/>
+    <aura:attribute name="showProfInfo" type="Boolean" />
+    <aura:attribute name="showContactInfo" type="Boolean" />
+    <aura:attribute name="showCommsPref" type="Boolean" />
+    <aura:attribute name="showYourDegrees" type="Boolean" />
+    <!--Contains common profile information used in some tabs-->
+    <aura:attribute name="contactMap" type="Map"/>
+    <aura:attribute name="oldEmailValue" type="String"/>
+    <aura:attribute name="newEmailValue" type="String"/>
+    <aura:attribute name="oldBusinessEmailValue" type="String"/>
+    <aura:attribute name="interestAreaTracker" type="List"/>
+	<aura:attribute name="genderLabel" type="String"/>
+    <aura:attribute name="loaded" type="Boolean" default="true" />
+    <aura:attribute name="isAllValid" type="Boolean" default="true" />
+    <!--Tracks whether user is editing information. Shared by all editable tabs-->
+    <aura:attribute name="isEditingMaster" type="Boolean" default="false"/>
+    <aura:attribute name="addressLine" type="String"/>
+    <aura:attribute name="origAddressLine" type="String"/>
+    <aura:attribute name="manualAddressValidity" type="String" default="valid"/>
+    <aura:attribute name="contactMapOrig" type="Map"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+    <!--My Profile Header-->
+    <div class="bg-gray-mon max-w-1300 m-auto slds-is-relative">
+        <!-- Spinner -->
+        <div>
+            <aura:if isTrue="{!!v.loaded }">
+                <lightning:spinner alternativeText="Loading" />
+            </aura:if>
+        </div>
+        <div class="w-full my-4 bg-white">
+            <div class="bg-cover bg-center h-60px lg:h-24 p-4" style="{!'background-image:url('+$ContentAsset.03S4a00000004dP+')'}"> 
+            </div>
+            <div class="bg-white w-full h-full lg:flex flex-row">
+                <div class="w-full lg:w-1/2 lg:pr-8 p-4 sm:p-6">
+                    <h1 class="text-3xla sm:text-h1xl leading-bitmore uppercase sans">My profile</h1>
+                    <p class="text-base sm:text-xl lg:text-lg leading-moresnug">Tell us what you want to hear about, how you would like to be involved, and how we can keep in touch.</p>
+                    <p class="text-base sm:text-xl lg:text-lg leading-moresnug py-4">Please fill in the form below in English only and note that fields marked with an * are compulsory.</p>
+                    <p class="text-base sm:text-xl lg:text-lg leading-moresnug">You can add or remove details by editing your profile and enabling or disabling visibility of information.</p>
+                    <div class="w-full h-4 text-right">
+                        <lightning:icon iconName="utility:edit" class="modal-link" size="small" onclick="{!c.toggleConsent}"/>
+                    </div>
+                    <div class="my-4 border-solid border-grey border-t-2">
+                        <div class="w-full flex flex-row items-center py-4 font-bold">
+                            <label class="w-5/6 text-xl lg:text-lg text-dark-grey" for="inclusion-consent">
+                                I consent to the details I have provided in 'My profile summary' being visible to other users of the Alumni Portal.
+                            </label>
+                            <div class="w-1/6 text-xl lg:text-lg text-dark-grey text-center">
+                                <input class="w-4 h-4 ml-4" type="checkbox" checked="{!v.contactMap.userSettings.Directory_Opt_In__c}" disabled="{!not(v.isEditingMaster)}" onclick="{!c.toggleDirectoryOpt}" id="inclusion-consent" name="alumni-dir-consents" />
+                            </div>
+                        </div>
+                        <div class="w-full flex flex-row items-center py-4 font-bold">
+                            <label class="w-5/6 text-xl lg:text-lg text-dark-grey" for="contact-consent">
+                                I consent to fellow Monash alumni contacting me via the Alumni Directory and will abide by the 
+                                <a class="underline inline-block align-baseline font-bold text-blue hover:text-blue-800" href="https://www.monash.edu/alumni/contact/directory-code-of-conduct/_recache" target="_blank">
+                           Code of Conduct.
+                        </a>
+                                
+                            </label>
+                            <div class="w-1/6 text-center">
+                                <input class="w-4 h-4 ml-4" type="checkbox" checked="{!v.contactMap.userSettings.Messaging_Opt_In__c}" disabled="{!not(v.isEditingMaster)}" onclick="{!c.toggleMessageOpt}" id="contact-consent" name="alumni-dir-consents" />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="m-4 py-2 px-16 bg-blue hover:bg-blue text-white font-bold text-xl" type="button" onclick="{!c.onSave}" hidden="{!not(v.isEditingMaster)}">
+                        Save
+                    </button> 
+                </div>
+                
+
+                <!-- Profile Summary Section -->
+                <div class="block lg:hidden w-full bg-white pb-2">
+                    <span class="absolute w-1/2 sm:w-1/4 border-solid border-t-4 border-blue"></span>
+                </div>
+                <div class="w-full lg:w-1/2 lg:pl-8 px-4 sm:px-6 pt-4 pb-8 border-b-4 border-blue lg:border-b-0">
+                    <div class="relative flex flex-row flex-wrap">
+                        <h3 class="w-full font-bold text-dark-grey text-3xl leading-bitmore lg:leading-loose pb-6">My profile summary</h3>
+                        <div class="w-2/3 sm:w-4/5 lg:w-1/2 flex flex-col pr-1">
+                            <h2 class="text-3xl sm:text-xl lg:text-lg leading-bitmore uppercase">
+                                {!v.contactMap.preferredName.First_Name__c}&nbsp;{!v.contactMap.preferredName.Last_Name__c}
+                            </h2>
+                            <div class="py-2 text-xl sm:text-lg lg:text-base text-dark-grey">
+                                <aura:if isTrue="{!not(empty(v.contactMap.contact.Contact_Qualifications__r))}">
+                                    <aura:iteration items="{!v.contactMap.contact.Contact_Qualifications__r}" start="0" end="2" var="eachDegree">
+                                        <aura:if isTrue="{!not(empty(eachDegree.Qualification__r.Qualification_Name__c))}">
+                                            <small class="uppercase text-blue font-bold">{!eachDegree.Qualification__r.Qualification_Name__c}</small>
+                                            <aura:set attribute="else">
+                                                <aura:if isTrue="{!not(empty(eachDegree.Other_Qualification__c))}">
+                                                    <small class="uppercase text-blue font-bold">{!eachDegree.Other_Qualification__c}</small>
+                                                    <aura:set attribute="else">
+                                                        -----
+                                                    </aura:set>
+                                                </aura:if>
+                                            </aura:set>
+                                        </aura:if>
+                                        <br/>
+                                        <aura:if isTrue="{!not(empty(eachDegree.degreeYear))}">
+                                            <small class="uppercase font-bold">{!'Class of ' + eachDegree.degreeYear}</small>
+                                            <aura:set attribute="else">
+                                                --
+                                            </aura:set>
+                                        </aura:if>
+                                        <br/>
+                                    </aura:iteration>
+                                    <aura:set attribute="else">
+                                        -----
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+                            <div class="py-4 text-dark-grey">
+                                <p class="uppercase font-bold my-1 text-xl sm:text-lg lg:text-base">Employment</p><br/>
+                                <aura:if isTrue="{!not(empty(v.contactMap.affiliations))}">
+                                    <aura:if isTrue="{!not(empty(v.contactMap.affiliations.Position__c))}">
+                                        <small>{!v.contactMap.affiliations.Position__c}</small>
+                                        <aura:set attribute="else">
+                                            -----
+                                        </aura:set>
+                                    </aura:if>
+                                    <br/>
+                                    <aura:if isTrue="{!not(empty(v.contactMap.affiliations.Account__r.Name))}">
+                                        <small>{!v.contactMap.affiliations.Account__r.Name}</small>
+                                        <aura:set attribute="else">
+                                            -----
+                                        </aura:set>
+                                    </aura:if>
+
+                                    <aura:set attribute="else">
+                                        -----
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+                        </div>
+
+                        <div class="w-1/3 sm:w-1/5 lg:w-1/2 sm:pr-4 lg:pr-8">
+                            <div class="relative sm:max-h-18rem w-auto h-auto text-center">
+                                <div class="absolute w-full text-right">
+                                    <lightning:icon iconName="utility:edit" class="modal-link" size="small" onclick="{!c.toggleEdit}"/>
+                                </div>
+                                <aura:if isTrue="{!v.contactMap.contact.Id}">
+                                    <c:PORTAL_UCIN_ProfilePicture recordId="{!v.contactMap.contact.Id}"/>
+                                </aura:if>
+                            </div>
+                        </div>
+                        
+                        <!--
+                        <div class="w-full flex flex-row">
+                            <aura:if isTrue="{!not(empty(v.contactMap.userSettings))}">
+                                <aura:if isTrue="{!not(empty(v.contactMap.userSettings.AboutMe))}">
+                                    <small>{!v.contactMap.userSettings.AboutMe}</small>
+                                </aura:if>
+                            </aura:if>
+                        </div>
+                        -->
+
+                        <div class="w-full sm:flex sm:flex-row">
+                            <div class="w-full sm:w-1/2 text-dark-grey">
+                                <p class="uppercase font-bold my-1 text-xl sm:text-lg lg:text-base">Skills &amp; Expertise</p>
+                                <ul>
+                                    <aura:iteration items="{!v.contactMap.SkillsArray}" var="eachSkill">
+                                        <li class="text-xl sm:text-lg lg:text-base">{!eachSkill}</li>
+                                    </aura:iteration>
+                                </ul>
+                            </div>
+                            <div class="w-full sm:w-1/2 text-dark-grey">
+                                <p class="uppercase font-bold my-1 text-xl sm:text-lg lg:text-base">Areas of Interest</p>
+                                <ul class="list-disc pl-8">
+                                    <aura:iteration items="{!v.contactMap.AOIArray}" var="eachAOI">
+                                        <li class="text-xl sm:text-lg lg:text-base">{!eachAOI}</li>
+                                    </aura:iteration>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="block w-full bg-white">
+            <h2 class="w-full px-4 sm:px-6 py-6 text-3xl sm:text-4xl lg:text-3xl leading-bitmore sm:leading-tight uppercase sm:font-bold text-dark-grey">My Details</h2>
+        </div>
+
+        <!--The tab buttons-->
+        <div class="hidden lg:block bg-white px-6 border-b-4 border-blue lg:border-b-0">
+            <ul class="flex flex-col sm:flex-row w-full">
+                <li class="flex-1 cursor-pointer lg:m-1 text-black bg-gray bg-gray-mon w-full sm:w-40 text-2xl font-bold py-2 text-left px-6 block hover:text-blue focus:outline-none text-blue border-t-4 font-medium border-blue"
+                    onclick="{!c.goToTab}" data-componentName="showBioDetails" aura:id="showBioDetails">
+                    Personal details
+                </li>
+                <li class="flex-1 cursor-pointer lg:m-1 text-black w-full sm:w-40 text-2xl font-bold py-2 text-left px-6 block hover:text-blue focus:outline-none border-b-4 border-black"
+                    onclick="{!c.goToTab}" data-componentName="showProfInfo" aura:id="showProfInfo">
+                    Professional information
+                </li>
+                <li class="flex-1 cursor-pointer lg:m-1 text-black w-full sm:w-40 text-2xl font-bold py-2 text-left px-6 block hover:text-blue focus:outline-none border-b-4 border-black"
+                    onclick="{!c.goToTab}" data-componentName="showContactInfo" aura:id="showContactInfo">
+                    Contact Details
+                </li>
+                <!--<li class="flex-1 cursor-pointer lg:m-1 text-black w-full sm:w-40 text-2xl font-bold py-2 text-left px-6 block hover:text-blue focus:outline-none border-b-4 border-black"
+                        onclick="{!c.goToTab}" data-componentName="showCommsPref" aura:id="showCommsPref">
+                    Comms preference
+                </li>-->
+                <li class="flex-1 cursor-pointer lg:m-1 text-black w-full sm:w-40 text-2xl font-bold py-2 text-left px-6 block hover:text-blue focus:outline-none border-b-4 border-black"
+                    onclick="{!c.goToTab}" data-componentName="showYourDegrees" aura:id="showYourDegrees">
+                    Your degrees
+                </li>
+            </ul>
+            <!--Tab contents-->
+            <aura:if isTrue="{!v.showBioDetails}"> <!--preferredPronounList="{!v.contactMap.preferredPronouns}"-->
+                <c:PORTAL_UCIN_MyProfileBioDetails contactBioDetails="{!v.contactMap.contact}"
+                                                   userDetails="{!v.contactMap.userSettings}"
+                                                   interestAreasList="{!v.interestAreaTracker}"
+                                                   salutationList="{!v.contactMap.salutations}"
+												   pronounList="{!v.contactMap.pronouns}"
+                                                   isEditing="{!v.isEditingMaster}"
+                                                   contactMap="{!v.contactMap}"
+												   genderLabel="{!v.genderLabel}"/>
+            </aura:if>
+            <aura:if isTrue="{!v.showProfInfo}">
+                <c:PORTAL_UCIN_MyProfileProfInfo positionDetails="{!v.contactMap.affilMap}" isEditing="{!v.isEditingMaster}"
+                                                 businessAddress="{!v.contactMap.businessAddress}" countryList="{!v.contactMap.picklists}"
+                                                 industryList="{!v.contactMap.industries}" hasOutstandingInterim="{!v.contactMap.outstandingInterim}"/>
+            </aura:if>
+            <aura:if isTrue="{!v.showContactInfo}">
+                <c:PORTAL_UCIN_MyProfileContactInfo aura:id="desktopMyProfileContactInfo"
+                                                    prefAddress="{!v.contactMap.prefAddress}"
+                                                    preferredMap="{!v.contactMap.preferredMap}"
+                                                    emailMap="{!v.contactMap.emailMap}"
+                                                    phoneMap="{!v.contactMap.phoneMap}"
+                                                    socialMap="{!v.contactMap.socialMap}"
+                                                    countryList="{!v.contactMap.picklists}"
+                                                    isAllValid="{!v.isAllValid}"
+                                                    isEditing="{!v.isEditingMaster}"
+                                                    addressLine="{!v.addressLine}"
+                                                    oldEmailValue="{!v.oldEmailValue}"
+                                                    newEmailValue="{!v.newEmailValue}"
+                                                    oldBusinessEmailValue="{!v.oldBusinessEmailValue}"/>
+            </aura:if>
+            <!--<aura:if isTrue="{!v.showCommsPref}">
+                <c:PORTAL_UCIN_MyProfileCommPref contactCommPref="{!v.contactMap.contact}"/>
+            </aura:if>-->
+            <aura:if isTrue="{!v.showYourDegrees}">
+                <c:PORTAL_UCIN_MyProfileDegrees degreeList="{!v.contactMap.contact.Contact_Qualifications__r}"/>
+            </aura:if>
+            <button class="m-4 py-2 px-16 bg-blue hover:bg-blue text-white font-bold text-xl" type="button" onclick="{!c.onSave}" hidden="{!not(v.isEditingMaster)}">
+                Save
+            </button>
+			<c:alumniManageSmsMFA aura:id="alumniManageSmsMFA"></c:alumniManageSmsMFA>
+        </div>
+
+        <!--Mobile Version-->
+        <div class="block lg:hidden bg-white border-b-4 border-blue">
+            <div class="w-full pb-1">
+                <span class="absolute w-1/2 sm:w-1/4 border-solid border-b-4 border-blue"></span>
+            </div>
+            <div class="w-full text-4xl font-bold px-4 sm:px-6 text-left block text-blue">
+                Personal details
+            </div>
+            <div class="pb-6"> <!--preferredPronounList="{!v.contactMap.preferredPronouns}"--> 
+                <c:PORTAL_UCIN_MyProfileBioDetails contactBioDetails="{!v.contactMap.contact}"
+                                                   userDetails="{!v.contactMap.userSettings}"
+                                                   interestAreasList="{!v.interestAreaTracker}"
+                                                   salutationList="{!v.contactMap.salutations}"
+												   pronounList="{!v.contactMap.pronouns}" 
+                                                   isEditing="{!v.isEditingMaster}"
+                                                   contactMap="{!v.contactMap}"
+												   genderLabel="{!v.genderLabel}"/>
+            </div>
+            <div class="w-full pb-1">
+                <span class="absolute w-1/2 sm:w-1/4 border-solid border-b-4 border-blue"></span>
+            </div>
+            <div class="w-full text-4xl font-bold px-4 sm:px-6 text-left block text-blue">
+                Professional information
+            </div>
+            <div class="pb-6">
+                <c:PORTAL_UCIN_MyProfileProfInfo positionDetails="{!v.contactMap.affilMap}" isEditing="{!v.isEditingMaster}"
+                                                 businessAddress="{!v.contactMap.businessAddress}" countryList="{!v.contactMap.picklists}"
+                                                 industryList="{!v.contactMap.industries}" hasOutstandingInterim="{!v.contactMap.outstandingInterim}"/>
+            </div>
+            <div class="w-full pb-1">
+                <span class="absolute w-1/2 sm:w-1/4 border-solid border-b-4 border-blue"></span>
+            </div>
+            <div class="w-full text-4xl font-bold px-4 sm:px-6 text-left block text-blue">
+                Contact Details
+            </div>
+            <div class="pb-6">
+                <c:PORTAL_UCIN_MyProfileContactInfo aura:id="mobileMyProfileContactInfo"
+                                                    prefAddress="{!v.contactMap.prefAddress}"
+                                                    preferredMap="{!v.contactMap.preferredMap}"
+                                                    emailMap="{!v.contactMap.emailMap}"
+                                                    phoneMap="{!v.contactMap.phoneMap}"
+                                                    socialMap="{!v.contactMap.socialMap}"
+                                                    countryList="{!v.contactMap.picklists}"
+                                                    isAllValid="{!v.isAllValid}"
+                                                    isEditing="{!v.isEditingMaster}"
+                                                    addressLine="{!v.addressLine}"
+                                                    oldEmailValue="{!v.oldEmailValue}"
+                                                    newEmailValue="{!v.newEmailValue}"
+                                                    oldBusinessEmailValue="{!v.oldBusinessEmailValue}"/>
+            </div>
+            <div class="w-full pb-1">
+                <span class="absolute w-1/2 sm:w-1/4 border-solid border-b-4 border-blue"></span>
+            </div>
+            <!--<div class="w-full text-4xl font-bold px-4 sm:px-6 text-left block text-blue">
+                Comms preference
+            </div>
+            <div class="pb-6">
+            	<c:PORTAL_UCIN_MyProfileCommPref contactCommPref="{!v.contactMap.contact}"/>
+            </div>-->
+            <div class="w-full pb-1">
+                <span class="absolute w-1/2 sm:w-1/4 border-solid border-b-4 border-blue"></span>
+            </div>
+            <div class="w-full text-4xl font-bold px-4 sm:px-6 text-left block text-blue">
+                Your degrees
+            </div>
+            <div class="pb-6">
+                <c:PORTAL_UCIN_MyProfileDegrees degreeList="{!v.contactMap.contact.Contact_Qualifications__r}"/>
+            </div>
+            <button class="mx-4 lg:mx-6 my-6 py-2 px-16 bg-blue hover:bg-blue text-white font-bold text-2xl sm:text-xl" type="button" onclick="{!c.onSave}" hidden="{!not(v.isEditingMaster)}">
+                Save
+            </button>
+			
+			<c:alumniManageSmsMFA  aura:id="alumniManageSmsMFAMobile"></c:alumniManageSmsMFA>
+        </div>
+    </div>
+</aura:component>

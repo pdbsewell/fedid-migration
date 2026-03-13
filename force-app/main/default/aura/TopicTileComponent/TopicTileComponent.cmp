@@ -1,0 +1,38 @@
+<!--
+ @name TopicTileComponent
+-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller='LightningTopicTileController' access="global" >
+    <ltng:require scripts="{!$Resource.jQuery321}" afterScriptsLoaded="{!c.doInit}"/>
+    <aura:attribute name="wrapperList" type="List[]" />
+    
+    <div class="slds-container_large slds-container_center cmp-container">
+        <div>
+            <h2 class="featuredTopicHeader">{!$Label.c.Trending_Topic_Label}</h2>
+        </div>
+
+        <div id="tiles-container">
+            <div class="slds-card__body">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-theme--default slds-size--1-of-1 slds-medium-size--6-of-6 slds-large-size--12-of-12" >
+                        <div class="slds-grid slds-wrap slds-m-horizontal--large mob-remove-horizontal-margin">
+                            <aura:iteration items="{!v.wrapperList}" var="tile">
+                                <div class="slds-col slds-m-top--small slds-grid slds-grid slds-grid_vertical slds-size--1-of-3 slds-medium-size--2-of-6 slds-large-size--4-of-12 slds-p-horizontal_small slds-p-horizontal_medium hover-state mob-tile-box">
+
+                                    <div class="tiles tiles-responsive slds-is-relative" style="{!'background-color:'+tile.colourCode+';'}" data-record="{!tile.topicRecord.Id}" onclick="{!c.redirectToTopic}">
+                                        <div class="tiles-spacing tiles-spacing-responsive slds-m-horizontal--large slds-m-top--xx-large" data-record="{!tile.topicRecord.Id}"></div>
+
+                                        <div class="tile-name tile-name-responsive slds-m-horizontal--large slds-m-vertical--medium" data-record="{!tile.topicRecord.Id}"> {!tile.topicRecord.Name} </div>
+
+                                        <div class="tiles-spacing-bottom tiles-spacing-bottom-responsive slds-m-horizontal--large" data-record="{!tile.topicRecord.Id}"></div>
+
+                                    </div>
+                                </div>
+                            </aura:iteration>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>   
+</aura:component>

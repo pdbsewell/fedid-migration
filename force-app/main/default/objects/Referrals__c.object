@@ -1,0 +1,413 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>This objects captures the referrals from a MonTRACK SSA</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>false</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>Private</externalSharingModel>
+    <fields>
+        <fullName>Alias__c</fullName>
+        <description>The name of record migrated from source org</description>
+        <externalId>true</externalId>
+        <label>Alias</label>
+        <length>50</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Referral__c</fullName>
+        <description>Captures the organization/service of Monash that a student is referred to from MonTRACK</description>
+        <label>Referral</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>No Referral given</fullName>
+                    <default>false</default>
+                    <label>No Referral given</label>
+                </value>
+                <value>
+                    <fullName>Chaplains</fullName>
+                    <default>false</default>
+                    <label>Chaplains</label>
+                </value>
+                <value>
+                    <fullName>Childcare</fullName>
+                    <default>false</default>
+                    <label>Childcare</label>
+                </value>
+                <value>
+                    <fullName>Counselling Service</fullName>
+                    <default>false</default>
+                    <label>Counselling Service</label>
+                </value>
+                <value>
+                    <fullName>Disability Services</fullName>
+                    <default>false</default>
+                    <label>Disability Services</label>
+                </value>
+                <value>
+                    <fullName>English Connect</fullName>
+                    <default>false</default>
+                    <label>English Connect</label>
+                </value>
+                <value>
+                    <fullName>Employment and Careers</fullName>
+                    <default>false</default>
+                    <label>Employment and Careers</label>
+                </value>
+                <value>
+                    <fullName>eSolutions</fullName>
+                    <default>false</default>
+                    <label>eSolutions</label>
+                </value>
+                <value>
+                    <fullName>Faculty Course Adviser</fullName>
+                    <default>false</default>
+                    <label>Faculty Course Adviser</label>
+                </value>
+                <value>
+                    <fullName>Faculty Student Services</fullName>
+                    <default>false</default>
+                    <label>Faculty Student Services</label>
+                </value>
+                <value>
+                    <fullName>Faculty Tutor/Lecturer/Unit Coordinator</fullName>
+                    <default>false</default>
+                    <label>Faculty Tutor/Lecturer/Unit Coordinator</label>
+                </value>
+                <value>
+                    <fullName>Health Service</fullName>
+                    <default>false</default>
+                    <label>Health Service</label>
+                </value>
+                <value>
+                    <fullName>Research and Learning Online</fullName>
+                    <default>false</default>
+                    <label>Research and Learning Online</label>
+                </value>
+                <value>
+                    <fullName>Learning Skills Adviser</fullName>
+                    <default>false</default>
+                    <label>Learning Skills Adviser</label>
+                </value>
+                <value>
+                    <fullName>Library</fullName>
+                    <default>false</default>
+                    <label>Library</label>
+                </value>
+                <value>
+                    <fullName>Monash Abroad</fullName>
+                    <default>false</default>
+                    <label>Monash Abroad</label>
+                </value>
+                <value>
+                    <fullName>Monash Connect</fullName>
+                    <default>false</default>
+                    <label>Monash Connect</label>
+                </value>
+                <value>
+                    <fullName>Monash Postgraduate Association (MPA)</fullName>
+                    <default>false</default>
+                    <label>Monash Postgraduate Association (MPA)</label>
+                </value>
+                <value>
+                    <fullName>Monash Residential Services</fullName>
+                    <default>false</default>
+                    <label>Monash Residential Services</label>
+                </value>
+                <value>
+                    <fullName>Monash Sport</fullName>
+                    <default>false</default>
+                    <label>Monash Sport</label>
+                </value>
+                <value>
+                    <fullName>Safer Community</fullName>
+                    <default>false</default>
+                    <label>Safer Community</label>
+                </value>
+                <value>
+                    <fullName>Security</fullName>
+                    <default>false</default>
+                    <label>Security</label>
+                </value>
+                <value>
+                    <fullName>Student Association</fullName>
+                    <default>false</default>
+                    <label>Student Association</label>
+                </value>
+                <value>
+                    <fullName>Student Rights</fullName>
+                    <default>false</default>
+                    <label>Student Rights</label>
+                </value>
+                <value>
+                    <fullName>Supervisor follow up required</fullName>
+                    <default>false</default>
+                    <label>Supervisor follow up required</label>
+                </value>
+                <value>
+                    <fullName>Team Monash</fullName>
+                    <default>false</default>
+                    <label>Team Monash</label>
+                </value>
+                <value>
+                    <fullName>Yulendj Indigenous Engagement Unit</fullName>
+                    <default>false</default>
+                    <label>Yulendj Indigenous Engagement Unit</label>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                    <label>Other</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Round__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Indicates the MonTRACK call round</description>
+        <label>Round</label>
+        <referenceTo>Round__c</referenceTo>
+        <relationshipName>Referrals</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>SSA_Comments__c</fullName>
+        <label>SSA Comments</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>SSA_Identified__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Indicates the SSA who provided the referral</description>
+        <label>SSA Identified</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Referrals</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Student__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Indicates the student who was referred by the SSA</description>
+        <label>Student</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipName>Referrals</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>mt_Resolution_notes__c</fullName>
+        <description>Describes the resolution undertaken by a MonTRACK SSA</description>
+        <label>Resolution notes</label>
+        <length>32768</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>mt_Resolved_Date_time__c</fullName>
+        <description>Indicates the time when a student&apos;s concerns were resolved by the SSA</description>
+        <label>Resolved Date/time</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>DateTime</type>
+    </fields>
+    <label>Referral</label>
+    <listViews>
+        <fullName>All</fullName>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <nameField>
+        <displayFormat>REF-{00000}</displayFormat>
+        <label>Referral Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Referrals</pluralLabel>
+    <searchLayouts>
+        <customTabListAdditionalFields>Referral__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Round__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>SSA_Identified__c</customTabListAdditionalFields>
+        <customTabListAdditionalFields>Student__c</customTabListAdditionalFields>
+        <lookupDialogsAdditionalFields>Referral__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Round__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Student__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>SSA_Identified__c</lookupDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Referral__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Round__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>SSA_Identified__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Student__c</lookupPhoneDialogsAdditionalFields>
+        <searchResultsAdditionalFields>Student__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Referral__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Round__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>SSA_Identified__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>UPDATEDBY_USER</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Alias__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>Read</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

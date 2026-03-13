@@ -1,0 +1,55 @@
+<template>
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-docked-composer-modal" aria-modal="true">
+        <div class="slds-modal__container">
+            <div class="slds-modal__content">
+                <section class="slds-docked-composer slds-grid slds-grid_vertical">
+                    <header class="slds-docked-composer__header slds-grid slds-shrink-none" aria-live="assertive">
+                        <div class="slds-media slds-media_center slds-no-space">
+                            <div class="slds-media__figure slds-m-right_x-small">
+                                <span class="slds-icon_container">
+                                    <lightning-layout vertical-align="center">
+                                        <!-- notes header icon -->
+                                        <lightning-layout-item>
+                                            <lightning-icon icon-name="utility:note" size="x-small"></lightning-icon>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </span>
+                            </div>
+                            <div class="slds-media__body">
+                                <lightning-layout vertical-align="center">
+                                    <!-- notes header text -->
+                                    <lightning-layout-item>
+                                        <h2 class="slds-truncate">{currentUserName}</h2>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </div>
+                        </div>
+                        <div class="slds-col_bump-left slds-shrink-none">
+                            <lightning-button-icon icon-name="utility:close"  
+                                                   alternative-text="Settings" 
+                                                   variant="bare"
+                                                   onclick={closeWindow}>
+                            </lightning-button-icon>
+                        </div>
+                    </header>
+                    <div class="slds-docked-composer__body">
+                        <div class="slds-p-around_medium">
+                            <lightning-formatted-rich-text value={notesContent}></lightning-formatted-rich-text>
+                        </div>
+                    </div>
+                    <footer class="slds-docked-composer__footer slds-shrink-none">
+                        <div class="slds-col_bump-left slds-text-align_right">
+                            <lightning-button label="Back" title="Back" onclick={closeWindow}></lightning-button>
+                            <lightning-button variant="brand" 
+                                                label="Publish Comment" 
+                                                class="slds-m-left_x-small"
+                                                onclick={publishComments}>
+                            </lightning-button>
+                        </div>
+                    </footer>
+                </section>
+            </div>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

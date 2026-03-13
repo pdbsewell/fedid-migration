@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Timestamp logs config based on object and fields.</description>
+    <fields>
+        <fullName>Active__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>Flag to check if creation of log is active</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Active</label>
+        <securityClassification>Internal</securityClassification>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Business_Hours_Name__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Business Hours Name setup. If not populated and business hours or holidays are excluded then it will be going to Default</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Business Hours Name</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Exclude_Non_Business_Hours__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>Exclude business hours in time difference calculation.</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Exclude Non-Business Hours</label>
+        <securityClassification>Public</securityClassification>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Field_API_Name__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field API Name to calculate. e.g. Workflow_Status__c</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Field API Name</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Object_API_Name__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Object API Name e.g. Application_Course_Preference__c</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Object API Name</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Unit__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Turn around calculation unit.</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Unit</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Hours</fullName>
+                    <default>true</default>
+                    <label>Hours</label>
+                </value>
+                <value>
+                    <fullName>Days</fullName>
+                    <default>false</default>
+                    <label>Days</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>Timestamp Config</label>
+    <pluralLabel>Timestamp Config</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

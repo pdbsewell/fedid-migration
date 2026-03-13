@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Mark Copado User Story as Ready to Promote and update project lookup to Platforms when the status field is &apos;Ready for Integration&apos;, &apos;Ready for Regression&apos; or &apos;Ready for Release&apos; or &apos;In Production&apos;</description>
+    <environments>Default</environments>
+    <interviewLabel>UserStory : AS : Update Project And Mark Ready To Promote {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>UserStory : AS : Update Project And Mark Ready To Promote</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Mark the User Story as Ready to Promote and tag to Platforms project when the User Story in jira is updated to Ready for Integration or Ready for Regression or Ready for Release or In Production</description>
+        <name>Update_Status_and_Project</name>
+        <label>Update Status and Project</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <inputAssignments>
+            <field>copado__Project__c</field>
+            <value>
+                <stringValue>aG3Oa00000027qDKAQ</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>copado__Promote_Change__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Status_and_Project</targetReference>
+        </connector>
+        <filterFormula>ISPICKVAL({!$Record.copado__Status__c}, &quot;Ready for Integration&quot;) || ISPICKVAL({!$Record.copado__Status__c}, &quot;Ready for Regression&quot;) || ISPICKVAL({!$Record.copado__Status__c}, &quot;READY FOR RELEASE&quot;)</filterFormula>
+        <object>copado__User_Story__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

@@ -1,0 +1,187 @@
+<template>
+    <div class="slds">
+        <div class="slds-section section-float">
+          <div class="slds-grid slds-gutters slds-wrap">
+            <div class="slds-col">
+              <!-- Sponsorship -->
+              <div class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                  <div class="slds-size_5-of-5">
+                    <h2>Sponsorship</h2>
+                  </div>
+                  <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                    <p>A sponsorship/scholarship is an agreement by someone external to Monash University to pay your course fees or some/all of your education-related expenses.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="slds-grid slds-gutters slds-wrap">
+            <div class="slds-col">
+              <!-- Proxy -->
+              <div class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                  <div class="slds-size_5-of-5">
+                    <h2>Proxy</h2>
+                  </div>
+                  <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                    <p>A proxy is a person who is authorised to act on your behalf. You are responsible for all actions undertaken on your behalf by your proxy.</p>
+                  </div>
+                  <div class="slds-size_5-of-5 slds-p-bottom_medium">
+                    <template if:true={application}>
+                      <div class="fieldContainer">
+                        <lightning-layout multiple-rows="true" class="slds-size_5-of-5">
+                          <lightning-layout-item size="12">
+                            <span class="fieldTitle">Do you have a person/organisation to nominate</span>
+                          </lightning-layout-item>
+                          <lightning-layout-item size="12">
+                            <lightning-radio-group id="sponsorshipGroup" name="sponsorshipCheckboxGroup" label="Do you have a person/organisation to nominate?" options={sponsorshipOptions} onchange={updateMySelection} value={application.Sponsorship_Type__c} variant="label-hidden"></lightning-radio-group>
+                          </lightning-layout-item>
+                        </lightning-layout>
+                      </div>
+                      <template if:true={isSponsorship}>
+                        <div class="fieldContainer">
+                          <lightning-layout multiple-rows="true" class="slds-size_5-of-5">
+                            <lightning-layout-item size="4">
+                              <span class="fieldTitle">Name of the sponsor/scholarship </span>
+                              <sup class="requiredField">*</sup>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="8">
+                                <lightning-input class="field"
+                                    aria-required=true
+                                    label=""
+                                    variant="label-hidden"
+                                    value={sponsorName}
+                                    onblur={updateApplication}
+                                    name="sponsorTypeName">
+                                </lightning-input>
+                            </lightning-layout-item>
+                          </lightning-layout>
+                        </div>
+                        <div class="fieldContainer">
+                          <lightning-layout multiple-rows="true" class="slds-size_5-of-5">
+                            <lightning-layout-item size="4">
+                              <span class="fieldTitle">Sponsor / Scholarship organisation </span>
+                              <sup class="requiredField">*</sup>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="8">
+                                <lightning-input class="field"
+                                    aria-required=true
+                                    label=""
+                                    variant="label-hidden"
+                                    value={sponsorOrg}
+                                    onblur={updateApplication}
+                                    name="sponsorTypeOrg">
+                                </lightning-input>
+                            </lightning-layout-item>
+                          </lightning-layout>
+                        </div>
+                        <div class="fieldContainer">
+                          <lightning-layout multiple-rows="true" class="slds-size_5-of-5">
+                            <lightning-layout-item size="4">
+                              <span class="fieldTitle">Sponsor Email Address </span>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="8">
+                                <lightning-input class="field"
+                                    aria-required=true
+                                    type="email"
+                                    label="Sponsor Email Address"
+                                    variant="label-hidden"
+                                    value={sponsorEmail}
+                                    name="sponsorTypeEmail"
+                                    onblur={updateApplication}>
+                                </lightning-input>
+                            </lightning-layout-item>
+                          </lightning-layout>
+                        </div>
+                      </template>
+                      <!--PROXY-->
+                      <template if:true={isProxy}>
+                        <div class="fieldContainer">
+                          <lightning-layout multiple-rows="true" class="slds-size_5-of-5">
+                            <lightning-layout-item size="4">
+                              <span class="fieldTitle">Name of Proxy </span>
+                              <sup class="requiredField">*</sup>
+                        </lightning-layout-item>
+                            <lightning-layout-item size="8">
+                                <lightning-input class="field"
+                                    aria-required=true
+                                    label=""
+                                    variant="label-hidden"
+                                    value={proxyName}
+                                    onblur={updateApplication}
+                                    name="proxyTypeName">
+                                </lightning-input>
+                        </lightning-layout-item>
+                          </lightning-layout>
+                        </div>
+                        <div class="fieldContainer">
+                          <lightning-layout multiple-rows="true" class="slds-size_5-of-5">
+                            <lightning-layout-item size="4">
+                              <span class="fieldTitle">Proxy Relationship to you </span>
+                              <sup class="requiredField">*</sup>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="8">
+                                <lightning-input class="field"
+                                    aria-required=true
+                                    label=""
+                                    variant="label-hidden"
+                                    value={proxyOrg}
+                                    onblur={updateApplication}
+                                    name="proxyTypeOrg">
+                                </lightning-input>
+                            </lightning-layout-item>
+                          </lightning-layout>
+                        </div>
+                        <div class="fieldContainer">
+                          <lightning-layout multiple-rows="true" class="slds-size_5-of-5">
+                            <lightning-layout-item size="4">
+                              <span class="fieldTitle">Proxy Email Address </span>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="8">
+                                <lightning-input class="field"
+                                    aria-required=true
+                                    label="Proxy Email Address"
+                                    type ="email"
+                                    variant="label-hidden"
+                                    value={proxyEmail}
+                                    name="proxyTypeEmail"
+                                    onblur={updateApplication}>
+                                </lightning-input>
+                            </lightning-layout-item>
+                          </lightning-layout>
+                        </div>
+                      </template>
+                    </template>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- ALERT: ANY Errors on save-->
+        <template if:true={showErrors}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+          <div class="slds-modal__container">
+            <header class="slds-modal__header">
+              <h3 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Please complete the following:</h3>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+              <ul class="slds-list_dotted slds-text-align--left">
+                <template for:each={saveErrors} for:item="error">
+                  <li key={error}>{error}</li>
+                </template>
+              </ul>
+            </div>
+            <footer class="slds-modal__footer">
+              <button class="slds-button slds-button_neutral" onclick={onclickcloseerrors}>Close</button>
+            </footer>
+          </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+      <!-- END SAVE ERRORS -->
+          </div>
+    </div>
+</template>

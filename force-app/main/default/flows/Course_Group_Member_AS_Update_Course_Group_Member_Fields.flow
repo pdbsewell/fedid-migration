@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Log_Nebula_Error</name>
+        <label>Log Nebula Error</label>
+        <locationX>440</locationX>
+        <locationY>431</locationY>
+        <actionName>Nebula__FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <stringValue>Course_Group_Member_AS_Update_course_Group_Member_Fields</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <elementReference>Log_Nebula_Error</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Update fields on Course Group Member - Name. Migrated from Course Group Member PB</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>Concatenate Course Group and Course Code</description>
+        <name>Concatenate_CourseGroup_And_CourseCode</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.Course_Group__r.Course_Group__c}   + &apos;_&apos; + {!$Record.Course__r.Course_Code__c}</expression>
+    </formulas>
+    <interviewLabel>Course Group Member : {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Course Group Member : AS : Update Course Group Member Fields</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Update name with concatenated value of course group and course code</description>
+        <name>Update_Name</name>
+        <label>Update Name</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <faultConnector>
+            <targetReference>Log_Nebula_Error</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Name</field>
+            <value>
+                <elementReference>Concatenate_CourseGroup_And_CourseCode</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Name</targetReference>
+        </connector>
+        <filterFormula>AND(
+{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False,{!$Record.Name} != {!$Record.Course_Group__r.Course_Group__c}   + &apos;_&apos; + {!$Record.Course__r.Course_Code__c})</filterFormula>
+        <object>Course_Group_Member__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

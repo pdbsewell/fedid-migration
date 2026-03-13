@@ -1,0 +1,88 @@
+<template>
+    <div class="relative flex justify-center my-4 bg-cover" style={backgroundStyle}>
+        <template if:false={dataLoaded}>
+            <lightning-spinner alternative-text="Loading" class="spins" variant="brand" size="medium"></lightning-spinner>
+        </template>
+        <template if:true={dataLoaded}>
+            <div> 
+                <div class="max-w-lg flex flex-col justify-center items-center px-6 pt-10 pb-6 overflow-hidden shadow-lg bg-white ucin-whitebox">
+                    <div class="pt-6 self-start">
+                        <div class="font-medium text-4xl mb-2 uppercase leading-none">Welcome to the</div>
+                        <div class="font-extrabold text-6xl mb-2 uppercase leading-none">Alumni Portal</div> 
+                    </div>
+                    <template if:false={onBoarded}>
+                        <template if:true={caseCreated}>
+                            <div class="pt-6 self-start">
+                                <div class="font-medium text-2xl mb-2 leading-none">Your support request has been received and your reference number is {caseNumber}.</div>
+                                <div class="font-medium text-2xl mb-2 leading-none">One of our team will be in touch within two (2) business days.</div>
+                            </div>
+                        </template>
+                        <template if:false={caseCreated}>
+                            <template if:false={brthVldnFailed}>
+                                <lightning-layout multiple-rows="true">
+                                    <template if:false={validatedUser}>
+                                        <div class="slds-p-left_small"> 
+                                            <p class="pb-2 text-lg leading-loose text-dark-grey"> Please validate your date of birth to register</p>
+                                            <lightning-layout-item flexibility="auto"  size="12" large-device-size="6" medium-device-size="6" small-device-size="12">
+                                                <lightning-input class="pb-2 text-lg leading-loose text-dark-grey" value={dateOfBirth} type="date" name="stDt" label="Enter your date of birth" onchange={handleDateChangeEvent}></lightning-input>
+                                            </lightning-layout-item>
+                                        </div>
+        
+                                        <lightning-layout-item flexibility="auto" class="slds-p-bottom_medium" size="12" large-device-size="12" medium-device-size="6" small-device-size="12"> 
+                                            <c-re-captcha oncaptchachange={handleDispatchCaptchaEvent}></c-re-captcha>
+                                        </lightning-layout-item>
+        
+                                        <lightning-layout-item  flexibility="auto" padding="around-small" size="12" large-device-size="6" medium-device-size="6" small-device-size="12">
+                                            <button class="bg-blue hover:bg-blue-700 text-white font-bold py-2 px-10 focus:outline-none focus:shadow-outline ucin-button" style="font-weight: 600;" onclick={validateContactInfo}>Validate Date Of Birth</button>
+                                        </lightning-layout-item>
+                                    </template>
+                                    
+                                    <template if:true={validatedUser}>
+                                        <!-- Register New Alumni User -->
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" large-device-size="12" medium-device-size="6" small-device-size="12">
+                                            <lightning-input name="fname" type="text" label="First Name" disabled="true" value={fname} onchange={setValue} max-length="255"></lightning-input>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" large-device-size="12" medium-device-size="6" small-device-size="12">
+                                            <lightning-input name="lname" type="text" label="Last Name" disabled="true" value={lname} onchange={setValue} max-length="255"></lightning-input>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item flexibility="auto" padding="around-small" size="12" large-device-size="12" medium-device-size="6" small-device-size="12">
+                                            <lightning-input name="uname" type="text" label="User Name" disabled="true" value={uname} onchange={setValue} max-length="255" field-level-help="Username"></lightning-input>
+                                        </lightning-layout-item>
+                                        <template if:true={freshUser}>
+                                            <lightning-layout-item> 
+                                                <button class="bg-blue hover:bg-blue-700 text-white font-bold py-2 px-10 focus:outline-none focus:shadow-outline ucin-button" style="font-weight: 600;" onclick={createUser}>Create User</button>
+                                            </lightning-layout-item>
+                                        </template>
+                                        <template if:true={nonAlumniUser}>
+                                            <lightning-layout-item > 
+                                                <button class="bg-blue hover:bg-blue-700 text-white font-bold py-2 px-10 focus:outline-none focus:shadow-outline ucin-button" style="font-weight: 600;" onclick={extendUserAsAlumni}>Create Account</button>
+                                            </lightning-layout-item>
+                                        </template>
+                                    </template> 
+                                </lightning-layout> 
+                            </template> 
+        
+                            <template if:true={brthVldnFailed}>  
+                                <div class="pt-6 self-start">
+                                    <div class="font-medium text-2xl mb-2 leading-none">We are having trouble validating your date of birth. Please <a  onclick={createEnquiry} style = "color: blue"><span>Click here</span></a> to submit a support request. Our team will be in touch with you within two (2) business days.</div>
+                                </div>
+                            </template>
+                        </template>
+                    </template>
+                    <template if:true={onBoarded}>
+                        <div class="pt-6 self-start">
+                            <div class="font-medium text-2xl mb-2 leading-none">{onBoardingMessage}
+                                <template if:true={preExistingAlumni}>
+                                    <a onclick={navigateToLoginPage} style = "color: blue"><span>Login now</span></a>
+                                    <span class="font-medium text-2xl mb-2 leading-none"> or </span>
+                                    <a onclick={navigateToResetPasswordPage} style = "color: blue"><span>reset your password.</span></a>
+                                </template>
+                            </div>
+                        </div>
+                    </template>  
+                </div>
+            </div>
+        </template>
+    </div>
+
+</template>

@@ -1,0 +1,103 @@
+.stepsDefault {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 25px;
+}
+
+.stepsActive {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 25px;
+
+}
+
+.stepsComplete {
+    display: flex;
+    margin-top: 20px;
+    margin-bottom: 25px;
+}
+
+.stepsActive:hover {
+    cursor: pointer;
+}
+
+.stepsComplete:hover {
+    cursor: pointer;
+}
+
+.stepsActive:hover .sidebarStep {
+    letter-spacing: 0px;
+    color: #006DAE;
+    text-transform: uppercase;
+    opacity: 1;
+}
+
+.stepsActive:hover .sidebarStepIcon {
+    background: #006DAE 0% 0% no-repeat padding-box;   
+}
+
+.stepsComplete:hover .sidebarStep {
+    letter-spacing: 0px;
+    color: #006DAE;
+    text-transform: uppercase;
+    opacity: 1;
+}
+
+.stepsComplete:hover .sidebarStepIcon {
+    background: #006DAE 0% 0% no-repeat padding-box;   
+}
+
+.sidebarStepIcon {
+    border-radius: 50%;
+    width: 26px;
+    height: 26px;
+    margin-left: -13.5px;
+    color: #ffffff;
+    text-align: center;
+    font-family: "Roboto Condensed";
+    font-size: 17px;
+    line-height: 26px;
+}
+
+.sidebarStepIconDefault {
+    background: #505050 0% 0% no-repeat padding-box;
+}
+
+.sidebarStepIconActive {
+    background: #006DAE 0% 0% no-repeat padding-box;
+    
+}
+
+.sidebarStepIconComplete {
+    background: #008A25 0% 0% no-repeat padding-box;    
+}
+
+.sidebarStep {
+    margin-left: 20px;
+    text-align: left;
+    font-family: "Roboto Condensed";
+    font-size: 20px;
+    line-height: 26px;
+}
+
+.sidebarStepDefault {
+    letter-spacing: 0px;
+    color: #333333;
+    text-transform: uppercase;
+    opacity: 1;
+}
+
+.sidebarStepActive {
+    letter-spacing: 0px;
+    color: #006DAE;
+    text-transform: uppercase;
+    opacity: 1;
+    font-weight: bold; 
+}
+
+.sidebarStepComplete {
+    letter-spacing: 0px;
+    color: #707070;
+    text-transform: uppercase;
+    opacity: 1;
+}

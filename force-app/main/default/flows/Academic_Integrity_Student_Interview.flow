@@ -1,0 +1,842 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>assign_New_Task</name>
+        <label>assign New Task</label>
+        <locationX>176</locationX>
+        <locationY>890</locationY>
+        <assignmentItems>
+            <assignToReference>varTask.WhatId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>varEnquiryId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varTask.OwnerId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$User.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varTask.Type</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Meeting</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varTask.Subject</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Academic Integrity - Student Interview</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varTask.Status</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Completed</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varTask.ActivityDate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>dtime_01</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>varTask.RecordTypeId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>getRT_CaseDefault.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>create_New_Task</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>assign_taskBody</name>
+        <label>assign taskBody</label>
+        <locationX>176</locationX>
+        <locationY>674</locationY>
+        <assignmentItems>
+            <assignToReference>varTask.Description</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>txt_TaskSummary</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>getRT_CaseDefault</targetReference>
+        </connector>
+    </assignments>
+    <choices>
+        <description>Belief they will not be caught</description>
+        <name>c_Belieftheywillnotbecaught</name>
+        <choiceText>Belief they will not be caught</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Belief they will not be caught</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>c_Desireforgoodresult</name>
+        <choiceText>Desire for good result</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Desire for good result</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>c_Disinterestinthetask</name>
+        <choiceText>Disinterest in the task</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Disinterest in the task</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>c_Fearoffailing</name>
+        <choiceText>Fear of failing</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Fear of failing</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>c_Lackofeffort</name>
+        <choiceText>Lack of effort</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Lack of effort</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>c_Other</name>
+        <choiceText>Other</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Other</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>c_Perceivedpooracademicskills</name>
+        <choiceText>(Perceived) poor academic skills</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>(Perceived) poor academic skills</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>c_Perceivedpoorlanguageskills</name>
+        <choiceText>(Perceived) poor language skills</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>(Perceived) poor language skills</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>c_Perceivedpoortimemanagement</name>
+        <choiceText>(Perceived) poor time management</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>(Perceived) poor time management</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>c_Reasonnotgiven</name>
+        <choiceText>Reason not given</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Reason not given</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>c_Taskinstructionsunclear</name>
+        <choiceText>Task instructions unclear</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Task instructions unclear</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>c_Thinkothersarecheatingandwanttokeepup</name>
+        <choiceText>Think others are cheating and want to keep up</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Think others are cheating and want to keep up</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>c_Unawareconductbreachesacademicintegrity</name>
+        <choiceText>Unaware conduct breaches academic integrity</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Unaware conduct breaches academic integrity</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>c_Workloadunmanageable</name>
+        <choiceText>Workload unmanageable</choiceText>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Workload unmanageable</stringValue>
+        </value>
+    </choices>
+    <choices>
+        <name>rb_No</name>
+        <choiceText>No</choiceText>
+        <dataType>Boolean</dataType>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </choices>
+    <choices>
+        <name>rb_Yes</name>
+        <choiceText>Yes</choiceText>
+        <dataType>Boolean</dataType>
+        <value>
+            <booleanValue>true</booleanValue>
+        </value>
+    </choices>
+    <description>Guided student interview for Academic Integrity.
+Release 21.5.3.1 (SA-950)</description>
+    <environments>Default</environments>
+    <interviewLabel>Academic Integrity - Student Interview {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>SCR - Academic Integrity - Student Interview</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <recordCreates>
+        <name>create_New_Task</name>
+        <label>create New Task</label>
+        <locationX>176</locationX>
+        <locationY>998</locationY>
+        <faultConnector>
+            <targetReference>debugNewTask</targetReference>
+        </faultConnector>
+        <inputReference>varTask</inputReference>
+    </recordCreates>
+    <recordLookups>
+        <name>getRT_CaseDefault</name>
+        <label>getRT CaseDefault</label>
+        <locationX>176</locationX>
+        <locationY>782</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>assign_New_Task</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>debug_Get_RT_Task</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>SobjectType</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Task</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Case</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>RecordType</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <runInMode>SystemModeWithoutSharing</runInMode>
+    <screens>
+        <name>debug_Get_RT_Task</name>
+        <label>debug Get RT Task</label>
+        <locationX>704</locationX>
+        <locationY>890</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>dtxt_debug_0</name>
+            <fieldText>&lt;p&gt;{!txt_debugDetails}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>debugNewTask</name>
+        <label>debug New Task</label>
+        <locationX>440</locationX>
+        <locationY>1106</locationY>
+        <allowBack>false</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>false</allowPause>
+        <fields>
+            <name>dtxt_debug</name>
+            <fieldText>&lt;p&gt;{!txt_debugDetails}&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>screen_InterviewOutcome</name>
+        <label>screen_InterviewOutcome</label>
+        <locationX>176</locationX>
+        <locationY>566</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>assign_taskBody</targetReference>
+        </connector>
+        <fields>
+            <name>dtxt_12</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(0, 109, 174); font-size: 16px;&quot;&gt;Step 6: Interview Outcome&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-size: 14px;&quot;&gt;Let the student know that they will receive an outcome letter after a final decision is made. If the case is deemed a minor breach (poor academic practice), the student will be provided with links to services and resources to improve academic skills.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>dtxt_13</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(51, 51, 51);&quot;&gt;Add any additional notes such as disagreement with the student’s denial in the case log.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>ltarea_04</name>
+            <fieldText>Enter any additional notes</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>false</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>dtxt_14</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(51, 51, 51);&quot;&gt;If the meeting is held online and the student is in considerable distress following the interview and they are not accompanied by a support person, a staff member from the academic integrity interview should call the University Health Services on (03) 9905 3175 and ask to speak to the Triage Nurse. The triage nurse will then decide if the student is called by the UHS mental health nurse. The student should also be encouraged to call the University Counselling service on (03) 9905 3175 and be given the 24/7 phone counselling number 1300 788 336.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-size: 14px;&quot;&gt;Thank the student and support person for attending and end the interview.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(200, 0, 143); font-size: 14px;&quot;&gt;Click &lt;/span&gt;&lt;strong style=&quot;color: rgb(200, 0, 143); font-size: 14px;&quot;&gt;Next&lt;/strong&gt;&lt;span style=&quot;color: rgb(200, 0, 143); font-size: 14px;&quot;&gt; to complete the interview. A record of responses will be saved to the case, and the main screen will be displayed.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>screen_InterviewOutline</name>
+        <label>screen_InterviewOutline</label>
+        <locationX>176</locationX>
+        <locationY>350</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>screen_PenaltyOutline</targetReference>
+        </connector>
+        <fields>
+            <name>dtxt_03</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(0, 109, 174); font-size: 16px;&quot;&gt;Step 3: Attendee Confirmation&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(51, 51, 51);&quot;&gt;Confirm the student’s name and ID. If you are meeting via Zoom, ask the student for their phone number and also their current address.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>dtxt_04</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(51, 51, 51);&quot;&gt;Ask the student support officer to introduce themselves (if applicable).&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>ltarea_01</name>
+            <fieldText>Enter names of all attendees</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>false</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>dt_05</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(51, 51, 51);&quot;&gt;If there is a student support officer present, read this out to them:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(96, 125, 139);&quot;&gt;You may not speak on the student&apos;s behalf. You may be excused from the meeting at any time, to discuss with the student, and return to the meeting.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>dtxt_06</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px; color: rgb(0, 109, 174);&quot;&gt;Step 4: Suspected Breach Review&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-size: 14px;&quot;&gt;Remind the student of the suspected breaches. Review the evidence with the student.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>dtxt_08</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-size: 14px;&quot;&gt;Ask the student to respond to the suspected breaches.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>ltarea_02</name>
+            <fieldText>Enter notes of the student&apos;s response</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>false</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>rb_02</name>
+            <choiceReferences>rb_Yes</choiceReferences>
+            <choiceReferences>rb_No</choiceReferences>
+            <dataType>Boolean</dataType>
+            <fieldText>Did the student admit to the breach?</fieldText>
+            <fieldType>RadioButtons</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>false</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>plist_01</name>
+            <choiceReferences>c_Belieftheywillnotbecaught</choiceReferences>
+            <choiceReferences>c_Desireforgoodresult</choiceReferences>
+            <choiceReferences>c_Disinterestinthetask</choiceReferences>
+            <choiceReferences>c_Fearoffailing</choiceReferences>
+            <choiceReferences>c_Lackofeffort</choiceReferences>
+            <choiceReferences>c_Perceivedpooracademicskills</choiceReferences>
+            <choiceReferences>c_Perceivedpoorlanguageskills</choiceReferences>
+            <choiceReferences>c_Perceivedpoortimemanagement</choiceReferences>
+            <choiceReferences>c_Taskinstructionsunclear</choiceReferences>
+            <choiceReferences>c_Thinkothersarecheatingandwanttokeepup</choiceReferences>
+            <choiceReferences>c_Unawareconductbreachesacademicintegrity</choiceReferences>
+            <choiceReferences>c_Workloadunmanageable</choiceReferences>
+            <choiceReferences>c_Reasonnotgiven</choiceReferences>
+            <choiceReferences>c_Other</choiceReferences>
+            <dataType>String</dataType>
+            <fieldText>What is the student’s reason for the breach?</fieldText>
+            <fieldType>MultiSelectCheckboxes</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>false</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+            <visibilityRule>
+                <conditionLogic>and</conditionLogic>
+                <conditions>
+                    <leftValueReference>rb_02</leftValueReference>
+                    <operator>EqualTo</operator>
+                    <rightValue>
+                        <elementReference>rb_Yes</elementReference>
+                    </rightValue>
+                </conditions>
+            </visibilityRule>
+        </fields>
+        <fields>
+            <name>dt_09</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(51, 51, 51);&quot;&gt;Ask the student if they have any additional evidence they would like to be considered.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(51, 51, 51);&quot;&gt;Ask them to send a copy of additional evidence to you, by replying to the &quot;Notice of Suspected Breach&quot; email.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(51, 51, 51);&quot;&gt;﻿&lt;/span&gt;&lt;span style=&quot;font-size: 14px; color: rgb(200, 0, 143);&quot;&gt;Click &lt;/span&gt;&lt;b style=&quot;font-size: 14px; color: rgb(200, 0, 143);&quot;&gt;Next&lt;/b&gt;&lt;span style=&quot;font-size: 14px; color: rgb(200, 0, 143);&quot;&gt; to go to the next step: Penalty Outline&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>screen_PenaltyOutline</name>
+        <label>screen_PenaltyOutline</label>
+        <locationX>176</locationX>
+        <locationY>458</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>screen_InterviewOutcome</targetReference>
+        </connector>
+        <fields>
+            <name>dtxt_010</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px; color: rgb(0, 109, 174);&quot;&gt;Step 5: Penalty Outline&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-size: 14px;&quot;&gt;Read the following statement about penalties:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(96, 125, 139);&quot;&gt;If you have engaged in poor academic practice, you will receive a warning that is recorded on Monash&apos;s Academic Integrity Register. Only the portions of your assessment not affected by the breach will be marked, or you may be allowed to resubmit the work, and receive a maximum grade of 50%.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px; color: rgb(96, 125, 139);&quot;&gt;If this is more serious, the matter must be reported as an allegation of academic misconduct. Allegations of misconduct will appear on the Academic Integrity Register.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>dtxt_011</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-size: 14px;&quot;&gt;Ask the student if there are any extenuating circumstances that they would like the University to consider when deciding the outcome.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>ltarea_03</name>
+            <fieldText>Enter notes of the student&apos;s response</fieldText>
+            <fieldType>LargeTextArea</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>false</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>dtxt_011n</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(200, 0, 143); font-size: 14px;&quot;&gt;Click &lt;/span&gt;&lt;b style=&quot;color: rgb(200, 0, 143); font-size: 14px;&quot;&gt;Next&lt;/b&gt;&lt;span style=&quot;color: rgb(200, 0, 143); font-size: 14px;&quot;&gt; to go to the next step: Interview Outcome&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>screen_StudentConsent</name>
+        <label>screen_StudentConsent</label>
+        <locationX>176</locationX>
+        <locationY>242</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>screen_InterviewOutline</targetReference>
+        </connector>
+        <fields>
+            <name>dtxt_02a</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(0, 109, 174); font-size: 16px;&quot;&gt;﻿Step 1: Introductions&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-size: 14px;&quot;&gt;Introduce yourself and witness (if applicable). State that the witness will observe only and will not participate in the discussion.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 109, 174); font-size: 16px;&quot;&gt;Step 2: Obtain Student Consent&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-size: 14px;&quot;&gt;Read them the following statement (&lt;/span&gt;&lt;span style=&quot;color: rgb(96, 125, 139); font-size: 14px;&quot;&gt;in color&lt;/span&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-size: 14px;&quot;&gt;) and record their response.&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 14px; color: rgb(96, 125, 139);&quot;&gt;I would like to collect information about your response to a suspected breach of academic integrity&amp;nbsp;for the purposes of determining the matter under the Student Academic Integrity Procedure. If the breach is found to have occurred, this information may also be used by the University in subsequent academic misconduct proceedings, including a misconduct panel hearing, and in any appeal of the decision that you may make.&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 14px; color: rgb(96, 125, 139);&quot;&gt;&amp;nbsp;&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 14px; color: rgb(96, 125, 139);&quot;&gt;Your participation in this meeting is voluntary and you may choose to end your participation at any time. The nature of the information that you choose to provide us is up to you. If you do not provide me with all the relevant information in relation to the suspected breach or choose to stop participating, I will use the information before me to make a decision about the suspected breach. &lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 14px; color: rgb(96, 125, 139);&quot;&gt;﻿&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;color: rgb(96, 125, 139); font-size: 14px;&quot;&gt;Do you consent to the personal information that you provide in this academic integrity interview being used for the purposes of determining the suspected breach and in any subsequent misconduct proceedings?&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>rb_01</name>
+            <choiceReferences>rb_Yes</choiceReferences>
+            <choiceReferences>rb_No</choiceReferences>
+            <dataType>Boolean</dataType>
+            <fieldText>Student Response to Question</fieldText>
+            <fieldType>RadioButtons</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>false</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>dtxt_2b</name>
+            <fieldText>&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;font-size: 14px; color: rgb(96, 125, 139);&quot;&gt;If you have questions about how Monash University is collecting and handling your personal information, please contact our Data Protection and Privacy Office or if in Malaysia, review the &lt;/span&gt;&lt;a href=&quot;https://www.monash.edu.my/personal-data-protection-notice&quot; rel=&quot;noopener noreferrer&quot; target=&quot;_blank&quot; style=&quot;font-size: 14px; color: rgb(0, 0, 255);&quot;&gt;&lt;u&gt;Personal Data Protection notice&lt;/u&gt;&lt;/a&gt;&lt;span style=&quot;font-size: 14px; color: rgb(96, 125, 139);&quot;&gt;. I can provide you with contact details or the web address if you need them.&lt;/span&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;br&gt;&lt;/p&gt;&lt;p class=&quot;ql-indent-1&quot;&gt;&lt;span style=&quot;color: rgb(96, 125, 139); font-size: 14px;&quot;&gt;Depending on the outcome of this matter, the University is required by law to retain any record of this interview for a period of up to 15 years.&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>dtxt_nextpage2</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(200, 0, 143); font-size: 14px;&quot;&gt;Click &lt;/span&gt;&lt;b style=&quot;color: rgb(200, 0, 143); font-size: 14px;&quot;&gt;Next&lt;/b&gt;&lt;span style=&quot;color: rgb(200, 0, 143); font-size: 14px;&quot;&gt; to go to the next step: Attendee Confirmation and Suspected Breach Review&lt;/span&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <screens>
+        <name>screen_Welcome</name>
+        <label>screen_Welcome</label>
+        <locationX>176</locationX>
+        <locationY>134</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>screen_StudentConsent</targetReference>
+        </connector>
+        <fields>
+            <name>dtxt_Welcome</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;color: rgb(0, 109, 174); font-size: 18px;&quot;&gt;Student Interview - Before we Begin&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>dtime_01</name>
+            <dataType>DateTime</dataType>
+            <defaultValue>
+                <elementReference>$Flow.InterviewStartTime</elementReference>
+            </defaultValue>
+            <fieldText>Date and time of the meeting</fieldText>
+            <fieldType>InputField</fieldType>
+            <inputsOnNextNavToAssocScrn>UseStoredValues</inputsOnNextNavToAssocScrn>
+            <isRequired>false</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>dtxt_01</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px; color: rgb(200, 0, 143);&quot;&gt;Emergency Response&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;font-size: 14px;&quot;&gt;If during the interview you believe an emergency response is required (e.g. the student suffers a medical emergency, makes a serious and immediate threat to harm themselves), call 000 (999 if in Malaysia) immediately and provide emergency services with the student’s current address and phone number. If the student is located offshore, contact Monash Security on (03) 9905 3333 (or MUM Student Support at +60 19-272 5859 ) and advise them of the student’s details.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(200, 0, 143); font-size: 14px;&quot;&gt;If you are meeting via Zoom, the meeting should not be recorded.&amp;nbsp;&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>dtxt_01a</name>
+            <fieldText>&lt;p&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-size: 14px;&quot;&gt;Click &lt;/span&gt;&lt;b style=&quot;color: rgb(51, 51, 51); font-size: 14px;&quot;&gt;Next&lt;/b&gt;&lt;span style=&quot;color: rgb(51, 51, 51); font-size: 14px;&quot;&gt; to go to the first step: &lt;/span&gt;&lt;b style=&quot;color: rgb(51, 51, 51); font-size: 14px;&quot;&gt;Introductions and Student Consent&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>false</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>screen_Welcome</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>txt_debugDetails</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 0); font-size: 16px;&quot;&gt;Oops! We have run into an issue&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;We have run into an issues while updating this record. Please contact your system administrator with the below details for them to investigate the issue.&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 255);&quot;&gt;-------Debug Start-------&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 255);&quot;&gt;Flow:&lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 255);&quot;&gt; Academic Integrity - Breach Review&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 255);&quot;&gt;Org Id: &lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 255);&quot;&gt;{!$Organization.Id}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;background-color: rgb(255, 255, 255); color: rgb(0, 0, 255);&quot;&gt;Date/Time:&lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 255);&quot;&gt; {!$Flow.CurrentDateTime}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 255);&quot;&gt;Running User:&lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 255);&quot;&gt; {!$User.Id}({!$Profile.Name})&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 255); background-color: rgb(255, 255, 255);&quot;&gt;Interview GUID:&lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 255); background-color: rgb(255, 255, 255);&quot;&gt; {!$Flow.InterviewGuid}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(0, 0, 255);&quot;&gt;Enquiry Id:&lt;/b&gt;&lt;span style=&quot;color: rgb(0, 0, 255);&quot;&gt; {!varEnquiryId}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;b style=&quot;color: rgb(255, 0, 0);&quot;&gt;Error Message:&lt;/b&gt;&lt;span style=&quot;color: rgb(255, 0, 0);&quot;&gt; {!$Flow.FaultMessage}&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot;color: rgb(0, 0, 255);&quot;&gt;-------Debug End-------&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;p&gt;For any help, questions or support contact:&lt;/p&gt;&lt;p&gt;{!txt_SupportContact}&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>txt_SupportContact</name>
+        <isViewedAsPlainText>false</isViewedAsPlainText>
+        <text>&lt;p&gt;&lt;b&gt;Academic Integrity Support (UniCRM)&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Name: Servicedesk Online&lt;/p&gt;&lt;p&gt;Email: servicedesk@monash.edu&lt;/p&gt;</text>
+    </textTemplates>
+    <textTemplates>
+        <name>txt_TaskSummary</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>[Meeting date: {!dtime_01}]
+----------
+[Student consent: {!rb_01}]
+----------
+[Attendees: {!ltarea_01}]
+----------
+[Breach review response: {!ltarea_02}]
+----------
+[Admit to breach: {!rb_02}]
+----------
+[Reason for breach: {!plist_01}]
+----------
+[Extenuating circumstances: {!ltarea_03}]
+----------
+[Additional notes: {!ltarea_04}]
+----------</text>
+    </textTemplates>
+    <variables>
+        <name>plist_BreachReason</name>
+        <dataType>Picklist</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>varEnquiryId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>varTask</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Task</objectType>
+    </variables>
+</Flow>

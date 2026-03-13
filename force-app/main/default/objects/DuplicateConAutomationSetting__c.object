@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <description>Setting to add filter for records of Duplicate Contact automation.</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>DRS_Categories_To_Be_Marked__c</fullName>
+        <description>Comma seperated Duplicate Record Set Category</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Comma seperated Duplicate Record Set Category to be marked for processing. Example: No Community Permissionset,One Community Permissionset,MyApp and AskMonash Permissionset</inlineHelpText>
+        <label>DRS Categories To Be Marked</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>DuplicateRuleName__c</fullName>
+        <description>Filter to store duplicate rule name</description>
+        <externalId>false</externalId>
+        <label>DuplicateRuleName</label>
+        <length>40</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>LastModDays__c</fullName>
+        <description>For the number provided, createdDate starts with the current day and continues for the past n days. For eg: If Last_n_Days is 5 and today&apos;s date is 15th Jan 2022, then it will retrieve all records where the created date is between 10th Jan 2022 and 15th Jan 2022</description>
+        <externalId>false</externalId>
+        <inlineHelpText>For the number provided, createdDate starts with the current day and continues for the past n days. For eg: If Last_n_Days is 5 and today&apos;s date is 15th Jan 2022, then it will retrieve all records where the created date is between 10th Jan 2022 and 15th Jan 2022</inlineHelpText>
+        <label>Last_n_Days</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>MCC_SOQL_Limit__c</fullName>
+        <description>Indicates the number of DRS records to be queried</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Indicates the number of DRS records to be queried</inlineHelpText>
+        <label>MCC SOQL Limit</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Segmentation__c</fullName>
+        <description>Indicates the segment to be processed</description>
+        <externalId>false</externalId>
+        <inlineHelpText>This field is applicable ONLY to &apos;Contact Potential Match&apos; duplicate rules.
+Provide the number associated with the segment
+1. Advancements</inlineHelpText>
+        <label>Segmentation</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Use_Process_Flag_On_DRS__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>This field indicates if the the process flag on the DRS records need to be used.
+            If field is checked, only those DRS records with the &apos;Process&apos; field checked will be processed in the DCA run</description>
+        <inlineHelpText>This field indicates if the the process flag on the DRS records need to be used.
+            If field is checked, only those DRS records with the &apos;Process&apos; field checked will be processed in the DCA run</inlineHelpText>
+        <label>Use Process Flag On DRS</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>idList__c</fullName>
+        <description>Comma-separated list of duplicate record set ids</description>
+        <inlineHelpText>Comma-separated list of duplicate record set ids</inlineHelpText>
+        <label>Duplicate ids to be processed</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>queryLimit__c</fullName>
+        <description>Configuration parameter to limit the number of records queried for Duplicate Contact automation handling.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Configuration parameter to limit the number of records queried for Duplicate Contact automation handling. If the id list attribute is set to 10 ids and the queryLimit is set to 5, then the scheduled flow will pick up 5 from those 10 ids. If left blank, a default value of 1 will be used.</inlineHelpText>
+        <label>queryLimit</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>DuplicateConAutomationSetting</label>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -1,0 +1,108 @@
+<template>
+    <div class="slds">
+        <!-- ALERT: ANY Errors on save-->
+        <div if:true={showErrors}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h3 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Please complete the following:</h3>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <ul class="slds-list_dotted slds-text-align--left">
+                            <template for:each={saveErrors} for:item="error">
+                                <li key={error}>{error}</li>
+                            </template>
+                        </ul>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={onClickCloseErrors}>Close</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+        <!-- page heading and desciption-->
+        <div style="font-family:Roboto Condensed;font-size:14px;">
+                <h1 style="font-weight:bold;">Agent Details</h1>
+                <div class="grtParagraph">If you are applying via the services of an education agent you must provide their details below. You will need to upload the completed <a href="https://www.monash.edu/__data/assets/pdf_file/0004/171094/nomination-of-agent-form.pdf" target="_blank">Nomination of Agent Form</a> in the <b>Documents Section</b>.</div>                          
+        </div>
+        
+        <div class="sectionContainer slds-wrap" style="padding: 0 15px 15px 0;">
+            <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+            <div class="sectionContainerBody slds-size_5-of-5">
+                <label class="slds-form-element__label">
+                    <abbr class="slds-required" title="required">*</abbr>
+                    Are you applying via the services of an education agent?
+                </label>
+                <div style="float:right">
+                    <lightning-radio-group
+                        name="isAgent"
+                        data-id="isAgent"
+                        variant="label-hidden"
+                        required
+                        type="button"
+                        options={items}
+                        onchange={onFieldChange}
+                        value={isAgent}>
+                    </lightning-radio-group>
+                </div>
+                
+
+                                
+                <template if:true={showAgentForm}>
+                    <div class="slds-m-top_medium sectionContainer">
+                        <div class="slds-text-longform slds-align_absolute-center slds-m-top_large sectionContainerBody">
+                            <div class="slds-m-left_medium" style="font-family:Roboto Condensed;font-size:14px;">
+                                <div><b>Important note:</b></div>
+                                <br/>
+                                <div>By providing the details of an education agent below you are agreeing to be represented by the agent for the purpose 
+                                    of this application and on all communications regarding your application being sent to that agent. 
+                                    This will continue until you advise us in writing that the agent is no longer acting on your behalf.</div>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    <lightning-select name="country"
+                             data-id="country" 
+                             label="Country"
+                             value={selectedCountry}
+                             required="true"
+                             options={countryOptions}
+                             onchange={onFieldChange}></lightning-select> <br/>
+                             
+                    <span>Agents named in the following list are Monash appointed Agents. You may only nominate a Monash appointed Agent to represent your application.</span><br/>            
+                    
+                    <lightning-select name="agentName"
+                                data-id="agentName" 
+                                label="Agent Name"
+                                value={agentName}
+                                required="true"
+                                options={agentPicklistOptions}
+                                onchange={onFieldChange}></lightning-select> 
+                    <template if:true={agentName}>
+                        <label if:true={address} class="slds-form-element__label">
+                            Address
+                        </label>
+                        <lightning-formatted-text value={address}></lightning-formatted-text><br/>
+                        <span>If applicable, please provide the following details regarding the agent and contact details of any staff you are dealing with regarding your application.</span><br/>
+                        <lightning-textarea name="agentContact" 
+                                        label="Agent Staff Contact Name/Details" 
+                                        data-id="agentContact"
+                                        max-length="100"
+                                        onchange={onFieldChange}
+                                        value={application.Agent_Staff_Details__c}>
+                                    </lightning-textarea>
+                        <lightning-input name="email"
+                                    data-id="email"
+                                    label="Agent Email Address"
+                                    maxlength="200"
+                                    type="email" 
+                                    onchange={onFieldChange}
+                                    value={application.Agent_Staff_Email__c}></lightning-input>            
+                    </template>
+                </template>   
+            </div>
+        </div>
+    </div>
+    <lightning-spinner if:true={showSpinner} alternative-text="Saving" variant="brand"></lightning-spinner>
+</template>

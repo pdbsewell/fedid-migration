@@ -1,0 +1,32 @@
+<template>
+    <template if:true={label}>
+        <label class="slds-form-element__label" for="input">
+            <template if:true={required}>
+                <abbr class="slds-required" title="required">* </abbr>
+            </template>
+            {label}
+        </label>
+    </template>
+    <div class="slds-form-element__control slds-grow slds-input-has-icon slds-input-has-icon_right">
+        <input id="input" class={styleClass} name="input" list="valueList" placeholder={placeholder} required={required} type="text" value={value} onchange={handleChange} onblur={handleBlur} onkeyup={handleKeyUp} disabled={isDisabled} autocomplete="off" style="line-height: 17px;" />
+        <template if:false={value}>
+            <lightning-icon class="slds-input__icon slds-input__icon_right slds-icon-text-default" icon-name="utility:search" alternative-text="Search" size="xx-small"></lightning-icon>
+        </template>
+        <template if:true={value}>
+            <template if:false={isDisabled}>
+                <lightning-button-icon 
+                    class={clearButtonStyleClass} 
+                    icon-name="utility:close" 
+                    alternative-text="Clear Selection" 
+                    onclick={clearValue}
+                    variant="bare">
+                </lightning-button-icon>
+            </template>
+        </template>
+        <datalist id="valueList" class="">
+            <template for:each={options} for:item='item'>
+                <option key={item.key} style="cursor: pointer;" value={item.value}>{item.label}</option>
+            </template>
+        </datalist>
+    </div>
+</template>

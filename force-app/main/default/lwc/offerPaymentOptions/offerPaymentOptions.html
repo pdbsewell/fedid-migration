@@ -1,0 +1,35 @@
+<!--
+  @File Name          : offerPaymentOptions.html
+  @Description        : 
+  @Author             : Jasmin Joy Rudio
+  @Group              : 
+  @Last Modified By   : jasmin.rudio@monash.edu
+  @Last Modified On   : 12/23/2019, 11:51:48 AM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    10/23/2019   Jasmin Joy Rudio     Initial Version
+-->
+<template>
+    <template if:true={hasRendered}>
+        <div class="ordered-list-item">
+            <lightning-formatted-rich-text value={headerContent}></lightning-formatted-rich-text>
+        </div>
+        <div class="slds-form-element payment-options">
+            <div for:each={options} for:item="opt" key={opt.value}>
+                <div class={opt.elementDisabled}>
+                    <span class="slds-radio">
+                        <input type="radio" id={opt.Id} value={opt.value} name="options" 
+                                checked={opt.checked} disabled={opt.disabled} onchange={handleChange}/>
+                        <label class="slds-radio__label" for={opt.Id}>
+                            <span class={opt.disabledClass}></span>
+                            <span class="slds-form-element__label">
+                                <lightning-formatted-rich-text value={opt.label} class={opt.labelDisabled}></lightning-formatted-rich-text>
+                            </span>
+                        </label>
+                    </span>
+                </div>
+            </div>
+        </div>
+    
+    </template>
+</template>

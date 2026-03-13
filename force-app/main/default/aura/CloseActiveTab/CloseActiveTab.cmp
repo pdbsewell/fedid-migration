@@ -1,0 +1,5 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+   <lightning:utilityBarAPI aura:id="utilitybar" />
+   <lightning:workspaceAPI aura:id="workspace"/>
+   <lightning:button label="Close Active Tab" onclick="{!c.closeActiveTab}"/>
+</aura:component>

@@ -1,0 +1,57 @@
+<aura:component implements="force:lightningQuickAction,flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
+    <lightning:utilityBarAPI aura:id="utilitybar" />
+    
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+    
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="showAddEnquirySpinner" type="Boolean" default="true" />
+    <aura:attribute name="saved" type="Boolean" default="false" />
+    
+    <!-- Case Record -->
+    <aura:attribute name="currentEnquiry" type="Object"/>
+    <aura:attribute name="enquiryError" type="String"/>
+    <force:recordData aura:id="caseRecordLoader"
+        recordId="{!v.recordId}"
+        fields="Id,RecordType.DeveloperName"
+        targetFields="{!v.currentEnquiry}"
+        targetError="{!v.enquiryError}"
+        mode="EDIT"
+        recordUpdated="{!c.enquiryUpdated}"
+    />
+    
+    <div aria-hidden="false">
+        <div class="slds-panel__body slds-card_boundary slds-is-relative">
+            <aura:if isTrue="{!v.showAddEnquirySpinner}">
+                <lightning:spinner variant="brand" />
+            </aura:if>
+            <aura:if isTrue="{!!v.saved}">
+                <!-- Display the new contact form -->
+                <lightning:recordEditForm aura:id="interestForm"
+                                          objectApiName="Enquiry_Interest__c"
+                                          onload="{!c.handleInterestLoad}"
+                                          onsubmit="{!c.handleInterestSubmit}"
+                                          onsuccess="{!c.handleInterestSuccess}"
+                                          onerror="{!c.handleInterestError}">
+                    <!-- <lightning:messages /> -->
+                    <lightning:inputField aura:id="enquiryInterestCourse" fieldName="Course__c" />
+                    <lightning:inputField aura:id="enquiryInterestStudyArea" fieldName="Study_Area__c" />
+                    
+                    <aura:if isTrue="{! v.currentEnquiry.RecordType.DeveloperName == 'SR_Enquiry' }">
+                        <lightning:inputField fieldName="Detailed_Study_Area__c" />
+                        <lightning:inputField fieldName="Mode__c" />
+                        <lightning:inputField fieldName="Attendance_Mode__c" />
+                        <lightning:inputField fieldName="Commencement_Year__c" />
+                        <lightning:inputField fieldName="Level_of_Study__c" />
+                        <lightning:inputField fieldName="Faculty_PickList__c" />
+                        <lightning:inputField fieldName="Location__c" />
+                    </aura:if> 
+                    
+                    <!-- hidden fields -->
+                    <lightning:inputField aura:id="enquiryInterestParent" fieldName="Case__c" value="{!v.recordId}" class="slds-hide" />
+                    
+                    <lightning:button aura:id="enquiryInterestsubmit" type="submit" label="Add Enquiry Interest" class="slds-button slds-button_brand slds-m-top_medium slds-size_1-of-1 margin-top" />
+                </lightning:recordEditForm>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

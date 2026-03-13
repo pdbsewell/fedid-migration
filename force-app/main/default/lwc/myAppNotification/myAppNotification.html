@@ -1,0 +1,22 @@
+<!-- Shows the notification messages, reusable component -->
+<template>
+    <div class="slds-var-p-around_small">
+        <div class="slds-card" style="background:#fef4e4;padding-right:0px;padding-left:0px;">
+            <div class="slds-var-p-around_small">
+                <div class="slds-grid slds-wrap">
+                    <div class="slds-col slds-size_1-of-12">
+                        <span>
+                            <lightning-icon icon-name={iconName} size="small" alternative-text="Warning"
+                                class="slds-var-m-right_xxx-small"></lightning-icon>
+                        </span>
+                    </div>
+                    <div class="slds-col slds-size_11-of-12" style="color: #70480e; font-style: italic">
+                           <lightning-formatted-rich-text
+                              value={message}
+                            ></lightning-formatted-rich-text>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>

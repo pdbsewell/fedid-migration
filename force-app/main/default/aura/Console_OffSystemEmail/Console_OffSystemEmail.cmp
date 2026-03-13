@@ -1,0 +1,80 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+                access="global"
+                controller="Console_OffSystemEmail_CEv2">
+
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="wrapperClass" type="Object"/>
+    <aura:attribute name="facultyOptions" type="List"/>
+    <aura:attribute name="recipientAddress" type="String"/>
+    <aura:attribute name="contactId" type="String"/>
+    <aura:attribute name="listAttachments" type="List"/>
+    <aura:attribute name="listContentDocuments" type="List"/>
+    <aura:attribute name="selectedAttachments" type="List"/>
+    <aura:attribute name="showSendOffEmailSpinner" type="Boolean" default="false" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <div class="slds-box slds-theme_default slds-is-relative">
+        <aura:if isTrue="{!v.showSendOffEmailSpinner}">
+            <lightning:spinner variant="brand" />
+        </aura:if>
+            
+        <div style="padding-bottom: 10px">
+            <lightning:select name="selectObject" label="Faculty/Departmental Presets" onchange="{!c.doHandleChange}" aura:id='selectObject'>
+                <option value="" text="- Not Selected -" />
+                <aura:iteration items='{!v.facultyOptions}' var='obj'>
+                    <option value="{!obj.value}" text="{!obj.key}" />
+                </aura:iteration>
+            </lightning:select>
+
+        </div>
+        <div style="padding-bottom: 10px">
+            <ui:inputText aura:id="recipientAddress" placeholder="Recipient Email Address" label="To" class="field" value="{!v.recipientAddress}"/>
+        </div>
+        <div style="padding-bottom: 10px">
+            <lightning:textarea aura:id="emailMessage" label="Message"  value="{!$Label.c.Off_System_Default_Message}"/>
+        </div>
+
+        <aura:if isTrue="{!not(empty(v.wrapperClass.lstAttachments)) || not(empty(v.wrapperClass.lstContentDocuments))}">
+            <div class="slds-form-element" style="padding-bottom: 20px">
+                <div class="slds-form-element__control">
+                    <legend class="form-element__legend slds-form-element__label">Select attachments from Enquiry to include</legend>
+                    <div class="slds-scrollable_y" style="padding: 5px; max-height: 100px; border: 1px solid #d8dde6; border-radius: 0.25rem;">
+                        <Table class="slds-table">
+                            <aura:iteration var="a" items="{!v.wrapperClass.lstAttachments}" indexVar="indx">
+                                <tr>
+                                    <td style="padding: 3px;max-width: 15px">
+                                        <ui:inputCheckbox aura:id="attachmentsCheckbox"
+                                                          text="{!a.Id}"
+                                                          name="{!indx}"
+                                                          change="{!c.doSelectAttachment}"/>
+                                        </td>
+                                    <td style="text-align: left">{!a.Name}</td>
+                                </tr>
+                            </aura:iteration>
+                            <aura:iteration var="a" items="{!v.wrapperClass.lstContentDocuments}" indexVar="indx">
+                                <tr>
+                                    <td style="padding: 3px;max-width: 15px">
+                                        <ui:inputCheckbox aura:id="attachmentsCheckbox"
+                                                          text="{!a.Id}"
+                                                          name="{!indx}"
+                                                          change="{!c.doSelectAttachment}"/>
+                                        </td>
+                                    <td style="text-align: left">{!a.Title}</td>
+                                </tr>
+                            </aura:iteration>
+                        </Table>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+
+        <div style="padding-bottom: 30px">
+            <div class="slds-float--right">
+                <lightning:button label="Send Preview" onclick="{! c.doSendPreview }"/>
+                <lightning:button variant="brand" label="Send" onclick="{! c.doSend }" />
+            </div>
+        </div>
+
+    </div>
+</aura:component>

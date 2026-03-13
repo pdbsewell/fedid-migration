@@ -1,0 +1,71 @@
+<aura:component controller="UploadOutboundCallsController" implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+    <ltng:require scripts="{!$Resource.PapaParse}" />
+    
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+    
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="isPostAppCampaign" type="Boolean" />
+    <aura:attribute name="results" type="String" />
+    <aura:attribute name="fileDetails" type="String" />
+    <aura:attribute name="headers" type="List" />
+    <aura:attribute name="contactReferenceID" type="String" />
+    <aura:attribute name="acpID" type="String" />
+    <aura:attribute name="contactReferenceType" type="String" default="person_id" />
+    <aura:attribute name="options" type="List" default="[
+                                                        {'label': 'Person ID', 'value': 'person_id'},
+                                                        {'label': 'Contact ID', 'value': 'contact_id'}
+                                                        ]" />
+    
+    <header class="slds-modal__header">
+        <h2 class="slds-modal__title">Upload Outbound Calls</h2>
+    </header>
+    <div class="slds-modal__content slds-p-around_medium">
+        <lightning:input
+                         accept=".csv"
+                         label="Select CSV File (Segmentation Report Extract)"
+                         multiple="false"
+                         name="fileUploader"
+                         onchange="{!c.handleFileChange}"
+                         type="file" />
+        
+        <lightning:input name="fileDetails" label="File Details" value="{!v.fileDetails}" disabled="true" />
+        
+        <lightning:radioGroup name="contactReferenceType"
+                              options="{! v.options }"
+                              value="{! v.contactReferenceType }"
+                              type="radio" />
+        
+        <aura:if isTrue="{!v.contactReferenceType == 'person_id'}">
+            <lightning:select name="personID" label="Person ID" value="{!v.contactReferenceID}" disabled="{!v.headers.length == 0}">
+                <option value=""></option>
+                <aura:iteration items="{!v.headers}" var="header">
+                    <option value="{!header}">{!header}</option>
+                </aura:iteration>
+            </lightning:select>
+            
+            <aura:set attribute="else">
+                <lightning:select name="contactID" label="Contact ID" value="{!v.contactReferenceID}" disabled="{!v.headers.length == 0}">
+                    <option value=""></option>
+                    <aura:iteration items="{!v.headers}" var="header">
+                        <option value="{!header}">{!header}</option>
+                    </aura:iteration>
+                </lightning:select>
+            </aura:set>
+        </aura:if>
+        
+        <lightning:select
+                          name="acpID"
+                          label="ACP ID"
+                          value="{!v.acpID}"
+                          disabled="{!(v.isPostAppCampaign &amp;&amp; v.headers.length == 0) || !v.isPostAppCampaign}">
+            <option value=""></option>
+            <aura:iteration items="{!v.headers}" var="header">
+                <option value="{!header}">{!header}</option>
+            </aura:iteration>
+        </lightning:select>
+    </div>
+    <footer class="slds-modal__footer">
+        <lightning:button label="Cancel" onclick="{!c.cancel}" />
+        <lightning:button class="slds-button slds-button_brand" label="Upload" onclick="{!c.upload}" disabled="{! v.contactReferenceID == '' || (v.isPostAppCampaign &amp;&amp; v.acpID == '') }" />
+    </footer>
+</aura:component>

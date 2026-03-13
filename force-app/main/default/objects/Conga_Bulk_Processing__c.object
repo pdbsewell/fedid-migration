@@ -1,0 +1,831 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>true</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Used to generate documents in bulk via Conga</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>Private</externalSharingModel>
+    <fields>
+        <fullName>Conga_Template_Id__c</fullName>
+        <externalId>false</externalId>
+        <label>Conga Template Id</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <label>Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipName>Conga_Bulk_Processing</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Date_of_Birth__c</fullName>
+        <externalId>false</externalId>
+        <label>Date of Birth</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Email_BCC__c</fullName>
+        <externalId>false</externalId>
+        <label>Email BCC</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Email_From_Id__c</fullName>
+        <externalId>false</externalId>
+        <label>Email From Id</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Email_Template_Id__c</fullName>
+        <externalId>false</externalId>
+        <label>Email Template Id</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>End_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>End Date</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Faculty_Division__c</fullName>
+        <externalId>false</externalId>
+        <label>Faculty/Division</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>First_name__c</fullName>
+        <externalId>false</externalId>
+        <label>First name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Full_Address__c</fullName>
+        <externalId>false</externalId>
+        <formula>Street__c + &apos;, &apos; +  Suburb__c + &apos; &apos; +  State__c + &apos; &apos; +  Postcode__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Full Address</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Full_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF(NOT(ISBLANK(Title__c)), Title__c + &apos; &apos;, &apos;&apos;) + IF(NOT(ISBLANK(First_name__c)), First_name__c + &apos; &apos;, &apos;&apos;) + IF(NOT(ISBLANK(Last_name__c)), Last_name__c + &apos; &apos;, &apos;&apos;)</formula>
+        <label>Full Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Full_Work_Location__c</fullName>
+        <externalId>false</externalId>
+        <formula>Work_Location_Campus__c + &apos; - &apos; + Work_Location_Address__c</formula>
+        <label>Full Work Location</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Generate_Child_Care_Permit_Conga_Trigger__c</fullName>
+        <externalId>false</externalId>
+        <formula>&quot;&amp;id=&quot; + Id +
+&quot;&amp;contactid=&quot; + Contact__r.Id +
+&quot;&amp;templateid=&quot; + Conga_Template_Id__c +
+&quot;&amp;uf0=1&quot; +
+&quot;&amp;mfts0=Status__c&quot; +
+&quot;&amp;mftsvalue0=Permit Issued&quot; +
+&quot;&amp;PS0=1&amp;PS1=1&quot; +
+&quot;&amp;pspw=&quot; + SAP_Staff_Id__c + Date_of_Birth__c +
+&quot;&amp;sc0=1&quot; +
+&quot;&amp;sc1=SalesforceFile&quot; +
+&quot;&amp;qmode=SendEmail&quot; +
+&quot;&amp;emailtemplateid=&quot; + Email_Template_Id__c +
+&quot;&amp;emailfromid=&quot; + Email_From_Id__c +
+&quot;&amp;emailtoid=&quot; + Contact__r.Id +
+&quot;&amp;EmailSubject=&quot; + Subject_Content__c + &apos; - &apos; + Full_Name__c +
+&quot;&amp;defaultpdf=1&quot; +
+&quot;&amp;seti=&quot; + Contact__r.Id +
+&quot;&amp;ofn=&quot; + Full_Name__c + &apos; &apos; + Subject_Content__c + &apos; &apos; + TEXT(DAY(TODAY()))+TEXT(MONTH(TODAY()))+TEXT(YEAR(TODAY())) +
+&quot;&amp;EmailBCC=&quot; + Email_BCC__c</formula>
+        <label>Generate Child Care Permit Conga Trigger</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Last_name__c</fullName>
+        <externalId>false</externalId>
+        <label>Last name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Organisational_Unit_Text__c</fullName>
+        <externalId>false</externalId>
+        <label>Organisational Unit Text</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Permit_Type__c</fullName>
+        <label>Permit Type</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Childcare Permit</fullName>
+                    <default>false</default>
+                    <label>Childcare Permit</label>
+                </value>
+                <value>
+                    <fullName>Work Permit</fullName>
+                    <default>false</default>
+                    <label>Work Permit</label>
+                </value>
+                <value>
+                    <fullName>Placement Permit</fullName>
+                    <default>false</default>
+                    <label>Placement Permit</label>
+                </value>
+                <value>
+                    <fullName>Student Permit</fullName>
+                    <default>false</default>
+                    <label>Student Permit</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Permitted_Worker_Category__c</fullName>
+        <externalId>false</externalId>
+        <label>Permitted Worker Category</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Position_Title__c</fullName>
+        <externalId>false</externalId>
+        <label>Position Title</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Postcode__c</fullName>
+        <externalId>false</externalId>
+        <label>Postcode</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>SAP_Staff_Id__c</fullName>
+        <externalId>false</externalId>
+        <label>Staff ID</label>
+        <length>20</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>School_Division__c</fullName>
+        <externalId>false</externalId>
+        <label>School/Division</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Start_Date__c</fullName>
+        <externalId>false</externalId>
+        <label>Start Date</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>State__c</fullName>
+        <externalId>false</externalId>
+        <label>State</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <label>Status</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Ready for Processing</fullName>
+                    <default>true</default>
+                    <label>Ready for Processing</label>
+                </value>
+                <value>
+                    <fullName>Processing</fullName>
+                    <default>false</default>
+                    <label>Processing</label>
+                </value>
+                <value>
+                    <fullName>Permit Issued</fullName>
+                    <default>false</default>
+                    <label>Permit Issued</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Street__c</fullName>
+        <externalId>false</externalId>
+        <label>Street</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Subject_Content__c</fullName>
+        <externalId>false</externalId>
+        <label>Subject Content</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Suburb__c</fullName>
+        <externalId>false</externalId>
+        <label>Suburb</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Title__c</fullName>
+        <externalId>false</externalId>
+        <label>Title</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Work_Location_Address__c</fullName>
+        <externalId>false</externalId>
+        <label>Work Location (Address)</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Work_Location_Campus__c</fullName>
+        <externalId>false</externalId>
+        <label>Work Location (Campus)</label>
+        <length>255</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Bulk Permit</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Contact__c</columns>
+        <columns>SAP_Staff_Id__c</columns>
+        <columns>Status__c</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>Monash_HR</roleAndSubordinatesInternal>
+            <roleAndSubordinatesInternal>eSolutions</roleAndSubordinatesInternal>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>All_Childcare_Permit_Issued</fullName>
+        <columns>NAME</columns>
+        <columns>Contact__c</columns>
+        <columns>SAP_Staff_Id__c</columns>
+        <columns>Status__c</columns>
+        <columns>Faculty_Division__c</columns>
+        <columns>Permit_Type__c</columns>
+        <columns>UPDATEDBY_USER</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Permit Issued</value>
+        </filters>
+        <filters>
+            <field>Permit_Type__c</field>
+            <operation>equals</operation>
+            <value>Work Permit</value>
+        </filters>
+        <label>All Work Permit Issued</label>
+    </listViews>
+    <listViews>
+        <fullName>All_MonashConnect_Permits</fullName>
+        <columns>NAME</columns>
+        <columns>Contact__c</columns>
+        <columns>First_name__c</columns>
+        <columns>Last_name__c</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>Permit_Type__c</columns>
+        <columns>Status__c</columns>
+        <columns>Work_Location_Address__c</columns>
+        <columns>Work_Location_Campus__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Permit_Type__c</field>
+            <operation>equals</operation>
+            <value>Placement Permit,Student Permit</value>
+        </filters>
+        <filters>
+            <field>Permitted_Worker_Category__c</field>
+            <operation>equals</operation>
+            <value>Study,Placement-24x7,Placement-9to5</value>
+        </filters>
+        <filters>
+            <field>Contact__c</field>
+            <operation>notEqual</operation>
+            <value>Ashok Kumar Bodepudi</value>
+        </filters>
+        <label>All Monash Connect Permits</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>Monash_Connect_Leader</roleAndSubordinatesInternal>
+            <roleAndSubordinatesInternal>eSolutions</roleAndSubordinatesInternal>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>All_Monash_Connect_Permits_Processing</fullName>
+        <columns>NAME</columns>
+        <columns>Contact__c</columns>
+        <columns>First_name__c</columns>
+        <columns>Permitted_Worker_Category__c</columns>
+        <columns>Last_name__c</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>Permit_Type__c</columns>
+        <columns>Status__c</columns>
+        <columns>Work_Location_Address__c</columns>
+        <columns>Work_Location_Campus__c</columns>
+        <columns>UPDATEDBY_USER</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Permit_Type__c</field>
+            <operation>equals</operation>
+            <value>Placement Permit,Student Permit</value>
+        </filters>
+        <filters>
+            <field>Permitted_Worker_Category__c</field>
+            <operation>equals</operation>
+            <value>Study,Placement-24x7,Placement-9to5,Study-24x7</value>
+        </filters>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Processing</value>
+        </filters>
+        <label>All Monash Connect Permits - Processing</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>eSolutions</roleAndSubordinatesInternal>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>All_Placement_Permits</fullName>
+        <columns>NAME</columns>
+        <columns>Contact__c</columns>
+        <columns>SAP_Staff_Id__c</columns>
+        <columns>Status__c</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Permit_Type__c</field>
+            <operation>equals</operation>
+            <value>Placement Permit</value>
+        </filters>
+        <label>All Placement Permits</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>MNHS_Faculty_Office</roleAndSubordinatesInternal>
+            <roleAndSubordinatesInternal>Monash_HR</roleAndSubordinatesInternal>
+            <roleAndSubordinatesInternal>eSolutions</roleAndSubordinatesInternal>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>All_in_Permit_Issued_Status</fullName>
+        <columns>NAME</columns>
+        <columns>Contact__c</columns>
+        <columns>SAP_Staff_Id__c</columns>
+        <columns>Status__c</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>Permitted_Worker_Category__c</columns>
+        <columns>UPDATEDBY_USER</columns>
+        <columns>CREATEDBY_USER</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Permit Issued</value>
+        </filters>
+        <label>All in Permit Issued Status</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>Monash_HR</roleAndSubordinatesInternal>
+            <roleAndSubordinatesInternal>eSolutions</roleAndSubordinatesInternal>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>All_in_Permit_Issued_Status1</fullName>
+        <columns>NAME</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>Contact__c</columns>
+        <columns>SAP_Staff_Id__c</columns>
+        <columns>Status__c</columns>
+        <columns>Faculty_Division__c</columns>
+        <columns>Permit_Type__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Permit Issued</value>
+        </filters>
+        <filters>
+            <field>Permit_Type__c</field>
+            <operation>equals</operation>
+            <value>Childcare Permit</value>
+        </filters>
+        <label>All Childcare Permit Issued</label>
+    </listViews>
+    <listViews>
+        <fullName>All_in_Processing_Status</fullName>
+        <columns>NAME</columns>
+        <columns>Contact__c</columns>
+        <columns>SAP_Staff_Id__c</columns>
+        <columns>Status__c</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>Permitted_Worker_Category__c</columns>
+        <columns>UPDATEDBY_USER</columns>
+        <columns>CREATEDBY_USER</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Processing</value>
+        </filters>
+        <label>All in Processing Status</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>Monash_HR</roleAndSubordinatesInternal>
+            <roleAndSubordinatesInternal>eSolutions</roleAndSubordinatesInternal>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>All_in_Processing_Status_HR</fullName>
+        <columns>NAME</columns>
+        <columns>Contact__c</columns>
+        <columns>SAP_Staff_Id__c</columns>
+        <columns>Status__c</columns>
+        <columns>CREATED_DATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Processing</value>
+        </filters>
+        <filters>
+            <field>Permit_Type__c</field>
+            <operation>equals</operation>
+            <value>Work Permit</value>
+        </filters>
+        <label>All in Processing Status - HR</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>Monash_HR</roleAndSubordinatesInternal>
+            <roleAndSubordinatesInternal>eSolutions</roleAndSubordinatesInternal>
+        </sharedTo>
+    </listViews>
+    <listViews>
+        <fullName>All_in_Ready_for_Processing</fullName>
+        <columns>NAME</columns>
+        <columns>Contact__c</columns>
+        <columns>SAP_Staff_Id__c</columns>
+        <columns>Permit_Type__c</columns>
+        <columns>Status__c</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>CREATEDBY_USER</columns>
+        <columns>UPDATEDBY_USER</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>equals</operation>
+            <value>Ready for Processing</value>
+        </filters>
+        <label>All in Ready for Processing</label>
+        <sharedTo>
+            <roleAndSubordinatesInternal>Monash_HR</roleAndSubordinatesInternal>
+            <roleAndSubordinatesInternal>eSolutions</roleAndSubordinatesInternal>
+        </sharedTo>
+    </listViews>
+    <nameField>
+        <displayFormat>CBP-{0000}</displayFormat>
+        <label>Conga Bulk Processing Name</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Bulk Permits</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <visibility>Public</visibility>
+    <webLinks>
+        <fullName>Generate_Child_Care_Permit</fullName>
+        <availability>online</availability>
+        <displayType>button</displayType>
+        <encodingKey>UTF-8</encodingKey>
+        <hasMenubar>false</hasMenubar>
+        <hasScrollbars>true</hasScrollbars>
+        <hasToolbar>false</hasToolbar>
+        <height>600</height>
+        <isResizable>true</isResizable>
+        <linkType>url</linkType>
+        <masterLabel>Generate Permit</masterLabel>
+        <openType>newWindow</openType>
+        <position>none</position>
+        <protected>false</protected>
+        <showsLocation>false</showsLocation>
+        <showsStatus>false</showsStatus>
+        <url>/apex/APXTConga4__Conga_Composer
+?serverUrl={!API.Partner_Server_URL_370}
+&amp;id={!Conga_Bulk_Processing__c.Id}
+&amp;ContactId={!Conga_Bulk_Processing__c.ContactId__c}
+&amp;TemplateId={!Conga_Bulk_Processing__c.Conga_Template_Id__c}
+&amp;UF0=1
+&amp;MFTS0=Status__c
+&amp;MFTSValue0=Permit Issued
+&amp;PS0=1&amp;PS1=1
+&amp;PSPW={!Conga_Bulk_Processing__c.SAP_Staff_Id__c}{!Conga_Bulk_Processing__c.Date_of_Birth__c}
+&amp;SC0=1
+&amp;SC1=SalesforceFile
+&amp;DS7=12
+&amp;EmailTemplateId={!Conga_Bulk_Processing__c.Email_Template_Id__c}
+&amp;EmailFromID={!Conga_Bulk_Processing__c.Email_From_Id__c}
+&amp;EmailToId={!Conga_Bulk_Processing__c.ContactId__c}
+&amp;EmailSubject={!Conga_Bulk_Processing__c.Subject_Content__c} {!Conga_Bulk_Processing__c.Full_Name__c}
+&amp;SETI={!Conga_Bulk_Processing__c.ContactId__c}
+&amp;DefaultPDF=1
+&amp;ofn={!Conga_Bulk_Processing__c.Full_Name__c} {!Conga_Bulk_Processing__c.Subject_Content__c + &apos; &apos; + TEXT(DAY(TODAY()))+TEXT(MONTH(TODAY()))+TEXT(YEAR(TODAY()))}
+&amp;EmailBCC={!Conga_Bulk_Processing__c.Email_BCC__c}</url>
+    </webLinks>
+</CustomObject>

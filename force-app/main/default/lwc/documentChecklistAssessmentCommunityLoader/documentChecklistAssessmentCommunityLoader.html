@@ -1,0 +1,25 @@
+<template>
+    <!-- Loading spinner while retrieving applicant -->
+    <div class="forceListViewPlaceholder slds-is-relative">
+        <!-- Spinner loader -->
+        <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+        <!-- Stencil loader -->
+        <template for:each={pageLoader} for:item='item'>
+            <div key={item}>
+                <div data-aura-rendered-by="471:0" class="forcePlaceholder" data-aura-class="forcePlaceholder">
+                    <div class="placeholder table_list_line_item ">
+                        <div class="body border-bottom">
+                            <div class="text-body-col">
+                                <div class="text text-short"></div>
+                                <div class="text text-short"></div>
+                                <div class="text text-short"></div>
+                                <div class="text text-short"></div>
+                                <div class="text text-short"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

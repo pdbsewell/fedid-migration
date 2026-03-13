@@ -1,0 +1,263 @@
+<!--
+/*
+ * Copyright (c) 2019, UC Innovation, Inc.  All Rights Reserved.
+ *                     http://www.ucinnovation.com
+ *
+ * This source code is licensed, not sold, and is subject to a written
+ * license agreement.  Among other things, no portion of this source
+ * code may be copied, transmitted, disclosed, displayed, distributed,
+ * translated, used as the basis for a derivative work, or used, in
+ * whole or in part, for any program or purpose other than its intended
+ * use in compliance with the license agreement as part of UC Innovation's
+ * software.  This source code and certain of the algorithms contained
+ * within it are confidential trade secrets of UC Innovation, Inc.
+ * and may not be used as the basis for any other
+ * software, hardware, product or service.
+ */
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="PORTAL_JobBoardController">
+
+    <aura:attribute name="filterObject" type="Object" default="{}" />
+    <aura:attribute name="jobRecOnDisplay" type="Object" />
+    <aura:attribute name="jobList" type="List" />
+    <aura:attribute name="jobListToDisplay" type="List" />
+    <aura:attribute name="jobDetail" type="Aura.Component[]" />
+    <aura:attribute name="clickedJobId" type="String" />
+
+    <aura:attribute name="keywordEnterNotification" type="Boolean" default="true" />
+    <aura:attribute name="locationEnterNotification" type="Boolean" default="true" />
+    
+    <aura:attribute name="itemsPerPage" type="Integer" default="5" />
+    <aura:attribute name="previousButtonDisabled" type="Boolean" default="true" />
+    <aura:attribute name="nextButtonDisabled" type="Boolean" default="false" />
+    <aura:attribute name="totalNumberOfPages" type="Integer" />
+    <aura:attribute name="currentPage" type="Integer" default="1" />   
+    
+    <!-- Add change listener to detect change for the two notification above -->
+
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <div style="height: 40px; font-size: 25px;">
+        Open Jobs
+    </div>
+
+    <div class="slds-wrap">
+        <div class="slds-grid slds-size_1-of-1">
+            <div class="job-list slds-col slds-size_7-of-12 slds-small-size_7-of-12 slds-medium-size_7-of-12 slds-large-size_7-of-12">
+                <aura:iteration items="{!v.jobListToDisplay}" var="job" indexVar="jobIndex">
+
+                    <div class="job-block" data-index="{!jobIndex}" onclick="{!c.openJobModal}">
+                        <div style="font-size: large; color: rgb(128, 0, 0)"><a><b>{!job.Name}</b></a></div>
+                        <div style="color: #4b4b4b; font-size: 15px">{!job.Recruiting_Company__c}</div>
+                        <div style="color: grey">{!job.Location__c}</div>
+                        <div style="color: orange"><ui:outputCurrency value="{!job.Approximate_Salary__c}" /></div>
+                        <div class="job-description"><ui:outputRichText class="slds-truncate" value="{!job.Description__c}"/></div>
+                    </div>
+            
+                </aura:iteration>
+
+                <aura:if isTrue="{!v.totalNumberOfPages > 1}">
+                    <br></br>
+                <div class="slds-align_absolute-center">
+                    <lightning:button label="Prev" title="Prev" onclick="{!c.previousPage}" disabled="{!v.previousButtonDisabled}"/>
+        
+                    <div class="slds-p-horizontal_x-small">
+                        <div class="slds-text-body_regular">{!v.currentPage} of {!v.totalNumberOfPages}</div>
+                    </div>
+        
+                    <lightning:button label="Next" title="Next" onclick="{!c.nextPage}" disabled="{!v.nextButtonDisabled}"/>
+                </div>
+                </aura:if>
+                
+            </div>
+
+            <div id="jobFilter" style="float: left" class="job-list slds-col slds-size_4-of-12 slds-small-size_3-of-12 slds-medium-size_3-of-12 slds-large-size_3-of-12">
+
+                <div class="slds-form-element">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label">Job Title or Company</label>
+                    </div>
+                    <c:PORTAL_JobBoardSearchBar data="{!v.filterObject.keyWord}" enterKeyNotification="{!v.keywordEnterNotification}" />
+                </div>
+        
+                <br />
+
+                <div class="slds-form-element">
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label">City, State, or Zip Code</label>
+                    </div>
+                    <c:PORTAL_JobBoardSearchBar data="{!v.filterObject.locationKeyWord}" searchType="location" enterKeyNotification="{!v.locationEnterNotification}" />
+                </div> 
+
+                <br />
+
+                <div class="slds-form-element">
+                    <div>
+                        <label class="slds-form-element__label">Salary Range</label>
+                    </div>
+                    <div class="slds-form-element__control" style="display: inline-block; width: 100px">
+                        <ui:inputNumber class="slds-input" value="{!v.filterObject.salaryLowerBound}" />
+                    </div>
+                    -
+                    <div class="slds-form-element__control" style="display: inline-block; width: 100px">
+                        <ui:inputNumber class="slds-input" value="{!v.filterObject.salaryUpperBound}" />
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label">Position Type</label>
+                    <div class="slds-form-element__control">
+                        <div class="">
+                            <ui:inputSelect aura:id="jobPositionType">
+                                <ui:inputSelectOption text="All Position Type"/>
+                                <ui:inputSelectOption text="Full Time Entry Level"/>
+                                <ui:inputSelectOption text="Full Time Experienced"/>
+                                <ui:inputSelectOption text="Internship (Paid)"/>
+                                <ui:inputSelectOption text="Internship (unpaid)"/>
+                                <ui:inputSelectOption text="On-Campus Non-work study (student enployment)"/>
+                                <ui:inputSelectOption text="On-Campus work study (student enployment)"/>
+                                <ui:inputSelectOption text="Part Time"/>
+                                <ui:inputSelectOption text="Co-op"/>
+                                <ui:inputSelectOption text="Volunteer"/>
+                                <ui:inputSelectOption text="Fellowship"/>
+                                <ui:inputSelectOption text="Scholarship"/>
+                            </ui:inputSelect>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label">Class Level / Degree Level</label>
+                    <div class="slds-form-element__control">
+                        <div class="">
+                            <ui:inputSelect aura:id="classLevelDegreeLevel">
+                                <ui:inputSelectOption text="All Levels"/>
+                                <ui:inputSelectOption text="Freshman"/>
+                                <ui:inputSelectOption text="Sophormore"/>
+                                <ui:inputSelectOption text="Junior"/>
+                                <ui:inputSelectOption text="Senior"/>
+                                <ui:inputSelectOption text="Graduate Student"/>
+                                <ui:inputSelectOption text="Doctoral"/>
+                                <ui:inputSelectOption text="Postdoctoral Scholar"/>
+                                <ui:inputSelectOption text="Bachelors"/>
+                                <ui:inputSelectOption text="Masters"/>
+                                <ui:inputSelectOption text="Doctorate"/>
+                                <ui:inputSelectOption text="Law"/>
+                                <ui:inputSelectOption text="Certificate"/>
+                            </ui:inputSelect>
+                        </div>
+                    </div>
+                </div>
+
+                <br />
+
+                <div>
+                    <ui:button class="slds-button" press="{!c.applyFilter}">&nbsp;&nbsp;&nbsp;Apply Filters&nbsp;&nbsp;&nbsp;</ui:button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div aria-hidden="true" role="dialog" class="slds-modal slds-modal_small slds-modal--prompt slds-fade-in-hide" style="border: 1px solid #d4d4d4" aura:id="modaldialog" >
+        <div class="slds-modal__container">
+            <div class="slds-modal__header">
+                <div class="modal-header modal-closer" style="float: right;" >
+                    <lightning:icon iconName="utility:close" size="small" onclick="{!c.closeJobModal}" />
+                </div>
+            </div>
+            <div class="slds-modal__content slds-p-around--medium">
+
+                <div class="job-detail slds-col slds-size_1-of-1">
+                    <div class="job-detail-top">
+                        <div style="font-size: large; color: rgb(128, 0, 0)"><b>{!v.jobRecOnDisplay.Name}</b></div>
+
+                        <aura:if isTrue="{! and( not(empty(v.jobRecOnDisplay.Recruiting_Company__c)), not(empty(v.jobRecOnDisplay.Location__c))) }">
+                            <div> {!v.jobRecOnDisplay.Recruiting_Company__c} - {!v.jobRecOnDisplay.Location__c}</div>
+
+                            <aura:set attribute="else">
+                                <aura:if isTrue="{! not(empty(v.jobRecOnDisplay.Recruiting_Company__c)) }">
+                                    <div> {!v.jobRecOnDisplay.Recruiting_Company__c}</div>
+
+                                    <aura:set attribute="else">
+                                        <aura:if isTrue="{! not(empty(v.jobRecOnDisplay.Location__c)) }">
+                                            <div> {!v.jobRecOnDisplay.Location__c}</div>
+                                        </aura:if>
+                                    </aura:set>
+                                </aura:if>
+                            </aura:set>
+                        </aura:if>
+
+                        <br />
+                        <!-- <br /> -->
+                        <!-- <button class="slds-button slds-button_destructive">Apply With Resume</button> -->
+                        <lightning:fileUpload class="UploadFileSection"
+                                              name="fileUploader"
+                                              label= "Apply With Resume"
+                                              accept=".pdf"
+                                              disabled="false"
+                                              recordId="{! v.clickedJobId }"
+                                              onuploadfinished="{! c.handleUploadFinished }"/>
+                    </div>
+    
+                    <div class="job-detail-content slds-scrollable_y">
+                        
+                        <aura:if isTrue="{! not(empty(v.jobRecOnDisplay.Description__c)) }">
+                            <ui:outputRichText class="slds-text-longform" value="{!v.jobRecOnDisplay.Description__c}"/>
+                        </aura:if>
+
+                        <aura:if isTrue="{! not(empty(v.jobRecOnDisplay.Qualification__c)) }">
+                            <br/><br/>
+                            <div><b>Qualifications: </b></div>
+                            <ui:outputRichText class="slds-text-longform" value="{!v.jobRecOnDisplay.Qualification__c}" />
+                        </aura:if>
+
+                        <aura:if isTrue="{! not(empty(v.jobRecOnDisplay.Desired_Skills__c)) }">
+                            <br/><br/>
+                            <div><b>Desired Skills: </b></div>
+                            <p>
+                                {!v.jobRecOnDisplay.Desired_Skills__c}
+                            </p>
+                        </aura:if>
+
+                        <aura:if isTrue="{! not(empty(v.jobRecOnDisplay.Desired_Majors__c)) }">
+                            <br/><br/>
+                            <div><b>Desired Majors: </b></div>
+                            <p>
+                                {!v.jobRecOnDisplay.Desired_Majors__c}
+                            </p>
+                        </aura:if>
+
+                        <aura:if isTrue="{! not(empty(v.jobRecOnDisplay.Position_Type__c)) }">
+                            <br/><br/>
+                            <div>
+                                <b>Job Type: </b> {!v.jobRecOnDisplay.Position_Type__c}
+                            </div>
+                        </aura:if>
+
+                        <aura:if isTrue="{! not(empty(v.jobRecOnDisplay.Work_Hours_Per_Week__c)) }">
+                            <br/><br/>
+                            <div>
+                                <b>Number of hours per week: </b> {!v.jobRecOnDisplay.Work_Hours_Per_Week__c}
+                            </div>
+                        </aura:if>
+
+                        <aura:if isTrue="{! not(empty(v.jobRecOnDisplay.Require_Work_Authorization__c)) }">
+                            <br/><br/>
+                            <div>
+                                <b>Require Work Authorization: </b> {!v.jobRecOnDisplay.Require_Work_Authorization__c == true ? 'Yes' : 'No'}
+                            </div>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slds-backdrop slds-backdrop--hide" aura:id="backdrop"></div>
+
+</aura:component>

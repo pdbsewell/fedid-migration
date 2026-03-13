@@ -1,0 +1,56 @@
+<template>
+    <div class="slds-is-relative">
+        <article class="slds-card file-card" style="box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10);">
+            <template if:true={loaded}>
+                <template if:true={isPDF}>
+                    <!-- MVP: only supports opening of PDF. Opening any other file types are not supported -->
+                    <div class="slds-p-left_x-small slds-p-right_xxx-small" onclick={previewFile} title={name}>
+                        <lightning-layout vertical-align="center" style="min-height: 65px;">
+                            <lightning-layout-item>
+                                <div style="width: 45px;">
+                                    <img class="slds-icon slds-icon_large" src={iconURL} />
+                                    <span class="slds-assistive-text">{extension}</span>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item>
+                                <div class="slds-p-left_x-small slds-text-body_regular" style="font-weight: bold;">
+                                    {name} <b>•</b> {createdDate}
+                                </div>
+                                <div class="slds-p-left_x-small slds-p-right_small slds-text-body_regular">
+                                    {category} <b>•</b> {size}
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </template>
+                <template if:false={isPDF}>
+                    <div class="slds-p-left_x-small slds-p-right_xxx-small" title={name}>
+                        <lightning-layout vertical-align="center" style="min-height: 65px;">
+                            <lightning-layout-item>
+                                <div style="width: 45px;">
+                                    <img class="slds-icon slds-icon_large" src={iconURL} />
+                                    <span class="slds-assistive-text">{extension}</span>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item>
+                                <div class="slds-p-left_x-small slds-text-body_regular" style="font-weight: bold;">
+                                    {name} <b>•</b> {createdDate}
+                                </div>
+                                <div class="slds-p-left_x-small slds-p-right_small slds-text-body_regular">
+                                    {category} <b>•</b> {size}
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </template>
+                
+            </template>
+            <template if:false={loaded}>
+                <!-- Loading spinner while retrieving document item slds-card_boundary slds-m-around_xx-small -->
+                <div style="min-height: 40px; min-width: 60px;">
+                    <lightning-spinner alternative-text="Loading" size="small" variant="brand"></lightning-spinner>
+                </div>
+            </template>
+        </article>
+    </div>
+</template>

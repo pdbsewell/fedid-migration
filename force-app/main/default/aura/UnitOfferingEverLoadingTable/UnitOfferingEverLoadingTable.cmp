@@ -1,0 +1,128 @@
+<aura:component implements="force:appHostable" controller="StudyPreferenceService">
+    <aura:attribute name="selectedRowsCount" type="Integer" default="0" />
+    <aura:attribute name="loadMoreStatus" type="Boolean" default="false" />
+    <aura:attribute name="appId" type="String" default="" />
+    <aura:attribute type="Unit_Offering__c[]" name="uoList" />
+    <aura:attribute name="selectedRowsList" type="List" />
+    <aura:attribute name="selectedSem1RowsList" type="List" />
+    <aura:attribute name="selectedSem2RowsList" type="List" />
+    <aura:attribute name="mycolumns" type="List" />
+    <aura:attribute name="totalCount" type="Integer" default="0" description="Total count" />
+    <aura:attribute name="onesem" type="Integer" default="0" description="one sem" />
+    <aura:attribute name="twosem" type="Boolean" default="false" description="two sem" />
+    <aura:attribute name="uosearchKey" type="String" default="" />
+    <aura:attribute name="uoFacultyKey" type="String" default="" />
+    <aura:attribute name="facultyOptions" type="List" access="public" />
+    <aura:attribute name="searchClick" type="Boolean" default="false" />
+    <aura:attribute name="facultyChange" type="Boolean" default="false" />
+    <aura:attribute name="showSearchSpinner" type="Boolean" default="false"
+        description="show/hide the spinner in the search panel" />
+    <aura:attribute name="showNoResults" type="Boolean" default="false" description="show/hide results" />
+    <aura:attribute name="divStyle" type="String" default="" />
+    <aura:attribute name="loadingFlag" type="Boolean" default="false" />
+
+    <aura:attribute name="selectedColumns" type="List" default="[]" />
+    <aura:attribute name="selectedRows" type="List" default="[]" />
+    <aura:attribute name="selectedRow" type="String" default="" />
+    <aura:attribute name="showPageLoading" type="String" default="false" />
+    <aura:attribute name="currentCount" type="Integer" default="10" />
+    <aura:attribute name="initialRows" type="Integer" default="10" />
+    <aura:attribute name="enableInfiniteLoading" type="Boolean" default="true" />
+    <aura:attribute name="loadOffset" type="Integer" default="1" />
+    <aura:attribute name="sem1StudyPlanDesc" type="String" default="" />
+    <aura:attribute name="sem2StudyPlanDesc" type="String" default="" />
+    <aura:attribute name="selectDurationOfStudyMsg" type="String" default="" />
+    <aura:attribute name="showRes" type="Boolean" default="false"/>    
+    <aura:attribute name="applicationCampusLocation" type="String" default="" />
+    <aura:attribute name="minimumUnits" type="Integer" default="" />
+    <aura:attribute name="maximumUnits" type="Integer" default="" />
+
+    <aura:method name="fetchUnitOffC" action="{!c.fetchUnitOfferings}" description="fetchUO controller function">
+    </aura:method>
+    <aura:handler name="init" value="{!this}" action="{!c.init}" />
+    <div class="slds-grid slds-gutters slds-wrap">
+        <div class="slds-col">
+            <aura:if isTrue="{!and(!v.onesem, !v.twosem ) }">
+                <div class="slds-size_5-of-5 slds-grid" style="font-weight:bold;margin-top: 20px;color:red">
+                    {!v.selectDurationOfStudyMsg}
+                </div>
+            </aura:if>
+            <div class="slds-size_5-of-5 slds-grid" style="margin-top: 20px;">
+                <div class="slds-form slds-form-element slds-size_5-of-12" onkeyup="{! c.handleKeyUp }">
+                    <lightning:input label="" name="btn" type="search" aura:id="uoTitle"
+                        isLoading="{!v.showSearchSpinner}" value="{!v.uosearchKey}" onchange="{!c.capturechange}"
+                        placeholder="Type Unit code or Title or keyword(s)." variant="label-hidden" />
+                </div>
+                <div class="slds-size_3-of-12">
+                    <div class="slds-float_right slds-p-right_large">
+                        <lightning:button label="Search" class="primaryButton searchButton" name="btn" title="Search"
+                            onclick="{! c.fetchUnitOfferings }" />
+                    </div>
+                </div>
+                <div class="slds-form slds-form-element slds-size_4-of-12" style="margin-top:-23px;">
+                    <div class="{!if( v.showRes,'', 'slds-hide')}">
+                        <lightning:select label="Faculty" value="{!v.uoFacultyKey}" aura:id="uoFaculty" name="fac"
+                            onchange="{!c.fetchUnitOfferings}" variant="label-hidden">
+                            <aura:iteration items="{!v.facultyOptions}" var="option">
+                                <option value="{!option.value}" label="{!option.label}"
+                                    selected="{!if(v.uoFacultyKey == option.value,'true','')}">
+                                    {!option.label}
+                                </option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+                </div>
+            </div>
+            <aura:if isTrue="{!v.applicationCampusLocation == 'Online'}">
+                <span style="font-size: 14px;">Note: Search the word virtual to show all online available unit offerings.</span>
+            </aura:if>
+        </div>
+    </div>
+    <br />
+    <!-- <div class="slds-is-relative" style="margin-left:20px;margin-top:20px;">
+            <lightning:spinner class="{!if(v.showSearchSpinner, '' , 'slds-hide')}"/>
+    </div>--> 
+    <!--isTrue="{!and(v.uoList.length>0,v.uosearchKey.length>0,or( (v.searchClick,v.facultyChange), v.loadMoreStatus) }">-->
+    <aura:if isTrue="{!v.showRes}">
+        <div class="slds-grid slds-gutters slds-wrap">
+            <div class="slds-col">
+                <div style="font-size:16px;font-family:Roboto;margin-top:15px;margin-bottom:10px;">
+                    Returned {!v.selectedRowsCount} search results. Scroll to view more data. Refine your results by
+                    using more keywords or filter by Faculty.<br />
+                </div>
+
+                <div class="slds-is-relative" style="{!v.divStyle}">
+                    <lightning:datatable data="{!v.uoList}" aura:id="table1" columns="{!v.mycolumns}" keyField="id"
+                        class="table-test" column-widths-mode="fixed" hideCheckboxColumn="true"
+                        enableInfiniteLoading="{!v.enableInfiniteLoading}" loadMoreOffset="{!v.loadOffset}"
+                        onrowaction="{!c.handleRowAction}" onloadmore="{!c.loadMoreData}">
+                    </lightning:datatable>
+                    <aura:if isTrue="{!v.showPageLoading}">
+                        <lightning:spinner alternativeText="Loading" size="medium" variant="brand" />
+                    </aura:if>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+    <aura:if isTrue="{!and(v.uoList.length==0,v.searchClick)}">
+        <div style="font-size:16px;font-family:Roboto;margin-top:10px;">
+                <div class="slds-card" style="background:#F9EBE6;border-color:#C33603;">
+                    <div class="slds-p-around_small">
+                        <div style="font-family:Roboto;font-size: 16px;">No further units match this search term (Unit Code/Unit Title/Keyword). Check the Handbook <a href="https://handbook.monash.edu/"> Handbook </a> to ensure that the unit is offered in the location and/or teaching period you have chosen for study in your Course Preference above.</div>
+                    </div>
+                </div>
+        </div>
+    </aura:if>
+    <br />
+    <aura:if isTrue="{!v.selectedRowsList.length>0}">
+        <div class="container" style="width: 800px;">
+            <div style="font-size: 20px;font-family:Roboto Condensed;font-weight:bold;">Your Study Plan</div>
+            <div style="font-family:Roboto;font-size: 16px;">In order of preference, you should choose at least {!v.minimumUnits} unit preference and a maximum of {!v.maximumUnits} preferences per semester.</div>
+        </div><br/>
+        <aura:if isTrue="{!v.selectedSem1RowsList.length>0}">
+                <c:dragDropUnitPreference studyPlanText="{!v.sem1StudyPlanDesc}" selectedUPList="{!v.selectedSem1RowsList}" onremoveitem="{!c.handleRemoveItem}" />
+        </aura:if> 
+
+    </aura:if>
+
+</aura:component>

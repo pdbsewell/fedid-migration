@@ -1,0 +1,1133 @@
+<!--
+ - Created by trentdelaney on 3/10/18.
+ - Revision by Angelo Rivera on 17/04/25 - Added Previous First Name.
+ -->
+
+ <aura:component description="PersonalDetails" implements="forceCommunity:availableForAllPageTypes" access="global" controller="PersonalDetailsController">
+
+        <!--Data Elements-->
+        <aura:attribute name="applicationId" type="String" access="global" />
+        <aura:attribute name="sourcesystem" type="String" access="global" />
+        <aura:attribute name="contactRecord" type="Contact" />
+        <aura:attribute name="hasDisabilities" type="Boolean" description="toggles require a boolean, but the contact field is a picklist"/>
+        <aura:attribute name="isATSI" type="Boolean" description="toggles require a boolean, but the contact field is a picklist"/>
+        <aura:attribute name="applicationRecord" type="Application__c" />
+        <aura:attribute name="dayIncremented" type="Boolean" access="global" />
+        <aura:attribute name="isSSOUser" type="Boolean" access="global" default="false"/>
+
+        <!--Designer Attributes-->
+        <aura:attribute name="isRedirect" type="Boolean" default="false" description="true for my details page, false for application"/>
+        <aura:attribute name="redirectURL" type="String" default="" />
+        <aura:attribute name="redirectLabel" type="String" default="" />
+        <aura:attribute name="saveOnlyLabel" type="String" default="" />
+    
+        <!--Form Control-->
+        <aura:attribute name="items" type="List" />
+        <aura:attribute name="formLocked" type="Boolean" default="False"/>
+        <aura:attribute name="citizenshipValues" type="Map" />
+        <aura:attribute name="genderOptions" type="List" description="valid options for Gender"/>
+        <aura:attribute name="pronounOptions" type="String[]" />
+        <aura:attribute name="isInternational" type="Boolean" default="False" />
+        <aura:attribute name="titleOptions" type="List" description="valid options for salutation/title"/>
+        <aura:attribute name="errorDetails" type="String" />
+        <aura:attribute name="showErrors" type="Boolean" />
+        <aura:attribute name="errors" type="String[]" />
+        <aura:attribute name="phoneMandatoryMobile" type="Boolean" default="True"/>
+        <aura:attribute name="phoneMandatoryHome" type="Boolean" default="True"/>
+        <aura:attribute name="previousInstitution" type="Map" />
+        <aura:attribute name="countryOptions" type="List" description="available countries for Mailing Country"/>
+        <aura:attribute name="errorToggle" type="Boolean" default="True" />
+        <aura:attribute name="source" type="String" default="" access="public" />
+        <aura:attribute name="mfaRequired" type="Boolean" default="false" />
+        <aura:attribute name="isMononymousName" type="Boolean" default="false" />
+
+        <!-- previous monash id check -->
+        <aura:attribute name="enteredPreviousMonashId" type="String" default="" />
+        <aura:attribute name="findPreviousMonashStatus" type="String" default="" />
+        <aura:attribute name="existingPreviousMonashResults" type="Boolean" default="false" />
+        <aura:attribute name="existingPreviousMonashLengthValid" type="Boolean" default="false" />
+        <aura:attribute name="previousNameExist" type="Boolean" default="false"/>
+        <aura:attribute name="showMonoNameQuestion" type="Boolean" default="false"/>
+        <aura:attribute name="isMononymousPreviousName" type="Boolean" default="false"/>
+        <aura:attribute name="previousLastNameLabel" type="String" default="Previous last name" />
+
+        <!-- loading spinners -->        
+        <aura:attribute name="showSpinner" type="Boolean" default="false" />
+        <aura:attribute name="showDetailsSpinner" type="Boolean" default="false" />
+        <aura:attribute name="accessAndEquityLoading" type="Boolean" default="false" />
+    
+        <!--Stores value from event-->
+        <aura:attribute name="studyLocation" type="String" default=""/>
+    
+        <!--Handlers-->
+        <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+        <aura:handler name="mapStudyLocation" event="c:selectedPicklistValue" action="{!c.mapStudyLocation}"/>
+
+        <aura:method name="changeCampusLocation" action="{!c.changeCampusLocation}">
+            <aura:attribute name="campusLocation" type="String"/>
+        </aura:method>
+
+        <aura:method name="changeResidencyStatus" action="{!c.changeResidencyStatus}">
+            <aura:attribute name="residencyStatus" type="String"/>
+        </aura:method>
+
+        <aura:method name="handleActionCitizen" action="{!c.handleActionCitizen}">
+            <aura:attribute name="residencyStatus" type="String"/>
+        </aura:method>
+
+        <aura:method name="saveDetails" action="{!c.saveDetails}" access="public">
+            <aura:attribute name="callback" type="Function" />
+        </aura:method>
+        
+        <aura:method name="saveDetailsFromPartner" action="{!c.saveDetailsFromPartner}" access="public">
+            <aura:attribute name="callback" type="Function" />
+        </aura:method>
+
+        <aura:method name="validateAllFields" action="{!c.validateAllFields}" access="public">
+            <aura:attribute name="callback" type="Function" />
+        </aura:method>
+
+        <aura:attribute name="fullAddress" type="String" access="global" />
+        <aura:attribute name="updateAddress" type="Boolean" access="global" />
+        <aura:attribute name="displayAddress" type="Boolean" access="global" />
+        
+        <!-- Mobile Phone number related fields -->
+        <aura:attribute name="isMobilePhoneLocked" type="Boolean" default="true" access="global" />
+        <aura:attribute name="isMobileNoToggleVisible" type="Boolean" default="true" access="global" />
+        <aura:attribute name="mobilePhoneNumber" type="String" access="global" />
+        <aura:attribute name="mfaVerifiedPhoneNumber" type="String" access="global" />
+       
+        <aura:attribute name="itemsToLoad" type="Integer" default="0" description="a counter to manage when the initial load is over and to hide the spinner"/>
+        <aura:attribute name="countryOBOptions" type="List" description="the list of countries"/>
+        <aura:attribute name="countryMap" type="Map" description="a map of id, label of the Country of birth countries"/>
+        <aura:attribute name="cobCountryId" type="Id" description="the id of the selected country for Secondary"/>
+
+        <!--Core Personal Details
+        <c:ApplicationLightHeader title="{!v.contactRecord.Salutation + ' ' + v.contactRecord.FirstName + ' ' + v.contactRecord.LastName}" />-->
+
+        <aura:attribute name="institutionOptions" type="String[]" />
+        <aura:attribute name="enteredPreviousMonashStaffId" type="String" default="" />
+        <aura:attribute name="previousMonashStaffIdChecked" type="Boolean" default="false" />
+        <aura:attribute name="typeOfStudy" type="String" description="type of study"/>
+        <aura:attribute name="myAppFeatures" type="object"/>
+        <aura:attribute name="malaysianType" type="Map" />
+        <aura:attribute name="isCountrySanctioned" type="Boolean" default="false"/>
+
+
+
+        <aura:if isTrue="{!v.formLocked}">
+            <div class="slds-p-around_small"> 
+                <div class="slds-card" style="background:#dae6f7;padding-right:0px;padding-left:0px; ">
+                    <div class="slds-p-around_small"> 
+                        <div><aura:unescapedHtml value="{!$Label.c.AppPersonalDetailsLocked}"/></div>
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+    
+        <div class="{!if(v.showErrors == true, '', 'slds-hide')}" style="">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h3 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Please complete the following:</h3>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <ul class="slds-list_dotted slds-text-align--left">
+                            <aura:iteration items="{!v.errors}" var="error">
+                                <li>{!error}</li>
+                            </aura:iteration>
+                        </ul>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick="{!c.onClickCloseAlert}">Close</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    
+        <div class="slds">
+            <!-- main spinner -->
+            <aura:if isTrue="{!v.showSpinner}">
+                <div class="slds-spinner_container">
+                    <lightning:spinner variant="brand" size="medium" alternativeText="Loading"/>
+                </div>
+            </aura:if>
+
+            <div class="slds-is-relative slds-p-left_xx-small slds-p-bottom_xx-small" style="padding-top: 0.75rem;">
+                <!-- personal information spinner -->
+                <aura:if isTrue="{!v.showDetailsSpinner}">
+                    <div class="slds-spinner_container slds-p-left_xx-small">
+                        <lightning:spinner variant="brand" size="medium" alternativeText="Loading"/>
+                    </div>
+                </aura:if>
+        
+                <div class="slds-grid slds-gutters slds-wrap">
+                    <div class="slds-col">
+                        <!-- Personal details section -->
+                        <div class="sectionContainer slds-wrap">
+                            <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                            <div class="sectionContainerBody slds-size_5-of-5">
+                                <div class="slds-size_5-of-5">
+                                    <aura:if isTrue="{!v.typeOfStudy == 'Graduate Research'}">
+                                        <h2>Personal Information</h2>
+                                        <aura:set attribute="else">
+                                            <h2>Personal details</h2>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+
+                                <div class="fieldContainer slds-size_5-of-5">
+                                    <div class="slds-size_1-of-5">
+                                        <span class="fieldTitle">Title </span>
+                                    </div>
+                                    <div class="slds-size_4-of-5">
+                                        <lightning:select aura:id="selectTitle"
+                                                        label="Title"
+                                                        value="{!v.contactRecord.Salutation}"
+                                                        disabled="{!v.formLocked}"
+                                                        variant="label-hidden">
+                                            <aura:iteration items="{!v.titleOptions}" var="option">
+                                                <option value="{!option.value}" label="{!option.label}"
+                                                        selected="{!if(v.contactRecord.Salutation == option.value,'true','')}">
+                                                    {!option.label}
+                                                </option>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </div>
+                                </div>
+                                
+                                <aura:if isTrue="{!not(v.isMononymousName)}">
+                                    <div class="fieldContainer slds-size_5-of-5">
+                                        <div class="slds-size_1-of-5">
+                                            <span class="fieldTitle">Legal given name(s)</span><sup class="requiredField">*</sup>
+                                        </div>
+                                        <div class="slds-size_4-of-5">
+                                            <lightning:input label="Legal given name(s)"
+                                                            type="text"
+                                                            required="true"
+                                                            pattern="[A-z '\-]*"
+                                                            disabled="{!v.formLocked}"
+                                                            onblur="{!c.clearErrors}"
+                                                            messageWhenPatternMismatch="Only letters are allowed in this field"
+                                                            value="{!v.contactRecord.First_Name__c}"
+                                                            variant="label-hidden"/>
+                                        </div>
+                                    </div>
+                                </aura:if>
+
+                                <div class="fieldContainer slds-size_5-of-5">
+                                    <aura:if isTrue="{!v.isMononymousName}">
+                                        <div class="slds-size_1-of-5">
+                                            <span class="fieldTitle">Legal name (Mononymous)</span><sup class="requiredField">*</sup>
+                                        </div>  
+                                        <aura:set attribute="else">
+                                            <div class="slds-size_1-of-5">
+                                                <span class="fieldTitle">Legal last name</span><sup class="requiredField">*</sup>
+                                            </div>  
+                                        </aura:set>
+                                    </aura:if>                          
+                                    <aura:if isTrue="{!not(v.formLocked)}" >
+                                        <div class="slds-size_2-of-5">
+                                            <lightning:input label="Family Name"
+                                                            type="text"
+                                                            required="true"
+                                                            pattern="[A-z '\-]*"
+                                                            disabled="{!v.formLocked}"
+                                                            onblur="{!c.clearErrors}"
+                                                            messageWhenPatternMismatch="Only letters are allowed in this field"
+                                                            value="{!v.contactRecord.Last_Name__c}"
+                                                            variant="label-hidden" />
+                                        </div>  
+                                        <div class="slds-size_2-of-5">
+                                            <span style="display: inline-block; vertical-align: top;">
+                                                <lightning:input type="toggle" 
+                                                            name="mononymous_name_toggle"
+                                                            messageToggleActive="Yes"
+                                                            messageToggleInactive="No"
+                                                            checked="{!v.isMononymousName}" 
+                                                            disabled="{!v.formLocked}"/>
+                                            </span>
+                                            <span style="display: inline-block">
+                                                <label for="mononymous_name_toggle">Mononymous name</label>
+                                                <lightning:helptext
+                                                    content="In case you have a single name without a First or Last Name, please select this." />
+                                            </span>
+                                        </div> 
+                                        <aura:set attribute="else">
+                                            <div class="slds-size_4-of-5">
+                                                <lightning:input label="Family Name" type="text" required="true" pattern="[A-z '\-]*" disabled="{!v.formLocked}"
+                                                    onblur="{!c.clearErrors}" messageWhenPatternMismatch="Only letters are allowed in this field"
+                                                    value="{!v.contactRecord.Last_Name__c}" variant="label-hidden" />
+                                            </div>
+                                        </aura:set>   
+                                    </aura:if> 
+                                </div>
+
+                                <div class="fieldContainer slds-size_5-of-5">
+                                    <aura:if isTrue="{!v.isMononymousName}">
+                                        <div class="slds-size_1-of-5">
+                                            <span class="fieldTitle">Preferred Name</span>
+                                        </div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-size_1-of-5">
+                                                <span class="fieldTitle">Preferred First Name</span>
+                                            </div>
+                                        </aura:set>
+                                    </aura:if>
+                                    <div class="slds-size_4-of-5">
+                                        <lightning:input label="Preferred Name" type="text" required="true" pattern="[A-z '\-]*"
+                                            onblur="{!c.clearErrors}" messageWhenPatternMismatch="Only letters are allowed in this field"
+                                            value="{!v.contactRecord.Preferred_Name__c}" disabled="{!v.formLocked}" variant="label-hidden" />
+                                    </div>
+                                </div>
+                                 <div class="fieldContainer slds-size_5-of-5">
+                                    <div class="slds-size_1-of-5">
+                                        <span class="fieldTitle">Birthdate </span><sup class="requiredField">*</sup>
+                                    </div>                            
+                                    <div class="slds-size_4-of-5">
+                                        <lightning:input label="Birthdate"
+                                                        type="date"
+                                                        value="{!v.contactRecord.Birthdate}"
+                                                        required="true"
+                                                        disabled="{!v.formLocked}"
+                                                        onchange="{!c.handleCheckPreviousMonashId}" 
+                                                        variant="label-hidden" />
+                                    </div>    
+                                </div>
+                        	<aura:if isTrue="{!v.sourcesystem =='AgentPortal'}" >
+ 								<div class="fieldContainer slds-size_5-of-5">
+                                    <div class="slds-size_1-of-5">
+                                        <span class="fieldTitle">Country of birth</span><sup class="requiredField">*</sup>
+                                    </div>
+                                    <div class="slds-size_4-of-5">
+                                            <lightning:select aura:id="cobAgentPortal"
+                                                            label="Country of birth"
+                                                            value="{!v.cobCountryId}"
+                                                            onchange="{!c.onSelectTertiaryCountry}"
+															required="true">
+                                                <aura:iteration var="option" items="{!v.countryOBOptions}">
+                                                    <option value="{! option.value }" selected="{!if(v.cobCountryId == option.value,'true','')}">{! option.label }</option>
+                                                </aura:iteration>
+                                            </lightning:select>
+                                    </div>
+                                    
+                                 
+                                </div>
+                                <aura:set attribute="else">
+                                <div class="fieldContainer slds-size_5-of-5">
+                                    <div class="slds-size_1-of-5">
+                                        <span class="fieldTitle">Country of birth</span><sup class="requiredField">*</sup>
+                                    </div>
+                                    <div class="slds-size_4-of-5">
+                                        <lightning:select aura:id="selectMailingCountry"
+                                                        label="Country"
+                                                        required="true"
+                                                        value="{!v.contactRecord.Country_Of_Birth__c}" 
+                                                        variant="label-hidden">
+                                            <aura:iteration items="{!v.countryOptions}" var="option">
+                                                <option value="{!option.label}"
+                                                        label="{!option.label}"
+                                                        selected="{!if(v.contactRecord.Country_Of_Birth__c == option.label,'true','')}">{!option.label}</option>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </div>
+                                </div>
+                               </aura:set>
+                               </aura:if>
+                                 <div class="fieldContainer slds-size_5-of-5">
+                                    <div class="slds-size_1-of-5">
+                                        <span class="fieldTitle">Gender </span><sup class="requiredField">*</sup>
+                                    </div>                            
+                                    <div class="slds-size_4-of-5">
+                                        <lightning:select label="Gender"
+                                                        required="true"
+                                                        value="{!v.contactRecord.Gender__c}"
+                                                        disabled="{!v.formLocked}" 
+                                                        variant="label-hidden">
+                                            <aura:iteration items="{!v.genderOptions}" var="option">
+                                                <option value="{!option.value}"
+                                                        label="{!option.label}"
+                                                        selected="{!if(v.contactRecord.Gender__c == option.value,'true','')}">
+                                                    {!option.label}
+                                                </option>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </div>
+                                </div>
+
+                                <div class="fieldContainer slds-size_5-of-5">
+                                    <div class="slds-size_1-of-5">
+                                        <span class="fieldTitle">Pronouns</span>
+                                    </div>                            
+                                    <div class="slds-size_4-of-5">
+                                        <lightning:select label="Pronouns"
+                                                        required="false"
+                                                        value="{!v.contactRecord.Pronouns_V2__c}"
+                                                        variant="label-hidden">
+                                            <aura:iteration items="{!v.pronounOptions}" var="option">
+                                                <option value="{!option.value}"
+                                                        label="{!option.label}"
+                                                        selected="{!if(v.contactRecord.Pronouns_V2__c == option.value,'true','')}">
+                                                    {!option.label}
+                                                </option>
+                                            </aura:iteration>
+                                        </lightning:select>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                     <!-- save details actions -->
+                        <!-- mfa section -->
+                        <aura:if isTrue="{!and(v.isRedirect, not(v.isSSOUser))}" >
+                            <aura:if isTrue="{!!v.isCountrySanctioned}" >
+                            <c:myAppManageSmsMFA onmfafetched="{!c.mfafetched}"/>
+                            </aura:if>
+                            <aura:if isTrue="{!v.mfaRequired}" >
+                            </aura:if>
+                        </aura:if>      
+                        <!-- Contact information section -->
+                        <div class="sectionContainer slds-wrap">
+
+                            <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                            <div class="sectionContainerBody slds-size_5-of-5">
+                                <div class="slds-size_5-of-5">
+                                    <aura:if isTrue="{!v.typeOfStudy == 'Graduate Research'}">
+                                        <h2>Contact Information</h2>
+                                        <aura:set attribute="else">
+                                            <h2>Contact information</h2>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                                <aura:if isTrue="{!v.updateAddress}">
+                                    <div class=" addFldContainer slds-size_5-of-5" style="float:right;margin-left: 20px;">
+                                        <div class="slds-size_3-of-5" style="float:right;">
+                                            <span class="fieldTitle">&nbsp; </span>
+                                        </div>
+                                        <div class="slds-size_2-of-5" style="float:right;">
+                                            <span class="slds-float_right slds-m-top_xx-small">
+                                                <lightning:input type="checkbox"
+                                                label="Update this address"
+                                                aura:id="updateadd"
+                                                name="updateadd"
+                                                id="checkbox-unique-id-1" 
+                                                value="checkbox-unique-id-1" 
+                                                checked="false"
+                                                onchange="{!c.handleCheckboxChange}"
+                                                />
+                                            </span>
+                                            <label class="slds-checkbox__label slds-p-right_none" for="checkbox-unique-id-1">
+                                                <span class="slds-checkbox_faux"></span>
+                                                <span class="slds-form-element__label slds-float_right slds-p-top_xx-small"><i>Update the address</i></span>
+                                            </label>
+                                        </div>
+                                   </div>
+                                </aura:if>
+                                <!-- Address Information -->
+                                <div class="fieldContainer slds-size_5-of-5">
+                                    <div class="slds-size_1-of-5">
+                                        <span class="fieldTitle">Address </span><sup class="requiredField">*</sup>
+                                    </div>
+                                    <div class="slds-size_4-of-5">
+                                            <aura:if isTrue="{!v.displayAddress}">
+
+                                            <lightning:input label="Address"
+                                            type="text"
+                                            disabled="true"
+                                            value="{!v.fullAddress}" 
+                                            variant="label-hidden" />
+                                        </aura:if>
+                                        <aura:if isTrue="{!!v.displayAddress}">
+                                            <c:addressSearchEDQ 
+                                            isAddressDisabled="false"
+                                            aura:id="expAddress"  />
+                                        </aura:if>
+                                </div>
+                            </div>
+                                <div class="fieldContainer slds-size_5-of-5">
+                                    <div class="slds-size_1-of-5">
+                                        <span class="fieldTitle">Email</span><sup class="requiredField">*</sup>
+                                    </div>
+                                    <div class="slds-size_4-of-5">
+                                        <lightning:input label="Email"
+                                                        type="email"
+                                                        disabled="{!v.formLocked}"
+                                                        value="{!v.contactRecord.Personal_Email__c}"
+                                                        required="true"
+                                                        variant="label-hidden" />
+                                    </div>
+                                </div>
+            
+                                <!--Workaround to handle the reset of the error messages-->
+                                <aura:if isTrue="{!v.errorToggle}">
+                                    <div class="fieldContainer slds-size_5-of-5">
+                                        <div class="slds-size_1-of-5">
+                                            <span class="fieldTitle">Home Phone</span><aura:if isTrue="{!or(v.mobilePhoneNumber == '', v.mobilePhoneNumber == null)}"><sup class="requiredField">*</sup></aura:if>
+                                        </div>
+                                        <div class="slds-size_4-of-5">
+                                            <lightning:input label="Home Phone"
+                                                            type="tel"
+                                                            disabled="{!v.formLocked}"
+                                                            required="{!or(v.mobilePhoneNumber == '', v.mobilePhoneNumber == null)}"
+                                                            onblur="{!c.toggleErrors}"
+                                                            value="{!v.contactRecord.HomePhone}"
+                                                            variant="label-hidden" />
+                                        </div>
+                                    </div>
+
+                                    <div class="fieldContainer slds-size_5-of-5">
+                                        <div class="slds-size_1-of-5">
+                                            <span class="fieldTitle">Mobile Phone</span><aura:if isTrue="{!or(v.contactRecord.Phone == '', v.contactRecord.Phone == null)}"><sup class="requiredField">*</sup></aura:if>
+                                        </div>
+                                        <!-- Experian phone number validation -->
+                                        <div class="slds-size_3-of-5 slds-grid slds-nowrap">
+                                            <aura:if isTrue="{!v.isMobilePhoneLocked}">
+                                                <lightning:input label="Mobile Phone"
+                                                                type="tel"
+                                                                disabled="{!v.formLocked}"
+                                                                required="{!or(v.contactRecord.Phone == '', v.contactRecord.Phone == null)}"
+                                                                onfocus="{!c.toggleMobilePhoneEdit}"
+                                                                onblur="{!c.toggleMobilePhoneEdit}"
+                                                                value="{!v.mobilePhoneNumber}"
+                                                                variant="label-hidden" />
+                                            <aura:set attribute="else">
+                                                <div class="slds-size_1-of-12">
+                                                    <lightning:button variant="base" 
+                                                    label="" 
+                                                    iconName="action:close"  
+                                                    onclick="{!c.toggleMobilePhoneEdit}"
+                                                    class="slds-m-left_x-small slds-float_right"/>
+                                                </div>
+                                                <div class="slds-size_11-of-12">
+                                                    <c:phoneNumberValidationEDQ
+                                                        aura:id="phoneNumberSearch"
+                                                        phoneNumberlabel="">
+                                                    </c:phoneNumberValidationEDQ>
+                                                </div>
+                                            </aura:set>
+                                            </aura:if>
+                                        </div>
+                                        <div class="slds-size_1-of-5 slds-grid slds-nowrap">
+                                            <aura:if isTrue="{!and(v.isMobileNoToggleVisible, !v.formLocked) }">
+                                                <div class="slds-size_11-of-12 slds-p-right_small">
+                                                    <i class="slds-form-element__label slds-float_right slds-p-top_xx-small">Use number registered for MFA as my Mobile Phone</i>
+                                                </div>
+                                                <div class="slds-size_1-of-12 slds-p-right_small">
+                                                    <lightning:input type="checkbox" 
+                                                                disabled="{!v.formLocked}" 
+                                                                checked="{!v.isMobilePhoneLocked}"/>
+                                                </div>
+                                            </aura:if>
+                                        </div>
+                                    </div>
+                                </aura:if>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--Additional Personal Information -->
+                <!--<c:ApplicationLightHeader title="Other Personal Details" />-->
+                <div class="slds-grid slds-gutters slds-wrap">
+                    <div class="slds-col">
+                        <!-- Personal details section -->
+                        <div class="sectionContainer slds-wrap">
+                            <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                            <div class="sectionContainerBody slds-size_5-of-5">
+                                <div class="slds-size_5-of-5">
+                                    <aura:if isTrue="{!v.typeOfStudy == 'Graduate Research'}">
+                                        <h2>Additional Personal Information</h2>
+                                        <aura:set attribute="else">
+                                            <h2>Other Personal Details</h2>
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+                                <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                    <aura:if isTrue="{!v.typeOfStudy == 'Graduate Research'}">
+                                        <p>Complete this section if applicable.</p>
+                                        <aura:set attribute="else">
+                                            <p>{!$Label.c.Additional_Information}</p>                                    
+                                        </aura:set>
+                                    </aura:if>
+                                </div>
+
+                                <!-- Displays the question: Have you ever changed your name at any time? -->
+                                <div class="fieldContainer slds-size_5-of-5">
+                                    <div class="slds-size_4-of-5" style="margin-top: 10px;font-weight: bold;">
+                                        <span class="generalText"><aura:unescapedHtml value="{!$Label.c.myAppEnglishTestPreviousNameChangeQuestion}"/></span>
+                                    </div>
+                                    <div class="slds-size_1-of-5" style="margin-top: 10px; margin-left: 20px;">
+                                        <lightning:input aura:id="prevNameCheckbox"
+                                                         type="toggle"
+                                                         disabled="{!v.formLocked}"
+                                                         messageToggleActive="Yes"
+                                                         messageToggleInactive="No"
+                                                         checked="{!v.contactRecord.Previous_Firstname__c != null || v.contactRecord.Previous_Surname__c != null}"
+                                                         onchange="{!c.handleCheckPreviousName}"
+                                                         variant="label-hidden"
+                                                         label=""/>
+                                    </div>
+                                </div>
+
+                                <!-- Displays the question: Was your previous name mononymous? -->
+                                <aura:if isTrue="{!v.showMonoNameQuestion == true || v.previousNameExist == true}">
+                                    <div class="fieldContainer slds-size_5-of-5">
+                                        <div class="slds-size_4-of-5" style="margin-top: 10px;font-weight: bold;">
+                                            <span class="generalText" style="display: inline-block">
+                                                <aura:unescapedHtml value="{!$Label.c.myAppEnglishTestPreviousNameMono}"/>
+                                                <lightning:helptext content="In case you have a single name without a First or Last Name, please select this." />
+                                            </span>
+                                        </div>
+                                        <div class="slds-size_1-of-5" style="margin-top: 10px; margin-left: 20px;">
+                                            <lightning:input aura:id="mononymousMameCheckbox"
+                                                             type="toggle"
+                                                             disabled="{!v.formLocked}"
+                                                             messageToggleActive="Yes"
+                                                             messageToggleInactive="No"
+                                                             checked="{!v.contactRecord.Is_Mononymous_Name__c == true}"
+                                                             onchange="{!c.handleCheckMononymousName}"
+                                                             variant="label-hidden"
+                                                             label="" />
+                                        </div>
+                                    </div>
+                                </aura:if>
+
+                                <aura:if isTrue="{!v.previousNameExist == true}">
+                                    <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                        <aura:if isTrue="{!v.typeOfStudy == 'Graduate Research'}">
+                                            <span class="generalText">If you have changed your name at any time during or after your tertiary studies, provide your previous name here. You will be required to upload supporting documentation in the <b>Documents section</b>.</span>
+                                            <aura:set attribute="else">
+                                                <span class="generalText"><aura:unescapedHtml value="{!$Label.c.myAppEnglishTestPreviousNameChangeText}"/></span>
+                                            </aura:set>
+                                        </aura:if>
+                                    </div>
+                                    <aura:if isTrue="{!NOT(AND(v.isMononymousPreviousName, OR(v.contactRecord.Is_Mononymous_Name__c == true, v.contactRecord.Is_Mononymous_Name__c != true)))}">
+                                    <div class="fieldContainer slds-size_5-of-5">
+                                            <div class="slds-size_1-of-5">
+                                                <span class="fieldTitle">Previous first name</span>
+                                            </div>
+                                            <div class="slds-size_4-of-5">
+                                                <lightning:input label="{!$Label.c.myAppEnglishTestPreviousNameChangeText}"
+                                                                 type="text"
+                                                                 disabled="{!v.formLocked}"
+                                                                 value="{!v.contactRecord.Previous_Firstname__c}"
+                                                                 variant="label-hidden"
+                                                                 aura:id="previousFirstName"/>
+                                            </div>
+                                        </div>
+                                    </aura:if>
+
+                                    <div class="fieldContainer slds-size_5-of-5">
+                                        <div class="slds-size_1-of-5">
+                                            <span class="fieldTitle">{!v.previousLastNameLabel}
+                                                <aura:if isTrue="{!AND(v.isMononymousPreviousName, OR(v.contactRecord.Is_Mononymous_Name__c == true, v.contactRecord.Is_Mononymous_Name__c != true))}">
+                                                    <span class="requiredField" title="Required"> *</span>
+                                                </aura:if>
+                                            </span>
+                                        </div>
+                                        <div class="slds-size_4-of-5">
+                                            <lightning:input label="{!$Label.c.myAppEnglishTestPreviousNameChangeText}"
+                                                             type="text"
+                                                             disabled="{!v.formLocked}"
+                                                             value="{!v.contactRecord.Previous_Surname__c}"
+                                                             variant="label-hidden"
+                                                             aura:id="previousName"/>
+                                        </div>
+                                    </div>
+                                </aura:if>
+
+                                <!-- conditionally ask previous monash id if the associated contact already has a person id -->
+                                <aura:if isTrue="{!v.contactRecord.Person_ID_unique__c == null}">                                    
+                                    <div class="fieldContainer slds-size_5-of-5">
+                                        <div class="slds-size_4-of-5" style="margin-top: 10px;">
+                                            <span class="generalText">{!$Label.c.myAppEnglishTestPreviouslyStudiedText}</span>
+                                        </div>
+                                        <div class="slds-size_1-of-5" style="margin-top: 10px; margin-left: 20px;">
+                                            <lightning:input label="{!$Label.c.myAppEnglishTestPreviouslyStudiedText}"
+                                                            type="toggle"
+                                                            disabled="{!v.formLocked}"
+                                                            messageToggleActive="Yes"
+                                                            messageToggleInactive="No"
+                                                            checked="{!v.contactRecord.Previously_Studied_at_Monash__c}"
+                                                            onchange="{!c.handleCheckPreviousMonashId}"
+                                                            variant="label-hidden" />
+                                        </div>
+                                    </div>
+
+                                    <aura:if isTrue="{!v.contactRecord.Previously_Studied_at_Monash__c == true}">
+                                        <div class="fieldContainer slds-size_5-of-5">                                            
+                                            <div class="slds-size_3-of-12">
+                                                <aura:if isTrue="{!v.contactRecord.Previously_Studied_at_Monash__c == true}">
+                                                    <span class="fieldTitle">Previous Monash ID</span>
+                                                    <aura:set attribute="else">
+                                                        <span class="fieldTitle" style="color: #909090;">Previous Monash ID</span>
+                                                    </aura:set>
+                                                </aura:if>
+                                            </div>
+
+                                            <div class="slds-size_9-of-12">
+                                                <lightning:input aura:id="previousMonashIdNumber"
+                                                    label="Previous Monash ID"
+                                                    type="text"
+                                                    maxlength="8"
+                                                    pattern="[0-9]*"
+                                                    messageWhenPatternMismatch="Only numbers are allowed in this field"
+                                                    disabled="{!v.formLocked || v.existingPreviousMonashResults}"
+                                                    value="{!v.contactRecord.Previous_Monash_ID__c}" 
+                                                    onchange="{!c.handleCheckPreviousMonashId}" 
+                                                    variant="label-hidden"/>
+                                                
+                                                <!-- help text -->
+                                                <span class="generalHelpText" style="color: rgb(105, 105, 105); margin-top: 5px;">
+                                                    <!-- if previous monash id populated check -->
+                                                    <aura:if isTrue="{!or(v.contactRecord.Previous_Monash_ID__c == null, v.contactRecord.Previous_Monash_ID__c == '')}">
+                                                        <aura:if isTrue="{!v.typeOfStudy != 'Graduate Research'}">
+                                                            <lightning:layout verticalAlign="center">
+                                                                <lightning:layoutItem>
+                                                                    <lightning:icon iconName="utility:warning" alternativeText="Warning!" title="Warning" size="small" variant="warning" />
+                                                                </lightning:layoutItem>
+                                                                    <lightning:layoutItem padding="horizontal-small">
+                                                                        We will be able to process your application faster if you are able to provide your Previous Monash ID.
+                                                                    </lightning:layoutItem>
+                                                            </lightning:layout>
+                                                        </aura:if>
+
+                                                        <!-- else -->
+                                                        <aura:set attribute="else">
+                                                            <!-- if previous monash id populated check -->
+                                                            <aura:if isTrue="{!and(and(v.contactRecord.Previous_Monash_ID__c != null, v.contactRecord.Previous_Monash_ID__c != ''), !v.existingPreviousMonashLengthValid)}">
+                                                                <lightning:layout verticalAlign="center">
+                                                                    <lightning:layoutItem>
+                                                                        <lightning:icon iconName="utility:warning" alternativeText="Warning!" title="Warning" size="small" variant="warning" />
+                                                                    </lightning:layoutItem>
+                                                                    <lightning:layoutItem padding="horizontal-small">
+                                                                        This does not look like a typical Monash ID, a correct Monash ID will speed up your Application processing.
+                                                                    </lightning:layoutItem>
+                                                                </lightning:layout>
+                                                                
+                                                                <!-- else -->
+                                                                <aura:set attribute="else">
+                                                                    <aura:if isTrue="{!v.contactRecord.Birthdate == null}">
+                                                                        <lightning:layout verticalAlign="center">
+                                                                            <lightning:layoutItem>
+                                                                                <lightning:icon iconName="utility:warning" alternativeText="Warning!" title="Warning" size="small" variant="warning" />
+                                                                            </lightning:layoutItem>
+                                                                            <lightning:layoutItem padding="horizontal-small">
+                                                                                Please input your birth date so we can match your Previous Monash ID with our records.
+                                                                            </lightning:layoutItem>
+                                                                        </lightning:layout>
+                                                                        
+                                                                        <!-- else -->
+                                                                        <aura:set attribute="else">
+                                                                            <!-- has validation result -->
+                                                                            <aura:if isTrue="{!v.findPreviousMonashStatus != null}">
+                                                                                <!-- warning message - no match -->
+                                                                                <aura:if isTrue="{!v.findPreviousMonashStatus == 'NoMatch'}">
+                                                                                    <lightning:layout verticalAlign="center">
+                                                                                        <lightning:layoutItem>
+                                                                                            <lightning:icon iconName="utility:warning" alternativeText="Warning!" title="Warning" size="small" variant="warning" />
+                                                                                        </lightning:layoutItem>
+                                                                                        <lightning:layoutItem padding="horizontal-small">
+                                                                                            Sorry, your details do not seem to match with the system. If you provide us with accurate information, we can process your application faster.
+                                                                                        </lightning:layoutItem>
+                                                                                    </lightning:layout>
+                                                                                    
+                                                                                </aura:if>
+                                                                            </aura:if>
+
+                                                                            <!-- validation processing -->
+                                                                            <aura:if isTrue="{!v.findPreviousMonashStatus == null}">
+                                                                                <lightning:layout verticalAlign="center">
+                                                                                    <lightning:layoutItem>
+                                                                                        <div class="slds-is-relative" style="width: 40px; height: 25px;">
+                                                                                            <lightning:spinner alternativeText="Loading" size="small" variant="brand" />
+                                                                                        </div>
+                                                                                    </lightning:layoutItem>
+                                                                                    <lightning:layoutItem padding="horizontal-small">
+                                                                                        <span style="color: #2B78AB;">Checking...</span>  
+                                                                                    </lightning:layoutItem>
+                                                                                </lightning:layout>                                                 
+                                                                            </aura:if>
+                                                                        </aura:set>
+                                                                    </aura:if>
+                                                                </aura:set>
+                                                            </aura:if>
+                                                        </aura:set>
+                                                    </aura:if>            
+                                                </span>
+                                            </div>
+                                        </div>
+
+                                        <!--GRT Previous Institution -->
+                                        <aura:if isTrue="{!v.typeOfStudy == 'Graduate Research'}">
+                                            <div class="fieldContainer slds-size_5-of-5">   
+                                                <div class="slds-size_1-of-5">
+                                                    <aura:if isTrue="{!v.contactRecord.Previously_Studied_at_Monash__c == true}">
+                                                        <span class="fieldTitle">Previous Institution</span>
+                                                        <aura:set attribute="else">
+                                                            <span class="fieldTitle" style="color: #909090;">Previous Institution</span>
+                                                        </aura:set>
+                                                    </aura:if>
+                                                </div>
+                                                <div class="slds-size_4-of-5">
+                                                    <lightning:select label="Previous Institution" disabled="{!v.formLocked}" value="{!v.contactRecord.Previous_Monash_Institution__c}" >
+                                                        <aura:iteration var="item" items="{!v.previousInstitution}" >
+                                                            <option label="{!item.label}" value="{!item.value}">{!item.label}</option>
+                                                        </aura:iteration>
+                                                    </lightning:select>
+                                                </div>
+                                            </div>
+                                        </aura:if>
+                                    </aura:if>
+                                </aura:if>
+
+                                <!--GRT Monash Staff ID-->
+                                <aura:if isTrue="{!v.typeOfStudy == 'Graduate Research'}">
+                                    <div class="fieldContainer slds-size_5-of-5">
+                                        <div class="slds-size_4-of-5" style="margin-top: 10px;">
+                                            <span class="generalText">Are you currently a Monash Staff member?</span>
+                                        </div>
+                                        <div class="slds-size_1-of-5" style="margin-top: 10px; margin-left: 20px;">
+                                            <lightning:input label="Are you currently a Monash Staff member?"
+                                                type="toggle"
+                                                aura:id="previousMonashIdToggle"
+                                                messageToggleActive="Yes"
+                                                messageToggleInactive="No"
+                                                onchange="{!c.handleCheckPreviousMonashStaff}"
+                                                variant="label-hidden"
+                                                checked="{!v.contactRecord.Monash_Staff_ID__c != null}"/>
+                                        </div>
+                                    </div>
+                                    <aura:if isTrue="{!v.previousMonashStaffIdChecked == true}">
+                                        <div class="fieldContainer slds-size_5-of-5">
+                                            <div class="slds-size_1-of-5">
+                                                <span class="fieldTitle">Monash Staff ID</span><sup class="requiredField">*</sup>
+                                            </div>
+                                            <div class="slds-size_4-of-5">
+                                                <lightning:input aura:id="previousMonashStaffId"
+                                                label="Monash Staff Id"
+                                                type="text"
+                                                minlength="8"
+                                                maxlength="8"
+                                                required="true"
+                                                pattern="[0-9]*"
+                                                messageWhenPatternMismatch="Only max of 8 numbers are allowed in this field"
+                                                disabled="{!v.existingPreviousMonashResults}"
+                                                value="{!v.contactRecord.Monash_Staff_ID__c}" 
+                                                variant="label-hidden"/>
+                                            </div>
+                                        </div>
+                                    </aura:if>
+                                </aura:if>
+                            </div>
+                        </div>
+                    </div>
+                </div>  
+
+                <!-- save details actions -->
+                <aura:if isTrue="{!v.isRedirect}" >
+                    <br />
+                    <button class="primaryButton" onclick="{!c.saveDetailsAndContinue}">
+                        Save and Continue
+                    </button>
+                    <!-- 1st save
+                    <aura:set attribute="else">
+                        <lightning:button label="Save my Details"
+                                        iconPosition="left"
+                                        variant="brand"
+                                        onclick="{!c.saveDetails}" />
+                    </aura:set>-->
+                </aura:if>            
+              
+                <aura:if isTrue="{!v.isRedirect == false}">
+                    <!--Where do you want to study-->
+                    <!--<c:ApplicationLightHeader title="Where do you want to study" />-->
+                    <!--<aura:if isTrue="{!AND(v.applicationRecord.Campus_Location__c != 'Online', v.typeOfStudy != 'Graduate Research')}">-->
+                        <div class="slds-grid slds-gutters slds-wrap">
+                            <div class="slds-col">
+                                <!-- Personal details section -->
+                                <div class="sectionContainer slds-wrap">
+                                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                                    <div class="sectionContainerBody slds-size_5-of-5">
+                                        <div class="slds-size_5-of-5">
+                                            <h2>Citizenship and Visa Details</h2>
+                                        </div>
+                                        <aura:if isTrue="{!v.typeOfStudy == 'Graduate Research'}">
+                                            <div class="slds-m-top--medium"></div>
+                                            <div class="generalText">You are required to provide one of these documents:</div>
+                                            <div class="slds-size_5-of-5">
+                                                <ul class="slds-list_dotted">
+                                                <li class="generalText">The facing page of your passport featuring your photo</li>
+                                                <li class="generalText">Birth certificate</li>
+                                                <li class="generalText">Citizenship certificate</li>
+                                            </ul>
+                                            </div>
+                                            <div class="generalText">
+                                                If you do not hold a passport from Australia or New Zealand and you are currently in Australia you must also provide a copy of the visa that allows you to remain in Australia. This includes evidence of Australian permanent residence.
+                                                <br></br><br></br>Documents submitted in a language other than English must additionally be accompanied by an official certified translation.
+                                                <br></br><br></br>You will be required to upload supporting documentation in the <b>Documents section</b>.<br></br>
+                                            </div>
+                                        </aura:if>
+
+                                        <c:ApplicationStudyLocation aura:id="childStudyLocation" applicationId="{!v.applicationId}" parent="{!this}" source="{!v.source}"/>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                    <!--</aura:if>-->
+
+                    <!--Malaysia Details-->
+                    <aura:if isTrue="{!AND(v.applicationRecord.Type_of_Study__c == 'Graduate Research',v.applicationRecord.Campus_Location__c == 'Malaysia')}">
+                    <div class="slds-grid slds-gutters slds-wrap">
+                        <div class="slds-col">
+                            <!-- Personal details section -->
+                            <div class="sectionContainer slds-wrap">
+                                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                                <div class="sectionContainerBody slds-size_5-of-5">
+                                    <div class="slds-size_5-of-5">
+                                        <h2>Malaysia Details</h2>
+                                    </div>
+                                    <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                        <p>Additional information required of students enrolling at Monash Malaysia</p>
+                                    </div>
+                                    <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                        <span class="generalText">Please note that successful applicants to Monash Malaysia may be invited to apply for a scholarship administered by Monash Malaysia on successful offer or acceptance of their offer. An application for Research Degree Only is a necessary precursor for scholarship consideration.</span>
+                                    </div>
+                                    <div class="fieldContainer slds-size_5-of-5">
+                                        <div class="slds-size_2-of-5">
+                                            <span class="fieldTitle">NRIC/ Passport Number</span><sup class="requiredField">*</sup>
+                                        </div>
+                                        <div class="slds-size_3-of-5">
+                                            <lightning:input aura:id="nricPassportNumber"
+                                            label="NRIC/ Passport Number"
+                                            type="text"
+                                            required="true"
+                                            value="{!v.applicationRecord.Malaysian_NRIC_Passport__c}" 
+                                            variant="label-hidden"/>
+                                        </div>
+                                    </div>
+                                    <aura:if isTrue="{!v.applicationRecord.Residency_Status__c != 'DOM-SUN'}">
+                                        <div class="fieldContainer slds-size_5-of-5">
+                                            <div class="slds-size_4-of-5" style="margin-top: 10px;">
+                                                <span class="generalText">Are you currently residing in Malaysia?</span>
+                                            </div>
+                                            <div class="slds-size_1-of-5" style="margin-top: 10px; margin-left: 20px;">
+                                                <lightning:input label="Are you currently residing in Malaysia?"
+                                                    type="toggle"
+                                                    aura:id="residingInMalaysiaToggle"
+                                                    messageToggleActive="Yes"
+                                                    messageToggleInactive="No"
+                                                    checked="{!v.applicationRecord.Currently_residing_in_Malaysia__c}"
+                                                    variant="label-hidden" />
+                                            </div>
+                                        </div>
+                                        <aura:if isTrue="{!v.applicationRecord.Currently_residing_in_Malaysia__c}">
+                                            <div class="fieldContainer slds-size_5-of-5">
+                                                <div class="slds-size_2-of-5">
+                                                    <span class="fieldTitle">Please state your pass type (eg. student, tourist/social dependant)</span><sup class="requiredField">*</sup>
+                                                </div>
+                                                <div class="slds-size_3-of-5">
+                                                    <lightning:select label="Malaysia Pass Type" value="{!v.applicationRecord.Malaysia_pass_type__c}" >
+                                                        <aura:iteration var="item" items="{!v.malaysianType}" >
+                                                            <option label="{!item.label}" value="{!item.value}">{!item.label}</option>
+                                                        </aura:iteration>
+                                                    </lightning:select>
+                                                </div>
+                                            </div>
+                                            <div class="fieldContainer slds-size_5-of-5">
+                                                <div class="slds-size_2-of-5">
+                                                    <span class="fieldTitle">When does your pass and/or visa expire?</span><sup class="requiredField">*</sup>
+                                                </div>
+                                                <div class="slds-size_3-of-5">
+                                                    <lightning:input label="Malaysia Pass Expiry"
+                                                            type="date"
+                                                            value="{!v.applicationRecord.Malaysia_pass_expiry__c}"
+                                                            required="true"
+                                                            variant="label-hidden" />
+                                                </div>
+                                            </div>
+                                        </aura:if>
+                                    </aura:if>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </aura:if>
+
+                    <!-- hide sensitive data from partners -->
+                    <aura:if isTrue="{!v.source != 'partner'}">
+                        <!--ASTI-->
+                        <aura:renderIf isTrue="{!and(v.applicationRecord.Residency_Status__c == 'DOM-AUS', v.applicationRecord.Campus_Location__c == 'Australia')}">
+                            <!--<c:ApplicationLightHeader title="Aboriginal and Torres Strait Islander"/>-->
+                            <div class="slds-grid slds-gutters slds-wrap">
+                                <div class="slds-col">
+                                    <!-- Personal details section -->
+                                    <div class="sectionContainer slds-wrap">
+                                        <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                                        <div class="sectionContainerBody slds-size_5-of-5">
+                                            <div class="slds-size_5-of-5">
+                                                <h2>Aboriginal and Torres Strait Islander</h2>
+                                            </div>
+                                            <div class="fieldContainer">
+                                                <lightning:layout multipleRows="true" class="slds-size_5-of-5">
+                                                    <lightning:layoutItem size="9">
+                                                        <aura:if isTrue="{!v.typeOfStudy != 'Graduate Research'}">
+                                                        <span class="fieldTitle">{!$Label.c.ASTI}&nbsp;</span><sup class="requiredField">*</sup>
+                                                        <aura:set attribute="else">
+                                                            <span class="generalText">Do you identify as Aboriginal and/or Torres Strait Islander?&nbsp;</span><sup class="requiredField">*</sup>
+                                                        </aura:set>
+                                                        </aura:if>
+                                                    </lightning:layoutItem>
+                                                    <lightning:layoutItem size="3">
+                                                        <div style="float:right">
+                                                            <lightning:radioGroup name="ASTI"
+                                                                label="Yes or No?"
+                                                                required="true"
+                                                                type="button"
+                                                                options="{!v.items}"
+                                                                disabled="{!and(v.formLocked, v.isATSI != null)}"
+                                                                onchange="{!c.onToggleATSI}"
+                                                                value="{!v.contactRecord.Aboriginal_or_Torres_Strait_Islander__c}" 
+                                                                variant="label-hidden" />
+                                                        </div>
+                                                    </lightning:layoutItem>
+                                                </lightning:layout>
+                                            </div>
+                                        </div>
+                                    </div>                            
+                                </div>
+                            </div>
+                        </aura:renderIf>
+                        <!--Access and Equity-->
+                        <!--<c:ApplicationLightHeader title="Access and Equity"/>-->
+                        <aura:if isTrue="{!v.typeOfStudy != 'Graduate Research'}">
+                        <div class="slds-grid slds-gutters slds-wrap slds-is-relative">
+                            <div class="slds-col">
+                                <!-- Personal details section -->
+                                <div class="sectionContainer slds-wrap">
+                                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                                    <div class="sectionContainerBody slds-size_5-of-5">
+                                         <div class="slds-size_5-of-5">
+                                            <h2>Access and Equity</h2>
+                                            <a target="_blank" href="https://www.monash.edu/students/support/disability">Disability Support Services</a> assists students with disabilities, mental health conditions and ongoing medical conditions. This includes students with learning difficulties, short-term injuries and students on the Autism Spectrum                                       
+                                        </div>
+                                      
+                                       	<div class="slds-size_5-of-5 slds-box" style="background-color:#cde2ef;">
+This section includes the collection of sensitive, special-category data such as information about disabilities (if applicable).
+<br/>
+                                          
+                                            <div class="slds-size_5-of-5  fieldContainernoborder">
+                                                <lightning:layout multipleRows="true" class="slds-size_5-of-5">
+                                                    <lightning:layoutItem size="9">
+       							<span class="fieldTitle">{!$Label.c.Consent_Text}</span><sup class="requiredField">*</sup>
+                                                     </lightning:layoutItem>
+                                                     <lightning:layoutItem size="3">
+                                                        <div style="float:right;margin-right:-10px;">
+                                                            <lightning:radioGroup name="DisabilitiesOptIn"
+                                                                label="Yes or No?"
+                                                                required="true"
+                                                                type="button"
+                                                                options="{!v.items}" 
+                                                                onchange="{!c.onChangeDisabilityConsent}"
+                                                                value="{!v.applicationRecord.Disability_Opt_In__c}" 
+                                                                variant="label-hidden" />
+                                                        </div>
+                                                    </lightning:layoutItem>
+                                                </lightning:layout>
+                                            </div>
+                                          </div> 
+                      				<div class="fieldContainer">
+                                            <lightning:layout multipleRows="true" class="slds-size_5-of-5">
+                                                <lightning:layoutItem size="9">
+                                                    <span class="fieldTitle">{!$Label.c.AccessAndEquity}&nbsp;</span><sup class="requiredField">*</sup>
+                                                </lightning:layoutItem>
+                                                <lightning:layoutItem size="3">
+                                                    <div style="float:right">
+                                                        <lightning:radioGroup name="Disabilities"
+                                                            label="Yes or No?"
+                                                            required="true"
+                                                            type="button"
+                                                            options="{!v.items}"
+                                                            onchange="{!c.onChangeDisability}"
+                                                            value="{!v.applicationRecord.HasDisabilities__c}" 
+                                                            variant="label-hidden"/>
+                                                    </div>
+                                                </lightning:layoutItem>
+                                            </lightning:layout>
+                                        </div>                                       
+
+                                        <aura:if isTrue="{!v.applicationRecord.HasDisabilities__c == 'Yes'}">
+          									<div class="slds-size_5-of-5 slds-box" style="background-color:#cde2ef;">
+                                                Monash University will require further information from a relevant health professional outlining the potential impact of your conditions
+                                                on your intended study program.<br/>
+                                                <p style="text-align: left;font-family:'Roboto';font-size: 18px;line-height: 24px;letter-spacing: 0;color: #333333;opacity: 1;"> <a target="_blank" href="https://www.monash.edu/students/support/disability/services/register">Register for Disability Services</a></p>
+                                            </div>
+                                            <div class="fieldContainer">
+                                                <lightning:layout multipleRows="true" class="slds-size_5-of-5">
+                                                    <lightning:layoutItem size="9">
+                                                        <span class="fieldTitle">{!$Label.c.AccessAndEquity_Registered}&nbsp;</span><sup class="requiredField">*</sup>
+                                                    </lightning:layoutItem>
+                                                    <lightning:layoutItem size="3">
+                                                        <div style="float:right">
+                                                            <lightning:radioGroup name="RegisteredDisabilities"
+                                                                label="Yes or No?"
+                                                                required="true"
+                                                                type="button"
+                                                                options="{!v.items}"
+                                                                onchange="{!c.onChangeRegisteredDisabilitySupport}"
+                                                                value="{!v.applicationRecord.Existing_Aus_disability_support__c}" 
+                                                                variant="label-hidden" />
+                                                        </div>
+                                                    </lightning:layoutItem>
+                                                </lightning:layout>
+                                            </div>
+                                        </aura:if>
+                                    </div>
+                                </div>
+                            </div>
+                            <aura:if isTrue="{!v.accessAndEquityLoading}">
+                                <lightning:spinner alternativeText="Loading" size="medium" variant="brand" />
+                            </aura:if>
+                        </div>
+                        </aura:if>
+                    </aura:if>
+
+                    <!--START OF ACCESS AND EQUITY HDR-->
+                    <aura:if isTrue="{!v.typeOfStudy == 'Graduate Research'}">
+                        <div class="slds-grid slds-gutters slds-wrap slds-is-relative">
+                            <div class="slds-col">
+                                <!-- Personal details section -->
+                                <div class="sectionContainer slds-wrap">
+                                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                                    <div class="sectionContainerBody slds-size_5-of-5">
+                                        <div class="slds-size_5-of-5">
+                                            <h2>Access and Equity</h2>                              
+                                        </div>
+                                    
+                                        <div class="generalText" style="margin-top: 10px;">
+                                        Monash assists students with disabilities, mental health conditions and ongoing medical conditions by providing support so they can succeed.
+                                        </div>
+
+                                        <div class="slds-size_5-of-5 slds-box" style="background-color:#cde2ef;margin-top: 10px;">
+                                            <span class="fieldTitle">If you have a disability, medical or ongoing mental health condition that may impact your studies, you can find out what support is available by visiting the <a target="_blank" href="https://www.monash.edu/students/support/disability">Disability Support Services (DSS) website</a> and/or <a target="_blank" href="https://www.monash.edu/students/support/disability/services/advisers">booking an appointment to meet with a Disability Adviser</a>.
+                                            <br/><br/>
+                                            DSS also supports students who are carers of someone with a disability or who is aged and frail.
+                                            </span>
+                                        </div>
+                                        <br/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aura:if>
+                    <!--END OF ACCESS AND EQUITY HDR-->
+        
+                    <!--Under 18 Information - removed SFTD-321
+                    <c:Under18UploadComponent studyCountry="{!v.studyLocation}" />
+                    -->
+                </aura:if>    
+            </div>
+        </div>
+    </aura:component>

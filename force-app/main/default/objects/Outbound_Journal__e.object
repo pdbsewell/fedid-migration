@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Publishes an event whenever a payment journal file was generated (as ContentVersion) to be picked up by MiX which forwards the file to SAP.</description>
+    <eventType>HighVolume</eventType>
+    <fields>
+        <fullName>FileUrl__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>The URL of the file (as ContentVersion) in Salesforce, e.g. https://unicrm.my.salesforce.com/services/data/v47.0/sobjects/ContentVersion/0682N0000005SMSQA2</description>
+        <externalId>false</externalId>
+        <isFilteringDisabled>false</isFilteringDisabled>
+        <isNameField>false</isNameField>
+        <isSortingDisabled>false</isSortingDisabled>
+        <label>FileUrl</label>
+        <length>255</length>
+        <required>true</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Outbound Journal</label>
+    <pluralLabel>Outbound Journals</pluralLabel>
+    <publishBehavior>PublishAfterCommit</publishBehavior>
+</CustomObject>

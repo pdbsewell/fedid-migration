@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata" fqn="documentChecklistAssessmentCommunityList"><apiVersion>63.0</apiVersion>
+    <description>Hosts ui for application checklist items</description>
+    <targets>
+        <target>lightning__AppPage</target>
+        <target>lightning__RecordPage</target>
+        <target>lightningCommunity__Default</target>
+        <target>lightningCommunity__Page</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__AppPage">
+            <property label="Title" name="pageTitle" type="String" description="Texts shown as the page header"/>
+            <property label="Subtitle" name="pageSubTitle" type="String" description="Texts shown as the page sub header"/>
+            <property label="Application Id" name="applicationId" type="String" description="Record Id of the parent application of the checklist items that needs to be shown"/>
+        </targetConfig>
+        <targetConfig targets="lightning__RecordPage">
+            <property label="Title" name="pageTitle" type="String" description="Texts shown as the page header"/>
+            <property label="Subtitle" name="pageSubTitle" type="String" description="Texts shown as the page sub header"/>
+            <objects>
+                <object>Application__c</object>
+            </objects>
+        </targetConfig>
+        <targetConfig targets="lightningCommunity__Default">
+            <property label="Title" name="pageTitle" type="String" description="Texts shown as the page header"/>
+            <property label="Subtitle" name="pageSubTitle" type="String" description="Texts shown as the page sub header"/>
+            <property label="Application Id" name="applicationId" type="String" description="Record Id of the parent application of the checklist items that needs to be shown"/>
+        </targetConfig>
+    </targetConfigs>
+    <isExposed>true</isExposed>
+</LightningComponentBundle>

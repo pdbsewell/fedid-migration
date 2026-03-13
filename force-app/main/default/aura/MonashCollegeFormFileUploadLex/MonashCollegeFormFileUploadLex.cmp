@@ -1,0 +1,125 @@
+<aura:component controller="MonashCollegeFileUploadService" access="global">
+    <!-- Content name -->
+    <aura:attribute name="fileName" type="String" default="" />
+    <!-- Content related record  -->
+    <aura:attribute name="parentId" type="String" default="" />
+    <!-- Category of the uploaded file  -->
+    <aura:attribute name="fileCategory" type="String" default="" description="The text shown on the uploaded results." />
+    <!-- Content documents related to the parent record -->
+    <aura:attribute name="uploadedContentDocuments" type="ContentDocument[]" description="Related document records" />
+    <aura:attribute name="uploadedContentDocumentNames" type="String[]" description="Label of the file upload field" />
+    <!-- Show divider at bottom  -->
+    <aura:attribute name="showBottomDivider" type="Boolean" default="false" />
+    <!-- Public site location  -->
+    <aura:attribute name="siteLocation" type="String" default="" />
+    
+    <!-- Remove document confirmation -->
+    <aura:attribute name="showRemoveConfirmationForm" type="Boolean" default="false" />
+    <!-- Remove document Id -->
+    <aura:attribute name="removeDocumentId" type="String" default="" />
+    <!-- Remove document label -->
+    <aura:attribute name="removeDocumentName" type="String" default="" />
+    <!-- Remove document spinner -->
+    <aura:attribute name="showRemoveDocumentSpinner" type="Boolean" default="false" />
+    <!-- File Input Disabled -->
+    <aura:attribute name="isDisabled" type="Boolean" default="true" />
+    
+    <!-- File Uploader label -->
+    <aura:attribute name="label" type="String" description="The text label for the file uploader." />
+    
+    <!-- Constructor -->    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <!-- Method visible to parent components to submit the file -->
+    <aura:method name="submitFile" action="{!c.submitFile}" description="Method to save the uploaded file to server" />
+    
+    <article class="slds-card">
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <h2 class="slds-card__header-title">
+                        <span class="slds-text-heading_small">{!v.label}</span>
+                    </h2>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner slds-border_top slds-is-relative">
+            <!-- Spinner -->
+            <lightning:spinner aura:id="loadingSpinner" variant="brand" size="medium" class="slds-hide"/>
+            
+            <div class="slds-clearfix slds-m-bottom_small slds-m-top_x-small">
+                <div class="slds-float_left slds-m-left_small">
+                    <lightning:input aura:id="fileId" name="file" multiple="false" disabled="{!v.isDisabled}"
+                                     onchange="{!c.handleFilesChange}" type="file" 
+                                     accept=".pdf,.doc,.docx,.html,.png,.jpg,.jpeg,.tiff,.tif,.xps,.oxps,.htm" class=""/>
+                </div>
+                <div class="slds-float_left">
+                    <aura:if isTrue="{!v.fileName}">
+                        <div class="slds-text-body_regular slds-m-left_small slds-m-top_x-small">{!v.fileName}</div>
+                    </aura:if>
+                </div>
+            </div>
+            
+            <aura:if isTrue="{!v.uploadedContentDocuments.length > 0}">
+                <aura:iteration items="{!v.uploadedContentDocuments}" var="documentItem" indexVar="index">
+                    
+                    <article class="slds-card slds-card_boundary">
+                        <div class="slds-card__header slds-grid slds-wrap">
+                            <div class="slds-col">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                    <div class="slds-media__figure">
+                                        <lightning:icon iconName="{!'doctype:' + documentItem.FileExtension}" />
+                                    </div>
+                                    <div class="slds-media__body">
+                                        <span class="slds-text-heading_small">{!documentItem.Title}</span>
+                                    </div>
+                                </header>
+                            </div>
+                            <div class="slds-col">
+                                <!--<button class="slds-button slds-button_text-destructive slds-float_right slds-m-left_xx-small" style="border: 1px solid rgb(194, 57, 52);" onclick="{!c.removeDocument}"
+                                        data-documentVersionTitle="{!documentItem.Title}" data-documentVersionId="{!documentItem.ContentDocumentId}">
+                                    Remove
+                                </button>-->
+                                <a class="slds-button slds-button_outline-brand slds-float_right" href="{!'/' + v.siteLocation + '/sfc/servlet.shepherd/version/download/' + documentItem.Id}" target="_blank">
+                                    Download
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+                    
+                </aura:iteration>
+            </aura:if>
+        </div>
+    </article>
+    <aura:if isTrue="{!v.showBottomDivider}">
+        <br/>
+    </aura:if>
+    
+    <!-- Remove Confirmation Form -->
+    <aura:if isTrue="{!v.showRemoveConfirmationForm}">
+        <div>
+            <section tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_prompt slds-modal_small">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header slds-theme_error slds-theme_alert-texture">
+                        <h2 class="slds-text-heading_medium" style="color: #fff;">
+                            Remove Document: {!v.removeDocumentName}
+                        </h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium slds-border_bottom slds-is-relative">
+                        <aura:if isTrue="{!v.showRemoveDocumentSpinner}">
+                            <lightning:spinner alternativeText="Loading" size="medium" variant="brand" />
+                        </aura:if>
+                        <p class="slds-align_absolute-center">
+                            Are you sure you want to remove this document?
+                        </p>
+                    </div>
+                    <footer class="slds-modal__footer slds-theme_default">
+                        <lightning:button aura:id="cancelRemoveBtn" label="No" title="No" onclick="{!c.cancelRemoveDocument}" />
+                        <lightning:button aura:id="submitRemoveBtn" label="Yes" title="Yes" onclick="{!c.confirmRemoveDocument}" variant="Destructive"/>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </aura:if>
+</aura:component>

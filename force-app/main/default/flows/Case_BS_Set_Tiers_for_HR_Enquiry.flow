@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Check_Flows_are_Enabled</name>
+        <label>Check Flows are Enabled</label>
+        <locationX>182</locationX>
+        <locationY>287</locationY>
+        <defaultConnectorLabel>ByPass</defaultConnectorLabel>
+        <rules>
+            <name>Run_Flow</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Tier_Levels</targetReference>
+            </connector>
+            <label>Run Flow</label>
+        </rules>
+    </decisions>
+    <description>Set Tier &amp; Category levels for HR enquries</description>
+    <environments>Default</environments>
+    <interviewLabel>Case : BS : Set Tier {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Case : BS : Set Tiers for HR Enquiry</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Update Tier &amp; Category Levels</description>
+        <name>Update_Tier_Levels</name>
+        <label>Update Tier Levels</label>
+        <locationX>50</locationX>
+        <locationY>395</locationY>
+        <inputAssignments>
+            <field>Category__c</field>
+            <value>
+                <stringValue>Payroll - HR</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Tier_Level__c</field>
+            <value>
+                <stringValue>Tier 2 - HR</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Flows_are_Enabled</targetReference>
+        </connector>
+        <filterFormula>{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = false &amp;&amp; {!$Record.RecordType.DeveloperName} = &apos;HR&apos; &amp;&amp; ISPICKVAL({!$Record.Origin}, &quot;payreview@monash.edu&quot;)</filterFormula>
+        <object>Case</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

@@ -1,0 +1,35 @@
+<template>
+    <!-- sldsValidatorIgnoreNextLine -->
+    <lightning-quick-action-panel header="Mark As Private">
+        <template if:true={isLoading}>
+            <div class="spinner-container slds-is-relative">
+                <lightning-spinner variant="brand" alternative-text="Loading"></lightning-spinner>
+            </div>
+        </template>
+        <template if:false={isLoading}>
+            <div class="content">
+                <p>
+                    This action will mark the Enquiry as Private.                     
+                </p>
+                <br/>
+                <p>Marking an Enquiry as Private restricts view access to
+                    you, your business area and Salesforce Administrators.</p>
+            </div></template
+        >
+        <div slot="footer">
+            <lightning-button
+                variant="neutral"
+                disabled={isLoading}
+                label="Cancel"
+                onclick={closeModal}
+            ></lightning-button>
+            <lightning-button
+                variant="brand"
+                disabled={isLoading}
+                label="Confirm"
+                onclick={markEnquiryPrivate}
+                class="slds-var-m-left_x-small"
+            ></lightning-button>
+        </div>
+    </lightning-quick-action-panel>
+</template>

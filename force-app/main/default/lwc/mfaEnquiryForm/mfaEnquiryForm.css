@@ -1,0 +1,305 @@
+/**
+ * Created by trentdelaney on 2/11/18.
+ */
+ .spinner-container{
+    position: relative;
+    display: inline-block;
+    margin-left: 15px;
+    width: 55px;
+    vertical-align: middle;
+    white-space: nowrap;
+}
+
+.form-container {
+    display: block;
+    background: #F4F6F9;    
+    border: 1px solid #d4d4d4;
+    border-radius: .25rem;
+    background-clip: padding-box;
+    box-shadow: none;
+}
+
+.card-shadow {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10);
+}
+
+.is-required label.slds-form-element__label {
+    display: none;
+}
+
+.slds-form-element .slds-form-element__label {
+    display: none;
+}
+
+h1 {
+    text-align: left;
+    font-family: "Roboto Condensed";
+    font-size: 56px;
+    line-height: 62px;
+    letter-spacing: 0px;
+    color: #000000;
+    text-transform: uppercase;
+    opacity: 1;
+    margin-top: 22px;
+    margin-bottom: 10px;
+}
+
+h2 {
+    text-align: left;
+    font-family: "Roboto Condensed";
+    font-size: 38px;
+    line-height: 44px;
+    font-weight: bold;
+    letter-spacing: 0px;
+    color: #505050;
+    opacity: 1;
+}
+
+h3 {
+    text-align: left;
+    font-family: "Roboto Condensed";
+    font-size: 30px;
+    line-height: 44px;
+    font-weight: bold;
+    letter-spacing: 0px;
+    color: #505050;
+    opacity: 1;
+}
+
+.fieldContainer {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #979797;
+    padding-bottom: 5px;
+    display: flex;
+}
+
+.fieldContainer .slds-select {
+    border: 0px solid #d4d4d4;
+    border-radius: 0;
+}
+
+.fieldContainer .slds-select:hover {
+    border: 0px solid #A1CAEE;
+    border-radius: 0;
+    box-shadow: 0 0 2px 0 #1589EE;
+    transition: all 200ms ease-out;
+    cursor: pointer;
+}
+
+.fieldContainer .slds-input {
+    border: 0px solid #d4d4d4;
+    border-radius: 0;
+}
+
+.fieldContainer .slds-combobox__input {
+    border: 0px solid #d4d4d4 !important;
+    border-radius: 0 !important;
+}
+
+.fieldContainer .slds-input_faux {
+    border: 0px solid #d4d4d4 !important;
+    border-radius: 0 !important;
+}
+
+.fieldContainer .slds-combobox {
+    border: 0px solid #d4d4d4 !important;
+    border-radius: 0 !important;
+}
+
+.fieldContainer .slds-combobox_container {
+    border: 0px solid #d4d4d4 !important;
+    border-radius: 0 !important;
+}
+
+.fieldContainer .slds-form-element__control {
+    border: 0px solid #d4d4d4 !important;
+    border-radius: 0 !important;
+}
+
+.fieldContainer .slds-input:hover {
+    border: 1px solid #A1CAEE;
+    border-radius: 0;
+    box-shadow: 0 0 1px 0 #1589EE;
+    transition: all 200ms ease-out;
+    cursor: pointer;
+}
+
+.fieldTitle {
+    text-align: left;
+    font-family: "Roboto Condensed";
+    font-size: 20px;
+    line-height: 26px;
+    font-weight: bold;
+    letter-spacing: 0px;
+    color: #505050;
+    opacity: 1;
+}
+
+.generalText {
+    text-align: left;
+    font-family: "Roboto";
+    font-size: 18px;
+    line-height: 24px;
+    letter-spacing: 0px;
+    color: #333333;
+    opacity: 1;
+}
+
+.generalHelpText {
+    text-align: left;
+    font-family: "Roboto";
+    font-size: 15px;
+    line-height: 21px;
+    letter-spacing: 0px;
+    color: #333333;
+    opacity: 1;
+}
+
+.requiredField{
+    font-family: "Roboto Condensed";
+    line-height: 26px;
+    font-weight: bold;
+    letter-spacing: 0px;
+    color: #016CAC;
+    opacity: 1;
+}
+
+.sectionContainer {
+    border: 2px solid #d4d4d4;
+    padding: 0 15px 25px 0;
+    opacity: 1;
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.sectionContainer .sectionContainerTopBorder {
+    border-top: 5px solid #016CAC;
+    margin-top: -2px;
+    margin-left: -2px;
+    margin-bottom: 25px;
+}
+
+.sectionContainer .sectionContainerBody {
+    padding-left: 15px;
+}
+
+.sectionErrorContainer {
+    border: 2px solid #d4d4d4;
+    padding: 0 15px 25px 0;
+    opacity: 1;
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.sectionErrorContainer .sectionContainerTopBorder {
+    border-top: 5px solid #016CAC;
+    margin-top: -2px;
+    margin-left: -2px;
+    margin-bottom: 25px;
+}
+
+.sectionErrorContainer .sectionContainerBody {
+    padding-left: 15px;
+}
+
+p {
+    text-align: left;
+    font-family: "Roboto";
+    font-size: 20px;
+    line-height: 26px;
+    letter-spacing: 0px;
+    color: #333333;
+    opacity: 1;
+    margin-bottom: 15px;
+}
+
+.primaryButton {
+    font-family: "Roboto";
+    font-size: 18px;
+    background: #006DAE;
+    border: 1px solid #006DAE;
+    opacity: 1;
+    text-align: center;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    opacity: 1;
+    font-weight: bolder;
+    padding: 6px 10px 6px 10px;
+}
+
+.secondaryButton {
+    font-family: "Roboto";
+    font-size: 18px;
+    background: #ffffff 0% 0% no-repeat padding-box;
+    border: 2px solid #006DAE;
+    opacity: 1;
+    text-align: center;
+    letter-spacing: 0px;
+    color: #006DAE;
+    opacity: 1;
+    font-weight: bolder;
+    padding: 5px 10px 5px 10px;
+}
+
+lightning-icon.primaryIcon > lightning-primitive-icon > svg > use {
+    fill: #FFFFFF; 
+}
+
+lightning-icon.secondaryIcon > lightning-primitive-icon > svg > use {
+    fill: #006DAE;
+}
+
+label.slds-form-element__label {
+    text-align: left;
+    font-family: "Roboto Condensed";
+    font-size: 15px;
+    line-height: 26px;
+    font-weight: bold;
+    letter-spacing: 0px;
+    color: #505050;
+    opacity: 1;
+}
+
+.slds-checkbox_toggle .slds-form-element__label {
+    text-align: left;
+    font-family: "Roboto Condensed";
+    font-size: 15px;
+    line-height: 26px;
+    font-weight: bold;
+    letter-spacing: 0px;
+    color: #505050;
+    opacity: 1;
+}
+
+.slds-form-element .slds-form-element__legend {
+    text-align: left;
+    font-family: "Roboto Condensed";
+    font-size: 15px;
+    line-height: 26px;
+    font-weight: bold;
+    letter-spacing: 0px;
+    color: #505050;
+    opacity: 1;
+}
+
+.mfaEnquiryFrame {
+    margin: 0 auto;
+    max-width: 900px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+}
+
+.mfaEnquiryForm {
+    background-color: white;
+    display: flex;
+    color: #505050;
+}
+
+.front {
+    z-index: 1;
+}
+
+.textAreaBody {
+    --sds-c-textarea-sizing-min-height:175px;
+}

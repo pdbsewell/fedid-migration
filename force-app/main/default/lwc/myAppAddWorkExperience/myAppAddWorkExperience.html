@@ -1,0 +1,273 @@
+<template>
+    <div class="slds">
+        <!-- DELETE CONFIRMATION POPUP -->
+        <div data-testid="confirmDeleteDialog" if:true={showConfirmDelete}>
+
+            <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header slds-theme--error slds-theme--alert-texture">
+                        <h2 class="slds-text-heading--small" id="prompt-heading-id" style="color: #ffffff;">{label.app_DeleteConfirmation}</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <p>Are you sure you want to delete this work experience?</p>
+                    </div>
+                    <div class="slds-modal__footer slds-theme--default">
+                        <lightning-button label="Yes"
+                                          icon-position="left"
+                                          variant="brand"
+                                          onclick={onClickConfirmDelete}>
+                        </lightning-button>&nbsp;
+                        <lightning-button label="No"
+                                          icon-position="left"
+                                          variant="neutral"
+                                          onclick={onClickCancelDelete}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+        </div>
+
+        <!-- ALERT: ANY Errors on save-->
+        <div data-testid="errorSection" if:true={showErrors}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h3 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Please complete the following:</h3>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <ul class="slds-list_dotted slds-text-align--left">
+                            <template for:each={saveErrors} for:item="error">
+                                <li key={error}>{error}</li>
+                            </template>
+                        </ul>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={onClickCloseErrors}>Close</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+
+        <div data-testid="workExperienceSection" if:true={isStateStart}>
+
+            <div class="slds-p-vertical--large">
+                <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                    <thead>
+                    <tr class="slds-text-title--caps">
+                        <th scope="col">
+                            <div title="posTH">Position</div>
+                        </th>
+                        <th scope="col" class="hideOnMobile">
+                            <div title="empTH">Employer</div>
+                        </th>
+                        <th scope="col" class="hideOnMobile">
+                            <div title="empTH">Date</div>
+                        </th>
+                        <th scope="col">
+                            <div class="slds-truncate slds-align_absolute-center" title="Action" >Action</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <!-- ITERATION FOR WORK EXPERIENCE -->
+                    <template for:each={workExperiences} for:item="workExp">                                    
+                        <tr key={workExp.Id}>
+                            <td>
+                                <div data-testid="workPosition" class="slds-truncate" >
+                                    {workExp.Position__c}
+                                </div>
+                            </td>
+                            <td>
+                                <div data-testid="workEmployerName" class="slds-truncate" >
+                                    {workExp.Employer_Name__c}
+                                </div>
+                            </td>
+                            <td data-label="Start Date">
+                                <div class="slds-float_left">
+                                    <template if:false={workExp.End_Date__c}>
+                                        <div class="slds-truncate" >
+                                            <lightning-formatted-date-time data-testid="workStartDate" value={workExp.Start_Date__c} year="numeric" day="2-digit" month="2-digit"></lightning-formatted-date-time>
+                                            &nbsp;-&nbsp;Present
+                                        </div>
+                                    </template>
+                                    <template if:true={workExp.End_Date__c}>
+                                        <lightning-formatted-date-time data-testid="workStartDate" value={workExp.Start_Date__c} year="numeric" day="2-digit" month="2-digit"></lightning-formatted-date-time>
+                                            &nbsp;-&nbsp;
+                                            <lightning-formatted-date-time data-testid="workEndDate" value={workExp.End_Date__c} year="numeric" day="2-digit" month="2-digit"></lightning-formatted-date-time>
+                                    </template>
+                                </div>
+                            </td>
+                            <td data-label="Action">
+                                <div class="slds-truncate slds-align--absolute-center">
+                                    
+                                    <lightning-button-icon variant="bare" icon-position="left" name={workExp.Id} onclick={onClickEdit} icon-name="utility:edit" size="medium" alternative-text="Edit"></lightning-button-icon>&nbsp;
+                                    <lightning-button-icon variant="bare" icon-position="left" name={workExp.Id} onclick={showConfirmDeletePopup} icon-name="utility:close" size="medium" alternative-text="Remove item"></lightning-button-icon> 
+                                </div>
+                            </td>
+                        </tr>
+                    </template>
+                        
+                    <!-- END - ITERATION FOR APPLICATION WORK EXPERIENCE PROVIDED -->
+
+                    <!-- ITERATION FOR PREVIOUS Application Work Experiences -->
+                    <template for:each={historicalWorkExperiences} for:item="workExp">                                    
+                        <tr key={workExp.Id}>
+                            <td>
+                                <div data-testid="historicalposition" class="slds-truncate" >
+                                    {workExp.Position__c}
+                                </div>
+                            </td>
+                            <td>
+                                <div data-testid="historicalEmployerName" class="slds-truncate" >
+                                    {workExp.Employer_Name__c}
+                                </div>
+                            </td>
+                            <td data-label="Start Date">
+                                <div class="slds-float_left">
+                                    <template if:true={workExp.End_Date__c}>
+                                        <div class="slds-truncate" >
+                                            <lightning-formatted-date-time data-testid="historicalStartDate" value={workExp.Start_Date__c} year="numeric" day="2-digit" month="2-digit"></lightning-formatted-date-time>
+                                            &nbsp;-&nbsp;Present
+                                        </div>
+                                    </template>
+                                    <template if:false={workExp.End_Date__c}>
+                                        <lightning-formatted-date-time data-testid="historicalStartDate" value={workExp.Start_Date__c} year="numeric" day="2-digit" month="2-digit"></lightning-formatted-date-time>
+                                            &nbsp;-&nbsp;
+                                            <lightning-formatted-date-time data-testid="historicalEndDate" value={workExp.End_Date__c} year="numeric" day="2-digit" month="2-digit"></lightning-formatted-date-time>
+                                    </template>
+                                </div>
+                            </td>
+                            <td data-label="Action">
+                                <div class="slds-truncate slds-align--absolute-center">
+                                    <lightning-helptext
+                                            content="This work experience cannot be edited or deleted"
+                                            icon-name="utility:preview"></lightning-helptext>
+                                </div>
+                            </td>
+                        </tr>
+                    </template>
+                    
+                    <!-- END ITERATION FOR PREVIOUS Application Work Experiences -->
+
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- ADD NEW BUTTON -->
+            <div class="slds-button-group" role="group">
+                <button class="secondaryButton" onclick={onClickAddNew}>
+                    <lightning-icon class="secondaryIcon" icon-name="utility:add" size="small" ></lightning-icon>&nbsp;&nbsp;Work Experience
+                </button>
+            </div>
+        </div>
+
+        <div data-testid="newWorkExperienceSection" if:true={isStateEdit}>
+            <h3 class="slds-section__title">New Work Experience</h3>
+            <lightning-input name="position"
+                             data-testid="position" 
+                             data-id="position"
+                             label="Position"
+                             required="true"
+                             pattern={employmentRegExp}
+                             onchange={onFieldChange}
+                             message-when-pattern-mismatch={employmentPatterMsg}
+                             value={workExp.Position__c}></lightning-input>
+            <lightning-input name="employer"
+                             data-testid="employer" 
+                             data-id="employer"
+                             label="Employer"
+                             required="true"
+                             pattern={employmentRegExp}
+                             onchange={onFieldChange}
+                             message-when-pattern-mismatch={employmentPatterMsg}
+                             value={workExp.Employer_Name__c}></lightning-input>
+            <lightning-input name="startDate"
+                             data-testid="startDate" 
+                             data-id="startDate"
+                             label="Start Date"
+                             required="true"
+                             type="date"
+                             max={maxDate} 
+                             onchange={onFieldChange}
+                             value={workExp.Start_Date__c}></lightning-input>
+            <lightning-input name="endDate"
+                             data-testid="endDate" 
+                             data-id="endDate"
+                             label="End Date (leave blank if continuing)"
+                             type="date"
+                             max={maxDate} 
+                             onchange={onFieldChange}
+                             value={workExp.End_Date__c}></lightning-input>
+            <lightning-select name="country"
+                              data-testid="country" 
+                              label="Country"
+                              value={workExp.Country__c}
+                              required="true"
+                              options={countryOptions}
+                              onchange={onFieldChange}
+            >
+            </lightning-select>
+
+            <div if:false={addRef}>
+                <div class="slds-p-vertical--x-large">
+                    <button class="secondaryButton" onclick={onClickAddReferee}>
+                        <lightning-icon class="secondaryIcon" icon-name="utility:add" size="small" ></lightning-icon>&nbsp;&nbsp;Add Referee
+                    </button>
+                </div>
+            </div>
+            <div if:true={addRef}>
+                <div class="slds-p-vertical--x-large">
+                    <h3 class="slds-section__title">Referee</h3>
+                    <div class="slds-text-body--regular">{label.app_ContactPersonDetailsLabel}</div>
+                </div>
+
+                <lightning-input name="givenName"
+                                 data-testid="givenName" 
+                                 data-id="givenName"
+                                 label="Given Name"
+                                 required=""
+                                 pattern={refereeRegExp}
+                                 onchange={onFieldChange}
+                                 message-when-pattern-mismatch={refereePatterMsg}
+                                 value={workExp.Contact_Person_First_Name__c}></lightning-input>
+                <lightning-input name="familyName"
+                                 data-testid="familyName" 
+                                 data-id="familyName"
+                                 label="Family Name"
+                                 required=""
+                                 pattern={refereeRegExp}
+                                 onchange={onFieldChange}
+                                 message-when-pattern-mismatch={refereePatterMsg}
+                                 value={workExp.Contact_Person_Last_Name__c}></lightning-input>
+
+                <lightning-input label="Email"
+                                 data-testid="email" 
+                                 name="email"
+                                 type="email"
+                                 onchange={onFieldChange}
+                                 value={workExp.Contact_Person_Email__c}></lightning-input>
+
+                <lightning-input label="Contact Number"
+                                 data-testid="phone" 
+                                 name="phone"
+                                 onchange={onFieldChange}
+                                 type="tel"
+                                 value={workExp.Contact_Person_Phone__c}></lightning-input>
+            </div>
+
+            <div class="slds-form-element slds-p-vertical--large">
+                <div class="slds-m-top_medium">                    
+                    <button class="primaryButton" onclick={onClickSave} style="margin-right: 15px;">
+                        Save
+                    </button>
+                    <button class="secondaryButton" onclick={onClickCancel}>
+                        Cancel
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <lightning-spinner if:true={showSpinner} alternative-text="Saving" variant="brand"></lightning-spinner>
+</template>

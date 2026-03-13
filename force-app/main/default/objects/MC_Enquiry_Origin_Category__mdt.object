@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Monash Connect Enquiry Origin Category</description>
+    <fields>
+        <fullName>Category__c</fullName>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Category</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>MonCon Online</fullName>
+                    <default>false</default>
+                    <label>MonCon Online</label>
+                </value>
+                <value>
+                    <fullName>MonCon Online Domestic</fullName>
+                    <default>false</default>
+                    <label>MonCon Online Domestic</label>
+                </value>
+                <value>
+                    <fullName>MonCon Online International</fullName>
+                    <default>false</default>
+                    <label>MonCon Online International</label>
+                </value>
+                <value>
+                    <fullName>MonCon ask.monash</fullName>
+                    <default>false</default>
+                    <label>MonCon ask.monash</label>
+                </value>
+                <value>
+                    <fullName>MonCon Phone</fullName>
+                    <default>false</default>
+                    <label>MonCon Phone</label>
+                </value>
+                <value>
+                    <fullName>MonCon F2F</fullName>
+                    <default>false</default>
+                    <label>MonCon F2F</label>
+                </value>
+                <value>
+                    <fullName>MonCon Back Office</fullName>
+                    <default>false</default>
+                    <label>MonCon Back Office</label>
+                </value>
+                <value>
+                    <fullName>MonCon Bypass Forms</fullName>
+                    <default>false</default>
+                    <label>MonCon Bypass Forms</label>
+                </value>
+                <value>
+                    <fullName>MonCon Live Chat</fullName>
+                    <default>false</default>
+                    <label>MonCon Live Chat</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>MC Enquiry Origin Category</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>MasterLabel</columns>
+        <columns>DeveloperName</columns>
+        <columns>Category__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <pluralLabel>MC Enquiry Origin Categories</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

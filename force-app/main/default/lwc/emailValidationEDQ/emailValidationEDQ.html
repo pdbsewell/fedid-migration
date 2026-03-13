@@ -1,0 +1,61 @@
+<template>
+    <fieldset class="slds-form-element slds-form-element_compound slds-p-around_none" style="position:relative">
+        <div class="slds-form-element__control">
+          <div class="slds-form-element__row slds-p-left_xx-small">
+            <div class="slds-size_10-of-12">
+                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                    <!-- Clear field icon -->
+                    <template if:false={isClearIconHidden}>
+                        <lightning-icon title="Clear" size="x-small" class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default" icon-name="utility:clear" onclick={handleClearField}></lightning-icon>
+                    </template>
+                    <input type="text"
+                            placeholder={placeHolder}
+                            value={emailEntered}
+                            onchange={handleEmailChange}
+                            onfocusout={validateEmailFormat}
+                            class="slds-input input"
+                            style={stylecss}/>
+                </div>
+            </div>
+
+            <!-- Verified icon on successful verification -->
+            <div class="slds-size_2-of-12 slds-m-top_xx-small">
+                <template if:true={isVerified}>
+                    <lightning-layout-item>
+                        <lightning-icon class="slds-m-left_x-small" icon-name="utility:success" alternative-text="Success!" variant="success" title="Verified!" size="small"></lightning-icon>
+                    </lightning-layout-item>
+                </template>
+            </div>
+          </div>
+        </div>
+
+        <!-- Validation unsuccessful message -->
+        <template if:true={isUnVerified}>
+            <template if:true={hasViewValidationMessagePermission}>
+                <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                    {validationMessage}
+                </span>
+                <br>
+            </template>
+        </template>
+        
+        <!-- Suggestion -->
+        <template if:true={isDidYouMeanDisplayed}>           
+            Did you mean : <a onclick={suggestionSelected}><i>{didYouMean}</i></a> ?
+        </template>
+
+        <!-- Rate limiting error message -->
+        <template if:true={hasErrorOccured}>
+            <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                {errorMessage}<br>
+            </span>
+        </template>
+
+        <!-- Loading spinner -->
+        <template if:true={isLoading}>
+            <div style="min-height: 35px;">
+                <lightning-spinner alternative-text="Loading" size="small" variant="brand"></lightning-spinner>
+            </div>
+        </template>
+    </fieldset>
+</template>

@@ -1,0 +1,343 @@
+<!--
+/*
+ * Copyright (c) 2019, UC Innovation, Inc.  All Rights Reserved.
+ *                     http://www.ucinnovation.com
+ *
+ * This source code is licensed, not sold, and is subject to a written
+ * license agreement.  Among other things, no portion of this source
+ * code may be copied, transmitted, disclosed, displayed, distributed,
+ * translated, used as the basis for a derivative work, or used, in
+ * whole or in part, for any program or purpose other than its intended
+ * use in compliance with the license agreement as part of UC Innovation's
+ * software.  This source code and certain of the algorithms contained
+ * within it are confidential trade secrets of UC Innovation, Inc.
+ * and may not be used as the basis for any other
+ * software, hardware, product or service.
+ */
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="PORTAL_JobBoardController">
+
+    <aura:attribute name="temJobRecIdToDelete" type="String" />
+    <aura:attribute name="jobAppRecord" type="Job__c" default="{}" />
+    <aura:attribute name="postedJobList" type="List" />
+    
+    <aura:attribute name="postedJobListToDisplay" type="List" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <aura:attribute name="itemsPerPage" type="Integer" default="5" />
+    <aura:attribute name="previousButtonDisabled" type="Boolean" default="true" />
+    <aura:attribute name="nextButtonDisabled" type="Boolean" default="false" />
+    <aura:attribute name="totalNumberOfPages" type="Integer" />
+    <aura:attribute name="currentPage" type="Integer" default="1" />   
+
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner />
+    </aura:if>
+
+    <div class="slds-hide" id="spinner" style="position: relative; z-index: 9999">
+        <div class="slds-spinner_container slds-is-fixed">
+            <div role="status" class="slds-spinner slds-spinner_medium slds-spinner_brand">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="slds-hide" id="deleteJobConfirmaton" style="position: relative; z-index: 9999">
+        <div role="dialog" tabindex="-1" aria-labelledby="header43" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header" style="">
+                    <h2 id="header43" class="slds-text-heading--medium">Delete Job Post</h2>
+                </div>
+                <div class="slds-modal__content slds-p-around--medium">
+                    <p>Deleting a job post is irreversible. Are you sure ?  </p>
+                </div>
+                <div class="slds-modal__footer">
+                    <button class="slds-button slds-button--brand" onclick="{!c.cancelDeleteJob}">Cancel</button>
+                    <button class="slds-button slds-button--brand" onclick="{!c.confirmDeleteJob}">Ok</button>
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+    </div>
+
+    <div class="slds-hide" id="message" style="position: relative; z-index: 9999">
+        <div role="dialog" tabindex="-1" aria-labelledby="header43" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header" style="">
+                    <h2 id="header43" class="slds-text-heading--medium">Create Job Result</h2>
+                </div>
+                <div class="slds-modal__content slds-p-around--medium">
+                    <p>Success.</p>
+                </div>
+                <div class="slds-modal__footer">
+                    <button class="slds-button slds-button--brand" onclick="{!c.confirmationButton}">Ok</button>
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+    </div>
+
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+    <div>
+        <div>
+            <div style="height: 50px; font-size: 25px; ">
+                My Posted Jobs
+            </div>
+            <div style="margin-bottom: 50px;">
+
+                <button class="slds-button" id="postJobButton"  style="float: left;" onclick="{!c.openJobModal}">&nbsp;&nbsp;&nbsp;Post a New Job&nbsp;&nbsp;&nbsp;</button>
+
+              
+            </div>
+        </div>
+
+        <div class="table-content"  >
+            <table class="slds-table slds-table_bordered slds-table_striped slds-table_cell-buffer slds-table_fixed-layout slds-no-row-hover slds-max-medium-table_stacked-horizontal">
+                <thead class="slds-text-heading_label">
+                    <tr style="height: 75px; background-color: #ffe8e9 !important;">
+                        <th scope="col"><div class="slds-truncate" >Company</div></th>
+                        <th scope="col"><div class="slds-truncate" >Job Title</div></th>
+                        <th scope="col"><div class="slds-truncate" >Description</div></th>
+                        <th scope="col"><div class="slds-truncate" >Posted Date</div></th>
+                        <th scope="col"><div class="slds-truncate" >Applicants</div></th>
+                        <th scope="col"><div class="slds-truncate" >Actions</div></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.postedJobListToDisplay}" var="postedJob">
+                        <tr>
+                            <td scope="row">
+                                <div class="slds-truncate long-output-float-right-mobile" >
+                                    <ui:outputText value="{!postedJob.Recruiting_Company__c}"/>
+                                </div>
+                            </td>
+                            <td scope="row">
+                                <div class="slds-truncate long-output-float-right-mobile" >
+                                    <ui:outputText value="{!postedJob.Name}"/>
+                                </div>
+                            </td>
+                            <td scope="row">
+                                <div class="slds-truncate long-output-float-right-mobile slds-text-longform shortDescription">
+                                    <ui:outputRichText value="{!postedJob.Description__c}" />
+                                </div>
+                            </td>
+                            <td scope="row">
+                                <div class="slds-truncate long-output-float-right-mobile" >
+                                    <ui:outputDate value="{!postedJob.CreatedDate}"/>
+                                </div>
+                            </td>
+                            <td scope="row">
+                                <div class="slds-truncate long-output-float-right-mobile" >
+
+                                    <aura:if isTrue="{!postedJob.ContentDocumentLinks.length > 0}">
+                                        
+                                        <button class="slds-button slds-button_neutral" style="float: left;" data-jobRecId="{!postedJob.Id}" onclick="{!c.viewApplicants}">View Applicants</button>
+                                        <aura:set attribute="else">
+                                            No Applicants
+                                        </aura:set>
+                                    </aura:if>
+
+                                </div>
+                            </td>
+                            <td scope="row">
+                                <div class="slds-truncate long-output-float-right-mobile" >
+                                    <a class="astext" data-jobRecId="{!postedJob.Id}" onclick="{!c.viewJobRec}">View</a>
+                                    <a class="astext" data-jobRecId="{!postedJob.Id}" onclick="{!c.editJobRec}">Edit</a>
+                                    <a class="astext" data-jobRecId="{!postedJob.Id}" onclick="{!c.deleteJobRec}">Delete</a>
+                                </div>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+            
+            <aura:if isTrue="{!v.totalNumberOfPages > 1}">
+                <br></br>
+                <div class="slds-align_absolute-center">
+                    <lightning:button label="Prev" title="Prev" onclick="{!c.previousPage}" disabled="{!v.previousButtonDisabled}"/>
+        
+                    <div class="slds-p-horizontal_x-small">
+                        <div class="slds-text-body_regular">{!v.currentPage} of {!v.totalNumberOfPages}</div>
+                    </div>
+        
+                    <lightning:button label="Next" title="Next" onclick="{!c.nextPage}" disabled="{!v.nextButtonDisabled}"/>
+                </div>
+            </aura:if>
+        </div>
+    </div>
+
+    <div class="slds" style="z-index: 10">
+        <div aria-hidden="true" role="dialog" class="slds-modal slds-modal_medium slds-modal--prompt slds-fade-in-hide" aura:id="modaldialog">
+            <div class="slds-modal__container">
+                <div class="slds-modal__header">
+                    <div class="modal-header" style="float: right;" >
+                        <lightning:icon iconName="utility:close" size="small" onclick="{!c.closeJobModal}" />
+                    </div>
+                </div>
+                <div class="slds-modal__content slds-p-around--medium">
+
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>Company</label>
+                        <div class="slds-form-element__control">
+                            <ui:inputText class="slds-input" value="{!v.jobAppRecord.Recruiting_Company__c}" />
+                        </div>
+                    </div>
+
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>Position Type</label>
+                        <div class="slds-form-element__control">
+                            <div class="">
+                                <ui:inputSelect aura:id="jobPositionType">
+                                    <ui:inputSelectOption text="Full Time Entry Level"/>
+                                    <ui:inputSelectOption text="Full Time Experienced"/>
+                                    <ui:inputSelectOption text="Internship (Paid)"/>
+                                    <ui:inputSelectOption text="Internship (unpaid)"/>
+                                    <ui:inputSelectOption text="On-Campus Non-work study (student enployment)"/>
+                                    <ui:inputSelectOption text="On-Campus work study (student enployment)"/>
+                                    <ui:inputSelectOption text="Part Time"/>
+                                    <ui:inputSelectOption text="Co-op"/>
+                                    <ui:inputSelectOption text="Volunteer"/>
+                                    <ui:inputSelectOption text="Fellowship"/>
+                                    <ui:inputSelectOption text="Scholarship"/>
+                                </ui:inputSelect>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>Title</label>
+                        <div class="slds-form-element__control">
+                            <ui:inputText class="slds-input" value="{!v.jobAppRecord.Name}" />
+                        </div>
+                    </div>
+
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>Description</label>
+                        <div class="slds-form-element__control">
+                            <lightning:inputRichText value="{!v.jobAppRecord.Description__c}" />
+                        </div>
+                    </div>
+
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>Qualifications</label>
+                        <div class="slds-form-element__control">
+                            <lightning:inputRichText class="slds-input" value="{!v.jobAppRecord.Qualification__c}" />
+                        </div>
+                    </div>
+
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control">
+                            <div>
+                                <label class="slds-checkbox__label">
+                                    <span class="slds-form-element__label">Require Cover Letter ?</span>
+                                </label>
+                                <ui:inputCheckbox value="{!v.jobAppRecord.Cover_Letter__c}" />
+                            </div>
+
+                            <div>
+                                <label class="slds-checkbox__label">
+                                    <span class="slds-form-element__label">Require Unofficial Transcript ?</span>
+                                </label>
+                                <ui:inputCheckbox value="{!v.jobAppRecord.Unofficial_Transcript__c}" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slds-form-element">
+                        <ui:inputDate label="Expiration Date" displayDatePicker="true" value="{!v.jobAppRecord.Expiration_Date__c}" /> 
+                    </div>
+
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label">Require Work Authorization</label>
+                        <ui:inputCheckbox value="{!v.jobAppRecord.Require_Work_Authorization__c}" />
+                    </div>
+
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label">Approximate Salary</label>
+                        <div class="slds-form-element__control">
+                            <ui:inputText class="slds-input" value="{!v.jobAppRecord.Approximate_Salary__c}" />
+                        </div>
+                    </div>
+
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>Approximate Hours Per Week</label>
+                        <div class="slds-form-element__control">
+                            <ui:inputNumber class="slds-input" value="{!v.jobAppRecord.Work_Hours_Per_Week__c}" />
+                        </div>
+                    </div>
+
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label"><abbr class="slds-required" title="required">* </abbr>Class Level/Degree Level</label>
+                        <div class="slds-form-element__control">
+                            <div class="">
+                                <ui:inputSelect aura:id="classLevelDegreeLevel">
+                                    <ui:inputSelectOption text="Freshman"/>
+                                    <ui:inputSelectOption text="Sophormore"/>
+                                    <ui:inputSelectOption text="Junior"/>
+                                    <ui:inputSelectOption text="Senior"/>
+                                    <ui:inputSelectOption text="Graduate Student"/>
+                                    <ui:inputSelectOption text="Doctoral"/>
+                                    <ui:inputSelectOption text="Postdoctoral Scholar"/>
+                                    <ui:inputSelectOption text="Bachelors"/>
+                                    <ui:inputSelectOption text="Masters"/>
+                                    <ui:inputSelectOption text="Doctorate"/>
+                                    <ui:inputSelectOption text="Law"/>
+                                    <ui:inputSelectOption text="Certificate"/>
+                                </ui:inputSelect>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label">Desired Skills</label>
+                        <div class="slds-form-element__control">
+                            <ui:inputTextArea class="slds-input" value="{!v.jobAppRecord.Desired_Skills__c}" />
+                        </div>
+                    </div>
+
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label">Desired Major(s)</label>
+                        <div class="slds-form-element__control">
+                            <ui:inputTextArea class="slds-input" value="{!v.jobAppRecord.Desired_Majors__c}" />
+                        </div>
+                    </div>
+
+                    <div class="slds-form-element">
+                        <label class="slds-form-element__label">Location</label>
+                        <div class="slds-form-element__control">
+                            <ui:inputText class="slds-input" value="{!v.jobAppRecord.Location__c}" />
+                        </div>
+                    </div>
+
+                    <br />
+                    <br />
+
+                    <div class="slds-form-element">
+                        <p>
+                            <b>NON-DISCRIMINATION POLICY STATEMENT</b>  The University of Chicago does not discriminate against any person on the basis of race, color, national origin, ancestry, religion, gender, sexual orientation, age, physical disability, mental disability, marital status, veteran status, genetic information, or any other characteristic which may be specified in such laws and regulations, in admission to, access to, treatment in, or employment in its programs or activities. The Career Center adheres to this policy and will make our facilities available only to recruiting organizations whose practices are consistent with this policy.
+                        </p>
+                        <p>
+                            <ui:inputCheckbox aura:id="agreementChecked" />
+                        </p>
+                    </div>
+
+                    <br />
+                    <br />
+
+                    <div class="slds-form-element">
+                        <button class="slds-button" id="submitJobRecBtn" style="float: left;" onclick="{!c.postNewJob}">&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="slds-backdrop slds-backdrop--hide" aura:id="backdrop"></div>
+ 
+</aura:component>

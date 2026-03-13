@@ -1,0 +1,82 @@
+<aura:component 
+                implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" 
+                controller="searchWithDropdownCC"
+                access="global" >
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <aura:method name="clearValues" action="{!c.clearFields}" access="public"/>
+    <aura:method name="prePopulate" action="{!c.prePopulate}" access="public"/>
+
+    <aura:method name="doSearch" action="{!c.doSearch}"/>
+
+    <!-- STATES:
+        IDLE = not searching
+        RESULTS = populated results
+    -->
+    <aura:attribute name="state" type="String" default="IDLE" description="the search string"/>
+
+    <!-- user input -->
+    <aura:attribute name="searchText" type="String" description="the search string"/>
+    <aura:attribute name="selectedResult" type="String" description="the id of the selected record"/>
+
+
+    <!-- output -->
+    <aura:attribute name="listResults" type="List" description="list of results as value(id), label(name)"/>
+    <aura:attribute name="mapResults" type="Map" description="a map of id, object for the returned results"/>
+
+    <aura:attribute name="labelField" type="String" description="the field to use as the dropdown display"/>
+    <aura:attribute name="placeHolder" type="String" default="start typing to search" description="starting placeholder text"/>
+    <aura:attribute name="inputVariant" type="String" default="standard"/>
+    <aura:attribute name="errorPlaceHolder" type="String" description="what to display if input params are incomplete"/>
+
+
+    <!-- variables from parent -->
+    <aura:attribute name="objectAPIName"
+                    type="String"
+                    description="the API name of object to search"/>
+    <aura:attribute name="fieldsToReturn"
+                    type="List"
+                    description="the field names to return"/>
+    <aura:attribute name="required"
+                    type="String"
+                    default="true"/>
+
+    <aura:attribute name="inputLabel" type="String"/>
+    <!-- where fields from parent input -->
+    <aura:attribute name="whereFields" type="List"/>
+    <aura:attribute name="whereValue0" type="String"/>
+    <aura:attribute name="whereValue1" type="String"/>
+    <aura:attribute name="whereValue2" type="String"/>
+    <aura:attribute name="whereValue3" type="String"/>
+
+    <aura:attribute name="optionalWhereFields" type="List" description="whether a field should be searched as an OR blank"/>
+
+    <!-- which field to search on from input -->
+    <aura:attribute name="searchFields" type="List"/>
+
+    <!-- fire the event on select -->
+    <aura:registerEvent name="onSearchSelectEvent" type="c:searchWithDropdownEvent"/>
+
+    <div>
+        <lightning:input aura:id="inputSearch"
+                         name="enter-search"
+                         label="{!v.inputLabel}"
+                         type="search"
+                         required="{!v.required}"
+                         value="{!v.searchText}"
+                         placeholder="{!v.placeHolder}"
+                         onkeyup="{!c.doSearch}"
+                         variant="{!v.inputVariant}" />
+        
+        <lightning:select aura:id="selectResults"
+                          label=""
+                          value="{!v.selectedResult}"
+                          onchange="{!c.onSelectedResult}"
+                          disabled="{!if(v.state =='RESULTS', '', 'disabled')}">
+            <aura:iteration var="option" items="{! v.listResults}">
+                <option value="{!option.value}" selected="{!if(option.value == v.selectedResult,true,false)}">{!option.label}</option>
+            </aura:iteration>
+        </lightning:select>
+    </div>
+</aura:component>

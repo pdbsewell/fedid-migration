@@ -1,0 +1,14 @@
+<template>
+    <!-- Page details -->
+        <!-- Page Header -->
+         <template if:true={pageTitle}> 
+                <!-- Checklist View -->    
+                <c-document-checklist-assessment-community-list 
+                    page-title={pageTitle}
+                    page-sub-title={pageSubTitle} 
+                    application-id={applicationId}
+                    onfilepreview={handleFilePreview}
+                    onchecklistloaded={checklistLoaded}
+                    ></c-document-checklist-assessment-community-list> 
+        </template>
+</template>

@@ -1,0 +1,176 @@
+<template>
+    <template if:true={resourcesReady}>
+        <div class="slds-is-relative" style="background-color:#91B1CE">
+            <div class="content-wrapper slds-p-around_medium">
+
+                <!-- applications -->
+                <h1 class="banner__heading user-def-palette--text-white applicationsHeader" 
+                    style="font-family:'Roboto Condensed', sans-serif;font-weight:bold">
+                    MY APPLICATIONS
+                </h1>
+                
+                <div class="slds-p-top_medium slds-p-bottom_x-large">
+
+                    <!-- tabs -->
+                    <div class="pcss3t pcss3t-height-auto pcss3t-effect-fade pcss3t-theme-1" role="tablist">
+
+                        <input id="draftApplications"
+                            name="pcss3t"
+                            type="radio" 
+                            checked={draftHighlighted} 
+                            class="tab-content-first"
+                            role="tab"
+                            aria-selected={draftHighlighted}>
+
+                        <label class="draftApplications" 
+                            for="draftApplications"
+                            >
+                            NEW
+                        </label>
+
+                        <input id="submittedApplications"
+                            name="pcss3t"
+                            type="radio" 
+                            checked={submittedHighlighted} 
+                            class="tab-content-2" 
+                            disabled={disabledSubmittedApplicationsTab}
+                            role="tab"
+                            aria-selected={submittedHighlighted}>
+                            
+                        <label class="submittedApplications" 
+                            for="submittedApplications"
+                            >
+                            SUBMITTED
+                            <template if:true={hasDomesticOffer}>
+                                <lightning-icon icon-name="utility:success" 
+                                    size="small" 
+                                    variant="success" 
+                                    style="margin-top: 6px; float: right;">
+                                </lightning-icon>
+                            </template>
+
+                            <template if:false={hasDomesticOffer}>
+                                <template if:true={hasApplicationOutstandingChecklist}>
+                                    <lightning-icon icon-name="utility:warning" 
+                                        size="small" 
+                                        variant="warning" 
+                                        style="margin-top: 6px; float: right;">
+                                    </lightning-icon>
+                                </template>
+                            </template>
+                        </label>
+
+                        <ul>
+                            <li class="tab-content tab-content-first typography" 
+                                style="padding: 10px 20px 20px 20px;"
+                                role="tabpanel"
+                                aria-labelledby="draftApplications">
+
+                                <div class="slds-is-relative" style="min-height: 150px;">
+                                    <!-- show loading -->
+                                    <template if:false={homeDetails}>
+                                        <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+                                    </template>
+
+                                    <!-- show details -->
+                                    <template if:true={homeDetails}>
+
+                                        <!-- no Draft -->
+                                        <template if:false={homeDetails.DRAFT_APPLICATIONS}>
+                                            <div class="slds-float_left slds-is-relative slds-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12" 
+                                                style="color: #505050;">
+                                                <h2 style="font-size: 30px; padding-top: 20px;padding-bottom: 10px; word-wrap: break-word;">
+                                                    Welcome {currentUserFirstName}
+                                                </h2>
+                                                <p style="font-size: 20px; padding-top: 10px; padding-bottom: 10px;">
+                                                    Your journey at Monash officially starts here!
+                                                </p>
+                                                <div style="padding-top: 20px;">
+                                                    <!-- new application button -->
+                                                    <button class="btn btn--blue homeAction"
+                                                            onclick={showMyHomeModal}
+                                                            disabled={disabledActionButton}
+                                                            aria-haspopup="dialog">
+                                                        START APPLICATION
+                                                    </button>
+                                                </div>
+
+                                                <!-- button loader -->
+                                                <template if:true={disabledActionButton}>
+                                                    <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+                                                </template>
+                                            </div>
+                                        </template>
+
+                                        <!-- with Draft -->
+                                        <template if:true={homeDetails.DRAFT_APPLICATIONS}>
+                                            <c-my-app-community-home-applications-list 
+                                                application-list={homeDetails.DRAFT_APPLICATIONS}
+                                                current-user-first-name={currentUserFirstName}
+                                                oncancelapplication={openCancelApplicationForm}
+                                                app-source-system={sourceSystem}>
+                                            </c-my-app-community-home-applications-list>
+                                        </template>
+                                    </template>
+                                </div>
+                            </li>
+
+                            <li class="tab-content tab-content-2 typography" 
+                                style="padding: 10px 20px 20px 20px;"
+                                role="tabpanel"
+                                aria-labelledby="submittedApplications">
+                                <div class="slds-is-relative" style="min-height: 150px;">
+
+                                    <!-- show loading -->
+                                    <template if:false={homeDetails}>
+                                        <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+                                    </template>
+
+                                    <!-- with Submitted -->
+                                    <template if:true={homeDetails}>
+                                        <template if:true={homeDetails.SUBMITTED_APPLICATIONS}>
+                                            <c-my-app-community-home-applications-list 
+                                                application-list={homeDetails.SUBMITTED_APPLICATIONS}
+                                                current-user-first-name={currentUserFirstName}
+                                                is-submitted="true"
+                                                outstanding-application-checklist-count={homeDetails.OUTSTANDING_CHECKLIST}
+                                                total-application-comment-count={homeDetails.APPLICATION_COMMENT_COUNT}
+                                                unread-application-comment-count={homeDetails.APPLICATION_UNREAD_COMMENT_COUNT}
+                                                onopenrespond={openRespondForm}>
+                                            </c-my-app-community-home-applications-list>
+                                        </template>
+                                    </template>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="slds-is-relative">
+                    <c-offers-list></c-offers-list>
+                </div>
+            </div>
+
+            <!-- modals and other overlays -->
+            <template if:true={showAppTypeForm}>
+                <c-my-app-modal oncancelappform={closeMyHomeModal}></c-my-app-modal>
+            </template>
+
+            <template if:true={showCancelForm}>
+                <c-my-app-community-home-applications-item-cancel 
+                    cancel-application-id={cancelApplicationId}
+                    oncancel={closeCancelApplicationForm}
+                    oncancelapplication={retrieveApplicationsData}>
+                </c-my-app-community-home-applications-item-cancel>
+            </template>
+
+            <template if:true={showRespondForm}>
+                <c-my-app-community-home-application-acp-respond 
+                    application-course-preference={selectedApplicationCoursePreference}
+                    oncancel={closeRespondForm}
+                    onrespond={retrieveApplicationsData}>
+                </c-my-app-community-home-application-acp-respond>
+            </template>
+        </div>
+    </template>
+</template>

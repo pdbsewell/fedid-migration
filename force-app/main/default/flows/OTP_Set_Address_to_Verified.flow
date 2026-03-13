@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>57.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <constants>
+        <name>Channel_Type_Email</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>EMAIL</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <name>Channel_Type_SMS</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>SMS</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <name>Event_Type_Experian</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>experian</stringValue>
+        </value>
+    </constants>
+    <decisions>
+        <name>Check_Bypassing</name>
+        <label>Check Bypassing</label>
+        <locationX>768</locationX>
+        <locationY>222</locationY>
+        <defaultConnectorLabel>End Flow</defaultConnectorLabel>
+        <rules>
+            <name>Update_Verification_Status</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Which_Channel</targetReference>
+            </connector>
+            <label>Update Verification Status</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Is the event related to SMS or EMAIL?</description>
+        <name>Which_Channel</name>
+        <label>Which Channel</label>
+        <locationX>769</locationX>
+        <locationY>428</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_SMS</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Channel__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Channel_Type_SMS</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Event_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Event_Type_Experian</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_to_Verified</targetReference>
+            </connector>
+            <label>Is SMS</label>
+        </rules>
+        <rules>
+            <name>Is_EMAIL</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Channel__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Channel_Type_Email</elementReference>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Event_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Event_Type_Experian</elementReference>
+                </rightValue>
+            </conditions>
+            <label>Is EMAIL</label>
+        </rules>
+    </decisions>
+    <description>Sets Phone or Email verification status to Verified when platform event indicates Experian has verified the address</description>
+    <environments>Default</environments>
+    <interviewLabel>OTP Set Address to Verified {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>OTP Set Address to Verified</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Set_to_Verified</name>
+        <label>Set to Verified</label>
+        <locationX>777</locationX>
+        <locationY>632</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Address_Id__c</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Verification_Status__c</field>
+            <value>
+                <stringValue>Verified</stringValue>
+            </value>
+        </inputAssignments>
+        <object>Phone__c</object>
+    </recordUpdates>
+    <start>
+        <locationX>650</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Check_Bypassing</targetReference>
+        </connector>
+        <object>OTP_Verification_Event__e</object>
+        <triggerType>PlatformEvent</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

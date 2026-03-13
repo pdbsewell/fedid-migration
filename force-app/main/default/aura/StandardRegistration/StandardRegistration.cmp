@@ -1,0 +1,104 @@
+<aura:component implements="force:appHostable,forceCommunity:availableForAllPageTypes" access="global" controller="StdRegController">
+    
+
+    <aura:attribute name="monashLogo" type="String" default="https://www.monash.edu/__data/assets/git_bridge/0006/509343/deploy/mysource_files/monash-logo-mono.svg"/>
+    <aura:attribute name="selectedCourseOffering" type="Object" default=""/>
+    <aura:attribute name="coNamePar" type="String" default="" />
+    <aura:attribute name="mainError" type="Object" default=""/>
+    <aura:attribute name="savedTabId" type="String" default="" />
+    <aura:attribute name="currentState" type="String" default="" />
+    <aura:attribute name="tAndC" type="String" default="http://www.monash.edu/education/future-students/courses/short-courses/payment" />
+    <aura:attribute name="privacyPolicy" type="String" default="https://www.monash.edu/privacy-monash/privacy-collection-statements#monashuni"/>
+    <aura:attribute name="group8Logo" type="String" default="https://www.monash.edu/__data/assets/git_bridge/0006/509343/deploy/mysource_files/go8_logo_mono.svg"/>
+    <aura:attribute name="footerText" type="String" default="Maintained by: Monash eSolutions. Last updated: January 2020.
+
+Copyright © 2020 Monash University. ABN 12 377 614 012 Accessibility - Disclaimer and copyright - Privacy, Monash University CRICOS Provider Number: 00008C, Monash College CRICOS Provider Number: 01857J. Monash University is a registered higher education provider under the TEQSA Act 2011.
+
+    We acknowledge and pay respects to the Elders and Traditional Owners of the land on which our five Australian campuses stand. Information for Indigenous Australians."/>
+    <aura:handler event="c:CatchAction" action="{!c.swithTabs}"/>
+    <aura:handler event="c:CatchSave" action="{!c.savedTab}"/>
+    
+
+
+    
+    <div class="wrapper">
+
+     <span id="Accspinner" style="display:none">
+            <div class="slds-spinner_container">
+                <lightning:spinner variant="brand" size="medium" alternativeText="Loading"/>
+            </div>
+	</span>
+
+        <div style="padding-top:10px;" />
+            <span class="slds-assistive-text">Error</span>
+            <ui:outputText value="{!v.mainError}"/>
+
+    <!-- Header Text -->
+    <div class="slds-page-header">
+        <div class="slds-grid">
+            <div class="slds-col slds-has-flexi-truncate">
+                <div class="slds-page-header-styling"><img src="{!v.monashLogo}" alt="" /></div>
+				<span>
+					<p class="slds-text-heading--label" style="font-weight:bold; color:#006DAE;">Professional Development</p>
+				</span>
+                <span>
+					<p class="slds-text-heading--label heading">{!v.currentState}</p>
+				</span>
+            </div>
+        </div>
+    </div>
+    <center>
+        <div class="header-styling move-right" style="padding-top: 2rem; max-width: 700px;">
+            <span><span class="courseTitleText">You are registering for the course </span> <ui:outputText aura:id="coDescription" value="{!v.selectedCourseOffering.Course__r.Course_Description__c}" class="slds-text-heading_medium"/> <span class="courseTitleText"> at </span> <ui:outputText aura:id="coLocation" value="{!v.selectedCourseOffering.Venue__r.Name}" class="slds-text-heading_medium"/> <span class="courseTitleText"> commencing on </span> <ui:outputDate aura:id="coStartDate" value="{!v.selectedCourseOffering.Start_Date__c}" format="DD-MM-YYYY" class="slds-text-heading_medium"/></span>
+        </div>    
+    </center>
+    
+    <center>
+        <div style="display: inline-block; padding: 10px; margin-top: 25px; text-align:left; background-color:white;">This course is offered by the {!v.selectedCourseOffering.facultyName}. If you have any questions relating to the application process, please contact our registrations team on <a href="{!v.selectedCourseOffering.facultyEmail}">{!v.selectedCourseOffering.facultyEmail}</a> or phone {!v.selectedCourseOffering.facultyPhone}.</div>
+    </center>
+
+    <center>
+        <div class="section-title-styling">
+            REGISTRATION Details
+        </div>
+    </center>
+    <lightning:tabset onselect="{!c.tabSelected}" variant="scoped" aura:id="tabs" selectedTabId="tab1">
+        <lightning:tab id="tab1">
+            <aura:set attribute="label">
+                1.
+                CONTACT DETAILS 
+                <lightning:icon iconName="standard:contact" id="tab1icon" size="medium" class="slds-m-right_x-small iconColor" />
+            </aura:set>
+            <c:StdRegContact currentState="{!v.currentState}" selectedCourseOffering="{!v.selectedCourseOffering}"/>
+        </lightning:tab>
+        <lightning:tab id="tab2">
+            <aura:set attribute="label">
+                2.PRICING OPTIONS
+                <lightning:icon iconName="utility:moneybag" id="tab2icon" size="small" class="slds-m-right_xx-small iconColor" />
+            </aura:set>
+            <c:StdRegPricing coNamePar="{!v.coNamePar}" />
+        </lightning:tab>
+        <aura:If isTrue="{!(v.selectedCourseOffering.Course__r.FormstackURL__c!=null)}">
+            <lightning:tab label="Course Questions" id="tab3">
+                <aura:set attribute="label">
+                    3.COURSE QUESTIONS
+                    <lightning:icon iconName="custom:custom18" id="tab3icon" size="small" class="slds-m-right_x-small iconColor" />
+                </aura:set>
+                <c:StdRegCQ/>
+            </lightning:tab>
+        </aura:If>
+    </lightning:tabset>
+
+    <div class="footer-wrapper-styling">
+        <div id="ui-privacy">
+            <ui:outputURL value="{!v.privacyPolicy}" label="Privacy Statement" target="_blank" class="footer-styling" />
+        </div>
+
+        <div id="ui-footer-text">{!v.footerText}</div>
+
+        <div id="ui-group8logo">
+            <img src="{!v.group8Logo}" alt="" />
+        </div>
+    </div>
+</div>
+</aura:component>

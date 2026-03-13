@@ -1,0 +1,22 @@
+<!--
+  @File Name          : offerNavigationComponent.html
+  @Description        : 
+  @Author             : Jasmin Joy Rudio
+  @Group              : 
+  @Last Modified By   : jasmin.rudio@monash.edu
+  @Last Modified On   : 2/19/2020, 10:34:57 AM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    10/28/2019   Jasmin Joy Rudio     Initial Version
+-->
+<template>
+    
+    <div if:true={loading}>
+        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </div>
+    <div class="btn-class" if:true={hasRendered}>
+        <button type="button" class={backBtnClass} onclick={previousHandler}>Back</button>
+        
+        <button type="button" class={nextBtnClass} onclick={nextHandler} disabled={nextBtnDisabled}>{continueBtnText}</button>
+    </div>
+</template>

@@ -1,0 +1,178 @@
+<!--
+ Used for the Rendering of Applications and ACPS to the user on the my.App portal.
+
+ This component is specific and bespoke to the homepage implementation. It is not to be used in other areas of Salesforce.
+ -->
+<!-- 
+ SF-2299 8/11/18 Modified by: Andrew Yeo - change field to show Outcome_Status_LOV__c and Offer_Response_Status_LOV__c instead of its old fields.
+ -->
+
+<aura:component description="ApplicationACPTable" implements="forceCommunity:availableForAllPageTypes" access="global" controller="ApplicationACPTableController">
+
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+
+    <aura:attribute name="applications" type="List" />
+    <aura:attribute name="editable" type="Boolean"/>
+    <!--INSERT BANNER HERE-->
+
+    <aura:attribute name="draftApplication" type="String" default=""/>
+    
+    <aura:attribute name="isModalOpen" type="boolean" default="false"/>
+	<!--Use aura:if tag to display Model Box, on the bese of conditions. [isOpen boolean attribute] -->   
+        <aura:if isTrue="{!v.isModalOpen}">
+            
+            <!--###### MODAL BOX Start######--> 
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- ###### MODAL BOX HEADER Start ######-->
+                    <header class="slds-modal__header">
+                        <lightning:buttonIcon iconName="utility:close"
+                                              onclick="{! c.closeModel }"
+                                              alternativeText="close"
+                                              variant="bare-inverse"
+                                              class="slds-modal__close"/>
+                        
+                    </header>
+                    <!--###### MODAL BOX BODY Part Start######-->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <p>By cancelling this draft, your application will be deleted. Your profile on the My Details page,
+                            and information submitted as part of any previous applications (if any), will not be affected. 
+                        </p>
+                        <p><b>Are you sure you want to continue?</b></p>
+                        
+                    </div>
+                    <!--###### MODAL BOX FOOTER Part Start ######-->
+                    <footer class="slds-modal__footer ">
+                        <lightning:button class="slds-float_right slds-m-right_small" name="cancelApplication" label="Yes - Cancel" variant="destructive" onclick="{!c.removeApplication}" />
+                        <lightning:button class="slds-m-right_small"
+										  variant="neutral" 
+                                          label="No - Do not cancel"
+                                          title="Cancel"
+                                          onclick="{! c.closeModel }"/>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+            <!--###### MODAL BOX Part END Here ######-->
+            
+        </aura:if>
+
+    <aura:iteration var="app" items="{!v.applications}" >
+        <div class="slds-grid slds-gutters slds-grid_vertical-align-center">
+            <div class="slds-col slds-size_7-of-12 applicationHeading ">
+                <h2>{!app.value.appParent.Name}</h2>
+            </div>
+            <div class="slds-col slds-size_4-of-12">
+                <div style="padding-left: 2rem; padding-top: 5rem; position: relative;">
+                    <aura:if isTrue="{!v.editable == true}" >
+                        <lightning:button class="slds-float_right" name="editApplication" label="Edit Application" variant="brand" onclick="{!c.editApplication}" />
+                        <lightning:button class="slds-float_right slds-m-right_small" name="cancelApplication" label="Cancel Application" variant="destructive" onclick="{!c.openModel}" />
+                    </aura:if>
+
+                    <aura:if isTrue="{!v.editable == false}" >
+                        <lightning:button class="slds-float_right" value="{!app.key}" name="addNewDocument" label="Add Documents" variant="brand" onclick="{! c.viewApplication}" />
+                        <!--
+                        <button type="button" class="slds-button" id="{!app.key}" onclick="{!c.viewApplication}" onmouseover="{!c.display}" onmouseout="{!c.displayOut}">
+                            <lightning:icon iconName="utility:page" size="small" alternativeText="View Application" />
+                        </button>
+                        <div class="slds-popover slds-popover_tooltip slds-nubbin_bottom-left toggle" role="tooltip" id="help" style="position: absolute; top: 0px; left: 15px;" aura:id="tooltip">
+                            <div class="slds-popover__body">Upload Additional Documents</div>
+                        </div>
+						-->
+                    </aura:if>
+                </div>
+            </div>
+        </div>
+        <br />
+        <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+            <thead>
+            <tr class="slds-text-title_caps">
+                <th scope="col" width="5%">
+                    <div class="slds-truncate" title="Preference Number">#</div>
+                </th>
+                <aura:if isTrue="{!v.editable == false}" >
+                    <th scope="col" >
+                        <div class="slds-truncate" title="Application Date">Application Date</div>
+                    </th>
+                </aura:if>
+                <th scope="col">
+                    <div title="Course Title">Course Title</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Attendance Mode">Attendance Mode</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Location">Location</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Course Period">Period</div>
+                </th>
+                <th scope="col">
+                    <div class="slds-truncate" title="Fee Type">Fee Type</div>
+                </th>
+                <aura:if isTrue="{!v.editable == false}" >
+                    <th scope="col">
+                        <div class="slds-truncate" title="Outcome Status">Outcome</div>
+                    </th>
+                    <th scope="col">
+                        <div class="slds-truncate" title="Offer Response Status">Offer Response</div>
+                    </th>
+                </aura:if>
+                <!--<aura:if isTrue="{!v.editable == false}" >
+                    <th scope="col" class="slds-align_absolute-center">
+                        <div class="slds-truncate" title="Upload Documents">View Application/Upload Docs</div>
+                    </th>
+                </aura:if>-->
+
+            </tr>
+            </thead>
+            <tbody>
+            <aura:iteration items="{!app.value.appPrefs}" var="pref">
+                <tr>
+                    <td data-label="Preference Number">
+                        <div class="slds-cell-wrap">{!pref.Preference_Number__c}</div>
+                    </td>
+                    <aura:if isTrue="{!v.editable == false}" >
+                        <td data-label="Application Date">
+                            <div class="slds-cell-wrap">{!pref.Application__r.Submitted_Date__c}</div>
+                        </td>
+                    </aura:if>
+                    <aura:if isTrue="{!pref.Unit_Set_Description__c != null}" >
+                        <td data-label="Course Title">
+                            <div class="slds-cell-wrap">{!pref.Course_Code__c} - {!pref.Course_Title__c} - {!pref.Unit_Set_Description__c}</div>
+                        </td>
+                        <aura:set attribute="else">
+                            <td data-label="Course Title">
+                                <div class="slds-cell-wrap">{!pref.Course_Code__c} - {!pref.Course_Title__c}</div>
+                            </td>
+                        </aura:set>
+                    </aura:if>
+                    <td data-label="Attendance Mode">
+                        <div class="slds-cell-wrap">{!pref.Course_Offering__r.Attendance_Mode_Description__c}</div>
+                    </td>
+                    <td data-label="Location">
+                        <div class="slds-cell-wrap">{!pref.Course_Offering__r.Location_Description__c}</div>
+                    </td>
+                    <td data-label="Period">
+                        <div class="slds-cell-wrap">{!pref.Course_Offering__r.Admission_Calendar_Description__c}</div>
+                    </td>
+                    <td data-label="Fee Type">
+                        <div class="slds-cell-wrap">{!pref.Course_Offering__r.Type_of_Place_Description__c}</div>
+                    </td>
+
+                    <aura:if isTrue="{!v.editable == false}" >
+                        <td scope="col">
+                            <div class="slds-cell-wrap">{!pref.Outcome_Status_LOV__r.Applicant_Value__c}</div>
+                        </td>
+                        <td scope="col">
+                            <div class="slds-cell-wrap">{!pref.Offer_Response_Status_LOV__r.Applicant_Value__c}</div>
+                        </td>
+                    </aura:if>
+
+                </tr>
+            </aura:iteration>
+            </tbody>
+        </table>
+        <br />
+    </aura:iteration>
+</aura:component>

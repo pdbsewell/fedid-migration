@@ -1,0 +1,31 @@
+<!--
+* @author
+* @date 08/04/2020
+* @group Monash Connect
+* @description Covid Grant Form - Next Steps
+* @revision  - 08/04/2020 - Initial Create 
+ -->
+ <aura:component>
+    <aura:attribute name="covidGrantAmount" type="String" default=""/>
+    <aura:attribute name="newCase" type="case" />
+
+    <div>
+
+        <!-- support grant 5000 -->
+        <aura:if isTrue="{!v.covidGrantAmount == '1000'}">
+            <!-- Section Heading -->
+            <h2><lightning:formattedRichText value="{!$Label.c.CovidGrantNextSteps}" /></h2>
+            <!-- Description -->
+            <p><lightning:formattedRichText value="{!$Label.c.SupportGrantNextStepsBody}" /></p>
+        </aura:if>
+
+
+        <!-- covid grant 5000 and 7000 -->
+            <aura:if isTrue="{!v.covidGrantAmount == '5000' || v.covidGrantAmount == '7000'}">
+            <!-- Section Heading -->
+            <h2><lightning:formattedRichText value="{!$Label.c.CovidGrantNextSteps}" /></h2>
+            <!-- Description -->
+            <p><lightning:formattedRichText value="{!$Label.c.CovidGrantNextStepsBodyLine1}" /></p>
+        </aura:if>
+    </div>
+</aura:component>

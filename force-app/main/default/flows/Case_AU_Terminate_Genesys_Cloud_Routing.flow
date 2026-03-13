@@ -1,0 +1,329 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Failed_to_Create_Records</name>
+        <label>Failed to Create Records</label>
+        <locationX>314</locationX>
+        <locationY>647</locationY>
+        <actionName>Nebula__FlowRecordLogEntry</actionName>
+        <actionType>apex</actionType>
+        <dataTypeMappings>
+            <typeName>T__record</typeName>
+            <typeValue>purecloud__PureCloud_Routing_Request__c</typeValue>
+        </dataTypeMappings>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <stringValue>Case_AU_Terminate_Genesys_Cloud_Routing</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Failed to create records for Genesys Cloud Routing Request</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowRecordLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>62.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <description>Check if the Flow is to be Bypassed</description>
+        <name>Check_Flow_Bypassing</name>
+        <label>Check Flow Bypassing</label>
+        <locationX>578</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Proceed_With_Flow</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>CheckByPassCriteria</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Prior_Case_Owner_Check</targetReference>
+            </connector>
+            <label>Proceed With Flow</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check if the previous case owner is any one out of seven Monash queues</description>
+        <name>Prior_Case_Owner_Check</name>
+        <label>Prior Case Owner Check</label>
+        <locationX>314</locationX>
+        <locationY>431</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Genesys_Cloud_Routing_Queue</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record__Prior.Case_Owner_String__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Monash Connect Future Student</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Case_Owner_String__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Monash Connect Current Student</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Case_Owner_String__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>MPass Card Office</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Case_Owner_String__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Monash Connect - Advisors</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Case_Owner_String__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Monash Connect Course Advice</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Case_Owner_String__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>myResearch Support</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Case_Owner_String__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Retention</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Case_Owner_String__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Monash Connect Enrolments</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Case_Owner_String__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Monash Connect Airport Pickup</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Case_Owner_String__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>MC - Change of Personal Details</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Delete_Genesys_Cloud_Routing_Interaction</targetReference>
+            </connector>
+            <label>Genesys Cloud Routing Queue</label>
+        </rules>
+    </decisions>
+    <description>Terminate Genesys Cloud Routing to complete Genesys Routing</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>Formula to check Bypass Criteria</description>
+        <name>CheckByPassCriteria</name>
+        <dataType>Boolean</dataType>
+        <expression>CONTAINS({!$Label.Bypass_Specific_Flow}, &quot;Terminate_Genesys_Cloud_Routing&quot;) || {!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c}</expression>
+    </formulas>
+    <formulas>
+        <description>Trim the comma sign out of MC_Faculty__c</description>
+        <name>TrimComma</name>
+        <dataType>String</dataType>
+        <expression>SUBSTITUTE({!$Record.MC_Faculty__c}, &apos;,&apos;, &apos;&apos;)</expression>
+    </formulas>
+    <interviewLabel>Case : AU : Terminate Genesys Cloud Routing {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Case : AU : Terminate Genesys Cloud Routing</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>Delete Previous Genesys Cloud Routing Interaction</description>
+        <name>Delete_Genesys_Cloud_Routing_Interaction</name>
+        <label>Delete Genesys Cloud Routing Interaction</label>
+        <locationX>50</locationX>
+        <locationY>539</locationY>
+        <faultConnector>
+            <targetReference>Failed_to_Create_Records</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>purecloud__Attributes__c</field>
+            <value>
+                <stringValue>Enquiry_Number={!$Record.CaseNumber},Enquiry_Type={!$Record.Enquiry_Type__c},Category_Level_1={!$Record.Category_Level_1__c},Category_Level_2={!$Record.Category_Level_2__c},Category_Level_3={!$Record.Category_Level_3__c},Student_Type={!$Record.Student_Type__c},MC_Faculty={!TrimComma},Case_Owner_Name={!$Record.Case_Owner_String__c},Interaction_ID={!$Record.Interaction_ID__c},Owned_By_Queue={!$Record.Owned_By_Queue__c},Course_Code={!$Record.Course_Code__c}</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>purecloud__Inbound_Email_Flow__c</field>
+            <value>
+                <stringValue>Terminate Salesforce Enquiry Routing</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>purecloud__Salesforce_Object_ID__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>purecloud__PureCloud_Routing_Request__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <start>
+        <locationX>452</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Flow_Bypassing</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>OwnerId</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Status</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Open</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Owned_By_Queue__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Case_Owner_String__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Monash Connect Future Student</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Case_Owner_String__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Monash Connect Current Student</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Case_Owner_String__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>MPass Card Office</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Case_Owner_String__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Monash Connect - Advisors</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Case_Owner_String__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Monash Connect Course Advice</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Case_Owner_String__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>myResearch Support</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Case_Owner_String__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Retention</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Case_Owner_String__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Monash_Connect_Enrolments</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Owned_By_Queue__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Case_Owner_String__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Monash Connect Airport Pickup</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Case_Owner_String__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>MC - Change of Personal Details</stringValue>
+            </value>
+        </filters>
+        <object>Case</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

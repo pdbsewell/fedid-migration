@@ -1,0 +1,57 @@
+<template>
+    <lightning-card title="Affiliation Sharing Integrity Tool">
+        <template if:false={isPermittedToUseApp}>
+            <div class="slds-grid slds-wrap slds-m-left_medium slds-m-right_medium">
+                <div class="slds-col">
+                    <h2 class="slds-text-color_error">User Does Not have Permission to Use this Tool.</h2>
+                </div>
+            </div>
+        </template>
+        <template if:true={isPermittedToUseApp}>
+            <lightning-button-group slot="actions">
+                <button class="slds-button slds-button_neutral" disabled={isControlsDisabled} title="Start" type="button" onclick={doStartBatchJob}>Start</button>
+                <lightning-button-menu alternative-text="get results"  menu-alignment="right" icon-name="utility:download" onselect={handleGetResultsMethodSelect}>
+                    <lightning-menu-item value="DOWNLOAD" label="Download" disabled={isDownloadResultsDisabled}></lightning-menu-item>
+                </lightning-button-menu>
+            </lightning-button-group>
+            <div class="slds-grid slds-wrap slds-m-left_medium slds-m-right_medium">
+                <div class="slds-col">
+                    <p class="slds-text-body_regular">{jobStatus} {spinChar} <strong>{discrepanciesMessage}</strong></p>
+                    <lightning-progress-bar size="large" value={progress}></lightning-progress-bar>
+                </div>
+            </div>
+            <div slot="footer" class="slds-card_footer_label">
+                <div class="slds-grid slds-wrap slds-grid_align-left slds-m-right_medium">
+                    <div class="slds-m-right_medium">
+                        <label class="slds-checkbox_toggle">
+                            <span class="slds-form-element__label slds-m-bottom_none">Run mode</span>
+                            <input type="checkbox" name="checkbox-toggle-16" value="checkbox-toggle-16" aria-describedby="checkbox-toggle-16" checked={isCheckAndRepairEnabled} onchange={handleModeToggle} disabled={isControlsDisabled}/>
+                            <span id="checkbox-toggle-16" class="slds-checkbox_faux_container">
+                                <span class="slds-checkbox_faux"></span>
+                                <span class="slds-checkbox_on">check and repair</span>
+                                <span class="slds-checkbox_off">check only</span>
+                            </span>
+                        </label>
+                    </div>
+                    <div>
+                        <label class="slds-checkbox_toggle">
+                            <span class="slds-form-element__label slds-m-bottom_none">Inactive affils.</span>
+                            <input type="checkbox" name="checkbox-toggle-17" value="checkbox-toggle-17" aria-describedby="checkbox-toggle-16" checked={isShareInactiveEnabled} onchange={handleShareInactiveToggle} disabled={isControlsDisabled}/>
+                            <span id="checkbox-toggle-17" class="slds-checkbox_faux_container">
+                                <span class="slds-checkbox_faux"></span>
+                                <span class="slds-checkbox_on">retain sharing</span>
+                                <span class="slds-checkbox_off">remove sharing</span>
+                            </span>
+                        </label>
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                    
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <a href={reportUrl} class="invisible_download_link">Download</a>
+                    </div>
+                </div>            
+            </div>
+        </template>
+    </lightning-card>
+</template>

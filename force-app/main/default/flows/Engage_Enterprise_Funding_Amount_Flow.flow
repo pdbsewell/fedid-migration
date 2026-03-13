@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>59.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Engage enterprise flow for funding record</description>
+    <environments>Default</environments>
+    <interviewLabel>Engage Enterprise Funding Amount Flow {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Engage Enterprise Funding Amount Flow</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Update opportunity amount when a primary funder applied amount is updated</description>
+        <name>Update_Opportunity_Amount</name>
+        <label>Update Opportunity Amount</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Opportunity__r.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Amount</field>
+            <value>
+                <elementReference>$Record.Applied_Amount__c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Opportunity</object>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Opportunity_Amount</targetReference>
+        </connector>
+        <filterFormula>
+AND(
+    {!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False, 
+    {!$Record.Primary_Funder__c}, 
+    OR(
+        AND(
+            NOT({!$Record.Opportunity__r.IsClosed}),
+            {!$Record.Opportunity__r.Owner.Profile.Name} != &apos;Integration - Mix&apos;
+        ), 
+         
+         {!$Record.Opportunity__r.Owner.Profile.Name} = &apos;Integration - Mix&apos;
+    )
+)</filterFormula>
+        <object>Funding__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

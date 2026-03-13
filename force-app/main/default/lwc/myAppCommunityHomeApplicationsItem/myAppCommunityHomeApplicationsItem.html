@@ -1,0 +1,136 @@
+<template>
+    <!-- draft -->
+    <template if:false={isApplicationSubmitted}>
+        <div class="slds-float_left slds-size_12-of-12 slds-box" style="background-color:#F8F8F8;border: 1px solid #979797;box-sizing: border-box;">
+            <div class="slds-text-title--caps slds-size_12-of-12" style="font-size: 18px;line-height: 21px;font-weight:bold;padding-bottom: 5px; color:black">DRAFT {application.Type_of_Study__c} - {application.Campus_Location__c} APPLICATION</div>
+            <template if:true={graduateResearchApplication}>
+                <div style="font-weight:normal; padding-top: 10px;text-transform: none;font-size: 14px;line-height: 16px;padding-bottom: 5px; color:black">
+                    Application Type: {applicationType}
+                </div>
+            </template>
+            <br/>
+            <div class="slds-float_left  slds-size_6-of-12 slds-text-title--caps" style="font-size: 18px;line-height: 21px;font-weight:bold;padding-bottom: 5px; color:black">APPLICATION {application.Name}
+               <br/>
+                <span>
+                    <div style="font-weight:normal; padding-top: 10px;text-transform: none;font-size: 14px;line-height: 16px;padding-bottom: 5px; color:black">
+                        Last edited:
+                        <lightning-formatted-date-time  style="margin-left: 20px;" value={application.LastModifiedDate} day="2-digit"></lightning-formatted-date-time> 
+                        <lightning-formatted-date-time style="margin-left: 5px;" value={application.LastModifiedDate} month="long"></lightning-formatted-date-time> 
+                        <lightning-formatted-date-time style="margin-left: 5px;" value={application.LastModifiedDate} year="numeric"></lightning-formatted-date-time>
+                    </div>
+                    <div style="padding-top: 10px;">
+                        <template if:true={isAgentReviewing}>
+                            <div>
+                                <i style="font-size: 18px; font-weight: normal; text-transform: none">This application is currently being reviewed by your agent</i>
+                            </div>
+                        </template>
+                        <template if:false={isAgentReviewing}>
+                            <!-- new application button -->
+                            <button class="btn btn--blue homeAction" 
+                                onclick={editDraftApplication}
+                                disabled={disabledActionButton}>
+                                Continue Draft
+                            </button>
+                            <template if:false={agentPortalApplication}>
+                                <!-- cancel application button -->
+                                <button class="btn btn--blue homeAction homeCancelApplication" 
+                                    style="margin-left: 10px"
+                                    onclick={openCancelApplication}>
+                                    Cancel Application
+                                </button>
+                            </template>
+                        </template>
+                    </div>
+                </span>
+            </div>
+            
+            <div class="slds-float_left  slds-size_6-of-12" style="font-size: 14px;line-height: 16px;font-weight:bold;padding-bottom: 5px; color:black">SELECTED COURSE PREFERENCES</div>
+                <!-- with acps --><br/>
+                <template if:true={application.Application_Course_Preferences__r}>
+                    <div class=" slds-float_left slds-size_6-of-12 slds-small-size_6-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12" style="color: #505050;"> 
+                        <template for:each={application.Application_Course_Preferences__r} for:item='acp'>
+                            <c-my-app-community-home-application-acp key={acp.Id} 
+                                                                        application-course-preference={acp}
+                                                                        onopenrespond={openRespondForm}>
+                            </c-my-app-community-home-application-acp>
+                        </template>
+                    </div> 
+                </template>
+                <template if:false={application.Application_Course_Preferences__r}>
+                        <div class="slds-float_left  slds-size_6-of-12" style="font-size: 14px;line-height: 16px;padding-bottom: 5px; color:black">No courses selected</div>
+                </template>
+            
+        </div>
+    </template>
+    <template if:true={isApplicationSubmitted}>
+     
+        <div class="slds-float_left slds-size_12-of-12 slds-box" style="background-color:#F8F8F8;border: 1px solid #979797;box-sizing: border-box;">
+            <div class="slds-text-title--caps slds-size_12-of-12" style="font-size: 18px;line-height: 21px;font-weight:bold;padding-bottom: 5px; color:black">{application.Type_of_Study__c} - {application.Campus_Location__c} APPLICATION</div>
+            <template if:true={graduateResearchApplication}>
+                <div style="font-weight:normal; padding-top: 10px;text-transform: none;font-size: 14px;line-height: 16px;padding-bottom: 5px; color:black">
+                    Application Type: {applicationType}
+                </div>
+            </template>
+            <br/> 
+            <div class="slds-float_left  slds-size_6-of-12 slds-text-title--caps" style="font-size: 18px;line-height: 21px;font-weight:bold;padding-bottom: 5px; color:black"><a href={applicationReviewURL}>APPLICATION {application.Name}</a>
+               <br/>
+                <span>
+                    <div style="font-weight:normal; padding-top: 10px;text-transform: none;font-size: 14px;line-height: 16px;padding-bottom: 15px; color:black">
+                        Submitted:
+                        <lightning-formatted-date-time  style="margin-left: 20px;" value={application.Submitted_Date__c} day="2-digit"></lightning-formatted-date-time> 
+                        <lightning-formatted-date-time style="margin-left: 5px;" value={application.Submitted_Date__c} month="long"></lightning-formatted-date-time> 
+                        <lightning-formatted-date-time style="margin-left: 5px;" value={application.Submitted_Date__c} year="numeric"></lightning-formatted-date-time>
+                    </div>
+               </span>
+               <template if:false={hasOutstandingChecklist}>
+                <button class="btn btn--blue homeAction" 
+                    onclick={reviewApplicationDocuments}
+                    disabled={disabledActionButton}>
+                    <b>Documents</b>
+                    <template if:true={totalActionsCount}>
+                        <span class="notificationPosition" title="You have pending actions">
+                            <span class="notificationIcon">{totalActionsCount}</span>
+                        </span>
+                    </template>
+                </button>
+            </template>
+            
+            <!-- with pending -->
+            <template if:true={hasOutstandingChecklist}>
+                <button class="btn btn--blue homeAction" 
+                    onclick={reviewApplicationDocuments}
+                    disabled={disabledActionButton} style="display: flex;">
+                    <div style="font-weight: bold; padding-left: 20px; padding-top: 10px;">
+                        Documents </div>
+                    <div style="width: 33%; text-align: left; padding-left: 5px;margin-top: 8px;">
+                        <lightning-icon icon-name="utility:warning" size="x-small" variant="warning" ></lightning-icon>
+                    </div> 
+                    <template if:true={totalActionsCount}>
+                        <span class="notificationPosition" title="You have pending actions">
+                            <span class="notificationIcon">{totalActionsCount}</span>
+                        </span>
+                    </template>
+                </button>
+            </template>
+               
+            </div>
+            <div class="slds-float_left  slds-size_6-of-12" style="font-size: 14px;line-height: 16px;font-weight:bold;padding-bottom: 5px; color:black">SELECTED COURSE PREFERENCES</div>
+                <!-- with acps --><br/>
+                <template if:true={application.Application_Course_Preferences__r}>
+                    <div class=" slds-float_left slds-size_6-of-12 slds-small-size_6-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12" style="color: #505050;"> 
+                        <template for:each={application.Application_Course_Preferences__r} for:item='acp'>
+                            <c-my-app-community-home-application-acp key={acp.Id} 
+                                                                        application-course-preference={acp}
+                                                                        onopenrespond={openRespondForm}>
+                            </c-my-app-community-home-application-acp>
+                        </template>
+                    </div> 
+                </template>
+            </div>
+            
+
+            
+    </template>
+    <!-- submitted -->
+ 
+</template>

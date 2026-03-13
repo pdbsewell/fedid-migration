@@ -1,0 +1,62 @@
+<template>
+
+    <lightning-card>
+        <lightning-spinner lwc:if={loading}></lightning-spinner>
+        <template lwc:if={hasCua}>
+            <h1 slot="title" class="slds-truncate"><a data-id="record-link" onclick={navigateToCua}>{title}</a></h1>
+            <template lwc:if={isAssessment}>
+                <div slot="actions">
+                    <a href={handbookLink} target="_blank">{handbookLinkName}</a>
+                </div>
+            </template>
+            <div style="margin-bottom: 0.5rem; text-align: center">
+                <lightning-button-group >
+                    <lightning-button label={sendEmailButtonLabel} onclick={handleSendEmail} disabled={disableSendEmail}></lightning-button>
+                    <template lwc:if={showAssessmentExamButton}>
+                        <lightning-button label={updateButtonLabel} onclick={handleExternalUpdate} disabled={disableExternalUpdate}></lightning-button>
+                    </template>
+                    <lightning-button label="Copy to Clipboard" onclick={handleCopyToClipboard} disabled={disableCopyToClipboard}></lightning-button>
+                    <lightning-button label="Assign to Delegate" onclick={handleTransferToCe} disabled={disableTransferToCe}></lightning-button>
+                </lightning-button-group>
+            </div>
+            <div lwc:if={isQuiz} class="notification-container">
+                <lightning-spinner lwc:if={notificationLoading} size="x-small"></lightning-spinner>
+                <h2 lwc:if={notification} class="notification">{notification}</h2>
+            </div>
+            <div style="margin: 0.5rem 1.25rem">
+                <lightning-record-form
+                        record-id={cua.id}
+                        object-api-name='Case_Unit_Attempt__c'
+                        fields={layoutFields}
+                        mode="view"
+                        columns="2"
+                >
+                </lightning-record-form>
+            </div>
+            <div lwc:if={isQuiz} class="quiz-attempts">
+                <template if:true={attemptsLoading}>
+                    <lightning-spinner size="x-small"></lightning-spinner>
+                </template>
+                <c-expandable-section id="1" label={quizAttemptsTitle} expanded={attemptsExpanded}>
+                    <div class="attempts-table-container">
+                        <template if:false={attemptsLoading}>
+                            <lightning-datatable
+                                    columns={quizAttemptsColumns}
+                                    data={quizAttemptsData}
+                                    key-field="idx"
+                                    hide-checkbox-column="true">
+                            </lightning-datatable>
+                        </template>
+                    </div>
+                </c-expandable-section>
+            </div>
+        </template>
+        <template lwc:else>
+            <div style="padding:0 1rem 1rem 1rem; text-align: center">
+                <h1>No Case Unit Attempt Child</h1>
+                <lightning-button onclick={navigateToNewCua} label="Create New Case Unit Attempt"></lightning-button>
+            </div>
+        </template>
+    </lightning-card>
+
+</template>

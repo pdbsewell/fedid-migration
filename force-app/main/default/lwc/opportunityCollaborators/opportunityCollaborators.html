@@ -1,0 +1,74 @@
+<template> 
+    <!-- LOADING SPINNER -->
+    <template if:true={isLoading}> 
+        <div class="slds-is-relative" style="min-height: 75px;">
+            <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+        </div>            
+    </template>
+    <template if:false={isLoading}> 
+        <lightning-layout size="12" multiple-rows="true">
+            <lightning-layout-item size="12" padding="around-small">
+                <div style="background:rgb(220,220,220);padding:1%;" class="slds-text-title_bold">Lead Opportunity Collaborator</div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="around-small">
+                The Monash faculty, school, area, etc. responsible for <b>leading</b> the opportunity pursuit on behalf of the University.
+            </lightning-layout-item>
+            <template if:true={showCollaboratorSelection}>
+                <lightning-layout-item size="6" padding="around-small">
+                    <c-lookup-component 
+                        data-id="accountLookup" 
+                        obj-name="Account" 
+                        placeholder="Search Accounts..."
+                        icon-name="standard:account" 
+                        filters="RecordType.DeveloperName IN ('Faculty','Monash_Organisation')"
+                        onvalueselect={handleAccountSelection}>  
+                    </c-lookup-component> 
+                </lightning-layout-item>
+            </template>
+        </lightning-layout>
+        <template if:true={showTable}> 
+            <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                <thead>
+                    <tr class="">
+                        <th class="slds-size_3-of-10" scope="col">
+                            <div class="slds-truncate" title="Collaborator">Collaborator</div>
+                        </th>
+                        <th class="slds-size_2-of-10" scope="col">
+                            <div class="slds-truncate" title="Allocated Amount">Allocated Amount</div>
+                        </th>
+                        <th class="slds-size_2-of-10" scope="col">
+                            <div class="slds-truncate" title="Lead">Lead</div>
+                        </th>
+                        <th class="slds-size_2-of-10" scope="col">
+                            <div class="slds-truncate" title="Relationship Type">Relationship Type</div>
+                        </th>
+                        <th class="slds-size_1-of-10" scope="col">
+                            <div class="slds-truncate" title="ACTION">ACTION</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr  class="slds-hint-parent">
+                        <td class="slds-size_3-of-10" data-label="CollaboratorName">
+                            {newCollaborator.collaboratorName}
+                        </td>
+                        <td class="slds-size_2-of-10" data-label="AllocatedAmount">
+                            <lightning-formatted-number value={allocatedAmount} format-style="currency" currency-code="AUD">{allocatedAmount}</lightning-formatted-number>  
+                        </td>
+                        <td class="slds-size_2-of-10" data-label="Lead">
+                            <lightning-input type="checkbox" label="" name="Lead" checked disabled></lightning-input>
+                        </td>
+                        <td class="slds-size_2-of-10" data-label="relationshipType">
+                            {newCollaborator.relationShipType}
+                        </td>
+                        <td class="slds-size_1-of-10" data-label="delete">
+                            <a onclick={remove}>
+                                <lightning-icon icon-name="utility:delete" alternative-text="delete size=" size="x-small"></lightning-icon>
+                            </a>
+                        </td>
+                    </tr>                    
+                </tbody>
+            </table>
+        </template>
+    </template>
+</template>

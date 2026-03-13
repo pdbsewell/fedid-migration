@@ -1,0 +1,44 @@
+<!--
+* @author
+* @date 08/04/2020
+* @group Monash Connect
+* @description Covid Grant Form - Supporting Documents
+* @revision  - 08/04/2020 - Initial Create 
+ -->
+<aura:component >
+    <aura:attribute name="covidGrantAmount" type="String" default=""/>
+    <aura:attribute name="newCase" type="case" />
+
+    <div>
+        <!-- support grant 5000 -->
+        <aura:if isTrue="{!v.covidGrantAmount == '1000'}">
+            <h2><lightning:formattedRichText value="{!$Label.c.CovidGrantSupportingDocs}" /></h2>
+            <div>
+                <p>
+                    <lightning:formattedRichText value="{!$Label.c.SupportGrantSupportingDocsBody}" />
+                    <lightning:formattedRichText value="{!$Label.c.SupportGrantSupportingDocsBody1}" />
+                </p>
+            </div>
+        </aura:if>
+
+        <!-- covid grant 5000 -->
+        <aura:if isTrue="{!v.covidGrantAmount == '5000'}">
+            <h2><lightning:formattedRichText value="{!$Label.c.CovidGrantSupportingDocs}" /></h2>
+            <div>
+                <p>
+                    <lightning:formattedRichText value="{!$Label.c.CovidGrantSupportingDocsBody5000}" />
+                </p>
+            </div>
+        </aura:if>
+
+        <!-- covid grant 7000 -->
+        <aura:if isTrue="{!v.covidGrantAmount == '7000'}">
+            <h2><lightning:formattedRichText value="{!$Label.c.CovidGrantSupportingDocs}" /></h2>
+            <div>
+                <p>
+                    <lightning:formattedRichText value="{!$Label.c.CovidGrantSupportingDocsBody7000}" />
+                </p>
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

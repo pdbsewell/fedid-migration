@@ -1,0 +1,70 @@
+<aura:component implements="force:appHostable" controller="AgentDatabaseServerSideCC">
+    
+    <aura:attribute name="searchString" type="String" default="--blank--" />
+    <aura:attribute name="countrySelected" type="String" default="Select country or region" />
+    
+    <aura:attribute name="countries" type="List" default="[]" />
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInitCountries}"/>
+    <aura:handler event="c:AgenciesRenderComplete" action="{!c.doResetCountryDropdown}" />
+    
+    <aura:registerEvent name="searchAgenciesInitiated" type="c:searchAgenciesInitiated"/>
+    
+    <div class="c-container">
+        <aura:if isTrue="{!v.loaded }">
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="3">
+                    <lightning:layout multipleRows="true">
+                        <lightning:layoutItem size="12">
+                            <div class="slds-card">
+                                <div class="slds-card__body slds-card__body_inner slds-p-top_medium">
+                                    <!-- NEW CODE BELOW FOR COUNTRY DROPDOWN -->
+                                    <lightning:combobox name="countryDropdown" label="Select your country or region:" placeholder="{!v.countrySelected}" value="{!v.countrySelected}" options="{! v.countries }" onchange="{! c.fireCountryFilterEvent }"/>
+                                    
+                                    <p> </p>
+                                    <p>Cannot find your country or region?</p>
+                                    <p><lightning:formattedUrl label="Enquire now" value="{!$Label.c.Agent_Web_Page_Enquire_Now_URL}" target="_blank" /></p>
+                                </div>
+                            </div>
+                        </lightning:layoutItem>
+                        
+                        <lightning:layoutItem size="12">
+                            <div class="slds-card">
+                                <div class="slds-card__body slds-card__body_inner slds-p-top_medium">
+                                    <c:AlphabetSelector />
+                                </div>
+                            </div>
+                        </lightning:layoutItem>
+                        
+                        <lightning:layoutItem size="12">
+                            <div class="slds-card">
+                                <div class="slds-card__body slds-card__body_inner slds-p-top_medium">
+                                    
+                                    <!-- ORIGINAL CODE BELOW WITH UNIVERSAL SEARCH -->
+                                    <lightning:input aura:id="searchStringInput" type="text" value="{!v.searchString}" label="Search by Agency Name, Address, Country, Email, Phone or Website" onfocus="{!c.resetSearchString}" />
+                                    <button class="slds-button slds-button_brand slds-m-top_small" name="Search" type="submit" onclick="{!c.fireSearchEvent}">Search</button>
+                                    <button class="slds-button slds-button_brand slds-m-top_small" name="Reset Search" type="submit" onclick="{!c.fireResetEvent}">Reset Search</button>
+                                    
+                                </div>
+                            </div>
+                        </lightning:layoutItem>
+                        
+                    </lightning:layout>
+                    
+                </lightning:layoutItem>
+                
+                <!-- BELOW CODE FOR THE RIGHT HAND SIDE OF THE PAGE -->            
+                <lightning:layoutItem flexibility="auto" size="12" smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="9"  >
+                    <c:Agencies></c:Agencies>
+                </lightning:layoutItem>
+            </lightning:layout>
+            
+            
+            <aura:set attribute="else">
+                <lightning:spinner alternativeText="Loading" size="medium" />
+            </aura:set>
+        </aura:if>
+        
+    </div>
+    
+</aura:component>

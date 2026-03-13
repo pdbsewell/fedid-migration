@@ -1,0 +1,38 @@
+/**
+ * Created by idha0002 on 16/04/2021.
+ */
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  padding: 8px;
+}
+
+.tableClass {
+  table-layout: fixed;
+  width: 100%;
+}
+
+.columnWrapper {
+  word-wrap: break-word !important;
+  overflow-wrap: break-word !important;
+  white-space: normal !important;
+}
+
+tr:nth-child(even) {background-color: #f2f2f2;}
+
+.spins::after {
+  position: absolute;
+  content: 'Account merge in progress, do not close/refresh the Window......';
+  width: 100%;
+  text-align: center;
+  top: calc(50% + 3em);
+  font-weight: bold;
+}
+
+.slds-modal__container {
+  max-width: 85rem !important;
+  width: 85% !important;
+}

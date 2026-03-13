@@ -1,0 +1,95 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" >
+    <!-- Quick Enquiry Spinner Loading -->
+    <aura:attribute name="showQuickEnquirySpinner" default="true" type="Boolean"/>
+    
+    <!-- Lightning Component Variable -->
+    <!-- MC-815 - APRivera - ProdDefect: Avoid Duplicate Enquiries -->
+    <aura:attribute name="isProcessed" type="Boolean"/>
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="progressCurrentStep" default="1" type="Integer"/>
+    <aura:attribute name="progressDescription" default="Retrieving Default Enquiry Information" type="String"/>
+            
+    <!-- Constructor -->
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+    
+    <!-- Current User Reader -->
+    <aura:attribute name="userError" type="String"/>
+    <aura:attribute name="currentUser" type="Object"/>
+    <force:recordData aura:id="userRecordLoader"
+        recordId="{!$SObjectType.CurrentUser.Id}"
+        fields="Location__c,Queue__c,Enquiry_Role__c,My_Information_LastUpdate__c,Default_Enquiry_Record_Type__c"
+        targetFields="{!v.currentUser}"
+        targetError="{!v.userError}"
+        recordUpdated="{!c.userUpdated}"
+        mode="VIEW"
+    />
+    
+    <!-- Overwrite Quick Action Styling -->
+    <aura:html tag="style">
+        .modal-body {
+            padding: 0 0rem !important;
+        }
+        
+        .cuf-content {
+            padding: 0 0rem !important;
+        }
+        
+        .cuf-scroller-inside {
+            padding: 0 0rem !important;
+        }
+        
+        .slds-p-around--medium {
+            padding: 0rem !important;
+        }       
+        
+        .slds-modal__content{
+            overflow-y:hidden !important;
+            height:unset !important;
+            max-height:unset !important;
+        }
+
+        .slds-modal__close {
+            display: none;
+        }
+    </aura:html>
+    
+    <!-- Enquiry Form -->
+    <div class="slds-is-relative" style="height: 380px; background-color: #FFFFFF;">
+        <aura:if isTrue="{!v.showQuickEnquirySpinner}">
+            <lightning:spinner class="slds-align_absolute-center" variant="brand" />
+        </aura:if>
+        <!-- Display the new enquiry form -->
+        <div class="slds-hide" style="z-index: -2;">
+            <lightning:recordEditForm aura:id="quickCreateEnquiryForm"
+                                      objectApiName="Case"
+                                      onload="{!c.handleLoad}"
+                                      onsubmit="{!c.handleSubmit}"
+                                      onsuccess="{!c.handleSuccess}">
+                <lightning:messages />
+                <!-- Enquiry Type & Origin -->
+                <lightning:inputField aura:id="formEnquiryType" fieldName="Enquiry_Type__c" class="slds-size_1-of-2 slds-p-right_x-small" />
+                <lightning:inputField aura:id="formOrigin" fieldName="Origin" class="slds-size_1-of-2 slds-p-left_x-small" />
+                
+                <!-- Location Code Field -->
+                <lightning:inputField aura:id="formLocationCode" fieldName="Location_Code__c" />
+                
+                <!-- Related Contact -->
+                <lightning:inputField aura:id="formContactId" fieldName="ContactId" />
+            </lightning:recordEditForm>
+        </div>
+    </div>
+    <div class="notificationTitle slds-p-top_xx-small slds-p-bottom_large" style="background-color: #FFFFFF;">
+        <div>
+            <lightning:progressIndicator currentStep="{!v.progressCurrentStep}" type="base" variant="base" >
+                <lightning:progressStep value="1" />
+                <lightning:progressStep value="2" />
+                <lightning:progressStep value="3" />
+            </lightning:progressIndicator>
+        </div>
+        <div>
+            <span class="slds-align_absolute-center slds-text-title_caps" style="background-color: #FFFFFF;">
+                {!v.progressDescription}
+            </span>
+        </div>
+    </div>
+</aura:component>

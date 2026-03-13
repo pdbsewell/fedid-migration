@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>56.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <description>Check if the Custom Setting Bypass_Mute_Request__c.Bypass_All_Flows__c is checked, and entering criteria for send the Pronouns Change event</description>
+        <name>Check_Bypassing</name>
+        <label>Check Bypassing</label>
+        <locationX>182</locationX>
+        <locationY>335</locationY>
+        <defaultConnectorLabel>End Flow</defaultConnectorLabel>
+        <rules>
+            <name>Fire_Event</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Fire_PE_for_Pronoun_Changes</targetReference>
+            </connector>
+            <label>Fire Event</label>
+        </rules>
+    </decisions>
+    <description>Triggered when a Contact Pronouns change</description>
+    <environments>Default</environments>
+    <interviewLabel>Contact {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Contacts Pronouns Change</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>Fire PE for Pronoun Changes</description>
+        <name>Fire_PE_for_Pronoun_Changes</name>
+        <label>Fire PE for Pronoun Changes</label>
+        <locationX>50</locationX>
+        <locationY>455</locationY>
+        <inputAssignments>
+            <field>Action_Type__c</field>
+            <value>
+                <stringValue>Pronouns Change</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Is_Student__c</field>
+            <value>
+                <elementReference>$Record.Is_Student__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Person_Id__c</field>
+            <value>
+                <elementReference>$Record.Person_ID__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Pronouns__c</field>
+            <value>
+                <elementReference>$Record.Pronouns_V2__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>SAP_Staff_Id__c</field>
+            <value>
+                <elementReference>$Record.SAP_Staff_Id__c</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Outbound_Contact_Pronouns__e</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Bypassing</targetReference>
+        </connector>
+        <filterLogic>(1 OR 2) AND 3</filterLogic>
+        <filters>
+            <field>SAP_Staff_Id__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Person_ID__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Pronouns_V2__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>Contact</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

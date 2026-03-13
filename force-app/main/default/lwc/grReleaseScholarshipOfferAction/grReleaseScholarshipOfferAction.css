@@ -1,0 +1,63 @@
+/* General table styling */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: Arial, sans-serif;
+    /* font-size: 16px;
+    margin-top: 20px; */
+  }
+  
+  /* Table headers */
+  th {
+    background-color: #1874a5;
+    color: white;
+    text-align: left;
+    padding: 12px;
+  }
+  
+  /* Table rows */
+  td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  /* Alternating row colors */
+  tr:nth-child(even) {
+    background-color: #f9f9f9;
+  }
+  
+  /* Hover effect */
+  tr:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Responsive table */
+  @media (max-width: 600px) {
+    table, thead, tbody, th, td, tr {
+      display: block;
+      width: 100%;
+    }
+  
+    th {
+      display: none; /* Hide headers on small screens */
+    }
+  
+    tr {
+      margin-bottom: 10px;
+      border: 1px solid #ddd;
+    }
+  
+    td {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px;
+      text-align: right;
+    }
+  
+    td::before {
+      content: attr(data-label);
+      font-weight: bold;
+      text-transform: uppercase;
+      text-align: left;
+    }
+  }

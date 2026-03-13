@@ -1,0 +1,201 @@
+<!--Displays name, gender and DOB info as well as interest areas for a user-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller="PORTAL_UCIN_MyProfileController">
+    <aura:attribute name="contactBioDetails" type="Contact"/>
+    <aura:attribute name="userDetails" type="User"/>
+    <aura:attribute name="isEditing" type="Boolean"/>
+    <aura:attribute name="firstName" type="String"/>
+	<aura:attribute name="genderLabel" type="String"/>
+    <aura:attribute name="interestAreasList" type="List"/>
+    <aura:attribute name="salutationList" type="List"/>
+	<aura:attribute name="pronounList" type="List"/>
+    <aura:attribute name="contactMap" type="Map"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <div class="float-right pt-8 pr-4">
+        <lightning:icon iconName="utility:edit" class="modal-link" size="small" onclick="{!c.toggleEdit}"/>
+    </div>
+
+    <!--Name, gender, and DOB information-->
+    <div class="p-4 sm:p-6 text-dark-grey">
+        <h1 class="text-3xla sm:text-3xl sm:font-bold leading-bitmore py-3">About you</h1>
+        <div class="w-full border-solid border-dark-grey border-b-2"></div>
+        <div class="block relative w-full rounded overflow-hidden">
+            <table class="w-full">
+                <tr class="w-full border-solid border-grey border-b-2">
+                    <th class="py-1 lg:py-3 w-5/12 md:w-1/4 text-left text-xl lg:text-lg">Title</th>
+                    <td>
+                        <aura:if isTrue="{!v.isEditing}">
+                            <lightning:select class="w-full lg:w-9/12 my-2 sm:mr-1 label-hidden" aura:id="salutationList" name="salutationList" onchange="{!c.updateSalutation}">
+                                <option value="" selected="selected" hidden="hidden">{!v.contactMap.preferredName.Salutation__c}</option>    
+                                <aura:iteration items="{!v.salutationList}" var="salut">
+                                    <option value="{!salut}" text="{!salut}"></option>    
+                                </aura:iteration>
+                            </lightning:select>
+                            <aura:set attribute="else">
+                                {!v.contactMap.preferredName.Salutation__c}
+                            </aura:set>
+                        </aura:if>
+                    </td>
+                </tr>
+                <tr class="w-full border-solid border-grey border-b-2">
+                    <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">First name </th>
+                    <aura:if isTrue="{!v.isEditing}">
+                        <td>
+                            <lightning:input class="w-full lg:w-9/12 my-2 sm:mr-1 label-hidden text-xl lg:text-lg" 
+                                name="firstNameInput" aura:id="firstNameInput" value="{!v.contactMap.preferredName.First_Name__c}" onchange="{!c.updateText}"/>
+                        </td>
+                        <aura:set attribute="else">
+                            <td class="text-xl lg:text-lg">{!v.contactMap.preferredName.First_Name__c}</td>
+                        </aura:set>
+                    </aura:if>
+                </tr>
+                <!--<tr class="w-full border-solid border-grey border-b-2">
+                    <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Preferred name</th>
+                    <aura:if isTrue="{!v.isEditing}">
+                        <td>
+                            <lightning:input class="w-full lg:w-9/12 my-2 sm:mr-1 label-hidden text-xl lg:text-lg" 
+                                name="prefNameInput" aura:id="prefNameInput" value="{!v.contactBioDetails.Preferred_Name__c}" onchange="{!c.updateText}"/>
+                        </td>
+                        <aura:set attribute="else">
+                            <td class="text-xl lg:text-lg">{!v.contactBioDetails.Preferred_Name__c}</td>
+                        </aura:set>
+                    </aura:if>
+                </tr>-->
+                <tr class="w-full border-solid border-grey border-b-2">
+                    <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Last name </th>
+                    <aura:if isTrue="{!v.isEditing}">
+                        <td>
+                            <lightning:input class="w-full lg:w-9/12 my-2 sm:mr-1 label-hidden text-xl lg:text-lg" 
+                                name="lastNameInput" aura:id="lastNameInput" value="{!v.contactMap.preferredName.Last_Name__c}" onchange="{!c.updateText}"/>
+                        </td>
+                        <aura:set attribute="else">
+                            <td class="text-xl lg:text-lg">{!v.contactMap.preferredName.Last_Name__c}</td>
+                        </aura:set>
+                    </aura:if>
+                </tr>
+                <tr class="w-full border-solid border-grey border-b-2">
+                    <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Preferred name  </th>
+                    <aura:if isTrue="{!v.isEditing}">
+                        <td>
+                            <lightning:input class="w-full lg:w-9/12 my-2 sm:mr-1 label-hidden text-xl lg:text-lg" 
+                                name="preferredNameInput" aura:id="preferredNameInput" value="{!v.contactMap.contact.Preferred_Name__c}" onchange="{!c.updateText}"/>
+                        </td>
+                        <aura:set attribute="else">
+                            <td class="text-xl lg:text-lg">{!v.contactMap.contact.Preferred_Name__c}</td>
+                            {!v.contactMap.Preferred_Name__c}
+                        </aura:set>
+                    </aura:if>
+                </tr>
+				<tr class="w-full border-solid border-grey border-b-2">
+                    <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Pronoun</th>
+                    <td class="text-xl lg:text-lg">
+                        <aura:if isTrue="{!v.isEditing}">
+                            <lightning:select class="w-full lg:w-9/12 my-2 sm:mr-1 label-hidden" aura:id="pronounList" name="pronounList" onchange="{!c.updatePronoun}">
+                                <option value="" selected="selected" hidden="hidden">{!v.contactMap.contact.Pronouns_V2__c}</option>    
+                                <aura:iteration items="{!v.pronounList}" var="pronoun">
+                                    <option value="{!pronoun}" text="{!pronoun}"></option>    
+                                </aura:iteration>
+                            </lightning:select>
+                            <aura:set attribute="else">
+                                    {!v.contactMap.contact.Pronouns_V2__c}
+                            </aura:set>
+                        </aura:if>
+                    </td>
+                </tr>
+                <tr class="w-full border-solid border-grey border-b-2">
+                    <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Suffix</th>
+                    <aura:if isTrue="{!v.isEditing}">
+                        <td>
+                            <lightning:input class="w-full lg:w-9/12 my-2 sm:mr-1 label-hidden text-xl lg:text-lg"
+                                name="suffixInput" aura:id="suffixInput" value="{!v.contactMap.preferredName.Suffix__c}" onchange="{!c.updateText}"/>
+                        </td>
+                        <aura:set attribute="else">
+                            <td class="text-xl lg:text-lg">{!v.contactMap.preferredName.Suffix__c}</td>
+                        </aura:set>
+                    </aura:if>
+                </tr>
+                <tr class="w-full border-solid border-grey border-b-2">
+                    <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Gender</th>
+                    <td class="text-xl lg:text-lg">
+                        <aura:if isTrue="{!v.isEditing}">
+                            <lightning:select class="w-full lg:w-9/12 my-2 sm:mr-1 label-hidden text-xl lg:text-lg" name="genderList" aura:id="genderList" onchange="{!c.updateGender}">
+                                <option value="" selected="selected" hidden="hidden">{!v.genderLabel}</option> 
+                                <option value="U">Unknown</option>
+                                <option value="M">Male</option>
+                                <option value="F">Female</option>
+                                <option value="X">Non-binary</option>
+                                <option value="P">Prefer not to say</option>
+                            </lightning:select>
+                            <aura:set attribute="else">
+                                    {!v.genderLabel}
+                            </aura:set>
+                        </aura:if>
+                    </td>
+                </tr>
+                <tr class="w-full border-solid border-grey border-b-2">
+                    <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Date of Birth</th>
+                    <td><lightning:formattedDateTime class="text-xl lg:text-lg" value="{!v.contactBioDetails.Birthdate}" year="numeric" day="numeric" month="numeric" timeZone="Australia/Melbourne"/></td>
+                </tr>
+				<!--MONASH ID-->
+                <tr class="w-full border-solid border-grey border-b-2">
+                    <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Monash ID</th>
+                    <td class="text-xl lg:text-lg">{!v.contactMap.contact.Person_ID_unique__c}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <!--Areas of Interest-->
+    <div class="p-4 sm:p-6 text-dark-grey">
+        <h1 class="text-3xla sm:text-3xl sm:font-bold leading-bitmore">Your areas of interest</h1>
+        <div class="float-right pt-8 pr-4">
+            <lightning:icon iconName="utility:edit" class="modal-link" size="small" onclick="{!c.toggleEdit}"/>
+        </div>
+        <p class="w-full pb-8 text-xl lg:text-lg">Your selections will allow us to deliver targeted content both within the portal and via our direction communications. <br/>Please choose your top three areas of interest.</p>
+        <div class="block relative w-full rounded overflow-hidden">
+            <div class="w-full border-solid border-dark-grey border-b-2"></div>
+            <table class="w-full">
+                <tbody>
+                    <aura:iteration items="{!v.interestAreasList}" var="area">
+                        <tr class="w-full border-solid border-grey border-b-2">
+                            <td class="w-full py-1 pl-0 lg:pl-32">
+                                <div class="w-full flex flex-row items-center">
+                                    <label class="w-full text-xl lg:text-lg" for="aoe-cdapo">
+                                        {!area.label}
+                                    </label>
+                                    <input class="w-4 h-4 ml-4 lg:mr-4 text-xl lg:text-lg" type="checkbox" id="{!area.label}" checked="{!area.filled}" name="interest-areas" disabled="{!not(v.isEditing)}" onclick="{!c.toggleCheck}" />
+                                </div>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--About Me-->
+    <!--
+    <div class="p-4 sm:p-6 text-dark-grey">
+        <h1 class="text-3xla sm:text-3xl sm:font-bold leading-bitmore">About Me</h1>
+        <div class="block relative w-full rounded overflow-hidden">
+            <div class="w-full mb-3 border-solid border-dark-grey border-b-2"></div>
+            <table class="w-full">
+                <tbody>
+                    <tr>
+                        <td class="text-xl lg:text-lg">
+                            <aura:if isTrue="{!v.isEditing}">
+                                <ui:inputTextArea aura:id="aboutme" value="{!v.userDetails.AboutMe}" change="{!c.updateText}" rows="5" class="text-xl lg:text-lg"/>
+                                <aura:set attribute="else">
+                                    {!v.userDetails.AboutMe}
+                                </aura:set>
+                            </aura:if>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    -->
+
+</aura:component>

@@ -1,0 +1,19 @@
+<aura:component description="UploadCampaignMemberRecordsQuickAction" implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+    <aura:html tag="style">
+        .cuf-content {
+            padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+            padding: 0rem !important;
+        }
+        .slds-modal__content{
+            height:unset !important;
+            max-height:unset !important;
+        }
+        .slds-modal__container {
+            max-width: 60rem !important;
+            width: 80% !important;
+        }
+    </aura:html>
+    <c:uploadCampaignMemberRecords campaignId="{!v.recordId}" onclose="{!c.closeMethodInAuraController}"></c:uploadCampaignMemberRecords>
+</aura:component>

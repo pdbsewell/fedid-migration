@@ -1,0 +1,143 @@
+<!--
+ * @description       : Aura components that is invoked via case quickAction (ProcessCourseIntermission).
+                        Process steps are identical for processing intermission requests for semesters or trimesters.
+ * @author            : Angelo Rivera
+ * @group             : Student Admin
+ * @last modified on  : 2021-05-05
+ * @last modified by  : Angelo Rivera
+ * Modifications Log
+ * Ver   Date         Author          Modification
+ * 1.0   2021-05-05 - Angelo Rivera - Initial Creation
+ * 1.1   2021-05-18 - Angelo Rivera - SA-479 Make enrolmentExceptions optional
+ * 1.2   2021-06-24 - Iderpal Dhanoa - SA-667 Add reason in Payload
+ * 1.3   2021-06-24 - Inderpal Dhanoa - Add secondaryReasonFreeText to payload MCT-54
+ -->
+
+<aura:component description="Process steps are identical for processing intermission requests for semesters or trimesters."
+                implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes"
+                access="global"
+                controller="ProcessCourseIntermissionCC">
+
+    <!-- attributes -->
+    <aura:attribute name="showForm" type="Boolean" default="true"/>
+    <aura:attribute name="showSecondaryReasonFreeText" type="Boolean" default="false"/>
+    <aura:attribute name="showSpinner" type="Boolean"/>
+    <aura:attribute name="personId" type="Map"/>
+    <aura:attribute name="courseCodeList" type="Map"/>
+    <aura:attribute name="courseCode" type="String"/>
+    <aura:attribute name="secondaryReasonList" type="List"/>
+    <aura:attribute name="secondaryReason" type="String"/>
+    <aura:attribute name="secondaryReasonFreeText" type="String"/>
+    <aura:attribute name="startDate" type="Date"/>
+    <aura:attribute name="endDate" type="Date"/>
+    <aura:attribute name="isEsos" type="Boolean" default="false"/>
+    <aura:attribute name="enrolmentExceptions_acadYear" type="String"/>
+    <aura:attribute name="enrolmentExceptions_minValue" type="String"/>
+    <aura:attribute name="enrolmentExceptions_maxValue" type="String"/>
+    <aura:attribute name="disableButton" type="Boolean" default="true"/>
+    <aura:attribute name="validEmail" type="Boolean" default="true"/>
+    <aura:attribute name="calendarValueList" type="Map"/>
+    <aura:attribute name="selectedCalendar" type="String"/>
+    <aura:attribute name="enableDatePicker" type="Boolean" default="false"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <!-- spinner -->
+    <aura:if isTrue="{!v.showSpinner}">
+        <div class="backgroundInverse slds-align-middle">
+            <lightning:spinner alternativeText="Loading" variant="inverse">Sending Data...</lightning:spinner>
+        </div>
+        <div class="slds-text-align_center slds-text-heading_medium slds-p-top_small">{!$Label.c.Process_Intermission_Intro}...</div>
+    </aura:if>
+    <aura:if isTrue="{!v.showForm}">
+        <!-- Email is invalid so do not render the form -->
+        <aura:if isTrue="{!!v.validEmail}">
+            {!$Label.c.Monash_Connect_Email_Missing}
+        </aura:if>
+         <!-- Email is valid render details -->
+        <aura:if isTrue="{!v.validEmail}">
+            <lightning:card class="center-text">
+                <aura:set attribute="title">
+                    <div style="margin-left: 180px;">{!$Label.c.Process_Intermission_Title}</div>
+                </aura:set>
+    
+                <aura:set attribute="footer">
+                    <div style="float: right">
+                        <lightning:button variant="brand" label="Submit" title="Submit" onclick="{! c.sendCallout }" disabled="{!v.disableButton}"/>
+                    </div>
+                </aura:set>
+                
+                <div class="row">
+                    <lightning:select aura:id="courseCode" value="{!v.courseCode}" onchange="{! c.handleChangeCourse }" name="courseCodeList" label="Course Code" required="true">
+                        <option value="">--None--</option>
+                        <aura:iteration items="{!v.courseCodeList}" var="ind" indexVar="key">
+                            <option label="{!ind.key}" value="{!ind.value}" selected="{!ind.value==v.courseCode}"></option>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+                
+                <div class="row">
+                    <lightning:select aura:id="courseCode" value="{!v.secondaryReason}" onchange="{! c.handleChangeSecondaryReason }" name="secondaryReasonList" label="Reason Code" required="true">
+                        <option value="">--None--</option>
+                        <aura:iteration items="{!v.secondaryReasonList}" var="ind" indexVar="key">
+                            <option label="{!ind}" value="{!ind}" selected="{!ind.value==v.secondaryReason}"></option>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+                <aura:if isTrue="{!v.showSecondaryReasonFreeText}">
+                    <!--Render section only if the User selects the secondary reason as "Other"-->
+                    <div class="row">
+                        <lightning:input type="text" name="enrolmentExceptions" label="Description"  value="{! v.secondaryReasonFreeText }" required="true" maxlength="100"
+                                        placeholder="Please enter description ... " onchange="{! c.handleChangeSecondaryReasonFreeText }"/>
+                    </div>
+                </aura:if>
+                
+                <div class="slds-table_column-1-wrap">
+                    <lightning:input type="date" name="startDate" label="{!$Label.c.Process_Intermission_Label_Start_Date}" value="{! v.startDate }" onchange="{! c.handleChangeStartDate }" required="true" placeholder="Pick a date"/>
+                </div>
+                <br/> 
+                <aura:if isTrue="{!!v.enableDatePicker}">
+                    <div class="row">
+                        <lightning:select aura:id="calendarCode" value="{!v.selectedCalendar}" onchange="{! c.handleCalendarChangeCourse}" name="calendarCodeList" label="Return Semester" required="true"> <!---->
+                            <option value="">--None--</option>
+                            <aura:iteration items="{!v.calendarValueList}" var="cal" indexVar="key">
+                                <option label="{!cal.key}" value="{!cal.value}" selected="{!cal.value==v.selectedCalendar}"></option>
+                            </aura:iteration>
+                        </lightning:select>
+                    </div>
+                </aura:if>
+                
+                <aura:if isTrue="{!v.enableDatePicker}">
+                    <div class="slds-table_column-1-wrap">
+                        <lightning:input type="date" name="endDate" label="{!$Label.c.Process_Intermission_Label_End_Date}" value="{! v.endDate }" onchange="{! c.handleChangeEndDate }" required="true"  placeholder="Pick a date" />
+                    </div>
+                </aura:if>
+			    <div class="slds-p-top_medium slds-table_column-1-wrap">
+                    <lightning:input type="checkbox" aura:id="enableDatePicker" value="{!v.enableDatePicker}" label="Select to manually choose a date using a date picker/calendar" onchange="{!c.onChangeEnableDatePicker}"/>
+                </div>
+                <div class="slds-table_column-1-wrap">
+                    <lightning:input type="text" name="isEsos" label="{!$Label.c.Process_Intermission_Label_Esos}" readonly="true" value="{!if(v.isEsos,'Yes','No')}" />
+                </div>
+                <br/>
+                <div>
+                    <div class="slds-box slds-box_small">
+                        <p>{!$Label.c.ProcessCourseInformation_EnrolException}</p>
+                    </div>
+                </div>
+                <div class="slds-table_column-1-wrap">
+                <span><lightning:input type="text" name="enrolmentExceptions" label="{!$Label.c.Process_Intermission_Label_Exception}"  value="{! v.enrolmentExceptions_acadYear }"
+                                       placeholder="{!$Label.c.Process_Intermission_Placeholder_Exception}" onchange="{! c.handleChangeException }"
+                    /></span>
+                    <span><lightning:input type="text" name="enrolmentExceptions" label=""  value="{! v.enrolmentExceptions_minValue }"
+                                           placeholder="{!$Label.c.Process_Intermission_Label_Exception2}" onchange="{! c.handleChangeException }"
+                        /></span>
+                    <span><lightning:input type="text" name="enrolmentExceptions" label=""  value="{! v.enrolmentExceptions_maxValue }"
+                                           placeholder="{!$Label.c.Process_Intermission_Label_Exception3}" onchange="{! c.handleChangeException }"
+                        /></span>
+                </div>
+            </lightning:card>
+        </aura:if>
+       
+
+    </aura:if>
+</aura:component>

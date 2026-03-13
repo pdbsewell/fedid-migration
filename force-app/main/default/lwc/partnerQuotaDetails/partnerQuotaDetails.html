@@ -1,0 +1,27 @@
+<template>
+    <template if:true={exchangeAgreement}> 
+        <div class="c-container">
+            <lightning-layout class="slds-align_absolute-center">
+                <lightning-layout-item padding="around-small">
+                    <div class="header-column">
+                        <p class="field-title" title="Field 1">QUOTA</p>
+                        <p class="slds-text-heading_large">{quota}</p>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small">
+                    <div class="header-column">
+                        <p class="field-title" title="Field 1">REMAINING</p>
+                        <p class="slds-text-heading_large">{remainingQuota}</p>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small">
+                    <div class="header-column">
+                        <p class="field-title" title="Field 1">EXPIRY DATE</p>
+                        <p class="slds-text-heading_large">{expiryDate}</p>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </template>
+    
+</template>

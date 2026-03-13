@@ -1,0 +1,160 @@
+<!--The body of the Get Involved page. Contains tabs for available opportunities, a user's opportunities, and settings-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="PORTAL_UCIN_GetInvolvedController">
+	<ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}"/>
+
+    <!--Attributes which indicate the tab being displayed-->
+	<aura:attribute name="showAvailableOpportunities" type="Boolean" Default="true"/>
+    <aura:attribute name="showMyOpportunities" type="Boolean"/>
+    <aura:attribute name="showMyPreferences" type="Boolean"/>
+    <aura:attribute name="searchText" type="String"/>
+    <!--Attribute to determine whether to show all opportunities or a user's-->
+    <aura:attribute name="sharing" type="String" default="All"/>
+    <!--The list of volunteer jobs to display-->
+    <aura:attribute name="volunteerJobList" type="List"/>
+    <aura:attribute name="loaded" type="Boolean" default="true" />
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+	<div class="bg-gray-mon max-w-1300 m-auto slds-is-relative">	
+        <!-- Spinner -->
+		<div>
+			<aura:if isTrue="{!!v.loaded }">
+				<lightning:spinner alternativeText="Loading" />
+			</aura:if>
+        </div>
+        
+		<div class="lg:px-6 pt-6 lg:pb-6 bg-white">
+			<div class="bg-white">
+                <!--The 3 tabs: Available opportunities, a user's registered opportunities, and user preferences-->
+				<ul class="flex w-full text-3xl font-body max-w">
+					<li class="block flex-1 cursor-pointer text-black font-bold py-4 px-4 text-left hover:text-blue focus:outline-none 
+                               text-blue border-t-4 text-2xl border-blue bg-gray-mon w-1/2 md:max-w-1/3 lg:max-w-1/5 leading-none" onclick="{!c.goToTab}" data-componentName="showAvailableOpportunities" aura:id="showAvailableOpportunities">
+                        Available<br/>opportunities
+					</li>
+					<li class="block flex-1 cursor-pointer text-black font-bold py-4 px-4 ml-3 text-left hover:text-blue focus:outline-none 
+                               border-b-4 text-2xl border-dark-grey w-1/2 md:max-w-1/3 lg:max-w-1/5 leading-none" onclick="{!c.goToTab}" data-componentName="showMyOpportunities" aura:id="showMyOpportunities">
+						My<br/>opportunities
+                    </li>
+					<li class="hidden sm:block flex-1 text-black w-full font-bold py-4 px-2 ml-3 text-left hover:text-blue focus:outline-none border-b-4 border-dark-grey">
+					</li>
+				</ul>
+            </div>
+            <aura:if isTrue="{!not(v.showMyPreferences)}">
+                <aura:if isTrue="{!v.showAvailableOpportunities}">
+                    <div class="full flex px-4 sm:px-6 lg:px-0 sm:pt-6 lg:pt-0">
+                        <input class="w-full lg:w-9/12 mt-6 sm:mb-6 p-2 border-solid border-grey border text-2xl lg:text-lg" name="searchbox" aura:id="searchbox" value="{!v.searchText}" onchange="{!c.updateSearchText}" placeholder="Browse/filter by area of interest"/>
+                        <button class="mt-6 sm:mb-6 border-2 border-blue px-8 py-0 ml-3 bg-white text-blue hover:text-white hover:bg-blue font-bold leading-loose text-2xl lg:text-lg ucin-button" onclick="{!c.searchByInterest}">Search</button>
+                    </div>
+                </aura:if>
+                
+                <!--Show the list of opportunities, with slight differences between Available and My-->
+                <div class="flex w-full h-full flex-wrap justify-between bg-gray-mon lg:bg-white mt-1">
+                    <aura:iteration items="{!v.volunteerJobList}" var="volunteerJob">
+                        <div class="w-full flex flex-wrap justify-between sm:w-1/2-spaced lg:w-full ">
+                            <div class="sm:w-full w-full mb-4 lg:mb-6">
+                                <div class="relative h-full bg-white">
+                                    <div class="flex w-full h-full align-start lg:border-solid lg:border-dark-grey lg:border border-solid border-b-4 border-pink-600 sm:shadow-lg lg:shadow-none">
+                                        <span class="absolute w-1/3 lg:border-solid lg:border-t-4 lg:border-green"></span>
+                                        <div class="flex flex-col sm:block flex-1 px-4 sm:px-6 py-6 w-2/3">
+                                            <h3 class="text-dark-grey text-3xl sm:text-h3xl leading-bitmore sm:leading-tight font-bold dark-grey">{!volunteerJob.Name}</h3>
+                                            <aura:if isTrue="{!volunteerJob.Header_Image_from_URL__c != null}">
+                                                <div class="w-full self-center">
+                                                    <img class="w-full lg:w-auto h-auto" src="{!volunteerJob.Header_Image_from_URL__c}" alt="Monash University Alumni Portal" />
+                                                </div>
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.sharing == 'Me'}">
+                                                <div class="pt-4 pb-12 text-lg font-body leading-normal text-primary">
+                                                    <table class='w-full my-8 text-left text-base leading-snug text-primary font-sans'>
+                                                        <tbody>
+                                                            <tr>
+                                                                <th class="w-1/5 font-bold text-xl lg:text-lg pb-2 align-top">Status:</th>
+                                                                <td class="text-xl lg:text-lg align-top pb-4 pl-4">{!volunteerJob.Volunteer_Hours__r[0].Status__c}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="w-1/5 font-bold text-xl lg:text-lg pb-2 align-top">DATE:</th>
+                                                                <aura:if isTrue="{!not(empty(volunteerJob.End_Date__c))}">
+                                                                    <td class="text-xl lg:text-lg align-top pb-4 pl-4"><lightning:formattedDateTime value="{!volunteerJob.Start_Date__c}" year="numeric" day="numeric" month="short" weekday="short" timeZone="Australia/Melbourne"/> - 
+                                                                        <lightning:formattedDateTime value="{!volunteerJob.End_Date__c}" year="numeric" day="numeric" month="short" weekday="short" timeZone="Australia/Melbourne"/></td>
+                                                                    <aura:set attribute="else">
+                                                                            <td class="text-xl lg:text-lg align-top pb-4 pl-4"><lightning:formattedDateTime value="{!volunteerJob.Start_Date__c}" year="numeric" month="short" day="numeric" weekday="short" timeZone="Australia/Melbourne"/></td>
+                                                                    </aura:set>
+                                                                </aura:if>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="w-1/5 font-bold text-xl lg:text-lg pb-2 align-top">LOCATION:</th>
+                                                                <!--<aura:if isTrue="{!volunteerJob.Location_Street__c == 'Online'}">
+                                                                    <td class="text-xl lg:text-lg align-top pb-4 pl-4">{!volunteerJob.Location_Street__c}</td>
+                                                                    <aura:set attribute="else">
+                                                                        <td class="text-xl lg:text-lg align-top pb-4 pl-4">{!volunteerJob.Location_Street__c}, {!volunteerJob.Location_City__c}, {!volunteerJob.Country__c}</td>
+                                                                    </aura:set>
+                                                                </aura:if>-->
+                                                                <td class="text-xl lg:text-lg align-top pb-4 pl-4">{!volunteerJob.fullLocation}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th class="w-1/5 font-bold text-xl lg:text-lg pb-2 align-top">AREAS OF INTEREST:</th>
+                                                                <td class="text-xl lg:text-lg align-top pb-4 pl-4" style="white-space:pre-wrap; word-wrap:break-word">{!volunteerJob.Areas_of_Interest__c}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                                <aura:set attribute="else">
+                                                    <div class="pt-4 pb-12 text-xl lg:text-lg font-body leading-normal text-primary">
+                                                        <!--<aura:unescapedHtml value="{!volunteerJob.Description__c}"/>-->
+                                                        <lightning:formattedRichText value="{!volunteerJob.Description__c}"/>
+                                                        <table class='w-full my-8 text-left text-base leading-snug text-primary font-sans'>
+                                                            <tbody>
+                                                                <tr>
+                                                                    <th class="w-1/5 font-bold text-xl lg:text-lg pb-2 align-top">DATE:</th>
+                                                                    <aura:if isTrue="{!not(empty(volunteerJob.End_Date__c))}">
+                                                                        <td class="text-xl lg:text-lg align-top pb-4 pl-4"><lightning:formattedDateTime value="{!volunteerJob.Start_Date__c}" year="numeric" day="numeric" month="short" weekday="short"/> - 
+                                                                            <lightning:formattedDateTime value="{!volunteerJob.End_Date__c}" year="numeric" day="numeric" month="short" weekday="short"/></td>
+                                                                        <aura:set attribute="else">
+                                                                                <td class="text-xl lg:text-lg align-top pb-4 pl-4"><lightning:formattedDateTime value="{!volunteerJob.Start_Date__c}" year="numeric" month="short" day="numeric" weekday="short"/></td>
+                                                                        </aura:set>
+                                                                    </aura:if>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="w-1/5 font-bold  text-xl lg:text-lg pb-2 align-top">LOCATION:</th>
+                                                                    <!--<aura:if isTrue="{!volunteerJob.Location_Street__c == 'Online'}">
+                                                                        <td class="text-xl lg:text-lg align-top pb-4 pl-4">{!volunteerJob.Location_Street__c}</td>
+                                                                        <aura:set attribute="else">
+                                                                            <td class="text-xl lg:text-lg align-top pb-4 pl-4">{!volunteerJob.Location_Street__c}, {!volunteerJob.Location_City__c}, {!volunteerJob.Country__c}</td>
+                                                                        </aura:set>
+                                                                    </aura:if>-->
+                                                                    <td class="text-xl lg:text-lg align-top pb-4 pl-4">{!volunteerJob.fullLocation}</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th class="w-1/5 font-bold text-xl lg:text-lg pb-2 align-top">AREAS OF INTEREST:</th>
+                                                                    <td class="text-xl lg:text-lg align-top pb-4 pl-4" style="white-space:pre-wrap; word-wrap:break-word">{!volunteerJob.Areas_of_Interest__c}</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </aura:set>
+                                            </aura:if>
+                                        </div>
+                                        <aura:if isTrue="{!volunteerJob.Header_Image_from_URL__c != null}">
+                                            <div class="slds-hide lg:flex-initial h-full lg:inline-block self-center">
+                                                <img class="h-full object-cover" src="{!volunteerJob.Header_Image_from_URL__c}" alt="Monash University Alumni Portal"/>
+                                            </div>
+                                        </aura:if>
+                                    </div>
+                                    <aura:if isTrue="{!v.sharing != 'Me'}">
+                                       <aura:if isTrue="{!volunteerJob.Volunteer_Hours__r != null}">
+                                            <aura:set attribute="else">
+                                                <!--Button to open a modal which will register them for the volunteer job-->
+                                                <a class="absolute bottom-1.5rem bg-white border-blue border-solid border-2 px-10 py-1 ml-4 sm:ml-6 font-semibold text-blue hover:text-blue text-xl lg:text-lg ucin-button" href="" id="{!volunteerJob.Id}" onclick="{!c.openSignupModal}"><span>Express Interest</span></a>
+                                            </aura:set>
+                                        </aura:if>
+                                    </aura:if>
+                                </div>
+                            </div>
+                        </div>
+                    </aura:iteration>
+                </div>
+            </aura:if>
+		</div>
+	</div>
+</aura:component>

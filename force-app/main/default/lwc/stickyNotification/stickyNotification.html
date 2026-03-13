@@ -1,0 +1,18 @@
+<!--
+  @File Name          : stickyNotification.html
+  @Description        : 
+  @Author             : Nick Guia
+  @Group              : Commons
+-->
+<template>
+    <div class="slds-notify_container slds-is-relative toast-style">
+        <div class={notifyTheme} role="status">
+            <span class="slds-icon_container slds-icon-utility-info slds-m-right_small slds-no-flex slds-align-top">
+                <slot name="icon"></slot>
+            </span>
+            <div class="slds-notify__content">
+                <slot name="content"></slot>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,204 @@
+<template>
+    <div class="slds-is-relative">
+        <template if:true={loadingData}>
+            <div style="height: 100vh;">
+                <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+            </div>
+        </template>
+        <template if:false={loadingData}>
+            <div style="height: 100vh;">
+                <div class="slds-p-around_small" style="overflow: initial;">
+                    <!-- alerts section -->
+                    <template if:true={showAlerts}>
+                        <!-- checklist created alert -->
+                        <template if:true={showChecklistCreatedSuccess}>  
+                            <div class="slds-notify slds-notify_alert slds-theme_alert-texture" role="alert" style="color: #fff;background-color: #04844B;border-radius: .25rem;margin-bottom: .5rem;">
+                                <span class="slds-m-right_x-small">
+                                    <lightning-icon icon-name="utility:success" alternative-text="Checklist successfully created!" variant="inverse" size="small"></lightning-icon>
+                                </span>
+                                <h2>Checklist successfully created!</h2>
+                            </div>
+                        </template>
+                        <!-- document updated success -->
+                        <template if:true={showFileUpdateSuccess}>      
+                            <div class="slds-notify slds-notify_alert slds-theme_alert-texture" role="alert" style="color: #fff;background-color: #04844B;border-radius: .25rem;margin-bottom: .5rem;">
+                                <span class="slds-m-right_x-small">
+                                    <lightning-icon icon-name="utility:success" alternative-text="Checklist successfully created!" variant="inverse" size="small"></lightning-icon>
+                                </span>
+                                <h2>Successfully saved the document!</h2>
+                            </div>
+                        </template>
+                        <!-- document updated error -->
+                        <template if:true={showFileUpdateError}>      
+                            <div class="slds-notify slds-notify_alert slds-theme_alert-texture" role="alert" style="color: #fff;background-color: #c23934;border-radius: .25rem;margin-bottom: .5rem;">
+                                <span class="slds-m-right_x-small">
+                                    <lightning-icon icon-name="utility:error" alternative-text="There was an error saving the document. Please contact the system administrator." variant="inverse" size="small"></lightning-icon>
+                                </span>
+                                <h2>
+                                    There was an error saving the document.<br/>
+                                    Please contact the system administrator.
+                                </h2>
+                            </div>
+                        </template>
+                    </template>
+                    <!-- header section -->
+                    <article class="slds-card slds-card_boundary" style="box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10);">
+                        <div class="slds-card__header slds-grid">
+                            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                <div class="slds-media__body">
+                                    <span class="slds-card__header-title">
+                                        <lightning-layout multiple-rows>
+                                            <!-- application -->
+                                            <lightning-layout-item size="12">
+                                                <lightning-layout>
+                                                    <!-- application -->
+                                                    <lightning-layout-item size="9">
+                                                        <span class="slds-text-heading_medium" style="word-wrap: break-word;">{checklistApplicant}</span>
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item size="3" alignment-bump="left">
+                                                        <div class="slds-text-body_regular slds-float_right">
+                                                            <span class="slds-m-right_xx-small">
+                                                                <lightning-button-icon icon-name="utility:refresh" onclick={refreshFiles}></lightning-button-icon>
+                                                            </span>
+                                                            <lightning-button-menu alternative-text="Create Checklist Item" menu-alignment="right" onselect={handleMenuAction}>
+                                                                <!-- new checklist -->
+                                                                <lightning-menu-item label="New Checklist" value="newChecklist" disabled={isNewDisabled}></lightning-menu-item>
+                                                                    
+                                                                <template if:true={applicationId}>
+                                                                    <!-- new checklist assessment relevant -->
+                                                                    <lightning-menu-item label={gteLabel} value="gteChecklistItem" disabled={gteExist}></lightning-menu-item>
+                                                                    <lightning-menu-item label={courseRequirementLabel} value="courseRequirementChecklistItem" disabled={courseRequirementExist}></lightning-menu-item>
+                                                                    <lightning-menu-item label="New Qualification" value="newQualification" disabled></lightning-menu-item>
+                                                                </template>
+                                                            </lightning-button-menu>
+                                                        </div>
+                                                    </lightning-layout-item>
+                                                </lightning-layout>
+                                            </lightning-layout-item>
+                                            <!-- applicant -->
+                                            <lightning-layout-item size="12">
+                                                <lightning-layout>
+                                                    <!-- applicant -->
+                                                    <lightning-layout-item>
+                                                        <span class="slds-text-heading_small">{checklistApplication}</span>
+                                                    </lightning-layout-item>
+                                                </lightning-layout>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </span>
+                                </div>
+                            </header>
+                        </div>
+                        <div class="slds-card__body slds-card__body_inner slds-border_top slds-p-top_x-small">
+                            <!-- card body -->
+                            <p class="slds-text-heading_small slds-p-top_xxx-small">
+                                <lightning-layout>
+                                    <!-- applicant -->
+                                    <lightning-layout-item>
+                                        <span class="slds-text-heading_small slds-text-link" style="cursor: context-menu; text-decoration: none;">{checklistName}</span>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item alignment-bump="left">
+                                        <!-- comments notification -->
+                                        <template if:true={commentNotification}>
+                                            <lightning-badge class={commentNotificationClass} label={commentNotification} onclick={showCommentsWindow}></lightning-badge>
+                                        </template>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </p>
+                        </div>
+                    </article>
+                </div>
+                <!-- documents section -->
+                <!--<article class="slds-card slds-card_boundary" style="height: 80vh; overflow-y: auto; box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10);">-->
+                    <!--<div class="slds-card__body slds-card__body_inner">-->
+                    <div class="slds-p-horizontal_small">
+                        <template for:each={documentItems} for:item='documentItem'>
+                            <div key={documentItem.contentDocumentId} class="slds-p-vertical_x-small">
+                                <c-document-viewer-checklist-file 
+                                    document-item={documentItem}
+                                    selected-contact-document-id={selectedContactDocumentId}
+                                    checklists-map={checklistsMap}
+                                    checklist-document-types-map={checklistDocumentTypesMap}
+                                    linked-contact-qualictn={linkedContactQualictn}
+                                    page-count={pageCount}
+                                    onselectdocument={handleSelectDocument}
+                                    onchangechecklist={handleChangedChecklist}
+                                    onupdatedocument={handleUpdatedDocument}
+                                    onrequestsplit={handleRequestSplit}
+                                    onrefreshdocuments={refreshFiles}>
+                                </c-document-viewer-checklist-file>
+                            </div>
+                        </template>
+                    </div>
+                    <!--</div>-->
+                <!--</article>-->
+            </div>
+        </template>
+    </div>
+
+    <!-- new checklist -->
+    <template if:true={showChecklistCreationForm}>
+        <!-- assessment checklist creation -->
+        <template if:true={applicationId}>
+            <c-document-checklist-assessment-internal-create-form 
+                oncancel={hideChecklistForm}
+                onsubmit={submittedChecklistForm}
+                application-id={applicationId}
+                applicant-id={applicantId}
+                checklist-name={newChecklistName}
+                checklist-help-text={checklistHelpText}
+                checklist-sort-order={checklistSortOrder}
+                checklist-new-status={checklistNewStatus}
+                checklist-type={checklistType}
+                checklist-unique-key={checklistUniqueKey}
+                checklist-comments={checklistComments}
+                disabled-checklist-name={disabledChecklistName}>                                                
+            </c-document-checklist-assessment-internal-create-form>
+        </template>
+        <!-- offer acceptance checklist creation -->
+        <template if:true={opportunityId}>
+            <c-document-checklist-offer-acceptance-internal-create-form 
+                oncancel={hideChecklistForm}
+                onsubmit={submittedChecklistForm}
+                opportunity-id={opportunityId}
+                applicant-id={applicantId}
+                checklist-name={newChecklistName}
+                checklist-help-text={checklistHelpText}
+                checklist-sort-order={checklistSortOrder}
+                checklist-new-status={checklistNewStatus}
+                checklist-type={checklistType}
+                checklist-unique-key={checklistUniqueKey}
+                checklist-comments={checklistComments}
+                disabled-checklist-name={disabledChecklistName}>                                                
+            </c-document-checklist-offer-acceptance-internal-create-form>
+        </template>
+    </template>
+
+    <!-- comments -->
+    <template if:true={showComments}>
+        <!-- assessment checklist creation -->
+        <template if:true={applicationId}>
+            <c-document-checklist-assessment-internal-comment-list 
+                onclose={hideCommentsWindow}
+                comment-items={commentItems}
+                checklist-requirement={checklistName}
+                assessor-view="true"
+                show-new-comment={showNewComment}
+                show-mark-as-not-required-confirmation={showMarkAsNotRequiredConfirmation}
+                is-comments-opened={isCommentsOpened}>            
+            </c-document-checklist-assessment-internal-comment-list>
+        </template>
+        <!-- offer acceptance checklist creation -->
+        <template if:true={opportunityId}>
+            <c-document-checklist-offer-acceptance-internal-comment-list 
+                onclose={hideCommentsWindow}
+                comment-items={commentItems}
+                checklist-requirement={checklistName}
+                assessor-view="true"
+                show-new-comment={showNewComment}
+                show-mark-as-not-required-confirmation={showMarkAsNotRequiredConfirmation}
+                is-comments-opened={isCommentsOpened}>            
+            </c-document-checklist-offer-acceptance-internal-comment-list>
+        </template>
+    </template>
+</template>

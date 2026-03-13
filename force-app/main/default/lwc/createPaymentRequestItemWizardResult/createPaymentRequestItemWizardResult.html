@@ -1,0 +1,36 @@
+<template>
+    <article class={cardClass} style="box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10);" onclick={toggleSelected}>
+        <div class="slds-card__header slds-grid">
+            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                <div class="slds-media__body">
+                    <div class="slds-card__header-title" style="text-decoration: none;">                        
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item size="12">   
+                                <div><b>{courseAttempt.Contact_Person_Id__c} • {courseAttempt.Contact_Name__c}</b></div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                </div>
+            </header>
+        </div>
+        <div class="slds-card__body slds-card__body_inner">
+            <!-- card body -->
+            <div class="slds-text-body_regular">
+                <!-- commencement date -->
+                <lightning-layout-item size="12">                                                                    
+                    <lightning-layout>
+                        <lightning-layout-item size="4">Course Title:</lightning-layout-item>
+                        <lightning-layout-item size="8">{courseAttempt.Course_Title__c}</lightning-layout-item>
+                    </lightning-layout>
+                </lightning-layout-item>
+                <!-- commencement date -->
+                <lightning-layout-item size="12">                                                                    
+                    <lightning-layout>
+                        <lightning-layout-item size="4">Commencement Date:</lightning-layout-item>
+                        <lightning-layout-item size="8">{courseAttempt.Commencement_Date__c}</lightning-layout-item>
+                    </lightning-layout>
+                </lightning-layout-item>
+            </div>            
+        </div>
+    </article>
+</template>

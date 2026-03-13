@@ -1,0 +1,106 @@
+<!--
+  @File Name          : offerHealthInsurance.html
+  @Description        : 
+  @Author             : jasmin.rudio@monash.edu
+  @Group              : 
+  @Last Modified By   : jasmin.rudio@monash.edu
+  @Last Modified On   : 3/2/2020, 2:05:41 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    2/17/2020   jasmin.rudio@monash.edu     Initial Version
+-->
+<template>
+  <template if:true={showSpinner}>
+    <lightning-spinner></lightning-spinner>
+  </template>
+
+  <template if:true={isLoaded}>
+    <div if:true={content} class="oshc-content">
+      <lightning-formatted-rich-text value={content}></lightning-formatted-rich-text>
+    </div>
+
+    <p style="font-size: 28px;" class="form__section">Select your OSHC</p>
+
+    <p class="">
+      <!--<lightning-combobox
+        name=""
+        label=""
+        placeholder=""
+        options={comboOptions}
+        disabled={comboDisabled}
+        value={comboSelectedValue}
+        onchange={handleDDLChange}
+        class="oshc-combo-box"
+      ></lightning-combobox>-->
+      <lightning-radio-group name=""
+                          label=""
+                          placeholder=""
+                          options={comboOptions}
+                          disabled={comboDisabled}
+                          value={comboSelectedValue}
+                          onchange={handleDDLChange}
+                          onclick={handleDDLChange}
+                          type="radio">
+      </lightning-radio-group>
+    </p>
+
+    <div if:true={isThroughMonash}>
+      <p class="form__section"><b>How many people to be covered?</b></p>
+      <div class="slds-form-element__control">
+        <template for:each={radioOptions} for:item="radioOption">
+          <c-offer-health-option
+            key={radioOption.value}
+            radio-option={radioOption}
+            radio-disabled={radioDisabled}
+            selected-value={radioSelectedValue}
+            onselect={handleRadioChange}
+          ></c-offer-health-option>
+        </template>
+      </div>
+    </div>
+
+    <div if:true={showWarning}>
+      <div>Provider Name</div>
+      <input type="text" class="providerInput" value={providerName} onkeyup={onProviderNameChange} />
+      <div class="rectangle--health form__section">
+        <table>
+          <!-- <tr><td colspan="2" rowspan="6" style="padding: 17px;"><img src="#WARNING#" style="width: 400px;"></td></tr> -->
+          <tr>
+            <td colspan="2" rowspan="6" style="border-bottom: #fff; padding: 17px;">
+              <img src={warningImg} style="width: 100%;" />
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="padding: 20px;">
+              Please note if you choose to provide your own health insurance,
+              you will need to upload proof of your OSHC in the documents
+              section after accepting your offer.
+            </td>
+          </tr>
+        </table>
+
+        <br />
+      </div>
+    </div>
+
+    <div if:true={isExempted}>
+      <div class="rectangle--health form__section">
+        <table>
+          <!-- <tr><td colspan="2" rowspan="6" style="padding: 17px;"><img src="#WARNING#" style="width: 400px;"></td></tr> -->
+          <tr>
+            <td colspan="2" rowspan="6" style="border-bottom: #fff; padding: 17px;">
+              <img src={warningImg} style="width: 100%;" />
+            </td>
+          </tr>
+          <tr>
+            <td colspan="2" style="padding: 20px;">
+              You will need to upload proof of why this exemption is valid for you in the documents section after accepting your offer.
+            </td>
+          </tr>
+        </table>
+
+      </div>
+    </div>
+    
+  </template>
+</template>

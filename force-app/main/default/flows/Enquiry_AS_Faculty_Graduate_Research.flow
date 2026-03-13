@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Is_Faculty_Graduate_Research_enquiry</name>
+        <label>Is Faculty Graduate Research enquiry?</label>
+        <locationX>781</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Non Faculty Graduate Research enquiry</defaultConnectorLabel>
+        <rules>
+            <name>Faculty_Graduate_Research_enquiry</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Faculty_Graduate_Research</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Is_New</targetReference>
+            </connector>
+            <label>Faculty Graduate Research enquiry</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_New</name>
+        <label>Is New?</label>
+        <locationX>545</locationX>
+        <locationY>431</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Record_Is_New</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>IsNew</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>What_Faculty</targetReference>
+            </connector>
+            <label>Record Is New</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>What_Faculty</name>
+        <label>What Faculty?</label>
+        <locationX>336</locationX>
+        <locationY>539</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_Pharmacy_and_Pharmaceutical_Sciences</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Faculty__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Pharmacy and Pharmaceutical Sciences</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>What_Subject</targetReference>
+            </connector>
+            <label>Is Pharmacy and Pharmaceutical Sciences</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>what subject is prepopulated?</description>
+        <name>What_Subject</name>
+        <label>What Subject?</label>
+        <locationX>182</locationX>
+        <locationY>647</locationY>
+        <defaultConnector>
+            <targetReference>Update_Campus_and_Course_Location</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Is_Sumbission_of_EOI</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Subject</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Submission: Expression of Interest Form for PhD and MPhil Degrees</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Category_Status_and_Remove_Contact</targetReference>
+            </connector>
+            <label>Is Sumbission of EOI</label>
+        </rules>
+    </decisions>
+    <description>Created After Save Flow, faculty field is only populated after save</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>To check if the record is new</description>
+        <name>IsNew</name>
+        <dataType>Boolean</dataType>
+        <expression>ISNEW()</expression>
+    </formulas>
+    <interviewLabel>Enquiry : AS : {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Enquiry : AS : Faculty Graduate Research Record Type</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>update campus and course location</description>
+        <name>Update_Campus_and_Course_Location</name>
+        <label>Update Campus and Course Location</label>
+        <locationX>182</locationX>
+        <locationY>947</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Campus__c</field>
+            <operator>EqualTo</operator>
+        </filters>
+        <filters>
+            <field>Course_Location__c</field>
+            <operator>EqualTo</operator>
+        </filters>
+        <inputAssignments>
+            <field>Campus__c</field>
+            <value>
+                <stringValue>Parkville</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Course_Location__c</field>
+            <value>
+                <stringValue>Parkville</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>update category and enquiry type</description>
+        <name>Update_Category_Status_and_Remove_Contact</name>
+        <label>Update Category, Status and Remove Contact</label>
+        <locationX>50</locationX>
+        <locationY>755</locationY>
+        <connector>
+            <targetReference>Update_Campus_and_Course_Location</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Category_Level_1__c</field>
+            <value>
+                <stringValue>Expression of Interest</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Category_Level_2__c</field>
+            <value>
+                <stringValue>General</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>ContactId</field>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Enquiry_Type__c</field>
+            <value>
+                <stringValue>Future Course</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status</field>
+            <value>
+                <stringValue>Solved</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>655</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Is_Faculty_Graduate_Research_enquiry</targetReference>
+        </connector>
+        <filterFormula>{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False</filterFormula>
+        <object>Case</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <triggerOrder>1100</triggerOrder>
+</Flow>

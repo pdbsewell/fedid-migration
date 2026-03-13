@@ -1,0 +1,54 @@
+<template> 
+	<article class="slds-card" style="max-height:400px;">
+		<div class="slds-card__header slds-grid">
+			<header class="slds-media slds-media_center slds-has-flexi-truncate">
+				<div class="slds-media__figure">
+					<lightning-icon icon-name="utility:description" size="small"></lightning-icon>
+				</div>
+				<div class="slds-media__body">
+					<h1 data-name="unitcode" class="slds-card__header-title">
+						{unitCode}
+					</h1>
+				</div>
+			</header>
+		</div>
+		<div class="slds-card__body slds-card__body_inner">
+			<div class="slds-text-heading_medium slds-p-bottom_x-small">{unitTitle}</div>
+			<div class="slds-list_stacked">
+				<div data-name="creditpoints" class="slds-text-body_regular">
+					Credit points: {creditPoints}
+				</div>
+				<div data-name="mark" class="slds-text-body_regular">
+					Mark: {mark}
+				</div>
+				<div data-name="grade" class="slds-text-body_regular">
+					Grade: {grade}
+				</div>
+			</div>
+			<template if:true={isShowConfirm}>
+				<hr>
+				<h1 data-name="newoutcome">New outcome: {newOutcome}</h1>
+			</template>
+		</div>
+		<footer class="slds-align_absolute-center" style="padding-bottom: 10px;">
+			<template if:false={isShowConfirm}>
+				<template if:false={isNotAvailable}>
+					<button name="wdrawBtn" class={cssClassWdraw} onclick={clickHandler}>
+						<img style="padding-right: .25rem;" src={wdnlogo}>
+						<div>Withdraw?</div>
+					</button>
+					<div style="padding-left: .25rem"></div>
+					<button name="sfrBtn" class={cssClassSFR} onclick={clickHandler}>
+						<img style="padding-right: .25rem;" src={sfrlogo}>
+						<div>Convert to SFR?</div>
+					</button>
+				</template>
+				<template if:true={isNotAvailable}>
+					<button name="changena" class="button-disabled" disabled>
+						<div>Change not available</div>
+					</button>
+				</template> 
+			</template>
+		</footer>
+	</article>
+</template>

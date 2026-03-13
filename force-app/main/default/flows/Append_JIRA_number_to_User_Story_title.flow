@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>This flow pre-pends the jira key to user story title on user story creation. This is to allow user story commit message to have the jira key to enable branch to be linked to jira story</description>
+    <environments>Default</environments>
+    <interviewLabel>Append JIRA number to User Story title {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Append JIRA number to User Story title</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_User_Story_title_with_jira_key</name>
+        <label>Update User Story title with jira key</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <inputAssignments>
+            <field>copado__User_Story_Title__c</field>
+            <value>
+                <stringValue>{!$Record.copadoccmint__JIRA_key__c} : {!$Record.copado__User_Story_Title__c} </stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_User_Story_title_with_jira_key</targetReference>
+        </connector>
+        <filterFormula>NOT(CONTAINS({!$Record.copado__User_Story_Title__c}, {!$Record.copadoccmint__JIRA_key__c}))</filterFormula>
+        <object>copado__User_Story__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

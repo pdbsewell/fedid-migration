@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Notify_to_create_list_view_on_SR_Lead_Call_object</name>
+        <label>Notify to create list view on SR Lead Call object</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Campaign.Notification_to_create_list_view_on_SR_Lead_Call_object</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Campaign.Notification_to_create_list_view_on_SR_Lead_Call_object</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>Notify_to_delete_list_view_on_SR_Lead_Call_object</name>
+        <label>Notify to delete list view on SR Lead Call object</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Campaign.Notification_to_delete_list_view_on_SR_Lead_Call_object</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Campaign.Notification_to_delete_list_view_on_SR_Lead_Call_object</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Whats_the_status_of_the_Campaign</name>
+        <label>Whats the status of the Campaign ?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>In_Progress</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>In Progress</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Notify_to_create_list_view_on_SR_Lead_Call_object</targetReference>
+            </connector>
+            <label>In Progress</label>
+        </rules>
+        <rules>
+            <name>Ended</name>
+            <conditionLogic>or</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Aborted</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Completed</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Notify_to_delete_list_view_on_SR_Lead_Call_object</targetReference>
+            </connector>
+            <label>Ended</label>
+        </rules>
+    </decisions>
+    <description>Migrated from the following WF Rules: 
+- SR Lead Call Campaign Created - Create List View 
+- SR Lead Call Campaign Ended - Delete List View</description>
+    <environments>Default</environments>
+    <interviewLabel>Campaign : AS : SR Lead Call Campaign operations {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Campaign : AS : SR Lead Call Campaign operations</label>
+    <migratedFromWorkflowRuleName>SR Lead Call Campaign Created - Create List View</migratedFromWorkflowRuleName>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Whats_the_status_of_the_Campaign</targetReference>
+        </connector>
+        <filterFormula>   {!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = false &amp;&amp;
+   {!$Record.RecordType.DeveloperName} = &apos;SR_Campaign&apos; &amp;&amp;
+   (
+      TEXT({!$Record.Type}) = &apos;Domestic Post App&apos; ||
+      TEXT({!$Record.Type}) = &apos;International Post App&apos; ||
+      TEXT({!$Record.Type}) = &apos;International Pre App&apos;
+   ) 
+   &amp;&amp; 
+   (
+      TEXT({!$Record.Status}) = &apos;In Progress&apos; ||
+      TEXT({!$Record.Status}) = &apos;Aborted&apos; ||
+      TEXT({!$Record.Status}) = &apos;Completed&apos; 
+   )</filterFormula>
+        <object>Campaign</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

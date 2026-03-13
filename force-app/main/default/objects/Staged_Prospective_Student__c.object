@@ -1,0 +1,3975 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Staging object to capture prospective student data in a de-normalised form, which would be normalised into the Contact 360 data model through further processing post insertion.</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>Private</externalSharingModel>
+    <fields>
+        <fullName>Acquisition_Source_Campaign__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Acquisition Souce Campaign for the Prospective Student Lead.</description>
+        <inlineHelpText>Acquisition source campaign for the Prospective Student Lead.</inlineHelpText>
+        <label>Acquisition Source Campaign</label>
+        <referenceTo>Campaign</referenceTo>
+        <relationshipLabel>Staged Prospective Students</relationshipLabel>
+        <relationshipName>Staged_Prospective_Students</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Attended_By__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field to capture Attended By Agent from MUM Queebee system</description>
+        <externalId>false</externalId>
+        <label>Attended By</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Birth_year__c</fullName>
+        <description>year of birth of the prospective student</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Birthyear of the Prospective Student Contact.</inlineHelpText>
+        <label>Birth year</label>
+        <length>4</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Birthdate__c</fullName>
+        <description>Birthdate of the Prospective Student Contact.</description>
+        <inlineHelpText>Birthdate of the Prospective Student Contact.</inlineHelpText>
+        <label>Birthdate</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Broad_Area_of_Interest_Update_Mode__c</fullName>
+        <description>Field mapped to formstack. To define if the field should be overridden by the new value or not.</description>
+        <inlineHelpText>Defines if the field should be overwritten by the new value or not.</inlineHelpText>
+        <label>Broad Area of Interest Update Mode</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Overwrite</fullName>
+                    <default>true</default>
+                    <label>Overwrite</label>
+                </value>
+                <value>
+                    <fullName>Append</fullName>
+                    <default>false</default>
+                    <label>Append</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Broad_area_s_of_interest__c</fullName>
+        <description>Broad area(s) of interest of the Prospective Student Lead.</description>
+        <inlineHelpText>Broad area(s) of interest of the Prospective Student Lead.</inlineHelpText>
+        <label>Broad area(s) of interest</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>MultiselectPicklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Art, Design and Architecture</fullName>
+                    <default>false</default>
+                    <label>Art, Design and Architecture</label>
+                </value>
+                <value>
+                    <fullName>Arts, Humanities and Social Sciences</fullName>
+                    <default>false</default>
+                    <label>Arts, Humanities and Social Sciences</label>
+                </value>
+                <value>
+                    <fullName>Business</fullName>
+                    <default>false</default>
+                    <label>Business</label>
+                </value>
+                <value>
+                    <fullName>Education</fullName>
+                    <default>false</default>
+                    <label>Education</label>
+                </value>
+                <value>
+                    <fullName>Engineering</fullName>
+                    <default>false</default>
+                    <label>Engineering</label>
+                </value>
+                <value>
+                    <fullName>Information Technology</fullName>
+                    <default>false</default>
+                    <label>Information Technology</label>
+                </value>
+                <value>
+                    <fullName>Law</fullName>
+                    <default>false</default>
+                    <label>Law</label>
+                </value>
+                <value>
+                    <fullName>Medicine, Nursing and Health Sciences</fullName>
+                    <default>false</default>
+                    <label>Medicine, Nursing and Health Sciences</label>
+                </value>
+                <value>
+                    <fullName>None</fullName>
+                    <default>false</default>
+                    <label>None</label>
+                </value>
+                <value>
+                    <fullName>Pharmacy and Pharmaceutical Sciences</fullName>
+                    <default>false</default>
+                    <label>Pharmacy and Pharmaceutical Sciences</label>
+                </value>
+                <value>
+                    <fullName>Science</fullName>
+                    <default>false</default>
+                    <label>Science</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Company__c</fullName>
+        <description>Current company of the Prospective Student</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Current company of the Prospective Student</inlineHelpText>
+        <label>Company</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Complete_Secondary_School__c</fullName>
+        <description>Year of secondary school completion for the Prospective Student Lead.</description>
+        <inlineHelpText>Year of secondary school completion for the Prospective Student Lead.</inlineHelpText>
+        <label>When will you complete secondary school?</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>2017</fullName>
+                    <default>false</default>
+                    <label>2017</label>
+                </value>
+                <value>
+                    <fullName>2018</fullName>
+                    <default>false</default>
+                    <label>2018</label>
+                </value>
+                <value>
+                    <fullName>2019</fullName>
+                    <default>false</default>
+                    <label>2019</label>
+                </value>
+                <value>
+                    <fullName>2020</fullName>
+                    <default>false</default>
+                    <label>2020</label>
+                </value>
+                <value>
+                    <fullName>2021</fullName>
+                    <default>false</default>
+                    <label>2021</label>
+                </value>
+                <value>
+                    <fullName>2022</fullName>
+                    <default>false</default>
+                    <label>2022</label>
+                </value>
+                <value>
+                    <fullName>2023</fullName>
+                    <default>false</default>
+                    <label>2023</label>
+                </value>
+                <value>
+                    <fullName>2024</fullName>
+                    <default>false</default>
+                    <label>2024</label>
+                </value>
+                <value>
+                    <fullName>2025</fullName>
+                    <default>false</default>
+                    <label>2025</label>
+                </value>
+                <value>
+                    <fullName>2026</fullName>
+                    <default>false</default>
+                    <label>2026</label>
+                </value>
+                <value>
+                    <fullName>2027</fullName>
+                    <default>false</default>
+                    <label>2027</label>
+                </value>
+                <value>
+                    <fullName>2028</fullName>
+                    <default>false</default>
+                    <label>2028</label>
+                </value>
+                <value>
+                    <fullName>2029</fullName>
+                    <default>false</default>
+                    <label>2029</label>
+                </value>
+                <value>
+                    <fullName>2030</fullName>
+                    <default>false</default>
+                    <label>2030</label>
+                </value>
+                <value>
+                    <fullName>2031</fullName>
+                    <default>false</default>
+                    <label>2031</label>
+                </value>
+                <value>
+                    <fullName>2032</fullName>
+                    <default>false</default>
+                    <label>2032</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Considering_Asian_universities_Text__c</fullName>
+        <description>Determine if the Prospective Student is considering Asian university.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Determine if the Prospective Student is considering Asian university.</inlineHelpText>
+        <label>Considering Asian universities? (Text)</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Contact_Qualification_JSON__c</fullName>
+        <description>Sets of Qualification &amp; Institution submitted the prospective student in JSON format.
+
+Expected JSON format : [  
+   {  
+      &quot;attributes&quot;:{  
+         &quot;type&quot;:&quot;Contact_Qualification__c&quot;
+      },
+      &quot;Other_Qualification__c&quot;:&quot;XXXXX&quot;,
+      &quot;Institution_Name__c&quot;:&quot;YYYYY&quot;
+   },
+   {  
+      &quot;attributes&quot;:{  
+         &quot;type&quot;:&quot;Contact_Qualification__c&quot;
+      },
+      &quot;Other_Qualification__c&quot;:&quot;XXXXX&quot;,
+      &quot;Institution_Name__c&quot;:&quot;YYYYY&quot;
+   }
+]
+XXXXX for Qualification would the name of the Qualification.
+YYYYY for Institution would be the name of the institution.</description>
+        <inlineHelpText>Sets of Qualification &amp; Institution submitted the prospective student in JSON format.</inlineHelpText>
+        <label>Contact Qualification JSON</label>
+        <length>5000</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>5</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Country_of_Residence__c</fullName>
+        <description>Country of Residence for the Prospective Student Contact.</description>
+        <inlineHelpText>Country of Residence for the Prospective Student Contact.</inlineHelpText>
+        <label>Country of Residence</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>None</fullName>
+                    <default>false</default>
+                    <label>None</label>
+                </value>
+                <value>
+                    <fullName>ADELIE LAND (FRANCE)</fullName>
+                    <default>false</default>
+                    <label>ADELIE LAND (FRANCE)</label>
+                </value>
+                <value>
+                    <fullName>AFGHANISTAN</fullName>
+                    <default>false</default>
+                    <label>AFGHANISTAN</label>
+                </value>
+                <value>
+                    <fullName>ALBANIA</fullName>
+                    <default>false</default>
+                    <label>ALBANIA</label>
+                </value>
+                <value>
+                    <fullName>ALGERIA</fullName>
+                    <default>false</default>
+                    <label>ALGERIA</label>
+                </value>
+                <value>
+                    <fullName>ANDORRA</fullName>
+                    <default>false</default>
+                    <label>ANDORRA</label>
+                </value>
+                <value>
+                    <fullName>ANGOLA</fullName>
+                    <default>false</default>
+                    <label>ANGOLA</label>
+                </value>
+                <value>
+                    <fullName>ANTARCTICA, NFD</fullName>
+                    <default>false</default>
+                    <label>ANTARCTICA, NFD</label>
+                </value>
+                <value>
+                    <fullName>ARGENTINA</fullName>
+                    <default>false</default>
+                    <label>ARGENTINA</label>
+                </value>
+                <value>
+                    <fullName>ARGENTINIAN ANTARCTIC TERRITORY</fullName>
+                    <default>false</default>
+                    <label>ARGENTINIAN ANTARCTIC TERRITORY</label>
+                </value>
+                <value>
+                    <fullName>ARMENIA</fullName>
+                    <default>false</default>
+                    <label>ARMENIA</label>
+                </value>
+                <value>
+                    <fullName>AUSTRALIA</fullName>
+                    <default>false</default>
+                    <label>AUSTRALIA</label>
+                </value>
+                <value>
+                    <fullName>AUSTRALIAN ANTARCTIC TERRITORY</fullName>
+                    <default>false</default>
+                    <label>AUSTRALIAN ANTARCTIC TERRITORY</label>
+                </value>
+                <value>
+                    <fullName>AUSTRALIAN EXTERNAL TERRITORIES, NEC</fullName>
+                    <default>false</default>
+                    <label>AUSTRALIAN EXTERNAL TERRITORIES, NEC</label>
+                </value>
+                <value>
+                    <fullName>AUSTRIA</fullName>
+                    <default>false</default>
+                    <label>AUSTRIA</label>
+                </value>
+                <value>
+                    <fullName>AZERBAIJAN</fullName>
+                    <default>false</default>
+                    <label>AZERBAIJAN</label>
+                </value>
+                <value>
+                    <fullName>BAHAMAS</fullName>
+                    <default>false</default>
+                    <label>BAHAMAS</label>
+                </value>
+                <value>
+                    <fullName>BAHRAIN</fullName>
+                    <default>false</default>
+                    <label>BAHRAIN</label>
+                </value>
+                <value>
+                    <fullName>BANGLADESH</fullName>
+                    <default>false</default>
+                    <label>BANGLADESH</label>
+                </value>
+                <value>
+                    <fullName>BARBADOS</fullName>
+                    <default>false</default>
+                    <label>BARBADOS</label>
+                </value>
+                <value>
+                    <fullName>BELARUS</fullName>
+                    <default>false</default>
+                    <label>BELARUS</label>
+                </value>
+                <value>
+                    <fullName>BELGIUM</fullName>
+                    <default>false</default>
+                    <label>BELGIUM</label>
+                </value>
+                <value>
+                    <fullName>BELIZE</fullName>
+                    <default>false</default>
+                    <label>BELIZE</label>
+                </value>
+                <value>
+                    <fullName>BENIN</fullName>
+                    <default>false</default>
+                    <label>BENIN</label>
+                </value>
+                <value>
+                    <fullName>BERMUDA</fullName>
+                    <default>false</default>
+                    <label>BERMUDA</label>
+                </value>
+                <value>
+                    <fullName>BHUTAN</fullName>
+                    <default>false</default>
+                    <label>BHUTAN</label>
+                </value>
+                <value>
+                    <fullName>BOLIVIA</fullName>
+                    <default>false</default>
+                    <label>BOLIVIA</label>
+                </value>
+                <value>
+                    <fullName>BOSNIA AND HERZEGOVINA</fullName>
+                    <default>false</default>
+                    <label>BOSNIA AND HERZEGOVINA</label>
+                </value>
+                <value>
+                    <fullName>BOTSWANA</fullName>
+                    <default>false</default>
+                    <label>BOTSWANA</label>
+                </value>
+                <value>
+                    <fullName>BRAZIL</fullName>
+                    <default>false</default>
+                    <label>BRAZIL</label>
+                </value>
+                <value>
+                    <fullName>BRITISH ANTARCTIC TERRITORY</fullName>
+                    <default>false</default>
+                    <label>BRITISH ANTARCTIC TERRITORY</label>
+                </value>
+                <value>
+                    <fullName>BRUNEI</fullName>
+                    <default>false</default>
+                    <label>BRUNEI</label>
+                </value>
+                <value>
+                    <fullName>BRUNEI DARUSSALAM</fullName>
+                    <default>false</default>
+                    <label>BRUNEI DARUSSALAM</label>
+                </value>
+                <value>
+                    <fullName>BULGARIA</fullName>
+                    <default>false</default>
+                    <label>BULGARIA</label>
+                </value>
+                <value>
+                    <fullName>BURMA (MYANMAR)</fullName>
+                    <default>false</default>
+                    <label>BURMA (MYANMAR)</label>
+                </value>
+                <value>
+                    <fullName>BURUNDI</fullName>
+                    <default>false</default>
+                    <label>BURUNDI</label>
+                </value>
+                <value>
+                    <fullName>CAMBODIA</fullName>
+                    <default>false</default>
+                    <label>CAMBODIA</label>
+                </value>
+                <value>
+                    <fullName>CAMEROON</fullName>
+                    <default>false</default>
+                    <label>CAMEROON</label>
+                </value>
+                <value>
+                    <fullName>CANADA</fullName>
+                    <default>false</default>
+                    <label>CANADA</label>
+                </value>
+                <value>
+                    <fullName>CAPE VERDE</fullName>
+                    <default>false</default>
+                    <label>CAPE VERDE</label>
+                </value>
+                <value>
+                    <fullName>CHAD</fullName>
+                    <default>false</default>
+                    <label>CHAD</label>
+                </value>
+                <value>
+                    <fullName>CHANNEL ISLANDS</fullName>
+                    <default>false</default>
+                    <label>CHANNEL ISLANDS</label>
+                </value>
+                <value>
+                    <fullName>CHILE</fullName>
+                    <default>false</default>
+                    <label>CHILE</label>
+                </value>
+                <value>
+                    <fullName>CHINA, PEOPLE&apos;S REPUBLIC</fullName>
+                    <default>false</default>
+                    <label>CHINA, PEOPLE&apos;S REPUBLIC</label>
+                </value>
+                <value>
+                    <fullName>CHINA (EXCLUDES SARS AND TAIWAN PROVINCE)</fullName>
+                    <default>false</default>
+                    <label>CHINA (EXCLUDES SARS AND TAIWAN PROVINCE)</label>
+                </value>
+                <value>
+                    <fullName>CHINESE ASIA (INCLUDES MONGOLIA), NFD</fullName>
+                    <default>false</default>
+                    <label>CHINESE ASIA (INCLUDES MONGOLIA), NFD</label>
+                </value>
+                <value>
+                    <fullName>COCOS (KEELING) ISLAND</fullName>
+                    <default>false</default>
+                    <label>COCOS (KEELING) ISLAND</label>
+                </value>
+                <value>
+                    <fullName>COLOMBIA</fullName>
+                    <default>false</default>
+                    <label>COLOMBIA</label>
+                </value>
+                <value>
+                    <fullName>CONGO</fullName>
+                    <default>false</default>
+                    <label>CONGO</label>
+                </value>
+                <value>
+                    <fullName>CONGO, DEMOCRATIC REPUBLIC OF</fullName>
+                    <default>false</default>
+                    <label>CONGO, DEMOCRATIC REPUBLIC OF</label>
+                </value>
+                <value>
+                    <fullName>COSTA RICA</fullName>
+                    <default>false</default>
+                    <label>COSTA RICA</label>
+                </value>
+                <value>
+                    <fullName>COTE D&apos;IVOIRE</fullName>
+                    <default>false</default>
+                    <label>COTE D&apos;IVOIRE</label>
+                </value>
+                <value>
+                    <fullName>CROATIA</fullName>
+                    <default>false</default>
+                    <label>CROATIA</label>
+                </value>
+                <value>
+                    <fullName>CUBA</fullName>
+                    <default>false</default>
+                    <label>CUBA</label>
+                </value>
+                <value>
+                    <fullName>CYPRUS</fullName>
+                    <default>false</default>
+                    <label>CYPRUS</label>
+                </value>
+                <value>
+                    <fullName>CZECHOSLOVAKIA</fullName>
+                    <default>false</default>
+                    <label>CZECHOSLOVAKIA</label>
+                </value>
+                <value>
+                    <fullName>CZECH REPUBLIC</fullName>
+                    <default>false</default>
+                    <label>CZECH REPUBLIC</label>
+                </value>
+                <value>
+                    <fullName>DENMARK</fullName>
+                    <default>false</default>
+                    <label>DENMARK</label>
+                </value>
+                <value>
+                    <fullName>DJIBOUTI</fullName>
+                    <default>false</default>
+                    <label>DJIBOUTI</label>
+                </value>
+                <value>
+                    <fullName>DOMINICAN REPUBLIC</fullName>
+                    <default>false</default>
+                    <label>DOMINICAN REPUBLIC</label>
+                </value>
+                <value>
+                    <fullName>EASTERN EUROPE, NFD</fullName>
+                    <default>false</default>
+                    <label>EASTERN EUROPE, NFD</label>
+                </value>
+                <value>
+                    <fullName>EAST TIMOR</fullName>
+                    <default>false</default>
+                    <label>EAST TIMOR</label>
+                </value>
+                <value>
+                    <fullName>ECUADOR</fullName>
+                    <default>false</default>
+                    <label>ECUADOR</label>
+                </value>
+                <value>
+                    <fullName>EGYPT</fullName>
+                    <default>false</default>
+                    <label>EGYPT</label>
+                </value>
+                <value>
+                    <fullName>EL SALVADOR</fullName>
+                    <default>false</default>
+                    <label>EL SALVADOR</label>
+                </value>
+                <value>
+                    <fullName>ENGLAND</fullName>
+                    <default>false</default>
+                    <label>ENGLAND</label>
+                </value>
+                <value>
+                    <fullName>EQUATORIAL GUINEA</fullName>
+                    <default>false</default>
+                    <label>EQUATORIAL GUINEA</label>
+                </value>
+                <value>
+                    <fullName>ERITREA</fullName>
+                    <default>false</default>
+                    <label>ERITREA</label>
+                </value>
+                <value>
+                    <fullName>ESTONIA</fullName>
+                    <default>false</default>
+                    <label>ESTONIA</label>
+                </value>
+                <value>
+                    <fullName>ETHIOPIA</fullName>
+                    <default>false</default>
+                    <label>ETHIOPIA</label>
+                </value>
+                <value>
+                    <fullName>FIJI</fullName>
+                    <default>false</default>
+                    <label>FIJI</label>
+                </value>
+                <value>
+                    <fullName>FINLAND</fullName>
+                    <default>false</default>
+                    <label>FINLAND</label>
+                </value>
+                <value>
+                    <fullName>FRANCE</fullName>
+                    <default>false</default>
+                    <label>FRANCE</label>
+                </value>
+                <value>
+                    <fullName>FRENCH POLYNESIA</fullName>
+                    <default>false</default>
+                    <label>FRENCH POLYNESIA</label>
+                </value>
+                <value>
+                    <fullName>GABON</fullName>
+                    <default>false</default>
+                    <label>GABON</label>
+                </value>
+                <value>
+                    <fullName>GAMBIA</fullName>
+                    <default>false</default>
+                    <label>GAMBIA</label>
+                </value>
+                <value>
+                    <fullName>GAZA STRIP AND WEST BANK</fullName>
+                    <default>false</default>
+                    <label>GAZA STRIP AND WEST BANK</label>
+                </value>
+                <value>
+                    <fullName>GEORGIA</fullName>
+                    <default>false</default>
+                    <label>GEORGIA</label>
+                </value>
+                <value>
+                    <fullName>GERMANY</fullName>
+                    <default>false</default>
+                    <label>GERMANY</label>
+                </value>
+                <value>
+                    <fullName>GHANA</fullName>
+                    <default>false</default>
+                    <label>GHANA</label>
+                </value>
+                <value>
+                    <fullName>GIBRALTAR</fullName>
+                    <default>false</default>
+                    <label>GIBRALTAR</label>
+                </value>
+                <value>
+                    <fullName>GREECE</fullName>
+                    <default>false</default>
+                    <label>GREECE</label>
+                </value>
+                <value>
+                    <fullName>GUADELOUPE</fullName>
+                    <default>false</default>
+                    <label>GUADELOUPE</label>
+                </value>
+                <value>
+                    <fullName>GUAM</fullName>
+                    <default>false</default>
+                    <label>GUAM</label>
+                </value>
+                <value>
+                    <fullName>GUATEMALA</fullName>
+                    <default>false</default>
+                    <label>GUATEMALA</label>
+                </value>
+                <value>
+                    <fullName>GUINEA</fullName>
+                    <default>false</default>
+                    <label>GUINEA</label>
+                </value>
+                <value>
+                    <fullName>GUYANA</fullName>
+                    <default>false</default>
+                    <label>GUYANA</label>
+                </value>
+                <value>
+                    <fullName>HONDURAS</fullName>
+                    <default>false</default>
+                    <label>HONDURAS</label>
+                </value>
+                <value>
+                    <fullName>HONG KONG</fullName>
+                    <default>false</default>
+                    <label>HONG KONG</label>
+                </value>
+                <value>
+                    <fullName>HONG KONG (SAR OF CHINA)</fullName>
+                    <default>false</default>
+                    <label>HONG KONG (SAR OF CHINA)</label>
+                </value>
+                <value>
+                    <fullName>HUNGARY</fullName>
+                    <default>false</default>
+                    <label>HUNGARY</label>
+                </value>
+                <value>
+                    <fullName>ICELAND</fullName>
+                    <default>false</default>
+                    <label>ICELAND</label>
+                </value>
+                <value>
+                    <fullName>INDIA</fullName>
+                    <default>false</default>
+                    <label>INDIA</label>
+                </value>
+                <value>
+                    <fullName>INDONESIA</fullName>
+                    <default>false</default>
+                    <label>INDONESIA</label>
+                </value>
+                <value>
+                    <fullName>INDONESIA (INCLUDING TIMOR)</fullName>
+                    <default>false</default>
+                    <label>INDONESIA (INCLUDING TIMOR)</label>
+                </value>
+                <value>
+                    <fullName>IRAN</fullName>
+                    <default>false</default>
+                    <label>IRAN</label>
+                </value>
+                <value>
+                    <fullName>IRAQ</fullName>
+                    <default>false</default>
+                    <label>IRAQ</label>
+                </value>
+                <value>
+                    <fullName>IRELAND</fullName>
+                    <default>false</default>
+                    <label>IRELAND</label>
+                </value>
+                <value>
+                    <fullName>ISRAEL</fullName>
+                    <default>false</default>
+                    <label>ISRAEL</label>
+                </value>
+                <value>
+                    <fullName>ITALY</fullName>
+                    <default>false</default>
+                    <label>ITALY</label>
+                </value>
+                <value>
+                    <fullName>JAMAICA</fullName>
+                    <default>false</default>
+                    <label>JAMAICA</label>
+                </value>
+                <value>
+                    <fullName>JAPAN</fullName>
+                    <default>false</default>
+                    <label>JAPAN</label>
+                </value>
+                <value>
+                    <fullName>JAPAN AND THE KOREAS, NFD</fullName>
+                    <default>false</default>
+                    <label>JAPAN AND THE KOREAS, NFD</label>
+                </value>
+                <value>
+                    <fullName>JORDAN</fullName>
+                    <default>false</default>
+                    <label>JORDAN</label>
+                </value>
+                <value>
+                    <fullName>KAZAKHSTAN</fullName>
+                    <default>false</default>
+                    <label>KAZAKHSTAN</label>
+                </value>
+                <value>
+                    <fullName>KENYA</fullName>
+                    <default>false</default>
+                    <label>KENYA</label>
+                </value>
+                <value>
+                    <fullName>KIRIBATI</fullName>
+                    <default>false</default>
+                    <label>KIRIBATI</label>
+                </value>
+                <value>
+                    <fullName>KOREA, DEMOCRATIC PEOPLE&apos;S REPUBLIC OF (NORTH)</fullName>
+                    <default>false</default>
+                    <label>KOREA, DEMOCRATIC PEOPLE&apos;S REPUBLIC OF (NORTH)</label>
+                </value>
+                <value>
+                    <fullName>KOREA, REPUBLIC OF (SOUTH)</fullName>
+                    <default>false</default>
+                    <label>KOREA, REPUBLIC OF (SOUTH)</label>
+                </value>
+                <value>
+                    <fullName>KOREA - NORTH</fullName>
+                    <default>false</default>
+                    <label>KOREA - NORTH</label>
+                </value>
+                <value>
+                    <fullName>KOREA - SOUTH</fullName>
+                    <default>false</default>
+                    <label>KOREA - SOUTH</label>
+                </value>
+                <value>
+                    <fullName>KUWAIT</fullName>
+                    <default>false</default>
+                    <label>KUWAIT</label>
+                </value>
+                <value>
+                    <fullName>KYRGYZ REPUBLIC</fullName>
+                    <default>false</default>
+                    <label>KYRGYZ REPUBLIC</label>
+                </value>
+                <value>
+                    <fullName>LAOS</fullName>
+                    <default>false</default>
+                    <label>LAOS</label>
+                </value>
+                <value>
+                    <fullName>LATVIA</fullName>
+                    <default>false</default>
+                    <label>LATVIA</label>
+                </value>
+                <value>
+                    <fullName>LEBANON</fullName>
+                    <default>false</default>
+                    <label>LEBANON</label>
+                </value>
+                <value>
+                    <fullName>LESOTHO</fullName>
+                    <default>false</default>
+                    <label>LESOTHO</label>
+                </value>
+                <value>
+                    <fullName>LIBERIA</fullName>
+                    <default>false</default>
+                    <label>LIBERIA</label>
+                </value>
+                <value>
+                    <fullName>LIBYA</fullName>
+                    <default>false</default>
+                    <label>LIBYA</label>
+                </value>
+                <value>
+                    <fullName>LIECHTENSTEIN</fullName>
+                    <default>false</default>
+                    <label>LIECHTENSTEIN</label>
+                </value>
+                <value>
+                    <fullName>LITHUANIA</fullName>
+                    <default>false</default>
+                    <label>LITHUANIA</label>
+                </value>
+                <value>
+                    <fullName>LUXEMBOURG</fullName>
+                    <default>false</default>
+                    <label>LUXEMBOURG</label>
+                </value>
+                <value>
+                    <fullName>MACAU</fullName>
+                    <default>false</default>
+                    <label>MACAU</label>
+                </value>
+                <value>
+                    <fullName>MACAU (SAR OF CHINA)</fullName>
+                    <default>false</default>
+                    <label>MACAU (SAR OF CHINA)</label>
+                </value>
+                <value>
+                    <fullName>MADAGASCAR</fullName>
+                    <default>false</default>
+                    <label>MADAGASCAR</label>
+                </value>
+                <value>
+                    <fullName>MALAWI</fullName>
+                    <default>false</default>
+                    <label>MALAWI</label>
+                </value>
+                <value>
+                    <fullName>MALAYSIA</fullName>
+                    <default>false</default>
+                    <label>MALAYSIA</label>
+                </value>
+                <value>
+                    <fullName>MALDIVES</fullName>
+                    <default>false</default>
+                    <label>MALDIVES</label>
+                </value>
+                <value>
+                    <fullName>MALI</fullName>
+                    <default>false</default>
+                    <label>MALI</label>
+                </value>
+                <value>
+                    <fullName>MALTA</fullName>
+                    <default>false</default>
+                    <label>MALTA</label>
+                </value>
+                <value>
+                    <fullName>MARITIME SOUTH-EAST ASIA, NFD</fullName>
+                    <default>false</default>
+                    <label>MARITIME SOUTH-EAST ASIA, NFD</label>
+                </value>
+                <value>
+                    <fullName>MARSHALL ISLANDS</fullName>
+                    <default>false</default>
+                    <label>MARSHALL ISLANDS</label>
+                </value>
+                <value>
+                    <fullName>MAURITANIA</fullName>
+                    <default>false</default>
+                    <label>MAURITANIA</label>
+                </value>
+                <value>
+                    <fullName>MAURITIUS</fullName>
+                    <default>false</default>
+                    <label>MAURITIUS</label>
+                </value>
+                <value>
+                    <fullName>MEXICO</fullName>
+                    <default>false</default>
+                    <label>MEXICO</label>
+                </value>
+                <value>
+                    <fullName>MICRONESIA, FEDERATED STATES OF</fullName>
+                    <default>false</default>
+                    <label>MICRONESIA, FEDERATED STATES OF</label>
+                </value>
+                <value>
+                    <fullName>MOLDOVA</fullName>
+                    <default>false</default>
+                    <label>MOLDOVA</label>
+                </value>
+                <value>
+                    <fullName>MONACO</fullName>
+                    <default>false</default>
+                    <label>MONACO</label>
+                </value>
+                <value>
+                    <fullName>MONGOLIA</fullName>
+                    <default>false</default>
+                    <label>MONGOLIA</label>
+                </value>
+                <value>
+                    <fullName>MOROCCO</fullName>
+                    <default>false</default>
+                    <label>MOROCCO</label>
+                </value>
+                <value>
+                    <fullName>MOZAMBIQUE</fullName>
+                    <default>false</default>
+                    <label>MOZAMBIQUE</label>
+                </value>
+                <value>
+                    <fullName>NAMIBIA</fullName>
+                    <default>false</default>
+                    <label>NAMIBIA</label>
+                </value>
+                <value>
+                    <fullName>NAURU</fullName>
+                    <default>false</default>
+                    <label>NAURU</label>
+                </value>
+                <value>
+                    <fullName>NEPAL</fullName>
+                    <default>false</default>
+                    <label>NEPAL</label>
+                </value>
+                <value>
+                    <fullName>NETHERLANDS</fullName>
+                    <default>false</default>
+                    <label>NETHERLANDS</label>
+                </value>
+                <value>
+                    <fullName>NEW CALEDONIA</fullName>
+                    <default>false</default>
+                    <label>NEW CALEDONIA</label>
+                </value>
+                <value>
+                    <fullName>NEW ZEALAND</fullName>
+                    <default>false</default>
+                    <label>NEW ZEALAND</label>
+                </value>
+                <value>
+                    <fullName>NIGER</fullName>
+                    <default>false</default>
+                    <label>NIGER</label>
+                </value>
+                <value>
+                    <fullName>NIGERIA</fullName>
+                    <default>false</default>
+                    <label>NIGERIA</label>
+                </value>
+                <value>
+                    <fullName>NORFOLK ISLAND</fullName>
+                    <default>false</default>
+                    <label>NORFOLK ISLAND</label>
+                </value>
+                <value>
+                    <fullName>NORTHERN IRELAND</fullName>
+                    <default>false</default>
+                    <label>NORTHERN IRELAND</label>
+                </value>
+                <value>
+                    <fullName>NORWAY</fullName>
+                    <default>false</default>
+                    <label>NORWAY</label>
+                </value>
+                <value>
+                    <fullName>OMAN</fullName>
+                    <default>false</default>
+                    <label>OMAN</label>
+                </value>
+                <value>
+                    <fullName>PAKISTAN</fullName>
+                    <default>false</default>
+                    <label>PAKISTAN</label>
+                </value>
+                <value>
+                    <fullName>PANAMA</fullName>
+                    <default>false</default>
+                    <label>PANAMA</label>
+                </value>
+                <value>
+                    <fullName>PAPUA NEW GUINEA</fullName>
+                    <default>false</default>
+                    <label>PAPUA NEW GUINEA</label>
+                </value>
+                <value>
+                    <fullName>PARAGUAY</fullName>
+                    <default>false</default>
+                    <label>PARAGUAY</label>
+                </value>
+                <value>
+                    <fullName>PERU</fullName>
+                    <default>false</default>
+                    <label>PERU</label>
+                </value>
+                <value>
+                    <fullName>PHILIPPINES</fullName>
+                    <default>false</default>
+                    <label>PHILIPPINES</label>
+                </value>
+                <value>
+                    <fullName>POLAND</fullName>
+                    <default>false</default>
+                    <label>POLAND</label>
+                </value>
+                <value>
+                    <fullName>PORTUGAL</fullName>
+                    <default>false</default>
+                    <label>PORTUGAL</label>
+                </value>
+                <value>
+                    <fullName>PUERTO RICO</fullName>
+                    <default>false</default>
+                    <label>PUERTO RICO</label>
+                </value>
+                <value>
+                    <fullName>QATAR</fullName>
+                    <default>false</default>
+                    <label>QATAR</label>
+                </value>
+                <value>
+                    <fullName>REUNION</fullName>
+                    <default>false</default>
+                    <label>REUNION</label>
+                </value>
+                <value>
+                    <fullName>ROMANIA</fullName>
+                    <default>false</default>
+                    <label>ROMANIA</label>
+                </value>
+                <value>
+                    <fullName>RUSSIAN FEDERATION</fullName>
+                    <default>false</default>
+                    <label>RUSSIAN FEDERATION</label>
+                </value>
+                <value>
+                    <fullName>RWANDA</fullName>
+                    <default>false</default>
+                    <label>RWANDA</label>
+                </value>
+                <value>
+                    <fullName>SAMOA</fullName>
+                    <default>false</default>
+                    <label>SAMOA</label>
+                </value>
+                <value>
+                    <fullName>SAUDI ARABIA</fullName>
+                    <default>false</default>
+                    <label>SAUDI ARABIA</label>
+                </value>
+                <value>
+                    <fullName>SCOTLAND</fullName>
+                    <default>false</default>
+                    <label>SCOTLAND</label>
+                </value>
+                <value>
+                    <fullName>SENEGAL</fullName>
+                    <default>false</default>
+                    <label>SENEGAL</label>
+                </value>
+                <value>
+                    <fullName>SERBIA</fullName>
+                    <default>false</default>
+                    <label>SERBIA</label>
+                </value>
+                <value>
+                    <fullName>SERBIA AND MONTENEGRO</fullName>
+                    <default>false</default>
+                    <label>SERBIA AND MONTENEGRO</label>
+                </value>
+                <value>
+                    <fullName>SEYCHELLES</fullName>
+                    <default>false</default>
+                    <label>SEYCHELLES</label>
+                </value>
+                <value>
+                    <fullName>SIERRA LEONE</fullName>
+                    <default>false</default>
+                    <label>SIERRA LEONE</label>
+                </value>
+                <value>
+                    <fullName>SINGAPORE</fullName>
+                    <default>false</default>
+                    <label>SINGAPORE</label>
+                </value>
+                <value>
+                    <fullName>SLOVAKIA</fullName>
+                    <default>false</default>
+                    <label>SLOVAKIA</label>
+                </value>
+                <value>
+                    <fullName>SLOVENIA</fullName>
+                    <default>false</default>
+                    <label>SLOVENIA</label>
+                </value>
+                <value>
+                    <fullName>SOLOMON ISLANDS</fullName>
+                    <default>false</default>
+                    <label>SOLOMON ISLANDS</label>
+                </value>
+                <value>
+                    <fullName>SOMALIA</fullName>
+                    <default>false</default>
+                    <label>SOMALIA</label>
+                </value>
+                <value>
+                    <fullName>SOUTH AFRICA</fullName>
+                    <default>false</default>
+                    <label>SOUTH AFRICA</label>
+                </value>
+                <value>
+                    <fullName>SOUTH SUDAN</fullName>
+                    <default>false</default>
+                    <label>SOUTH SUDAN</label>
+                </value>
+                <value>
+                    <fullName>SPAIN</fullName>
+                    <default>false</default>
+                    <label>SPAIN</label>
+                </value>
+                <value>
+                    <fullName>SRI LANKA</fullName>
+                    <default>false</default>
+                    <label>SRI LANKA</label>
+                </value>
+                <value>
+                    <fullName>ST KITTS AND NEVIS</fullName>
+                    <default>false</default>
+                    <label>ST KITTS AND NEVIS</label>
+                </value>
+                <value>
+                    <fullName>ST LUCIA</fullName>
+                    <default>false</default>
+                    <label>ST LUCIA</label>
+                </value>
+                <value>
+                    <fullName>ST VINCENT AND THE GRENADINES</fullName>
+                    <default>false</default>
+                    <label>ST VINCENT AND THE GRENADINES</label>
+                </value>
+                <value>
+                    <fullName>SUDAN</fullName>
+                    <default>false</default>
+                    <label>SUDAN</label>
+                </value>
+                <value>
+                    <fullName>SURINAME</fullName>
+                    <default>false</default>
+                    <label>SURINAME</label>
+                </value>
+                <value>
+                    <fullName>SWAZILAND</fullName>
+                    <default>false</default>
+                    <label>SWAZILAND</label>
+                </value>
+                <value>
+                    <fullName>SWEDEN</fullName>
+                    <default>false</default>
+                    <label>SWEDEN</label>
+                </value>
+                <value>
+                    <fullName>SWITZERLAND</fullName>
+                    <default>false</default>
+                    <label>SWITZERLAND</label>
+                </value>
+                <value>
+                    <fullName>SYRIA</fullName>
+                    <default>false</default>
+                    <label>SYRIA</label>
+                </value>
+                <value>
+                    <fullName>TAIWAN</fullName>
+                    <default>false</default>
+                    <label>TAIWAN</label>
+                </value>
+                <value>
+                    <fullName>TAJIKISTAN</fullName>
+                    <default>false</default>
+                    <label>TAJIKISTAN</label>
+                </value>
+                <value>
+                    <fullName>TANZANIA</fullName>
+                    <default>false</default>
+                    <label>TANZANIA</label>
+                </value>
+                <value>
+                    <fullName>THAILAND</fullName>
+                    <default>false</default>
+                    <label>THAILAND</label>
+                </value>
+                <value>
+                    <fullName>TOGO</fullName>
+                    <default>false</default>
+                    <label>TOGO</label>
+                </value>
+                <value>
+                    <fullName>TONGA</fullName>
+                    <default>false</default>
+                    <label>TONGA</label>
+                </value>
+                <value>
+                    <fullName>TRINIDAD AND TOBAGO</fullName>
+                    <default>false</default>
+                    <label>TRINIDAD AND TOBAGO</label>
+                </value>
+                <value>
+                    <fullName>TUNISIA</fullName>
+                    <default>false</default>
+                    <label>TUNISIA</label>
+                </value>
+                <value>
+                    <fullName>TURKEY</fullName>
+                    <default>false</default>
+                    <label>TURKEY</label>
+                </value>
+                <value>
+                    <fullName>TURKMENISTAN</fullName>
+                    <default>false</default>
+                    <label>TURKMENISTAN</label>
+                </value>
+                <value>
+                    <fullName>TURKS AND CAICOS ISLANDS</fullName>
+                    <default>false</default>
+                    <label>TURKS AND CAICOS ISLANDS</label>
+                </value>
+                <value>
+                    <fullName>TUVALU</fullName>
+                    <default>false</default>
+                    <label>TUVALU</label>
+                </value>
+                <value>
+                    <fullName>UGANDA</fullName>
+                    <default>false</default>
+                    <label>UGANDA</label>
+                </value>
+                <value>
+                    <fullName>UKRAINE</fullName>
+                    <default>false</default>
+                    <label>UKRAINE</label>
+                </value>
+                <value>
+                    <fullName>UNITED ARAB EMIRATES</fullName>
+                    <default>false</default>
+                    <label>UNITED ARAB EMIRATES</label>
+                </value>
+                <value>
+                    <fullName>UNITED KINGDOM, NFD</fullName>
+                    <default>false</default>
+                    <label>UNITED KINGDOM, NFD</label>
+                </value>
+                <value>
+                    <fullName>UNITED KINGDOM (INCLUDING NORTHERN IRELAND)</fullName>
+                    <default>false</default>
+                    <label>UNITED KINGDOM (INCLUDING NORTHERN IRELAND)</label>
+                </value>
+                <value>
+                    <fullName>UNITED SOVIET SOCIALIST REPUBLICS &amp; BALTIC STATES</fullName>
+                    <default>false</default>
+                    <label>UNITED SOVIET SOCIALIST REPUBLICS &amp; BALTIC STATES</label>
+                </value>
+                <value>
+                    <fullName>UNITED STATES OF AMERICA</fullName>
+                    <default>false</default>
+                    <label>UNITED STATES OF AMERICA</label>
+                </value>
+                <value>
+                    <fullName>URUGUAY</fullName>
+                    <default>false</default>
+                    <label>URUGUAY</label>
+                </value>
+                <value>
+                    <fullName>UZBEKISTAN</fullName>
+                    <default>false</default>
+                    <label>UZBEKISTAN</label>
+                </value>
+                <value>
+                    <fullName>VANUATU</fullName>
+                    <default>false</default>
+                    <label>VANUATU</label>
+                </value>
+                <value>
+                    <fullName>VENEZUELA</fullName>
+                    <default>false</default>
+                    <label>VENEZUELA</label>
+                </value>
+                <value>
+                    <fullName>VIET NAM</fullName>
+                    <default>false</default>
+                    <label>VIET NAM</label>
+                </value>
+                <value>
+                    <fullName>VIRGIN ISLANDS, BRITISH</fullName>
+                    <default>false</default>
+                    <label>VIRGIN ISLANDS, BRITISH</label>
+                </value>
+                <value>
+                    <fullName>WALES</fullName>
+                    <default>false</default>
+                    <label>WALES</label>
+                </value>
+                <value>
+                    <fullName>YEMEN</fullName>
+                    <default>false</default>
+                    <label>YEMEN</label>
+                </value>
+                <value>
+                    <fullName>ZAMBIA</fullName>
+                    <default>false</default>
+                    <label>ZAMBIA</label>
+                </value>
+                <value>
+                    <fullName>ZIMBABWE</fullName>
+                    <default>false</default>
+                    <label>ZIMBABWE</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Current_Studies__c</fullName>
+        <description>Current studies of Prospective Student Lead.</description>
+        <inlineHelpText>Current studies of Prospective Student Lead.</inlineHelpText>
+        <label>Current Studies</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Secondary School</fullName>
+                    <default>false</default>
+                    <label>Secondary School</label>
+                </value>
+                <value>
+                    <fullName>TAFE or RTO</fullName>
+                    <default>false</default>
+                    <label>TAFE or RTO</label>
+                </value>
+                <value>
+                    <fullName>Current student at Monash University</fullName>
+                    <default>false</default>
+                    <label>Current student at Monash University</label>
+                </value>
+                <value>
+                    <fullName>Another University</fullName>
+                    <default>false</default>
+                    <label>Another University</label>
+                </value>
+                <value>
+                    <fullName>Not currently studying</fullName>
+                    <default>false</default>
+                    <label>Not currently studying</label>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                    <label>Other</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Desired_Start_Period__c</fullName>
+        <description>Desired Start Period of the Prospective Student Lead.</description>
+        <inlineHelpText>Desired Start Period of the Prospective Student Lead.</inlineHelpText>
+        <label>Desired Start Period</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Semester 1</fullName>
+                    <default>false</default>
+                    <label>Semester 1</label>
+                </value>
+                <value>
+                    <fullName>Semester 2</fullName>
+                    <default>false</default>
+                    <label>Semester 2</label>
+                </value>
+                <value>
+                    <fullName>Trimester 1</fullName>
+                    <default>false</default>
+                    <label>Trimester 1</label>
+                </value>
+                <value>
+                    <fullName>Trimester 2</fullName>
+                    <default>false</default>
+                    <label>Trimester 2</label>
+                </value>
+                <value>
+                    <fullName>Trimester 3</fullName>
+                    <default>false</default>
+                    <label>Trimester 3</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Desired_Start_Year__c</fullName>
+        <description>Desired Start Year of the Prospective Student Lead.</description>
+        <inlineHelpText>Desired Start Year of the Prospective Student Lead.</inlineHelpText>
+        <label>Desired Start Year</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>2017</fullName>
+                    <default>false</default>
+                    <label>2017</label>
+                </value>
+                <value>
+                    <fullName>2018</fullName>
+                    <default>false</default>
+                    <label>2018</label>
+                </value>
+                <value>
+                    <fullName>2019</fullName>
+                    <default>false</default>
+                    <label>2019</label>
+                </value>
+                <value>
+                    <fullName>2020</fullName>
+                    <default>false</default>
+                    <label>2020</label>
+                </value>
+                <value>
+                    <fullName>2021</fullName>
+                    <default>false</default>
+                    <label>2021</label>
+                </value>
+                <value>
+                    <fullName>2022</fullName>
+                    <default>false</default>
+                    <label>2022</label>
+                </value>
+                <value>
+                    <fullName>2023</fullName>
+                    <default>false</default>
+                    <label>2023</label>
+                </value>
+                <value>
+                    <fullName>2024</fullName>
+                    <default>false</default>
+                    <label>2024</label>
+                </value>
+                <value>
+                    <fullName>2025</fullName>
+                    <default>false</default>
+                    <label>2025</label>
+                </value>
+                <value>
+                    <fullName>2026</fullName>
+                    <default>false</default>
+                    <label>2026</label>
+                </value>
+                <value>
+                    <fullName>2027</fullName>
+                    <default>false</default>
+                    <label>2027</label>
+                </value>
+                <value>
+                    <fullName>2028</fullName>
+                    <default>false</default>
+                    <label>2028</label>
+                </value>
+                <value>
+                    <fullName>2029</fullName>
+                    <default>false</default>
+                    <label>2029</label>
+                </value>
+                <value>
+                    <fullName>2030</fullName>
+                    <default>false</default>
+                    <label>2030</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Dietary_Requirements__c</fullName>
+        <description>Dietary requirements of the Prospective Student Event Campaign Members. This value would be propagated to all added Event Campaign Members of the Prospective Student.</description>
+        <inlineHelpText>Dietary requirements of the Prospective Student Event Campaign Members.</inlineHelpText>
+        <label>Dietary Requirements</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Vegetarian</fullName>
+                    <default>false</default>
+                    <label>Vegetarian</label>
+                </value>
+                <value>
+                    <fullName>None</fullName>
+                    <default>false</default>
+                    <label>None</label>
+                </value>
+                <value>
+                    <fullName>Vegan</fullName>
+                    <default>false</default>
+                    <label>Vegan</label>
+                </value>
+                <value>
+                    <fullName>Halal</fullName>
+                    <default>false</default>
+                    <label>Halal</label>
+                </value>
+                <value>
+                    <fullName>Kosher</fullName>
+                    <default>false</default>
+                    <label>Kosher</label>
+                </value>
+                <value>
+                    <fullName>Coeliac</fullName>
+                    <default>false</default>
+                    <label>Coeliac</label>
+                </value>
+                <value>
+                    <fullName>Dairy allergy</fullName>
+                    <default>false</default>
+                    <label>Dairy allergy</label>
+                </value>
+                <value>
+                    <fullName>Nut allergy</fullName>
+                    <default>false</default>
+                    <label>Nut allergy</label>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                    <label>Other</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Do_Not_Create_Acquisition_Camp_Member__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Setting the field top true would not create an acquisition campaign member.
+
+mainly used so that Blackthorn attendees won&apos;t create duplicate campaign members.</description>
+        <inlineHelpText>used so that Blackthorn attendees won&apos;t create duplicate campaign members.</inlineHelpText>
+        <label>Do Not Create Acquisition Camp Member</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Do_Not_Overwrite__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>This fields defines whether the SPS  should overwrite field values when matched existing records are found on Exploding Leads</description>
+        <inlineHelpText>Defines whether the SPS should overwrite field values when matched existing records are found on Exploding Leads.</inlineHelpText>
+        <label>Do Not Overwrite</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Email__c</fullName>
+        <description>Email of the Prospective Student Contact.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Email of the Prospective Student Contact.</inlineHelpText>
+        <label>Email</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Email</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>English_Proficiency_Level__c</fullName>
+        <description>English Proficiency Level of Prospective Student Lead.</description>
+        <inlineHelpText>English Proficiency Level of Prospective Student Lead.</inlineHelpText>
+        <label>English Proficiency Level</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Certificate in Advanced English</fullName>
+                    <default>false</default>
+                    <label>Certificate in Advanced English</label>
+                </value>
+                <value>
+                    <fullName>Certficate of Proficiency in English</fullName>
+                    <default>false</default>
+                    <label>Certficate of Proficiency in English</label>
+                </value>
+                <value>
+                    <fullName>TOEFL COMPUTER BASED (TEST OF ENGLISH AS A FOREIGN LANGUAGE)</fullName>
+                    <default>false</default>
+                    <label>TOEFL COMPUTER BASED (TEST OF ENGLISH AS A FOREIGN LANGUAGE)</label>
+                </value>
+                <value>
+                    <fullName>IELTS (International English Language Testing Service)</fullName>
+                    <default>false</default>
+                    <label>IELTS (International English Language Testing Service)</label>
+                </value>
+                <value>
+                    <fullName>Internet based TOEFL (Test of English as a Foreign Language)</fullName>
+                    <default>false</default>
+                    <label>Internet based TOEFL (Test of English as a Foreign Language)</label>
+                </value>
+                <value>
+                    <fullName>Monash English Language Placement test - MUELC only</fullName>
+                    <default>false</default>
+                    <label>Monash English Language Placement test - MUELC only</label>
+                </value>
+                <value>
+                    <fullName>Paper based TOEFL (Test of English as a Foreign Language)</fullName>
+                    <default>false</default>
+                    <label>Paper based TOEFL (Test of English as a Foreign Language)</label>
+                </value>
+                <value>
+                    <fullName>Pearson Test of English (Academic)</fullName>
+                    <default>false</default>
+                    <label>Pearson Test of English (Academic)</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Enquiry_Description__c</fullName>
+        <description>Contains the details regarding the enquiry</description>
+        <inlineHelpText>Contains the details regarding the enquiry.</inlineHelpText>
+        <label>Enquiry Description</label>
+        <length>32000</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Enquiry_Subject__c</fullName>
+        <description>Subject line of enquiry</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Subject line of enquiry.</inlineHelpText>
+        <label>Enquiry Subject</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Event_Campaigns__c</fullName>
+        <description>List of Event Campaigns to add Prospective Student as Campaign members. Expected format : Line separated Campaign IDs.</description>
+        <inlineHelpText>List of Event Campaigns to add Prospective Student as Campaign members.</inlineHelpText>
+        <label>Event Campaigns</label>
+        <length>1000</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Event_Member_Status__c</fullName>
+        <description>Status of the prospective student campaign member under the registered list of event campaigns.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Status of the prospective student campaign member under the registered list of event campaigns.</inlineHelpText>
+        <label>Event Member Status</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Exploded_Enquiry__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Lookup to the related Case which was created from the &quot;Exploding Leads&quot; logic</description>
+        <inlineHelpText>Lookup to the related Enquiry which was created from the &quot;Exploding Leads&quot;.</inlineHelpText>
+        <label>Exploded Enquiry</label>
+        <referenceTo>Case</referenceTo>
+        <relationshipLabel>Staged Prospective Students</relationshipLabel>
+        <relationshipName>Staged_Prospective_Students</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Exploded_Lead__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Lookup to the lead record that was generated as part of the Exploding Leads logic</description>
+        <inlineHelpText>Lookup to the lead record that was generated as part of the Exploding Leads.</inlineHelpText>
+        <label>Exploded Lead</label>
+        <referenceTo>Lead</referenceTo>
+        <relationshipLabel>Staged Prospective Students (Exploded Lead)</relationshipLabel>
+        <relationshipName>Exploded_Staged_Prospective_Students</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Exploded_Target__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Contact associated to this exploded Staged Lead</description>
+        <inlineHelpText>Contact associated to this exploded Staged Lead.</inlineHelpText>
+        <label>Exploded Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Staged Prospective Students</relationshipLabel>
+        <relationshipName>Staged_Prospective_Students</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Exploding_Leads_V2__c</fullName>
+        <defaultValue>true</defaultValue>
+        <description>Indicates to run V2 of Exploding Leads logic</description>
+        <label>Exploding Leads V2</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Extension_Enrolment__c</fullName>
+        <externalId>false</externalId>
+        <label>Extension Enrolment</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>First_Name__c</fullName>
+        <description>First Name of the Prospective Student Contact.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>First Name of the Prospective Student Contact.</inlineHelpText>
+        <label>First Name</label>
+        <length>40</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GACLIENTID__c</fullName>
+        <description>Google Analytics field. ref: https://support.google.com/analytics/answer/7584446?hl=en
+
+This will be mapped to the corresponding Lead field via custom metadata</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Google Analytics field.</inlineHelpText>
+        <label>GA Client ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GATRACKID__c</fullName>
+        <description>Google Analytics field. ref: https://support.google.com/analytics/answer/7584446?hl=en
+
+This will be mapped to the corresponding Lead field via custom metadata</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Google Analytics field.</inlineHelpText>
+        <label>GA Track ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GAUSERID__c</fullName>
+        <description>Google Analytics field. ref: https://support.google.com/analytics/answer/7584446?hl=en
+
+This will be mapped to the corresponding Lead field via custom metadata</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Google Analytics field.</inlineHelpText>
+        <label>GA User ID</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Gender__c</fullName>
+        <description>Gender of the Prospective Student Contact.</description>
+        <inlineHelpText>Gender of the Prospective Student Contact.</inlineHelpText>
+        <label>Gender</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>None</fullName>
+                    <default>false</default>
+                    <label>None</label>
+                </value>
+                <value>
+                    <fullName>M</fullName>
+                    <default>false</default>
+                    <label>M</label>
+                </value>
+                <value>
+                    <fullName>F</fullName>
+                    <default>false</default>
+                    <label>F</label>
+                </value>
+                <value>
+                    <fullName>U</fullName>
+                    <default>false</default>
+                    <label>U</label>
+                </value>
+                <value>
+                    <fullName>X</fullName>
+                    <default>false</default>
+                    <label>X</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Interested_Course_List__c</fullName>
+        <description>List of course IDs or Course Code that the Prospective Student is interested in</description>
+        <inlineHelpText>Course IDs or Course Code that the Prospective Student is interested in.</inlineHelpText>
+        <label>Interested Course List</label>
+        <length>1000</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Interested_in_Monash_College_Text__c</fullName>
+        <description>Determine if the Prospective Student is interested in Monash College.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Determine if the Prospective Student is interested in Monash College.</inlineHelpText>
+        <label>Interested in Monash College (Text)</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Last_Name__c</fullName>
+        <description>Last Name of the Prospective Student Contact.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Last Name of the Prospective Student Contact.</inlineHelpText>
+        <label>Last Name</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Lead_Source__c</fullName>
+        <description>Lead Source of the Prospective Student Lead.</description>
+        <inlineHelpText>Lead Source of the Prospective Student Lead.</inlineHelpText>
+        <label>Lead Source</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Advertisement</fullName>
+                    <default>false</default>
+                    <label>Advertisement</label>
+                </value>
+                <value>
+                    <fullName>Employee Referral</fullName>
+                    <default>false</default>
+                    <label>Employee Referral</label>
+                </value>
+                <value>
+                    <fullName>External Referral</fullName>
+                    <default>false</default>
+                    <label>External Referral</label>
+                </value>
+                <value>
+                    <fullName>Partner</fullName>
+                    <default>false</default>
+                    <label>Partner</label>
+                </value>
+                <value>
+                    <fullName>Public Relations</fullName>
+                    <default>false</default>
+                    <label>Public Relations</label>
+                </value>
+                <value>
+                    <fullName>Seminar - Internal</fullName>
+                    <default>false</default>
+                    <label>Seminar - Internal</label>
+                </value>
+                <value>
+                    <fullName>Seminar - Partner</fullName>
+                    <default>false</default>
+                    <label>Seminar - Partner</label>
+                </value>
+                <value>
+                    <fullName>Trade Show</fullName>
+                    <default>false</default>
+                    <label>Trade Show</label>
+                </value>
+                <value>
+                    <fullName>Web</fullName>
+                    <default>false</default>
+                    <label>Web</label>
+                </value>
+                <value>
+                    <fullName>Word of mouth</fullName>
+                    <default>false</default>
+                    <label>Word of mouth</label>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                    <label>Other</label>
+                </value>
+                <value>
+                    <fullName>Web - SR Event</fullName>
+                    <default>false</default>
+                    <label>Web - SR Event</label>
+                </value>
+                <value>
+                    <fullName>Walk In (MUM FSO)</fullName>
+                    <default>false</default>
+                    <label>Walk In (MUM FSO)</label>
+                </value>
+                <value>
+                    <fullName>Appointment (MUM FSO)</fullName>
+                    <default>false</default>
+                    <label>Appointment (MUM FSO)</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Mailing_City__c</fullName>
+        <description>Mailing City for the Prospective Student Contact.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Mailing City for the Prospective Student Contact.</inlineHelpText>
+        <label>Mailing City</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Mailing_Country__c</fullName>
+        <description>Mailing Country for the Prospective Student Contact.</description>
+        <inlineHelpText>Mailing Country for the Prospective Student Contact.</inlineHelpText>
+        <label>Mailing Country</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Country_List_1</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Mailing_Postcode__c</fullName>
+        <description>Mailing Postcode for the Prospective Student Contact.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Mailing Postcode for the Prospective Student Contact.</inlineHelpText>
+        <label>Mailing Postcode</label>
+        <length>20</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Mailing_State__c</fullName>
+        <description>Mailing State for the Prospective Student Contact.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Mailing State for the Prospective Student Contact.</inlineHelpText>
+        <label>Mailing State</label>
+        <length>25</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Mailing_Street__c</fullName>
+        <description>Mailing Street of Prospective Student Contact.</description>
+        <inlineHelpText>Mailing Street of Prospective Student Contact.</inlineHelpText>
+        <label>Mailing Street</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Migrated_Lead__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Contains Lead ID for migrated lead to determine source and historical data value</description>
+        <inlineHelpText>Contains Lead ID for migrated lead to determine source and historical data value.</inlineHelpText>
+        <label>Migrated Lead</label>
+        <referenceTo>Lead</referenceTo>
+        <relationshipLabel>Staged Prospective Students</relationshipLabel>
+        <relationshipName>Staged_Prospective_Students</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Mobile__c</fullName>
+        <description>Mobile for the Prospective Student Contact.</description>
+        <inlineHelpText>Mobile for the Prospective Student Contact.</inlineHelpText>
+        <label>Mobile</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Phone</type>
+    </fields>
+    <fields>
+        <fullName>Monash_Visitor_ID__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field to capture Monash Visitor ID in order to maintain traceability of Leads</description>
+        <externalId>false</externalId>
+        <label>Monash Visitor ID</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Nationality__c</fullName>
+        <description>Nationality of the Prospective Student Contact.</description>
+        <inlineHelpText>Nationality of the Prospective Student Contact.</inlineHelpText>
+        <label>Nationality</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>None</fullName>
+                    <default>false</default>
+                    <label>None</label>
+                </value>
+                <value>
+                    <fullName>ADELIE LAND (FRANCE)</fullName>
+                    <default>false</default>
+                    <label>ADELIE LAND (FRANCE)</label>
+                </value>
+                <value>
+                    <fullName>AFGHANISTAN</fullName>
+                    <default>false</default>
+                    <label>AFGHANISTAN</label>
+                </value>
+                <value>
+                    <fullName>ALBANIA</fullName>
+                    <default>false</default>
+                    <label>ALBANIA</label>
+                </value>
+                <value>
+                    <fullName>ALGERIA</fullName>
+                    <default>false</default>
+                    <label>ALGERIA</label>
+                </value>
+                <value>
+                    <fullName>ALL INDIAN OCEAN COUNTRIES</fullName>
+                    <default>false</default>
+                    <label>ALL INDIAN OCEAN COUNTRIES</label>
+                </value>
+                <value>
+                    <fullName>ALL OTHER AFRICAN COUNTRIES NOT LISTED ABOVE</fullName>
+                    <default>false</default>
+                    <label>ALL OTHER AFRICAN COUNTRIES NOT LISTED ABOVE</label>
+                </value>
+                <value>
+                    <fullName>ALL OTHER OVERSEAS COUNTRIES</fullName>
+                    <default>false</default>
+                    <label>ALL OTHER OVERSEAS COUNTRIES</label>
+                </value>
+                <value>
+                    <fullName>ANDORRA</fullName>
+                    <default>false</default>
+                    <label>ANDORRA</label>
+                </value>
+                <value>
+                    <fullName>ANGOLA</fullName>
+                    <default>false</default>
+                    <label>ANGOLA</label>
+                </value>
+                <value>
+                    <fullName>ANTARCTICA, NFD</fullName>
+                    <default>false</default>
+                    <label>ANTARCTICA, NFD</label>
+                </value>
+                <value>
+                    <fullName>ARGENTINA</fullName>
+                    <default>false</default>
+                    <label>ARGENTINA</label>
+                </value>
+                <value>
+                    <fullName>ARGENTINIAN ANTARCTIC TERRITORY</fullName>
+                    <default>false</default>
+                    <label>ARGENTINIAN ANTARCTIC TERRITORY</label>
+                </value>
+                <value>
+                    <fullName>ARMENIA</fullName>
+                    <default>false</default>
+                    <label>ARMENIA</label>
+                </value>
+                <value>
+                    <fullName>AUSTRALIA</fullName>
+                    <default>false</default>
+                    <label>AUSTRALIA</label>
+                </value>
+                <value>
+                    <fullName>AUSTRALIAN ANTARCTIC TERRITORY</fullName>
+                    <default>false</default>
+                    <label>AUSTRALIAN ANTARCTIC TERRITORY</label>
+                </value>
+                <value>
+                    <fullName>AUSTRALIAN EXTERNAL TERRITORIES, NEC</fullName>
+                    <default>false</default>
+                    <label>AUSTRALIAN EXTERNAL TERRITORIES, NEC</label>
+                </value>
+                <value>
+                    <fullName>AUSTRIA</fullName>
+                    <default>false</default>
+                    <label>AUSTRIA</label>
+                </value>
+                <value>
+                    <fullName>AZERBAIJAN</fullName>
+                    <default>false</default>
+                    <label>AZERBAIJAN</label>
+                </value>
+                <value>
+                    <fullName>BAHAMAS</fullName>
+                    <default>false</default>
+                    <label>BAHAMAS</label>
+                </value>
+                <value>
+                    <fullName>BAHRAIN</fullName>
+                    <default>false</default>
+                    <label>BAHRAIN</label>
+                </value>
+                <value>
+                    <fullName>BANGLADESH</fullName>
+                    <default>false</default>
+                    <label>BANGLADESH</label>
+                </value>
+                <value>
+                    <fullName>BARBADOS</fullName>
+                    <default>false</default>
+                    <label>BARBADOS</label>
+                </value>
+                <value>
+                    <fullName>BELARUS</fullName>
+                    <default>false</default>
+                    <label>BELARUS</label>
+                </value>
+                <value>
+                    <fullName>BELGIUM</fullName>
+                    <default>false</default>
+                    <label>BELGIUM</label>
+                </value>
+                <value>
+                    <fullName>BELIZE</fullName>
+                    <default>false</default>
+                    <label>BELIZE</label>
+                </value>
+                <value>
+                    <fullName>BENIN</fullName>
+                    <default>false</default>
+                    <label>BENIN</label>
+                </value>
+                <value>
+                    <fullName>BERMUDA</fullName>
+                    <default>false</default>
+                    <label>BERMUDA</label>
+                </value>
+                <value>
+                    <fullName>BHUTAN</fullName>
+                    <default>false</default>
+                    <label>BHUTAN</label>
+                </value>
+                <value>
+                    <fullName>BOLIVIA</fullName>
+                    <default>false</default>
+                    <label>BOLIVIA</label>
+                </value>
+                <value>
+                    <fullName>BOSNIA AND HERZEGOVINA</fullName>
+                    <default>false</default>
+                    <label>BOSNIA AND HERZEGOVINA</label>
+                </value>
+                <value>
+                    <fullName>BOTSWANA</fullName>
+                    <default>false</default>
+                    <label>BOTSWANA</label>
+                </value>
+                <value>
+                    <fullName>BRAZIL</fullName>
+                    <default>false</default>
+                    <label>BRAZIL</label>
+                </value>
+                <value>
+                    <fullName>BRITISH ANTARCTIC TERRITORY</fullName>
+                    <default>false</default>
+                    <label>BRITISH ANTARCTIC TERRITORY</label>
+                </value>
+                <value>
+                    <fullName>BRUNEI</fullName>
+                    <default>false</default>
+                    <label>BRUNEI</label>
+                </value>
+                <value>
+                    <fullName>BRUNEI DARUSSALAM</fullName>
+                    <default>false</default>
+                    <label>BRUNEI DARUSSALAM</label>
+                </value>
+                <value>
+                    <fullName>BULGARIA</fullName>
+                    <default>false</default>
+                    <label>BULGARIA</label>
+                </value>
+                <value>
+                    <fullName>BURMA (MYANMAR)</fullName>
+                    <default>false</default>
+                    <label>BURMA (MYANMAR)</label>
+                </value>
+                <value>
+                    <fullName>BURUNDI</fullName>
+                    <default>false</default>
+                    <label>BURUNDI</label>
+                </value>
+                <value>
+                    <fullName>CAMBODIA</fullName>
+                    <default>false</default>
+                    <label>CAMBODIA</label>
+                </value>
+                <value>
+                    <fullName>CAMEROON</fullName>
+                    <default>false</default>
+                    <label>CAMEROON</label>
+                </value>
+                <value>
+                    <fullName>CANADA</fullName>
+                    <default>false</default>
+                    <label>CANADA</label>
+                </value>
+                <value>
+                    <fullName>CAPE VERDE</fullName>
+                    <default>false</default>
+                    <label>CAPE VERDE</label>
+                </value>
+                <value>
+                    <fullName>CHAD</fullName>
+                    <default>false</default>
+                    <label>CHAD</label>
+                </value>
+                <value>
+                    <fullName>CHANNEL ISLANDS</fullName>
+                    <default>false</default>
+                    <label>CHANNEL ISLANDS</label>
+                </value>
+                <value>
+                    <fullName>CHILE</fullName>
+                    <default>false</default>
+                    <label>CHILE</label>
+                </value>
+                <value>
+                    <fullName>CHINA, PEOPLE&apos;S REPUBLIC</fullName>
+                    <default>false</default>
+                    <label>CHINA, PEOPLE&apos;S REPUBLIC</label>
+                </value>
+                <value>
+                    <fullName>CHINA (EXCLUDES SARS AND TAIWAN PROVINCE)</fullName>
+                    <default>false</default>
+                    <label>CHINA (EXCLUDES SARS AND TAIWAN PROVINCE)</label>
+                </value>
+                <value>
+                    <fullName>CHINESE ASIA (INCLUDES MONGOLIA), NFD</fullName>
+                    <default>false</default>
+                    <label>CHINESE ASIA (INCLUDES MONGOLIA), NFD</label>
+                </value>
+                <value>
+                    <fullName>COCOS (KEELING) ISLAND</fullName>
+                    <default>false</default>
+                    <label>COCOS (KEELING) ISLAND</label>
+                </value>
+                <value>
+                    <fullName>COLOMBIA</fullName>
+                    <default>false</default>
+                    <label>COLOMBIA</label>
+                </value>
+                <value>
+                    <fullName>CONGO</fullName>
+                    <default>false</default>
+                    <label>CONGO</label>
+                </value>
+                <value>
+                    <fullName>CONGO, DEMOCRATIC REPUBLIC OF</fullName>
+                    <default>false</default>
+                    <label>CONGO, DEMOCRATIC REPUBLIC OF</label>
+                </value>
+                <value>
+                    <fullName>COSTA RICA</fullName>
+                    <default>false</default>
+                    <label>COSTA RICA</label>
+                </value>
+                <value>
+                    <fullName>COTE D&apos;IVOIRE</fullName>
+                    <default>false</default>
+                    <label>COTE D&apos;IVOIRE</label>
+                </value>
+                <value>
+                    <fullName>CROATIA</fullName>
+                    <default>false</default>
+                    <label>CROATIA</label>
+                </value>
+                <value>
+                    <fullName>CUBA</fullName>
+                    <default>false</default>
+                    <label>CUBA</label>
+                </value>
+                <value>
+                    <fullName>CYPRUS</fullName>
+                    <default>false</default>
+                    <label>CYPRUS</label>
+                </value>
+                <value>
+                    <fullName>CZECHOSLOVAKIA</fullName>
+                    <default>false</default>
+                    <label>CZECHOSLOVAKIA</label>
+                </value>
+                <value>
+                    <fullName>CZECH REPUBLIC</fullName>
+                    <default>false</default>
+                    <label>CZECH REPUBLIC</label>
+                </value>
+                <value>
+                    <fullName>DENMARK</fullName>
+                    <default>false</default>
+                    <label>DENMARK</label>
+                </value>
+                <value>
+                    <fullName>DJIBOUTI</fullName>
+                    <default>false</default>
+                    <label>DJIBOUTI</label>
+                </value>
+                <value>
+                    <fullName>DOMINICAN REPUBLIC</fullName>
+                    <default>false</default>
+                    <label>DOMINICAN REPUBLIC</label>
+                </value>
+                <value>
+                    <fullName>EASTERN EUROPE, NFD</fullName>
+                    <default>false</default>
+                    <label>EASTERN EUROPE, NFD</label>
+                </value>
+                <value>
+                    <fullName>EAST TIMOR</fullName>
+                    <default>false</default>
+                    <label>EAST TIMOR</label>
+                </value>
+                <value>
+                    <fullName>ECUADOR</fullName>
+                    <default>false</default>
+                    <label>ECUADOR</label>
+                </value>
+                <value>
+                    <fullName>EGYPT</fullName>
+                    <default>false</default>
+                    <label>EGYPT</label>
+                </value>
+                <value>
+                    <fullName>EL SALVADOR</fullName>
+                    <default>false</default>
+                    <label>EL SALVADOR</label>
+                </value>
+                <value>
+                    <fullName>ENGLAND</fullName>
+                    <default>false</default>
+                    <label>ENGLAND</label>
+                </value>
+                <value>
+                    <fullName>EQUATORIAL GUINEA</fullName>
+                    <default>false</default>
+                    <label>EQUATORIAL GUINEA</label>
+                </value>
+                <value>
+                    <fullName>ERITREA</fullName>
+                    <default>false</default>
+                    <label>ERITREA</label>
+                </value>
+                <value>
+                    <fullName>ESTONIA</fullName>
+                    <default>false</default>
+                    <label>ESTONIA</label>
+                </value>
+                <value>
+                    <fullName>ETHIOPIA</fullName>
+                    <default>false</default>
+                    <label>ETHIOPIA</label>
+                </value>
+                <value>
+                    <fullName>FIJI</fullName>
+                    <default>false</default>
+                    <label>FIJI</label>
+                </value>
+                <value>
+                    <fullName>FINLAND</fullName>
+                    <default>false</default>
+                    <label>FINLAND</label>
+                </value>
+                <value>
+                    <fullName>FORMER YUGOSLAVIA NOT FURTHER DEFINED</fullName>
+                    <default>false</default>
+                    <label>FORMER YUGOSLAVIA NOT FURTHER DEFINED</label>
+                </value>
+                <value>
+                    <fullName>FORMER YUGOSLAV REPUBLIC OF MACEDONIA (FYROM)</fullName>
+                    <default>false</default>
+                    <label>FORMER YUGOSLAV REPUBLIC OF MACEDONIA (FYROM)</label>
+                </value>
+                <value>
+                    <fullName>FRANCE</fullName>
+                    <default>false</default>
+                    <label>FRANCE</label>
+                </value>
+                <value>
+                    <fullName>FRENCH POLYNESIA</fullName>
+                    <default>false</default>
+                    <label>FRENCH POLYNESIA</label>
+                </value>
+                <value>
+                    <fullName>GABON</fullName>
+                    <default>false</default>
+                    <label>GABON</label>
+                </value>
+                <value>
+                    <fullName>GAMBIA</fullName>
+                    <default>false</default>
+                    <label>GAMBIA</label>
+                </value>
+                <value>
+                    <fullName>GAZA STRIP AND WEST BANK</fullName>
+                    <default>false</default>
+                    <label>GAZA STRIP AND WEST BANK</label>
+                </value>
+                <value>
+                    <fullName>GEORGIA</fullName>
+                    <default>false</default>
+                    <label>GEORGIA</label>
+                </value>
+                <value>
+                    <fullName>GERMANY</fullName>
+                    <default>false</default>
+                    <label>GERMANY</label>
+                </value>
+                <value>
+                    <fullName>GHANA</fullName>
+                    <default>false</default>
+                    <label>GHANA</label>
+                </value>
+                <value>
+                    <fullName>GIBRALTAR</fullName>
+                    <default>false</default>
+                    <label>GIBRALTAR</label>
+                </value>
+                <value>
+                    <fullName>GREECE</fullName>
+                    <default>false</default>
+                    <label>GREECE</label>
+                </value>
+                <value>
+                    <fullName>GUADELOUPE</fullName>
+                    <default>false</default>
+                    <label>GUADELOUPE</label>
+                </value>
+                <value>
+                    <fullName>GUAM</fullName>
+                    <default>false</default>
+                    <label>GUAM</label>
+                </value>
+                <value>
+                    <fullName>GUATEMALA</fullName>
+                    <default>false</default>
+                    <label>GUATEMALA</label>
+                </value>
+                <value>
+                    <fullName>GUINEA</fullName>
+                    <default>false</default>
+                    <label>GUINEA</label>
+                </value>
+                <value>
+                    <fullName>GUYANA</fullName>
+                    <default>false</default>
+                    <label>GUYANA</label>
+                </value>
+                <value>
+                    <fullName>HONDURAS</fullName>
+                    <default>false</default>
+                    <label>HONDURAS</label>
+                </value>
+                <value>
+                    <fullName>HONG KONG</fullName>
+                    <default>false</default>
+                    <label>HONG KONG</label>
+                </value>
+                <value>
+                    <fullName>HONG KONG (SAR OF CHINA)</fullName>
+                    <default>false</default>
+                    <label>HONG KONG (SAR OF CHINA)</label>
+                </value>
+                <value>
+                    <fullName>HUNGARY</fullName>
+                    <default>false</default>
+                    <label>HUNGARY</label>
+                </value>
+                <value>
+                    <fullName>ICELAND</fullName>
+                    <default>false</default>
+                    <label>ICELAND</label>
+                </value>
+                <value>
+                    <fullName>INDIA</fullName>
+                    <default>false</default>
+                    <label>INDIA</label>
+                </value>
+                <value>
+                    <fullName>INDONESIA</fullName>
+                    <default>false</default>
+                    <label>INDONESIA</label>
+                </value>
+                <value>
+                    <fullName>INDONESIA (INCLUDING TIMOR)</fullName>
+                    <default>false</default>
+                    <label>INDONESIA (INCLUDING TIMOR)</label>
+                </value>
+                <value>
+                    <fullName>IRAN</fullName>
+                    <default>false</default>
+                    <label>IRAN</label>
+                </value>
+                <value>
+                    <fullName>IRAQ</fullName>
+                    <default>false</default>
+                    <label>IRAQ</label>
+                </value>
+                <value>
+                    <fullName>IRELAND</fullName>
+                    <default>false</default>
+                    <label>IRELAND</label>
+                </value>
+                <value>
+                    <fullName>ISRAEL</fullName>
+                    <default>false</default>
+                    <label>ISRAEL</label>
+                </value>
+                <value>
+                    <fullName>ITALY</fullName>
+                    <default>false</default>
+                    <label>ITALY</label>
+                </value>
+                <value>
+                    <fullName>JAMAICA</fullName>
+                    <default>false</default>
+                    <label>JAMAICA</label>
+                </value>
+                <value>
+                    <fullName>JAPAN</fullName>
+                    <default>false</default>
+                    <label>JAPAN</label>
+                </value>
+                <value>
+                    <fullName>JAPAN AND THE KOREAS, NFD</fullName>
+                    <default>false</default>
+                    <label>JAPAN AND THE KOREAS, NFD</label>
+                </value>
+                <value>
+                    <fullName>JORDAN</fullName>
+                    <default>false</default>
+                    <label>JORDAN</label>
+                </value>
+                <value>
+                    <fullName>KAZAKHSTAN</fullName>
+                    <default>false</default>
+                    <label>KAZAKHSTAN</label>
+                </value>
+                <value>
+                    <fullName>KENYA</fullName>
+                    <default>false</default>
+                    <label>KENYA</label>
+                </value>
+                <value>
+                    <fullName>KIRIBATI</fullName>
+                    <default>false</default>
+                    <label>KIRIBATI</label>
+                </value>
+                <value>
+                    <fullName>KOREA, DEMOCRATIC PEOPLE&apos;S REPUBLIC OF (NORTH)</fullName>
+                    <default>false</default>
+                    <label>KOREA, DEMOCRATIC PEOPLE&apos;S REPUBLIC OF (NORTH)</label>
+                </value>
+                <value>
+                    <fullName>KOREA, REPUBLIC OF (SOUTH)</fullName>
+                    <default>false</default>
+                    <label>KOREA, REPUBLIC OF (SOUTH)</label>
+                </value>
+                <value>
+                    <fullName>KOREA - NORTH</fullName>
+                    <default>false</default>
+                    <label>KOREA - NORTH</label>
+                </value>
+                <value>
+                    <fullName>KOREA - SOUTH</fullName>
+                    <default>false</default>
+                    <label>KOREA - SOUTH</label>
+                </value>
+                <value>
+                    <fullName>KUWAIT</fullName>
+                    <default>false</default>
+                    <label>KUWAIT</label>
+                </value>
+                <value>
+                    <fullName>KYRGYZ REPUBLIC</fullName>
+                    <default>false</default>
+                    <label>KYRGYZ REPUBLIC</label>
+                </value>
+                <value>
+                    <fullName>LAOS</fullName>
+                    <default>false</default>
+                    <label>LAOS</label>
+                </value>
+                <value>
+                    <fullName>LATVIA</fullName>
+                    <default>false</default>
+                    <label>LATVIA</label>
+                </value>
+                <value>
+                    <fullName>LEBANON</fullName>
+                    <default>false</default>
+                    <label>LEBANON</label>
+                </value>
+                <value>
+                    <fullName>LESOTHO</fullName>
+                    <default>false</default>
+                    <label>LESOTHO</label>
+                </value>
+                <value>
+                    <fullName>LIBERIA</fullName>
+                    <default>false</default>
+                    <label>LIBERIA</label>
+                </value>
+                <value>
+                    <fullName>LIBYA</fullName>
+                    <default>false</default>
+                    <label>LIBYA</label>
+                </value>
+                <value>
+                    <fullName>LIECHTENSTEIN</fullName>
+                    <default>false</default>
+                    <label>LIECHTENSTEIN</label>
+                </value>
+                <value>
+                    <fullName>LITHUANIA</fullName>
+                    <default>false</default>
+                    <label>LITHUANIA</label>
+                </value>
+                <value>
+                    <fullName>LUXEMBOURG</fullName>
+                    <default>false</default>
+                    <label>LUXEMBOURG</label>
+                </value>
+                <value>
+                    <fullName>MACAU</fullName>
+                    <default>false</default>
+                    <label>MACAU</label>
+                </value>
+                <value>
+                    <fullName>MACAU (SAR OF CHINA)</fullName>
+                    <default>false</default>
+                    <label>MACAU (SAR OF CHINA)</label>
+                </value>
+                <value>
+                    <fullName>MADAGASCAR</fullName>
+                    <default>false</default>
+                    <label>MADAGASCAR</label>
+                </value>
+                <value>
+                    <fullName>MALAWI</fullName>
+                    <default>false</default>
+                    <label>MALAWI</label>
+                </value>
+                <value>
+                    <fullName>MALAYSIA</fullName>
+                    <default>false</default>
+                    <label>MALAYSIA</label>
+                </value>
+                <value>
+                    <fullName>MALDIVES</fullName>
+                    <default>false</default>
+                    <label>MALDIVES</label>
+                </value>
+                <value>
+                    <fullName>MALI</fullName>
+                    <default>false</default>
+                    <label>MALI</label>
+                </value>
+                <value>
+                    <fullName>MALTA</fullName>
+                    <default>false</default>
+                    <label>MALTA</label>
+                </value>
+                <value>
+                    <fullName>MARITIME SOUTH-EAST ASIA, NFD</fullName>
+                    <default>false</default>
+                    <label>MARITIME SOUTH-EAST ASIA, NFD</label>
+                </value>
+                <value>
+                    <fullName>MARSHALL ISLANDS</fullName>
+                    <default>false</default>
+                    <label>MARSHALL ISLANDS</label>
+                </value>
+                <value>
+                    <fullName>MAURITANIA</fullName>
+                    <default>false</default>
+                    <label>MAURITANIA</label>
+                </value>
+                <value>
+                    <fullName>MAURITIUS</fullName>
+                    <default>false</default>
+                    <label>MAURITIUS</label>
+                </value>
+                <value>
+                    <fullName>MEXICO</fullName>
+                    <default>false</default>
+                    <label>MEXICO</label>
+                </value>
+                <value>
+                    <fullName>MICRONESIA, FEDERATED STATES OF</fullName>
+                    <default>false</default>
+                    <label>MICRONESIA, FEDERATED STATES OF</label>
+                </value>
+                <value>
+                    <fullName>MOLDOVA</fullName>
+                    <default>false</default>
+                    <label>MOLDOVA</label>
+                </value>
+                <value>
+                    <fullName>MONACO</fullName>
+                    <default>false</default>
+                    <label>MONACO</label>
+                </value>
+                <value>
+                    <fullName>MONGOLIA</fullName>
+                    <default>false</default>
+                    <label>MONGOLIA</label>
+                </value>
+                <value>
+                    <fullName>MOROCCO</fullName>
+                    <default>false</default>
+                    <label>MOROCCO</label>
+                </value>
+                <value>
+                    <fullName>MOZAMBIQUE</fullName>
+                    <default>false</default>
+                    <label>MOZAMBIQUE</label>
+                </value>
+                <value>
+                    <fullName>NAMIBIA</fullName>
+                    <default>false</default>
+                    <label>NAMIBIA</label>
+                </value>
+                <value>
+                    <fullName>NAURU</fullName>
+                    <default>false</default>
+                    <label>NAURU</label>
+                </value>
+                <value>
+                    <fullName>NEPAL</fullName>
+                    <default>false</default>
+                    <label>NEPAL</label>
+                </value>
+                <value>
+                    <fullName>NETHERLANDS</fullName>
+                    <default>false</default>
+                    <label>NETHERLANDS</label>
+                </value>
+                <value>
+                    <fullName>NEW CALEDONIA</fullName>
+                    <default>false</default>
+                    <label>NEW CALEDONIA</label>
+                </value>
+                <value>
+                    <fullName>NEW ZEALAND</fullName>
+                    <default>false</default>
+                    <label>NEW ZEALAND</label>
+                </value>
+                <value>
+                    <fullName>NIGER</fullName>
+                    <default>false</default>
+                    <label>NIGER</label>
+                </value>
+                <value>
+                    <fullName>NIGERIA</fullName>
+                    <default>false</default>
+                    <label>NIGERIA</label>
+                </value>
+                <value>
+                    <fullName>NORFOLK ISLAND</fullName>
+                    <default>false</default>
+                    <label>NORFOLK ISLAND</label>
+                </value>
+                <value>
+                    <fullName>NORTHERN IRELAND</fullName>
+                    <default>false</default>
+                    <label>NORTHERN IRELAND</label>
+                </value>
+                <value>
+                    <fullName>NORWAY</fullName>
+                    <default>false</default>
+                    <label>NORWAY</label>
+                </value>
+                <value>
+                    <fullName>OMAN</fullName>
+                    <default>false</default>
+                    <label>OMAN</label>
+                </value>
+                <value>
+                    <fullName>OTHER ASIAN OR MIDDLE WASTERN COUNTRIES NOT LISTED ABOVE</fullName>
+                    <default>false</default>
+                    <label>OTHER ASIAN OR MIDDLE WASTERN COUNTRIES NOT LISTED ABOVE</label>
+                </value>
+                <value>
+                    <fullName>OTHER EUROPEAN COUNTRIES NOT LISTED ABOVE</fullName>
+                    <default>false</default>
+                    <label>OTHER EUROPEAN COUNTRIES NOT LISTED ABOVE</label>
+                </value>
+                <value>
+                    <fullName>OTHER PACIFIC OCEAN COUNTRIES NOT LISTED ABOVE</fullName>
+                    <default>false</default>
+                    <label>OTHER PACIFIC OCEAN COUNTRIES NOT LISTED ABOVE</label>
+                </value>
+                <value>
+                    <fullName>PAKISTAN</fullName>
+                    <default>false</default>
+                    <label>PAKISTAN</label>
+                </value>
+                <value>
+                    <fullName>PANAMA</fullName>
+                    <default>false</default>
+                    <label>PANAMA</label>
+                </value>
+                <value>
+                    <fullName>PAPUA NEW GUINEA</fullName>
+                    <default>false</default>
+                    <label>PAPUA NEW GUINEA</label>
+                </value>
+                <value>
+                    <fullName>PARAGUAY</fullName>
+                    <default>false</default>
+                    <label>PARAGUAY</label>
+                </value>
+                <value>
+                    <fullName>PERU</fullName>
+                    <default>false</default>
+                    <label>PERU</label>
+                </value>
+                <value>
+                    <fullName>PHILIPPINES</fullName>
+                    <default>false</default>
+                    <label>PHILIPPINES</label>
+                </value>
+                <value>
+                    <fullName>POLAND</fullName>
+                    <default>false</default>
+                    <label>POLAND</label>
+                </value>
+                <value>
+                    <fullName>PORTUGAL</fullName>
+                    <default>false</default>
+                    <label>PORTUGAL</label>
+                </value>
+                <value>
+                    <fullName>PUERTO RICO</fullName>
+                    <default>false</default>
+                    <label>PUERTO RICO</label>
+                </value>
+                <value>
+                    <fullName>QATAR</fullName>
+                    <default>false</default>
+                    <label>QATAR</label>
+                </value>
+                <value>
+                    <fullName>REUNION</fullName>
+                    <default>false</default>
+                    <label>REUNION</label>
+                </value>
+                <value>
+                    <fullName>ROMANIA</fullName>
+                    <default>false</default>
+                    <label>ROMANIA</label>
+                </value>
+                <value>
+                    <fullName>RUSSIAN FEDERATION</fullName>
+                    <default>false</default>
+                    <label>RUSSIAN FEDERATION</label>
+                </value>
+                <value>
+                    <fullName>RWANDA</fullName>
+                    <default>false</default>
+                    <label>RWANDA</label>
+                </value>
+                <value>
+                    <fullName>SAMOA</fullName>
+                    <default>false</default>
+                    <label>SAMOA</label>
+                </value>
+                <value>
+                    <fullName>SAUDI ARABIA</fullName>
+                    <default>false</default>
+                    <label>SAUDI ARABIA</label>
+                </value>
+                <value>
+                    <fullName>SCOTLAND</fullName>
+                    <default>false</default>
+                    <label>SCOTLAND</label>
+                </value>
+                <value>
+                    <fullName>SENEGAL</fullName>
+                    <default>false</default>
+                    <label>SENEGAL</label>
+                </value>
+                <value>
+                    <fullName>SERBIA</fullName>
+                    <default>false</default>
+                    <label>SERBIA</label>
+                </value>
+                <value>
+                    <fullName>SERBIA AND MONTENEGRO</fullName>
+                    <default>false</default>
+                    <label>SERBIA AND MONTENEGRO</label>
+                </value>
+                <value>
+                    <fullName>SEYCHELLES</fullName>
+                    <default>false</default>
+                    <label>SEYCHELLES</label>
+                </value>
+                <value>
+                    <fullName>SIERRA LEONE</fullName>
+                    <default>false</default>
+                    <label>SIERRA LEONE</label>
+                </value>
+                <value>
+                    <fullName>SINGAPORE</fullName>
+                    <default>false</default>
+                    <label>SINGAPORE</label>
+                </value>
+                <value>
+                    <fullName>SLOVAKIA</fullName>
+                    <default>false</default>
+                    <label>SLOVAKIA</label>
+                </value>
+                <value>
+                    <fullName>SLOVENIA</fullName>
+                    <default>false</default>
+                    <label>SLOVENIA</label>
+                </value>
+                <value>
+                    <fullName>SOLOMON ISLANDS</fullName>
+                    <default>false</default>
+                    <label>SOLOMON ISLANDS</label>
+                </value>
+                <value>
+                    <fullName>SOMALIA</fullName>
+                    <default>false</default>
+                    <label>SOMALIA</label>
+                </value>
+                <value>
+                    <fullName>SOUTH AFRICA</fullName>
+                    <default>false</default>
+                    <label>SOUTH AFRICA</label>
+                </value>
+                <value>
+                    <fullName>SOUTH SUDAN</fullName>
+                    <default>false</default>
+                    <label>SOUTH SUDAN</label>
+                </value>
+                <value>
+                    <fullName>SPAIN</fullName>
+                    <default>false</default>
+                    <label>SPAIN</label>
+                </value>
+                <value>
+                    <fullName>SRI LANKA</fullName>
+                    <default>false</default>
+                    <label>SRI LANKA</label>
+                </value>
+                <value>
+                    <fullName>ST KITTS AND NEVIS</fullName>
+                    <default>false</default>
+                    <label>ST KITTS AND NEVIS</label>
+                </value>
+                <value>
+                    <fullName>ST LUCIA</fullName>
+                    <default>false</default>
+                    <label>ST LUCIA</label>
+                </value>
+                <value>
+                    <fullName>ST VINCENT AND THE GRENADINES</fullName>
+                    <default>false</default>
+                    <label>ST VINCENT AND THE GRENADINES</label>
+                </value>
+                <value>
+                    <fullName>SUDAN</fullName>
+                    <default>false</default>
+                    <label>SUDAN</label>
+                </value>
+                <value>
+                    <fullName>SURINAME</fullName>
+                    <default>false</default>
+                    <label>SURINAME</label>
+                </value>
+                <value>
+                    <fullName>SWAZILAND</fullName>
+                    <default>false</default>
+                    <label>SWAZILAND</label>
+                </value>
+                <value>
+                    <fullName>SWEDEN</fullName>
+                    <default>false</default>
+                    <label>SWEDEN</label>
+                </value>
+                <value>
+                    <fullName>SWITZERLAND</fullName>
+                    <default>false</default>
+                    <label>SWITZERLAND</label>
+                </value>
+                <value>
+                    <fullName>SYRIA</fullName>
+                    <default>false</default>
+                    <label>SYRIA</label>
+                </value>
+                <value>
+                    <fullName>TAIWAN</fullName>
+                    <default>false</default>
+                    <label>TAIWAN</label>
+                </value>
+                <value>
+                    <fullName>TAJIKISTAN</fullName>
+                    <default>false</default>
+                    <label>TAJIKISTAN</label>
+                </value>
+                <value>
+                    <fullName>TANZANIA</fullName>
+                    <default>false</default>
+                    <label>TANZANIA</label>
+                </value>
+                <value>
+                    <fullName>THAILAND</fullName>
+                    <default>false</default>
+                    <label>THAILAND</label>
+                </value>
+                <value>
+                    <fullName>TOGO</fullName>
+                    <default>false</default>
+                    <label>TOGO</label>
+                </value>
+                <value>
+                    <fullName>TONGA</fullName>
+                    <default>false</default>
+                    <label>TONGA</label>
+                </value>
+                <value>
+                    <fullName>TRINIDAD AND TOBAGO</fullName>
+                    <default>false</default>
+                    <label>TRINIDAD AND TOBAGO</label>
+                </value>
+                <value>
+                    <fullName>TUNISIA</fullName>
+                    <default>false</default>
+                    <label>TUNISIA</label>
+                </value>
+                <value>
+                    <fullName>TURKEY</fullName>
+                    <default>false</default>
+                    <label>TURKEY</label>
+                </value>
+                <value>
+                    <fullName>TURKMENISTAN</fullName>
+                    <default>false</default>
+                    <label>TURKMENISTAN</label>
+                </value>
+                <value>
+                    <fullName>TURKS AND CAICOS ISLANDS</fullName>
+                    <default>false</default>
+                    <label>TURKS AND CAICOS ISLANDS</label>
+                </value>
+                <value>
+                    <fullName>TUVALU</fullName>
+                    <default>false</default>
+                    <label>TUVALU</label>
+                </value>
+                <value>
+                    <fullName>UGANDA</fullName>
+                    <default>false</default>
+                    <label>UGANDA</label>
+                </value>
+                <value>
+                    <fullName>UKRAINE</fullName>
+                    <default>false</default>
+                    <label>UKRAINE</label>
+                </value>
+                <value>
+                    <fullName>UNITED ARAB EMIRATES</fullName>
+                    <default>false</default>
+                    <label>UNITED ARAB EMIRATES</label>
+                </value>
+                <value>
+                    <fullName>UNITED KINGDOM, NFD</fullName>
+                    <default>false</default>
+                    <label>UNITED KINGDOM, NFD</label>
+                </value>
+                <value>
+                    <fullName>UNITED KINGDOM (INCLUDING NORTHERN IRELAND)</fullName>
+                    <default>false</default>
+                    <label>UNITED KINGDOM (INCLUDING NORTHERN IRELAND)</label>
+                </value>
+                <value>
+                    <fullName>UNITED SOVIET SOCIALIST REPUBLICS &amp; BALTIC STATES</fullName>
+                    <default>false</default>
+                    <label>UNITED SOVIET SOCIALIST REPUBLICS &amp; BALTIC STATES</label>
+                </value>
+                <value>
+                    <fullName>UNITED STATES OF AMERICA</fullName>
+                    <default>false</default>
+                    <label>UNITED STATES OF AMERICA</label>
+                </value>
+                <value>
+                    <fullName>URUGUAY</fullName>
+                    <default>false</default>
+                    <label>URUGUAY</label>
+                </value>
+                <value>
+                    <fullName>UZBEKISTAN</fullName>
+                    <default>false</default>
+                    <label>UZBEKISTAN</label>
+                </value>
+                <value>
+                    <fullName>VANUATU</fullName>
+                    <default>false</default>
+                    <label>VANUATU</label>
+                </value>
+                <value>
+                    <fullName>VENEZUELA</fullName>
+                    <default>false</default>
+                    <label>VENEZUELA</label>
+                </value>
+                <value>
+                    <fullName>VIET NAM</fullName>
+                    <default>false</default>
+                    <label>VIET NAM</label>
+                </value>
+                <value>
+                    <fullName>VIRGIN ISLANDS, BRITISH</fullName>
+                    <default>false</default>
+                    <label>VIRGIN ISLANDS, BRITISH</label>
+                </value>
+                <value>
+                    <fullName>WALES</fullName>
+                    <default>false</default>
+                    <label>WALES</label>
+                </value>
+                <value>
+                    <fullName>YEMEN</fullName>
+                    <default>false</default>
+                    <label>YEMEN</label>
+                </value>
+                <value>
+                    <fullName>ZAMBIA</fullName>
+                    <default>false</default>
+                    <label>ZAMBIA</label>
+                </value>
+                <value>
+                    <fullName>ZIMBABWE</fullName>
+                    <default>false</default>
+                    <label>ZIMBABWE</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Number_of_Attendees__c</fullName>
+        <description>Total number of attendees of the Prospective Student Event Campaign Members. This value would be propagated to all added Event Campaign Members of the Prospective Student.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Total number of attendees of the Prospective Student Event Campaign Members.</inlineHelpText>
+        <label>Number of Attendees</label>
+        <precision>3</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Parent_Guardian_Email__c</fullName>
+        <description>Parent or Guardian Email of Prospective Student Lead.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Parent or Guardian Email of Prospective Student Lead.</inlineHelpText>
+        <label>Parent / Guardian Email</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Email</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Parent_Guardian_First_Name__c</fullName>
+        <description>Parent or Guardian First Name of Prospective Student Lead.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Parent or Guardian First Name of Prospective Student Lead.</inlineHelpText>
+        <label>Parent / Guardian First Name</label>
+        <length>40</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Parent_Guardian_Last_Name__c</fullName>
+        <description>Parent or Guardian First Name of Prospective Student Lead.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Parent or Guardian First Name of Prospective Student Lead.</inlineHelpText>
+        <label>Parent / Guardian Last Name</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Parent_Guardian_Mobile__c</fullName>
+        <description>Parent or Guardian Mobile of Prospective Student Lead.</description>
+        <inlineHelpText>Parent or Guardian Mobile of Prospective Student Lead.</inlineHelpText>
+        <label>Parent / Guardian Mobile</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Phone</type>
+    </fields>
+    <fields>
+        <fullName>Phone__c</fullName>
+        <description>Phone Number of the Prospective Student Contact.</description>
+        <inlineHelpText>Phone Number of the Prospective Student Contact.</inlineHelpText>
+        <label>Phone</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Phone</type>
+    </fields>
+    <fields>
+        <fullName>Preferred_Country_of_Study__c</fullName>
+        <description>Indicates the Prospective Student&apos;s preferred country of study. This is required to implicitly identify Student Type</description>
+        <label>Preferred Country of Study</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Australia</fullName>
+                    <default>false</default>
+                    <label>Australia</label>
+                </value>
+                <value>
+                    <fullName>Indonesia</fullName>
+                    <default>false</default>
+                    <label>Indonesia</label>
+                </value>
+                <value>
+                    <fullName>Malaysia</fullName>
+                    <default>false</default>
+                    <label>Malaysia</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Preferred_Course_Unknown__c</fullName>
+        <description>String value of Boolean to determine whether the Prospective Student has provided the list of interested courses. Storing as text for the purpose of determining null from true/false, and other potential Boolean value from integration such as 1,0,T,F</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Determine whether the Prospective Student has provided the list of interested courses.</inlineHelpText>
+        <label>Preferred Course Unknown?</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Salutation__c</fullName>
+        <description>Salutation of the Prospective Student Contact.</description>
+        <inlineHelpText>Salutation of the Prospective Student Contact.</inlineHelpText>
+        <label>Salutation</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Mr.</fullName>
+                    <default>false</default>
+                    <label>Mr.</label>
+                </value>
+                <value>
+                    <fullName>Ms.</fullName>
+                    <default>false</default>
+                    <label>Ms.</label>
+                </value>
+                <value>
+                    <fullName>Mrs.</fullName>
+                    <default>false</default>
+                    <label>Mrs.</label>
+                </value>
+                <value>
+                    <fullName>Dr.</fullName>
+                    <default>false</default>
+                    <label>Dr.</label>
+                </value>
+                <value>
+                    <fullName>Prof.</fullName>
+                    <default>false</default>
+                    <label>Prof.</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Secondary_School__c</fullName>
+        <description>Secondary School of Prospective Student Lead</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Secondary School of Prospective Student Lead.</inlineHelpText>
+        <label>Secondary School</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Seeking_information_for__c</fullName>
+        <description>Prospect is seeking information for?</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Prospect is seeking information for?</inlineHelpText>
+        <label>Seeking information for</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Session__c</fullName>
+        <description>Selected session of the Prospective Student Event Campaign Members. This value would be propagated to all added Event Campaign Members of the Prospective Student.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Selected session of the Prospective Student Event Campaign Members.</inlineHelpText>
+        <label>Session</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Specific_Study_Area__c</fullName>
+        <description>Specific Study Area of Prospective Student Lead.</description>
+        <inlineHelpText>Specific Study Area of Prospective Student Lead.</inlineHelpText>
+        <label>Specific Study Area</label>
+        <length>1000</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <description>Processing status of the Staged Prospective Student.</description>
+        <inlineHelpText>Processing status of the Staged Prospective Student.</inlineHelpText>
+        <label>Status</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>New</fullName>
+                    <default>true</default>
+                    <label>New</label>
+                </value>
+                <value>
+                    <fullName>Re-process</fullName>
+                    <default>false</default>
+                    <label>Re-process</label>
+                </value>
+                <value>
+                    <fullName>Fatal Error</fullName>
+                    <default>false</default>
+                    <label>Fatal Error</label>
+                </value>
+                <value>
+                    <fullName>Partial Error</fullName>
+                    <default>false</default>
+                    <label>Partial Error</label>
+                </value>
+                <value>
+                    <fullName>Success</fullName>
+                    <default>false</default>
+                    <label>Success</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Student_type__c</fullName>
+        <description>Student Type of Prospective Student Lead.</description>
+        <inlineHelpText>Student Type of Prospective Student Lead.</inlineHelpText>
+        <label>Student type</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Unspecified</fullName>
+                    <default>false</default>
+                    <label>Unspecified</label>
+                </value>
+                <value>
+                    <fullName>Domestic</fullName>
+                    <default>false</default>
+                    <label>Domestic</label>
+                </value>
+                <value>
+                    <fullName>International</fullName>
+                    <default>false</default>
+                    <label>International</label>
+                </value>
+                <value>
+                    <fullName>Domestic Malaysia</fullName>
+                    <default>false</default>
+                    <label>Domestic Malaysia</label>
+                </value>
+                <value>
+                    <fullName>International Malaysia</fullName>
+                    <default>false</default>
+                    <label>International Malaysia</label>
+                </value>
+                <value>
+                    <fullName>Domestic Indonesia</fullName>
+                    <default>false</default>
+                    <label>Domestic Indonesia</label>
+                </value>
+                <value>
+                    <fullName>International Indonesia</fullName>
+                    <default>false</default>
+                    <label>International Indonesia</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Study_Funded_By__c</fullName>
+        <description>Funding plans of the Prospective Student Lead.</description>
+        <inlineHelpText>Funding plans of the Prospective Student Lead.</inlineHelpText>
+        <label>Funding Plans</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>I don&apos;t know</fullName>
+                    <default>false</default>
+                    <label>I don&apos;t know</label>
+                </value>
+                <value>
+                    <fullName>I am funding my studies</fullName>
+                    <default>false</default>
+                    <label>I am funding my studies</label>
+                </value>
+                <value>
+                    <fullName>My parents are funding my studies</fullName>
+                    <default>false</default>
+                    <label>My parents are funding my studies</label>
+                </value>
+                <value>
+                    <fullName>I already have a scholarship</fullName>
+                    <default>false</default>
+                    <label>I already have a scholarship</label>
+                </value>
+                <value>
+                    <fullName>I am looking for a scholarship</fullName>
+                    <default>false</default>
+                    <label>I am looking for a scholarship</label>
+                </value>
+                <value>
+                    <fullName>I need a scholarship</fullName>
+                    <default>false</default>
+                    <label>I need a scholarship</label>
+                </value>
+                <value>
+                    <fullName>My employer (private company) is funding my studies</fullName>
+                    <default>false</default>
+                    <label>My employer (private company) is funding my studies</label>
+                </value>
+                <value>
+                    <fullName>My government is funding my studies / BUMN (State Owned Corporation)</fullName>
+                    <default>false</default>
+                    <label>My government is funding my studies / BUMN (State Owned Corporation)</label>
+                </value>
+                <value>
+                    <fullName>My government is funding my studies / LPDP</fullName>
+                    <default>false</default>
+                    <label>My government is funding my studies / LPDP</label>
+                </value>
+                <value>
+                    <fullName>My government is funding my studies / Australia Awards</fullName>
+                    <default>false</default>
+                    <label>My government is funding my studies / Australia Awards</label>
+                </value>
+                <value>
+                    <fullName>My government is funding my studies / Ministry Offices</fullName>
+                    <default>false</default>
+                    <label>My government is funding my studies / Ministry Offices</label>
+                </value>
+                <value>
+                    <fullName>My government is funding my studies / Other</fullName>
+                    <default>false</default>
+                    <label>My government is funding my studies / Other</label>
+                </value>
+                <value>
+                    <fullName>I need a full scholarship from Monash University</fullName>
+                    <default>false</default>
+                    <label>I need a full scholarship from Monash University</label>
+                </value>
+                <value>
+                    <fullName>A combination of funds from myself and my employer</fullName>
+                    <default>false</default>
+                    <label>A combination of funds from myself and my employer</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Study_Level__c</fullName>
+        <description>Study Level of Prospective Student Lead.</description>
+        <inlineHelpText>Study Level of Prospective Student Lead.</inlineHelpText>
+        <label>Study Level</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Postgraduate</fullName>
+                    <default>false</default>
+                    <label>Postgraduate</label>
+                </value>
+                <value>
+                    <fullName>Diploma</fullName>
+                    <default>false</default>
+                    <label>Diploma</label>
+                </value>
+                <value>
+                    <fullName>Foundation Year</fullName>
+                    <default>false</default>
+                    <label>Foundation Year</label>
+                </value>
+                <value>
+                    <fullName>Graduate Coursework</fullName>
+                    <default>false</default>
+                    <label>Graduate Coursework</label>
+                </value>
+                <value>
+                    <fullName>Graduate research</fullName>
+                    <default>false</default>
+                    <label>Graduate research</label>
+                </value>
+                <value>
+                    <fullName>Undergraduate education</fullName>
+                    <default>false</default>
+                    <label>Undergraduate education</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Subscription_Lists__c</fullName>
+        <description>Subscriptions Lists to subscribe the Prospective Student Lead with as Subscription Member. 
+Expected format : Line separated Campaign IDs.</description>
+        <inlineHelpText>Subscriptions Lists to subscribe the Prospective Student Lead with as Subscription Member.</inlineHelpText>
+        <label>Subscription Lists</label>
+        <length>1000</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Web_Lead_Source__c</fullName>
+        <description>Web Lead Source of the Prospective Student Event Campaign Members. This value would be propagated to all added Event Campaign Members of the Prospective Student. Used to track GA source.</description>
+        <inlineHelpText>Web Lead Source of the Prospective Student Event Campaign Members.</inlineHelpText>
+        <label>Web Lead Source</label>
+        <length>131072</length>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>is_Monash_Scholars_Text__c</fullName>
+        <description>Text version of Monash Scholars checkbox being mapped to Lead. This is to cater incoming values from webforms such as (T, True, 1 for true / F, False, 0 for false)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Monash Scholars checkbox being mapped to Lead.</inlineHelpText>
+        <label>Monash Scholars</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>is_Student_Extension_Text__c</fullName>
+        <description>Text version of Student Extension checkbox being mapped to Lead. This is to cater incoming values from webforms such as (T, True, 1 for true / F, False, 0 for false)</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Student Extension checkbox being mapped to Lead.</inlineHelpText>
+        <label>Student Extension</label>
+        <length>100</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>is_Synchronous__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Indicates whether Lead Explosion should run in a Synchronous context or not</description>
+        <inlineHelpText>Indicates whether Lead Explosion should run in a Synchronous context or not.</inlineHelpText>
+        <label>is Synchronous</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <label>Staged Prospective Student</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Exploding_Leads_V2__c</columns>
+        <columns>Acquisition_Source_Campaign__c</columns>
+        <columns>Email__c</columns>
+        <columns>Exploded_Target__c</columns>
+        <columns>Status__c</columns>
+        <columns>LAST_UPDATE</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>CREATEDBY_USER</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>Pending_Records</fullName>
+        <columns>NAME</columns>
+        <columns>First_Name__c</columns>
+        <columns>Last_Name__c</columns>
+        <columns>Email__c</columns>
+        <columns>Acquisition_Source_Campaign__c</columns>
+        <columns>Event_Campaigns__c</columns>
+        <columns>Broad_Area_of_Interest_Update_Mode__c</columns>
+        <columns>Exploded_Target__c</columns>
+        <columns>Status__c</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>LAST_UPDATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Status__c</field>
+            <operation>notEqual</operation>
+            <value>Success</value>
+        </filters>
+        <label>Pending Records</label>
+    </listViews>
+    <nameField>
+        <displayFormat>SPS-{0}</displayFormat>
+        <label>Staged Prospective Student Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Staged Prospective Students</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>Private</sharingModel>
+    <validationRules>
+        <fullName>Matching_keys_required</fullName>
+        <active>true</active>
+        <description>if Exploded Target (Contact ID) is empty, First Name, Last Name, and Email is required. Matching Keys (FN,LN,Email) will be used to determine the matching Contact</description>
+        <errorConditionFormula>IF( 
+ 	ISBLANK( Exploded_Target__c ),
+ 	OR(
+ 		ISBLANK( First_Name__c ),
+ 		ISBLANK( Last_Name__c ),
+ 		ISBLANK( Email__c )
+ 	), 
+ 	false
+)</errorConditionFormula>
+        <errorMessage>First Name, Last Name, and Email is required if Exploded Target is blank</errorMessage>
+    </validationRules>
+    <visibility>Public</visibility>
+</CustomObject>

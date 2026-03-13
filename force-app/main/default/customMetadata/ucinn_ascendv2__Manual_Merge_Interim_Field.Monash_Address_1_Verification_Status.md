@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Monash Address 1 Verification Status</label>
+    <protected>false</protected>
+    <values>
+        <field>ucinn_ascendv2__Combination_Field_Delimiter__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__Contact_Lookup_Field_To_Reference__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__Disable_for_Auto_Merge__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__Disable_for_Manual_Merge__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__Exclude_from_Base_Duplicate_Checks__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__Exclude_from_Manual_Rev_Duplicate_Checks__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__Exclude_from_Update_Duplicate_Checks__c</field>
+        <value xsi:type="xsd:boolean">true</value>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__External_ID_Field_to_Reference__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__Field_API_Name__c</field>
+        <value xsi:type="xsd:string">Address_Verification_Status__c</value>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__Field_To_Map_To__c</field>
+        <value xsi:type="xsd:string">Verification_Status__c</value>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__Manual_Merge_Interim_Card__c</field>
+        <value xsi:type="xsd:string">Monash_Address_1</value>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__Manual_Review_Info_Field_Override_Reason__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__Manual_Review_if_Overriding_Info_Field__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__Map_To_Parent__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__Order__c</field>
+        <value xsi:type="xsd:double">17.0</value>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__Require_for_Auto_Merge_Manual_Review__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__Require_for_Auto_Merge__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__Value_Mapping__c</field>
+        <value xsi:type="xsd:string">Incomplete address,Incomplete address,
+Insufficient search terms,Insufficient search terms
+Interaction required,Interaction required
+Manual,Manual
+Multiple matches,Multiple matches
+No matches,No matches
+Premises partial,Premises partial
+Street partial,Street partial
+Too many matches,Too many matches
+Undefined,Undefined
+Verified match,Verified match
+Verified place,Verified place
+Verified street,Verified street</value>
+    </values>
+</CustomMetadata>

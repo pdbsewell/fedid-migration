@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Migrated from the FAQ Approval Reminder WF</description>
+        <name>FAQ_Approval_Reminder</name>
+        <label>FAQ Approval Reminder</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Knowledge_Article__kav.FAQ_Approval_Reminder</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Knowledge_Article__kav.FAQ_Approval_Reminder</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <description>Migrated from Standard Text Approval Reminder WF</description>
+        <name>Standard_Text_Approval_Reminder</name>
+        <label>Standard Text Approval Reminder</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Knowledge_Article__kav.Standard_Text_Approval_Reminder</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Knowledge_Article__kav.Standard_Text_Approval_Reminder</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Check_Record_Type_X3</name>
+        <label>Check Record Type</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>FAQ_X3</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>FAQ</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>FAQ_Approval_Reminder</targetReference>
+            </connector>
+            <label>FAQ</label>
+        </rules>
+        <rules>
+            <name>Standard_Text_X3</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Standard Text</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Standard_Text_Approval_Reminder</targetReference>
+            </connector>
+            <label>Standard Text</label>
+        </rules>
+    </decisions>
+    <description>Migrated from the following WF Rules
+- FAQ Approval Reminder	
+- Standard Text Approval Reminder</description>
+    <environments>Default</environments>
+    <interviewLabel>Knowledge/Article : AS : Approval Reminder {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Knowledge/Article : AS : Approval Reminder</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterFormula>AND(
+   {!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False,
+   CONTAINS({!$Label.Bypass_Specific_Flow}, &quot;Knowledge_Article_AS_Approval_Reminder&quot;) = false,
+   {!$Record.Pending_Approval__c} = true
+)</filterFormula>
+        <object>Knowledge_Article__kav</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <scheduledPaths>
+            <name>X3_days_later</name>
+            <connector>
+                <targetReference>Check_Record_Type_X3</targetReference>
+            </connector>
+            <label>3 days later</label>
+            <offsetNumber>3</offsetNumber>
+            <offsetUnit>Days</offsetUnit>
+            <timeSource>RecordTriggerEvent</timeSource>
+        </scheduledPaths>
+        <scheduledPaths>
+            <name>X6_Days_later</name>
+            <connector>
+                <targetReference>Check_Record_Type_X3</targetReference>
+            </connector>
+            <label>6 Days later</label>
+            <offsetNumber>6</offsetNumber>
+            <offsetUnit>Days</offsetUnit>
+            <timeSource>RecordTriggerEvent</timeSource>
+        </scheduledPaths>
+        <scheduledPaths>
+            <name>X9_Days_later</name>
+            <connector>
+                <targetReference>Check_Record_Type_X3</targetReference>
+            </connector>
+            <label>9 Days later</label>
+            <offsetNumber>9</offsetNumber>
+            <offsetUnit>Days</offsetUnit>
+            <timeSource>RecordTriggerEvent</timeSource>
+        </scheduledPaths>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <name>listArticleIDs</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

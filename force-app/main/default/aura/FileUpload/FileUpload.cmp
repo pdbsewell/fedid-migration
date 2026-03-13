@@ -1,0 +1,22 @@
+<aura:component controller="StdRegController">
+    <!-- 'parentId' Aura Attribute for store the Id for Parent Record where we are attach our file -->
+    <aura:attribute name="parentId" type="Id" default="" />
+    <!-- 'showLoadingSpinner' attribute for show/hide the uploading image and msg in aura:if-->
+    <aura:attribute name="showLoadingSpinner" type="boolean" default="false" />
+    <!-- 'fileName' attribute for display the selected file name -->
+    <aura:attribute name="fileName" type="String" default="No File Selected.." />
+    <!-- Lightning Input with file type and on file change call the 'handleFilesChange' controller -->
+    <aura:registerEvent name="communicateUploadStatus" type="c:communicateUploadStatus"/>
+    <span style="padding-left:5px;font-weight:300;font-size:14px;line-height:21px;font-family:'Salesforce Sans',Arial,sans-serif;">
+        Upload evidence documents. The file size limit is 5 MB.
+    </span>
+    <lightning:input aura:id="fileId" onchange="{!c.handleFilesChange}" type="file" name="file" label="Select files" multiple="false"/><button class="slds-button_brandfile slds-button--brandfile" onclick="{!c.doSave}">Upload Attachment</button>
+    <div style="padding-left:5px;font-weight:300;font-size:14px;line-height:21px;font-family:'Salesforce Sans',Arial,sans-serif;">{!v.fileName} </div>
+
+    <!--use aura:if for show-hide the loading spinner image-->
+    <aura:if isTrue="{!v.showLoadingSpinner}">
+        <div style="padding-left:5px;font-weight:300;font-size:14px;line-height:21px;font-family:'Salesforce Sans',Arial,sans-serif;">Uploading...
+            <img src="/auraFW/resources/aura/images/spinner.gif" class="spinner-img" alt="Loading"/>'
+        </div>
+    </aura:if>
+</aura:component>

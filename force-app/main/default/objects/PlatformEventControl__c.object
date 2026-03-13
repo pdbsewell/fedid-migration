@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>PlatformEventControl for Record Batching</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Async_Process__c</fullName>
+        <defaultValue>50</defaultValue>
+        <description>Async_Process__e batch size</description>
+        <externalId>false</externalId>
+        <label>General Async Process</label>
+        <precision>4</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Channel_Event__c</fullName>
+        <defaultValue>20</defaultValue>
+        <description>Channel_Event__e batch size override</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Batch size for processing Channel Events</inlineHelpText>
+        <label>Channel Event</label>
+        <precision>4</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Contact_Point_Event__c</fullName>
+        <defaultValue>20</defaultValue>
+        <description>Contact_Point_Event__e batch size override</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Batch size for processing Contact Point Events</inlineHelpText>
+        <label>Contact Point Event</label>
+        <precision>4</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Course_Attempt_Event__c</fullName>
+        <description>Batch control for internal async course attempt events</description>
+        <externalId>false</externalId>
+        <label>Course Attempt Event</label>
+        <precision>4</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>DCAStagingEvent_c__c</fullName>
+        <externalId>false</externalId>
+        <label>DCA Staging Event</label>
+        <precision>4</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Default__c</fullName>
+        <defaultValue>200</defaultValue>
+        <description>Default Value Batch Records</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Default Value Batch Records</inlineHelpText>
+        <label>Default</label>
+        <precision>4</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Duplicate_Contact_Event__c</fullName>
+        <defaultValue>1</defaultValue>
+        <description>Duplicate_Contact_Event__e batch size override</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Batch size for processing Duplicate Contact Events</inlineHelpText>
+        <label>Duplicate Contact Event</label>
+        <precision>4</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Email_Redirection_Event__c</fullName>
+        <externalId>false</externalId>
+        <label>Email Redirection Event</label>
+        <precision>4</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>LoginAsEventProxy__c</fullName>
+        <defaultValue>200</defaultValue>
+        <externalId>false</externalId>
+        <label>Login-as Event Proxy</label>
+        <precision>4</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>PlatformEventControl</label>
+    <visibility>Public</visibility>
+</CustomObject>

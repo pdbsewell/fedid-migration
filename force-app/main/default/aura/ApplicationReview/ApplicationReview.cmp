@@ -1,0 +1,843 @@
+<!--
+ - Created by trentdelaney on 17/9/18.
+ -->
+
+ <aura:component description="ApplicationReview" implements="forceCommunity:availableForAllPageTypes" controller="ApplicationReviewController">
+
+    <!--DATA OBJECTS-->
+    <aura:attribute name="applicationId" type="String" access="global" />
+    <aura:attribute name="fullApplication" type="Object" />
+    <aura:attribute name="preferences" type="Object[]" />
+    <aura:attribute name="tertiaryQualifications" type="Object[]" />
+    <aura:attribute name="secondaryQualifications" type="Object[]" />
+    <aura:attribute name="otherQualifications" type="Object[]" />
+    <aura:attribute name="englishQualifications" type="Object[]" />
+    <aura:attribute name="UnitPreferenceList" type="Object[]" />
+    <aura:attribute name="selectedSem1RowsList" type="Object[]" />
+    <aura:attribute name="selectedSem2RowsList" type="Object[]" />
+    <aura:attribute name="upList" type="Object[]" />
+    <aura:attribute name="sem1StudyPlanDesc" type="String" />
+    <aura:attribute name="sem2StudyPlanDesc" type="String" />
+    <aura:attribute name="showPreReq" type="Boolean" default="false" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="showUnitsSection" type="Boolean" default="false" />
+    <aura:attribute name="durationAvailable" type="Boolean" default="false" />
+    <aura:attribute name="preferencesAvailable" type="Boolean" default="false" />
+    <aura:attribute name="salutation" type="String" default="" />
+    <aura:attribute name="isMononymousName" type="Boolean" default="false" />
+    <aura:attribute name="minimumUnits" type="String" default="" />
+    <aura:attribute name="maximumUnits" type="String" default="" />
+    
+    <!-- FORM CONTROLLERS -->
+    <aura:attribute name="appId" type="String" default="" />
+    <aura:attribute name="sendToStudentDisabled" type="Boolean" access="global" default ="false"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <!--<c:ApplicationLightHeader title="Contact Details" />-->
+    <div class="slds-grid slds-gutters slds-wrap" style="width: 100%;">
+        <div class="slds-col" style="width: 100%;">
+            <!-- Contact Details -->
+            <div class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                    <div class="slds-size_5-of-5">
+                        <h2>Contact Details</h2>
+                    </div>
+
+                    <div class="slds-size_5-of-5">
+                        <!-- KEY APPLICATION DATA -->
+                        <div class="slds-section section-float">
+                            <div class="slds-section section-float">
+                                <div class="slds-col--padded">
+                                    <form class="slds-form--stacked">
+                                        <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-vertical--medium iteration-block">
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Title</div>
+                                                <div class="slds-text-body--regular">{!v.salutation}</div>
+                                            </div>
+                                            <aura:if isTrue="{!not(v.isMononymousName)}">
+                                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                    <div class="slds-text-title">Legal given name(s)</div>
+                                                    <div class="slds-text-body--regular">{!v.fullApplication.Application.Applicant__r.First_Name__c}</div>
+                                                </div>
+                                            </aura:if>
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <aura:if isTrue="{!v.isMononymousName}">
+                                                    <div class="slds-text-title">Legal name (Mononymous)</div>
+                                                    <aura:set attribute="else">
+                                                        <div class="slds-text-title">Legal last name</div>
+                                                    </aura:set>
+                                                </aura:if>
+                                                <div class="slds-text-body--regular">{!v.fullApplication.Application.Applicant__r.Last_Name__c}</div>
+                                            </div>
+                                            <aura:if isTrue="{!v.fullApplication.Application.Applicant__r.Preferred_Name__c != null}">
+                                                <div
+                                                    class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                    <aura:if isTrue="{!v.isMononymousName}">
+                                                        <div class="slds-text-title">Preferred Name</div>
+                                                        <aura:set attribute="else">
+                                                            <div class="slds-text-title">Preferred First Name</div>
+                                                        </aura:set>
+                                                    </aura:if>
+                                                    <div class="slds-text-body--regular">{!v.fullApplication.Application.Applicant__r.Preferred_Name__c}</div>
+                                                </div>
+                                            </aura:if>
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Birth Date</div>
+                                                <div class="slds-text-body--regular">
+                                                    <lightning:formattedDateTime value="{!v.fullApplication.Application.Applicant__r.Birthdate}" year="numeric" day="2-digit" month="2-digit" timeZone="Australia/Melbourne" />
+                                                </div>
+                                            </div>
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Gender</div>
+                                                <div class="slds-text-body--regular">{!v.fullApplication.Application.Applicant__r.Gender__c}</div>
+                                            </div>
+                                            <aura:if isTrue="{!v.fullApplication.Application.Applicant__r.Pronouns_V2__c != null}" >
+                                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                    <div class="slds-text-title">Pronoun</div>
+                                                    <div class="slds-text-body--regular">{!v.fullApplication.Application.Applicant__r.Pronouns_V2__c}</div>
+                                                </div>
+                                            </aura:if>
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Street</div>
+                                                <div class="slds-text-body--regular">{!v.fullApplication.Application.Applicant__r.MailingStreet}</div>
+                                            </div>
+                                            <aura:if isTrue="{!v.fullApplication.Application.Applicant__r.MailingCity != null}" >
+                                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                    <div class="slds-text-title">City</div>
+                                                    <div class="slds-text-body--regular">{!v.fullApplication.Application.Applicant__r.MailingCity}</div>
+                                                </div>
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.fullApplication.Application.Applicant__r.MailingState != null}" >
+                                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                    <div class="slds-text-title">State</div>
+                                                    <div class="slds-text-body--regular">{!v.fullApplication.Application.Applicant__r.MailingState}</div>
+                                                </div>
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.fullApplication.Application.Applicant__r.MailingPostalCode != null}" >
+                                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                    <div class="slds-text-title">Postcode</div>
+                                                    <div class="slds-text-body--regular">{!v.fullApplication.Application.Applicant__r.MailingPostalCode}</div>
+                                                </div>
+                                            </aura:if>
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Country</div>
+                                                <div class="slds-text-body--regular">{!v.fullApplication.Application.Applicant__r.MailingCountry}</div>
+                                            </div>
+                                            <aura:if isTrue="{!v.fullApplication.Application.Applicant__r.Phone != null}" >
+                                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                    <div class="slds-text-title">Phone</div>
+                                                    <div class="slds-text-body--regular">{!v.fullApplication.Application.Applicant__r.Phone}</div>
+                                                </div>
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.fullApplication.Application.Applicant__r.MobilePhone != null}" >
+                                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                    <div class="slds-text-title">Mobile</div>
+                                                    <div class="slds-text-body--regular">{!v.fullApplication.Application.Applicant__r.MobilePhone}</div>
+                                                </div>
+                                            </aura:if>
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Email</div>
+                                                <div class="slds-text-body--regular">{!v.fullApplication.Application.Applicant__r.Email}</div>
+                                            </div>
+                                            <aura:if isTrue="{!v.fullApplication.Application.Applicant__r.Previous_Monash_ID__c != null}">
+                                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                    <div class="slds-text-title">Previous Monash ID</div>
+                                                    <div class="slds-text-body--regular">{!v.fullApplication.Application.Applicant__r.Previous_Monash_ID__c}</div>
+                                                </div>
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.fullApplication.Application.Applicant__r.Previously_Studied_at_Monash__c != false}">
+                                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                    <div class="slds-text-title">Previously Studied at Monash?</div>
+                                                    <div class="slds-text-body--regular">Yes</div>
+                                                </div>
+                                            </aura:if>
+                                           
+                                            <aura:if isTrue="{!and(v.fullApplication.Application.Residency_Status__c != null,v.fullApplication.Application.Campus_Location__c != 'Online')}" >
+                                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                    <div class="slds-text-title">Residency Status</div>
+                                                    <div class="slds-text-body--regular">{!v.fullApplication.Application.Residency_Status__c}</div>
+                                                </div>
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.fullApplication.Application.HasDisabilities__c != null}" >
+                                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                    <div class="slds-text-title">Disability, mental health or ongoing medical condition</div>
+                                                    <div class="slds-text-body--regular">{!v.fullApplication.Application.HasDisabilities__c}</div>
+                                                </div>
+                                            </aura:if>
+                                            <aura:if isTrue="{!v.fullApplication.Application.Existing_Aus_disability_support__c != null}" >
+                                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2 slds-has-divider--bottom-space">
+                                                    <div class="slds-text-title">Registered for Disability Support?</div>
+                                                    <div class="slds-text-body--regular">{!v.fullApplication.Application.Existing_Aus_disability_support__c}</div>
+                                                </div>
+                                            </aura:if>
+                                            <aura:if isTrue="{!and(v.fullApplication.Application.Applicant__r.Aboriginal_or_Torres_Strait_Islander__c != null, v.fullApplication.Residency_Value == 'DOM-AUS')}" >
+                                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                    <div class="slds-text-title">Aboriginal Torres Strait Islander?</div>
+                                                    <div class="slds-text-body--regular">{!v.fullApplication.Application.Applicant__r.Aboriginal_or_Torres_Strait_Islander__c}</div>
+                                                </div>
+                                            </aura:if>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="{!if(v.showSpinner, '', 'slds-hide')}">
+        <lightning:spinner aura:id="spinner" alternativeText="Loading" variant="brand" />
+    </div>
+    <!--<c:ApplicationLightHeader title="Course Preferences" />-->
+    <div class="slds-grid slds-gutters slds-wrap" style="width: 100%;">
+        <div class="slds-col" style="width: 100%;">
+            <!-- Course Preferences -->
+            <div class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                    <aura:if isTrue="{!v.preferencesAvailable}">
+                        <div class="slds-size_5-of-5">
+                            <h2>Course Preferences</h2>
+                        </div>
+                        <aura:set attribute="else">
+                            <div class="slds-size_5-of-5">
+                                <span class="fieldTitle">        
+                                    <h2><lightning:icon class="slds-m-right_x-small" iconName="utility:warning" alternativeText="Warning!" variant="warning" title="warning variant" />Course Preferences</h2>
+                                </span>
+                            </div>
+                        </aura:set>
+                    </aura:if>
+
+
+                    <div class="slds-size_5-of-5">
+                        <!--COURSE PREFERENCES TABLE -->
+                        <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                            <thead>
+                                <tr class="slds-text-title_caps">
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Preference Number">Order</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Course Title">Course Code &amp; Title</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-cell-wrap" title="Attendance Mode">Full/Part Time, On/Off Campus</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Type of Place">Fee Type</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Location">Location</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Course Period">Course Start</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <aura:if isTrue="{!v.preferencesAvailable}">
+                                    <aura:iteration items="{!v.fullApplication.Preferences}" var="pref" >
+                                        <tr>
+                                            <td data-label="Preference Number">
+                                                <div class="slds-truncate">{!pref.Preference_Number__c}</div>
+                                            </td>
+                                            <aura:if isTrue="{!pref.Unit_Set_Description__c != null}" >
+                                                <td data-label="Course Title">
+                                                    <div class="slds-cell-wrap">{!pref.Course_Code__c} - {!pref.Course_Title__c} - {!pref.Unit_Set_Description__c}</div>
+                                                </td>
+                                                <aura:set attribute="else">
+                                                    <td data-label="Course Title">
+                                                        <div class="slds-cell-wrap">{!pref.Course_Code__c} - {!pref.Course_Title__c}</div>
+                                                    </td>
+                                                </aura:set>
+                                            </aura:if>
+                                            <td data-label="Full/Part Time, On/Off Campus">
+                                                <div class="slds-wrap">{!pref.Course_Offering__r.Attendance_Type_Description__c}&nbsp;{!pref.Course_Offering__r.Attendance_Mode_Description__c}</div>
+                                            </td>
+                                            <td data-label="Place">
+                                                <div class="slds-truncate">{!pref.Course_Offering__r.Type_of_Place_Description__c}</div>
+                                            </td>
+                                            <td data-label="Location">
+                                                <div class="slds-truncate">{!pref.Course_Offering__r.Location_Description__c}</div>
+                                            </td>
+                                            <td data-label="Course Start">
+                                                <div class="slds-cell-wrap">{!pref.Course_Offering__r.Admission_Calendar_Description__c}</div>
+                                            </td>
+                                        </tr>
+                                    </aura:iteration>
+                                <aura:set attribute="else">
+                                    <tr>
+                                        <td colspan="6">
+                                            <div style="font-size:20px;font-family:Roboto">
+                                                No Course Preference selected
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </aura:set>
+                                </aura:if>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <aura:if isTrue="{!or(v.fullApplication.Application.Type_of_Study__c=='Study Abroad', v.fullApplication.Application.Type_of_Study__c=='Exchange')}">
+        <div class="slds-grid slds-gutters slds-wrap">
+            <div class="slds-col">
+                <div class="sectionContainer slds-wrap">
+                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                    <div class="sectionContainerBody slds-size_5-of-5">
+                        <aura:if isTrue="{!v.durationAvailable}">
+                            <div class="slds-size_5-of-5">
+                                <span class="fieldTitle"><h2>Duration of study</h2></span>
+                            </div>
+                        <aura:set attribute="else">
+                            <div class="slds-size_5-of-5">
+                                <span class="fieldTitle">        
+                                    <h2><lightning:icon class="slds-m-right_x-small" iconName="utility:warning" alternativeText="Warning!" variant="warning" title="warning variant" />Duration of study</h2>
+                                </span>
+                            </div>
+                        </aura:set>
+                        </aura:if>
+                        <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                            <div style="font-size:20px;font-family:Roboto">
+                                How many semesters do you plan to stay?
+                            </div>
+                        </div>
+                        <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                <ul class="slds-list_horizontal  slds-wrap">
+                                    <li class="slds-item" style="font-size:14px;font-family:Roboto !important;margin-right: 50px;">
+                                        <lightning:input type="checkbox" style="width: 25px;float:left;"
+                                        checked="{!if(v.fullApplication.Application.Duration_of_Study__c=='1',true,false)}"
+                                        label=""
+                                        aura:id="onesem"
+                                        name="onesem"
+                                        disabled="true"
+                                        />
+                                        One semester</li>
+                                    <li class="slds-item" style="font-size:14px;font-family:Roboto !important;">
+                                        <lightning:input type="checkbox" style="width: 25px;float:left;"
+                                        label=""
+                                        aura:id="twosem"
+                                        name="twosem"
+                                        checked="{!if(v.fullApplication.Application.Duration_of_Study__c=='2',true,false)}"
+                                        disabled="true"
+                                        />Two semesters</li>
+                                </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <aura:if isTrue="{!v.showUnitsSection}">
+            <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col">
+                    <div class="sectionContainer slds-wrap">
+                        <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                        <div class="sectionContainerBody slds-size_5-of-5">
+                            <div class="slds-size_5-of-5">
+                                <span class="fieldTitle">
+                                    <h2>Unit Selection</h2>
+                                </span>
+                            </div><br/>
+                            <div style="font-size: 20px;font-family:Roboto Condensed;font-weight:bold;">Your Study Plan</div>
+                            <div style="font-family:Roboto;font-size: 16px;">In order of preference, please list {!v.minimumUnits} - {!v.maximumUnits}
+                                    units per semester to be assessed.
+                            </div><br />
+                            <aura:if isTrue="{!v.showPreReq}">
+                                <div class="slds-card" style="background:#EDEDED;width: 800px;">
+                                    <div class="slds-p-around_small">
+                                        <div style="font-size: 20px;font-family:Roboto Condensed;font-weight:bold;">Evidence of prerequisites
+                                        </div>
+                                        <div style="font-family:Roboto;font-size: 16px;">You have selected units that have prerequisites, as
+                                            indicated by the units highlighted in red below.<br/> You need to provide evidence that you have
+                                            met these prerequisites by uploading supporting documentation in the Other Documents section
+                                            on the Documents page in this application.<br /> Please consult the Handbook for the individual
+                                            requirements for each unit you have selected.</div>
+                                    </div>
+                                </div>
+                            </aura:if>
+                            <br/>
+                            <aura:if isTrue="{!v.selectedSem1RowsList.length>0}">
+                                <div class="container" style="width: 800px;">
+                                        <div style="font-size: 16px;font-family:Roboto Condensed;font-weight:bold;">{!v.sem1StudyPlanDesc}</div>
+                                        <table style="width: 800px;">
+                                            <thead>
+                                                <tr>
+                                                    <th style="background-color:#006dae;color:white"><span class="slds-cell-wrap">Unit
+                                                            Code</span></th>
+                                                    <th style="background-color:#006dae;color:white"><span class="slds-cell-wrap">Unit
+                                                            Title</span></th>
+                                                    <th style="background-color:#006dae;color:white"><span
+                                                            class="slds-cell-wrap">Campus</span></th>
+                                                    <th style="background-color:#006dae;color:white;">
+                                                        <span class="slds-cell-wrap">Faculty</span>
+                                                    </th>
+                                                    <th style="background-color:#006dae;color:white"><span class="slds-cell-wrap">Teaching
+                                                            Period</span></th>
+                                                </tr>
+                                            </thead>
+                                            <aura:iteration items="{!v.selectedSem1RowsList}" var="item">
+                                                <tr>
+                                                    <td style="{!item.PreReq}"><span class="slds-cell-wrap">{!item.UnitCode}</span></td>
+                                                    <td style="{!item.PreReq}"><span class="slds-cell-wrap">{!item.UnitTitle}</span></td>
+                                                    <td style="{!item.PreReq}"><span class="slds-cell-wrap">{!item.Campus}</span></td>
+                                                    <td style="{!item.PreReq}"><span class="slds-cell-wrap">{!item.FacName}</span></td>
+                                                    <td style="{!item.PreReq}"><span class="slds-cell-wrap">{!item.TP}</span></td>
+                                                </tr>
+                                            </aura:iteration>
+                    
+                                        </table>
+                                    </div>
+                            </aura:if>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aura:if> 
+    </aura:if>
+    
+        <aura:if isTrue="{!or(v.fullApplication.Application.Type_of_Study__c=='Study Abroad', v.fullApplication.Application.Type_of_Study__c=='Exchange')}">
+            <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col slds-is-relative">
+                    <div class="sectionContainer slds-wrap">
+                        <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                        <div class="sectionContainerBody slds-size_5-of-5">
+                            <div class="slds-size_5-of-5">
+                                <h2>Current Institution</h2>
+                            </div>
+                            <div class="slds-text-align_left" style="font-size:30px; font-family: Roboto;">{!v.fullApplication.Application.Partner_Name__c}</div>
+                        </div>
+                    </div>
+                </div>            
+            </div>
+        </aura:if>
+
+    <aura:if isTrue="{!v.tertiaryQualifications.length > 0}" >
+        <!--<c:ApplicationLightHeader title="Tertiary Qualifications" />-->
+        <div class="slds-grid slds-gutters slds-wrap" style="width: 100%;">
+            <div class="slds-col" style="width: 100%;">
+                <!-- Tertiary Qualifications -->
+                <div class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                    <div class="sectionContainerBody slds-size_5-of-5">
+                        <div class="slds-size_5-of-5">
+                            <h2>Tertiary Qualifications</h2>
+                        </div>
+    
+                        <div class="slds-size_5-of-5">
+                            <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                                <thead>
+                                <tr class="slds-text-title_caps">
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Institution/School">Institution/School</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Assessment Type/Qualification">Assessment Type/Qualification</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Awarding Country">Awarding Country</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Awarding Country">First Year Enrolled</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Level of Completion">Level of Completion</div>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <aura:iteration items="{!v.tertiaryQualifications}" var="qual" >
+                                    <tbody>
+                                    <tr>
+                                        <aura:if isTrue="{!qual.Institution_Name__c != null}">
+                                            <td data-label="Institution Name">
+                                                <div class="slds-cell-wrap slds-truncate" style="float: left; width: 150px; word-wrap: break-word;">{!qual.Institution_Name__c}</div>
+                                            </td>
+                                            <aura:set attribute="else">
+                                                <td data-label="Institution Name">
+                                                    <div class="slds-cell-wrap slds-truncate" style="float: left; width: 150px; word-wrap: break-word;">{!qual.Other_Institution__c}</div>
+                                                </td>
+                                            </aura:set>
+                                        </aura:if>
+                                        <td data-label="Course Title">
+                                            <div class="slds-cell-wrap slds-truncate" style="float: left; width: 150px; word-wrap: break-word;">{!qual.Other_Qualification__c}</div>
+                                        </td>
+                                        <td data-label="Awarding Country">
+                                            <div class="slds-cell-wrap">{!qual.Qualification_Country__r.Name}</div>
+                                        </td>
+                                        <td data-label="First Year Enrolled">
+                                            <div class="slds-cell-wrap">{!qual.First_Year_Enrolled__c}</div>
+                                        </td>
+                                        <td data-label="Level of Completion">
+                                            <div class="slds-cell-wrap">{!qual.Status__c}</div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </aura:iteration>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+
+
+    <aura:if isTrue="{!v.secondaryQualifications.length > 0}" >
+        <!--<c:ApplicationLightHeader title="Secondary Qualifications" />-->
+        <div class="slds-grid slds-gutters slds-wrap" style="width: 100%;">
+            <div class="slds-col" style="width: 100%;">
+                <!-- Secondary Qualifications -->
+                <div class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                    <div class="sectionContainerBody slds-size_5-of-5">
+                        <div class="slds-size_5-of-5">
+                            <h2>Secondary Qualifications</h2>
+                        </div>
+    
+                        <div class="slds-size_5-of-5">
+                            <!--QUALIFICATIONS TABLE -->
+                            <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                                <thead>
+                                <tr class="slds-text-title_caps">
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Institution/School">Institution/School</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Assessment Type/Qualification">Assessment Type/Qualification</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Awarding Country">Awarding Country</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Level of Completion">Year of Completion</div>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <aura:iteration items="{!v.secondaryQualifications}" var="sec" >
+                                    <tbody>
+                                    <tr>
+                                        <aura:if isTrue="{!sec.Institution_Name__c != null}">
+                                            <td data-label="Institution Name">
+                                                <div class="slds-cell-wrap slds-truncate" style="float: left; width: 150px; word-wrap: break-word;">{!sec.Institution_Name__c}</div>
+                                            </td>
+                                            <aura:set attribute="else">
+                                                <td data-label="Institution Name">
+                                                    <div class="slds-cell-wrap slds-truncate" style="float: left; width: 150px; word-wrap: break-word;">{!sec.Other_Institution__c}</div>
+                                                </td>
+                                            </aura:set>
+                                        </aura:if>
+                                        <aura:if isTrue="{!sec.Qualification__r.Qualification_Name__c}">
+                                            <td data-label="Course Title">
+                                                <div class="slds-cell-wrap slds-truncate" style="float: left; width: 150px; word-wrap: break-word;">{!sec.Qualification__r.Qualification_Name__c}</div>
+                                            </td>
+                                            <aura:set attribute="else">
+                                                <td data-label="Course Title">
+                                                    <div class="slds-cell-wrap slds-truncate" style="float: left; width: 150px; word-wrap: break-word;">{!sec.Other_Qualification__c}</div>
+                                                </td>
+                                            </aura:set>
+                                        </aura:if>
+                                        <td data-label="Awarding Country">
+                                            <div class="slds-cell-wrap">{!sec.Qualification_Country__r.Name}</div>
+                                        </td>
+                                        <td data-label="Year of Completion">
+                                            <div class="slds-cell-wrap">{!sec.Year_of_Completion__c}</div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </aura:iteration>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+
+    <aura:if isTrue="{!v.fullApplication.Application.Sponsorship_Type__c != 'No'}">
+        <!--<c:ApplicationLightHeader title="Sponsorship / Proxy Details" />-->
+        <div class="slds-grid slds-gutters slds-wrap" style="width: 100%;">
+            <div class="slds-col" style="width: 100%;">
+                <!-- Sponsorship / Proxy Details -->
+                <div class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                    <div class="sectionContainerBody slds-size_5-of-5">
+                        <div class="slds-size_5-of-5">
+                            <h2>Sponsorship / Proxy Details</h2>
+                        </div>
+    
+                        <div class="slds-size_5-of-5">
+                            <div class="slds-section section-float">
+                                <div class="slds-section section-float">
+                                    <div class="slds-col--padded">
+                                        <form class="slds-form--stacked">
+                                            <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-vertical--medium iteration-block">
+                                                <aura:if isTrue="{!v.fullApplication.Application.Sponsorship_Type__c  == 'Sponsorship'}">
+                                                    <aura:if isTrue="{!v.fullApplication.Application.Sponsor_Name__c != ''}" >
+                                                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                            <div class="slds-text-title">Name of the sponsor/scholarship</div>
+                                                            <div class="slds-text-body--regular">{!v.fullApplication.Application.Sponsor_Name__c }</div>
+                                                        </div>
+                                                    </aura:if>
+                                                    <aura:if isTrue="{!v.fullApplication.Application.Sponsor_Scholarship_organisation__c != null}">
+                                                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                            <div class="slds-text-title">Sponsor / Scholarship organisation</div>
+                                                            <div class="slds-text-body--regular">{!v.fullApplication.Application.Sponsor_Scholarship_organisation__c }</div>
+                                                        </div>
+                                                    </aura:if>
+                                                    <!-- sponsor email -->
+                                                    <aura:if isTrue="{!v.fullApplication.Application.Sponsor_Email_Address__c != null}">
+                                                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                            <div class="slds-text-title">Sponsor Email Address</div>
+                                                            <div class="slds-text-body--regular">{!v.fullApplication.Application.Sponsor_Email_Address__c}</div>
+                                                        </div>
+                                                    </aura:if>
+                                                </aura:if>
+                                                <aura:if isTrue="{!v.fullApplication.Application.Sponsorship_Type__c  == 'Proxy'}">
+                                                    <aura:if isTrue="{!v.fullApplication.Application.Sponsor_Name__c != null}" >
+                                                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                            <div class="slds-text-title">Name of Proxy</div>
+                                                            <div class="slds-text-body--regular">{!v.fullApplication.Application.Sponsor_Name__c }</div>
+                                                        </div>
+                                                    </aura:if>
+                                                    <aura:if isTrue="{!v.fullApplication.Application.Sponsor_Scholarship_organisation__c != null}">
+                                                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                            <div class="slds-text-title">Proxy Relationship to you</div>
+                                                            <div class="slds-text-body--regular">{!v.fullApplication.Application.Sponsor_Scholarship_organisation__c }</div>
+                                                        </div>
+                                                    </aura:if>
+                                                    <!-- proxy email -->
+                                                    <aura:if isTrue="{!v.fullApplication.Application.Proxy_Email_Address__c != null}">
+                                                        <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                            <div class="slds-text-title">Proxy Email Address</div>
+                                                            <div class="slds-text-body--regular">{!v.fullApplication.Application.Proxy_Email_Address__c}</div>
+                                                        </div>
+                                                    </aura:if>
+                                                </aura:if>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+
+    <aura:if isTrue="{!v.otherQualifications.length > 0}" >
+        <!--<c:ApplicationLightHeader title="Other Qualifications" />-->
+        <div class="slds-grid slds-gutters slds-wrap" style="width: 100%;">
+            <div class="slds-col" style="width: 100%;">
+                <!-- Other Qualifications -->
+                <div class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                    <div class="sectionContainerBody slds-size_5-of-5">
+                        <div class="slds-size_5-of-5">
+                            <h2>Other Qualifications</h2>
+                        </div>
+
+                        <div class="slds-size_5-of-5">
+                            <!--QUALIFICATIONS TABLE -->
+                            <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                                <thead>
+                                <tr class="slds-text-title_caps">
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Assessment Type/Qualification">Assessment Type/Qualification</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Date Achieved">Date Achieved</div>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <aura:iteration items="{!v.otherQualifications}" var="other" >
+                                    <tbody>
+                                    <tr>
+                                        <td data-label="Course Title">
+                                            <div class="slds-truncate slds-truncate" style="float: left; width: 300px; word-wrap: break-word;">{!other.Other_Qualification__c}</div>
+                                        </td>
+                                        <td data-label="Date Achieved">
+                                            <div class="slds-truncate">{!other.Date_Achieved__c}</div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </aura:iteration>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+
+    <aura:if isTrue="{!v.englishQualifications.length > 0}" >
+        <!--<c:ApplicationLightHeader title="English Tests" />-->
+        <div class="slds-grid slds-gutters slds-wrap" style="width: 100%;">
+            <div class="slds-col" style="width: 100%;">
+                <!-- English Tests -->
+                <div class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                    <div class="sectionContainerBody slds-size_5-of-5">
+                        <div class="slds-size_5-of-5">
+                            <h2>English Tests</h2>
+                        </div>
+
+                        <div class="slds-size_5-of-5">
+                            <!--QUALIFICATIONS TABLE -->
+                            <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                                <thead>
+                                <tr class="slds-text-title_caps">
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Assessment Type/Qualification">Assessment Type/Qualification</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-cell-wrap" title="Date of Completion">Date of Completion</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-cell-wrap" title="Score">Score</div>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <aura:iteration items="{!v.englishQualifications}" var="eng" >
+                                    <tbody>
+                                    <tr>
+                                        <td data-label="Course Title">
+                                            <div class="slds-cell-wrap slds-truncate" style="float: left; width: 300px; word-wrap: break-word;">{!eng.Qualification__r.Qualification_Name__c}</div>
+                                        </td>
+                                        <aura:if isTrue="{!eng.isCompleted__c}">
+                                            <td data-label="Expected Date of Completion">
+                                                <div class="slds-truncate">{!eng.Expected_date_of_completion__c}</div>
+                                            </td>
+                                            <aura:set attribute="else">
+                                                <td data-label="Date of Completion">
+                                                    <div class="slds-truncate">{!eng.Date_Achieved__c}</div>
+                                                </td>
+                                            </aura:set>
+                                        </aura:if>
+                                        <td data-label="Overall Score">
+                                            <div class="slds-truncate">{!eng.Score__c}</div>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </aura:iteration>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+
+    <!--Heading for next section-->
+
+    <aura:if isTrue="{!v.fullApplication.Experience.length > 0}" >
+        <!--<c:ApplicationLightHeader title="Work Experience" />-->
+        <div class="slds-grid slds-gutters slds-wrap" style="width: 100%;">
+            <div class="slds-col" style="width: 100%;">
+                <!-- Work Experience -->
+                <div class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                    <div class="sectionContainerBody slds-size_5-of-5">
+                        <div class="slds-size_5-of-5">
+                            <h2>Work Experience</h2>
+                        </div>
+
+                        <div class="slds-size_5-of-5">
+                            <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                                <thead>
+                                <tr class="slds-text-title_caps">
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Employer Name">Employer Name</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Position">Position</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="Start Date">Start Date</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate" title="End Date">End Date</div>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <aura:iteration items="{!v.fullApplication.Experience}" var="work" >
+                                    <tbody>
+                                    <tr>
+                                        <td data-label="Employer Name">
+                                            <div class="slds-truncate">{!work.Employer_Name__c}</div>
+                                        </td>
+                                        <td data-label="Position">
+                                            <div class="slds-truncate">{!work.Position__c}</div>
+                                        </td>
+                                        <td data-label="Start Date">
+                                            <div class="slds-truncate">{!work.Start_Date__c}</div>
+                                        </td>
+                                        <td data-label="End Date">
+                                            <aura:if isTrue="{!work.End_Date__c != null}" >
+                                                <div class="slds-truncate">{!work.End_Date__c}</div>
+                                                <aura:set attribute="else">
+                                                    <div class="slds-truncate">Ongoing</div>
+                                                </aura:set>
+                                            </aura:if>
+
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </aura:iteration>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+
+    <aura:if isTrue="{!and(v.fullApplication.Application.Guardian_Full_Name__c != '', v.fullApplication.Application.Guardian_Full_Name__c != null)}" >
+        <!--<c:ApplicationLightHeader title="Parent Guardian Details" />-->
+        <div class="slds-grid slds-gutters slds-wrap" style="width: 100%;">
+            <div class="slds-col" style="width: 100%;">
+                <!-- Parent Guardian Details -->
+                <div class="sectionContainer slds-wrap" style="padding: 0 15px 0 0;">
+                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                    <div class="sectionContainerBody slds-size_5-of-5">
+                        <div class="slds-size_5-of-5">
+                            <h2>Parent Guardian Details</h2>
+                        </div>
+
+                        <div class="slds-size_5-of-5">
+                            <div class="slds-section section-float">
+                                <div class="slds-col--padded">
+                                    <form class="slds-form--stacked">
+                                        <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-vertical--medium iteration-block">
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Guardian Full Name</div>
+                                                <div class="slds-text-body--regular">{!v.fullApplication.Application.Guardian_Full_Name__c}</div>
+                                            </div>
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Guardian Phone Number</div>
+                                                <div class="slds-text-body--regular">{!v.fullApplication.Application.Guardian_Phone_Number__c}</div>
+                                            </div>
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Guardian Email Address</div>
+                                                <div class="slds-text-body--regular">{!v.fullApplication.Application.Guardian_Email_Address__c}</div>
+                                            </div>
+                                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                                <div class="slds-text-title">Guardian Relationship</div>
+                                                <div class="slds-text-body--regular">{!v.fullApplication.Application.Guardian_Relationship__c}</div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+</aura:component>

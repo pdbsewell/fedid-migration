@@ -1,0 +1,87 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="AgentEnquiryService">    
+    <!-- Page Variables -->
+    <aura:attribute name="isAgentVerified" type="Boolean" default="false" access="global"/>    
+    <aura:attribute name="showConfirmation" type="Boolean" default="false" access="global"/> 
+    <aura:attribute name="agentName" type="String" access="global"/> 
+    
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="enquiryRecord" type="Object"/>
+    <aura:attribute name="recordError" type="String"/>
+    
+    <force:recordData aura:id="forceRecordCmp"
+                      recordId="{!v.recordId}"
+                      fields="ContactId"
+                      targetRecord="{!v.enquiryRecord}"
+                      targetError="{!v.recordError}" />
+    
+    <!-- Constructor -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div class="slds-is-relative">
+        <!-- Show normal view -->
+        <aura:if isTrue="{!!v.showConfirmation}">
+            <div aura:id="notificationBox">
+                <aura:if isTrue="{!v.isAgentVerified}">
+                    <div id="agentVerifiedNotification" class="slds-box slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_success slds-text-align_left" role="alert">
+                        <span class="slds-icon_container slds-icon-utility-info slds-m-right_small slds-no-flex slds-align-top">
+                            <lightning:icon src="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#success" />
+                        </span>
+                        <div class="slds-notify__content slds-m-around_none slds-p-around_none">                                            
+                            <h2 class="slds-text-heading_medium">Verified Agent</h2>
+                        </div>
+                    </div>
+                </aura:if>
+                
+                <aura:if isTrue="{!!v.isAgentVerified}">
+                    <div id="agentNotVerifiedNotification" class="slds-box slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_default slds-text-align_left" role="alert">
+                        <span class="slds-icon_container slds-icon-utility-info slds-m-right_small slds-no-flex slds-align-top">
+                            <lightning:icon iconName="utility:warning" alternativeText="Warning!" variant="warning" />
+                        </span>
+                        <div class="slds-notify__content slds-m-around_none slds-p-around_none slds-text-align_left">                                            
+                            <h2 class="slds-text-heading_medium">Non-Verified Agent</h2>
+                            <p>
+                                <span onclick="{!c.verifyClick}" style="cursor: pointer;">Verify the Agent? Click here</span>
+                            </p>
+                        </div>
+                    </div>
+                </aura:if>
+            </div>
+        </aura:if>
+        
+        <!-- Show confirmation view -->
+        <aura:if isTrue="{!v.showConfirmation}">
+            <div aura:id="confirmationBox">
+                <div id="confirmVerifyAgentNotification" class="slds-box slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_default slds-text-align_left" role="alert">
+                    <span class="slds-icon_container slds-icon-utility-info slds-m-right_small slds-no-flex slds-align-top">
+                        <lightning:icon class="infoBlueColor" iconName="utility:info" />
+                    </span>
+                    <div class="slds-notify__content slds-m-around_none slds-p-around_none slds-text-align_left">                                            
+                        <h2 class="slds-text-heading_medium">Confirm Agent Verification</h2>
+                        <p>
+                            <span>Are you sure you want to verify: {!v.agentName}?</span>
+                        </p>
+                        <div>          
+                            <lightning:button label="Confirm" 
+                                              onclick="{!c.confirmVerification}"
+                                              class="slds-m-top--medium slds-button"
+                                              variant="brand" 
+                                              aura:id="confirmVerification" />
+                            <lightning:button label="Cancel" 
+                                              onclick="{!c.cancelVerification}"
+                                              class="slds-m-top--medium slds-button slds-button_outline-brand"
+                                              aura:id="cancelVerification" />
+                        </div>
+                    </div>
+                </div>
+            </div> 
+        </aura:if>
+        
+        <!-- Spinner -->
+        <div class="slds-spinner_container" aura:id="loadingSpinner">
+            <div class="slds-spinner slds-spinner--medium" aria-hidden="false" role="alert">
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </div>
+</aura:component>

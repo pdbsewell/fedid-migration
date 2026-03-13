@@ -1,0 +1,358 @@
+<aura:component implements="force:hasRecordId,force:lightningQuickActionWithoutHeader,flexipage:availableForAllPageTypes"
+	controller="DocumentsToBePushedToCallistaCC">
+
+	<ltng:require scripts="{!$Resource.jquery}" />
+
+	<aura:attribute name="attachmentsWithStatus" type="DocumentsToBePushedToCallistaCC.wrapperClass[]" />
+    <aura:attribute name="attachmentCSSClass" type="string" default="nothing"/>
+    <aura:attribute name="noAttachment" type="boolean" default="false"/>
+
+    <aura:attribute name="invalidEnquiry" type="boolean" default="false"/>
+    <aura:attribute name="invalidEnquiryMessage" type="string" default="Please let the admin know of this error."/>
+    <aura:attribute name="noAttachmentMessage" type="string" default="Please let the admin know of this error."/>
+
+    <aura:attribute name="uploadToCallistaColumn" type="boolean" default="true"/>
+    <aura:attribute name="downloadColumn" type="boolean" default="true"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="render" value="{!this}" action="{!c.doneRendering}"/>
+
+    <aura:attribute name="showMessage" type="boolean" default="false"/>
+    <aura:attribute name="messageHeader" type="string" default="Please let the admin know of this error."/>
+    <aura:attribute name="messageText" type="string" default="Please let the admin know of this error."/>
+	<!-- for later use -->
+	<!--<div class="slds-page-header">
+	    <aura:attribute name="selectedCount" type="integer" default="0"/>
+    	<p class="slds-page-header__title slds-truncate" title=""></p>
+    	<span class="slds-badge">Selected Attachment:{!v.selectedCount}</span>
+    </div> -->
+	<aura:if isTrue="{!v.invalidEnquiry}">
+		<div class="slds-var-m-top_medium slds-var-m-bottom_medium">
+			<div class="slds-scoped-notification slds-media slds-media_center slds-theme_error" role="status">
+				<div class="slds-media__figure">
+					<lightning:icon class="slds-icon-utility-error" 
+						iconName="utility:error" 
+						size="small" 
+						title="error" 
+						variant="inverse"
+					/>
+				</div>
+				<div class="slds-media__body">
+					<aura:if isTrue="{!v.invalidEnquiryMessage == 'No ACP'}">
+						{!$Label.c.NoApplicationCoursePreference}
+					</aura:if>
+					<aura:if isTrue="{!v.invalidEnquiryMessage == 'No Contact'}">
+						{!$Label.c.NoContact}
+					</aura:if>
+					<aura:if isTrue="{!v.invalidEnquiryMessage == 'No Callista Applicant Id'}">
+						{!$Label.c.NoCallistaApplicantId}
+					</aura:if>
+					<aura:if isTrue="{!v.invalidEnquiryMessage == 'No Application'}">
+						{!$Label.c.NoApplication}
+					</aura:if>
+					<aura:if isTrue="{!v.invalidEnquiryMessage == 'No Case'}">
+						{!$Label.c.NoCase}
+					</aura:if>
+				</div>
+			</div>
+		</div>
+	</aura:if>
+	<aura:if isTrue="{!v.noAttachment}">
+		<div class="slds-var-m-top_medium slds-var-m-bottom_medium">
+			<div class="slds-scoped-notification slds-media slds-media_center slds-theme_info" role="status">
+				<div class="slds-media__figure">
+					<lightning:icon class="slds-icon-utility-info" 
+						iconName="utility:info" 
+						size="small" 
+						title="info" 
+						variant="inverse"
+					/>
+				</div>
+				<div class="slds-media__body">
+					<aura:if isTrue="{!v.noAttachmentMessage == 'No new attachment since the enquiry has been closed.'}">
+						{!$Label.c.NoAttachmentsAfterClosedDate}
+					</aura:if>
+					<aura:if isTrue="{!v.noAttachmentMessage == 'No new attachment since the enquiry has been reopened.'}">
+						{!$Label.c.NoAttachmentsAfterReopening}
+					</aura:if>
+					<aura:if isTrue="{!v.noAttachmentMessage == 'There is no attachment on this enquiry.'}">
+						{!$Label.c.NoAttachments}
+					</aura:if>
+					<aura:if isTrue="{!v.noAttachmentMessage == 'An unexpected error has occured.'}">
+						{!v.noAttachmentMessage}
+					</aura:if>
+					<aura:if isTrue="{!v.noAttachmentMessage != 'There is no attachment on this enquiry.'}">
+						<div class="slds-checkbox_button-group slds-var-m-left_large">
+							<span class="slds-button slds-checkbox_button">
+							<input type="checkbox" id="showAllAttachmentsCheckbox2" name="showAllAttachmentsCheckbox2" value="off" />
+							<label class="slds-checkbox_button__label" for="showAllAttachmentsCheckbox2">
+								<span class="slds-checkbox_faux">Show All Attachments</span>
+							</label>
+							</span>
+						</div>
+					</aura:if>
+				</div>
+			</div>
+		</div>
+	</aura:if>
+
+    <div class="slds-var-m-top_x-small">
+    	<div class="{!v.attachmentCSSClass == 'blurTheContent' ? 'blurTheContent disableMouseClick' : 'slds-scrollable'}"
+    		style="height: 550px;" >
+    		<table class="slds-table slds-table_cell-buffer slds-table_col-bordered slds-p-top--x-small slds-table_fixed-layout" 
+    			style="min-width:900px">
+    			<!-- <div class="scrollit" style="weight: 100%;"> -->
+		    	<thead>
+				    <tr class="slds-text-title_caps" id="theHeadRow">
+				    	<!-- <th scope="col" width="16%">
+				    		<div class="slds-truncate slds-align_absolute-center" title="Account Name">Thumbnail</div>
+				    	</th> -->
+				    	<th scope="col" width="*">
+				    		<div class="slds-truncate slds-align_absolute-center">
+				    			File Name
+				    		</div>
+				    	</th>
+				    	<th scope="col" width="9%">
+				    		<div class="slds-align_absolute-center">
+				    			File Type
+				    		</div>
+				    	</th>
+				    	<th scope="col" width="18%">
+				    		<div class="slds-truncate slds-align_absolute-center">
+				    			Created Date
+				    		</div>
+				    	</th>
+				    	<th scope="col" width="6%">
+				    		<div class="slds-truncate slds-align_absolute-center">
+				    			Size
+				    		</div>
+				    	</th>
+				    	<th scope="col" width="6%">
+				    		<lightning:icon class="greyIconStatus slds-align_absolute-center" iconName="utility:description" size="small"
+									title="Status" />
+				    	</th>
+				    	<aura:if isTrue="{!v.downloadColumn}">
+					    	<th scope="col" width="8%">
+					    		<div id="downloadIconDivId">
+						    		<lightning:icon class="greyIconStatus slds-align_absolute-center" iconName="utility:download" size="small" title="Download"  />
+						    		<ui:inputCheckbox value="true" change="{!c.selectAllDownloadChechboxes}" 
+						    			aura:id="downloadHeaderCheckboxId" class="invisible" />
+					    		</div>
+					    		
+				    			<!-- IF YOU NEED TO HAVE A CHECHBOX WITH THE DOWNLOAD ICON TOGETHER -->
+					    		<!-- <div class="leftDiv" id="downloadIconDivId">
+						    		<lightning:icon class="floatRightWithMargin greyIconStatus slds-align_absolute-center" iconName="utility:download" size="small" title="Download" />
+						    	</div>
+						    	<div class="rightDiv">
+									<ui:inputCheckbox value="true" change="{!c.selectAllDownloadChechboxes}" 
+										aura:id="downloadHeaderCheckboxId"/>
+								</div> -->
+					    	</th>
+				    	</aura:if>
+				    	<aura:if isTrue="{!v.uploadToCallistaColumn}">
+					    	<th scope="col" width="8%">
+					    		<div id="uploadIconDivId">
+					    			<lightning:icon class="greyIconStatus slds-align_absolute-center" iconName="utility:upload" size="small" title="Upload to Callista" />
+									<ui:inputCheckbox value="true" change="{!c.selectAllUploadToCallistaChechboxes}" 
+										aura:id="uploadHeaderCheckboxId" class="invisible" />
+								</div>	
+				    		
+				    			<!-- IF YOU NEED TO HAVE A CHECHBOX WITH THE UPLOAD ICON TOGETHER -->
+				    			<!-- <div class="leftDiv" id="uploadIconDivId">
+				    				<lightning:icon class="floatRightWithMargin greyIconStatus slds-align_absolute-center" iconName="utility:upload" size="small" title="Upload to Callista" />
+								</div>
+						    	<div class="rightDiv">
+									<ui:inputCheckbox value="false" change="{!c.selectAllUploadToCallistaChechboxes}"
+									aura:id="uploadHeaderCheckboxId" />
+								</div> -->
+					    	</th>
+					    </aura:if>
+				    </tr>
+				</thead>
+				
+				<tbody>
+					<aura:iteration items="{!v.attachmentsWithStatus}" var="eachRowVar">
+			        	<tr aura:id="rowId" class="rowClass">
+							<!-- <td>
+			        			<div class="slds-align_absolute-center" >
+									<aura:if isTrue="{!eachRowVar.attachment.ContentType == 'image/jpeg'}">
+												<img src="{!'/servlet/servlet.FileDownload?file='+eachRowVar.attachment.Id}"/>
+									</aura:if>
+									<aura:if isTrue="{!eachRowVar.attachment.ContentType == 'application/pdf'}">
+											<iframe src="{!'/servlet/servlet.FileDownload?file='+eachRowVar.attachment.Id}" 
+										style="width:110px;" frameborder="0" scrolling="no"></iframe>
+									</aura:if>
+			        			</div>
+			        		</td> -->
+			        		<!-- <td>
+								<div class="slds-text-body_regular">
+									<a href="{!'/servlet/servlet.FileDownload?file='+eachRowVar.attachment.Id}" class="slds-text-link" target="_blank">{!eachRowVar.attachment.Name}</a>
+								</div>
+			        		</td> -->
+			        		<td>
+								<div>
+									<a href="{!'/servlet/servlet.FileDownload?file='+eachRowVar.attachment.Id}" class="slds-text-link" target="_blank">{!eachRowVar.attachment.Name}</a>
+								</div>
+								<div class="previewFileDiv">
+									<aura:if isTrue="{!eachRowVar.fileType == 'Image'}">
+												<img src="{!'/servlet/servlet.FileDownload?file='+eachRowVar.attachment.Id}" class="imgBorder mainImage" 
+													style="width:100%; min-height:140px;"/>
+									</aura:if>
+									<aura:if isTrue="{!eachRowVar.fileType == 'PDF'}">
+											<iframe src="{!'/servlet/servlet.FileDownload?file='+eachRowVar.attachment.Id}" frameborder="0" class="iframeClass">
+											</iframe>
+									</aura:if>
+									<!-- for lazy loading -->
+									<!-- <img src="{!$Resource.SLDS0122 + '/assets/images/spinners/slds_spinner_brand.gif'}" 
+										class="imgBorder spinner"/> -->
+			        			</div>
+			        		</td>
+			        		<td scope="row">
+								<div class="slds-align_absolute-center">
+									{!eachRowVar.fileType}
+								</div>
+							</td>
+			        		<td scope="row">
+								<div class="slds-align_absolute-center">
+									<ui:outputDateTime value="{!eachRowVar.attachment.CreatedDate}"/>
+								</div>
+							</td>
+			        		<td scope="row">
+			        			<div class="slds-align_absolute-center">
+		        					<aura:if isTrue="{!greaterthan(eachRowVar.attachment.BodyLength,999999)}">
+					          			{!sub(div(eachRowVar.attachment.BodyLength, 1000000), mod(div(eachRowVar.attachment.BodyLength, 1000000),1))} MB
+						          		<aura:set attribute="else">
+						          			<aura:if isTrue="{!greaterthan(eachRowVar.attachment.BodyLength,999)}">
+						          					{!sub(div(eachRowVar.attachment.BodyLength, 1000), mod(div(eachRowVar.attachment.BodyLength, 1000),1))} KB
+						          				<aura:set attribute="else">
+						          					{!eachRowVar.attachment.BodyLength} Byte
+						          				</aura:set>
+						          			</aura:if>
+						          		</aura:set>
+					          		</aura:if>
+								</div>
+			        		</td>
+							<td scope="row">
+								<div class="slds-align_absolute-center">
+									<lightning:icon class="{!eachRowVar.statusIconColor}" iconName="{!eachRowVar.statusIcon}" size="small"
+									title="{!eachRowVar.status}" variant="error" />
+								</div>
+							</td>
+							<aura:if isTrue="{!v.downloadColumn}">
+								<td scope="row">
+									<div class="slds-align_absolute-center">
+										<aura:if isTrue="{!eachRowVar.showDownloadCheckBox}">
+											<aura:if isTrue="{!eachRowVar.defaultSelectionOfDownloadCheckBox}">
+								          		<ui:inputCheckbox text="{!eachRowVar.attachment.Id}" aura:id="DownloadCheckboxPack" 
+								          			value="true" change="{!c.checkboxSelect}"/>
+								          		<aura:set attribute="else">
+								          			<ui:inputCheckbox text="{!eachRowVar.attachment.Id}" aura:id="DownloadCheckboxPack" value="false" change="{!c.checkboxSelect}"/>
+								          		</aura:set>
+								          	</aura:if>
+										</aura:if>
+									</div>
+								</td>
+							</aura:if>
+							<aura:if isTrue="{!v.uploadToCallistaColumn}">
+				          	    <td scope="row">
+				          	    	<div class="slds-align_absolute-center">
+					          			<aura:if isTrue="{!eachRowVar.showSendToCallistaCheckBox}">
+											<aura:if isTrue="{!eachRowVar.defaultSelectionOfSendToCallistaCheckBox}">
+								          		<ui:inputCheckbox text="{!eachRowVar.attachment.Id}" aura:id="uploadChecboxPack" value="true" change="{!c.checkboxSelect}"/>
+								          		<aura:set attribute="else">
+								          			<ui:inputCheckbox text="{!eachRowVar.attachment.Id}" aura:id="uploadChecboxPack" value="false" change="{!c.checkboxSelect}"/>
+								          		</aura:set>
+								          	</aura:if>
+										</aura:if>
+									</div>
+				          		</td>
+				          	</aura:if>
+						</tr>
+		      		</aura:iteration>
+				</tbody>
+				<!-- </div> -->
+			</table>
+			<div class="slds-p-top_small"></div>
+				<!-- <label class="slds-checkbox__label" for="checkbox-20">
+					<span class="slds-checkbox_faux"></span>
+					<span class="slds-form-element__label">Show all attachments</span>
+				</label>
+				<ui:inputCheckbox text="Show all attachments" aura:id="DownloadCheckboxPack" value="false" change="{!c.checkboxSelect}"/> -->
+				
+
+			<div class="slds-grid slds-grid_align-spread">
+			  <div class="slds-col">
+			    <span>
+			    	<fieldset class="slds-form-element slds-p-right_x-small">
+					  <!-- <legend class="slds-form-element__legend slds-form-element__label">Scheduled Day(s)</legend> -->
+					  <div class="slds-form-element__control">
+					    <div class="slds-checkbox_button-group">
+					      <span class="slds-button slds-checkbox_button">
+					        <input type="checkbox" id="showAllAttachmentsCheckbox" name="showAllAttachmentsCheckbox" value="off" />
+					        <label class="slds-checkbox_button__label" for="showAllAttachmentsCheckbox">
+					          <span class="slds-checkbox_faux">Show All Attachments</span>
+					        </label>
+					      </span>
+					    </div>
+					  </div>
+					</fieldset>
+				</span>
+			  </div>
+			  <div class="slds-col">
+			    <span>
+			    	<button class="slds-button slds-button--brand" iconPosition="left" iconName="utility:upload" 
+			    		onclick="{!c.refreshThePage}"> Refresh
+			   		</button>
+			    	<aura:if isTrue="{!or(v.uploadToCallistaColumn,v.downloadColumn)}">
+			   		<button class="slds-button slds-button--brand" iconPosition="left" iconName="utility:upload" onclick="{!c.pushSelected}">
+			   			Submit
+			   		</button>
+		   			</aura:if>
+		   		</span>
+			  </div>
+			  <!-- <div class="slds-col">
+			    <span>3</span>
+			  </div> -->
+			</div>
+			<!-- <div class="slds-grid slds-grid-
+			-align-end">
+				
+				<button class="slds-button slds-button-
+				-brand" iconPosition="left" iconName="utility:upload" onclick="{!c.refreshThePage}">
+		   			Refresh
+		   		</button>
+		   		<aura:if isTrue="{!or(v.uploadToCallistaColumn,v.downloadColumn)}">
+			   		<button class="slds-button slds-button-
+			   		-brand" iconPosition="left" iconName="utility:upload" onclick="{!c.pushSelected}">
+			   			Submit
+			   		</button>
+		   		</aura:if>
+			</div> -->
+		</div>
+	</div>
+
+	<div>
+		<aura:if isTrue="{!v.showMessage}">
+			<div class="demo-only" style="height: 24rem;">
+			  <section role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal_prompt" aria-modal="true">
+			    <div class="slds-modal__container">
+			      <header class="slds-modal__header blueishBackround slds-theme_alert-texture">
+			        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+			          <span class="slds-assistive-text">Close</span>
+			        </button>
+			        <h2 class="slds-text-heading_medium" id="prompt-heading-id">{!v.messageHeader}</h2>
+			      </header>
+			      <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+			        <p>{!v.messageText}</p>
+			      </div>
+			      <footer class="slds-modal__footer slds-theme_default">
+			        <button class="slds-button slds-button_neutral" onclick="{!c.hideMessage}">Okay</button>
+			      </footer>
+			    </div>
+			  </section>
+		  	  <div class="slds-backdrop"></div>
+			</div>
+		</aura:if>
+	</div>
+
+</aura:component>

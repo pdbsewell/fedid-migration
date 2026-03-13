@@ -1,0 +1,482 @@
+<aura:component implements="force:appHostable,forceCommunity:availableForAllPageTypes" access="global" controller="appWorkExperienceCC">
+
+    <ltng:require scripts="{!$Resource.StudFirst_datepicker_jquery}" />
+    <ltng:require styles="{!$Resource.StudFirst_datepicker_tinyDateCSS}" />
+    <ltng:require scripts="{!$Resource.StudFirst_datepicker_moment}" />
+    <ltng:require scripts="{!$Resource.StudFirst_datepicker_tinyDateJS}" />
+
+    <aura:attribute name="contWorkExp" type="Work_Experience__c" 
+                    default="{  'sobjectType'   : 'Work_Experience__c',
+                             'Position__c'  : '', 
+                             'Start_Date__c'    : '',
+                             'End_Date__c'  : '', }" />
+    <aura:attribute name="isExpanded" type="Boolean" default="true"/>
+    <aura:attribute name="showForm" type="Boolean" default="false"/>
+    <aura:attribute name="workExpList" type="List" description="The items to be iterated over and processed."/>
+    <aura:attribute name="errorMessage" type="String" default="" />
+    <aura:attribute name="appId" type="String" default=""/>
+    <aura:attribute name="selRecToDelId" type="String" default=""/>
+    <aura:attribute name="showConfirmPopup" type="Boolean" default="false"/>
+    <aura:attribute name="hasErrors" type="Boolean" default="false" />
+    <aura:attribute name="hasNoEndDate" type="Boolean" default="false" />
+    <aura:attribute name="invalidStartDate" type="Boolean" default="false" />
+    <aura:attribute name="invalidEndDate" type="Boolean" default="false" />
+    <aura:attribute name="noDataText" type="String" default="No records to display." />
+    <aura:attribute name="initializeStartDatePicker" type="Boolean" default="true"/>
+    <aura:attribute name="initializeEndDatePicker" type="Boolean" default="true"/>
+    <aura:attribute name="startdateErrorMessage" type="String" default="" />
+    <aura:attribute name="enddateErrorMessage" type="String" default="" />
+    <aura:attribute name="selectedStartDate" type="Date" default="" />
+    <aura:attribute name="selectedEndDate" type="Date" default="" />
+    <aura:attribute name="showViewPopup" type="Boolean" default="false"/>
+    <aura:attribute name="selWorkExpToView" type="Work_Experience__c"/>
+    <aura:attribute name="disabled" type="Boolean" default="false" />
+
+    <aura:attribute name="workExpMode" type="String" default="Edit" />
+    
+    <!-- handlers -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <!-- <aura:handler event="aura:waiting" action="{!c.waiting}"/>
+    <aura:handler event="aura:doneWaiting" action="{!c.doneWaiting}"/> -->
+    
+    <!-- setting this to true allows the users to delete on the list -->
+    <aura:attribute name="allowDelete" type="Boolean" access="global" default="false"/>
+    <!-- this determines which list to display -->
+    <aura:attribute name="isAppComponent" type="Boolean" access="global" default="false"/>
+
+    <!-- Edit attributes -->
+    <aura:attribute name="selRecToEditId" type="String" default=""/>
+    <aura:attribute name="isEditWorkExperience" type="Boolean" default="false"/>
+
+    <aura:attribute name="contactId" type="String" default=""/>
+    <aura:attribute name="newWorkExpRecId" type="String" default=""/>
+    <aura:attribute name="appWorkExperienceProvidedId" type="String" default=""/>
+    <div class="slds">
+        <!-- SPINNER -->
+        <!-- <span id="Accspinner" style="display:none">
+            <lightning:spinner variant="neutral" size="medium" alternativeText="Loading"/>
+        </span> -->
+        <!-- END - SPINNER -->
+        <!-- CONFIRMATION POPUP -->
+        <aura:If isTrue="{!v.showConfirmPopup}">
+            <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header slds-theme--error slds-theme--alert-texture">
+                        <h2 class="slds-text-heading--small" id="prompt-heading-id">{!$Label.c.App_DeleteConfirmation}</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <p>
+                            {!$Label.c.App_DeleteWorkExpLabel}
+                        </p>
+                    </div>
+                    <div class="slds-modal__footer slds-theme--default">
+                        <lightning:button label="Yes"
+                                iconPosition="left"
+                                variant="brand"
+                                onclick="{!c.deleteWorkExperience}">
+                        </lightning:button>
+                        <lightning:button label="No"
+                                iconPosition="left"
+                                class="slds-button slds-button--neutral"
+                                onclick="{!c.cancelDelete}">
+                        </lightning:button>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+        </aura:If>
+        <!-- END - CONFIRMATION POPUP -->
+
+        <!-- QUALIFICATION POPUP -->
+        <div class="{!if(!v.showViewPopup, 'slds-hide', '')}">
+            <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                <div class="slds-modal__container ">
+                    <div class="modal-brand slds-modal__header slds-notify slds-notify_alert slds-theme_alert-texture" role="alert">
+                        <div class="slds-float--right">
+                            <lightning:button label=""
+                                    iconPosition="left"
+                                    class="x-button slds-button slds-notify__close slds-button--icon-inverse"
+                                    onclick="{!c.closeViewModal}">
+                                <lightning:icon iconName="utility:close" size="x-small" alternativeText="close" />
+                            </lightning:button>
+                        </div>
+                        <h2 class="slds-text-heading--small" id="prompt-heading-id">Work Experience Details</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                <div class="slds-text-title">Position</div>
+                                <aura:If isTrue="{!and(v.selWorkExpToView.Position__c != '', v.selWorkExpToView.Position__c != null)}">
+                                    <div class="slds-text-body--regular">{!v.selWorkExpToView.Position__c}</div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                    </aura:set>
+                                </aura:If>
+                            </div>
+
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                <div class="slds-text-title">Employer</div>
+                                <aura:If isTrue="{!and(v.selWorkExpToView.Employer_Name__c != '', v.selWorkExpToView.Employer_Name__c != null)}">
+                                    <div class="slds-text-body--regular">{!v.selWorkExpToView.Employer_Name__c}</div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                    </aura:set>
+                                </aura:If>
+                            </div>
+
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                <div class="slds-text-title">Start Date</div>
+                                <aura:If isTrue="{!and(v.selWorkExpToView.Start_Date__c != '', v.selWorkExpToView.Start_Date__c != null)}">
+                                    <ui:outputDate value="{!v.selWorkExpToView.Start_Date__c}" format="dd/MMM/yyyy"/>
+                                    <aura:set attribute="else">
+                                        <div class="slds-text--regular">
+                                            <i>Not Specified</i>
+                                        </div>
+                                    </aura:set>
+                                </aura:If>
+                            </div>
+
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                <div class="slds-text-title">End Date</div>
+                                <aura:If isTrue="{!and(v.selWorkExpToView.End_Date__c != '', v.selWorkExpToView.End_Date__c != null)}">
+                                    <ui:outputDate value="{!v.selWorkExpToView.End_Date__c}" format="dd/MMM/yyyy"/>
+                                    <aura:set attribute="else">
+                                        <div class="slds-text--regular">
+                                            <i>Present</i>
+                                        </div>
+                                    </aura:set>
+                                </aura:If>
+                            </div>
+
+                            <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space ">
+                                <h3>Contact Person</h3>
+                            </div>
+
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                <div class="slds-text-title">Given Name</div>
+                                <aura:If isTrue="{!and(v.selWorkExpToView.Contact_Person_First_Name__c != '', v.selWorkExpToView.Contact_Person_First_Name__c != null)}">
+                                    <div class="slds-text-body--regular">{!v.selWorkExpToView.Contact_Person_First_Name__c}</div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                    </aura:set>
+                                </aura:If>
+                            </div>
+
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                <div class="slds-text-title">Family Name</div>
+                                <aura:If isTrue="{!and(v.selWorkExpToView.Contact_Person_Last_Name__c != '', v.selWorkExpToView.Contact_Person_Last_Name__c != null)}">
+                                    <div class="slds-text-body--regular">{!v.selWorkExpToView.Contact_Person_Last_Name__c}</div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                    </aura:set>
+                                </aura:If>
+                            </div>
+
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                <div class="slds-text-title">Email</div>
+                                <aura:If isTrue="{!and(v.selWorkExpToView.Contact_Person_Email__c != '', v.selWorkExpToView.Contact_Person_Email__c != null)}">
+                                    <div class="slds-text-body--regular">{!v.selWorkExpToView.Contact_Person_Email__c}</div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                    </aura:set>
+                                </aura:If>
+                            </div>
+
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                <div class="slds-text-title">Contact Number</div>
+                                <aura:If isTrue="{!and(v.selWorkExpToView.Contact_Person_Phone__c != '', v.selWorkExpToView.Contact_Person_Phone__c != null)}">
+                                    <div class="slds-text-body--regular">{!v.selWorkExpToView.Contact_Person_Phone__c}</div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                    </aura:set>
+                                </aura:If>
+                            </div>
+
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                <div class="slds-text-title">Street</div>
+                                <aura:If isTrue="{!and(v.selWorkExpToView.Contact_Person_Street__c != '', v.selWorkExpToView.Contact_Person_Street__c != null)}">
+                                    <div class="slds-text-body--regular">{!v.selWorkExpToView.Contact_Person_Street__c}</div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                    </aura:set>
+                                </aura:If>
+                            </div>
+
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                <div class="slds-text-title">City</div>
+                                <aura:If isTrue="{!and(v.selWorkExpToView.Contact_Person_City__c != '', v.selWorkExpToView.Contact_Person_City__c != null)}">
+                                    <div class="slds-text-body--regular">{!v.selWorkExpToView.Contact_Person_City__c}</div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                    </aura:set>
+                                </aura:If>
+                            </div>
+
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                <div class="slds-text-title">State</div>
+                                <aura:If isTrue="{!and(v.selWorkExpToView.Contact_Person_State__c != '', v.selWorkExpToView.Contact_Person_State__c != null)}">
+                                    <div class="slds-text-body--regular">{!v.selWorkExpToView.Contact_Person_State__c}</div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                    </aura:set>
+                                </aura:If>
+                            </div>
+
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                <div class="slds-text-title">Postal Code</div>
+                                <aura:If isTrue="{!and(v.selWorkExpToView.Contact_Person_PostalCode__c != '', v.selWorkExpToView.Contact_Person_PostalCode__c != null)}">
+                                    <div class="slds-text-body--regular">{!v.selWorkExpToView.Contact_Person_PostalCode__c}</div>
+                                    <aura:set attribute="else">
+                                        <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                    </aura:set>
+                                </aura:If>
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+        </div>
+        <!-- END - QUALIFICATION POPUP -->
+
+        <div class="slds-section section-float">
+            <!--<h3 class="slds-section__title" id="myWorkExpDiv">
+                <!- 13.Jun.2017 - removed iconName="{!if(v.isExpanded, 'utility:chevrondown', 'utility:chevronright' )}"
+                <lightning:button label="My Work Experience"
+                        iconPosition="left"
+                        title="{!if(v.isExpanded, 'Collapse', 'Expand' )}"
+                        class="slds-button slds-section__title-action header-collapsible"
+                        onclick="{!c.showHideComponent}"
+                        variant="inverse">
+                </lightning:button>
+            </h3>-->
+            <!-- ERROR MESSAGE -->
+            <aura:If isTrue="{!v.errorMessage != ''}">
+                <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert" id="appWE_errorDiv">
+                    <span class="slds-assistive-text">Error</span>
+                    <aura:unescapedHtml value="{!v.errorMessage}"/>
+                </div>
+            </aura:If>
+            <!-- END - ERROR MESSAGE -->
+            <!-- ONLY SHOW WHEN EXPANDED -->
+            <aura:If isTrue="{!v.isExpanded}">
+                <div class="slds-col--padded slds-p-top--large">
+                    <!--<div class="slds-text-regular slds-p-bottom-large">
+                        <aura:unescapedHtml value="{!$Label.c.App_WorkExperienceDetails}" />
+                    </div>-->
+                    <div class="container">
+                        <aura:If isTrue="{!!v.showForm}" >
+                            <div class="slds-button-group" role="group">
+                                <lightning:button label="Add New Work Experience"
+                                        iconPosition="left"
+                                        iconName="utility:add"
+                                        variant="brand"
+                                        onclick="{!c.showWorkExperienceForm}">
+                                </lightning:button>
+                            </div>
+                            <div class="slds-text--regular slds-p-vertical--large">
+                                <aura:unescapedHtml value="{!$Label.c.App_WorkExperienceList}" />
+                            </div>
+                            <aura:If isTrue="{!v.workExpList.length > 0}">
+                                <div class="slds-p-vertical--large">
+                                    <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                                        <thead>
+                                            <tr class="slds-text-title--caps">
+                                                <th scope="col">
+                                                    <div title="posTH">Position</div>
+                                                </th>
+                                                <th scope="col" class="hideOnMobile">
+                                                    <div title="empTH">Employer</div>
+                                                </th>
+                                                <th scope="col" class="hideOnMobile">
+                                                    <div title="empTH">Date</div>
+                                                </th>
+                                                <th scope="col">
+                                                    <!-- <div class="slds-align_absolute-center" title="Action">Action</div> -->
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <!-- ITERATION FOR WORK EXPERIENCE -->
+                                            <aura:If isTrue="{!!v.isAppComponent}">
+                                                <aura:iteration items="{!v.workExpList}" var="workExp">
+                                                    <tr>
+                                                        <td scope="row" data-label="posTD">
+                                                            <div class="slds-truncate" >
+                                                                {!workExp.Position__c}
+                                                            </div>
+                                                        </td>
+                                                        <td scope="row" data-label="posTD" class="hideOnMobile">
+                                                            <div class="slds-truncate" >
+                                                                {!workExp.Employer_Name__c}
+                                                            </div>
+                                                        </td>
+                                                        <td scope="row" data-label="posTD" class="hideOnMobile">
+                                                            
+                                                            <aura:If isTrue="{!workExp.End_Date__c == null}">
+                                                                <div class="slds-truncate" >
+                                                                    <ui:outputDate value="{!workExp.Start_Date__c}" format="dd/MMM/yyyy"/>&nbsp;-&nbsp;Present
+                                                                </div>
+                                                                <aura:set attribute="else">
+                                                                    <ui:outputDate value="{!workExp.Start_Date__c}" format="dd/MMM/yyyy"/>&nbsp;-&nbsp;<ui:outputDate value="{!workExp.End_Date__c}" format="dd/MMM/yyyy"/>
+                                                                </aura:set>
+                                                            </aura:If>
+                                                        </td>
+                                                        <td data-label="Action">
+                                                            <aura:If isTrue="{!v.allowDelete}">
+                                                                
+                                                                    <div class="slds-float_right">
+                                                                        <lightning:button label=""
+                                                                            iconPosition="left"
+                                                                            name="{!workExp.Id}"
+                                                                            onclick="{!c.showConfirmDeletePopup}"
+                                                                            variant="destructive">
+                                                                            <lightning:icon iconName="utility:close" size="small" alternativeText="Remove Item" />
+                                                                        </lightning:button>
+                                                                    </div>
+                                                                
+                                                            </aura:If>
+                                                        </td>
+                                                    </tr>
+                                                </aura:iteration>
+                                            </aura:If>
+                                            <!-- END - ITERATION FOR WORK EXPERIENCE -->
+                                            
+                                            <!-- ITERATION FOR APPLICATION WORK EXPERIENCE PROVIDED-->
+                                            <aura:If isTrue="{!v.isAppComponent}">
+                                                <aura:iteration items="{!v.workExpList}" var="workExp">
+                                                    <tr>
+                                                        <td scope="row" data-label="posTD">
+                                                            <div class="wrapClass" style="width: 200px;">
+                                                                <lightning:button label="{!workExp.Work_Experience__r.Position__c}"
+                                                                        iconPosition="left"
+                                                                        class="slds-button slds-text-link buttonWrap" 
+                                                                        variant="base"
+                                                                        name="{!workExp.Work_Experience__c}"
+                                                                        onclick="{!c.showviewQualPopup}" />
+                                                            </div>
+                                                        </td>
+                                                        <td width="30%" scope="row" data-label="posTD" class="hideOnMobile">
+                                                            <div class="wrapClass" >
+                                                                {!workExp.Work_Experience__r.Employer_Name__c}
+                                                            </div>
+                                                        </td>
+                                                        <td width="30%" scope="row" data-label="posTD" class="hideOnMobile">
+                                                            <aura:If isTrue="{!workExp.Work_Experience__r.End_Date__c == null}">
+                                                                <div class="wrapClass" >
+                                                                    <ui:outputDate value="{!workExp.Work_Experience__r.Start_Date__c}" format="dd/MMM/yyyy"/>&nbsp;-&nbsp;Present
+                                                                </div>
+                                                                <aura:set attribute="else">
+                                                                    <ui:outputDate value="{!workExp.Work_Experience__r.Start_Date__c}" format="dd/MMM/yyyy"/>&nbsp;-&nbsp;<ui:outputDate value="{!workExp.Work_Experience__r.End_Date__c}" format="dd/MMM/yyyy"/>
+                                                                </aura:set>
+                                                            </aura:If>
+                                                        </td>
+                                                        <td data-label="Action">
+                                                            <aura:If isTrue="{!(!workExp.Is_Submitted__c)}">
+                                                                <div class="slds-float_right">
+                                                                    <lightning:button label=""
+                                                                            iconPosition="left"
+                                                                            name="{!workExp.Work_Experience__c}"
+                                                                            onclick="{!c.onEditWorkExperience}"
+                                                                            variant="base">
+                                                                        <lightning:icon iconName="utility:edit" size="small" alternativeText="edit"/>
+                                                                    </lightning:button>
+                                                                    <lightning:button label=""
+                                                                        iconPosition="left" 
+                                                                        name="{!workExp.Id}"
+                                                                        onclick="{!c.showConfirmDeletePopup}"
+                                                                    variant="base">
+                                                                        <lightning:icon iconName="utility:close" size="small" alternativeText="Remove Item" />
+                                                                    </lightning:button>
+                                                                </div>
+                                                            </aura:If>
+                                                        </td>
+                                                    </tr>
+                                                </aura:iteration>
+                                            </aura:If>
+                                            <!-- END - ITERATION FOR APPLICATION WORK EXPERIENCE PROVIDED -->
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <aura:If isTrue="false" > <!-- Hidden as requested -->
+                                    <h3 class="slds-section__title slds-p-top--x-large">Work Experience Document</h3>
+                                    <div class="slds-text--regular slds-p-bottom--x-larger">
+                                        {!$Label.c.App_ProvideCV}
+                                    </div>
+                                    <!-- <c:appAddDocuments aura:id="addDocWorkExp" 
+                                                       showSaveButton="true" 
+                                                       selectedType="Curriculum vitae"
+                                                       showList="false"/> -->
+                                </aura:If>
+                                <aura:set attribute="else">
+                                    <ui:message severity="info">{!v.noDataText}</ui:message>
+                                </aura:set>
+                            </aura:If>
+
+                            <aura:set attribute="else">
+                                <!-- ADDING NEW WORK EXPERIENCE -->
+                                <form class="slds-form--stacked">
+                                    <div class="slds-grid slds-p-bottom--large" id="newWorkExpHeader">
+                                        <h3 class="slds-section__title">New Work Experience</h3>
+                                    </div>
+                                    <lightning:recordEditForm aura:id="createWorkExp" objectApiName="Work_Experience__c" recordId="{!v.newWorkExpRecId}"
+                                        onsubmit="{!c.handleSubmit}"
+                                        onsuccess="{!c.handleSuccess}">
+                                        
+                                        <span onkeypress="{!c.keyCheck}">
+                                            <lightning:messages />
+                                            
+                                            <label for="field00Id">Position</label>
+                                            <lightning:inputField aura:id="field00Id" variant="label-hidden" class="customRequired" fieldName="Position__c" onchange="{!c.updateAppCitizenship}" required="true"/>
+    
+                                            <label for="field01Id">Employer</label>
+                                            <lightning:inputField aura:id="field01Id" variant="label-hidden" class="customRequired" fieldName="Employer_Name__c" onchange="{!c.updateAppCitizenship}" required="true"/>
+    
+                                            <label for="field02Id">Start Date</label>
+                                            <lightning:inputField aura:id="field02Id" variant="label-hidden" class="customRequired" fieldName="Start_Date__c" onchange="{!c.updateAppCitizenship}" required="true"/>
+    
+                                            <label for="field03Id">End Date (leave blank if continuing)</label>
+                                            <lightning:inputField aura:id="field03Id" variant="label-hidden" class="customRequired" fieldName="End_Date__c" onchange="{!c.updateAppCitizenship}" required="true"/>
+    
+                                            <div class="slds-p-vertical--x-large">
+                                                <h3 class="slds-section__title">Referee</h3>
+                                                <div class="slds-text-body--regular">{!$Label.c.App_ContactPersonDetailsLabel}</div>
+                                            </div>
+    
+                                            <label for="field04Id">Given Name</label>
+                                            <lightning:inputField aura:id="field04Id" variant="label-hidden" class="customRequired" fieldName="Contact_Person_First_Name__c" onchange="{!c.updateAppCitizenship}" required="true"/>
+    
+                                            <label for="field05Id">Family Name</label>
+                                            <lightning:inputField aura:id="field05Id" variant="label-hidden" class="customRequired" fieldName="Contact_Person_Last_Name__c" onchange="{!c.updateAppCitizenship}" required="true"/>
+    
+                                            <label for="field06Id">Email</label>
+                                            <lightning:inputField aura:id="field06Id" variant="label-hidden" class="customRequired" fieldName="Contact_Person_Email__c" onchange="{!c.updateAppCitizenship}" required="true"/>
+    
+                                            <label for="field07Id">Contact Number</label>
+                                            <lightning:inputField aura:id="field07Id" variant="label-hidden" class="customRequired" fieldName="Contact_Person_Phone__c"  onchange="{!c.updateAppCitizenship}" required="true"/>
+    
+                                            <label for="field08Id">Country</label>
+                                            <lightning:inputField aura:id="field08Id" variant="label-hidden" class="customRequired" fieldName="Country__c" onchange="{!c.updateAppCitizenship}" required="true"/>
+                                        </span>
+                                        <center>
+                                            <div class="slds-form-element slds-p-vertical--large">
+                                                <div class="slds-m-top_medium">
+                                                    <lightning:button variant="brand" type="submit" name="save" label="Save" />
+                                                    <lightning:button variant="destructive" name="Cancel" label="Cancel" onclick="{!c.hideOrDeleteWorkExp}">
+                                                    </lightning:button>
+                                                </div>
+                                            </div>
+                                        </center>
+                                    </lightning:recordEditForm>
+                                </form>
+                                <!-- END - ADDING NEW WORK EXPERIENCE -->
+                            </aura:set>
+                        </aura:If>
+                        
+                    </div>
+                </div>
+            </aura:If>
+            <!-- END - ONLY SHOW WHEN EXPANDED -->
+        </div>
+    </div>
+</aura:component>

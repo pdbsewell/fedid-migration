@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Captures details of all the scholarships issued to a particular school</description>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Alias__c</fullName>
+        <description>The name of record migrated from source org</description>
+        <externalId>true</externalId>
+        <label>Alias</label>
+        <length>50</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Number_Issued__c</fullName>
+        <description>The number of this scholarship that were issued for this year and this School</description>
+        <externalId>false</externalId>
+        <label>Number Issued</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Scholarship_Name__c</fullName>
+        <description>Captures the name of the scholarship</description>
+        <label>Scholarship Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Sir John Monash Scholarship</fullName>
+                    <default>false</default>
+                    <label>Sir John Monash Scholarship</label>
+                </value>
+                <value>
+                    <fullName>Monash Indigenous Scholarship for Achievement and Equity</fullName>
+                    <default>false</default>
+                    <label>Monash Indigenous Scholarship for Achievement and Equity</label>
+                </value>
+                <value>
+                    <fullName>Monash Indigenous Pathway Bursary</fullName>
+                    <default>false</default>
+                    <label>Monash Indigenous Pathway Bursary</label>
+                </value>
+                <value>
+                    <fullName>Colin and Eleanor Bourke Indigenous Postgraduate Scholarship</fullName>
+                    <default>false</default>
+                    <label>Colin and Eleanor Bourke Indigenous Postgraduate Scholarship</label>
+                </value>
+                <value>
+                    <fullName>MRS Residential Indigenous Leadership Pathway Scholarship</fullName>
+                    <default>false</default>
+                    <label>MRS Residential Indigenous Leadership Pathway Scholarship</label>
+                </value>
+                <value>
+                    <fullName>Commonwealth Education Costs Scholarship (CECS)</fullName>
+                    <default>false</default>
+                    <label>Commonwealth Education Costs Scholarship (CECS)</label>
+                </value>
+                <value>
+                    <fullName>Commonwealth Accommodation Scholarship (CAS)</fullName>
+                    <default>false</default>
+                    <label>Commonwealth Accommodation Scholarship (CAS)</label>
+                </value>
+                <value>
+                    <fullName>Commonwealth Indigenous Access Scholarship</fullName>
+                    <default>false</default>
+                    <label>Commonwealth Indigenous Access Scholarship</label>
+                </value>
+                <value>
+                    <fullName>Monash Scholarship for Exceptional Achievement</fullName>
+                    <default>false</default>
+                    <label>Monash Scholarship for Exceptional Achievement</label>
+                </value>
+                <value>
+                    <fullName>Monash Scholarship for Outstanding Achievement</fullName>
+                    <default>false</default>
+                    <label>Monash Scholarship for Outstanding Achievement</label>
+                </value>
+                <value>
+                    <fullName>Information Technology Indigenous Achievement Scholarship</fullName>
+                    <default>false</default>
+                    <label>Information Technology Indigenous Achievement Scholarship</label>
+                </value>
+                <value>
+                    <fullName>Information Technology Indigenous Merit Scholarship</fullName>
+                    <default>false</default>
+                    <label>Information Technology Indigenous Merit Scholarship</label>
+                </value>
+                <value>
+                    <fullName>Faculty of IT Indigenous Non-Award Pathway Bursary</fullName>
+                    <default>false</default>
+                    <label>Faculty of IT Indigenous Non-Award Pathway Bursary</label>
+                </value>
+                <value>
+                    <fullName>Faculty of IT Indigenous Study Support Bursary</fullName>
+                    <default>false</default>
+                    <label>Faculty of IT Indigenous Study Support Bursary</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>School__c</fullName>
+        <description>Captures the school to which scholarship was issued</description>
+        <label>School</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Scholarships</relationshipLabel>
+        <relationshipName>Scholarships</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Year__c</fullName>
+        <description>Captures the year for which the scholarship was issues</description>
+        <externalId>false</externalId>
+        <label>Year</label>
+        <length>4</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Scholarship</label>
+    <nameField>
+        <displayFormat>SCH-{00000}</displayFormat>
+        <label>Scholarship ID</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Scholarships</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

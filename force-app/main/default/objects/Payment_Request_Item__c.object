@@ -1,0 +1,749 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>true</allowInChatterGroups>
+    <compactLayoutAssignment>Student</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>Student</fullName>
+        <fields>Student__c</fields>
+        <fields>Invoice_No__c</fields>
+        <fields>Course_Title__c</fields>
+        <fields>Requested_Amount__c</fields>
+        <fields>Payable_Amount__c</fields>
+        <fields>Status__c</fields>
+        <fields>Calculated_Payable_GST_Inclusive__c</fields>
+        <label>Student</label>
+    </compactLayouts>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>true</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Admission_Category__c</fullName>
+        <externalId>false</externalId>
+        <formula>Course_Attempt__r.Application_Course_Preference__r.Admission_Category__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Admission Category</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Agent_Invoice_Fund__c</fullName>
+        <description>used for grouping in the report</description>
+        <externalId>false</externalId>
+        <formula>Payment_Request__r.Agent_Code__c + &apos;_&apos; + Invoice_No__c + &apos;_&apos; +  Fund_Code__c</formula>
+        <label>Agent Invoice Fund Code</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Calculated_Payable_GST_Inclusive__c</fullName>
+        <externalId>false</externalId>
+        <formula>Payment_Request__r.Calculated_Payable_GST_Inclusive__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Calculated Payable / GST Inclusive</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Calendar__c</fullName>
+        <externalId>false</externalId>
+        <formula>Course_Attempt__r.Application_Course_Preference__r.Commencement_Period__c</formula>
+        <label>Calendar</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Comments__c</fullName>
+        <label>Comments</label>
+        <length>32768</length>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Cost_Centre_Code__c</fullName>
+        <description>Auto populated via trigger when Course Attempt is associated to the record. The purpose for storing is for future audit purpose when Cost Centre Code may change in the future</description>
+        <externalId>false</externalId>
+        <label>Cost Centre Code</label>
+        <length>15</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Course_Attempt_Available__c</fullName>
+        <formula>IF(  ISBLANK(Course_Attempt__c) , false, true)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Course Attempt Available</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Course_Attempt__c</fullName>
+        <deleteConstraint>Restrict</deleteConstraint>
+        <label>Course Attempt</label>
+        <referenceTo>Course_Attempt__c</referenceTo>
+        <relationshipLabel>Payment Request Items</relationshipLabel>
+        <relationshipName>Payment_Request_Items</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Course_Code__c</fullName>
+        <externalId>false</externalId>
+        <formula>Course_Attempt__r.Course_Code__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Course Code</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Course_Title__c</fullName>
+        <externalId>false</externalId>
+        <formula>Course_Attempt__r.Course_Title__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Course Title</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Course__c</fullName>
+        <externalId>false</externalId>
+        <formula>Course_Attempt__r.Course__c</formula>
+        <label>Course</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Entity__c</fullName>
+        <description>Auto populated via trigger when Course Attempt is associated to the record. The purpose for storing is for reporting and future audit purpose when the mapping might change in the future.</description>
+        <label>Entity</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Monash College</fullName>
+                    <default>false</default>
+                    <label>Monash College</label>
+                </value>
+                <value>
+                    <fullName>Monash University</fullName>
+                    <default>false</default>
+                    <label>Monash University</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Fee_Type__c</fullName>
+        <label>Fee Type</label>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Standard</fullName>
+                    <default>false</default>
+                    <label>Standard</label>
+                </value>
+                <value>
+                    <fullName>MUFY to Bachelor</fullName>
+                    <default>false</default>
+                    <label>MUFY to Bachelor</label>
+                </value>
+                <value>
+                    <fullName>Diploma to Bachelor</fullName>
+                    <default>false</default>
+                    <label>Diploma to Bachelor</label>
+                </value>
+                <value>
+                    <fullName>Package 3</fullName>
+                    <default>false</default>
+                    <label>Package 3</label>
+                </value>
+                <value>
+                    <fullName>Partial Fee</fullName>
+                    <default>false</default>
+                    <label>Partial Fee</label>
+                </value>
+                <value>
+                    <fullName>VTAC - Vic</fullName>
+                    <default>false</default>
+                    <label>VTAC - Vic</label>
+                </value>
+                <value>
+                    <fullName>VTAC - Interstate</fullName>
+                    <default>false</default>
+                    <label>VTAC - Interstate</label>
+                </value>
+                <value>
+                    <fullName>US Citizen Service Fee</fullName>
+                    <default>false</default>
+                    <label>US Citizen Service Fee</label>
+                </value>
+                <value>
+                    <fullName>Study Abroad Fee</fullName>
+                    <default>false</default>
+                    <label>Study Abroad Fee</label>
+                </value>
+                <value>
+                    <fullName>Incentive Fee</fullName>
+                    <default>false</default>
+                    <label>Incentive Fee</label>
+                </value>
+                <value>
+                    <fullName>Other - Undefined</fullName>
+                    <default>false</default>
+                    <label>Other - Undefined</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Fund_Code__c</fullName>
+        <description>Auto populated via trigger when Course Attempt is associated to the record. The purpose for storing is for future audit purpose when Fund Code mapping may change in the future</description>
+        <externalId>false</externalId>
+        <label>Fund Code</label>
+        <length>15</length>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GST_Amount_Field__c</fullName>
+        <label>GST Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Invoice_GST_Inclusive__c</fullName>
+        <formula>IF( Payment_Request__r.GST_Inclusive__c , true, false)</formula>
+        <label>GST Inclusive</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Invoice_No__c</fullName>
+        <externalId>false</externalId>
+        <formula>Payment_Request__r.Invoice_No__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Invoice No</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Payable_AmountGST__c</fullName>
+        <label>Payable Amount GST</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Payable_Amount_Ex_GST__c</fullName>
+        <label>Payable Amount (Ex GST)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Payable_Amount_Excl_GST__c</fullName>
+        <formula>Payable_Amount__c - Payable_Amount_GST__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Payable Amount (Excl GST)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Payable_Amount_GST__c</fullName>
+        <description>GST Amount for Payable Amount. Current assumption is always 10%</description>
+        <formula>IF(Invoice_GST_Inclusive__c , Payable_Amount__c - (Payable_Amount__c / 1.1) , 0)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Payable Amount GST</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Payable_Amount__c</fullName>
+        <label>Payable Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Payment_Request_Type__c</fullName>
+        <externalId>false</externalId>
+        <formula>Payment_Request__r.RecordType.Name</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Payment Request Type</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Payment_Request__c</fullName>
+        <label>Payment Request</label>
+        <referenceTo>Payment_Request__c</referenceTo>
+        <relationshipLabel>Payment Request Items</relationshipLabel>
+        <relationshipName>Payment_Request_Items</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Ready_for_Approval__c</fullName>
+        <description>boolean to indicate if all the relevant fields needed for approval are populated</description>
+        <formula>IF( ISBLANK(Cost_Centre_Code__c) , false,  IF( ISBLANK(Fund_Code__c) , false,  IF( ISBLANK( TEXT(Entity__c)) , false,  IF( ISBLANK( SAP_Vendor_Id__c ) , false, true) ) ) )</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Ready for Approval</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Requested_AmountGST__c</fullName>
+        <description>The GST for the requested amount</description>
+        <label>Requested Amount GST</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Requested_Amount_Ex_GST__c</fullName>
+        <description>Requested Amount Exclusive of GST. User receives ex GST amount on the invoice at the payment item level per student</description>
+        <label>Requested Amount (Ex GST)</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>Requested_Amount__c</fullName>
+        <label>Requested Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <fields>
+        <fullName>SAP_Vendor_Id__c</fullName>
+        <externalId>false</externalId>
+        <formula>Payment_Request__r.Account__r.SAP_Vendor_Id__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>SAP Vendor Id</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Semester__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT(Course_Attempt__r.Application_Course_Preference__r.Course_Offering__r.Academic_Year__c) &amp; &quot; &quot; &amp; Course_Attempt__r.Application_Course_Preference__r.Course_Offering__r.Admission_Calendar_Type__c</formula>
+        <label>Semester</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <label>Status</label>
+        <required>false</required>
+        <trackFeedHistory>true</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Entered</fullName>
+                    <default>true</default>
+                    <label>Entered</label>
+                </value>
+                <value>
+                    <fullName>Verified</fullName>
+                    <default>false</default>
+                    <label>Verified</label>
+                </value>
+                <value>
+                    <fullName>Awaiting Census</fullName>
+                    <default>false</default>
+                    <label>Awaiting Census</label>
+                </value>
+                <value>
+                    <fullName>Not Enrolled</fullName>
+                    <default>false</default>
+                    <label>Not Enrolled</label>
+                </value>
+                <value>
+                    <fullName>In Dispute</fullName>
+                    <default>false</default>
+                    <label>In Dispute</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Student_Country_of_Birth__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT(Student__r.Country_Of_Birth__c)</formula>
+        <label>Student Country of Birth</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Student_Id__c</fullName>
+        <externalId>false</externalId>
+        <formula>Student__r.Person_ID_unique__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Student Id</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Student_Name__c</fullName>
+        <externalId>false</externalId>
+        <formula>Student__r.Full_Name__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Student Name</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Student__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <label>Student</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Payment Request Items</relationshipLabel>
+        <relationshipName>Payment_Request_Items</relationshipName>
+        <required>false</required>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Submission_Country__c</fullName>
+        <externalId>false</externalId>
+        <formula>Course_Attempt__r.Application_Course_Preference__r.Submission_location__c</formula>
+        <label>Submission Country</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Tax_Code__c</fullName>
+        <externalId>false</externalId>
+        <formula>IF( Invoice_GST_Inclusive__c , &apos;P1&apos;, &apos;P0&apos;)</formula>
+        <label>Tax Code</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Payment Request Item</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>NAME</columns>
+        <columns>Payment_Request_Type__c</columns>
+        <columns>Invoice_No__c</columns>
+        <columns>Student__c</columns>
+        <columns>Student_Id__c</columns>
+        <columns>Requested_Amount__c</columns>
+        <columns>Invoice_GST_Inclusive__c</columns>
+        <columns>Payable_Amount__c</columns>
+        <columns>Status__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <listViews>
+        <fullName>Ready_for_Submission</fullName>
+        <columns>NAME</columns>
+        <columns>Payable_Amount__c</columns>
+        <columns>Tax_Code__c</columns>
+        <columns>SAP_Vendor_Id__c</columns>
+        <columns>Invoice_No__c</columns>
+        <columns>Payment_Request__c</columns>
+        <columns>Student__c</columns>
+        <columns>Student_Id__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>Ready for Submission</label>
+    </listViews>
+    <nameField>
+        <displayFormat>PRI-{000000000}</displayFormat>
+        <label>Payment Request Item Name</label>
+        <trackFeedHistory>false</trackFeedHistory>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Payment Request Items</pluralLabel>
+    <searchLayouts>
+        <searchResultsAdditionalFields>Payment_Request_Type__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Invoice_No__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Student__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Student_Id__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Requested_Amount__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Payable_Amount__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Status__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>Validation_on_Verify</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(ISCHANGED( Status__c ),  TEXT(Status__c) = &apos;Verified&apos;, NOT(Ready_for_Approval__c))</errorConditionFormula>
+        <errorMessage>Please check that all the financial code fields have been populated</errorMessage>
+    </validationRules>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Error_Update_Managing_Faculty</name>
+        <label>Error Update Managing Faculty</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Nebula__FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <stringValue>Application Course Preference : AS : Update ACP Partition For Short Courses</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Error Update Managing Faculty</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>tagsString</name>
+            <value>
+                <stringValue>Application Course Preference : AS : Update ACP Partition For Short Courses</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Validate_Course_Type_And_Faculty</name>
+        <label>Validate Course Type And Faculty</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Course Type And Faculty Not Null</defaultConnectorLabel>
+        <rules>
+            <name>Course_Type_And_Faculty_Is_Null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Course_Type__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Course_Type_Text__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Managing_Faculty__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Managing_Faculty</targetReference>
+            </connector>
+            <label>Course Type And Faculty Is Null</label>
+        </rules>
+    </decisions>
+    <description>Update ACP&apos;s &apos;Managing Faculty&apos; and &apos;Course Type Text&apos; from Course [for Short Courses only]</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>UpdateManagingFaculty</name>
+        <dataType>String</dataType>
+        <expression>CASE(
+{!$Record.Course__c.Managing_Faculty__c},
+&quot;Faculty of Education&quot;,&quot;Faculty of Education&quot;,
+&quot;Faculty of Medicine, Nursing &amp; Health Sciences&quot;,&quot;Faculty of Medicine, Nursing &amp; Health Sciences&quot;,
+&quot;The School of Public Health and Preventive Medicine (SPHPM)&quot;,&quot;The School of Public Health and Preventive Medicine (SPHPM)&quot;,
+&quot;Monash Centre for Health Research and Implementation (MCHRI)&quot;,&quot;Monash Centre for Health Research and Implementation (MCHRI)&quot;,
+&quot;MNHS Student Academic Support Unit (SASU)&quot;,&quot;MNHS Student Academic Support Unit (SASU)&quot;,
+&quot;School of Clinical Sciences (SCS)&quot;,&quot;School of Clinical Sciences (SCS)&quot;,
+&quot;Faculty of Business &amp; Economics&quot;,&quot;Faculty of Business &amp; Economics&quot;,
+&quot;Faculty of Arts&quot;,&quot;Faculty of Arts&quot;,
+&quot;Monash Sustainable Development Institute&quot;,&quot;Monash Sustainable Development Institute&quot;,
+&quot;Monash Centre for Professional Development&quot;,&quot;Monash Centre for Professional Development&quot;,
+&quot;&quot;
+)</expression>
+    </formulas>
+    <interviewLabel>Application Course Preference : AS : Update ACP Partition For Short Courses {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Application Course Preference : AS : Update ACP Partition For Short Courses</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Managing_Faculty</name>
+        <label>Update Managing Faculty</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <faultConnector>
+            <targetReference>Error_Update_Managing_Faculty</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Course_Type_Text__c</field>
+            <value>
+                <stringValue>Short_Course</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Managing_Faculty_Text__c</field>
+            <value>
+                <elementReference>UpdateManagingFaculty</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Validate_Course_Type_And_Faculty</targetReference>
+        </connector>
+        <filterFormula>{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False</filterFormula>
+        <object>Application_Course_Preference__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

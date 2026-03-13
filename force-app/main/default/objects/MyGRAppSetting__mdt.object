@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>My App for graduate research rules</description>
+    <fields>
+        <fullName>Award_Name__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Award Name/Type</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Award Name</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>AUSAID</fullName>
+                    <default>true</default>
+                    <label>Australian Awards Scholarship (formerly AusAID)</label>
+                </value>
+                <value>
+                    <fullName>APA</fullName>
+                    <default>false</default>
+                    <label>Australian Postgraduate Award (APA)</label>
+                </value>
+                <value>
+                    <fullName>ES</fullName>
+                    <default>false</default>
+                    <label>Endeavour Scholarship</label>
+                </value>
+                <value>
+                    <fullName>IPRS</fullName>
+                    <default>false</default>
+                    <label>International Postgraduate Research Scholarship (IPRS)</label>
+                </value>
+                <value>
+                    <fullName>MDS</fullName>
+                    <default>false</default>
+                    <label>Monash Departmental Scholarship</label>
+                </value>
+                <value>
+                    <fullName>MGS</fullName>
+                    <default>false</default>
+                    <label>Monash Graduate Scholarship (MGS)</label>
+                </value>
+                <value>
+                    <fullName>MIPRS</fullName>
+                    <default>false</default>
+                    <label>Monash International Postgraduate Research Scholarship (MIPRS)</label>
+                </value>
+                <value>
+                    <fullName>MRS</fullName>
+                    <default>false</default>
+                    <label>Monash Research Scholarship</label>
+                </value>
+                <value>
+                    <fullName>RTPS</fullName>
+                    <default>false</default>
+                    <label>RTP Stipend</label>
+                </value>
+                <value>
+                    <fullName>RTPF</fullName>
+                    <default>false</default>
+                    <label>RTP Fees Offset</label>
+                </value>
+                <value>
+                    <fullName>OTHER</fullName>
+                    <default>false</default>
+                    <label>Other Award, Prize or Scholarship</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Creative_Work_Status__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Creative Work Status</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Creative Work Status</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>ACCEPTED</fullName>
+                    <default>true</default>
+                    <label>Accepted</label>
+                </value>
+                <value>
+                    <fullName>IN-PRESS</fullName>
+                    <default>false</default>
+                    <label>In Press</label>
+                </value>
+                <value>
+                    <fullName>PUBLISHED</fullName>
+                    <default>false</default>
+                    <label>Published</label>
+                </value>
+                <value>
+                    <fullName>CR-STAT-NA</fullName>
+                    <default>false</default>
+                    <label>Not Applicable / Not Published</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Declaration_Option_Order__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Deteremine the order of display for Declaration options on my.app</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Declaration Option Order</label>
+        <precision>2</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <securityClassification>Internal</securityClassification>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Declaration_Text__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>To capture declaration/consent options selected by user on my.app</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Declaration Text</label>
+        <length>131072</length>
+        <securityClassification>Internal</securityClassification>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Exhibition_Type__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Exhibition Type</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Exhibition Type</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>EX-INSTALL</fullName>
+                    <default>true</default>
+                    <label>Installation</label>
+                </value>
+                <value>
+                    <fullName>EX-PERFORM</fullName>
+                    <default>false</default>
+                    <label>Performance</label>
+                </value>
+                <value>
+                    <fullName>EX-RELATED</fullName>
+                    <default>false</default>
+                    <label>Related Activity</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>IsDeleted__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Check if declaration should not be visible in HDR My.APP Declaration Form</description>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <inlineHelpText>Check if declaration should not be visible in HDR My.APP Declaration Form</inlineHelpText>
+        <label>IsDeleted</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Music_Status__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Music Status</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Music Status</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>MU-RECORD</fullName>
+                    <default>true</default>
+                    <label>Performance Commercially Recorded</label>
+                </value>
+                <value>
+                    <fullName>MU-CONCERT</fullName>
+                    <default>false</default>
+                    <label>Performance Recorded in Public Concert</label>
+                </value>
+                <value>
+                    <fullName>MU-BCAST</fullName>
+                    <default>false</default>
+                    <label>Composition Broadcast</label>
+                </value>
+                <value>
+                    <fullName>MU-PUBLISH</fullName>
+                    <default>false</default>
+                    <label>Composition Published</label>
+                </value>
+                <value>
+                    <fullName>MU-RELEASE</fullName>
+                    <default>false</default>
+                    <label>Composition Released</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Performance_or_Composition__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Performance or Composition</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Performance or Composition</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>MT-PERFORM</fullName>
+                    <default>true</default>
+                    <label>Performance</label>
+                </value>
+                <value>
+                    <fullName>MT-COMPOSE</fullName>
+                    <default>false</default>
+                    <label>Composition</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Publication_Status__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Publication Status</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Publication Status</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>ACCEPTED</fullName>
+                    <default>true</default>
+                    <label>Accepted</label>
+                </value>
+                <value>
+                    <fullName>IN-PRESS</fullName>
+                    <default>false</default>
+                    <label>In Press</label>
+                </value>
+                <value>
+                    <fullName>PUBLISHED</fullName>
+                    <default>false</default>
+                    <label>Published</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Publication_Type__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Publication Type</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Publication Type</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>BOOK</fullName>
+                    <default>true</default>
+                    <label>Book</label>
+                </value>
+                <value>
+                    <fullName>CHAPTER</fullName>
+                    <default>false</default>
+                    <label>Book Chapter</label>
+                </value>
+                <value>
+                    <fullName>ARTICLE</fullName>
+                    <default>false</default>
+                    <label>Journal Article</label>
+                </value>
+                <value>
+                    <fullName>CONF-PAPER</fullName>
+                    <default>false</default>
+                    <label>Conference Paper (not Poster or Abstract)</label>
+                </value>
+                <value>
+                    <fullName>OTHER</fullName>
+                    <default>false</default>
+                    <label>Other (e.g. Reports, Working Papers, Patents, Conference abstracts)</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Qualification_Type__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Qualification Type</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Qualification Type</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>PHD</fullName>
+                    <default>true</default>
+                    <label>PhD or Professional Doctorate</label>
+                </value>
+                <value>
+                    <fullName>MASTER-RES</fullName>
+                    <default>false</default>
+                    <label>Masters by Research (66 - 100% Research Component)</label>
+                </value>
+                <value>
+                    <fullName>MASTER-65</fullName>
+                    <default>false</default>
+                    <label>Masters (51 - 65% Research Component)</label>
+                </value>
+                <value>
+                    <fullName>MASTER-CW</fullName>
+                    <default>false</default>
+                    <label>Masters (50-100% Coursework Component)</label>
+                </value>
+                <value>
+                    <fullName>M-PRELIM</fullName>
+                    <default>false</default>
+                    <label>Master Preliminary</label>
+                </value>
+                <value>
+                    <fullName>POST-DIP</fullName>
+                    <default>false</default>
+                    <label>Postgraduate Diploma</label>
+                </value>
+                <value>
+                    <fullName>GRAD-DIP</fullName>
+                    <default>false</default>
+                    <label>Graduate Diploma</label>
+                </value>
+                <value>
+                    <fullName>H1</fullName>
+                    <default>false</default>
+                    <label>Bachelors Degree Honours 1 (First Class)</label>
+                </value>
+                <value>
+                    <fullName>H2A</fullName>
+                    <default>false</default>
+                    <label>Bachelors Degree Honours 2 (Second Class - upper) or equivalent</label>
+                </value>
+                <value>
+                    <fullName>H2B</fullName>
+                    <default>false</default>
+                    <label>Bachelors Degree Honours 2 (Second Class - lower) or equivalent</label>
+                </value>
+                <value>
+                    <fullName>H3</fullName>
+                    <default>false</default>
+                    <label>Bachelors Degree Honours 3 (Third Class) or equivalent</label>
+                </value>
+                <value>
+                    <fullName>H-INCOMPLT</fullName>
+                    <default>false</default>
+                    <label>Bachelors Degree Honours (Not Yet Completed)</label>
+                </value>
+                <value>
+                    <fullName>BACHELOR</fullName>
+                    <default>false</default>
+                    <label>Bachelors Degree (ungraded or pass)</label>
+                </value>
+                <value>
+                    <fullName>DIPLOMA</fullName>
+                    <default>false</default>
+                    <label>Undergraduate Diploma</label>
+                </value>
+                <value>
+                    <fullName>OTHER</fullName>
+                    <default>false</default>
+                    <label>Other (Please specify)</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Theatre_Performance_Status__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Theatre Performance Status</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Theatre Performance Status</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>PROFESSION</fullName>
+                    <default>false</default>
+                    <label>Professional</label>
+                </value>
+                <value>
+                    <fullName>INDEPENDNT</fullName>
+                    <default>false</default>
+                    <label>Independent</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>MyGRAppSetting</label>
+    <listViews>
+        <fullName>DeclarationOptions</fullName>
+        <columns>MasterLabel</columns>
+        <columns>Declaration_Text__c</columns>
+        <columns>Declaration_Option_Order__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Declaration_Option_Order__c</field>
+            <operation>notEqual</operation>
+        </filters>
+        <label>Declaration Options</label>
+        <language>en_US</language>
+    </listViews>
+    <pluralLabel>MyGRAppSetting</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

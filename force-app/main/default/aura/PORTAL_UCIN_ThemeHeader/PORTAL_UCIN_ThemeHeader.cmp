@@ -1,0 +1,20 @@
+<!--Contains the Monash Logo-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}"/>
+    <div class="w-full bg-white">
+        <div class="flex justify-between flex-wrap bg-white max-w-1300 m-auto bg-white px-6 py-4 lg:py-6">
+            <!--Logo-->
+            <div class="flex items-center flex-shrink-0 text-white">
+                <div class="fill-current h-14 w-14 mr-2" width="100" height="100">
+                    <img src="{!$Resource.PORTAL_UCIN_Resources + '/Resources/images/monash-logo.svg'}"/>
+                </div>
+            </div>
+            <!--Text-->
+            <div class="inline-block right-0">
+                <div>
+                    <a href="https://www.monash.edu/alumni" class="inline-block py-2 leading-none text-black hover:text-monashBlue-500 mt-4 uppercase" style="font-size: 1.225rem;" target="_blank" rel="noopener noreferrer">Monash Alumni</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

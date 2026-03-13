@@ -1,0 +1,48 @@
+<template>
+    <template 
+    lwc:if={saving}> 
+        <lightning-spinner 
+        alternative-text="Loading" 
+        variant="brand" 
+        size="medium">
+        </lightning-spinner> 
+    </template>
+    <lightning-layout 
+    multiple-rows="true">
+        <lightning-layout-item 
+        lwc:if={showTable}
+        size="12"
+        padding="around-medium">
+            <lightning-datatable
+            key-field="Id"
+            data={tableData}
+            columns={columns} 
+            onrowselection={addToList}>
+            </lightning-datatable>
+        </lightning-layout-item>
+        <lightning-layout-item 
+        size="12"
+        padding="around-medium">
+            <lightning-combobox 
+            label="Result"
+            options={resultTypeOptions}
+            value={resultTypeValue}
+            placeholder="Select an option"
+            onchange={handleResultPicklistChange}
+            required="true" 
+            disabled={saveDisabled}>
+            </lightning-combobox>
+        </lightning-layout-item>
+    </lightning-layout>
+    <div class="slds-border_top slds-var-p-top_medium">
+        <div class="slds-float_right">
+            <lightning-button 
+            label="Save & Assign" 
+            type="Primary" 
+            onclick={saveRecord} 
+            disabled={saveDisabled}
+            variant="brand">
+            </lightning-button>
+        </div>
+    </div>
+</template>

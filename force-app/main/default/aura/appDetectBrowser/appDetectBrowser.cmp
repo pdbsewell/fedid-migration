@@ -1,0 +1,15 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+	<aura:attribute name="notChrome" type="Boolean" default="false"/>
+
+	<aura:handler name="init" value="{!this}" action="{!c.doBrowserCheck}" />
+
+	<aura:renderIf isTrue="{!v.notChrome}" >
+        <div class="slds-p-bottom--x-large">
+            <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert">
+                <span class="slds-assistive-text">To have the best experience with your application use Chrome as your browser.</span>
+                To have the best experience with your application use Chrome as your browser. &nbsp;
+                <a href="https://www.google.com/chrome/browser/desktop/" target="_blank" class="slds-text-link"><b>Download Chrome</b></a>
+            </div>
+        </div>
+    </aura:renderIf>
+</aura:component>

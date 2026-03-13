@@ -1,0 +1,240 @@
+<template>
+    <!-- response screen -->
+    <template if:false={hasResponded}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_small" aria-modal="true">
+            <div class="slds-modal__container">
+                <header class={headerClass}>                
+                    <template if:false={processing}>
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeRespondForm}>
+                            <lightning-icon icon-name="utility:close" variant="bare" size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </template>
+                    <p class="slds-modal__title slds-hyphenate">
+                        <b class={headerTextClass}>
+                            <template if:false={isConfirmation}>
+                                Confirm Your Offer Response
+                            </template>
+                            <template if:true={isConfirmation}>
+                                <template if:false={isAcceptConfirmation}>
+                                    Are you sure you want to reject this Offer?
+                                </template>
+                                <template if:false={isRejectConfirmation}>
+                                    Are you sure you want to accept this Offer?
+                                </template>
+                            </template>
+                        </b>
+                    </p>
+                    <!-- Title -->
+                    <p class="slds-size_12-of-12" style="font-size: 20px; color: #505060;">
+                        <b class={headerTextClass}>
+                            {applicationCoursePreference.Course_Code__c} 
+                            - {applicationCoursePreference.Course_Title__c}
+                        </b>
+                        <template if:true={retrieveUnitSetDescription}>
+                            <div class={headerTextClass} style="font-size: 15px;">{retrieveUnitSetDescription}</div>
+                        </template>
+                    </p>
+                </header>
+                <div class={modalBodyClass} style="color: #505060; max-height: 500px;">
+                    <template if:true={processing}>
+                        <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+                    </template>
+                    <!-- Attendance mode -->
+                    <template if:true={applicationCoursePreference.Course_Offering__r.Attendance_Mode_Description__c}>
+                        <div class="slds-size_12-of-12" style="display: flex;">
+                            <div class="slds-float_left slds-size_4-of-12 slds-small-size_5-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                <b>Attendance</b>
+                            </div>
+                            <div class="slds-float_left slds-size_8-of-12 slds-small-size_7-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                {applicationCoursePreference.Course_Offering__r.Attendance_Mode_Description__c}
+                            </div>
+                        </div>
+                    </template>
+                    <!-- Location -->
+                    <template if:true={getLocation}>
+                        <div class="slds-size_12-of-12 detailContainer">
+                            <div class="slds-float_left slds-size_4-of-12 slds-small-size_5-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                <b>Location</b>
+                            </div>
+                            <div class="slds-float_left slds-size_8-of-12 slds-small-size_7-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                {getLocation}
+                            </div>
+                        </div>
+                    </template>
+                    <!-- Start Date -->
+                    <template if:true={applicationCoursePreference.Course_Offering__r.Admission_Calendar_Description__c}>
+                        <div class="slds-size_12-of-12 detailContainer">
+                            <div class="slds-float_left slds-size_4-of-12 slds-small-size_5-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                <b>Start Date</b>
+                            </div>
+                            <div class="slds-float_left slds-size_8-of-12 slds-small-size_7-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                {applicationCoursePreference.Course_Offering__r.Admission_Calendar_Description__c}
+                            </div>
+                        </div>
+                    </template>
+                    <!-- Offer Expiry -->
+                    <template if:true={applicationCoursePreference.Offer_Response_Date__c}>
+                        <div class="slds-size_12-of-12 detailContainer">
+                            <div class="slds-float_left slds-size_4-of-12 slds-small-size_5-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                <b>Offer Expiry</b>
+                            </div>
+                            <div class="slds-float_left slds-size_8-of-12 slds-small-size_7-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                <lightning-formatted-date-time value={applicationCoursePreference.Offer_Response_Date__c} day="2-digit"></lightning-formatted-date-time> 
+                                <lightning-formatted-date-time style="margin-left: 5px;" value={applicationCoursePreference.Offer_Response_Date__c} month="long"></lightning-formatted-date-time> 
+                                <lightning-formatted-date-time style="margin-left: 5px;" value={applicationCoursePreference.Offer_Response_Date__c} year="numeric"></lightning-formatted-date-time>
+                            </div>
+                        </div>
+                    </template>
+                    <!-- Fee Type -->
+                    <template if:true={applicationCoursePreference.Course_Offering__r.Type_of_Place_Description__c}>
+                        <div class="slds-size_12-of-12 detailContainer">
+                            <div class="slds-float_left slds-size_4-of-12 slds-small-size_5-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                <b>Fee Type</b>
+                            </div>
+                            <div class="slds-float_left slds-size_8-of-12 slds-small-size_7-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                {applicationCoursePreference.Course_Offering__r.Type_of_Place_Description__c}
+                            </div>
+                        </div>
+                    </template>
+                    <!-- Non-Conditional Offer -->
+                    <template if:false={determineConditionalOffer}>
+                        <template if:true={applicationCoursePreference.Outcome_Status_LOV__c}>
+                            <div class="slds-size_12-of-12 detailContainer">
+                                <div class="slds-float_left slds-size_4-of-12 slds-small-size_5-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                    <b>Offer Type</b>
+                                </div>
+                                <div class="slds-float_left slds-size_8-of-12 slds-small-size_7-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                    {applicationCoursePreference.Outcome_Status_LOV__r.Applicant_Value__c}
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                    <!-- Non-Conditional Offer -->
+                    <template if:true={determineConditionalOffer}>
+                        <!-- Conditional Offer Status -->
+                        <template if:true={applicationCoursePreference.Conditional_Offer_Status_LOV__c}>
+                            <template if:true={applicationCoursePreference.Conditional_Offer_Status_LOV__r.Applicant_Value__c}>
+                                <div class="slds-size_12-of-12 detailContainer">
+                                    <div class="slds-float_left slds-size_4-of-12 slds-small-size_5-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                        <b>Offer Condition(s) Status</b>
+                                    </div>
+                                    <div class="slds-float_left slds-size_8-of-12 slds-small-size_7-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                        {applicationCoursePreference.Conditional_Offer_Status_LOV__r.Applicant_Value__c}
+                                    </div>
+                                </div>
+                            </template>
+                        </template>
+                        <!-- Offer Condition -->
+                        <template if:true={applicationCoursePreference.Offer_Condition__c}>
+                            <div class="slds-size_12-of-12 detailContainer">
+                                <div class="slds-float_left slds-size_4-of-12 slds-small-size_5-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                    <b>Conditions to be fulfilled before enrollment</b>
+                                </div>
+                                <div class="slds-float_left slds-size_8-of-12 slds-small-size_7-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                    {applicationCoursePreference.Offer_Condition__c}
+                                    <!--<lightning-textarea value={applicationCoursePreference.Offer_Condition__c} variant="label-hidden" disabled></lightning-textarea>-->                            
+                                </div>
+                            </div>
+                        </template>
+                        <!-- Conditional Offer Satisfied Date -->
+                        <template if:true={determineConditionalSatisfied}>
+                            <template if:true={applicationCoursePreference.Conditional_Offer_Satisfied_Date__c}>
+                                <div class="slds-size_12-of-12 detailContainer">
+                                    <div class="slds-float_left slds-size_4-of-12 slds-small-size_5-of-12 slds-medium-size_4-of-12 slds-large-size_4-of-12">
+                                        <b>Conditional Offer Satisfied Date</b>
+                                    </div>
+                                    <div class="slds-float_left slds-size_8-of-12 slds-small-size_7-of-12 slds-medium-size_8-of-12 slds-large-size_8-of-12">
+                                        <lightning-formatted-date-time value={applicationCoursePreference.Conditional_Offer_Satisfied_Date__c} day="2-digit"></lightning-formatted-date-time> 
+                                        <lightning-formatted-date-time style="margin-left: 5px;" value={applicationCoursePreference.Conditional_Offer_Satisfied_Date__c} month="long"></lightning-formatted-date-time> 
+                                        <lightning-formatted-date-time style="margin-left: 5px;" value={applicationCoursePreference.Conditional_Offer_Satisfied_Date__c} year="numeric"></lightning-formatted-date-time>
+                                    </div>
+                                </div>
+                            </template>
+                        </template>            
+                        <!-- Credit Intention -->
+                        <template if:true={applicationCoursePreference.Application__r.Credit_Intention__c}>
+                            <div class="slds-size_12-of-12 detailContainer">
+                                Your application for credit (recognition of prior learning) outcome will be communicated to you separately.
+                            </div>
+                        </template>       
+                    </template>
+                </div>
+                <footer class="slds-modal__footer" style="border-radius: 0;">
+                    <template if:false={processing}>
+                        <template if:false={isConfirmation}>
+                            <div style="float: left;">
+                                <button class="btn cancelButton" onclick={closeRespondForm}>Close</button>
+                            </div>
+                            <button class="btn rejectButton" onclick={doReject}>Reject</button>
+                            <button class="btn btn--blue acceptButton" onclick={doAccept}>Accept</button>
+                        </template>
+                        <template if:true={isConfirmation}>
+                            <div class="slds-m-top_xxx-small" style="float: left; color: #505060;">
+                                <lightning-icon icon-name="utility:warning" size="small" variant="warning" style="margin-right: 10px;"></lightning-icon>
+                                <span>This action cannot be undone</span>
+                            </div>
+                            <template if:false={isAcceptConfirmation}>
+                                <button class="btn cancelButton" onclick={doCancel}>Cancel</button>
+                                <button class="btn rejectButton" onclick={doReject}>Reject</button>
+                            </template>
+                            <template if:false={isRejectConfirmation}>
+                                <button class="btn cancelButton" onclick={doCancel}>Cancel</button>
+                                <button class="btn btn--blue acceptButton" onclick={doAccept}>Accept</button>
+                            </template>
+                        </template>
+                    </template>
+                </footer>
+            </div>
+        </section>
+    </template>
+    <!-- confirmation screen -->
+    <template if:true={hasResponded}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_small" aria-modal="true">
+            <div class="slds-modal__container slds-is-relative">
+                <header class={headerClass}>                
+                    <template if:false={processing}>
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeRespondForm}>
+                            <lightning-icon icon-name="utility:close" variant="bare" size="small"></lightning-icon>
+                            <span class="slds-assistive-text">Close</span>
+                        </button>
+                    </template>
+                    <p class="slds-modal__title slds-hyphenate">
+                        <b class={headerTextClass}>
+                            <template if:true={isAcceptConfirmation}>
+                                Fantastic news
+                            </template>
+                            <template if:true={isRejectConfirmation}>
+                                Sorry to see you go
+                            </template>
+                        </b>
+                    </p>
+                </header>
+                <div class={modalBodyClass} style="color: #505060;">
+                    <!-- Accept -->
+                    <template if:true={isAcceptConfirmation}>
+                        <!-- full offer -->
+                        <template if:true={showFullOfferConfirmation}>
+                            Fantastic news! The next step in accepting your place with Monash is to enrol. <br/><br/>
+                            Follow the steps in the <a href="https://www.monash.edu/get-started#enrolment">Get started</a> website by your offer expiry date: {applicationCoursePreference.Offer_Response_Date__c}.<br/><br/>
+                            Also be on the lookout for information provided by your faculty in future correspondence.<br/>
+                            We look forward to having you join the Monash community!
+                        </template>
+                        <!-- conditional offer -->
+                        <template if:false={showFullOfferConfirmation}>
+                            Fantastic news! Once you fulfil your conditions, submit documents via the "Add Documents" button against your submitted application on my.app.
+                        </template>
+                    </template>
+                    <!-- Reject -->
+                    <template if:true={isRejectConfirmation}>
+                        Thank you for considering study at Monash. We’re sorry to see you go. We would appreciate any feedback you have on your experience with us and how we can improve.
+                    </template>
+                </div>
+                <footer class="slds-modal__footer" style="border-radius: 0;">
+                    <button class="btn btn--blue acceptButton" onclick={closeRespondForm}>OK</button>
+                </footer>
+            </div>
+        </section>
+    </template>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

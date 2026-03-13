@@ -1,0 +1,134 @@
+<!--- Created by Davey Yu on 15/02/2024--->
+<!-- Opportunity Merge Wizard -->
+<template>
+    <template if:true={openModal}>
+        <section class="slds-modal slds-fade-in-open slds-modal_large">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-modal__title slds-hyphenate">Opportunity Merge</h2> 
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" >
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </header>
+                
+                <div class="slds-modal__content .slds-is-absolute slds-p-around_medium">
+                    <!--LOADING SPINNER-->
+                    <template if:true={showSpinner}> 
+                        <div class="slds-is-relative" style="min-height: 200px;">
+                            <lightning-spinner alternative-text="Loading" class="spins" variant="brand" size="large"></lightning-spinner>
+                        </div>            
+                    </template>
+                    <template if:false={showSpinner}>
+                        <template if:true={isAdminUser}> 
+                            <lightning-layout-item size="9">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" padding="around-small">
+                                        <lightning-card>
+                                            <lightning-layout slot="actions">
+                                                <!-- CARD BUTTONS -->
+                                                <lightning-layout-item padding="around-small">
+                                                    <lightning-button label="Unselect All" variant="neutral" 
+                                                        onclick={toggleAllSelected} icon-name="utility:unlinked" title="Select / Deselect All duplicate records"></lightning-button>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small">
+                                                    <lightning-button label="Merge" variant="neutral" onclick={mergeOnClick} icon-name="utility:process" title="Begin Processing"></lightning-button>
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </lightning-card>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                        </template>                    
+                        <div class="slds-p-around_x-small">
+                            <table id="data-table" class=" tableClass slds-table slds-table_cell-buffer slds-table_bordered">
+                                <thead>
+                                    <tr class="">
+                                        <template if:true={isAdminUser}> 
+                                            <th style="width:10%" scope="col">
+                                                <div class="columnWrapper" title="">Is Primary</div>
+                                            </th>
+                                            <th style="width:10%" scope="col">
+                                                <div class="columnWrapper" title="">Included</div>
+                                            </th>
+                                        </template>
+                                        <th style="width:20%" scope="col"> 
+                                            <div class="columnWrapper" title="">Opportunity Name</div>
+                                        </th>
+                                        <th style="width:20%" scope="col">
+                                            <div class="columnWrapper" title="">Account Name</div>
+                                        </th>
+                                        <th style="width:10%" scope="col">
+                                            <div class="columnWrapper" title="">Provenance</div>
+                                        </th>
+                                        <th style="width:20%" scope="col">
+                                            <div class="columnWrapper" title="">Total Applied Amount</div>
+                                        </th>
+                                        <th style="width:10%" scope="col">
+                                            <div class="columnWrapper" title="">Last Modified Date</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each = {data} for:item = "item" for:index="indexVar">
+                                        <tr key={item.key} class="slds-hint-parent">
+                                            <template if:true={isAdminUser}>
+                                                <td class="columnWrapper" data-label=""> 
+                                                    <a data-id={item.id} onclick={handlePrimaryChange}>
+                                                        <input id={item.id} checked={item.isPrimary} type="radio"/>
+                                                    </a>
+                                                </td>
+                                                <td class="columnWrapper" data-label="">
+                                                    <a data-id={item.id} onclick={handleIsIncludedChange}>
+                                                        <input id={item.id} type="checkbox" checked={item.isIncluded} >
+                                                    </a>
+                                                </td>
+                                            </template>
+                                            <td class="columnWrapper" data-label="">
+                                                <a data-id={item.id} onclick={handleOpportunityClick}>
+                                                    {item.name}
+                                                </a>
+                                            </td>
+                                            <td class="columnWrapper" data-label="">
+                                                <a data-id={item.accountId} onclick={handleAccountClick}>
+                                                    {item.accountName}
+                                                </a>
+                                            </td>
+                                           <td class="columnWrapper" data-label="delete">
+                                                {item.provenance}
+                                            </td>
+                                            <td class="columnWrapper" data-label="delete">
+                                                {item.totalAppliedAmount}
+                                            </td>
+                                            <td class="columnWrapper" data-label="delete"> 
+                                                {item.lastModifiedDate}
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div> 
+    </template>
+    <template if:true={hasData}>
+        <div class="slds-box slds-theme_default">
+            <lightning-layout>
+                <lightning-layout-item>
+                    <lightning-icon icon-name="standard:opportunity" size="small"></lightning-icon>
+                </lightning-layout-item> 
+                <lightning-layout-item padding="horizontal-small">
+                    <div class="slds-card__header-title">We found {duplicateCount} potential duplicates of this Opportunity.</div> 
+                    <a onclick={showModal}>View Duplicates</a>
+                </lightning-layout-item>        
+            </lightning-layout>
+        </div>
+   </template>
+</template>

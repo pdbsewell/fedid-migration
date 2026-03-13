@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <description>Migrated from Article Publish on Publication Date WF Rule</description>
+        <name>Check_Record_Type_X0</name>
+        <label>Check Record Type</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>FAQ_X0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>FAQ</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Publish_FAQ_X0</targetReference>
+            </connector>
+            <label>FAQ</label>
+        </rules>
+        <rules>
+            <name>Standard_Text_X0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Standard Text</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Publish_Standard_Text_X0</targetReference>
+            </connector>
+            <label>Standard Text</label>
+        </rules>
+        <rules>
+            <name>Research_FAQ_X0</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Research FAQ</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Publish_Research_FAQ_X0</targetReference>
+            </connector>
+            <label>Research FAQ</label>
+        </rules>
+    </decisions>
+    <description>Migrated from the following WF Rules 
+- Article Publish on Publication Date	
+- Publish Research FAQ On Publication Date</description>
+    <environments>Default</environments>
+    <interviewLabel>Knowledge/Article : AS : Publish {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Knowledge/Article : AS : Publish on a date</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterFormula>AND(
+   {!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False,
+   CONTAINS({!$Label.Bypass_Specific_Flow}, &quot;Knowledge_Article_AS_Publish_on_a_date&quot;) = false,
+   TEXT({!$Record.ValidationStatus}) = &apos;Approved&apos;,
+    {!$Record.Automatically_Publish_On_Approval__c} = false,
+    NOT(ISBLANK({!$Record.Planned_Publication_Date__c}))
+)</filterFormula>
+        <object>Knowledge_Article__kav</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <scheduledPaths>
+            <name>X0_hours_later</name>
+            <connector>
+                <targetReference>Check_Record_Type_X0</targetReference>
+            </connector>
+            <label>0 hours later</label>
+            <offsetNumber>0</offsetNumber>
+            <offsetUnit>Hours</offsetUnit>
+            <recordField>Planned_Publication_Date__c</recordField>
+            <timeSource>RecordField</timeSource>
+        </scheduledPaths>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <name>Publish_FAQ_X0</name>
+        <label>Publish</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <flowName>KnowledgeArticle_AS_Publish</flowName>
+        <inputAssignments>
+            <name>inputKnowledgeArticle</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>txtScenario</name>
+            <value>
+                <stringValue>Publish_FAQ_X0</stringValue>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
+        <name>Publish_Research_FAQ_X0</name>
+        <label>Publish</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <flowName>KnowledgeArticle_AS_Publish</flowName>
+        <inputAssignments>
+            <name>inputKnowledgeArticle</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>txtScenario</name>
+            <value>
+                <stringValue>Publish_Research_FAQ_X0</stringValue>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
+        <name>Publish_Standard_Text_X0</name>
+        <label>Publish</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <flowName>KnowledgeArticle_AS_Publish</flowName>
+        <inputAssignments>
+            <name>inputKnowledgeArticle</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>txtScenario</name>
+            <value>
+                <stringValue>Publish_Standard_Text_X0</stringValue>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <variables>
+        <name>listArticleIDs</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

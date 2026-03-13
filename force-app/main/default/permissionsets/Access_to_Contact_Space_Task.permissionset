@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>This Permission set gives access to Contact Space task record Type.</description>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.CallInitiatedTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.CallInitiatedTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Access to Contact Space Task</label>
+    <license>Salesforce</license>
+    <recordTypeVisibilities>
+        <recordType>Task.Contact_Space</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+</PermissionSet>

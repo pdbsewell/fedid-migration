@@ -1,0 +1,103 @@
+<template>
+    <div class="slds-card">
+        <lightning-spinner if:true={isLoading}></lightning-spinner>
+        <h2 class="slds-text-heading_small slds-align_absolute-center slds-m-top_large">
+            Student and Application Details
+        </h2>
+        <div class="contact-lookup">
+            <c-grads-contact-lookup label="Contact" onchange={handleContactChange}></c-grads-contact-lookup>
+        </div>
+        <div class="field-grid slds-m-around_medium">
+            <!-- First Row -->
+            <div class="field-grid-item">
+                <!-- Student Testamur Name Input -->
+                <lightning-input
+                        type="text"
+                        label="Student Testamur Name"
+                        placeholder={testamurNamePlaceholder}
+                        value={testamurName}
+                        onchange={handleTestamurNameChange}>
+                </lightning-input>
+            </div>
+            <div class="field-grid-item">
+                <!-- Student Personal Email Input -->
+                <lightning-input
+                        type="text"
+                        label="Student Personal Email"
+                        placeholder={personalEmailPlaceholder}
+                        value={personalEmail}
+                        onchange={handlePersonalEmailChange}>
+                </lightning-input>
+            </div>
+
+            <!-- Second Row -->
+            <div class="field-grid-item">
+                <!-- Long Text Area Input : Additional Reqs Staff -->
+                <lightning-textarea label="Additional Requirements (Staff)" value={additionalReqs}
+                                    max-length={additionalReqsMaxLength} onchange={handleAdditionalReqsChange}>
+                </lightning-textarea>
+            </div>
+            <div class="field-grid-item">
+                <!-- Long Text Area Input : Staff Comments -->
+                <lightning-textarea label="Staff Comments" value={staffComments}
+                                    max-length={staffCommentsMaxLength} onchange={handleStaffCommentsChange}>
+                </lightning-textarea>
+            </div>
+
+            <!-- Third Row -->
+            <div class="field-grid-item">
+                <!-- Date Input : Late Application Deadline -->
+                <lightning-input label="Late Application Deadline" type="date"
+                                 onchange={handleLateApplicationDeadlineChange}>
+                </lightning-input>
+            </div>
+            <div class="field-grid-item">
+                <!-- Picklist : Application Status -->
+                <lightning-combobox
+                        label="Application Status"
+                        options={applicationStatusOptions}
+                        value={applicationStatus}
+                        onchange={handleApplicationStatusChange}>
+                </lightning-combobox>
+            </div>
+
+            <!-- Fourth Row -->
+            <div class="field-grid-item">
+                <!-- Boolean Input : Late Fee Waiver -->
+                <lightning-input
+                        type="checkbox"
+                        label="Late Fee Waiver"
+                        onchange={handleLateFeeWaiverChange}>
+                </lightning-input>
+            </div>
+        </div>
+
+        <!-- Calendar Selector -->
+        <c-grads-calendar-selector
+                lwc:if={selectedPersonId}
+                calendars={calendars}
+                selected-calendar-id={selectedCalendarId}
+                label="Calendar Selection"
+                onselect={handleCalendarSelect}
+                ondeselect={handleCalendarDeselect}
+                onviewapp={handleViewExistingApp}
+                onexistingapp={handleExistingAppNotification}
+        ></c-grads-calendar-selector>
+
+        <!-- Award Selector -->
+        <template lwc:if={selectedPersonId}>
+            <h2 class="slds-text-heading_small slds-align_absolute-center">
+                Award Selection
+            </h2>
+            <div class="slds-m-around_medium slds-m-top_none">
+                <c-grads-award-selector
+                        record-id={selectedPersonId}
+                        is-new-application="true"
+                        new-application-status={applicationStatus}
+                        onsubmit={handleAwardSubmit}
+                ></c-grads-award-selector>
+            </div>
+        </template>
+
+    </div>
+</template>

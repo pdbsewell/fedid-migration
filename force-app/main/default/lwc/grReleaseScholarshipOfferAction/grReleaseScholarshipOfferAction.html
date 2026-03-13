@@ -1,0 +1,140 @@
+<template>
+    <lightning-quick-action-panel>
+    <div style="margin:20px;margin-top:20px;">
+        <div><b>Select the round of scholarship</b></div>
+        <lightning-radio-group
+            name="round"
+            data-id="round"
+            variant="label-hidden"
+            type="button"
+            options={items}
+            onchange={onFieldChange}
+            value={round}>
+        </lightning-radio-group>
+        <br/>
+        <div if:true={calendarData} >
+            <table>
+                <thead>
+                <tr class="slds-text-title--caps">
+                    <th scope="col">
+                        <div title="posTH">Scholarship Closing date</div>
+                    </th>
+                    
+                    <th scope="col">
+                        <div title="posTH">Calendar name</div>
+                    </th>
+                    <th scope="col">
+                        <div title="posTH">Type</div>
+                    </th> 
+                    <th scope="col">
+                        <div title="posTH">Year</div>
+                    </th>
+                                        
+                    <th scope="col">
+                        <div title="posTH">No. of Applications</div>
+                    </th> 
+                    <th scope="col">
+                        <div title="posTH">No. of Offers</div>
+                    </th>
+                    <th scope="col">
+                        <div title="posTH">No. of No-Offers</div>
+                    </th>
+                    <th scope="col">
+                        <div title="posTH">No. of Published Letters</div>
+                    </th>
+                    <th scope="col">
+                        <div title="posTH">Action</div>
+                    </th>                
+                </tr>
+                </thead>
+                <tbody>
+                <template for:each={calendarData} for:item="calendar">                                    
+                    <tr key={calendar.Id} class="slds-m-top_x-small">
+                        <td>
+                            <div class="slds-truncate">
+                                <lightning-formatted-date-time value={calendar.closingDate} year="numeric" day="2-digit" month="short"></lightning-formatted-date-time>
+                            </div>
+                        </td>
+
+                        <td>
+                            <div class="slds-truncate">
+                                <lightning-button 
+                                    variant="base" 
+                                    name={calendar.calendarId} 
+                                    label={calendar.calendarName} 
+                                    onclick={redirectToCalendar}
+                                ></lightning-button>
+                                
+                            </div>
+                        </td>
+                        <td>
+                            <div class="slds-truncate">
+                                {calendar.calendarType}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="slds-truncate">
+                                {calendar.calendarYear}
+                            </div>
+                        </td>                        
+                        
+                        <td>
+                            <div class="slds-truncate">
+                                {calendar.numberOfApplications}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="slds-truncate">
+                                {calendar.numberOfApplicationsWithOffer}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="slds-truncate">
+                                {calendar.numberOfNoOffer}
+                            </div>
+                        </td>
+                        <td>
+                            <div class="slds-truncate">
+                                {calendar.numberOfPublishedOffer}
+                            </div>
+                        </td>
+                        <td data-label="Action">
+                            <div if:true={calendar.canBePublished} class="slds-truncate slds-align--absolute-center">
+                                <lightning-button 
+                                    variant="base"
+                                    name={calendar.calendarId} label="Publish" onclick={onPublish}
+                                ></lightning-button>
+                            </div>
+                            <div if:true={calendar.publishInProgress} class="slds-truncate">
+                                Publish operation in progress
+                            </div>
+                        </td>
+                    </tr>
+                </template>
+                </tbody>
+            </table>
+        </div>
+        <br/>
+    </div>
+    <lightning-spinner if:true={showSpinner} alternative-text="Saving" variant="brand"></lightning-spinner>
+    <!-- Custom Modal -->
+    <template if:true={showModal}>
+        <section class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-text-heading_medium">Confirmation</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium">
+                    Are you sure you want to publish all scholarship offer outcome for the selected calendar?
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancel" onclick={handleCancel}></lightning-button>
+                    <lightning-button label="Confirm" variant="brand" onclick={handleConfirm}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    </lightning-quick-action-panel>
+    
+</template>

@@ -1,0 +1,107 @@
+<template>
+    <template if:false={dataLoaded}>
+        <lightning-spinner alternative-text="Loading" class="spins" variant="brand" size="medium"></lightning-spinner>
+    </template>
+    <template if:true={dataLoaded}>
+        <div class="bg-gray-mon max-w-1300 m-auto slds-is-relative">
+            <div class="w-full bg-gray-mon h-full flex flex-wrap">
+                <template if:false={deviceTypeDesktop}> <!-- This section appears at the top for mobile devices -->
+                    <!-- Top section for mobile devices-->
+                    <div class="w-full">
+                        <div class="relative h-full sm:py-3">
+                            <!-- Section 1-->
+                            <div class="border-blue-bottom">
+                                <h5 class="border-7 border-bg-grey bg-bg-grey sm:text-2.1875rem lg:text-xl leading-bitmore">
+                                    Using the online databases
+                                </h5>
+                                
+                                <div class="border-8 border-gray-mon mb-3">
+                                    <lightning-formatted-rich-text value={sectionOne}></lightning-formatted-rich-text>
+                                </div>
+                            </div>
+
+                            <!-- Section 2-->
+                            <div class="border-blue-bottom bg-gray-mon m-auto slds-is-relative">
+                                <div class="my-6">
+                                    <lightning-formatted-rich-text value={sectionTwo}></lightning-formatted-rich-text>
+                                </div>
+                            </div>
+        
+                            <!-- Section 3-->
+                            <div class="border-blue-bottom bg-gray-mon m-auto slds-is-relative">
+                                <div class="my-6">
+                                    <lightning-formatted-rich-text value={sectionThree}></lightning-formatted-rich-text>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+
+                <!-- Catalogue section-->
+                <div class="lg:w-3/4 w-full">
+                    <div class="relative h-full sm:py-3">
+                        <lightning-layout multiple-rows="true">
+                            <template for:each={data} for:item="row">
+                                <lightning-layout-item key={row.headerBanner} flexibility="auto" size="12" large-device-size="4" medium-device-size="6" small-device-size="12">
+                                    <div class="border-blue-bottom ucin-light-grey-font"> 
+                                        <!-- Resource Image-->
+                                        <h2 style="width:auto;height:auto">
+                                            <lightning-formatted-rich-text value={row.imageURL}></lightning-formatted-rich-text>
+                                        </h2>
+
+                                        <!-- Resource Title-->
+                                        <div class="flex sm:flex-row flex-col justify-between pt-4 pb-4">
+                                            <div class="flex-1 text-xl sm:text-lg lg:text-lg leading-bitmore roboto" style="width:auto;height:80px">
+                                                <lightning-formatted-rich-text class="text-blue" value={row.headerURL}></lightning-formatted-rich-text>
+                                            </div>
+                                        </div>
+
+                                        <!-- Resource Description-->
+                                        <div class="flex sm:flex-row flex-col justify-between pb-4">
+                                            <div class="sm:max-h-18rem sm:max-w-sm sm:order-none order-first max-w-full flex-1" style="width:auto;height:140px">
+                                                <lightning-formatted-rich-text value={row.headerDescription}></lightning-formatted-rich-text>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout>
+                    </div>
+                </div>
+
+                <template if:true={deviceTypeDesktop}> <!-- This section appears on the right for desktop -->
+                    <!-- Right section-->
+                    <div class="lg:w-1/4 w-full">
+                        <div class="relative h-full sm:py-3">
+                            <!-- Right section 1-->
+                            <div class="border-blue-bottom">
+                                <h2 class="border-7 border-bg-grey bg-bg-grey sm:text-2.1875rem lg:text-xl leading-bitmore">
+                                    Using the online databases
+                                </h2>
+                                
+                                <div class="border-8 border-gray-mon mb-3">
+                                    <!--p class="descrptn">The electronic resources on this page are available to Monash alumni free of charge for private educational purposes only. They can only be accessed via the links on this page. You must not share access to these resources. Monash University reserves the right to withdraw usage privileges if these conditions are not met.</p-->
+                                    <lightning-formatted-rich-text value={sectionOne}></lightning-formatted-rich-text>
+                                </div>
+                            </div>
+
+                            <!-- Right section 2-->
+                            <div class="border-blue-bottom bg-gray-mon m-auto slds-is-relative">
+                                <div class="my-6">
+                                    <lightning-formatted-rich-text value={sectionTwo}></lightning-formatted-rich-text>
+                                </div>
+                            </div>
+        
+                            <!-- Right section 3-->
+                            <div class="border-blue-bottom bg-gray-mon m-auto slds-is-relative">
+                                <div class="my-6">
+                                    <lightning-formatted-rich-text value={sectionThree}></lightning-formatted-rich-text>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </template>
+</template>

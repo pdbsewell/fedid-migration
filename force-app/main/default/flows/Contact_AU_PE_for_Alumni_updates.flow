@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Log any exceptions when triggering Platform events</description>
+        <name>Create_Nebula_Log</name>
+        <label>Create Nebula Log</label>
+        <locationX>440</locationX>
+        <locationY>431</locationY>
+        <actionName>Nebula__FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <elementReference>Fire_PE_for_Alumni_Update</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>&quot;Error triggering Outbound_Contact platform event&quot;</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowLogEntry</nameSegment>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>60.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>This flow detects changes to certain fields(primary email, primary mobile, legal first name, legal last name, preferred name, pronoun, isStudent) of Alumni contacts and fires a platform event - Outbound_Contact__e</description>
+    <environments>Default</environments>
+    <interviewLabel>Contact : AU : PE for Alumni updates {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Contact : AU : PE for Alumni updates</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordCreates>
+        <description>Fires a platform event if any of these fields on the Alumni contact is updated : Email, Mobile, First Name, Last Name, Preferred First Name, Pronoun</description>
+        <name>Fire_PE_for_Alumni_Update</name>
+        <label>Fire PE for Alumni Update</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <faultConnector>
+            <targetReference>Create_Nebula_Log</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>CRM_Id__c</field>
+            <value>
+                <elementReference>$Record.CRM_Id__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Is_Alumni__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Is_Student__c</field>
+            <value>
+                <elementReference>$Record.Is_Student__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Record_Id__c</field>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Outbound_Contact__e</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordCreates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Fire_PE_for_Alumni_Update</targetReference>
+        </connector>
+        <filterFormula>AND(
+	{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = false,
+	INCLUDES({!$Record.Contact_Profile__c}, &quot;Alumni&quot;),
+	OR(ISCHANGED({!$Record.Contact_Profile__c}), 
+		ISCHANGED({!$Record.Email}),
+		ISCHANGED({!$Record.Personal_Email__c}),
+		ISCHANGED({!$Record.MobilePhone}),
+		ISCHANGED({!$Record.First_Name__c}),
+		ISCHANGED({!$Record.Last_Name__c}),
+		ISCHANGED({!$Record.Preferred_Name__c}),
+		ISCHANGED({!$Record.Pronouns_V2__c}),
+		ISCHANGED({!$Record.Gender__c}),
+		ISCHANGED({!$Record.Is_Student__c}),
+		ISCHANGED({!$Record.Deceased__c}),
+		ISCHANGED({!$Record.MailingAddress})
+	)
+)</filterFormula>
+        <object>Contact</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Obsolete</status>
+</Flow>

@@ -1,0 +1,375 @@
+<template>
+    <fieldset class="slds-form-element slds-form-element_compound slds-p-around_none" style="position:relative">
+        <template if:true={isLargeFormFactor}>
+            <div class="slds-form-element__control">
+                <div class="slds-form-element__row slds-p-left_xx-small">
+
+                    <!-- Country picklist -->
+                    <div class="slds-size_4-of-12 slds-m-right_x-small">
+                        <div class="slds-combobox_container">
+                            <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                                <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                    <button type="button"
+                                            title={countryName}
+                                            class="slds-input_faux slds-combobox__input slds-p-left_none" 
+                                            aria-labelledby="combobox-label-id-28 combobox-id-1-selected-value" 
+                                            id="combobox-id-1-selected-value"
+                                            aria-controls="listbox-id-1"
+                                            aria-expanded="false"
+                                            aria-haspopup="listbox"
+                                            onmousedown={handleShowDropDown}
+                                            onfocusout={hideDropDown}
+                                            onblur={handleBlur}>
+                                        <template if:false={isSelected}>
+                                            <div class="slds-size_1-of-1">
+                                                <input  id="phoneInputId"
+                                                        type="text"
+                                                        class="slds-input slds-p-left_x-small"
+                                                        style="border: 0px;"
+                                                        placeholder="Select a country…"
+                                                        value={inputCountry}
+                                                        oninput={handleOnInput}
+                                                        onfocusout={hideDropDown}
+                                                        onblur={handleBlur} />
+                                            </div>
+                                        </template>
+                                        <template if:true={isSelected}>
+                                            <template if:true={selectedItem}>
+                                                <div class="slds-media slds-truncate slds-p-left_x-small">
+                                                    <!-- Country flag -->
+                                                    <template if:false={doNotShowCountryFlags}>
+                                                        <span class="slds-media__figure" style="display:block;">
+                                                            <img src={selectedItem.flag} onerror={assignDefaultFlag} style="width: 25px; display:inline-block;" />
+                                                        </span>
+                                                    </template>
+                                                    <span class="slds-media__body">
+                                                        <!-- Country name -->
+                                                        <span class="slds-truncate">{selectedItem.name}</span>
+                                                    </span>
+                                                </div>
+                                            </template>
+                                        </template>                                                
+                                    </button>
+
+                                    <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                                        <lightning-button-icon  icon-name="utility:down" 
+                                                                variant="bare" 
+                                                                onclick={handleShowDropDown}
+                                                                onfocusout={hideDropDown}
+                                                                onblur={handleBlur}
+                                                                aria-label="open listbox">
+                                        </lightning-button-icon>
+                                    </span>
+                                </div>
+
+                                <!-- Dropdown List -->
+                                <template if:true={showDropdown}>
+                                    <div id="listbox-id-1" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid slds-dropdown_left" style="position:relative;z-index:1;" role="listbox" onfocus={handleDropDownFcous} onblur={handleDropDownBlur}>
+                                        <template if:true={frequentlyUsedExists}>
+                                            <ul class="slds-listbox slds-listbox_vertical" role="listbox" aria-label="Top Countries">
+                                                <li role="option" class="slds-listbox__item">
+                                                    <div id="option0" class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small">
+                                                        <h3 class="slds-listbox__option-header" style="color: black;">Frequently Used</h3>
+                                                    </div>
+                                                </li>
+                                                <template for:each={picklistOptionsTop} for:item="item" for:index="indexVar">
+                                                    <li tabindex="0" onkeydown={handleKeydown} style="list-style-type:none" key={item.Id} onmousedown={handleSelectCountry} data-id={indexVar} data-name={item.name} data-category="top" role="option">
+                                                        <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small">
+                                                            <!-- Country flag -->
+                                                            <template if:false={doNotShowCountryFlags}>
+                                                                <span class="slds-media__figure">
+                                                                    <img src={item.flag} onerror={assignDefaultFlag} style="width: 25px; display:inline-block;" />
+                                                                </span>
+                                                            </template>
+                                                            <span class="slds-media__body">
+                                                                <!-- Country name -->
+                                                                <span class="slds-truncate">&nbsp;&nbsp;{item.name}</span>
+                                                            </span>
+                                                        </div>
+                                                    </li>
+                                                </template>
+                                            </ul>
+                                        </template>
+
+                                        <ul class="slds-listbox slds-listbox_vertical" role="group" aria-label="Other Countries">
+                                            <template if:true={frequentlyUsedExists}>
+                                                <li role="presentation" class="slds-listbox__item">
+                                                    <div id="option1" class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="presentation">
+                                                        <h3 class="slds-listbox__option-header" role="presentation" style="color: black;">----------------------------</h3>
+                                                    </div>
+                                                </li>
+                                            </template>
+                                            <template for:each={picklistOptionsRest} for:item="item" for:index="indexVar">
+                                                <li tabindex="0" onkeydown={handleKeydown} style="list-style-type:none" key={item.Id} onmousedown={handleSelectCountry} data-id={indexVar} data-name={item.name} data-category="rest" role="presentation">
+                                                    <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option">
+                                                        <!-- Country flag -->
+                                                        <template if:false={doNotShowCountryFlags}>
+                                                            <span class="slds-media__figure">
+                                                                <img src={item.flag} onerror={assignDefaultFlag} style="width: 25px; display:inline-block;" />
+                                                            </span>
+                                                        </template>
+                                                        <span class="slds-media__body">
+                                                            <!-- Country name -->
+                                                            <span class="slds-truncate">&nbsp;&nbsp;{item.name}</span>
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Phone number entry field -->
+                    <div class="slds-size_4-of-12">
+                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                            <!-- Clear field icon -->
+                            <template if:false={isClearIconHidden}>
+                                <lightning-icon title="Clear" size="x-small" class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default" icon-name="utility:clear" onclick={handleClearField}></lightning-icon>
+                            </template>
+                            <!-- Allow phone numbers with spaces. Allow + but only at the beginning-->
+                            <input  name="PhoneNumber"
+                                    style={stylecss}
+                                    type="text"
+                                    class="slds-input input"
+                                    placeholder={placeholder}
+                                    value={numberEntered}
+                                    onchange={handleNumberChange}
+                                    onfocusout={validatePhoneNumberFormat}
+                                    disabled={isEntryDisabled}/>
+                        </div>
+                    </div>
+
+                    <!-- Verified icon on successful verification -->
+                    <div class="slds-size_1-of-6 slds-m-top_xx-small">
+                        <template if:true={isVerified}>
+                            <lightning-layout-item>
+                                <lightning-icon class="slds-m-left_x-small" icon-name="utility:success" alternative-text="Success!" variant="success" title="Verified!" size="small"></lightning-icon>
+                            </lightning-layout-item>
+                        </template>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Country not selected error message -->
+            <template if:true={isCountryNotSelected}>
+                <lightning-layout>
+                    <lightning-layout-item size="12">
+                        <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                            {selectCountryMessage}
+                        </span>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </template>
+
+            <!-- Error message -->
+            <template if:true={hasErrorOccured}>
+                <template if:false={isUnVerified}>
+                    <lightning-layout-item size="6">
+                        <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                            {errorMessage}
+                        </span>
+                    </lightning-layout-item>
+                </template>
+            </template>
+
+            <!-- Validation unsuccessful message -->
+            <template if:true={isUnVerified}>
+                <template if:true={hasViewValidationMessagePermission}>
+                    <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                        {validationMessage}<br>
+                    </span>
+                </template>
+            </template>
+        </template>
+
+        <!-- Layout for mobile devices -->
+        <template if:true={isSmallMediumFormFactor}>
+            <div class="slds-form-element__row">
+                <!-- Country picklist -->
+                <div class="slds-size_12-of-12 slds-m-right_x-small slds-m-left_xx-small">
+                    <div class="slds-combobox_container">
+                        <div class="slds-combobox slds-dropdown-trigger slds-dropdown-trigger_click slds-is-open" aria-expanded="true" aria-haspopup="listbox" role="combobox">
+                            <div class="slds-combobox__form-element slds-input-has-icon slds-input-has-icon_right" role="none">
+                                <button type="button" 
+                                        title={countryName}
+                                        class="slds-input_faux slds-combobox__input slds-p-left_none" 
+                                        aria-labelledby="combobox-label-id-28 combobox-id-1-selected-value" 
+                                        id="combobox-id-2-selected-value" 
+                                        aria-controls="listbox-id-1"
+                                        aria-expanded="false" 
+                                        aria-haspopup="listbox"
+                                        onmousedown={handleShowDropDown}
+                                        onfocusout={hideDropDown}
+                                        onblur={handleBlur}>
+                                    <template if:false={isSelected}>
+                                        <div class="slds-size_1-of-1">
+                                            <input  type="text"
+                                                    class="slds-input slds-p-left_x-small"
+                                                    style="border: 0px;"
+                                                    placeholder="Select a country…"
+                                                    value={inputCountry}
+                                                    oninput={handleOnInput}
+                                                    onfocusout={hideDropDown}
+                                                    onblur={handleBlur} />
+                                        </div>
+                                    </template>
+                                    <template if:true={isSelected}>
+                                        <div class="slds-media slds-truncate slds-p-left_x-small">
+                                            <!-- Country flag -->
+                                            <template if:false={doNotShowCountryFlags}>
+                                                <span class="slds-media__figure" style="display:block;">
+                                                    <img src={selectedItem.flag} onerror={assignDefaultFlag} style="width: 25px; display:inline-block;" />
+                                                </span>
+                                            </template>
+                                            <span class="slds-media__body">
+                                                <!-- Country name -->
+                                                <span class="slds-truncate">{selectedItem.name}</span>
+                                            </span>
+                                        </div>
+                                    </template>                                                
+                                </button>
+
+                                <span class="slds-icon_container slds-icon-utility-down slds-input__icon slds-input__icon_right">
+                                    <lightning-button-icon  icon-name="utility:down" 
+                                                            variant="bare" 
+                                                            onclick={handleShowDropDown}
+                                                            onfocusout={hideDropDown}
+                                                            onblur={handleBlur}>
+                                    </lightning-button-icon>
+                                </span>
+                            </div>
+
+                            <!-- Dropdown List -->
+                            <template if:true={showDropdown}>
+                                <div id="listbox-id-2" class="slds-dropdown slds-dropdown_length-5 slds-dropdown_fluid slds-dropdown_left" style="position:relative;z-index:1;" role="listbox" tabindex="0" onfocus={handleDropDownFcous} onblur={handleDropDownBlur}>
+                                    <template if:true={frequentlyUsedExists}>
+                                        <ul class="slds-listbox slds-listbox_vertical" role="group" aria-label="Top Countries">
+                                            <li role="presentation" class="slds-listbox__item">
+                                                <div id="option2" class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="presentation">
+                                                    <h3 class="slds-listbox__option-header" role="presentation" style="color: black;">Frequently Used</h3>
+                                                </div>
+                                            </li>
+                                            <template for:each={picklistOptionsTop} for:item="item" for:index="indexVar">
+                                                <li style="list-style-type:none" key={item.Id} onmousedown={handleSelectCountry} data-id={indexVar} data-name={item.name} data-category="top" role="presentation">
+                                                    <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option">
+                                                        <!-- Country flag -->
+                                                        <template if:false={doNotShowCountryFlags}>
+                                                            <span class="slds-media__figure">
+                                                                <img src={item.flag} onerror={assignDefaultFlag} style="width: 25px; display:inline-block;" />
+                                                            </span>
+                                                        </template>
+                                                        <span class="slds-media__body">
+                                                            <!-- Country name -->
+                                                            <span class="slds-truncate">&nbsp;&nbsp;{item.name}</span>
+                                                        </span>
+                                                    </div>
+                                                </li>
+                                            </template>
+                                        </ul>
+                                    </template>
+
+                                    <ul class="slds-listbox slds-listbox_vertical" role="group" aria-label="Other Countries">
+                                        <template if:true={frequentlyUsedExists}>
+                                            <li role="presentation" class="slds-listbox__item">
+                                                <div id="option3" class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="presentation">
+                                                    <h3 class="slds-listbox__option-header" role="presentation" style="color: black;">----------------------------</h3>
+                                                </div>
+                                            </li>
+                                        </template>
+                                        <template for:each={picklistOptionsRest} for:item="item" for:index="indexVar">
+                                            <li style="list-style-type:none" key={item.Id} onmousedown={handleSelectCountry} data-id={indexVar} data-name={item.name} data-category="rest" role="presentation">
+                                                <div class="slds-media slds-listbox__option slds-listbox__option_plain slds-media_small" role="option">
+                                                    <!-- Country flag -->
+                                                    <template if:false={doNotShowCountryFlags}>
+                                                        <span class="slds-media__figure">
+                                                            <img src={item.flag} onerror={assignDefaultFlag} style="width: 25px; display:inline-block;" />
+                                                        </span>
+                                                    </template>
+                                                    <span class="slds-media__body">
+                                                        <!-- Country name -->
+                                                        <span class="slds-truncate">&nbsp;&nbsp;{item.name}</span>
+                                                    </span>
+                                                </div>
+                                            </li>
+                                        </template>
+                                    </ul>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Country not selected error message -->
+            <template if:true={isCountryNotSelected}>
+                <lightning-layout>
+                    <lightning-layout-item size="12">
+                        <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                            {selectCountryMessage}
+                        </span>
+                    </lightning-layout-item>
+                </lightning-layout>
+            </template>
+
+            <lightning-layout>
+                <!-- Phone number entry field -->
+                <div class="slds-size_10-of-12">
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                        <!-- Clear field icon -->
+                        <template if:false={isClearIconHidden}>
+                            <lightning-icon title="Clear" size="x-small" class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default" icon-name="utility:clear" onclick={handleClearField}></lightning-icon>
+                        </template>
+                        <!-- Allow phone numbers with spaces. Allow + but only at the beginning-->
+                        <input  name="PhoneNumber"
+                                style={stylecss}
+                                type="text"
+                                class="slds-input input"
+                                placeholder={placeholder}
+                                value={numberEntered}
+                                onchange={handleNumberChange}
+                                onfocusout={validatePhoneNumberFormat}
+                                disabled={isEntryDisabled}/>
+                    </div>
+                </div>
+
+                <!-- Verified icon on successful verification -->
+                <div class="slds-size_2-of-12 slds-m-top_xx-small">
+                    <template if:true={isVerified}>
+                        <lightning-layout-item>
+                            <lightning-icon class="slds-m-left_x-small" icon-name="utility:success" alternative-text="Success!" variant="success" title="Verified!" size="small"></lightning-icon>
+                        </lightning-layout-item>
+                    </template>
+                </div>
+            </lightning-layout>
+
+            <!-- Error message -->
+            <template if:true={hasErrorOccured}>
+                <template if:false={isUnVerified}>
+                    <lightning-layout-item size="12">
+                        <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                            {errorMessage}
+                        </span>
+                    </lightning-layout-item>
+                </template>
+            </template>
+
+            <!-- Validation unsuccessful message -->
+            <template if:true={isUnVerified}>
+                <template if:true={hasViewValidationMessagePermission}>
+                    <span class="slds-float_left" style="font-size: 0.75rem; color: #EE0220;">
+                        {validationMessage}<br>
+                    </span>
+                </template>
+            </template>
+        </template>
+
+        <!-- Loading spinner -->
+        <template if:true={isLoading}>
+            <div style="min-height: 35px;">
+                <lightning-spinner alternative-text="Loading" size="small" variant="brand"></lightning-spinner>
+            </div>
+        </template>
+    </fieldset>
+</template>

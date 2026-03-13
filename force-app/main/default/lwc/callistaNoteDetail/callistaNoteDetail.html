@@ -1,0 +1,22 @@
+<template>
+    <lightning-modal-header label={record.title}></lightning-modal-header>
+    <lightning-modal-body>
+        <lightning-card title="Callista Note" icon-name="standard:note">
+            <div class="slds-var-p-around_medium slds-var-p-top_medium">
+                <template for:each={record.values} for:item="val">
+                    <div key={val.id} class="slds-var-p-bottom_x-small">
+                        <div class="slds-form-element">
+                            <label class="slds-form-element__label">{val.label}</label>
+                            <div class="slds-form-element__control">
+                                <lightning-formatted-rich-text value={val.value}></lightning-formatted-rich-text>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </lightning-card>
+    </lightning-modal-body>
+    <lightning-modal-footer>
+        <lightning-button label="Done" onclick={handleDone}></lightning-button>
+    </lightning-modal-footer>
+</template>

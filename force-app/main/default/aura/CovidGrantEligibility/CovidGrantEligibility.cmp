@@ -1,0 +1,96 @@
+<!--
+* @author
+* @date 08/04/2020
+* @group Monash Connect
+* @description Covid Grant Form - Eligibility
+* @revision  - 08/04/2020 - Initial Create 
+ -->
+ <aura:component>
+	<aura:attribute name="covidGrantAmount" type="String" default=""/>
+    <aura:attribute name="newCase" type="case" />
+    
+    <div>
+        <!-- support grant 1000 -->
+        <aura:if isTrue="{!v.covidGrantAmount == '1000'}">
+            <div>
+                <h2><lightning:formattedRichText value="{!$Label.c.CovidGrantEligibility}" /></h2>
+            </div>
+            <div>
+                <lightning:formattedRichText value="{!$Label.c.SupportGrantEligibilityBody}" />
+
+                <div class="sq-form-question sq-form-question-checkbox">
+                    <div class="sq-form-question-answer" style="display: flex;">
+                        <lightning:input aura:id="eligibility1"
+                                         type="checkbox"
+                                         label="{!$Label.c.CovidGrantAgreementBody}"
+                                         class="sq-form-field"
+                                         name="eligibility1"
+                                         checked="false"
+                                         onchange="{!c.handleEligibilityItem1}"
+                                         variant="label-hidden"/>
+                        <lightning:formattedRichText value="{!$Label.c.SupportGrantEligibilityItem1}" />
+                    </div>
+                </div>
+                <div class="sq-form-question sq-form-question-checkbox">
+                    <div class="sq-form-question-answer" style="display: flex;">
+                        <lightning:input aura:id="eligibility2"
+                                         type="checkbox"
+                                         label="{!$Label.c.CovidGrantAgreementBody}"
+                                         class="sq-form-field"
+                                         name="eligibility2"
+                                         checked="false"
+                                         onchange="{!c.handleEligibilityItem2}"
+                                         variant="label-hidden"/>
+                        <lightning:formattedRichText value="{!$Label.c.SupportGrantEligibilityItem2}" />
+                    </div>
+                </div>
+                <div class="sq-form-question sq-form-question-checkbox">
+                    <div class="sq-form-question-answer" style="display: flex;">
+                        <lightning:input aura:id="eligibility3"
+                                         type="checkbox"
+                                         label="{!$Label.c.CovidGrantAgreementBody}"
+                                         class="sq-form-field"
+                                         name="eligibility3"
+                                         checked="false"
+                                         onchange="{!c.handleEligibilityItem3}"
+                                         variant="label-hidden"/>
+                        <lightning:formattedRichText value="{!$Label.c.SupportGrantEligibilityItem3}" />
+                    </div>
+                </div>
+                <div class="sq-form-question sq-form-question-checkbox">
+                    <div class="sq-form-question-answer" style="display: flex;">
+                        <lightning:input aura:id="eligibility3"
+                                         type="checkbox"
+                                         label="{!$Label.c.CovidGrantAgreementBody}"
+                                         class="sq-form-field"
+                                         name="eligibility3"
+                                         checked="false"
+                                         onchange="{!c.handleEligibilityItem4}"
+                                         variant="label-hidden"/>
+                        <lightning:formattedRichText value="{!$Label.c.SupportGrantEligibilityItem4}" />
+                    </div>
+                </div>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.covidGrantAmount == '5000'}">
+            <div>
+                <h2><lightning:formattedRichText value="{!$Label.c.CovidGrantEligibility}" /></h2>
+            </div>
+            <div>
+                <lightning:formattedRichText value="{!$Label.c.CovidGrantEligibilityCheck5000}" />
+                <lightning:formattedRichText value="{!$Label.c.CovidGrantEligibilityCheck5000_2}" />
+                <lightning:formattedRichText value="{!$Label.c.CovidGrantNotEligibleCheck5000}" />
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.covidGrantAmount == '7000'}">
+            <div>
+                <h2><lightning:formattedRichText value="{!$Label.c.CovidGrantEligibility}" /></h2>
+            </div>
+            <div>
+                <lightning:formattedRichText value="{!$Label.c.CovidGrantEligibilityCheck7000}" />
+                <lightning:formattedRichText value="{!$Label.c.CovidGrantNotEligibleCheck7000}" />
+                <lightning:formattedRichText value="{!$Label.c.CovidGrantNotEligibleAbroadCheck7000}" />                
+            </div>
+        </aura:if>
+    </div>
+</aura:component>

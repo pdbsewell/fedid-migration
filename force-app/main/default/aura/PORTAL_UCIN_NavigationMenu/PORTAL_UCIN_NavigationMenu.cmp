@@ -1,0 +1,126 @@
+<!--The navigation bar at the top of most pages. Clicking the tabs navigates to appropriate pages
+    Also contains a logout button and profile picture-->
+<aura:component controller="PORTAL_UCIN_NavController" extends="forceCommunity:navigationMenuBase" implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}"/>
+
+    <!--The attributes track the current page-->
+    <aura:attribute name="showHome" type="Boolean" Default="true"/>
+    <aura:attribute name="showEvents" type="Boolean"/>
+    <aura:attribute name="showGetInvolved" type="Boolean"/>
+    <aura:attribute name="showDirectory" type="Boolean"/>
+    <aura:attribute name="showCareers" type="Boolean"/>
+    <aura:attribute name="showDonations" type="Boolean"/>
+    <aura:attribute name="showLibrary" type="Boolean"/>
+    <aura:attribute name="loggedIn" type="Boolean" />
+    <aura:attribute name="baseURL" type="String" />
+    <aura:attribute name="contactId" type="String" />
+    <aura:attribute name="loaded" type="Boolean" default="true" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="forceCommunity:routeChange" action="{!c.handleRouteChange}"/>
+
+    <nav class="w-full bg-black relative">
+        <!-- Spinner -->
+		<div>
+			<aura:if isTrue="{!!v.loaded }">
+				<lightning:spinner alternativeText="Loading" />
+			</aura:if>
+        </div>
+        <div class="max-w-1300 m-auto flex justify-between">
+            
+            <nav aura:id="navMobile" role="navigation" class="hidden lg:hidden flex bg-black text-white hover:text-white ucin-nav">
+                <ul>
+                    <aura:if isTrue="{!v.loggedIn}">    
+                        <li><a href="{!v.baseURL + '/s/'}" class="px-4 py-3 block lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-b-2 border-gray-900 uppercase text-xl" data-componentName="showHome" aura:id="showHome_m">Home</a></li>
+                        <li><a href="{!v.baseURL + '/s/directory/'}" class="px-4 py-3 block lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-b-2 border-gray-900 uppercase text-xl" data-componentName="showDirectory" aura:id="showDirectory_m">Directory</a></li>                                                         
+                        <li><a href="{!v.baseURL + '/s/benefits/'}" class="px-4 py-3 block lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-b-2 border-gray-900 uppercase text-xl" data-componentName="showBenefits" aura:id="showBenefits_m">Benefits</a></li>
+                        <li><a href="{!v.baseURL + '/s/careers/'}" class="px-4 py-3 block lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-b-2 border-gray-900 uppercase text-xl" data-componentName="showCareers" aura:id="showCareers_m">Careers &amp; Skills</a></li>
+                        <li><a href="{!v.baseURL + '/s/get-involved/'}" class="px-4 py-3 block lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-b-2 border-gray-900 uppercase text-xl" data-componentName="showGetInvolved" aura:id="showGetInvolved_m">Get Involved</a></li>
+                        <li><a href="{!v.baseURL + '/s/events/'}" class="px-4 py-3 block lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-b-2 border-gray-900 uppercase text-xl" data-componentName="showEvents" aura:id="showEvents_m">Events</a></li>
+                        <li><a href="{!v.baseURL + '/s/library/'}" class="px-4 py-3 block lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-b-2 border-gray-900 uppercase text-xl" data-componentName="showLibrary" aura:id="showLibrary_m">Library</a></li>
+                    </aura:if>
+                    <li><a href="{!v.baseURL + '/s/give/'}" class="px-4 py-3 block lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-b-2 border-gray-900 uppercase text-xl" data-componentName="showDonations" aura:id="showDonations_m">Donate</a></li>
+                    <aura:if isTrue="{!v.loggedIn}">
+                        <li><a onclick="{!c.onToggleMyDetailsMobileTab}" class="submenu-collapsed px-4 py-3 block lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-b-2 border-gray-900 uppercase text-xl" data-componentName="showMydetails" aura:id="showMydetails_m"><div aura:id="showMydetailsToggleIco_m" class="toggle-collapsed">My Details</div></a></li>
+                        <li><a href="{!v.baseURL + '/s/myprofile/'}" class="hidden pl-8 pr-4 py-2 block lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-b-2 border-gray-900 uppercase text-base" data-componentName="showProfile" aura:id="showProfile_m">My Profile</a></li>
+                        <li><a href="{!v.baseURL + '/s/preferencecentre/'}" class="hidden pl-8 pr-4 py-2 block lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-b-2 border-gray-900 uppercase text-base" data-componentName="showPreferenceCentre" aura:id="showPreferenceCentre_m">Preference Centre</a></li>
+                        <li><a href="{!v.baseURL + '/s/volunteer-preferences/'}" class="hidden pl-8 pr-4 py-2 block lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-b-2 border-gray-900 uppercase text-base" data-componentName="showVolunteerPreferences" aura:id="showVolunteerPreferences_m">Volunteer Preferences</a></li>
+                        <li><a href="{!v.baseURL + '/s/monash-messages/'}" class="hidden pl-8 pr-4 py-2 block lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-b-2 border-gray-900 uppercase text-base" data-componentName="showMessages" aura:id="showMessages_m">Messages</a></li>
+                        <li><a onclick="{!c.doLogout}" class="px-4 py-3 block lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-b-2 border-gray-900 uppercase text-xl">Logout</a></li>
+                    	<aura:set attribute="else">
+                            <li><a onclick="{!c.doLogIn}" class="px-4 py-3 block lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-b-2 border-gray-900 uppercase text-xl">Login</a></li>
+                        </aura:set>
+                    </aura:if>
+                    <li><div class="p-8"></div></li>
+                </ul>
+            </nav>
+            
+            <div aura:id="hbmenuCtn" class="block lg:hidden flex">
+                <button class="flex content-center flex-wrap ml-3 px-3 py-2 text-white hover:text-white hover:border-white" onclick="{!c.onNavHBMenuIconClick}">
+                    <c:svg class="fill-current h-6 w-6" xlinkHref="{!$Resource.PORTAL_UCIN_Resources + '/Resources/icons/ico_hbmenu.svg#icoimg'}" ariaHidden="true"/>
+                </button>
+            </div>
+            <!--The buttons for the navigable pages-->
+            <div class="w-full hidden block flex-grow lg:flex lg:items-center lg:w-auto">
+                <div class="text-sm flex lg:flex-grow text-white">
+                    <aura:if isTrue="{!v.loggedIn}">
+                        <a href="{!v.baseURL + '/s/'}" class="p-4 block mt-4 lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-r-2 border-gray-900 uppercase text-base" data-componentName="showHome" aura:id="showHome">Home</a>
+                        <a href="{!v.baseURL + '/s/directory/'}" class="p-4 block mt-4 lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-r-2 border-gray-900 uppercase text-base" data-componentName="showDirectory" aura:id="showDirectory">Directory</a>                                                                    
+                        <a href="{!v.baseURL + '/s/benefits/'}" class="p-4 block mt-4 lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-r-2 border-gray-900 uppercase text-base" data-componentName="showBenefits" aura:id="showBenefits">Benefits</a>
+                        <a href="{!v.baseURL + '/s/careers/'}" class="p-4 block mt-4 lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-r-2 border-gray-900 uppercase text-base" data-componentName="showCareers" aura:id="showCareers">Careers &amp; Skills</a>
+                        <a href="{!v.baseURL + '/s/get-involved/'}" class="p-4 block mt-4 lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-r-2 border-gray-900 uppercase text-base" data-componentName="showGetInvolved" aura:id="showGetInvolved">Get Involved</a>
+                        <a href="{!v.baseURL + '/s/events/'}" class="p-4 block mt-4 lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-r-2 border-gray-900 uppercase text-base" data-componentName="showEvents" aura:id="showEvents">Events</a> 
+                        <a href="{!v.baseURL + '/s/library/'}" class="p-4 block mt-4 lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-r-2 border-gray-900 uppercase text-base" data-componentName="showLibrary" aura:id="showLibrary">Library</a>                        
+                    </aura:if>
+                    <a href="{!v.baseURL + '/s/give/'}" class="p-4 block mt-4 lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-r-2 border-gray-900 uppercase text-base" data-componentName="showDonations" aura:id="showDonations">Donate</a>
+                </div>
+            </div>
+            <div>
+                <div class="font-sans mr-4 max-w-xs bg-black">
+                    <!--The logout button and profile picture-->
+                    <div class="flex items-center">
+                        <aura:if isTrue="{!v.loggedIn}">
+                            <!--<lightning:icon iconName='utility:search' variant='inverse' size='x-small'/>-->
+                            <div class="hidden lg:block flex flex-col ml-16 text-white">
+                                <a class="p-4 block mt-4 lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 uppercase text-base" href="" onclick="{!c.doLogout}">Logout</a>
+                            </div>
+                            <div class="lg:hidden submenu-collapsed mx-1 my-1">
+                                <aura:if isTrue="{!v.contactId}">
+                                	<c:PORTAL_UCIN_ProfilePicture recordId="{!v.contactId}" size="navBar"/>
+                                </aura:if>
+                            </div>
+                            <a aura:id="showMydetails_d" class="submenu-collapsed hidden lg:block mx-1 my-1" onclick="{!c.onToggleMyDetailsDektopTab}">
+                                <aura:if isTrue="{!v.contactId}">
+                                	<c:PORTAL_UCIN_ProfilePicture recordId="{!v.contactId}" size="navBar"/>
+                                </aura:if>
+                            </a>
+                            
+                            <aura:set attribute="else">
+                                <div class="hidden lg:block flex flex-col ml-4 text-white">
+                                    <a class="p-4 block mt-4 lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 uppercase text-base" href="" onclick="{!c.doLogIn}">Login</a>
+                                </div>
+                                <a>
+                                    <span class="h-12 w-12 rounded-full slds-avatar" />
+                                </a>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                    <aura:if isTrue="{!v.loggedIn}">
+                        <nav aura:id="navMyDetailsDesktopNav" role="navigation" class="absolute hidden flex bg-black text-white hover:text-white ucin-mydetailnav"> 
+                            <ul class="hidden lg:block">
+                                <li><a href="{!v.baseURL + '/s/myprofile/'}" class="px-4 py-2 block lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-b-2 border-gray-900 uppercase text-base" data-componentName="showProfile" aura:id="showProfile_d">My Profile</a></li>
+                                <li><a href="{!v.baseURL + '/s/preferencecentre/'}" class="px-4 py-2 block lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-b-2 border-gray-900 uppercase text-base" data-componentName="showPreferenceCentre" aura:id="showPreferenceCentre_d">Preference Centre</a></li>
+                                <li><a href="{!v.baseURL + '/s/volunteer-preferences/'}" class="px-4 py-2 block lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-b-2 border-gray-900 uppercase text-base" data-componentName="showVolunteerPreferences" aura:id="showVolunteerPreferences_d">Volunteer Preferences</a></li>
+                                <li><a href="{!v.baseURL + '/s/monash-messages/'}" class="px-4 py-2 block lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-b-2 border-gray-900 uppercase text-base" data-componentName="showMessages" aura:id="showMessages_d">Messages</a></li>
+                                <!--<li><a href="{!v.baseURL + '/s/library/'}" class="px-4 py-2 block lg:mt-0 hover:bg-bg-grey hover:text-black bg-white-100 border-b-2 border-gray-900 uppercase text-base" data-componentName="showLibrary" aura:id="showLibrary_d">Library</a></li>-->
+                                <li><div class="p-3"></div></li>
+                            </ul>
+                        </nav>
+                    </aura:if>
+                </div>
+            </div>
+        </div>
+        
+    </nav>
+
+</aura:component>

@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Error_Update_Course_Faculty_Type_Fields</name>
+        <label>Error Update Course Faculty &amp; Type Fields</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Nebula__FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Validate_Payment_Address</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <elementReference>FlowAPIName</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Error Update Course Faculty &amp; Type Fields</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>scenario</name>
+            <value>
+                <stringValue>Payment Flow</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
+        <name>Error_Updating_Credit_Card_Payment_Details</name>
+        <label>Error Updating Credit Card Payment Details</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Nebula__FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <elementReference>FlowAPIName</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Error_Updating_Credit_Card_Payment_Details</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>scenario</name>
+            <value>
+                <stringValue>Payment Flow</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
+        <name>Error_Updating_GST_Amount</name>
+        <label>Error Updating GST Amount</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Nebula__FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Check_CO_For_Short_Course</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <elementReference>FlowAPIName</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Error Updating GST Amount</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>scenario</name>
+            <value>
+                <stringValue>Payment Flow</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
+        <name>Error_Updating_Invoice_Payment_Details</name>
+        <label>Error Updating Invoice Payment Details</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Nebula__FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <elementReference>FlowAPIName</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Error Updating Invoice Payment Details</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>scenario</name>
+            <value>
+                <stringValue>Payment Flow</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
+        <name>Error_Updating_Payment_Address</name>
+        <label>Error Updating Payment Address</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Nebula__FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Check_Credit_Card_Payment</targetReference>
+        </connector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <elementReference>FlowAPIName</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Error Updating Payment Address</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>scenario</name>
+            <value>
+                <stringValue>Payment Flow</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <constants>
+        <name>FlowAPIName</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Payment_AS_Update_Fields</stringValue>
+        </value>
+    </constants>
+    <decisions>
+        <name>Check_CO_For_Short_Course</name>
+        <label>Check CO For Short Course</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Validate_Payment_Address</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>CO Not For Short Course</defaultConnectorLabel>
+        <rules>
+            <name>CO_For_Short_Course</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Course_Offering__r.Course_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Professional Development</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Course_Faculty_Type_fields</targetReference>
+            </connector>
+            <label>CO For Short Course</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Credit_Card_Payment</name>
+        <label>Check Credit Card Payment</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Check_Invoice_Payment</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Credit Card Payment Not Processed</defaultConnectorLabel>
+        <rules>
+            <name>Credit_Card_Payment_Processed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Payment_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Processed</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Payment_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Credit_Card</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Application_Status_CC</targetReference>
+            </connector>
+            <label>Credit Card Payment Processed</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Invoice_Payment</name>
+        <label>Check Invoice Payment</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Invoice Payment Not Processed</defaultConnectorLabel>
+        <rules>
+            <name>Invoice_Payment_Processed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Payment_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Processed</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Payment_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Invoice</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Application_Status_INV</targetReference>
+            </connector>
+            <label>Invoice Payment Processed</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Check_Payment_Course_Status</name>
+        <label>Check Payment &amp; Course Status</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Check_CO_For_Short_Course</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Payment Course Null</defaultConnectorLabel>
+        <rules>
+            <name>Payment_Course_Not_Null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Payment_Amount__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Course_Offering__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_GST_Amount</targetReference>
+            </connector>
+            <label>Payment Course Not Null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Validate_Payment_Address</name>
+        <label>Validate Payment Address</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Check_Credit_Card_Payment</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Invalid Payment Address</defaultConnectorLabel>
+        <rules>
+            <name>ValidPaymentAddress</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Street__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Suburb__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Postcode__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.State__c</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Payment_Address</targetReference>
+            </connector>
+            <label>Valid Payment Address</label>
+        </rules>
+    </decisions>
+    <description>Migrated from:
+- Update GST Allocation: Update Payment: GST Allocation field when there’s payment amount against course offering
+- PD Change Application &amp; ACP Status: Update Application and ACP when Payment is Processed
+- PD Update Payment [Partitioning for Short Courses]: Update Course Offering&apos;s &apos;Course Faculty&apos; and &apos;Course Type&apos; from Course
+- PD Update Payment Address: Update Payment record address if left blank (only scenario this should run is if Payment created manually)</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>GetCourseOfferingType</name>
+        <dataType>String</dataType>
+        <expression>CASE( 
+{!$Record.Course_Offering__r.Faculty__c},
+&quot;Faculty of Education&quot;,&quot;Faculty of Education&quot;,
+&quot;Faculty of Medicine, Nursing &amp; Health Sciences&quot;,&quot;Faculty of Medicine, Nursing &amp; Health Sciences&quot;,
+&quot;The School of Public Health and Preventive Medicine (SPHPM)&quot;,&quot;The School of Public Health and Preventive Medicine (SPHPM)&quot;,
+&quot;Monash Centre for Health Research and Implementation (MCHRI)&quot;,&quot;Monash Centre for Health Research and Implementation (MCHRI)&quot;,
+&quot;MNHS Student Academic Support Unit (SASU)&quot;,&quot;MNHS Student Academic Support Unit (SASU)&quot;,
+&quot;School of Clinical Sciences (SCS)&quot;,&quot;School of Clinical Sciences (SCS)&quot;,
+&quot;Faculty of Business &amp; Economics&quot;,&quot;Faculty of Business &amp; Economics&quot;,
+&quot;Faculty of Arts&quot;,&quot;Faculty of Arts&quot;,
+&quot;Monash Sustainable Development Institute&quot;,&quot;Monash Sustainable Development Institute&quot;,
+&quot;Monash Centre for Professional Development&quot;,&quot;Monash Centre for Professional Development&quot;,
+&quot;&quot;
+)</expression>
+    </formulas>
+    <formulas>
+        <name>Update_GST_Allocation</name>
+        <dataType>Currency</dataType>
+        <expression>IF( $Record.Course_Offering__r.Apply_GST__c , ($Record.Payment_Amount__c-($Record.Payment_Amount__c/1.1)) , 0)</expression>
+        <scale>0</scale>
+    </formulas>
+    <interviewLabel>Payment : AS : Update Fields {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Payment : AS : Update Fields</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Application_Course_Preference_Status_CC</name>
+        <label>Update Application Course Preference Status CC</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <faultConnector>
+            <targetReference>Error_Updating_Credit_Card_Payment_Details</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Registered - Not paid</stringValue>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Status__c</field>
+            <value>
+                <stringValue>Registered</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record.Application__r.Application_Course_Preferences__r</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Application_Course_Preference_Status_INV</name>
+        <label>Update Application Course Preference Status INV</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <faultConnector>
+            <targetReference>Error_Updating_Invoice_Payment_Details</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Registered - Invoice not processed</stringValue>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Status__c</field>
+            <value>
+                <stringValue>Registered - Invoiced</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record.Application_Course_Preference__r</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Application_Status_CC</name>
+        <label>Update Application Status CC</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Application_Course_Preference_Status_CC</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Updating_Credit_Card_Payment_Details</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Registered - Not paid</stringValue>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Status__c</field>
+            <value>
+                <stringValue>Registered</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record.Application__r</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Application_Status_INV</name>
+        <label>Update Application Status INV</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Application_Course_Preference_Status_INV</targetReference>
+        </connector>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Updating_Invoice_Payment_Details</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Registered - Not paid</stringValue>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Status__c</field>
+            <value>
+                <stringValue>Registered</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record.Application__r</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Course_Faculty_Type_fields</name>
+        <label>Update Course Faculty &amp; Type fields</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Validate_Payment_Address</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Update_Course_Faculty_Type_Fields</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Course_Faculty__c</field>
+            <value>
+                <elementReference>GetCourseOfferingType</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Course_Type__c</field>
+            <value>
+                <stringValue>Professional Development</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_GST_Amount</name>
+        <label>Update GST Amount</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_CO_For_Short_Course</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Updating_GST_Amount</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>GST_Allocation__c</field>
+            <value>
+                <elementReference>Update_GST_Allocation</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Payment_Address</name>
+        <label>Update Payment Address</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Credit_Card_Payment</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Error_Updating_Payment_Address</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Country__c</field>
+            <value>
+                <elementReference>$Record.Contact__r.MailingCountry</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Postcode__c</field>
+            <value>
+                <elementReference>$Record.Contact__r.MailingPostalCode</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>State__c</field>
+            <value>
+                <elementReference>$Record.Contact__r.MailingState</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Street__c</field>
+            <value>
+                <elementReference>$Record.Contact__r.MailingStreet</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Suburb__c</field>
+            <value>
+                <elementReference>$Record.Contact__r.MailingCity</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Payment_Course_Status</targetReference>
+        </connector>
+        <filterFormula>{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False</filterFormula>
+        <object>Payment__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

@@ -1,0 +1,139 @@
+<!-- Contains details about the employer of the user and the user's position-->
+<aura:component>
+
+    <aura:attribute name="isEditing" type="Boolean"/>
+    <aura:attribute name="hasOutstandingInterim" type="Boolean"/>
+    <aura:attribute name="positionDetails" type="Map"/>
+    <aura:attribute name="businessAddress" type="Address__c"/>
+    <aura:attribute name="countryList" type="List"/>
+    <aura:attribute name="industryList" type="List"/>
+
+    <div class="float-right pt-8 pr-4">
+        <lightning:icon iconName="utility:edit" class="modal-link" size="small" onclick="{!c.toggleEdit}"/>
+    </div>
+
+    <div class="p-4 sm:p-6 text-dark-grey">
+        <h1 class="text-3xla sm:text-3xl sm:font-bold leading-bitmore py-3">Professional information</h1>
+        <div class="w-full border-solid border-dark-grey border-b-2"></div>
+        <div class="block relative w-full rounded overflow-hidden">
+            <aura:if isTrue="{!not(v.hasOutstandingInterim)}">
+                <table class="w-full">
+                    <tbody>
+                        <tr class="w-full border-solid border-grey border-b-2">
+                            <th class="py-1 lg:py-3 w-5/12 md:w-1/4 text-left text-xl lg:text-lg">Position</th>
+                            <aura:if isTrue="{!v.isEditing}">
+                                <td>
+                                    <lightning:input class="w-full lg:w-9/12 my-2 sm:mr-1 label-hidden text-xl lg:text-lg" 
+                                        name="position" aura:id="position" value="{!v.positionDetails.position}" onchange="{!c.updateText}"/>
+                                </td>
+                                <aura:set attribute="else">
+                                    <td class="text-xl lg:text-lg">{!v.positionDetails.position}</td>
+                                </aura:set>
+                            </aura:if>
+                        </tr>
+                        <tr class="w-full border-solid border-grey border-b-2">
+                            <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Organisation name</th>
+                            <aura:if isTrue="{!v.isEditing}">
+                                <td>
+                                    <lightning:input class="w-full lg:w-9/12 my-2 sm:mr-1 label-hidden text-xl lg:text-lg" 
+                                        name="orgName" aura:id="orgName" value="{!v.positionDetails.orgName}" onchange="{!c.updateText}"/>
+                                </td>
+                                <aura:set attribute="else">
+                                    <td class="text-xl lg:text-lg">{!v.positionDetails.orgName}</td>
+                                </aura:set>
+                            </aura:if>
+                        </tr>
+                        <tr class="w-full border-solid border-grey border-b-2">
+                            <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Organisation Industry</th>
+                            <aura:if isTrue="{!v.isEditing}">
+                                <!--<td>
+                                    <lightning:input class="w-full lg:w-9/12 my-2 sm:mr-1 label-hidden text-xl lg:text-lg" 
+                                        name="orgIndustry" aura:id="orgIndustry" value="{!v.positionDetails.Account__r.Industry}" onchange="{!c.updateText}"/>
+                                </td>-->
+                                <lightning:select class="w-full lg:w-9/12 my-2 sm:mr-1 label-hidden text-xl lg:text-lg" aura:id="orgIndustry" name="orgIndustry" onchange="{!c.updateIndustry}">
+                                    <option value="{!v.positionDetails.orgIndustry}" selected="selected" hidden="hidden">{!v.positionDetails.orgIndustry}</option>
+                                    <option value="" text=" "></option>
+                                    <aura:iteration items="{!v.industryList}" var="industryName">
+                                        <option value="{!industryName}" text="{!industryName}"></option>    
+                                    </aura:iteration>
+                                </lightning:select>
+                                <aura:set attribute="else">
+                                    <td class="text-xl lg:text-lg">{!v.positionDetails.orgIndustry}</td>
+                                </aura:set>
+                            </aura:if>
+                        </tr>
+                        <tr class="w-full border-solid border-grey border-b-2">
+                            <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Country of employment</th>
+                            <aura:if isTrue="{!v.isEditing}">
+                                <lightning:select class="w-full lg:w-9/12 my-2 sm:mr-1 label-hidden text-xl lg:text-lg" aura:id="businessAddress_country" name="businessAddress_country" onchange="{!c.updateCountry}">
+                                    <option value="" selected="selected" hidden="hidden">{!v.businessAddress.Country2__c}</option>    
+                                    <aura:iteration items="{!v.countryList}" var="countryName">
+                                        <option value="{!countryName}" text="{!countryName}"></option>    
+                                    </aura:iteration>
+                                </lightning:select>
+                                <aura:set attribute="else">
+                                    <td class="text-xl lg:text-lg">{!v.businessAddress.Country2__c}</td>
+                                </aura:set>
+                            </aura:if>
+                        </tr>
+                        <tr class="w-full border-solid border-grey border-b-2">
+                            <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Employment address</th>
+                            <aura:if isTrue="{!v.isEditing}">
+                                <td>
+                                    <lightning:input class="w-full lg:w-9/12 my-2 sm:mr-1 label-hidden text-xl lg:text-lg" 
+                                        name="street" aura:id="street" value="{!v.businessAddress.Street_Name__c}" onchange="{!c.updateText}"/>
+                                </td>
+                                <aura:set attribute="else">
+                                    <td class="text-xl lg:text-lg">{!v.businessAddress.Street_Name__c}</td>
+                                </aura:set>
+                            </aura:if>
+                        </tr>
+                        <!--<tr class="w-full border-solid border-grey border-b-2">
+                            <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Employment address line 2</th>
+                            <td class="text-xl lg:text-lg"></td>
+                        </tr>-->
+                        <tr class="w-full border-solid border-grey border-b-2">
+                            <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Employment suburb</th>
+                            <aura:if isTrue="{!v.isEditing}">
+                                <td>
+                                    <lightning:input class="w-full lg:w-9/12 my-2 sm:mr-1 label-hidden text-xl lg:text-lg" 
+                                        name="city" aura:id="city" value="{!v.businessAddress.City__c}" onchange="{!c.updateText}"/>
+                                </td>
+                                <aura:set attribute="else">
+                                    <td class="text-xl lg:text-lg">{!v.businessAddress.City__c}</td>
+                                </aura:set>
+                            </aura:if>
+                        </tr>
+                        <tr class="w-full border-solid border-grey border-b-2">
+                            <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Employment state</th>
+                            <aura:if isTrue="{!v.isEditing}">
+                                <td>
+                                    <lightning:input class="w-full lg:w-9/12 my-2 sm:mr-1 label-hidden text-xl lg:text-lg" 
+                                        name="state" aura:id="state" value="{!v.businessAddress.State__c}" onchange="{!c.updateText}"/>
+                                </td>
+                                <aura:set attribute="else">
+                                    <td class="text-xl lg:text-lg">{!v.businessAddress.State__c}</td>
+                                </aura:set>
+                            </aura:if>
+                        </tr>
+                        <tr class="w-full border-solid border-grey border-b-2">
+                            <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Employment postcode</th>
+                            <aura:if isTrue="{!v.isEditing}">
+                                <td>
+                                    <lightning:input class="w-full lg:w-9/12 my-2 sm:mr-1 label-hidden text-xl lg:text-lg" 
+                                        name="postcode" aura:id="postcode" value="{!v.businessAddress.Post_Code__c}" onchange="{!c.updateText}"/>
+                                </td>
+                                <aura:set attribute="else">
+                                    <td class="text-xl lg:text-lg">{!v.businessAddress.Post_Code__c}</td>
+                                </aura:set>
+                            </aura:if>
+                        </tr>
+                    </tbody>
+                </table>
+                <aura:set attribute="else">
+                    <h4>Your professional details are currently being updated.  We complete a manual review for data integrity purposes.  This should be finalised shortly.</h4>
+                </aura:set>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>

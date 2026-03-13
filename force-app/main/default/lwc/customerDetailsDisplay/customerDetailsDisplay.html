@@ -1,0 +1,99 @@
+<!--
+  @File Name          : customerDetailsDisplay.html
+  @Description        : 
+  @Author             : jasmin.rudio@monash.edu
+  @Group              : 
+  @Last Modified By   : jasmin.rudio@monash.edu
+  @Last Modified On   : 3/17/2020, 10:00:16 AM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    12/12/2019   jasmin.rudio@monash.edu     Initial Version
+-->
+<template>
+    
+    <div if:true={loading}>
+        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </div>
+    <template if:true={hasRendered}>
+        <lightning-formatted-rich-text value={content}></lightning-formatted-rich-text>
+        <p>
+            Please confirm your personal details below and ensure that your name is as it appears on the passport, any issues please <a href={emailToUrl}>click here</a> to contact us.
+        </p>
+        <hr>
+        <div class="slds-form personal-details">
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label" for="form-element-01">Monash Student ID</label>
+                    <div class="slds-form-element__control form-content">
+                        <span id="form-element-01">{offer.Person_ID_unique__c.value}</span>
+                    </div>
+                </div>
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label" for="form-element-02">Gender</label>
+                    <div class="slds-form-element__control form-content">
+                        <span id="form-element-02">{gender}</span>
+                    </div>
+                </div>
+                <template if:false={isMononymousName}>
+                    <div class="slds-form-element slds-form-element_horizontal ">
+                        <label class="slds-form-element__label desktop-label" for="form-element-03">Legal Given name (s) <br/> (as in your passport)</label> 
+                        <label class="slds-form-element__label mobile-label" for="form-element-03">Legal Given name (s) (as in your passport)</label> 
+                        <div class="slds-form-element__control form-content long-label">
+                            <span id="form-element-03">{offer.SBQQ__PrimaryContact__r.value.fields.First_Name__c.value}</span>
+                        </div>
+                    </div>
+                </template>
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <template if:false={isMononymousName}>
+                        <label class="slds-form-element__label desktop-label" for="form-element-04">Legal Family name <br/> (as in your passport)</label> 
+                        <label class="slds-form-element__label mobile-label" for="form-element-04">Legal Family name (as in your passport)</label> 
+                    </template>
+                    <template if:true={isMononymousName}>
+                        <label class="slds-form-element__label desktop-label" for="form-element-04">Legal name (Mononymous)<br/> (as in your passport)</label> 
+                        <label class="slds-form-element__label mobile-label" for="form-element-04">Legal name (Mononymous) (as in your passport)</label> 
+                    </template>
+                    <div class="slds-form-element__control form-content long-label">
+                        <span id="form-element-04">{offer.SBQQ__PrimaryContact__r.value.fields.Last_Name__c.value}</span>
+                    </div>
+                </div>
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label" for="form-element-05">Date of Birth</label>
+                    <div class="slds-form-element__control form-content">
+                        <span id="form-element-05">{offer.Birthdate__c.value}</span>
+                    </div>
+                </div>
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label" for="form-element-06">Postal Address</label>
+                    <div class="slds-form-element__control form-content">
+                        <span id="form-element-06">
+                            <p>{offer.SBQQ__PrimaryContact__r.value.fields.MailingStreet.value}</p>
+                            <p>{offer.SBQQ__PrimaryContact__r.value.fields.MailingCity.value}</p>
+                            <p>{offer.SBQQ__PrimaryContact__r.value.fields.MailingState.value} {offer.SBQQ__PrimaryContact__r.value.fields.MailingPostalCode.value}</p>
+                            <p>{offer.SBQQ__PrimaryContact__r.value.fields.MailingCountry.value}</p>
+                        </span> 
+                    </div>
+                </div>
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label desktop-label" for="form-element-07">Telephone <br/> (with country code)</label> 
+                    <label class="slds-form-element__label mobile-label" for="form-element-07">Telephone (with country code)</label> 
+                    <div class="slds-form-element__control form-content long-label">
+                        <span id="form-element-07">{phoneNumber}</span>
+                    </div>
+                </div>
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label" for="form-element-08">Email</label>
+                    <div class="slds-form-element__control form-content">
+                        <span id="form-element-08">
+                            <a href={offer.mailTo}>{offer.Email__c.value}</a>
+                        </span>
+                    </div>
+                </div>
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label" for="form-element-09">Name of Agent</label>
+                    <div class="slds-form-element__control form-content">
+                        <span id="form-element-09">{offer.Agent_Name__c.value}</span>
+                    </div>
+                </div>
+        </div>
+    </template>
+
+</template>

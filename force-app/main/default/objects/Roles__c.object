@@ -1,0 +1,1175 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>true</allowInChatterGroups>
+    <compactLayoutAssignment>Role</compactLayoutAssignment>
+    <compactLayouts>
+        <fullName>Role</fullName>
+        <fields>Role__c</fields>
+        <fields>Account__c</fields>
+        <fields>Contact__c</fields>
+        <fields>Status__c</fields>
+        <fields>Start_Date__c</fields>
+        <fields>End_Date__c</fields>
+        <label>Role</label>
+    </compactLayouts>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Custom version of Contact Roles</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>Private</externalSharingModel>
+    <fields>
+        <fullName>Account__c</fullName>
+        <deleteConstraint>Cascade</deleteConstraint>
+        <description>Captures the related account record</description>
+        <label>Account</label>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Roles</relationshipLabel>
+        <relationshipName>Roles</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Alias__c</fullName>
+        <description>The name of record migrated from source org</description>
+        <externalId>true</externalId>
+        <label>Alias</label>
+        <length>50</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Appointment_Type__c</fullName>
+        <description>Used in Board Management System app</description>
+        <label>Appointment Type</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>Role__c</controllingField>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Monash appointee &amp; staff member</fullName>
+                    <default>false</default>
+                    <label>Monash appointee &amp; staff member</label>
+                </value>
+                <value>
+                    <fullName>Monash appointee &amp; non-staff member</fullName>
+                    <default>false</default>
+                    <label>Monash appointee &amp; non-staff member</label>
+                </value>
+                <value>
+                    <fullName>Not a Monash appointee</fullName>
+                    <default>false</default>
+                    <label>Not a Monash appointee</label>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Director</controllingFieldValue>
+                <valueName>Monash appointee &amp; staff member</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Director</controllingFieldValue>
+                <valueName>Monash appointee &amp; non-staff member</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Director</controllingFieldValue>
+                <valueName>Not a Monash appointee</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Chair__c</fullName>
+        <label>Chair</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>Role__c</controllingField>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Yes</fullName>
+                    <default>false</default>
+                    <label>Yes</label>
+                </value>
+                <value>
+                    <fullName>No</fullName>
+                    <default>false</default>
+                    <label>No</label>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Director</controllingFieldValue>
+                <valueName>Yes</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Director</controllingFieldValue>
+                <valueName>No</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Comments_Notes__c</fullName>
+        <description>Used by Board Management System app</description>
+        <label>Comments/Notes</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Contact__c</fullName>
+        <deleteConstraint>Cascade</deleteConstraint>
+        <description>Captures the related contact</description>
+        <label>Contact</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>Contact.AccountId</field>
+                <operation>equals</operation>
+                <valueField>$Source.Account__c</valueField>
+            </filterItems>
+            <infoMessage>Initial results are limited to contacts at the school only. Remove the filter to search all contacts</infoMessage>
+            <isOptional>true</isOptional>
+        </lookupFilter>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Roles</relationshipLabel>
+        <relationshipName>Roles</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>End_Date__c</fullName>
+        <label>End Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>External_ID__c</fullName>
+        <externalId>false</externalId>
+        <label>External ID</label>
+        <length>18</length>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Fullname__c</fullName>
+        <description>Formula field which concatenates the contact&apos;s first and last names</description>
+        <externalId>false</externalId>
+        <formula>Contact__r.FirstName &amp; &quot; &quot; &amp; Contact__r.LastName</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Fullname</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Is_Corporate_Contact_del__c</fullName>
+        <formula>Contact__r.Is_Corporate_Contact__c</formula>
+        <label>Is Corporate Contact</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Primary_Contact__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Indicates if this is the primary contact</description>
+        <label>Primary Contact</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Primary__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Indicates if this is the primary contact</description>
+        <label>Primary</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Ready_to_Archive__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>For Archive Status</description>
+        <label>Ready to Archive</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Role__c</fullName>
+        <description>Captures the assigned role (staff) within a secondary school</description>
+        <inlineHelpText>Captures the assigned role (staff) within a secondary school</inlineHelpText>
+        <label>Role</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Access Monash - Main Contact</fullName>
+                    <default>false</default>
+                    <label>Access Monash - Main Contact</label>
+                </value>
+                <value>
+                    <fullName>Access Monash Yr 10 Champion Contact</fullName>
+                    <default>false</default>
+                    <label>Access Monash Yr 10 Champion Contact</label>
+                </value>
+                <value>
+                    <fullName>Access Monash - Yr 9 Champion Contact</fullName>
+                    <default>false</default>
+                    <label>Access Monash - Yr 9 Champion Contact</label>
+                </value>
+                <value>
+                    <fullName>Algorithmic Teacher</fullName>
+                    <default>false</default>
+                    <label>Algorithmic Teacher</label>
+                </value>
+                <value>
+                    <fullName>Biology Coordinator</fullName>
+                    <default>false</default>
+                    <label>Biology Coordinator</label>
+                </value>
+                <value>
+                    <fullName>Careers Co-ordinator</fullName>
+                    <default>false</default>
+                    <label>Careers Co-ordinator</label>
+                </value>
+                <value>
+                    <fullName>Chemistry Coordinator</fullName>
+                    <default>false</default>
+                    <label>Chemistry Coordinator</label>
+                </value>
+                <value>
+                    <fullName>Commerce Coordinator</fullName>
+                    <default>false</default>
+                    <label>Commerce Coordinator</label>
+                </value>
+                <value>
+                    <fullName>Deputy Principal</fullName>
+                    <default>false</default>
+                    <label>Deputy Principal</label>
+                </value>
+                <value>
+                    <fullName>English Co-ordinator</fullName>
+                    <default>false</default>
+                    <label>English Co-ordinator</label>
+                </value>
+                <value>
+                    <fullName>Geography Coordinator</fullName>
+                    <default>false</default>
+                    <label>Geography Coordinator</label>
+                </value>
+                <value>
+                    <fullName>Head of careers</fullName>
+                    <default>false</default>
+                    <label>Head of careers</label>
+                </value>
+                <value>
+                    <fullName>History Coordinator</fullName>
+                    <default>false</default>
+                    <label>History Coordinator</label>
+                </value>
+                <value>
+                    <fullName>IB Coordinator</fullName>
+                    <default>false</default>
+                    <label>IB Coordinator</label>
+                </value>
+                <value>
+                    <fullName>Indigenous Coordinator</fullName>
+                    <default>false</default>
+                    <label>Indigenous Coordinator</label>
+                </value>
+                <value>
+                    <fullName>Information Technology Co-ordinator</fullName>
+                    <default>false</default>
+                    <label>Information Technology Co-ordinator</label>
+                </value>
+                <value>
+                    <fullName>International Student Coordinator</fullName>
+                    <default>false</default>
+                    <label>International Student Coordinator</label>
+                </value>
+                <value>
+                    <fullName>International Studies Co-ordinator</fullName>
+                    <default>false</default>
+                    <label>International Studies Co-ordinator</label>
+                </value>
+                <value>
+                    <fullName>Legal Studies Co-ordinator</fullName>
+                    <default>false</default>
+                    <label>Legal Studies Co-ordinator</label>
+                </value>
+                <value>
+                    <fullName>LOTE Co-ordinator</fullName>
+                    <default>false</default>
+                    <label>LOTE Co-ordinator</label>
+                </value>
+                <value>
+                    <fullName>Maths Co-ordinator</fullName>
+                    <default>false</default>
+                    <label>Maths Co-ordinator</label>
+                </value>
+                <value>
+                    <fullName>Media/Communication Coordinator</fullName>
+                    <default>false</default>
+                    <label>Media/Communication Coordinator</label>
+                </value>
+                <value>
+                    <fullName>Monash Scholars Contact</fullName>
+                    <default>false</default>
+                    <label>Monash Scholars Contact</label>
+                </value>
+                <value>
+                    <fullName>Music Coordinator</fullName>
+                    <default>false</default>
+                    <label>Music Coordinator</label>
+                </value>
+                <value>
+                    <fullName>Pathways Coordinator</fullName>
+                    <default>false</default>
+                    <label>Pathways Coordinator</label>
+                </value>
+                <value>
+                    <fullName>Politics Coordinator</fullName>
+                    <default>false</default>
+                    <label>Politics Coordinator</label>
+                </value>
+                <value>
+                    <fullName>Principal</fullName>
+                    <default>false</default>
+                    <label>Principal</label>
+                </value>
+                <value>
+                    <fullName>Psychology Coordinator</fullName>
+                    <default>false</default>
+                    <label>Psychology Coordinator</label>
+                </value>
+                <value>
+                    <fullName>Religious Studies Coordinator</fullName>
+                    <default>false</default>
+                    <label>Religious Studies Coordinator</label>
+                </value>
+                <value>
+                    <fullName>Science Co-ordinator</fullName>
+                    <default>false</default>
+                    <label>Science Co-ordinator</label>
+                </value>
+                <value>
+                    <fullName>SEAL Coordinator</fullName>
+                    <default>false</default>
+                    <label>SEAL Coordinator</label>
+                </value>
+                <value>
+                    <fullName>SOSE Coordinator</fullName>
+                    <default>false</default>
+                    <label>SOSE Coordinator</label>
+                </value>
+                <value>
+                    <fullName>Theatre/Drama Coordinator</fullName>
+                    <default>false</default>
+                    <label>Theatre/Drama Coordinator</label>
+                </value>
+                <value>
+                    <fullName>VCE Art &amp; Design Coordinator</fullName>
+                    <default>false</default>
+                    <label>VCE Art &amp; Design Coordinator</label>
+                </value>
+                <value>
+                    <fullName>VCE Co-ordinator</fullName>
+                    <default>false</default>
+                    <label>VCE Co-ordinator</label>
+                </value>
+                <value>
+                    <fullName>Year 10 Co-ordinator</fullName>
+                    <default>false</default>
+                    <label>Year 10 Co-ordinator</label>
+                </value>
+                <value>
+                    <fullName>Year 11 Co-ordinator</fullName>
+                    <default>false</default>
+                    <label>Year 11 Co-ordinator</label>
+                </value>
+                <value>
+                    <fullName>Year 11 Head of Commerce</fullName>
+                    <default>false</default>
+                    <label>Year 11 Head of Commerce</label>
+                </value>
+                <value>
+                    <fullName>Year 12 Co-ordinator</fullName>
+                    <default>false</default>
+                    <label>Year 12 Co-ordinator</label>
+                </value>
+                <value>
+                    <fullName>Year 12 Head of Commerce</fullName>
+                    <default>false</default>
+                    <label>Year 12 Head of Commerce</label>
+                </value>
+                <value>
+                    <fullName>Director</fullName>
+                    <default>false</default>
+                    <label>Director</label>
+                </value>
+                <value>
+                    <fullName>Company Secretary</fullName>
+                    <default>false</default>
+                    <label>Company Secretary</label>
+                </value>
+                <value>
+                    <fullName>Prospective Student</fullName>
+                    <default>false</default>
+                    <label>Prospective Student</label>
+                </value>
+                <value>
+                    <fullName>Relationship Manager</fullName>
+                    <default>false</default>
+                    <label>Relationship Manager</label>
+                </value>
+                <value>
+                    <fullName>Branch Manager</fullName>
+                    <default>false</default>
+                    <label>Branch Manager</label>
+                </value>
+                <value>
+                    <fullName>Counsellor</fullName>
+                    <default>false</default>
+                    <label>Counsellor</label>
+                </value>
+                <value>
+                    <fullName>Finance</fullName>
+                    <default>false</default>
+                    <label>Finance</label>
+                </value>
+                <value>
+                    <fullName>Key Counsellor</fullName>
+                    <default>false</default>
+                    <label>Key Counsellor</label>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                    <label>Other</label>
+                </value>
+                <value>
+                    <fullName>Principal Agent</fullName>
+                    <default>false</default>
+                    <label>Principal Agent</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Start_Date__c</fullName>
+        <label>Start Date</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <label>Status</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Current</fullName>
+                    <default>false</default>
+                    <label>Current</label>
+                </value>
+                <value>
+                    <fullName>Former</fullName>
+                    <default>false</default>
+                    <label>Former</label>
+                </value>
+                <value>
+                    <fullName>Suspended</fullName>
+                    <default>false</default>
+                    <label>Suspended</label>
+                </value>
+                <value>
+                    <fullName>Invitation Sent</fullName>
+                    <default>false</default>
+                    <label>Invitation Sent</label>
+                </value>
+                <value>
+                    <fullName>Accepted</fullName>
+                    <default>false</default>
+                    <label>Accepted</label>
+                </value>
+                <value>
+                    <fullName>Declined</fullName>
+                    <default>false</default>
+                    <label>Declined</label>
+                </value>
+                <value>
+                    <fullName>Resigned</fullName>
+                    <default>false</default>
+                    <label>Resigned</label>
+                </value>
+                <value>
+                    <fullName>Incoming - Unregistered</fullName>
+                    <default>false</default>
+                    <label>Incoming - Unregistered</label>
+                </value>
+                <value>
+                    <fullName>Outgoing - Registered</fullName>
+                    <default>false</default>
+                    <label>Outgoing - Registered</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Verified__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Field used to capture if the Agency Counselor is valid or not</description>
+        <label>Verified</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>is_Parent__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Indicator whether the Lead/Contact is a parent of a prospective student</description>
+        <label>is Parent?</label>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <label>Role</label>
+    <nameField>
+        <displayFormat>ROL-{00000}</displayFormat>
+        <label>Affiliation Key</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Roles</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>Agency_Contact_Role</fullName>
+        <active>true</active>
+        <label>Agency Contact Role</label>
+        <picklistValues>
+            <picklist>Appointment_Type__c</picklist>
+            <values>
+                <fullName>Monash appointee %26 non-staff member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Monash appointee %26 staff member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Not a Monash appointee</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Chair__c</picklist>
+            <values>
+                <fullName>No</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Role__c</picklist>
+            <values>
+                <fullName>Branch Manager</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Counsellor</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Finance</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Key Counsellor</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Other</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Principal Agent</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Status__c</picklist>
+            <values>
+                <fullName>Accepted</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Current</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Declined</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Former</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Incoming - Unregistered</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Invitation Sent</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Outgoing - Registered</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Resigned</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Suspended</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>COO</fullName>
+        <active>true</active>
+        <description>Available only for Monash Board Management (COO) Users</description>
+        <label>COO</label>
+        <picklistValues>
+            <picklist>Appointment_Type__c</picklist>
+            <values>
+                <fullName>Monash appointee %26 non-staff member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Monash appointee %26 staff member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Not a Monash appointee</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Chair__c</picklist>
+            <values>
+                <fullName>No</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Role__c</picklist>
+            <values>
+                <fullName>Company Secretary</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Director</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Status__c</picklist>
+            <values>
+                <fullName>Accepted</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Current</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Declined</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Former</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Incoming - Unregistered</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Invitation Sent</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Outgoing - Registered</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Resigned</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Suspended</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Default</fullName>
+        <active>true</active>
+        <description>Default Recordtype for Roles__c</description>
+        <label>Default</label>
+        <picklistValues>
+            <picklist>Appointment_Type__c</picklist>
+            <values>
+                <fullName>Monash appointee %26 non-staff member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Monash appointee %26 staff member</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Not a Monash appointee</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Chair__c</picklist>
+            <values>
+                <fullName>No</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Yes</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Role__c</picklist>
+            <values>
+                <fullName>Access Monash - Main Contact</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Access Monash - Yr 9 Champion Contact</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Access Monash Yr 10 Champion Contact</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Algorithmic Teacher</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Biology Coordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Careers Co-ordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Chemistry Coordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Commerce Coordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Company Secretary</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Deputy Principal</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Director</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>English Co-ordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Geography Coordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Head of careers</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>History Coordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>IB Coordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Indigenous Coordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Information Technology Co-ordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>International Student Coordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>International Studies Co-ordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>LOTE Co-ordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Legal Studies Co-ordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Maths Co-ordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Media%2FCommunication Coordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Monash Scholars Contact</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Music Coordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Pathways Coordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Politics Coordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Principal</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Prospective Student</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Psychology Coordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Religious Studies Coordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SEAL Coordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>SOSE Coordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Science Co-ordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Theatre%2FDrama Coordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>VCE Art %26 Design Coordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>VCE Co-ordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Year 10 Co-ordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Year 11 Co-ordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Year 11 Head of Commerce</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Year 12 Co-ordinator</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Year 12 Head of Commerce</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+        <picklistValues>
+            <picklist>Status__c</picklist>
+            <values>
+                <fullName>Accepted</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Current</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Declined</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Former</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Incoming - Unregistered</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Invitation Sent</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Outgoing - Registered</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Resigned</fullName>
+                <default>false</default>
+            </values>
+            <values>
+                <fullName>Suspended</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <searchLayouts>
+        <excludedStandardButtons>ChangeOwner</excludedStandardButtons>
+        <lookupDialogsAdditionalFields>Account__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Contact__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Primary__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Start_Date__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>End_Date__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Status__c</lookupDialogsAdditionalFields>
+        <lookupDialogsAdditionalFields>Role__c</lookupDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Role__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Primary__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Account__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Contact__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Status__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>Start_Date__c</lookupPhoneDialogsAdditionalFields>
+        <lookupPhoneDialogsAdditionalFields>End_Date__c</lookupPhoneDialogsAdditionalFields>
+        <searchFilterFields>Account__c</searchFilterFields>
+        <searchFilterFields>Contact__c</searchFilterFields>
+        <searchFilterFields>Role__c</searchFilterFields>
+        <searchFilterFields>Status__c</searchFilterFields>
+        <searchFilterFields>RECORDTYPE</searchFilterFields>
+    </searchLayouts>
+    <sharingModel>Private</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

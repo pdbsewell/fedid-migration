@@ -1,0 +1,110 @@
+<!--
+  @File Name          : offerTermsAndConditions.html
+  @Description        : 
+  @Author             : Jasmin Joy Rudio
+  @Group              : 
+  @Last Modified By   : jasmin.rudio@monash.edu
+  @Last Modified On   : 2/27/2020, 8:32:48 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    10/29/2019   Jasmin Joy Rudio     Initial Version
+-->
+<template>
+    <div if:true={hasRendered} class="terms-and-conditions">
+        <lightning-formatted-rich-text value={parent.description}></lightning-formatted-rich-text>
+        
+        <div for:each={elements} for:item="elem" key={elem.Id}>
+            <lightning-formatted-rich-text value={elem.description}></lightning-formatted-rich-text>
+        </div>
+
+        <template if:true={spinner}>
+            <div class="overlay" style={backgroundImg}>
+                <div class="overlay-content">
+
+                    <div class="loading-div">
+                        <div class="slds-size--1-of-1">
+                            <h1 class="sub-title">WE ARE GENERATING YOUR CONTRACT</h1>
+                        </div>
+                        <h2 class="sub-title" style="color: #df0021;">Please do not refresh this page</h2>
+                        <br/>
+                        <span style="color:red;">{docuMessage}</span>
+                        <div class="progress-bar">
+                            <div class="slds-progress-bar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="25" role="progressbar">
+                                <span class="slds-progress-bar__value" style={progress}>
+                                    <span class="slds-assistive-text">Progress: 25%</span>
+                                </span>
+                            </div>
+                        </div>
+                        <p>This can take a few minutes</p>
+                        <br/><br/>
+                        <p>The next steps on your Monash journey:</p>
+                        <div>
+                            <img src={journeyIcon} class="journey-img"></img>
+                            
+                            <div class="slds-form-element_compound">
+                                <div class="slds-form-element__row">
+                                    <div class="slds-size_1-of-3">
+                                        <p>Sign contract with a digital signature</p>
+                                    </div>
+                                    <div class="slds-size_1-of-3">
+                                        <p>Supply documents</p>
+                                    </div>
+                                    <div class="slds-size_1-of-3">
+                                        <p>Receive email with enrolment instructions</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+              </div>
+            
+        </template>
+
+        <template if:true={showModal}>              
+        <!-- modal start -->        
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- modal header start -->
+                    <header class="slds-modal__header">
+                        <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={closeModal}>
+                            x
+                        </button>
+                        <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                                <!--<img src={iconUrl}>-->
+                                Confirm to proceed?
+                        </h2>
+                    </header>
+                    <!-- modal body start -->
+                    <div class="slds-modal__content slds-p-horizontal_xx-large slds-p-top_medium" id="modal-content-id-1">
+                        <p>
+                            {modalContent}                        
+                        </p>
+                        <div>
+                            <br/>
+                            <p>I acknowledge and declare that:</p>
+                            <ol style="padding: 20px;">
+                                <li>I have read and understood this Agreement, which is made up of both Part A and Part B;</li>
+                                <li>my enrolment at Monash will be governed by this Agreement;</li>
+                                <li>by completing and signing this Agreement before the offer expiry date and providing the required deposit and documentation, I agree to undertake the course/s accepted in accordance with this Agreement;</li>
+                                <li>In accordance with clause 4.2 of the below terms and conditions, I understand that I am required to bring with me to Australia and present to Monash the original, certified or notarised copy of all documents I provided online as part of my course application, including any academic documents.  I acknowledge that photocopies or uncertified copies of these documents will not be accepted by Monash; and</li>
+                                <li>I confirm that <span style="color: #006DAE;">{offerRecord.Email__c.value}</span> is my personal email address and I am the only person with access to this account.</li>
+                            </ol>
+                        </div>
+                    </div>
+                    <!-- modal footer start-->
+                    <footer class="slds-modal__footer">
+                        <a style="margin-left: 70px; margin-right: 70px;" onclick={closeModal}>Go back</a>
+                        <button class="slds-button agree-button" onclick={handleAgree}>Agree and Sign</button>
+                    </footer>
+                    <br/><br/><br/>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+            <!-- modal end -->
+            
+        </template>
+        
+    </div>
+</template>

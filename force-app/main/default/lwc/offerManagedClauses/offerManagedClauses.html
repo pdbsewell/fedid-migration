@@ -1,0 +1,26 @@
+<!--
+  @File Name          : offerManagedClauses.html
+  @Description        : 
+  @Author             : Jasmin Joy Rudio
+  @Group              : 
+  @Last Modified By   : jasmin.rudio@monash.edu
+  @Last Modified On   : 2/12/2020, 10:46:26 AM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    12/12/2019   Jasmin Joy Rudio     Initial Version
+-->
+<template>
+    <template if:false={clauses}>
+        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </template>
+    <template if:true={hasClauses}>
+        <b>{label}</b>
+        <ul>
+            <div for:each={clauses} for:item="clause" key={clause.Id}>
+                <li>
+                    <lightning-formatted-rich-text value={clause.APXT_Redlining__Clause_Revision__r.APXT_Redlining__Clause__r.APXT_Redlining__Text__c}></lightning-formatted-rich-text>
+                </li>
+            </div>
+        </ul>
+    </template>
+</template>

@@ -1,0 +1,153 @@
+<template>
+    <div class="backgroundImage slds-is-relative slds-p-top_x-large slds-p-bottom_x-large" style={backgroundStyle}>
+        <div class="content-wrapper">
+            <!-- Page details -->
+            <lightning-layout multiple-rows>
+                <!-- Page Header -->
+                <template if:true={pageTitle}>
+                    <lightning-layout-item flexibility="auto" padding="around-small" size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                        <!-- header content / added the shadow manually for internal view component inside a tab issue -->
+                        <article class="acpContainer" style="box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10);">
+                            <div class="slds-card__header slds-grid">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                    <div class="slds-media__body">
+                                        <h2 class="slds-card__header-title">
+                                            <lightning-layout vertical-align="center">
+                                                <lightning-layout-item>
+                                                    <span class="slds-text-heading_medium" style="font-weight: bold;">{pageTitle}</span>
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </h2>
+                                    </div>
+                                </header>
+                            </div>
+                            <div class="slds-card__body slds-card__body_inner slds-p-horizontal_small slds-text-body_small">
+                                <div>
+                                    <lightning-formatted-rich-text value={pageSubTitle}></lightning-formatted-rich-text>    
+                                </div>                                                 
+                            </div>
+                            <template if:true={offer}>
+                                <div class="slds-p-around_small slds-size_12-of-12 slds-border_top slds-float_left" style="text-align: left; background-color: white;">
+                                    <div class="slds-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-float_left">
+                                        <article class="slds-tile slds-media">
+                                            <div class="slds-media__figure">
+                                                <span class="slds-avatar slds-avatar_medium">
+                                                    <img src={courseImageUrl} class="banner-img"/>
+                                                </span>
+                                            </div>
+                                            <div class="slds-media__body">
+                                                <h3 class="slds-tile__title slds-truncate">
+                                                    {offerName}
+                                                </h3>
+                                                <div class="slds-tile__detail">
+                                                    <dl class="slds-list_horizontal slds-wrap">
+                                                        <template if:true={offerType}>
+                                                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Outcome">Outcome:</dt>
+                                                            <dd class="slds-item_detail slds-truncate">{offerType}</dd>
+                                                        </template>                                                        
+                                                        <template if:true={offerStartDate}>
+                                                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Start">Start:</dt>
+                                                            <dd class="slds-item_detail slds-truncate" title="Description for second label">{offerStartDate}</dd>
+                                                        </template>                                                                          
+                                                        <template if:true={offerLocation}>
+                                                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Location">Location:</dt>
+                                                            <dd class="slds-item_detail slds-truncate">{offerLocation}</dd>
+                                                        </template>                                      
+                                                        <template if:true={offerFeeType}>          
+                                                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Fee type">Fee type:</dt>
+                                                            <dd class="slds-item_detail slds-truncate" title="Description for second label">{offerFeeType}</dd>
+                                                        </template>
+                                                    </dl>
+                                                </div>
+                                            </div>                  
+                                        </article>
+                                    </div> 
+                                    <div class="slds-size_12-of-12 slds-small-size_12-of-12 slds-medium-size_6-of-12 slds-large-size_6-of-12 slds-float_left" if:true={grantName}>
+                                        <article class="slds-tile slds-media">
+                                            <div class="slds-media__figure">
+                                                <span class="slds-avatar slds-avatar_medium" style="height: 100%;">
+                                                    <img alt="" src={grantImageUrl} class="banner-img" />
+                                                </span>
+                                            </div>
+                                            <div class="slds-media__body">
+                                                <h3 class="slds-tile__title slds-truncate">
+                                                    {grantName}   
+                                                </h3>
+                                                <div class="slds-tile__detail">
+                                                    <dl class="slds-list_horizontal slds-wrap">              
+                                                        <template if:true={grantProductName}>
+                                                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Type">Type:</dt>
+                                                            <dd class="slds-item_detail slds-truncate">{grantProductName}</dd>
+                                                        </template>              
+                                                        <!--<template if:true={grantValue}>
+                                                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Start">Amount:</dt>
+                                                            <dd class="slds-item_detail slds-truncate" title="Description for second label">${grantValue} AUD</dd>
+                                                        </template>-->
+                                                        <!--<template if:true={grantExpiry}>
+                                                            <dt class="slds-item_label slds-text-color_weak slds-truncate" title="Fee type">Expiry date:</dt>
+                                                            <dd class="slds-item_detail slds-truncate" title="Description for second label">{grantExpiry}, GMT +11 hours</dd>
+                                                        </template>-->
+                                                    </dl>
+                                                </div>
+                                            </div>        
+                                        </article>
+                                    </div>
+                                </div>
+                            </template>
+                        </article>
+                    </lightning-layout-item>
+                </template>
+                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="12" class="slds-p-top_xx-small">
+                    <!-- body content -->
+                    <div class="slds-is-relative">
+                        <template if:true={checklistItems}>
+                            <template if:true={offer}>
+                                <lightning-layout multiple-rows class="slds-p-bottom_x-small">
+                                    <template for:each={checklistItems} for:item='checklistItem'>
+                                        <template if:true={checklistItem.Id}>
+                                            <lightning-layout-item key={checklistItem.Id} flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="12" class="slds-p-horizontal_small slds-p-vertical_xx-small">
+                                                
+                                                <!-- Show ui for checklist item card -->
+                                                <c-document-checklist-offer-acceptance-community-item checklist-item-id={checklistItem.Id} 
+                                                                    opportunity-id={opportunityId}
+                                                                    is-other-checklist="false" 
+                                                                    applicant-id={offer.PrimaryContact__c}
+                                                                    applicant-user-record={applicantCommunityUser.data}
+                                                                    onfilepreview={onFilePreview}>
+                                                </c-document-checklist-offer-acceptance-community-item>
+
+                                            </lightning-layout-item>
+                                        </template>
+                                    </template>
+                                    <!-- Other Section -->
+                                    <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="12" class="slds-p-horizontal_small slds-p-vertical_xx-small">
+                                            
+                                        <!-- Show ui for checklist item card -->
+                                        <c-document-checklist-offer-acceptance-community-item is-other-checklist="true"  
+                                                            opportunity-id={opportunityId}
+                                                            applicant-id={offer.PrimaryContact__c}
+                                                            onfilepreview={onFilePreview}>
+                                        </c-document-checklist-offer-acceptance-community-item>
+
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </template>
+                            <template if:false={offer}>
+                                <div class="slds-is-relative slds-p-horizontal_small">
+                                    <!-- Loading spinner while retrieving applicant -->
+                                    <c-document-checklist-assessment-community-loader loader-count="10"></c-document-checklist-assessment-community-loader>
+                                </div>
+                            </template>
+                        </template>
+                        <template if:false={checklistItems}>                            
+                            <div class="slds-is-relative slds-p-horizontal_small">
+                                <!-- Loading spinner while retrieving applicant -->
+                                <c-document-checklist-assessment-community-loader loader-count="10"></c-document-checklist-assessment-community-loader>
+                            </div>
+                        </template>                                
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </div>
+</template>

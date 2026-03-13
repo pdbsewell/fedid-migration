@@ -1,0 +1,19 @@
+<template>
+    <lightning-input data-testid="inputSearch" 
+                      name="enter-search" 
+                      label={inputLabel} 
+                      type="search" 
+                      required={required} 
+                      value={searchText} 
+                      placeholder={placeHolder} 
+                      onchange={doSearch} 
+                      class="searchboxinput"
+                      variant={inputVariant}></lightning-input>
+    <lightning-select data-testid="selectResults" 
+                  label="" 
+                  options={listResults}  
+                  onchange={onSelectedResult} 
+                  value={selectedResult}
+                  disabled={disable}>
+    </lightning-select>
+</template>

@@ -1,0 +1,456 @@
+<!--
+ - Created by rcad0001 on 29/09/2020.
+ -->
+
+<!-- Contact Merge Wizard -->
+<template>
+    <lightning-layout multiple-rows="true">
+        <!-- SEARCH PARAMETERS -->
+        <lightning-layout-item padding="around-small" size="3">
+            <lightning-card onkeyup={handleKeyPress}>
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item padding="around-small" size="12">
+                        <div class="slds-grid">
+                            <div class="slds-col">
+                                <h1>SEARCH PARAMETERS
+                                    <lightning-helptext class="slds-m-left_xx-small"
+                                        content="Search by (FirstName and LastName) OR (Email) OR (Person Id) OR (Contact Record Id)">
+                                    </lightning-helptext>
+                                </h1>
+                            </div>
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12">
+                        <lightning-input name="fname" type="text" label="First Name" value={fname} onchange={setValue} max-length="255"
+                        field-level-help="Search Firstname by exact value or Provide * to match to any characters. [e.g. John = John, John* = (John Paul / John Mark)]"></lightning-input>
+                        
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12">
+                        <lightning-input name="lname" type="text" label="Last Name" value={lname} onchange={setValue} max-length="255"
+                        field-level-help="Search Lastname by exact value or Provide * to match to any characters. [e.g. Doe = Doe, Doe* = (Doehue / Doe Lavish)]"></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12">
+                        <lightning-input class="input" name="email" type="email" label="Email" value={email} onchange={setValue} max-length="255"
+                            field-level-help="Search Email by exact match"></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="12">
+                        <lightning-input name="personid" type="text" label="Person ID" value={personid} onchange={setValue} max-length="100"
+                            field-level-help="Search Person Id by exact match"></lightning-input>
+                    </lightning-layout-item>
+
+                    <lightning-layout-item padding="around-small" size="12">
+                        <lightning-input name="conid" type="text" label="Contact ID" value={conid} onchange={setValue} min-length="15" max-length="18"
+                             field-level-help="Search Contact Id by exact match"></lightning-input>
+                    </lightning-layout-item>
+
+                    <!-- SEARCH BUTTONS -->
+                    <lightning-layout-item padding="around-small" size="6">
+                        <lightning-button variant="brand" label="Search" onclick={searchOnClick} icon-name="utility:search" title="Search for Duplicates"></lightning-button>
+                    </lightning-layout-item>
+                    <lightning-layout-item padding="around-small" size="6">
+                        <lightning-button variant="brand-outline" label="Reset" onclick={resetAll} icon-name="utility:undo" title="Reset Input Parameters"></lightning-button>
+                    </lightning-layout-item>
+                    <!-- END OF SEARCH BUTTONS -->
+                </lightning-layout>
+            </lightning-card>
+        </lightning-layout-item>
+        <!-- END OF SEARCH PARAMETERS -->
+
+        <!-- SEARCH RESULTS -->
+        <template if:true={hasData}>
+            <lightning-layout-item size="9">
+                <lightning-layout multiple-rows="true">
+                    <lightning-layout-item size="12" padding="around-small">
+                        <lightning-card>
+                            <lightning-layout slot="actions">
+                                <!-- CARD BUTTONS -->
+                                <lightning-layout-item padding="around-small">
+                                    <lightning-button label="Select/Unselect All" variant="neutral" 
+                                        onclick={toggleAllSelected} icon-name="utility:unlinked" title="Select / Deselect All duplicate records"></lightning-button>
+                                </lightning-layout-item>
+                                <lightning-layout-item padding="around-small">
+                                    <lightning-button label="Merge" variant="neutral" onclick={mergeOnClick} icon-name="utility:process" title="Begin Processing"></lightning-button>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-card>
+                    </lightning-layout-item>
+                    <template for:each={data} for:item="row">
+                        <lightning-layout-item key={row.contactRecord.Id} padding="around-small" size="4">
+                            <!-- RESULT CARD -->
+                            <lightning-card>
+                                <div slot="title">
+                                    <h1>
+                                        {row.contactRecord.Name}
+                                    </h1>
+                                    <lightning-layout>
+                                        <!-- CARD BUTTONS -->
+                                        <lightning-layout-item padding="around-small">
+                                            <lightning-button data-recid={row.contactRecord.Id} label="Included" variant={row.includeClass} onclick={toggleInclusion} title="Include record for merging"></lightning-button>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item padding="around-small">
+                                            <lightning-button data-recid={row.contactRecord.Id} label="Surviving" variant={row.primaryClass} onclick={togglePrimary} title="Set as Surviving Record"></lightning-button>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </div>
+                                
+                                <!-- CARD BODY DIV -->
+                                <div style="min-height: 675px;">
+                                    <!-- MATCH CONFIDENCE DIV -->
+                                    <div class="slds-align_absolute-center slds-p-horizontal_small" style="height: 75px;">
+                                        <table class="searchtable">
+                                            <tr><th style="background-color: #adaaaa;">
+                                                <b>MATCH CONFIDENCE</b>
+                                                <lightning-helptext class="slds-m-left_xx-small"
+                                                    content={row.matchDescription}>
+                                                </lightning-helptext>
+                                            </th></tr>
+                                            <tr>
+                                                <td>
+                                                    {row.matchConfidence}%
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <!-- END OF MATCH CONFIDENCE CARD -->
+                                    
+                                    <!-- Account RecordType DIV -->
+                                    <div class="slds-align_absolute-center slds-p-horizontal_small" style="height: 75px;">
+                                        <table class="searchtable">
+                                            <tr><th style="background-color: #adaaaa;">
+                                                <b>Account Record Type</b>
+                                            </th></tr>
+                                            <tr>
+                                                <td>
+                                                    {row.contactRecord.Account.RecordType.Name}
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <!-- END Account RecordType DIV -->
+
+                                    <!-- CONTACT DIV -->
+                                    <div class="slds-align_absolute-center slds-p-horizontal_small" style="height: 250px;">
+                                        <table class="slds-table slds-table_fixed-layout">
+                                            <tr><th style="background-color: #adaaaa;">
+                                                <b><a target="_blank" href={row.contactLink}>CONTACT</a></b>
+                                                <lightning-helptext class="slds-m-left_xx-small"
+                                                    content="Displays Field Difference by color, [Green=Same,Red=Different,Black=Not Compared]">
+                                                </lightning-helptext>
+                                            </th></tr>
+                                            <template if:true={row.contactRecord.Email}>
+                                                <tr>
+                                                    <td class={row.dupFieldInfo.emailDifference}>
+                                                        <lightning-tile>
+                                                            <dl class="slds-dl_horizontal">
+                                                                <dt class="slds-dl_horizontal__label">
+                                                                    <p class="slds-truncate">Email:</p>
+                                                                </dt>
+                                                                <dd class="slds-dl_horizontal__detail slds-tile__meta ">
+                                                                    <p class="slds-truncate">{row.contactRecord.Email}</p>
+                                                                </dd>
+                                                            </dl>
+                                                        </lightning-tile>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                            <template if:true={row.contactRecord.Person_ID__c}>
+                                                <tr>
+                                                    <td>
+                                                        <lightning-tile>
+                                                            <dl class="slds-dl_horizontal">
+                                                                <dt class="slds-dl_horizontal__label">
+                                                                    <p class="slds-truncate">Person ID:</p>
+                                                                </dt>
+                                                                <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                                                    <p class="slds-truncate">{row.contactRecord.Person_ID__c}</p>
+                                                                </dd>
+                                                            </dl>
+                                                        </lightning-tile>
+                                                    </td>
+                                                </tr>
+                                            </template>
+											<template if:true={row.contactRecord.CRM_Id__c}>
+                                                <tr>
+                                                    <td >
+                                                        <lightning-tile>
+                                                            <dl class="slds-dl_horizontal">
+                                                                <dt class="slds-dl_horizontal__label">
+                                                                    <p class="slds-truncate">CRMID:</p>
+                                                                </dt>
+                                                                <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                                                    <p class="slds-truncate">{row.contactRecord.CRM_Id__c}</p>
+                                                                </dd>
+                                                            </dl>
+                                                        </lightning-tile>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                            <template if:true={row.birthDateString}>
+                                                <tr>
+                                                    <td class={row.dupFieldInfo.birthdateDifference}>
+                                                        <lightning-tile>
+                                                            <dl class="slds-dl_horizontal">
+                                                                <dt class="slds-dl_horizontal__label">
+                                                                    <p class="slds-truncate">Birthdate:</p>
+                                                                </dt>
+                                                                <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                                                    <p class="slds-truncate">{row.birthDateString}</p>
+                                                                </dd>
+                                                            </dl>
+                                                        </lightning-tile>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                            <template if:true={row.contactRecord.MobilePhone}>
+                                                <tr>
+                                                    <td class={row.dupFieldInfo.mobilePhoneDifference}>
+                                                        <lightning-tile>
+                                                            <dl class="slds-dl_horizontal">
+                                                                <dt class="slds-dl_horizontal__label">
+                                                                    <p class="slds-truncate">MobilePhone:</p>
+                                                                </dt>
+                                                                <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                                                    <p class="slds-truncate">{row.contactRecord.MobilePhone}</p>
+                                                                </dd>
+                                                            </dl>
+                                                        </lightning-tile>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                            <template if:true={row.lastModifiedDateString}>
+                                                <tr>
+                                                    <td>
+                                                        <lightning-tile>
+                                                            <dl class="slds-dl_horizontal">
+                                                                <dt class="slds-dl_horizontal__label">
+                                                                    <p class="slds-truncate">Last Modified Date:</p>
+                                                                </dt>
+                                                                <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                                                    <p class="slds-truncate">{row.lastModifiedDateString}</p>
+                                                                </dd>
+                                                            </dl>
+                                                        </lightning-tile>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                            <template if:true={row.contactRecord.Contact_Profile__c}>
+                                                <tr>
+                                                    <td >
+                                                        <lightning-tile>
+                                                            <dl class="slds-dl_horizontal">
+                                                                <dt class="slds-dl_horizontal__label">
+                                                                    <p class="slds-truncate">Contact Profile:</p>
+                                                                </dt>
+                                                                <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                                                    <p class="slds-truncate">{row.contactRecord.Contact_Profile__c}</p>
+                                                                </dd>
+                                                            </dl>
+                                                        </lightning-tile>
+                                                    </td>
+                                                </tr>
+                                            </template>
+
+                                            <tr>
+                                                <td >
+                                                    <lightning-tile>
+                                                        <dl class="slds-dl_horizontal">
+                                                            <dt class="slds-dl_horizontal__label">
+                                                                <p class="slds-truncate">Excluded From Merge:</p>
+                                                            </dt>
+                                                            <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                                                <p class="slds-truncate">{row.excludedFromMerge}</p>
+                                                            </dd>
+                                                        </dl>
+                                                    </lightning-tile>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <!-- END OF CONTACT DIV -->
+
+                                    <!-- USER DIV -->
+                                    <template if:true={row.userRecord}>
+                                        <div class="slds-align_absolute-center slds-p-horizontal_small" style="height: 200px;">
+                                            <table class="slds-table slds-table_fixed-layout">
+                                                <tr><th style="background-color: #adaaaa;"><b><a target="_blank" href={row.userLink}>USER</a></b></th></tr>
+                                                <template if:true={row.userRecord.Username}>
+                                                    <tr>
+                                                        <td>
+                                                            <lightning-tile>
+                                                                <dl class="slds-dl_horizontal">
+                                                                    <dt class="slds-dl_horizontal__label">
+                                                                        <p class="slds-truncate">Username:</p>
+                                                                    </dt>
+                                                                    <dd class="slds-dl_horizontal__detail slds-tile__meta slds-wrap">
+                                                                        <p class="slds-truncate">{row.userRecord.Username}</p>
+                                                                    </dd>
+                                                                </dl>
+                                                            </lightning-tile>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                                <template if:true={row.userRecord.Email}>
+                                                    <tr>
+                                                        <td>
+                                                            <lightning-tile>
+                                                                <dl class="slds-dl_horizontal">
+                                                                    <dt class="slds-dl_horizontal__label">
+                                                                        <p class="slds-truncate">Email:</p>
+                                                                    </dt>
+                                                                    <dd class="slds-dl_horizontal__detail slds-tile__meta slds-wrap">
+                                                                        <p class="slds-truncate">{row.userRecord.Email}</p>
+                                                                    </dd>
+                                                                </dl>
+                                                            </lightning-tile>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                                <template if:true={row.userRecord.FederationIdentifier}>
+                                                    <tr>
+                                                        <td>
+                                                            <lightning-tile>
+                                                                <dl class="slds-dl_horizontal">
+                                                                    <dt class="slds-dl_horizontal__label">
+                                                                        <p class="slds-truncate">Authcate:</p>
+                                                                    </dt>
+                                                                    <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                                                        <p class="slds-truncate">{row.userRecord.FederationIdentifier}</p>
+                                                                    </dd>
+                                                                </dl>
+                                                            </lightning-tile>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                                <template if:true={row.lastLoginDateString}>
+                                                    <tr>
+                                                        <td>
+                                                            <lightning-tile>
+                                                                <dl class="slds-dl_horizontal">
+                                                                    <dt class="slds-dl_horizontal__label">
+                                                                        <p class="slds-truncate">Last Login Date:</p>
+                                                                    </dt>
+                                                                    <dd class="slds-dl_horizontal__detail slds-tile__meta">
+                                                                        <p class="slds-truncate">{row.lastLoginDateString}</p>
+                                                                    </dd>
+                                                                </dl>
+                                                            </lightning-tile>
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </table>
+                                        </div>
+                                    </template>
+                                    <!-- END OF USER DIV -->
+
+                                    <!-- COMMUNITY ACCESS -->
+                                    <template if:true:={row.hasCommunityAccess}>
+                                        <div class="slds-align_absolute-center slds-p-horizontal_small" style="height: 150px;">
+                                            <table>
+                                                <tr><th style="background-color: #adaaaa;"><b>COMMUNITY ACCESS</b></th></tr>
+                                                <template for:each={row.communityAccesses} for:item="access">
+                                                    <tr key={access}>
+                                                        <td>
+                                                            {access}
+                                                        </td>
+                                                    </tr>
+                                                </template>
+                                            </table>
+                                        </div>
+                                    </template>
+                                    <!-- END OF COMMUNICTY ACCESS -->
+                                </div>
+                                <!-- END OF CARD BODY DIV -->
+                            </lightning-card>
+                            <!-- END OF RESULT CARD -->
+                        </lightning-layout-item>
+                        <!-- END OF RESULT ITEM -->
+                    </template>
+                    <!-- END OF REPEAT -->
+                </lightning-layout>
+                <!-- END OF RESULT LAYOUT -->
+            </lightning-layout-item>
+            <lightning-layout-item size="3"></lightning-layout-item>
+            <lightning-layout-item size="9" padding="around-small">
+                <lightning-card>
+                    <lightning-layout slot="actions">
+                        <!-- CARD BUTTONS -->
+                        <lightning-layout-item padding="around-small">
+                            <lightning-button label="Select/Unselect All" variant="neutral" 
+                                onclick={toggleAllSelected} icon-name="utility:unlinked" title="Select / Deselect All duplicate records"></lightning-button>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small">
+                            <lightning-button label="Merge" variant="neutral" onclick={mergeOnClick} icon-name="utility:process" title="Begin Processing"></lightning-button>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-card>
+            </lightning-layout-item>
+        </template>
+
+        <!-- SPINNER -->
+        <template if:true={showSpinner}>
+            <div>
+                <lightning-spinner alternative-text="Retrieving Data..." variant="inverse" size="large"></lightning-spinner>
+            </div>
+        </template>
+
+        <!--Use template if:true to display/hide popup based on isModalOpen value-->
+        <template if:true={openModal}>
+            <!-- Modal/Popup Box LWC starts here -->
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- Modal/Popup Box LWC header here -->
+                    <header class="slds-modal__header">
+                        <!-- Available on Summary  -->
+                        <template if:true={isLastStep}>
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                                <lightning-icon icon-name="utility:close"
+                                    alternative-text="close"
+                                    variant="inverse"
+                                    size="small" ></lightning-icon>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                                Merging Complete</h2>
+                            <div class="slds-p-around_medium" style="text-align:center;">
+                                <p>Total time:</p>
+                                {timeVal}
+                            </div>
+
+                        </template>
+                        <template if:false={isLastStep}>
+                            <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Merging in progress</h2>
+                        </template>
+                    </header>
+                    <!-- Modal/Popup Box LWC body starts here -->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <template if:false={isLastStep}>
+                            <lightning-progress-indicator current-step={currentStep} type="path" variant="base">
+                                <template for:each={progressSteps} for:item="step">
+                                    <lightning-progress-step label={step.label} value={step.value} key={step.label}></lightning-progress-step>
+                                </template>
+                            </lightning-progress-indicator>
+                            <br/>
+                            <p style="text-align: center; font-weight: bold;">{currentStepDesc}</p>
+                            <div class="slds-p-around_xxx-small" style="text-align:center;">
+                                {currentSubStepDesc}
+                            </div>
+                            <div class="slds-p-around_medium" style="text-align:center;">{timeVal}</div>
+                        </template>
+                        <template if:true={isLastStep}>
+                            <template if:true={mergestatusList}>
+                                <lightning-datatable
+                                        hide-checkbox-column
+                                        key-field="id"
+                                        data={mergestatusValues}
+                                        columns={statusCols}>
+                                </lightning-datatable>
+                            </template>
+                        </template>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+        <!-- END OF SEARCH RESULTS -->
+    </lightning-layout>
+</template>

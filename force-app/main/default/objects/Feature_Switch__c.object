@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>Allow features to be enabled or disabled based on a Boolean switch</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Align_ACP_Owner__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>Change the owner of Agent linked ACP records to the branch manager of the agency. This is to support acai created in Callista that Agent Portal users require access to.</description>
+        <inlineHelpText>Change owner of Agent linked ACP records to the branch manager of the agency.</inlineHelpText>
+        <label>Align ACP Owner</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Align_Application_Owner__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Change the owner of Agent linked Application records to the branch manager of the agency. This is used to grant access to acai created in Callista to Agent Portal users.</description>
+        <inlineHelpText>Change the owner of Agent linked Application records to the branch manager of the agency.</inlineHelpText>
+        <label>Align Application Owner</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>AllowOutOfSyncEvents__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Contact events (ibdcontact__e) will skip the API LastModifiedDate check when true</description>
+        <label>Allow out of sync events</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Assessment_Tap_Australia__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Assessment tap where campus location is Australia</description>
+        <label>Assessment Tap - Australia</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Assessment_Tap_Controller__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>Informs the administrator if the tap conditions are being applied. During the development and while we are onboarding courses, teams, etc, this will always be off / on AND off when we are no longer conditionally allowing ACPs to be assessed in UniCRM.</description>
+        <inlineHelpText>Will be used during transition phase to check if the tap has been enabled based on criteria</inlineHelpText>
+        <label>Assessment Tap - Controller</label>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Assessment_Tap_Default__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>Informs the administrators if the tap is switch on / off. During the development and while we are onboarding courses, teams, etc, this will always be off.</description>
+        <inlineHelpText>Will be used before go live and after tap is no longer required to keep the tap always OFF or always ON</inlineHelpText>
+        <label>Assessment Tap - Default</label>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Assessment_Tap_FIT__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Feature switch for faculty of information technology assessment tap</description>
+        <label>Assessment Tap - FIT</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Assessment_Tap_Indonesia__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Assessment tap where campus location is Indonesia</description>
+        <label>Assessment Tap - Indonesia</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Create_Agent_Portal_Affiliations__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Enable the creation of Affiliation records, and the resulting manual sharing, for Agent Portal applications</description>
+        <inlineHelpText>Enable the creation of Affiliation records for Agent Portal applications</inlineHelpText>
+        <label>Create Agent Portal Affiliations</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Digitary_Integration__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>This feature enables digitary integration of the following in My.Application:
+1. UI components  
+2. Notifications</description>
+        <inlineHelpText>This feature enables digitary integration of the following in My.Application:
+1. UI components  
+2. Notifications</inlineHelpText>
+        <label>Digitary Integration</label>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Display_New_Application_Fee__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>Flag to indicate whether the updated Application Fee has to be displayed on my.app</description>
+        <label>Display New Application Fee</label>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Enable_CPA_for_Contact_Merge__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>If set to true, the Contact Merge Tool will include CPAs in merging</description>
+        <inlineHelpText>If set to true, the Contact Merge Tool will include CPAs in merging</inlineHelpText>
+        <label>Enable CPA for Contact Merge</label>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Enable_CRM_Notes__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Hides or shows the CRM Notes related list on the UI - Contact, Application, ACP pages</description>
+        <inlineHelpText>Hides or shows the CRM Notes related list on the UI - Contact, Application, ACP pages</inlineHelpText>
+        <label>Enable CRM Notes</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Enable_Callista_Notes__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Hides or shows the Callista Notes related list on the UI - Contact, ACP pages</description>
+        <inlineHelpText>Hides or shows the Callista Notes related list on the UI - Contact, ACP pages</inlineHelpText>
+        <label>Enable Callista Notes</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Enable_Detailed_Logs_for_APNG__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>This feature enables logging of the following in AgentPortal - NextGen
+a. All API Requests are logged</description>
+        <label>Enable Detailed Logs for APNG</label>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Enable_Enhanced_Admissions_Contact_Merge__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>If set to true, the Admissions Contact Merge will include CPAs in merging</description>
+        <inlineHelpText>If set to true, the Admissions Contact Merge will include CPAs in merging</inlineHelpText>
+        <label>Enable Enhanced Admissions Contact Merge</label>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Enable_GRT_Admission_Scholarship_App__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>Enable graduate research admission and scholarship only application  in my.app</description>
+        <label>Enable GRT Admission &amp; Scholarship App</label>
+        <securityClassification>Public</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>EndDateGraduationChannels__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>Only allow 1 active graduation application channel record by setting the end date to any others
+
+Utilised in IbdChannelServices</description>
+        <inlineHelpText>Only allow 1 active graduation application channel record</inlineHelpText>
+        <label>End Date Graduation Channels</label>
+        <securityClassification>Public</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>EndDateStudentNames__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Contact Events (ibdContact__e) will identify active student name records that do not match the current information and end date them.</description>
+        <label>End Date Student Names</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>English_Verification__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Toggles on/off the new English Verification - Add Qualification component</description>
+        <label>English Verification</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Force_Course_Offering_UID_update__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Use for course offering dataload</description>
+        <label>Force Course Offering UID update</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Format_Mobile__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>true</defaultValue>
+        <description>Parse mobile phone numbers against the PHONE_NUMBER_FORMAT system setting custom metadata. A match will result in a basic reformatting of the number, including the possible addition of a country code.</description>
+        <inlineHelpText>Parse mobile phone numbers against the PHONE_NUMBER_FORMAT system setting custom metadata.</inlineHelpText>
+        <label>Format Mobile</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Generate_UK_for_CPA__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Populate the composite key on contact point affiliations, enforcing a single CP relationship with an Affiliation. &quot;Puesdo-polymorphic&quot;</description>
+        <inlineHelpText>Populate the composite key on contact point affiliations</inlineHelpText>
+        <label>Generate UK for CPA</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Graduate_Research_China__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>GR Feature switch for china country</description>
+        <label>Graduate Research China</label>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Graduate_Research_Integration__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>Toggle for Graduate Research API callouts</description>
+        <label>Graduate Research Integration</label>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Graduate_Research__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>feature toggle for Graduate Research</description>
+        <label>Graduate Research</label>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Okta_login_enabled__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Switch to enable okta login on my.app</description>
+        <label>Okta login enabled</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Process_Emergency_Contacts__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Create Emergency Contacts records from Channel staging records</description>
+        <label>Process Emergency Contacts</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Scholarship_Application_Only_Enabled_GR__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>Feature switch to enable scholarship application only for new student/logged in normally via username and password and not through okta</description>
+        <label>Scholarship Application Only Enabled GR</label>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Turn_off_GR_Duplicate_Application_Check__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>If this is checked then the code will not check the GR Duplicate Applications</description>
+        <label>Turn off GR Duplicate Application Check</label>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <label>Feature Switch</label>
+    <visibility>Public</visibility>
+</CustomObject>

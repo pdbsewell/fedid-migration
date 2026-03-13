@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customPermissions>
+        <enabled>true</enabled>
+        <name>JRG_Record_Upload_Button</name>
+    </customPermissions>
+    <description>Permission set for MC users to create Academic Progress Assessment Campaign</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>MC JRG Campaign</label>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Campaign</object>
+        <viewAllFields>false</viewAllFields>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <recordTypeVisibilities>
+        <recordType>Campaign.Advisory</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>CampaignMember.Assessee</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+</PermissionSet>

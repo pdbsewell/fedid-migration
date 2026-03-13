@@ -1,0 +1,139 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId" 
+                controller="asmAlertsACPCC"
+                access="global" >
+
+    <aura:attribute name="acpId" type="Id" default=""/>
+
+
+    <aura:attribute name="anyAlerts" type="Boolean" default="false"/>
+    <aura:attribute name="isUnder18AtApplication" type="Boolean" default=""/>
+    <aura:attribute name="under18AtCourseStart" type="Boolean" default="false"/>    
+    <aura:attribute name="ageAtCourseStart" type="Decimal" default=""/>
+    <aura:attribute name="hasEncumbrances" type="Boolean" default=""/>
+    <aura:attribute name="applicationFeePaid" type="Boolean" default="true"/>    
+    <aura:attribute name="hasAccessEquity" type="Boolean" default=""/>
+    <aura:attribute name="hasGTEAlertSubmissionLocation" type="Boolean" default=""/>
+    <aura:attribute name="hasGTEAlertQualification" type="Boolean" default=""/>
+    <aura:attribute name="creditIntention" type="Boolean" default=""/>
+    <aura:attribute name="taskQualification" type="Boolean" default=""/>
+    <aura:attribute name="taskVisa" type="Boolean" default=""/>
+    <aura:attribute name="manualAssessmentOverride" type="Boolean" default=""/>
+    <aura:attribute name="readmit" type="Boolean" default=""/>
+    <aura:attribute name="admkey" type="Boolean" default=""/>
+    
+    <!-- loading variable -->
+    <aura:attribute name="showComponentLoader" type="Boolean" default="true"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <lightning:card footer="" title="Alerts" iconName="action:priority">
+        <!-- card body -->
+        <p class="slds-border_top">
+            <!-- show spinner -->
+            <aura:if isTrue="{!v.showComponentLoader}">
+                <div class="slds-is-relative" style="min-height: 75px;">
+                    <lightning:spinner alternativeText="Loading" size="medium" variant="brand" />
+                </div>
+            </aura:if>        
+            <!-- show content / hide spinner -->
+            <aura:if isTrue="{!!v.showComponentLoader}">
+                <aura:if isTrue="{!v.anyAlerts}">
+                    <!-- alerts -->
+                    <lightning:layout multipleRows="true" class="slds-p-horizontal_small slds-p-top_medium">
+                    
+                        <aura:if isTrue="{!v.manualAssessmentOverride}">
+                            <lightning:layoutItem>
+                                <div class="slds-m-bottom_small slds-m-horizontal_xx-small">
+                                    <lightning:badge class="badge_red_notification" label="Assessment Tasks have been skipped"/>
+                                </div>
+                            </lightning:layoutItem>
+                        </aura:if>
+
+                        <aura:if isTrue="{!v.hasEncumbrances}"> 
+                            <lightning:layoutItem>
+                                <div class="slds-m-bottom_small slds-m-horizontal_xx-small">
+                                    <lightning:badge class="badge_red_notification" label="Active Encumbrances"/>
+                                </div>
+                            </lightning:layoutItem>
+                        </aura:if>
+
+                        <aura:if isTrue="{!v.applicationFeePaid != true}">  
+                            <lightning:layoutItem>
+                                <div class="slds-m-bottom_small slds-m-horizontal_xx-small">
+                                    <lightning:badge class="badge_red_notification" label="Application Fee Not Reconciled"/>
+                                </div>
+                            </lightning:layoutItem>
+                        </aura:if>
+                        <aura:if isTrue="{!v.hasGTEAlertSubmissionLocation}">
+                            <lightning:layoutItem>
+                                <div class="slds-m-bottom_small slds-m-horizontal_xx-small">
+                                    <lightning:badge class="badge_red_notification" label="GTE (Submission Location)"/>
+                                </div>
+                            </lightning:layoutItem>
+                        </aura:if>
+                        <aura:if isTrue="{!v.hasGTEAlertQualification}">
+                            <lightning:layoutItem>
+                                <div class="slds-m-bottom_small slds-m-horizontal_xx-small">
+                                    <lightning:badge class="badge_red_notification" label="GTE (Qualification)"/>
+                                </div>
+                            </lightning:layoutItem>
+                        </aura:if>
+                        <aura:if isTrue="{!v.taskVisa}">
+                            <lightning:layoutItem>
+                                <div class="slds-m-bottom_small slds-m-horizontal_xx-small">
+                                    <lightning:badge class="badge_red_notification" label="Visa Check Task Pending/Failed"/>
+                                </div>
+                            </lightning:layoutItem>
+                        </aura:if>  
+
+                        <aura:if isTrue="{!v.under18AtCourseStart}">
+                            <lightning:layoutItem>
+                                <div class="slds-m-bottom_small slds-m-horizontal_xx-small">
+                                    <lightning:badge class="badge_red_notification" label="{!v.ageAtCourseStart + ' years old at time of Course Start'}"/>
+                                </div>
+                            </lightning:layoutItem>
+                        </aura:if>
+
+                        <aura:if isTrue="{!v.readmit}">
+                            <lightning:layoutItem>
+                                <div class="slds-m-bottom_small slds-m-horizontal_xx-small">
+                                    <lightning:badge class="badge_red_notification" label="Re-Admit Process Type"/>
+                                </div>
+                            </lightning:layoutItem>
+                        </aura:if>
+
+                        <aura:if isTrue="{!v.admkey}">
+                            <lightning:layoutItem>
+                                <div class="slds-m-bottom_small slds-m-horizontal_xx-small">
+                                    <lightning:badge class="badge_red_notification" label="ACP not yet created in Callista"/>
+                                </div>
+                            </lightning:layoutItem>
+                        </aura:if>
+
+                        <aura:if isTrue="{!v.taskQualification}">
+                            <lightning:layoutItem>
+                                <div class="slds-m-bottom_small slds-m-horizontal_xx-small">
+                                    <lightning:badge class="badge_red_notification" label="Qualification Task(s) not completed"/>
+                                </div>
+                            </lightning:layoutItem>
+                        </aura:if>
+
+                        <aura:if isTrue="{!v.creditIntention}"> 
+                            <lightning:layoutItem>
+                                <div class="slds-m-bottom_small slds-m-horizontal_xx-small">
+                                    <lightning:badge class="badge_red_notification" label="Credit (Advanced Standing) Application"/>
+                                </div>
+                            </lightning:layoutItem>
+                        </aura:if>
+                    </lightning:layout>       
+                                
+                    <aura:set attribute="else">
+                        <p class="slds-p-horizontal_small slds-p-top_x-small slds-text-color_success">
+                            No Alerts for this Application.
+                        </p>
+                    </aura:set>
+                </aura:if>
+            </aura:if>
+        </p>
+    </lightning:card>
+</aura:component>

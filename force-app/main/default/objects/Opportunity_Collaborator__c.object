@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>true</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Create opportunity relationships multiple accounts</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Lead__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Is this the primary or leading collaborator</description>
+        <inlineHelpText>Is this the primary or leading collaborator</inlineHelpText>
+        <label>Lead</label>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Monash_Faculty_Area__c</fullName>
+        <description>Top level Monash Faculty/Area</description>
+        <externalId>false</externalId>
+        <formula>Organisation__r.Monash_Faculty_Area_Name__c</formula>
+        <inlineHelpText>Top level Monash Faculty/Area</inlineHelpText>
+        <label>Monash Faculty/Area</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Opportunity_Group__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Opportunity Group that this record relates to</description>
+        <inlineHelpText>Opportunity Group that this record relates to</inlineHelpText>
+        <label>Opportunity Group</label>
+        <referenceTo>Opportunity_Cluster__c</referenceTo>
+        <relationshipName>Opportunity_Relationships</relationshipName>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Opportunity__c</fullName>
+        <description>Opportunity Relationship</description>
+        <inlineHelpText>Opportunity Relationship</inlineHelpText>
+        <label>Opportunity</label>
+        <lookupFilter>
+            <active>false</active>
+            <filterItems>
+                <field>Opportunity.RecordType.Name</field>
+                <operation>equals</operation>
+                <value>Enterprise</value>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Opportunity</referenceTo>
+        <relationshipLabel>Opportunity Collaborators</relationshipLabel>
+        <relationshipName>Opportunity_Relationships</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>true</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>Organisation__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Link to Organisation</description>
+        <label>Organisation</label>
+        <lookupFilter>
+            <active>true</active>
+            <booleanFilter>1 OR 2 OR 3</booleanFilter>
+            <errorMessage>Value does not exist or does not match filter criteria</errorMessage>
+            <filterItems>
+                <field>Account.RecordType.DeveloperName</field>
+                <operation>equals</operation>
+                <value>External_Organisation</value>
+            </filterItems>
+            <filterItems>
+                <field>Account.RecordType.DeveloperName</field>
+                <operation>equals</operation>
+                <value>Faculty</value>
+            </filterItems>
+            <filterItems>
+                <field>Account.RecordType.DeveloperName</field>
+                <operation>equals</operation>
+                <value>Monash_Organisation</value>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Account</referenceTo>
+        <relationshipName>Organisation</relationshipName>
+        <required>false</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Percentage_Involvement__c</fullName>
+        <description>Percentage Involvement</description>
+        <inlineHelpText>Percentage Involvement</inlineHelpText>
+        <label>Percentage Involvement</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Percent</type>
+    </fields>
+    <fields>
+        <fullName>Relationship_Type__c</fullName>
+        <description>Relationship type with organisation</description>
+        <inlineHelpText>Relationship type with organisation</inlineHelpText>
+        <label>Relationship Type</label>
+        <required>true</required>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>External Organisation</fullName>
+                    <default>true</default>
+                    <label>External Organisation</label>
+                </value>
+                <value>
+                    <fullName>Internal Organisation</fullName>
+                    <default>false</default>
+                    <label>Internal Organisation</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>UID__c</fullName>
+        <caseSensitive>false</caseSensitive>
+        <description>Opportunity Collaborator Unique Identifier (UID)</description>
+        <externalId>true</externalId>
+        <inlineHelpText>Opportunity Collaborator Unique Identifier (UID)</inlineHelpText>
+        <label>UID</label>
+        <length>128</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>true</unique>
+    </fields>
+    <fields>
+        <fullName>Value_Involvement__c</fullName>
+        <description>Allocation of dollar value</description>
+        <inlineHelpText>Allocation of dollar value</inlineHelpText>
+        <label>Allocated Amount</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>2</scale>
+        <trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Currency</type>
+    </fields>
+    <label>Opportunity Collaborator</label>
+    <nameField>
+        <displayFormat>OC{00000}</displayFormat>
+        <label>Id</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Opportunity Collaborators</pluralLabel>
+    <recordTypeTrackHistory>false</recordTypeTrackHistory>
+    <recordTypes>
+        <fullName>Group</fullName>
+        <active>true</active>
+        <description>Group Relationship</description>
+        <label>Group</label>
+        <picklistValues>
+            <picklist>Relationship_Type__c</picklist>
+            <values>
+                <fullName>External Organisation</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Internal Organisation</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <recordTypes>
+        <fullName>Opportunity</fullName>
+        <active>true</active>
+        <description>Opportunity Relationship</description>
+        <label>Opportunity</label>
+        <picklistValues>
+            <picklist>Relationship_Type__c</picklist>
+            <values>
+                <fullName>External Organisation</fullName>
+                <default>true</default>
+            </values>
+            <values>
+                <fullName>Internal Organisation</fullName>
+                <default>false</default>
+            </values>
+        </picklistValues>
+    </recordTypes>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <startsWith>Vowel</startsWith>
+    <validationRules>
+        <fullName>Collaborator_Value_Allocation_Check</fullName>
+        <active>true</active>
+        <description>Check to see if Value Involvement amount is Valid</description>
+        <errorConditionFormula>IF(
+	AND(NOT($Setup.Bypass_Mute_Request__c.Bypass_All_Validation_Rules__c),
+	OR(IsNew(),ISNULL(PRIORVALUE(Value_Involvement__c)))),
+	Value_Involvement__c &gt; (Opportunity__r.Total_Applied_Amount__c - Opportunity__r.Total_Allocated_Amount__c),
+	Value_Involvement__c &gt; ((Opportunity__r.Total_Applied_Amount__c - Opportunity__r.Total_Allocated_Amount__c)+PRIORVALUE(Value_Involvement__c))
+)</errorConditionFormula>
+        <errorDisplayField>Value_Involvement__c</errorDisplayField>
+        <errorMessage>The sum of the Allocated Amount on all Collaborator records can not be greater than the Total Applied Amount field on the Opportunity. Please update the Allocated Amount on the Collaborator.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>External_Collaborator</fullName>
+        <active>true</active>
+        <description>Show message if the Collaborator relationship is External and the selected organisation is a Monash entity</description>
+        <errorConditionFormula>AND(
+ISPICKVAL(Relationship_Type__c, &apos;External Organisation&apos;),
+OR(
+Organisation__r.RecordType.Name=&apos;Monash Organisation&apos;,
+Organisation__r.RecordType.Name=&apos;Faculty&apos;
+)
+)</errorConditionFormula>
+        <errorDisplayField>Organisation__c</errorDisplayField>
+        <errorMessage>Organisation needs to be an External Organisation for an External Collaborator</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Internal_Collaborator</fullName>
+        <active>true</active>
+        <description>Show message if the Collaborator relationship is internal and the selected organisation is not a Monash entity</description>
+        <errorConditionFormula>AND(
+	ISPICKVAL(Relationship_Type__c, &apos;Internal Organisation&apos;),
+	AND(
+		NOT(Organisation__r.RecordType.Name=&apos;Monash Organisation&apos;),
+		NOT(Organisation__r.RecordType.Name=&apos;Faculty&apos;)
+	)
+)</errorConditionFormula>
+        <errorDisplayField>Organisation__c</errorDisplayField>
+        <errorMessage>Organisation needs to be a Monash Faculty, Area or Department for an Internal Collaborator</errorMessage>
+    </validationRules>
+    <visibility>Public</visibility>
+</CustomObject>

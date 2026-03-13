@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Invoke_integration</name>
+        <label>Invoke integration</label>
+        <locationX>50</locationX>
+        <locationY>1247</locationY>
+        <actionName>InvokeCallistaAgentUpdate</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>updatedContactIDs</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>InvokeCallistaAgentUpdate</nameSegment>
+    </actionCalls>
+    <apiVersion>57.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Agency_Contact_created</name>
+        <label>Agency Contact created</label>
+        <locationX>182</locationX>
+        <locationY>323</locationY>
+        <defaultConnector>
+            <targetReference>Agency_Contact_Role_Updated</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FALSE_Agency Contact created</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_Agency_Contact_created</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_isnew</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Launch_flow_to_auto_create_Roles</targetReference>
+            </connector>
+            <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+            <label>TRUE_Agency Contact created</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Agency_Contact_Role_Updated</name>
+        <label>Agency Contact Role Updated?</label>
+        <locationX>182</locationX>
+        <locationY>623</locationY>
+        <defaultConnector>
+            <targetReference>Update_Callista_with_Agent_Updates</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>FALSE_Agency Contact Role Updated?</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_Agency_Contact_Role_Updated</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_ischanged_contact_Roles</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Flow_to_Delete_Roles</targetReference>
+            </connector>
+            <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+            <label>TRUE_Agency Contact Role Updated?</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Update_Callista_with_Agent_Updates</name>
+        <label>Update Callista with Agent Updates?</label>
+        <locationX>182</locationX>
+        <locationY>1031</locationY>
+        <defaultConnectorLabel>FALSE_Update Callista with Agent Updates?</defaultConnectorLabel>
+        <rules>
+            <name>TRUE_Update_Callista_with_Agent_Updates</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_recordchange</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Mark_Sync_Status</targetReference>
+            </connector>
+            <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+            <label>TRUE_Update Callista with Agent Updates?</label>
+        </rules>
+    </decisions>
+    <environments>Default</environments>
+    <formulas>
+        <name>formula_integration_status_change</name>
+        <dataType>Boolean</dataType>
+        <expression>{!$Record.Role_Account_Flag__c &amp;&amp; 
+
+NOT(ISNEW(}) )  &amp;&amp; 
+
+ISCHANGED({!$Record.Callista_Integration_Status__c }) &amp;&amp; 
+
+ISPICKVAL({!$Record.Callista_Integration_Status__c }, &apos;Inserted&apos;) &amp;&amp;
+
+Not(contains({!$Record.Account.Campus__c},&apos;Africa&apos;))</expression>
+    </formulas>
+    <formulas>
+        <name>formula_integration_Status_needs_update</name>
+        <dataType>Boolean</dataType>
+        <expression>{!$Record.Role_Account_Flag__c =true} &amp;&amp; 
+
+ISCHANGED({!$Record.Google_Integration_Status__c}) &amp;&amp; 
+
+ISPICKVAL({!$Record.Google_Integration_Status__c }, &apos;Needs Update&apos;)</expression>
+    </formulas>
+    <formulas>
+        <name>formula_ischanged_contact_Roles</name>
+        <dataType>Boolean</dataType>
+        <expression>ISCHANGED({!$Record.Agency_Contact_Roles__c })</expression>
+    </formulas>
+    <formulas>
+        <name>formula_isnew</name>
+        <dataType>Boolean</dataType>
+        <expression>
+
+ISNEW()</expression>
+    </formulas>
+    <formulas>
+        <name>formula_recordchange</name>
+        <dataType>Boolean</dataType>
+        <expression>{!$Record.Role_Account_Flag__c &amp;&amp; 
+
+NOT(ISNEW(}) )  &amp;&amp; 
+
+(
+ISCHANGED({!$Record.FirstName }) ||
+ISCHANGED({!$Record.LastName }) ||
+ISCHANGED({!$Record.Account.Monash_AM_Start_Date__c }) ||
+ISCHANGED({!$Record.Account.Callista_Org_Unit_Code__c })
+)</expression>
+    </formulas>
+    <interviewLabel>Agent Management - Agent Contact Orchestrator {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Agent Management - Agent Contact Orchestrator</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Mark_Sync_Status</name>
+        <label>Mark Sync Status</label>
+        <locationX>50</locationX>
+        <locationY>1139</locationY>
+        <connector>
+            <targetReference>Invoke_integration</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Role_Account_Flag__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Callista_Integration_Status__c</field>
+            <value>
+                <stringValue>Needs Update</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Agency_Contact_created</targetReference>
+        </connector>
+        <filterFormula>AND({!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False , {!$Record.RecordType.DeveloperName}= {!$Setup.Agent_Onboarding_Settings__c.Contact_RT_Developer_Name__c})</filterFormula>
+        <object>Contact</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <name>Flow_to_Add_Roles</name>
+        <label>Flow to Add Roles</label>
+        <locationX>50</locationX>
+        <locationY>839</locationY>
+        <connector>
+            <targetReference>Update_Callista_with_Agent_Updates</targetReference>
+        </connector>
+        <flowName>Agent_Management_Insert_Selected_Role</flowName>
+        <inputAssignments>
+            <name>IncomingContactRecord</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
+        <name>Flow_to_Delete_Roles</name>
+        <label>Flow to Delete Roles</label>
+        <locationX>50</locationX>
+        <locationY>731</locationY>
+        <connector>
+            <targetReference>Flow_to_Add_Roles</targetReference>
+        </connector>
+        <flowName>Agent_Management_Remove_Roles</flowName>
+        <inputAssignments>
+            <name>IncomingContactRecord</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+    <subflows>
+        <name>Launch_flow_to_auto_create_Roles</name>
+        <label>Launch flow to auto-create Roles</label>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
+        <connector>
+            <targetReference>Agency_Contact_Role_Updated</targetReference>
+        </connector>
+        <flowName>Agent_Management_Auto_Create_Roles</flowName>
+        <inputAssignments>
+            <name>InputContactRecord</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+</Flow>

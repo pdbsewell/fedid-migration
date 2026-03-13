@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Allows automatically adding a Case Team under an Enquiry when a record is assigned to a Queue.</description>
+    <fields>
+        <fullName>Active__c</fullName>
+        <defaultValue>false</defaultValue>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Active</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Applied_to_Enquiry_Record_Types__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Enquiry record types this rule applies.
+
+*use semicolon as a delimiter
+*use Record Type DeveloperName</inlineHelpText>
+        <label>Applied to Enquiry Record Types</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Case_Team_Template__c</fullName>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Case Team Template</label>
+        <required>true</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>MGRO</fullName>
+                    <default>false</default>
+                    <label>MGRO</label>
+                </value>
+                <value>
+                    <fullName>Arts - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>Arts - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>BusEco - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>BusEco - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>Education - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>Education - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>Engineering - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>Engineering - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>FIT - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>FIT - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>Law - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>Law - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>MNHS - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>MNHS - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>MADA - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>MADA - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>Pharmacy - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>Pharmacy - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>Science - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>Science - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>MSI - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>MSI - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>MUARC - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>MUARC - Graduate Research</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Email_Notification_to_Queue__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Sends an email notification to all Queue members - direct users only</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Email Notification to Queue</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Queue__c</fullName>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Queue</label>
+        <required>true</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>MGRO Admissions</fullName>
+                    <default>true</default>
+                    <label>MGRO Admissions</label>
+                </value>
+                <value>
+                    <fullName>MGRO Bookings</fullName>
+                    <default>false</default>
+                    <label>MGRO Bookings</label>
+                </value>
+                <value>
+                    <fullName>MGRO Candidature Operations</fullName>
+                    <default>false</default>
+                    <label>MGRO Candidature Operations</label>
+                </value>
+                <value>
+                    <fullName>MGRO Directors Office</fullName>
+                    <default>false</default>
+                    <label>MGRO Directors Office</label>
+                </value>
+                <value>
+                    <fullName>MGRO Engagement</fullName>
+                    <default>false</default>
+                    <label>MGRO Engagement</label>
+                </value>
+                <value>
+                    <fullName>MGRO Industry</fullName>
+                    <default>false</default>
+                    <label>MGRO Industry</label>
+                </value>
+                <value>
+                    <fullName>MGRO MyDevelopment</fullName>
+                    <default>false</default>
+                    <label>MGRO MyDevelopment</label>
+                </value>
+                <value>
+                    <fullName>MGRO Programs and Development</fullName>
+                    <default>false</default>
+                    <label>MGRO Programs and Development</label>
+                </value>
+                <value>
+                    <fullName>MGRO Scholarships</fullName>
+                    <default>false</default>
+                    <label>MGRO Scholarships</label>
+                </value>
+                <value>
+                    <fullName>MGRO Supervisor Accreditation</fullName>
+                    <default>false</default>
+                    <label>MGRO Supervisor Accreditation</label>
+                </value>
+                <value>
+                    <fullName>MGRO Thesis Examinations</fullName>
+                    <default>false</default>
+                    <label>MGRO Thesis Examinations</label>
+                </value>
+                <value>
+                    <fullName>Arts - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>Arts - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>BusEco - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>BusEco - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>Education - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>Education - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>Engineering - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>Engineering - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>FIT - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>FIT - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>Law - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>Law - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>MNHS - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>MNHS - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>MADA - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>MADA - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>Pharmacy - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>Pharmacy - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>Science - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>Science - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>MSI - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>MSI - Graduate Research</label>
+                </value>
+                <value>
+                    <fullName>MUARC - Graduate Research</fullName>
+                    <default>false</default>
+                    <label>MUARC - Graduate Research</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>Case Team Creation Rules</label>
+    <listViews>
+        <fullName>All_Records</fullName>
+        <columns>MasterLabel</columns>
+        <columns>Active__c</columns>
+        <columns>Applied_to_Enquiry_Record_Types__c</columns>
+        <columns>Queue__c</columns>
+        <columns>Case_Team_Template__c</columns>
+        <columns>Email_Notification_to_Queue__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All Records</label>
+        <language>en_US</language>
+    </listViews>
+    <listViews>
+        <fullName>MGRO</fullName>
+        <columns>MasterLabel</columns>
+        <columns>Active__c</columns>
+        <columns>Applied_to_Enquiry_Record_Types__c</columns>
+        <columns>Queue__c</columns>
+        <columns>Case_Team_Template__c</columns>
+        <columns>Email_Notification_to_Queue__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>MasterLabel</field>
+            <operation>contains</operation>
+            <value>MGRO</value>
+        </filters>
+        <label>MGRO</label>
+        <language>en_US</language>
+    </listViews>
+    <pluralLabel>Case Team Creation Rules</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -1,0 +1,65 @@
+<!--
+  @File Name          : formelement.html
+  @Description        : 
+  @Author             : Jasmin Joy Rudio
+  @Group              : 
+  @Last Modified By   : jasmin.rudio@monash.edu
+  @Last Modified On   : 3/2/2020, 11:56:46 AM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    10/23/2019   Jasmin Joy Rudio     Initial Version
+-->
+<template>
+    <template if:true={section}>
+        <div if:true={isStaticDisplay} id="staticDisplay" class="section-content">                           
+            <lightning-formatted-rich-text value={section.description}></lightning-formatted-rich-text>
+        </div>
+        
+        <div if:true={isComponent} class={elementClass}>  
+            <div if:true={showCoverLetter}>
+                <c-offer-cover-letter contact-id={contactId} 
+                                        offer-record={offerRecord}
+                                        content={section.description}>
+                </c-offer-cover-letter>
+            </div> 
+            <div if:true={showProductList}>
+                <c-offer-product-list quote-clauses={quoteClauses} offer-record={offerRecord}></c-offer-product-list>
+            </div>
+            <div if:true={showCustomerDetails}>
+                <c-customer-details-display offer-record={offerRecord} content={section.description}></c-customer-details-display>
+            </div>
+            <div if:true={showOfferSummary}>
+                <c-offersummary offer-record={offerRecord} content={section.description}></c-offersummary>
+            </div>  
+            <div if:true={showOfferDetails}>
+                <c-offerdetailscomponent parent={section} quote-clauses={quoteClauses}></c-offerdetailscomponent>
+            </div>  
+            <div if:true={showVisaDetailsForm}>
+                <c-offer-visa-details-form offer-record={offerRecord}></c-offer-visa-details-form>
+            </div>
+            <div if:true={showUnder18}>
+                <c-offer-under-18 offer-record={offerRecord} content={section.description}></c-offer-under-18>
+            </div>  
+            <div if:true={showUnder18Form}>
+                <c-offer-under-18-form offer-record={offerRecord} contact-id={contactId} content={section.description} quote-clauses={quoteClauses}></c-offer-under-18-form>
+            </div>  
+            <div if:true={showHealthInsurance}>
+                    <c-offer-health-insurance content={section.description} offer-record={offerRecord}></c-offer-health-insurance>
+                </div>  
+    
+            <div if:true={showFinancialSummary}>
+                <c-offer-financial-summary content={section.description} parent={section} offer-record={offerRecord} quote-clause-list={quoteClauses}></c-offer-financial-summary>
+            </div>  
+            <div if:true={showPaymentOptions}>
+                <c-offer-payment-options parent={section} offer-record={offerRecord}></c-offer-payment-options>
+            </div>  
+            <div if:true={showConfirmation}>
+                <c-offer-confirm-details parent={section} offer-record={offerRecord} content={section.description}></c-offer-confirm-details>
+            </div>  
+            <div if:true={showTerms}>
+                <c-offer-terms-and-conditions offer-record={offerRecord} parent={section}></c-offer-terms-and-conditions>
+            </div>  
+        </div>
+    </template>       
+   
+</template>

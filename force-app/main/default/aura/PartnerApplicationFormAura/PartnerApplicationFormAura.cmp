@@ -1,0 +1,326 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:hasRecordId" access="global" controller="ApplicationNavigationController">
+    <aura:attribute name="recordId" type="String" default="{!recordId}"/>
+    <aura:attribute name="applicationName" type="String" />
+    <aura:attribute name="openedStep" type="Integer" default="0"/>
+    <aura:attribute name="navigationDisabled" type="Boolean" default="false" />
+
+    <aura:attribute name="textType" type="Boolean" />
+    <aura:attribute name="locationError" type="Boolean" default="false"/>
+    <aura:attribute name="validationError" type="Boolean" default="false"/>
+    <aura:attribute name="validationHeader" type="String" default=""/>
+    <aura:attribute name="validationMessage" type="String" default=""/>
+    <aura:attribute name="studydurationfilled" type="Boolean" default="false"/>
+    <aura:attribute name="showSendToStudentConfirmation" type="Boolean" default="false"/>
+
+    <aura:attribute name="citizenshipError" type="String" default=""/>
+    <aura:attribute name="durationError" type="String" default=""/>
+    <aura:attribute name="courseSelectionError" type="String" default=""/>
+    <aura:attribute name="sendToStudentErrorMessage" type="String" default=""/>
+    <aura:attribute name="sendToStudentDisabled" type="Boolean" default="true"/>
+
+    <aura:attribute name="stepMap" type="Map" default="{ 1: 'Personal Details', 2: 'Study Preferences', 3: 'Credentials', 4: 'Documents', 5: 'Review' }"/>
+    <aura:attribute name="myAppFeatures" type="object" />
+
+    <aura:method name="changeSection" action="{!c.changeSection}">
+        <aura:attribute name="sectionName" type="String"/>
+    </aura:method> 
+ 
+    <aura:method name="nextPage" action="{!c.nextPage}">
+    </aura:method>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="acpEvent" event="c:PartnerApplicationACPEvent" action="{!c.handleACPEvent}"/>
+
+    <!-- quickly read application details -->
+    <aura:attribute name="record" type="Object"/>
+    <aura:attribute name="applicationRecord" type="Object"/>
+    <aura:attribute name="recordError" type="String"/> 
+    <aura:attribute name="partnerPrivacyConfirmation" type="Boolean" default="false"/>    
+    <aura:attribute name="originalPartnerPrivacyConfirmation" type="Boolean" default="false"/>   
+    <force:recordData aura:id="recordLoader"
+                      fields="Id,Partner_Controlled__c,Applicant_Privacy_Confirmation__c,Partner_Privacy_Confirmation__c,Type_of_Study__c"
+                      recordId="{!v.recordId}"
+                      targetFields="{!v.applicationRecord}"
+                      targetError="{!v.recordError}"
+                      recordUpdated="{!c.handleRecordUpdated}" />
+
+    <!-- hide record form if not yet ready-->
+    <aura:renderIf isTrue="{!!v.applicationRecord}">
+        <aura:html tag="style">
+            .forceCommunityRecordHeadline { 
+                display: none;
+            }
+
+            .forceCommunityRecordHomeTabs {
+                display: none;
+            }
+        </aura:html> 
+    </aura:renderIf>
+
+    <aura:renderIf isTrue="{!v.applicationRecord.Partner_Controlled__c}">
+        <!-- notifications -->
+        <!-- error box for non-Australian campus applications -->
+        <div class="{!if(v.locationError == true, '', 'slds-hide')}" style="z-index: 999;">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- modal header -->
+                    <header class="slds-modal__header">
+                        <lightning:layout verticalAlign="center" horizontalAlign="center">
+                            <lightning:layoutItem>
+                                <lightning:icon iconName="utility:warning" variant="warning"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem padding="horizontal-small">
+                                <h2 id="modal-heading-01" class="slds-text-heading_large slds-hyphenate">
+                                    Where do you want to study
+                                </h2>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </header>
+
+                    <aura:if isTrue="{!v.textType}" >
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <p>For applications to study outside of Australia, apply through <a href="https://applicant.connect.monash.edu.au/connect/webconnect" target="_blank" class="slds-text-link">Monash Online Admission portal</a></p>
+                        </div>
+                        <aura:set attribute="else">
+                            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                                <p>Please ensure that you have filled out the country where you would like to study above.</p>
+                            </div>
+                        </aura:set>
+                    </aura:if>
+
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick="{!c.onClickCloseAlert}">Close</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+        <!-- Error box for validation errors -->
+        <div class="{!if(v.validationError == true, '', 'slds-hide')}" style="z-index: 999;">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <!-- modal header -->
+                    <header class="slds-modal__header">
+                        <lightning:layout verticalAlign="center" horizontalAlign="center">
+                            <lightning:layoutItem>
+                                <lightning:icon iconName="utility:warning" variant="warning"/>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem padding="horizontal-small">
+                                <h2 id="modal-heading-01" class="slds-text-heading_large slds-hyphenate">
+                                    {!v.validationHeader}
+                                </h2>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </header>
+                    <!-- modal content -->
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <lightning:layout verticalAlign="center" horizontalAlign="center">
+                            <lightning:layoutItem>
+                                <aura:unescapedHtml value="{!v.validationMessage}"/>
+                            </lightning:layoutItem>
+                        </lightning:layout>
+                    </div>
+                    <!-- modal footer -->
+                    <footer class="slds-modal__footer">                        
+                        <aura:renderIf isTrue="{!!v.showSendToStudentConfirmation}">
+                            <button class="slds-button slds-button_neutral" onclick="{!c.onClickCloseAlert}">Close</button>
+                        </aura:renderIf>
+                        <aura:renderIf isTrue="{!v.showSendToStudentConfirmation}">
+                            <button class="slds-button slds-button_neutral" onclick="{!c.onClickCloseAlert}">Cancel</button>
+                            <button class="slds-button slds-button_brand" onclick="{!c.handleSendToStudent}">Confirm</button>
+                        </aura:renderIf>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+
+        <div style="display: flex; flex-wrap: wrap; background-color:#91B1CE; padding-bottom: 30px;">
+            <div class="applicationStepsContainer">
+                <c:partnerApplicationFormSidebar aura:id="navigationComponent"
+                                            applicationRecordId="{!v.recordId}" 
+                                            onstepchange="{!c.handleStepChange}"
+                                            onchangeapplicationname="{!c.changeApplicationName}" />
+            </div>     
+            <!--<div style="flex-basis: 100%; height: 0;"></div>--> <div style="background-color:#91B1CE;width:30px;"> </div>
+            <div id="appForm" class="applicationForm" style="flex: 1;background-color:#FFFFFF;margin-top:30px;margin-right:90px;">
+                <!-- personal details -->
+                <aura:if isTrue="{!v.openedStep == 1}">
+                    <div class="slds-is-relative">
+                        <div>
+                            <h1 style="font-weight:bold;">PERSONAL DETAILS</h1>
+                            <p>Personal details are attached to each application that you submit to the University. Please provide details as shown in your Passport.</p>
+                        </div>
+                        <c:PersonalDetails aura:id="childPersonalDetails" applicationId="{!v.recordId}" source="partner" />
+                    </div>    
+                </aura:if>
+                <!-- course preference -->
+                <aura:if isTrue="{!v.openedStep == 2}">
+                    <div class="slds-is-relative">                        
+                        <c:appAddCourse applicationId="{!v.recordId}" source="partner" />
+                    </div>   
+                </aura:if>      
+                <!-- educational history -->
+                <aura:if isTrue="{!v.openedStep == 3}">
+                    <div class="slds-is-relative">
+                        <div>
+                            <aura:if isTrue="{!or(v.applicationRecord.Type_of_Study__c == 'Study Abroad', v.applicationRecord.Type_of_Study__c == 'Exchange')}">
+                                <h1 style="font-weight:bold;">EDUCATIONAL HISTORY</h1>
+                                <p>All course applications require you to declare all attempted and completed tertiary studies.</p>
+                            <aura:set attribute="else">
+                                <h1 style="font-weight:bold;">EDUCATIONAL HISTORY AND WORK EXPERIENCE</h1>
+                                <p>All course applications require you to declare your highest completed secondary study and all attempted and completed tertiary studies. Some courses require relevant work experience to be declared.</p>
+                            </aura:set>
+                            </aura:if>
+                        </div>
+                        <div class="slds-size_5-of-5">
+                            <!--MGROI-263-->
+                                <c:myAppAddQualification applicationId="{!v.recordId}" />
+                        </div>
+
+                        <aura:if isTrue="{!!or(v.applicationRecord.Type_of_Study__c == 'Study Abroad', v.applicationRecord.Type_of_Study__c == 'Exchange')}">
+                        <div class="slds-grid slds-gutters slds-wrap">
+                            <div class="slds-col">
+                                <!-- Work Experience -->
+                                <div class="sectionContainer slds-wrap">
+                                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                                    <div class="sectionContainerBody slds-size_5-of-5">
+                                        <div class="slds-size_5-of-5">
+                                            <h2>Work Experience</h2>
+                                        </div>
+                                        <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                            <p>List any relevant work for your course choices. Particularly if your course allows recognition of prior learning.</p>
+                                        </div>
+
+                                        <div class="slds-size_5-of-5">
+                                            <c:myAppAddWorkExperience applicationId="{!v.recordId}" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </aura:if>
+                    </div>
+                </aura:if>
+                <!-- document upload -->
+                <aura:if isTrue="{!v.openedStep == 4}">
+                    <div class="slds-is-relative">
+                        <div>
+                            <h1 style="font-weight:bold;">Documents</h1>
+                            <p>Please make sure that all documents are uploaded based on your application information.</p>
+                        </div>
+                            <c:myApplicationDocuments pageTitle="Document Requirements" pageSubTitle="To speed up processing of your application, upload your supporting evidence below. If you don't have them ready right away, you may skip this step and still complete your application!" applicationId="{!v.recordId}"></c:myApplicationDocuments>
+                    </div> 
+                </aura:if>
+                <!-- review -->
+                <aura:if isTrue="{!v.openedStep == 5}">
+                    <div class="slds-is-relative">
+                        <div>
+                            <h1 style="font-weight:bold;">Review</h1>
+                            <p>Review details below to ensure that all information is true and correct.</p>
+                        </div>
+                            <c:myApplicationReview applicationId="{!v.recordId}" />
+                    </div> 
+                </aura:if>
+                <br/>
+                <div class="slds-is-relative">         
+                    <aura:if isTrue="{!v.openedStep == 10}">
+                        <button class="secondaryButton" style="margin-right: 15px;" onclick="{!c.navigateToHomePage}" disabled="{!v.navigationDisabled}">
+                            <lightning:icon class="secondaryIcon" iconName="utility:chevronleft" size="small" />&nbsp;&nbsp;&nbsp;&nbsp;Back to Home
+                        </button>
+                    </aura:if>                
+                    
+                    <aura:if isTrue="{!v.openedStep != 10}">
+                        <aura:if isTrue="{!(and(v.openedStep != 0, and(v.openedStep != 1, v.openedStep != 9)))}" >
+                            <button class="secondaryButton" style="margin-right: 15px;" onclick="{!c.previousPage}" disabled="{!v.navigationDisabled}">
+                                <lightning:icon class="secondaryIcon" iconName="utility:chevronleft" size="small" />&nbsp;&nbsp;&nbsp;&nbsp;PREVIOUS
+                            </button>
+                        </aura:if>
+                    
+                        <aura:if isTrue="{!(and(v.openedStep != 0, v.openedStep != 5))}" >
+                            <button class="primaryButton" onclick="{!c.nextPage}" disabled="{!v.navigationDisabled}">
+                                SAVE &amp; CONTINUE&nbsp;&nbsp;&nbsp;&nbsp;<lightning:icon class="primaryIcon" iconName="utility:chevronright" size="small" />
+                            </button>
+                        </aura:if> 
+                        <aura:if isTrue="{!(and(v.openedStep != 0, v.openedStep != 9))}" >                
+                            <button style="float:right; margin-top: 4px;" class="slds-button actionLinks" onclick="{!c.saveandExit}" disabled="{!v.navigationDisabled}">
+                                <img src="{!$Resource.myappsaveicon}" class="save-icon" alt=""/> &nbsp;&nbsp; <h4 style=" text-decoration: underline;">SAVE &amp; EXIT</h4>&nbsp;&nbsp;&nbsp;&nbsp;
+                            </button>              
+                            <aura:if isTrue="{!v.sendToStudentDisabled}">
+                                <button style="float:right; margin-top: 5px;" class="slds-button actionLinks" onclick="{!c.showSendToStudentConfirmation}" disabled="{!v.sendToStudentDisabled}">
+                                    <lightning:icon class="secondaryIconInactive" iconName="utility:email" alternativeText="Send to Student" title="Send to Student" size="small" disabled="{!v.sendToStudentDisabled}"/> &nbsp;&nbsp; <h4 style="text-decoration: underline;">SEND TO STUDENT</h4>&nbsp;&nbsp;&nbsp;&nbsp;
+                                </button>  
+                                <lightning:helptext style="float:right; margin-top: 5px;"  iconVariant= "warning" iconName="utility:warning" content="{!v.sendToStudentErrorMessage}"/>
+                                <aura:set attribute="else">
+                                    <button style="float:right; margin-top: 5px;" class="slds-button actionLinks" onclick="{!c.showSendToStudentConfirmation}" >
+                                        <lightning:icon class="secondaryIcon" iconName="utility:email" alternativeText="Send to Student" title="Send to Student" size="small" /> &nbsp;&nbsp; <h4 style="text-decoration: underline;">SEND TO STUDENT</h4>&nbsp;&nbsp;&nbsp;&nbsp;
+                                    </button>  
+                                </aura:set>
+                            </aura:if>
+                            <aura:if isTrue="{!v.sendToStudentDisabled}">
+                            </aura:if>
+                        </aura:if> 
+                        <aura:if isTrue="{!v.navigationDisabled}">
+                            <lightning:spinner alternativeText="Loading" size="medium" variant="brand" />
+                        </aura:if>
+                    </aura:if>
+                </div>
+            </div>
+        </div> 
+
+        <!-- hack to hide the chatter file previewer actions - please revisit when salesforce changes their class name for previewer actions -->
+        <aura:html tag="style">
+            button[title="View File Details"].previewerAction { 
+                display: none !important; 
+            }
+
+            button[title="Upload New Version"].previewerAction { 
+                display: none !important; 
+            }
+
+            button[title="Edit File Details"].previewerAction{ 
+                display: none !important; 
+            }
+
+            button[title="Delete"].previewerAction { 
+                display: none !important; 
+            }
+
+            a[title="Show More"].menuButton {
+                display: none !important; 
+            }
+
+            .contentRegion {
+                padding: 0 !important;
+                margin-top: 0px !important;
+                margin-bottom: 0px !important;            
+            }
+
+            .siteforceServiceBody .cCenterPanel {
+                
+            }
+            
+            .corneredInput input {
+                border: 2px solid #707070 !important;
+                border-radius: 0 !important;
+            }
+
+            .invalidCorneredInput input {
+                border: 2px solid rgb(194, 57, 52) !important;
+                border-radius: 0 !important;
+            }
+
+            .boxCorneredInput input {
+                border-radius: 0 !important;
+            }
+
+            .forceCommunityRecordHeadline { 
+                display: none;
+            }
+
+            .forceCommunityRecordHomeTabs {
+                display: none;
+            }
+        </aura:html> 
+    </aura:renderIf>
+</aura:component>

@@ -1,0 +1,858 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Call the class GCOAutoGenerate passing the Ids</description>
+        <name>GCOAutoGenerate_Apex_Action_for_PG</name>
+        <label>GCOAutoGenerate Apex Action for PG</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>GCOAutoGenerateOffer</actionName>
+        <actionType>apex</actionType>
+        <faultConnector>
+            <targetReference>PG_Exception_Msg</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>acpIds</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>GCOAutoGenerateOffer</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <description>Call the class GCOAutoGenerate passing the Ids</description>
+        <name>GCOAutoGenerate_Apex_Action_for_UG</name>
+        <label>GCOAutoGenerate Apex Action for UG</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>GCOAutoGenerateOffer</actionName>
+        <actionType>apex</actionType>
+        <faultConnector>
+            <targetReference>UG_Exception_Msg</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>acpIds</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>GCOAutoGenerateOffer</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <description>Log Exception for PG path</description>
+        <name>Log_Exception_for_PG_path</name>
+        <label>Log Exception for PG path</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Nebula__FlowRecordLogEntry</actionName>
+        <actionType>apex</actionType>
+        <dataTypeMappings>
+            <typeName>T__record</typeName>
+            <typeValue>Application_Course_Preference__c</typeValue>
+        </dataTypeMappings>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>ExceptionMsg</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <elementReference>c_FlowName</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <elementReference>c_LogMsgTitle</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>record</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+        </inputParameters>
+        <nameSegment>Nebula__FlowRecordLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
+        <description>Log Exception for UG path</description>
+        <name>Log_Exception_for_UG_path</name>
+        <label>Log Exception for UG path</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Nebula__FlowRecordLogEntry</actionName>
+        <actionType>apex</actionType>
+        <dataTypeMappings>
+            <typeName>T__record</typeName>
+            <typeValue>Application_Course_Preference__c</typeValue>
+        </dataTypeMappings>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>ExceptionMsg</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <elementReference>c_FlowName</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <elementReference>c_LogMsgTitle</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>record</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+        </inputParameters>
+        <nameSegment>Nebula__FlowRecordLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>PG Exception Msg</description>
+        <name>PG_Exception_Msg</name>
+        <label>PG Exception Msg</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>ExceptionMsg</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Log_Exception_for_PG_path</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>UG Exception Msg</description>
+        <name>UG_Exception_Msg</name>
+        <label>UG Exception Msg</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>ExceptionMsg</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Log_Exception_for_UG_path</targetReference>
+        </connector>
+    </assignments>
+    <constants>
+        <name>c_FlowName</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>ACPAUGCOAutoOffer</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <name>c_LogMsgTitle</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Failed to create auto GCO offer</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <name>c_NotificationAlertType</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Admissions_Alert</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <name>c_NotificationBody</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Unable to generate Auto offer</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <name>c_NotificationGroup</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>WR_Central_Admissions_Exception</stringValue>
+        </value>
+    </constants>
+    <decisions>
+        <description>Identify whether the Admission category is UG or PG</description>
+        <name>Identify_UGPG</name>
+        <label>Identify UGPG</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>UnderGraduate</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Admission_Category__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>UG-IS</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_ACP_for_UG</targetReference>
+            </connector>
+            <label>UnderGraduate</label>
+        </rules>
+        <rules>
+            <name>PostGraduate</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Admission_Category__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>PG-IS</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_ACP_for_PG</targetReference>
+            </connector>
+            <label>PostGraduate</label>
+        </rules>
+    </decisions>
+    <description>Triggers the flow on ACP update to create GCO offer</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>Derives Intake period year</description>
+        <name>IntakePeriodYear</name>
+        <dataType>Number</dataType>
+        <expression>VALUE(LEFT(  {!$Record.Intake_Period__c} , FIND(&quot;/&quot;,   {!$Record.Intake_Period__c} ) -1))</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <description>Intake period minus one year</description>
+        <name>IntakePeriodYearMinusOne</name>
+        <dataType>Number</dataType>
+        <expression>{!IntakePeriodYear}-1</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <description>IntakePeriodMinusOne</description>
+        <name>IntakePeriodYearPlusOne</name>
+        <dataType>Number</dataType>
+        <expression>{!IntakePeriodYear}+1</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <description>Formula to calculate Offer Response date</description>
+        <name>OfferLapseDate</name>
+        <dataType>Date</dataType>
+        <expression>CASE(RIGHT( {!$Record.Intake_Period__c} ,  LEN( {!$Record.Intake_Period__c})-FIND(&quot;/&quot;,   {!$Record.Intake_Period__c}) ),
+ &apos;1&apos;,  {!SEM1OfferLapseDt},
+ &apos;2&apos;,  {!SEM2OfferLapseDt},
+ &apos;SUM&apos;,  {!SummerOfferLapseDt},
+&apos;SPR&apos;,  {!SpringOfferLapseDt},
+&apos;W&apos;,  {!WinterOfferLapseDt},
+{!$Flow.CurrentDate})</expression>
+    </formulas>
+    <formulas>
+        <description>Determines whether add year check criteria is met</description>
+        <name>SEM1AddYearCheck</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(NOT(ISNULL({!$Setup.Offer_Setting__c.GCO_Ex_SEM1_Lapse_Date__c})),{!$Setup.Offer_Setting__c.GCO_SEM1_Add_Year__c}, {!IntakePeriodYear}=={!SEM1ExYear}+1)</expression>
+    </formulas>
+    <formulas>
+        <description>Derive SEM1 Default or exception date</description>
+        <name>SEM1DefaultOrEx</name>
+        <dataType>String</dataType>
+        <expression>IF(
+OR(ISNULL({!$Setup.Offer_Setting__c.GCO_Ex_SEM1_Lapse_Date__c}), AND( NOT({!SEM1SameYearCheck}), NOT({!SEM1AddYearCheck}))),
+{!$Setup.Offer_Setting__c.GCO_SEM1_Lapse_Date__c},
+{!$Setup.Offer_Setting__c.GCO_Ex_SEM1_Lapse_Date__c})</expression>
+    </formulas>
+    <formulas>
+        <description>Represents SEM1 Exception year</description>
+        <name>SEM1ExYear</name>
+        <dataType>Number</dataType>
+        <expression>IF(NOT(ISNULL({!$Setup.Offer_Setting__c.GCO_Ex_SEM1_Lapse_Date__c})),
+VALUE(RIGHT({!$Setup.Offer_Setting__c.GCO_Ex_SEM1_Lapse_Date__c}, 4)),
+{!IntakePeriodYear})</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <description>Derives SEM1 offer lapse date</description>
+        <name>SEM1OfferLapseDt</name>
+        <dataType>Date</dataType>
+        <expression>IF(
+OR(ISNULL({!$Setup.Offer_Setting__c.GCO_Ex_SEM1_Lapse_Date__c}), AND( NOT({!SEM1SameYearCheck}), NOT({!SEM1AddYearCheck}))),
+ Date( {!SEM1Year} ,VALUE( RIGHT({!SEM1DefaultOrEx}, 2)),VALUE(LEFT({!SEM1DefaultOrEx}, 2))),
+Date( {!SEM1Year}, VALUE( MID({!SEM1DefaultOrEx},4, 2)),VALUE(LEFT({!SEM1DefaultOrEx}, 2))))</expression>
+    </formulas>
+    <formulas>
+        <description>Derives whether same year check is met</description>
+        <name>SEM1SameYearCheck</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(NOT(ISNULL({!$Setup.Offer_Setting__c.GCO_Ex_SEM1_Lapse_Date__c})), NOT({!$Setup.Offer_Setting__c.GCO_SEM1_Add_Year__c}), {!IntakePeriodYear}=={!SEM1ExYear})</expression>
+    </formulas>
+    <formulas>
+        <description>Represents year for SEM1</description>
+        <name>SEM1Year</name>
+        <dataType>Number</dataType>
+        <expression>IF( ISNULL({!$Setup.Offer_Setting__c.GCO_Ex_SEM1_Lapse_Date__c}),
+ {!IntakePeriodYearMinusOne},
+IF({!SEM1AddYearCheck}, {!IntakePeriodYearMinusOne},  IF ({!SEM1SameYearCheck},{!IntakePeriodYear} , {!IntakePeriodYearMinusOne}))
+)</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <description>Derives SEM2 Exception year</description>
+        <name>SEM2ExYear</name>
+        <dataType>Number</dataType>
+        <expression>IF(NOT(ISNULL({!$Setup.Offer_Setting__c.GCO_Ex_SEM2_Lapse_Date__c})),
+VALUE(RIGHT({!$Setup.Offer_Setting__c.GCO_Ex_SEM2_Lapse_Date__c}, 4)),
+{!IntakePeriodYear})</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <description>Derives SEM2 offer lapse date</description>
+        <name>SEM2OfferLapseDt</name>
+        <dataType>Date</dataType>
+        <expression>IF(
+AND(NOT(ISNULL({!$Setup.Offer_Setting__c.GCO_Ex_SEM2_Lapse_Date__c})), {!IntakePeriodYear}=={!SEM2ExYear}),
+Date( {!IntakePeriodYear}, VALUE( MID({!$Setup.Offer_Setting__c.GCO_Ex_SEM2_Lapse_Date__c},4, 2)),VALUE(LEFT({!$Setup.Offer_Setting__c.GCO_Ex_SEM2_Lapse_Date__c}, 2))),
+ Date( {!IntakePeriodYear} ,VALUE( RIGHT({!$Setup.Offer_Setting__c.GCO_SEM2_Lapse_Date__c}, 2)),VALUE(LEFT({!$Setup.Offer_Setting__c.GCO_SEM2_Lapse_Date__c}, 2))))</expression>
+    </formulas>
+    <formulas>
+        <description>Derives Spring Exception year</description>
+        <name>SpringExYear</name>
+        <dataType>Number</dataType>
+        <expression>IF(NOT(ISNULL({!$Setup.Offer_Setting__c.GCO_Ex_Spring_Lapse_Date__c})),
+VALUE(RIGHT({!$Setup.Offer_Setting__c.GCO_Ex_Spring_Lapse_Date__c}, 4)),
+{!IntakePeriodYear})</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <description>Derives Spring offer lapse date</description>
+        <name>SpringOfferLapseDt</name>
+        <dataType>Date</dataType>
+        <expression>IF(
+AND(NOT(ISNULL({!$Setup.Offer_Setting__c.GCO_Ex_Spring_Lapse_Date__c})), {!IntakePeriodYear}=={!SpringExYear}),
+Date( {!IntakePeriodYear}, VALUE( MID({!$Setup.Offer_Setting__c.GCO_Ex_Spring_Lapse_Date__c},4, 2)),VALUE(LEFT({!$Setup.Offer_Setting__c.GCO_Ex_Spring_Lapse_Date__c}, 2))),
+ Date( {!IntakePeriodYear} ,VALUE( RIGHT({!$Setup.Offer_Setting__c.GCO_Spring_Lapse_Date__c}, 2)),VALUE(LEFT({!$Setup.Offer_Setting__c.GCO_Spring_Lapse_Date__c}, 2))))</expression>
+    </formulas>
+    <formulas>
+        <description>Determines whether add year check criteria is met</description>
+        <name>SummerAddYear</name>
+        <dataType>Number</dataType>
+        <expression>IF( ISNULL({!$Setup.Offer_Setting__c.GCO_Ex_Summer_Lapse_Date__c}),
+ {!IntakePeriodYearMinusOne},
+IF({!SummerAddYearCheck}, {!IntakePeriodYearMinusOne},  IF ({!SummerSameYearCheck},{!IntakePeriodYear} , {!IntakePeriodYearMinusOne}))
+)</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <description>Derives if Add year check is met</description>
+        <name>SummerAddYearCheck</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(NOT(ISNULL({!$Setup.Offer_Setting__c.GCO_Ex_Summer_Lapse_Date__c})),{!$Setup.Offer_Setting__c.GCO_Summer_Add_Year__c}, {!IntakePeriodYear}=={!SummerExYear}+1)</expression>
+    </formulas>
+    <formulas>
+        <description>Determines whether to consider default or Exception lapse date for calculation</description>
+        <name>SummerDefaultOrEx</name>
+        <dataType>String</dataType>
+        <expression>IF(
+OR(ISNULL({!$Setup.Offer_Setting__c.GCO_Ex_Summer_Lapse_Date__c}), AND( NOT({!SummerSameYearCheck}), NOT({!SummerAddYearCheck}))),
+{!$Setup.Offer_Setting__c.GCO_Summer_Lapse_Date__c},
+{!$Setup.Offer_Setting__c.GCO_Ex_Summer_Lapse_Date__c})</expression>
+    </formulas>
+    <formulas>
+        <description>Derives Summer Exception year</description>
+        <name>SummerExYear</name>
+        <dataType>Number</dataType>
+        <expression>IF(NOT(ISNULL({!$Setup.Offer_Setting__c.GCO_Ex_Summer_Lapse_Date__c})),
+VALUE(RIGHT({!$Setup.Offer_Setting__c.GCO_Ex_Summer_Lapse_Date__c}, 4)),
+{!IntakePeriodYear})</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <description>Derives Summer offer lapse date</description>
+        <name>SummerOfferLapseDt</name>
+        <dataType>Date</dataType>
+        <expression>IF(
+OR(ISNULL({!$Setup.Offer_Setting__c.GCO_Ex_Summer_Lapse_Date__c}), AND( NOT({!SummerSameYearCheck}), NOT({!SummerAddYearCheck}))),
+ Date( {!SummerAddYear} ,VALUE( RIGHT({!SummerDefaultOrEx}, 2)),VALUE(LEFT({!SummerDefaultOrEx}, 2))),
+Date( {!SummerAddYear}, VALUE( MID({!SummerDefaultOrEx},4, 2)),VALUE(LEFT({!SummerDefaultOrEx}, 2))))</expression>
+    </formulas>
+    <formulas>
+        <description>identifies if same year check is met for summer</description>
+        <name>SummerSameYearCheck</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(NOT(ISNULL({!$Setup.Offer_Setting__c.GCO_Ex_Summer_Lapse_Date__c})), NOT({!$Setup.Offer_Setting__c.GCO_Summer_Add_Year__c}), {!IntakePeriodYear}=={!SummerExYear})</expression>
+    </formulas>
+    <formulas>
+        <description>Derives Winter Exception year</description>
+        <name>WinterExYear</name>
+        <dataType>Number</dataType>
+        <expression>IF(NOT(ISNULL({!$Setup.Offer_Setting__c.GCO_Ex_Winter_Lapse_Date__c})),
+VALUE(RIGHT({!$Setup.Offer_Setting__c.GCO_Ex_Winter_Lapse_Date__c}, 4)),
+{!IntakePeriodYear})</expression>
+        <scale>0</scale>
+    </formulas>
+    <formulas>
+        <description>Determines Offer Lapse date for Winter</description>
+        <name>WinterOfferLapseDt</name>
+        <dataType>Date</dataType>
+        <expression>IF(
+AND(NOT(ISNULL({!$Setup.Offer_Setting__c.GCO_Ex_Winter_Lapse_Date__c})), {!IntakePeriodYear}=={!WinterExYear}),
+Date( {!IntakePeriodYear}, VALUE( MID({!$Setup.Offer_Setting__c.GCO_Ex_Winter_Lapse_Date__c},4, 2)),VALUE(LEFT({!$Setup.Offer_Setting__c.GCO_Ex_Winter_Lapse_Date__c}, 2))),
+ Date( {!IntakePeriodYear} ,VALUE( RIGHT({!$Setup.Offer_Setting__c.GCO_Winter_Lapse_Date__c}, 2)),VALUE(LEFT({!$Setup.Offer_Setting__c.GCO_Winter_Lapse_Date__c}, 2))))</expression>
+    </formulas>
+    <interviewLabel>ACP AU GCO Auto Oppty {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>ACP AU GCO Auto Oppty</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Query Course offering fields</description>
+        <name>Course_offering_fields</name>
+        <label>Course offering fields</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Lov_Qualified_EntryQual_Status</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Course_Offering__r.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Course_Offering__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Lov_GCO_Outcome_status</name>
+        <label>Lov GCO Outcome status</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Lov_Pending_Offer_Response_Status</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Value__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>OFFER-G-CO</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ADM_OUTCOME_STATUS</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>List_of_Values__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Lov_Pending_Cond_Offer_Status</name>
+        <label>Lov Pending Cond Offer Status</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Identify_UGPG</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ADM_CNDTNL_OFFER_STATUS</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Value__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>PENDING</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>List_of_Values__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Lov_Pending_Doc_Status</name>
+        <label>Lov Pending Doc Status</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Lov_GCO_Outcome_status</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ADM_DOC_STATUS</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Value__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>DOC-PEND</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>List_of_Values__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Lov_Pending_Offer_Response_Status</name>
+        <label>Lov Pending Offer Response Status</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Lov_Pending_Cond_Offer_Status</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ADM_OFFER_RESP_STATUS</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Value__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>PENDING</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>List_of_Values__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <name>Lov_Qualified_EntryQual_Status</name>
+        <label>Lov Qualified EntryQual Status</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Lov_Pending_Doc_Status</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Value__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>QUALIFIED</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>ADM_ENTRY_QUAL_STATUS</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>List_of_Values__c</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Update ACP for PG</description>
+        <name>Update_ACP_for_PG</name>
+        <label>Update ACP for PG</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>GCOAutoGenerate_Apex_Action_for_PG</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Agreed_Start_Date__c</field>
+            <value>
+                <elementReference>Course_offering_fields.Start_Date__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Basis_For_Adminssion_Type__c</field>
+            <value>
+                <stringValue>311</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Conditional_Offer_Status_LOV__c</field>
+            <value>
+                <elementReference>Lov_Pending_Cond_Offer_Status.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Conditions_Must_Be_Satisfied__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Documentation_Status_LOV__c</field>
+            <value>
+                <elementReference>Lov_Pending_Doc_Status.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Entry_Qualification_Status_LOV__c</field>
+            <value>
+                <elementReference>Lov_Qualified_EntryQual_Status.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Offer_Condition__c</field>
+            <value>
+                <elementReference>PGOfferCondition</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Offer_Date__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Offer_Response_Date__c</field>
+            <value>
+                <elementReference>OfferLapseDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Offer_Response_Status_LOV__c</field>
+            <value>
+                <elementReference>Lov_Pending_Offer_Response_Status.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Outcome_Status_LOV__c</field>
+            <value>
+                <elementReference>Lov_GCO_Outcome_status.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Revised_End_Date__c</field>
+            <value>
+                <elementReference>Course_offering_fields.End_Date__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Update ACP for UG</description>
+        <name>Update_ACP_for_UG</name>
+        <label>Update ACP for UG</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>GCOAutoGenerate_Apex_Action_for_UG</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Agreed_Start_Date__c</field>
+            <value>
+                <elementReference>Course_offering_fields.Start_Date__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Basis_For_Adminssion_Type__c</field>
+            <value>
+                <stringValue>431</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Conditional_Offer_Status_LOV__c</field>
+            <value>
+                <elementReference>Lov_Pending_Cond_Offer_Status.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Conditions_Must_Be_Satisfied__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Documentation_Status_LOV__c</field>
+            <value>
+                <elementReference>Lov_Pending_Doc_Status.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Entry_Qualification_Status_LOV__c</field>
+            <value>
+                <elementReference>Lov_Qualified_EntryQual_Status.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Offer_Condition__c</field>
+            <value>
+                <elementReference>UGOfferCondition</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Offer_Date__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Offer_Response_Date__c</field>
+            <value>
+                <elementReference>OfferLapseDate</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Offer_Response_Status_LOV__c</field>
+            <value>
+                <elementReference>Lov_Pending_Offer_Response_Status.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Outcome_Status_LOV__c</field>
+            <value>
+                <elementReference>Lov_GCO_Outcome_status.Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Revised_End_Date__c</field>
+            <value>
+                <elementReference>Course_offering_fields.End_Date__c</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Course_offering_fields</targetReference>
+        </connector>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterFormula>AND( {!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = false, TEXT({!$Record.Conditional_Automation__c})=&apos;Generic&apos;, NOT(ISBLANK({!$Record.Callista_Unique_Key_ADM__c})))</filterFormula>
+        <object>Application_Course_Preference__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <textTemplates>
+        <name>PGOfferCondition</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>1. Meeting course requirements as published on Monash websites, e.g. entry requirements (monash.edu/study/courses/find-a-course), admissions requirements (monash.edu/admissions/entry-requirements), English requirements and special requirements (handbook.monash.edu).
+ 2. Providing academic documents* of all qualifications you have completed and/or attempted as follows:    
+ - Final academic documents of your Bachelor degree (other guidelines apply); and if applicable 
+-  Academic transcript of your Graduate Certificate (or higher) with final grades for all subjects attempted. 
+The documents must be provided to Monash as soon as they are available in order to allow ample time for your application to be reassessed and to apply for your student visa.
+*ACADEMIC DOCUMENTS must be issued by the awarding institution including academic transcripts and grading scale (indicating the pass mark and graduation requirement if applicable). The graduation certificate must be provided for completed qualifications. Translated copies must be provided for documents issued by the awarding institution in a language other than English. Original or certified and notarised^ academic documents must be provided. See monash.edu/study/how-to-apply/international-student-applications/certifying-documents.  
+^applies to Chinese qualifications only.
+Some courses require prior studies in a related field and will only be assessed once you provide your final academic documents.
+REDUCED COURSE DURATION: You may be eligible for block credit if you have completed an Australian Bachelor degree in a related field (or equivalent) and/or have the relevant work experience (other guidelines apply). If you have completed an Australian graduate certificate (or equivalent) or higher and have applied for credit, your credit eligibility will be assessed once you have provided the above documents and you have satisfied all of the course requirements. For some courses, commencement is dependent on credit assessment.</text>
+    </textTemplates>
+    <textTemplates>
+        <name>UGOfferCondition</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>1. Meeting course requirements as published on Monash websites, e.g. entry requirements (monash.edu/study/courses/find-a-course), admissions requirements (monash.edu/admissions/entry-requirements), English requirements and special requirements (handbook.monash.edu).
+2. Providing academic documents* of all qualifications you have completed and/or attempted as follows:
+- Final academic documents of your senior secondary or foundation studies; and if applicable
+- Academic transcript (including the name of the program) of your postsecondary studies (e.g. diploma, advanced diploma or associate degree) or higher education study (e.g. bachelor degree or higher) with final grades for all subjects attempted. If your senior secondary study is not comparable to an Australian Year 12, evidence of successful completion of one year of full-time higher education study (equivalent to 48 Monash credit points) is required.
+The documents must be provided to Monash as soon as they are available in order to allow ample time for your application to be reassessed and to apply for your student visa.
+*ACADEMIC DOCUMENTS must be issued by the awarding institution including academic transcripts and grading scale (indicating the pass mark and graduation requirement if applicable). The graduation certificate must be provided for completed qualifications. Translated copies must be provided for documents issued by the awarding institution in a language other than English. Original or certified and notarised^ academic documents must be provided. See monash.edu/study/how-to-apply/international-student-applications/certifying-documents.
+^applies to Chinese qualifications only.
+REDUCED COURSE DURATION: If you have applied for credit, your credit eligibility will be assessed once you have provided the above documents and you have satisfied all of the course requirements. For some courses, commencement is dependent on credit assessment.</text>
+    </textTemplates>
+    <variables>
+        <description>ACP Admission category</description>
+        <name>acpAdmissionCategory</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>Collection of ACPIds to be passed to the offer generation class</description>
+        <name>acpIds</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>ACP Intake period</description>
+        <name>acpIntakePeriod</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <name>ExceptionMsg</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <name>NotificationTitle</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <value>
+            <stringValue>Unable to create Auto GCO offer for {!$Record.Name}</stringValue>
+        </value>
+    </variables>
+</Flow>

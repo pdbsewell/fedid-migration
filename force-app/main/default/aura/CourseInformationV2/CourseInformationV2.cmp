@@ -1,0 +1,209 @@
+<aura:component implements="force:lightningQuickAction,flexipage:availableForAllPageTypes,force:hasRecordId" access="global" controller="EnquiryCourseInformationCC">
+
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="linkedCourse" default="" type="String" />
+    <aura:attribute name="showSpinner" default="true" type="Boolean" />
+    <aura:attribute name="studentApplications" default="[]" type="Object[]" />
+    <aura:attribute name="studentCourseAttempts" default="[]" type="Object[]" />
+    <aura:attribute name="studentUnitAttempts" default="[]" type="Object[]" />
+    <aura:attribute name="hasNoApplications" default="false" type="Boolean" />
+    <aura:attribute name="hasNoCourseAttempts" default="false" type="Boolean" />
+    <aura:attribute name="hasNoUnitAttempts" default="false" type="Boolean" />
+
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+
+    <!-- Case Record -->
+    <aura:attribute name="currentEnquiry" type="Object"/>
+    <aura:attribute name="enquiryError" type="String"/>
+    <force:recordData aura:id="caseRecordLoader"
+                      recordId="{!v.recordId}"
+                      fields="Id,ContactId,Contact.Person_ID__c,Course_Code__c"
+                      targetFields="{!v.currentEnquiry}"
+                      targetError="{!v.enquiryError}"
+                      mode="VIEW"
+                      recordUpdated="{!c.enquiryUpdated}"
+    />
+
+    <p class="slds-card slds-is-relative slds-p-around_xxx-small">
+        <lightning:tabset class="slds-is-relative slds-theme_default slds-p-around_xx-small">
+            <!-- Course Attempts section -->
+            <lightning:tab label="Course Attempts">
+                <!-- No Course Attempts found -->
+                <aura:if isTrue="{!v.hasNoCourseAttempts}">
+                    <div id="noCourseAttemptsError" class="slds-box slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error slds-text-align_left" role="alert">
+                        <div class="slds-notify__content slds-m-around_none slds-p-around_none">
+                            <h2 class="slds-text-heading_small">No Course Attempts Found.</h2>
+                        </div>
+                    </div>
+                </aura:if>
+
+                <!--&lt;!&ndash; Loop through course attempts &ndash;&gt;-->
+                <aura:iteration items="{!v.studentCourseAttempts}" var="courseAttempt">
+                    <!-- Course Attempt Card -->
+                    <lightning:card title="{!courseAttempt.Course_Short_Title__c}" class="{!courseAttempt.Course_Code__c == v.linkedCourse ? 'slds-card_boundary linked' : 'slds-card_boundary unlinked'}">
+                        <aura:set attribute="actions">
+                            <!-- Setup actions -->
+                            <aura:if isTrue="{!courseAttempt.Course_Code__c == v.linkedCourse}">
+                                <button class="slds-button slds-button_destructive" onclick="{!c.unlinkCourseData}" data-coursecode="{!courseAttempt.Course_Code__c}">Unlink</button>
+                                <aura:set attribute="else">
+                                    <button class="slds-button slds-button_brand" onclick="{!c.linkCourseData}" data-coursecode="{!courseAttempt.Course_Code__c}" data-courseid="{!courseAttempt.Course__c}" data-courseattemptid="{!courseAttempt.Id}" data-courseattemptstat="{!courseAttempt.Course_Attempt_Status__c}">Link</button>
+                                </aura:set>
+                            </aura:if>
+                        </aura:set>
+                        <div class="cardBody slds-grid slds-wrap slds-p-horizontal_small clickable" data-coursecode="{!courseAttempt.Course_Code__c}" data-courseid="{!courseAttempt.Course__c}"  data-courseattemptid="{!courseAttempt.Id}" onclick="{!c.navigateToCourse}">
+                        <p class="slds-col">
+                            <span class="slds-form-element__label">Code</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{!courseAttempt.Course_Code__c}</div>
+                        </div>
+                        </p>
+                        <p class="slds-col">
+                            <span class="slds-form-element__label">Status</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{!courseAttempt.Course_Attempt_Status__c}</div>
+                        </div>
+                        </p>
+                        <p class="slds-col">
+                            <span class="slds-form-element__label">Type</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{!courseAttempt.Attendance_Type__c}</div>
+                        </div>
+                        </p>
+                        <p class="slds-col">
+                            <span class="slds-form-element__label">Home Campus</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{!courseAttempt.Location__c}</div>
+                        </div>
+                        </p>
+                        <p class="slds-col">
+                            <span class="slds-form-element__label">Study Mode</span>
+                        <div class="slds-form-element__control">
+                            <div class="slds-form-element__static">{!courseAttempt.Attendance_Mode__c}</div>
+                        </div>
+                        </p>
+                        </div>
+                    </lightning:card>
+                </aura:iteration>
+
+                <aura:if isTrue="{!v.showSpinner}">
+                    <div class="slds-box" style="border: none;">
+                        <lightning:spinner variant="brand" />
+                    </div>
+                </aura:if>
+            </lightning:tab>
+
+            <!-- Applications section -->
+            <lightning:tab label="ACPs">
+                <!-- No Applications found -->
+                <aura:if isTrue="{!v.hasNoApplications}">
+                    <div id="noApplicationsError" class="slds-box slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error slds-text-align_left" role="alert">
+                        <div class="slds-notify__content slds-m-around_none slds-p-around_none">
+                            <h2 class="slds-text-heading_small">No Applications Found.</h2>
+                        </div>
+                    </div>
+                </aura:if>
+
+                <!-- Loop through applications -->
+                <aura:iteration items="{!v.studentApplications}" var="application">
+                    <lightning:card title="{!application.Course_Title__c}" class="{!application.Course_Code__c == v.linkedCourse ? 'slds-card_boundary linked' : 'slds-card_boundary unlinked'}">
+                        <aura:set attribute="actions">
+                            <!-- Setup actions -->
+                            <aura:if isTrue="{!application.Course_Code__c == v.linkedCourse}">
+                                <button class="slds-button slds-button_destructive" onclick="{!c.unlinkCourseData}" data-coursecode="{!application.Course_Code__c}">Unlink</button>
+                                <aura:set attribute="else">
+                                    <!--<button class="slds-button slds-button_brand" onclick="{!c.linkCourseData}" data-coursecode="{!application.Course_Code__c}" data-managingfaculty="{!application.Managing_Faculty_Text__c}">Link</button>-->
+                                    <button class="slds-button slds-button_brand" onclick="{!c.linkCourseData}" data-coursecode="{!application.Course_Code__c}" data-courseid="{!application.Course__c}" data-acpid="{!application.Id}">Link</button>
+                                </aura:set>
+                            </aura:if>
+                        </aura:set>
+                        <!--<div class="cardBody slds-grid slds-wrap slds-p-horizontal_small clickable" data-coursecode="{!application.Course_Code__c}" data-managingfaculty="{!application.Managing_Faculty_Text__c}" onclick="{!c.navigateToCourse}">-->
+                        <div class="cardBody slds-grid slds-wrap slds-p-horizontal_small clickable" data-coursecode="{!application.Course_Code__c}" data-courseid="{!application.Course__c}" data-acpid="{!application.Id}" onclick="{!c.navigateToCourse}">
+                            <p class="slds-col">
+                                <span class="slds-form-element__label">Code</span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">{!application.Course_Code__c}</div>
+                            </div>
+                            </p>
+                            <p class="slds-col">
+                                <span class="slds-form-element__label">Outcome</span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">{!application.Outcome_Status_Value__c}</div>
+                            </div>
+                            </p>
+                            <p class="slds-col">
+                                <span class="slds-form-element__label">Response</span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">{!application.Offer_Response_Status_LOV__r.Value__c}</div>
+                            </div>
+                            </p>
+                        </div>
+                    </lightning:card>
+                </aura:iteration>
+                <aura:if isTrue="{!v.showSpinner}">
+                    <div class="slds-box" style="border: none;">
+                        <lightning:spinner variant="brand" />
+                    </div>
+                </aura:if>
+            </lightning:tab>
+
+
+            <!-- Unit Enrolment Section -->
+            <lightning:tab label="Unit Attempts">
+                <!-- No Applications found -->
+                <aura:if isTrue="{!v.hasNounitAttempts}">
+                    <div id="noApplicationsError" class="slds-box slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error slds-text-align_left" role="alert">
+                        <div class="slds-notify__content slds-m-around_none slds-p-around_none">
+                            <h2 class="slds-text-heading_small">No Unit Attempts Found.</h2>
+                        </div>
+                    </div>
+                </aura:if>
+
+                <!-- Loop through applications -->
+                <aura:iteration items="{!v.studentUnitAttempts}" var="unitAttempt">
+                    <lightning:card title="{!unitAttempt.Title__c}" class="slds-card_boundary unlinked">
+<!--                        <div class="cardBody slds-grid slds-wrap slds-p-horizontal_small">-->
+                        <div class="cardBody slds-grid slds-wrap slds-p-horizontal_small clickable" data-coursecode="{!unitAttempt.Unit_Code__c}" data-courseid="{!unitAttempt.Id}"  data-courseattemptid="{!unitAttempt.Id}" onclick="{!c.navigateToCourse}">
+                            <p class="slds-col">
+                                <span class="slds-form-element__label">Unit Code</span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">{!unitAttempt.Unit_Code__c}</div>
+                            </div>
+                            </p>
+                            <p class="slds-col">
+                                <span class="slds-form-element__label">Status</span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">{!unitAttempt.Status__c}</div>
+                            </div>
+                            </p>
+                            <p class="slds-col">
+                                <span class="slds-form-element__label">Teaching Period</span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">{!unitAttempt.Teaching_Period__c}</div>
+                            </div>
+                            </p>
+        <!--                    <p class="slds-col">-->
+        <!--                        <span class="slds-form-element__label">Calendar Type</span>-->
+        <!--                    <div class="slds-form-element__control">-->
+        <!--                        <div class="slds-form-element__static">{!unitAttempt.Teaching_Calendar__r.Description__c}</div>-->
+        <!--                    </div>-->
+<!--                            </p>-->
+                            <p class="slds-col">
+                                <span class="slds-form-element__label">Academic Year</span>
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__static">{!unitAttempt.Academic_Year__c}</div>
+                            </div>
+                            </p>
+<!--                            </div>-->
+                        </div>
+                    </lightning:card>
+                </aura:iteration>
+                <aura:if isTrue="{!v.showSpinner}">
+                    <div class="slds-box" style="border: none;">
+                        <lightning:spinner variant="brand" />
+                    </div>
+                </aura:if>
+            </lightning:tab>
+    </lightning:tabset>
+    </p>
+    <!--</lightning:card>-->
+</aura:component>

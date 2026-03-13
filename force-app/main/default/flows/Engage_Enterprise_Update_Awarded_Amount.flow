@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>58.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>Add funding record for update</description>
+        <name>Add_Funding_Record_To_Collection</name>
+        <label>Add Funding Record To Collection</label>
+        <locationX>338</locationX>
+        <locationY>755</locationY>
+        <assignmentItems>
+            <assignToReference>FundingCollectionsForUpdate</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Loop_Through_Fundings</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Funding_Primary_Record</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assign the applied amount of the primary founder to be updated later on for opportunity</description>
+        <name>Primary_Funder_Applied_Amount</name>
+        <label>Primary Funder Applied Amount</label>
+        <locationX>206</locationX>
+        <locationY>971</locationY>
+        <assignmentItems>
+            <assignToReference>PrimaryFunderAmount</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Through_Fundings.Applied_Amount__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Loop_Through_Fundings</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Set awarded amount based on applied amount</description>
+        <name>Set_awarded_amount</name>
+        <label>Set awarded amount</label>
+        <locationX>338</locationX>
+        <locationY>647</locationY>
+        <assignmentItems>
+            <assignToReference>Loop_Through_Fundings.Awarded_Amount__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Loop_Through_Fundings.Applied_Amount__c</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Add_Funding_Record_To_Collection</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Check if the funding record is the primary funder</description>
+        <name>Funding_Primary_Record</name>
+        <label>Funding Primary Record?</label>
+        <locationX>338</locationX>
+        <locationY>863</locationY>
+        <defaultConnector>
+            <targetReference>Loop_Through_Fundings</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Primary_Funder</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Loop_Through_Fundings.Primary_Funder__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Primary_Funder_Applied_Amount</targetReference>
+            </connector>
+            <label>Primary Funder?</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check if there are related funding records.</description>
+        <name>Funding_Records_Found</name>
+        <label>Funding Records Found?</label>
+        <locationX>176</locationX>
+        <locationY>431</locationY>
+        <defaultConnector>
+            <targetReference>Update_Funding_Recordds</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Fundings_found</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Funding_Record</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Loop_Through_Fundings</targetReference>
+            </connector>
+            <label>Fundings found?</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check if there is a value on the primary funder applied amount variable</description>
+        <name>Primary_Funder_Applied_Amount_Found</name>
+        <label>Primary Funder Applied Amount Found</label>
+        <locationX>182</locationX>
+        <locationY>1439</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Primary_Funder_Applied_Amount_Value</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>PrimaryFunderAmount</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Opportunity_Amount</targetReference>
+            </connector>
+            <label>Primary Funder Applied Amount Value?</label>
+        </rules>
+    </decisions>
+    <description>Update awarded amount in funding records when opportunity is closed won</description>
+    <environments>Default</environments>
+    <interviewLabel>Engage Enterprise Update Awarded Amount {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Engage Enterprise Update Awarded Amount</label>
+    <loops>
+        <description>Loop through each funding records to assign a value to the awarded amount.</description>
+        <name>Loop_Through_Fundings</name>
+        <label>Loop Through Fundings</label>
+        <locationX>118</locationX>
+        <locationY>539</locationY>
+        <collectionReference>Get_Funding_Record</collectionReference>
+        <iterationOrder>Asc</iterationOrder>
+        <nextValueConnector>
+            <targetReference>Set_awarded_amount</targetReference>
+        </nextValueConnector>
+        <noMoreValuesConnector>
+            <targetReference>Update_Funding_Recordds</targetReference>
+        </noMoreValuesConnector>
+    </loops>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Get all related funding records</description>
+        <name>Get_Funding_Record</name>
+        <label>Get Funding Record</label>
+        <locationX>182</locationX>
+        <locationY>323</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Funding_Records_Found</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Opportunity__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Applied_Amount__c</field>
+            <operator>GreaterThan</operator>
+            <value>
+                <numberValue>0.0</numberValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Funding__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Update each funding records awarded amount from opportunity amount</description>
+        <name>Update_Funding_Recordds</name>
+        <label>Update Funding Recordds</label>
+        <locationX>182</locationX>
+        <locationY>1331</locationY>
+        <connector>
+            <targetReference>Primary_Funder_Applied_Amount_Found</targetReference>
+        </connector>
+        <inputReference>FundingCollectionsForUpdate</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Update the opportunity amount based on the primary funder&apos;s applied amount</description>
+        <name>Update_Opportunity_Amount</name>
+        <label>Update Opportunity Amount</label>
+        <locationX>50</locationX>
+        <locationY>1547</locationY>
+        <inputAssignments>
+            <field>Amount</field>
+            <value>
+                <elementReference>PrimaryFunderAmount</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>56</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Funding_Record</targetReference>
+        </connector>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterFormula>AND({!$Record.RecordType.DeveloperName} = &apos;Enterprise&apos;, {!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False, TEXT({!$Record.StageName}) =  &apos;Closed Won&apos;)</filterFormula>
+        <object>Opportunity</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Collection of funding records for update.</description>
+        <name>FundingCollectionsForUpdate</name>
+        <dataType>SObject</dataType>
+        <isCollection>true</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Funding__c</objectType>
+    </variables>
+    <variables>
+        <description>Applied amount of the primary funding record</description>
+        <name>PrimaryFunderAmount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <scale>2</scale>
+    </variables>
+</Flow>

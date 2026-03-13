@@ -1,0 +1,12 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" >
+    <lightning:quickActionAPI aura:id="quickActionAPI" />
+    
+    <div class="slds-grid slds-wrap">
+        <div class="slds-size_4-of-5">
+            <c:EmailFromSelector recordId="{!v.recordId}" />
+        </div>
+        <div class="slds-size_1-of-5">
+            <c:ViewEnquiryDraft recordId="{!v.recordId}" />
+        </div>
+    </div>
+</aura:component>

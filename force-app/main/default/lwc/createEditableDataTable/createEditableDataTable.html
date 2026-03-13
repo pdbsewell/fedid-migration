@@ -1,0 +1,134 @@
+<template>
+    <lightning-card title="Account Team" icon-name="standard:team_member">
+        <template if:true={isEdited}>
+            <lightning-button label="Add" icon-name="utility:add" slot="actions" onclick={add}></lightning-button>&nbsp;
+            <template if:true={noSave}> 
+                <lightning-button style="margin-left: 4px;" label={toggleSaveLabel} icon-name="utility:save" slot="actions" onclick={handleSave}></lightning-button>
+            </template>&nbsp;
+            <lightning-button label="Cancel" style="margin-left: 4px;" icon-name="utility:cancel_file_request" slot="actions" onclick={handleCancel}> </lightning-button>
+        </template>
+        <template if:false={isEdited}>
+            <lightning-button label=Create/Update icon-name="utility:edit" slot="actions" onclick={onDoubleClickEdit}></lightning-button>
+        </template>
+        <div class="slds-p-around_x-small">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                    <thead>
+                        <tr class="">
+                            <th class="slds-size_4-of-10" scope="col">
+                                <div class="slds-truncate" title="TEAM ROLe">TEAM ROLE</div>
+                            </th>
+                            <th class="slds-size_4-of-10" scope="col">
+                                <div class="slds-truncate" title="User">USER</div>
+                            </th>
+                            <th class="slds-size_4-of-10" scope="col">
+                                <div class="slds-truncate" title="Rating">RATING</div>
+                            </th>
+                            <th class="slds-size_4-of-10" scope="col">
+                                <div class="slds-truncate" title="ACTION">ACTION</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each = {myList} for:item = "item" for:index="indexVar">
+                            <tr key={item.key} class="slds-hint-parent">
+                                <td class="slds-size_4-of-10" data-label="TeamMemberRole">
+                                    <div  title="TeamMemberRole">
+                                        <template if:false={isEdited}>{item.TeamMemberRole}</template>
+                                        <template if:true={isEdited}>
+                                            <template if:true={item.picklistdefaultvalue}>
+                                                <c-custompicklist 
+                                                    unique-key={item.Id} 
+                                                    object-api-name="AccountTeamMember" 
+                                                    selected-value={item.TeamMemberRole}
+                                                    value={item.TeamMemberRole}
+                                                    access-key={indexVar}
+                                                    disabled="true"
+                                                    required="true"
+                                                    pick-listfield-api-name="TeamMemberRole" 
+                                                    variant="label-hidden"
+                                                    onpicklistchange={handlePicklistChange}>
+                                                </c-custompicklist>
+                                            </template>
+                                            <template if:false={item.picklistdefaultvalue}>
+                                               <c-custompicklist 
+                                                                unique-key={item.Id} 
+                                                                object-api-name="AccountTeamMember" 
+                                                                selected-value={item.TeamMemberRole}
+                                                                value={item.TeamMemberRole}
+                                                                access-key={indexVar}
+                                                                required="true"
+                                                                pick-listfield-api-name="TeamMemberRole" 
+                                                                variant="label-hidden"
+                                                                onpicklistchange={handlePicklistChange}>
+                                                </c-custompicklist>
+                                            </template>
+                                        </template>
+                                    </div>
+                                </td>
+                                <td class="slds-size_4-of-10" data-label="">
+                                    <div  title="">
+                                        <template if:false={isEdited} if:true={item.User}> 
+                                            <lightning-formatted-url value={item.UserUrl} label={item.UserName} target="_self"></lightning-formatted-url>
+                                        </template>
+                                        <template if:true={isEdited}>
+                                            <template if:true={item.User}>
+                                                <c-custom-lookup child-object-api-name='AccountTeamMember'  value={item.User.Id} unique-key={item.Id}
+                                                target-field-api-name='UserId' required='true' variant="label-hidden"  disabled="true" onvalueselected={handleSelection}></c-custom-lookup>
+                                            </template>
+                                            <template if:false={item.User}>
+                                                <c-custom-lookup child-object-api-name='AccountTeamMember' access-key={indexVar} value={item.User.Id} unique-key={item.Id}
+                                                target-field-api-name='UserId' required='true' variant="label-hidden"  onvalueselected={handleSelection}></c-custom-lookup>
+                                            </template>
+                                        </template>
+                                    </div>
+                                </td>
+                                <td class="slds-size_4-of-10" data-label="">
+                                    <div  title="Rating">
+                                        <template if:false={isEdited}>{item.Rating__c}</template>
+                                        <template if:true={isEdited}>
+                                            <template if:true={item.picklistdefaultvalue}>
+                                                <c-custom-picklist-rating
+                                                        unique-key={item.Id}
+                                                        object-api-name="AccountTeamMember"
+                                                        selected-value={item.Rating__c}
+                                                        value={item.Rating__c}
+                                                        access-key={indexVar}
+                                                        disabled="true"
+                                                        required="true"
+                                                        pick-listfield-api-name="Rating__c"
+                                                        variant="label-hidden"
+                                                        onpicklistchange={handleRatingChange}>
+                                                </c-custom-picklist-rating>
+                                            </template>
+                                            <template if:false={item.picklistdefaultvalue}>
+                                                <c-custom-picklist-rating
+                                                        unique-key={item.Id}
+                                                        object-api-name="AccountTeamMember"
+                                                        selected-value={item.Rating__c}
+                                                        value={item.Rating__c}
+                                                        access-key={indexVar}
+                                                        required="true"
+                                                        pick-listfield-api-name="Rating__c"
+                                                        variant="label-hidden"
+                                                        onpicklistchange={handleRatingChange}>
+                                                </c-custom-picklist-rating>
+                                            </template>
+                                        </template>
+
+
+                                    </div>
+                                </td>
+                                <td class="slds-size_1-of-10" data-label="delete">
+                                    <a name={indexVar} data-id={item.Id} onclick={remove}>
+                                        <template if:false={item.picklistdefaultvalue}>
+                                            <lightning-icon icon-name="utility:delete" alternative-text="delete"  size="small"></lightning-icon>
+                                        </template>
+                                    </a>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+             </table>
+        </div>
+</lightning-card>
+</template>

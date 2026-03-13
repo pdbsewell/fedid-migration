@@ -1,0 +1,68 @@
+<template>
+    <div class="c-container">
+        <lightning-layout multiple-rows="true">
+            <lightning-layout-item padding="around-small" size="12">
+    <div>
+        <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_striped slds-max-medium-table_stacked-horizontal fixed">
+            <thead>
+                <tr class="slds-line-height_reset"></tr>
+                    <th class="" scope="col">Unit code</th>
+                    <th class="" scope="col">Unit title</th>
+                    <th class="" scope="col">Credit points</th>
+                    <th class="" scope="col">Mark</th>
+                    <th class="" scope="col">Grade</th>
+                    <th class="" scope="col">
+                        Withdraw?<br />
+                        <a target="_blank">[What is this?]</a>
+                    </th>
+                    <th class="" scope="col">
+                        Convert to SFR?<br />
+                        <a target="_blank">[What is this?]</a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={unitAttemptList1} for:item="row">
+                    <tr key={row.unitAttemptId}>
+                        <td>{row.unitCode}</td>
+                        <td>{row.unitTitle}</td>
+                        <td>0</td>
+                        <td>{row.mark}</td>
+                        <td>{row.grade}</td>
+                        <td>
+                            <lightning-input type="checkbox"   name="withdraw" checked={row.withDraw} value={row.withDraw} onchange={checkWithDrawSelected} ></lightning-input>
+                        </td>
+                        <td>
+                            <lightning-input type="checkbox"  name="convertToSFR"   value={row.convertToSFR} onchange={checkSFRSelected}></lightning-input>
+                        </td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>
+    </div>
+</lightning-layout-item>
+<lightning-layout-item padding="around-small" size="12">
+   
+        <p>
+            By submitting this form, you acknowledge that you have carefully considered the changes that
+            will be made to your academic transcript and the effect this may have on your course
+            progression and/or graduate opportunities.
+        </p>
+        <br/>
+    
+        <br/>
+        <div>
+         <b>Your decision for this teaching period is final and cannot be reversed.</b>
+            <br/>
+            <b>Are you sure you want to proceed?</b>
+        </div>
+        <footer class="slds-modal__footer">
+            <lightning-button label="Yes, submit" variant="neutral" onclick={saveUnitAttempts} ></lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <lightning-button label="Reset" variant="neutral" onclick={handleReset}></lightning-button>&nbsp;&nbsp;&nbsp;&nbsp;
+        </footer>
+  
+</lightning-layout-item>
+</lightning-layout>
+
+</div>
+</template>

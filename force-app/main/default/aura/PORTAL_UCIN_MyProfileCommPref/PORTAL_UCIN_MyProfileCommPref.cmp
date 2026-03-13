@@ -1,0 +1,72 @@
+<!-- Contains opt out and opt in options for communicating with the user-->
+<aura:component>
+
+    <aura:attribute name="contactCommPref" type="Contact"/>
+
+    <div class="bg-white">
+        <div class="hidden absolute w-full p-4 text-right">
+            <div class="inline-block border-solid border-blue border-2 rounded-full">
+                <!--img class="p-2" src=../../assets/images/globals/Icon_Edit.svg alt="edit" /-->
+            </div>
+        </div>
+        <div class="p-4 sm:p-6 text-dark-grey">
+            <div class="block relative w-full rounded overflow-hidden">
+                <!--The opt out section-->
+                <h1 class="text-3xla sm:text-3xl sm:font-bold leading-bitmore py-3">Global preferences</h1>
+        		<div class="w-full border-solid border-dark-grey border-b-2"></div>
+                <div class="w-full flex flex-row flex-wrap pb-4 lg:pr-48 justify-between">
+                    <div class="w-full lg:w-5/12 flex flex-row items-center border-solid border-grey border-b-2 py-1 lg:py-3 text-xl lg:text-lg">
+                        <label class="w-full" for="aoe-marketing-emails">Opt out of all marketing emails</label>
+                        <input class="w-4 h-4 ml-4 lg:mr-4 appearance-none border-solid border-dark-grey border bg-white outline-none" type="checkbox" checked="{!v.contactCommPref.HasOptedOutOfEmail}" id="emailOpt" onclick="{!c.checkEmail}" />
+                    </div>
+                    <div class="w-full lg:w-5/12 flex flex-row items-center border-solid border-grey border-b-2 py-1 lg:py-3 text-xl lg:text-lg">
+                        <label class="w-full" for="aoe-marketing-call">Opt out of all marketing phone calls</label>
+                        <input class="w-4 h-4 ml-4 lg:mr-4 appearance-none border-solid border-dark-grey border bg-white outline-none" type="checkbox" checked="{!v.contactCommPref.DoNotCall}" id="dnc" onclick="{!c.checkDNC}"/>
+                    </div>
+                    <div class="w-full lg:w-5/12 flex flex-row items-center border-solid border-grey border-b-2 py-1 lg:py-3 text-xl lg:text-lg">
+                        <label class="w-full" for="aoe-marketing-sms">Opt out of all marketing SMS</label>
+                        <input class="w-4 h-4 ml-4 lg:mr-4 appearance-none border-solid border-dark-grey border bg-white outline-none" type="checkbox" checked="{!v.contactCommPref.SMS_Opt_Out__c}" id="smsOpt" onclick="{!c.checkSMS}"/>
+                    </div>
+                    <div class="w-full lg:w-5/12 flex flex-row items-center py-1 lg:py-3 text-xl lg:text-lg">
+                    	<label class="w-full" for="aoe-marketing-mail">Opt out of all marketing mail (letters)</label>
+                    	<input class="w-4 h-4 ml-4 lg:mr-4 appearance-none border-solid border-dark-grey border bg-white outline-none" type="checkbox" checked="{!v.contactCommPref.Direct_Mail_Opt_Out__c}" id="mailOpt" onclick="{!c.checkMail}" />
+                    </div>
+                </div>
+                <!--The Opt in section-->
+                <h1 class="text-3xla sm:text-3xl sm:font-bold leading-bitmore py-3">Alumni preferences</h1>
+        		<div class="w-full border-solid border-dark-grey border-b-2"></div>
+                <div class="w-full flex flex-row flex-wrap pb-4 lg:pr-48 justify-between">
+                    <div class="w-full lg:w-5/12 flex flex-row items-center border-solid border-grey border-b-2 py-1 lg:py-3 text-xl lg:text-lg">
+                        <label class="w-full" for="aoe-volunteering">Volunteering with Monash</label>
+                        <input class="w-4 h-4 ml-4 lg:mr-4 appearance-none border-solid border-dark-grey border bg-white outline-none" type="checkbox" checked="{!v.contactCommPref.Volunteer_at_Monash__c}" id="volunteer" onclick="{!c.checkVolunteer}" />
+                    </div>
+                    <div class="w-full lg:w-5/12 flex flex-row items-center border-solid border-grey border-b-2 py-1 lg:py-3 text-xl lg:text-lg">
+                        <label class="w-full" for="aoe-mon-events">Monash Community (news, opportunities, insights and discoveries from the members of our Monash community)</label>
+                        <input class="w-4 h-4 ml-4 lg:mr-4 appearance-none border-solid border-dark-grey border bg-white outline-none" type="checkbox" checked="{!v.contactCommPref.Monash_Community__c}" id="events" onclick="{!c.checkCommunity}" />
+                    </div>
+                    <div class="w-full lg:w-5/12 flex flex-row items-center border-solid border-grey border-b-2 py-1 lg:py-3 text-xl lg:text-lg">
+                        <label class="w-full" for="aoe-mon-news">Monash Corporate (latest announcements and corporate news from Monash University)</label>
+                        <input class="w-4 h-4 ml-4 lg:mr-4 appearance-none border-solid border-dark-grey border bg-white outline-none" type="checkbox" checked="{!v.contactCommPref.Monash_Corporate__c}" id="news" onclick="{!c.checkCorporate}" />
+                    </div>
+                    <div class="w-full lg:w-5/12 flex flex-row items-center border-solid border-grey border-b-2 py-1 lg:py-3 text-xl lg:text-lg">
+                        <label class="w-full" for="aoe-mon-survey">Research with Monash</label>
+                        <input class="w-4 h-4 ml-4 lg:mr-4 appearance-none border-solid border-dark-grey border bg-white outline-none" type="checkbox" checked="{!v.contactCommPref.Research_with_Monash__c}" id="feedback" onclick="{!c.checkResearch}" />
+                    </div>
+                    <div class="w-full lg:w-5/12 flex flex-row items-center border-solid border-grey border-b-2 py-1 lg:py-3 text-xl lg:text-lg">
+                        <label class="w-full" for="aoe-mon-partner">Partnering with Monash and its subsidiaries</label>
+                        <input class="w-4 h-4 ml-4 lg:mr-4 appearance-none border-solid border-dark-grey border bg-white outline-none" type="checkbox" checked="{!v.contactCommPref.Partner_with_Monash__c}" id="partner" onclick="{!c.checkPartner}" />
+                    </div>
+                    <div class="w-full lg:w-5/12 flex flex-row items-center border-solid border-grey border-b-2 py-1 lg:py-3 text-xl lg:text-lg">
+                        <label class="w-full" for="aoe-donate">Giving to Monash</label>
+                        <input class="w-4 h-4 ml-4 lg:mr-4 appearance-none border-solid border-dark-grey border bg-white outline-none" type="checkbox" checked="{!v.contactCommPref.Giving_to_Monash__c}" id="giving" onclick="{!c.checkGiving}" />
+                    </div>
+                    <div class="w-full lg:w-5/12 flex flex-row items-center py-1 lg:py-3 text-xl lg:text-lg">
+                        <label class="w-full" for="aoe-further-study">Further study at Monash, including executive and professional education</label>
+                        <input class="w-4 h-4 ml-4 lg:mr-4 appearance-none border-solid border-dark-grey border bg-white outline-none" type="checkbox" checked="{!v.contactCommPref.Study_at_Monash__c}" id="study" onclick="{!c.checkStudy}" />
+                    </div>
+                </div>
+                <div class="w-full mb-3 border-solid border-greyborder-b-2"></div>
+            </div>
+        </div>
+    </div>
+</aura:component>

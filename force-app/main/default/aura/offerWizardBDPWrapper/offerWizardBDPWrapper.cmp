@@ -1,0 +1,28 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" access="global">
+    
+	<aura:attribute name="bdpRecord" type="Object"/>
+    <aura:attribute name="recordLoadError" type="String"/>
+    
+    <force:recordData aura:id="bdpLoader"
+        recordId="{!v.recordId}"
+        fields="Id,Name,Applicant__c,Status__c,Transfer_To__c,Transfer_Course_Code__c,Student_Notes__c"
+        targetFields="{!v.bdpRecord}"
+        targetError="{!v.recordLoadError}"
+    />     
+    <aura:if isTrue="{!v.bdpRecord}">
+        <aura:if isTrue="{!v.bdpRecord.Status__c != 'Ready for Offer'}">
+            <div class="slds-grid slds-gutters slds-align_absolute-center" style="margin-top: 100px;margin-left: 30px;">
+                <div class="slds-col">
+                    <span>
+                      <h2 class="slds-text-heading--small">Offer can only be generated when the status is Ready for Offer</h2>
+                    </span>
+                </div>  
+            </div>
+            <aura:set attribute="else">
+                <ltng:require styles="{!$Resource.ModalWidthCSS}"/>
+                <c:offerWizard recordId="{!v.bdpRecord.Applicant__c}" onclose="{!c.closeModal}" bdpRec="{!v.bdpRecord}"/>
+            </aura:set>
+        </aura:if>
+    </aura:if>
+
+</aura:component>

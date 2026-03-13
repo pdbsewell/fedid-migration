@@ -1,0 +1,361 @@
+<aura:component controller="PORTAL_UCIN_DirectoryController" implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <aura:attribute name="baseUrl" type="String" default=""></aura:attribute>
+    <aura:attribute name="searchTimer" type="Integer" />
+    <!--Data for current table-->
+    <aura:attribute name="data" type="Object"/> 
+    <!--All data for pagination-->
+    <aura:attribute name="allData" type="List"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="recordId" type="String"/>
+    <aura:attribute name="loaded" type="Boolean" default="true" />
+    <aura:attribute name="loggedInContactId" type="String" />
+
+    <!--Sort-->
+    <aura:attribute name="sortedByApiName" type="String" default="LastName"/>
+    <aura:attribute name="sortDirection" type="String" default="asc"/>
+    <aura:attribute name="firstSortedValue" type="String"/>
+    <aura:attribute name="firstContactId" type="String"/>
+    <aura:attribute name="lastContactId" type="String"/>
+    <aura:attribute name="lastSortedValue" type="String"/>
+
+    <!--Pagination-->
+    <aura:attribute name="currentPageNumber" type="Integer" default="1"/>
+    <aura:attribute name="pageSize" type="Integer" default="15"/>
+    <aura:attribute name="totalPages" type="Integer" default="0"/>
+    <aura:attribute name="pageList" type="List" default="[1]"/>
+    <aura:attribute name="totalRecords" type="Integer" default="0"/>
+    <aura:attribute name="firstPageTracked" type="Integer" />
+    <aura:attribute name="lastPageTracked" type="Integer" />
+
+    <!--Filter-->
+    <aura:attribute name="searchText" type="String" default=""/>
+    <aura:attribute name="searchForSelected" type="String" default="All"/>
+    <aura:attribute name="filterSearchText" type="String" />
+    <aura:attribute name="options" type="List" default="[
+                                                        {'label': 'All', 'value': 'All'},
+                                                        {'label': 'Class Year', 'value': 'Class Year'},                                                        
+                                                        {'label': 'Degree', 'value': 'Degree'}
+                                                        ]"/>
+    <aura:attribute name="codeOfConduct" type="String" required="false" default="By using the messaging service provided you are agreeing to abide by the "/>
+    <aura:attribute name="codeOfConductLabel" type="String" required="false" default="Code of Conduct. "/>
+
+
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+    <!--<aura:handler name="change" value="{!v.searchText}" action="{!c.handleSearchTextChange}"/>
+    <aura:handler name="change" value="{!v.filterSearchText}" action="{!c.handleFilterSearchTextChange}"/>-->
+    <aura:handler name="change" value="{!v.searchForSelected}" action="{!c.handleSearchForChange}"/>
+
+    <ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}"/>
+    
+    <div class="bg-gray-mon max-w-1300 m-auto slds-is-relative">
+        <div>
+			<aura:if isTrue="{!!v.loaded }">
+				<lightning:spinner alternativeText="Loading" />
+			</aura:if>
+		</div>
+        <div class="container-xl w-full bg-white lg:p-6 my-4">
+            <div class="content">
+                <h2 class="text-3xl sm:text-5xl leading-bitmore sm:leading-tight uppercase px-4 sm:px-6 lg:px-0 pt-6 lg:pt-0">Find Alumni</h2>
+            </div>
+            <div class="block lg:hidden w-full bg-white pb-2">
+                <span class="absolute w-1/2 sm:w-1/4 border-solid border-b-4 border-purple"></span>
+            </div>
+            <div class="p-4 sm:p-6 lg:p-0">
+                <p class="text-xl lg:text-lg leading-relaxed text-primary">This directory displays the name and qualifications of all Monash alumni. Where consent has been provided the additional information provided in the Profile Summary is available by clicking the linked name. Review your 
+                    <a class="underline inline-block align-baseline font-bold text-blue hover:text-blue-800" href="https://alumni-friends.monash.edu/ascendportal/s/myprofile" target="_blank">      
+                    Profile Summary and consent settings
+                </a>, and ensure you remain visible to your Monash community.
+            </p>
+            </div>
+            <div class="sm:mb-4 sm:mb-6">
+                <span class="absolute w-1/2 sm:w-1/4 border-solid border-t-4 border-purple"></span>
+                <div class="p-4 pb-6 sm:p-6 lg:border-solid lg:border-dark-grey lg:border">
+                    <h3 class="block w-full text-3xl leading-bitmore sm:leading-tight font-bold text-dark-grey">Search</h3>
+                    <div class="full flex flex-wrap mt-4">
+                        <!-- Search by Name-->
+                        <div class="w-full sm:w-1/2-spaced lg:w-1/3-spaced sm:mr-2">   
+                            <div>      
+                                <label class="uppercase text-sm font-bold text-dark-grey text-xl lg:text-lg" for="grid-state">
+                                    Search
+                                </label>
+                                <ui:inputText aura:id="enter-search" value="{!v.searchText}"  class="text-gray-700 text-xl lg:text-lg"/>
+                            </div>
+                        </div>
+                         <!-- Search For-->
+                        <div class="w-full sm:w-1/2-spaced lg:w-1/3-spaced sm:mr-2">
+                            <div>
+                                <label class="uppercase text-sm font-bold text-dark-grey text-xl lg:text-lg" for="grid-state">
+                                    Search for
+                                </label>                            
+                                <ui:inputSelect value="{!v.searchForSelected}" options="{! v.options }" change="{! c.handleSearchForChange }" class="text-gray-700 text-xl lg:text-lg"/>
+                                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 text-xl lg:text-lg"/>
+                            </div>
+                        </div>
+                         <!-- Search For search text-->
+                        <aura:if isTrue="{!v.searchForSelected != 'All'}">
+                            <div class="w-1/3-spaced sm:mr-2">
+                                <div>
+                                    <label class="uppercase text-sm font-bold text-dark-grey text-xl lg:text-lg" for="grid-state">
+                                        {!v.searchForSelected}
+                                    </label>                                
+                                    <ui:inputText value="{!v.filterSearchText}" class="text-gray-700 text-xl lg:text-lg"/>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700 text-xl lg:text-lg"/>
+                                </div>
+                            </div>
+                        </aura:if>
+                    </div>
+                    <button class="mt-6 border-2 border-blue px-8 py-0 bg-white text-blue hover:text-white hover:bg-blue font-bold leading-loose text-2xl lg:text-lg" onclick="{!c.executeSearch}">Search</button>
+                </div>
+            </div>
+            <div class="container-xl w-full bg-white border-solid border-b-4 border-blue sm:border-none">
+                <span class="absolute w-1/2 sm:w-1/4 border-solid border-t-4 border-purple"></span>
+                <div class="p-4 pb-6 sm:p-6 lg:border-solid lg:border-dark-grey lg:border">
+                    <h3 class="text-3xl leading-bitmore sm:leading-tight font-bold text-dark-grey">Search results</h3>
+                    <p class="text-xl lg:text-lg leading-relaxed text-primary">
+                        {!v.codeOfConduct}
+                        <a class="underline inline-block align-baseline font-bold text-blue hover:text-blue-800" 
+                           href="https://www.monash.edu/alumni/contact/directory-code-of-conduct/" target="_blank">
+                       {!v.codeOfConductLabel}
+                            
+                       </a>
+                    </p>
+                    <div class="block relative w-full">
+                        <table class="w-full mt-4 text-dark-grey">
+                            <tbody>
+                                <tr class="border-solid border-dark-grey border-b-2">
+                                    <th class="text-base lg:text-sm py-1 pr-2 lg:px-2 md:table-cell text-left uppercase text-dark-grey">
+                                        <ui:outputText class="modal-link" value="First&nbsp;Name" aura:id="FirstName" click="{!c.updateColumnSorting}"/>                                        
+                                        <aura:if isTrue="{!v.sortedByApiName == 'FirstName'}">
+                                            <aura:if isTrue="{!v.sortDirection == 'asc'}">
+                                                <lightning:icon iconName="utility:up" size="xx-small" alternativeText="asc" />
+                                                <aura:set attribute="else">
+                                                    <lightning:icon iconName="utility:down" size="xx-small" alternativeText="desc" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </aura:if>
+                                    </th>
+                                    <th class="text-base lg:text-sm py-1 pr-2 lg:px-2 md:table-cell text-left uppercase text-dark-grey">
+                                        <ui:outputText class="modal-link" value="SurName" aura:id="LastName" click="{!c.updateColumnSorting}"/>
+                                        <aura:if isTrue="{!v.sortedByApiName == 'LastName'}">
+                                            <aura:if isTrue="{!v.sortDirection == 'asc'}">
+                                                <lightning:icon iconName="utility:up" size="xx-small" alternativeText="asc" />
+                                                <aura:set attribute="else">
+                                                    <lightning:icon iconName="utility:down" size="xx-small" alternativeText="desc" />
+                                                </aura:set>
+                                            </aura:if>
+                                        </aura:if>
+                                    </th>
+                                    <th class="hidden sm:table-cell text-base lg:text-sm py-1 pr-2 lg:px-2 md:table-cell text-left uppercase text-dark-grey">Degree</th>
+                                    <!--
+                                    <th class="text-sm py-1 pl-1 md:pl-2 uppercase text-left">Industry</th>
+                                    <th class="text-sm py-1 pl-1 md:pl-2 uppercase text-left">Country or State</th>-->
+                                    <th class="text-base lg:text-sm py-1 pr-2 md:px-2 md:table-cell text-left uppercase text-dark-grey">Get in touch</th>
+                                </tr>
+                                <aura:iteration items="{!v.data}" var="eachRecord">
+                  <aura:if
+                    isTrue="{!and(and(not(empty(eachRecord.Users)), eachRecord.Users[0].Messaging_Opt_In__c), v.loggedInContactId != eachRecord.Id)}"
+                  >
+                    
+                        
+                  <tr class="border-solid border-gray-600 border leading-none hover-highlight">
+                    <td class="p-2 text-left border-2 border-gray-mon text-dark-grey text-lg lg:text-base" width="14%">
+                      <aura:if isTrue="{!eachRecord.Users[0].Directory_Opt_In__c}">
+                        <span class="modal-link underline text-blue font-bold" onclick="{!c.openProfileModal}" id="{!eachRecord.Id}"
+                          >{!eachRecord.FirstName}</span
+                        >
+                        <aura:set attribute="else">
+                          <ui:outputText value="{!eachRecord.FirstName}" aura:id="{!eachRecord.Id}" />
+                        >
+                        </aura:set>
+                      </aura:if>
+                    </td>
+                    <td class="p-2 text-left border-2 border-gray-mon text-lg lg:text-base" width="14%">
+                      <aura:if isTrue="{!eachRecord.Users[0].Directory_Opt_In__c}">
+                        <span class="modal-link underline text-blue font-bold" onclick="{!c.openProfileModal}" id="{!eachRecord.Id}"
+                          >{!eachRecord.LastName}</span
+                        >
+                        <aura:set attribute="else">
+                          <ui:outputText value="{!eachRecord.LastName}" aura:id="{!eachRecord.Id}" />
+                        </aura:set>
+                      </aura:if>
+                    </td>
+                    <td
+                      class="hidden sm:table-cell p-2 text-left border-2 border-gray-mon text-dark-grey text-lg sm:text-base"
+                      width="28%"
+                    >
+                      <aura:if isTrue="{!not(empty(eachRecord.Contact_Qualifications__r))}">
+                        <aura:iteration items="{!eachRecord.Contact_Qualifications__r}" var="eachDegree">
+                          <aura:if isTrue="{!not(empty(eachDegree.Qualification__r.Qualification_Name__c))}">
+                            <ui:outputText value="{!eachDegree.Qualification__r.Qualification_Name__c}" />
+                            <aura:set attribute="else">
+                              <aura:if isTrue="{!not(empty(eachDegree.Other_Qualification__c))}">
+                                <ui:outputText value="{!eachDegree.Other_Qualification__c}" />
+                                <aura:set attribute="else"> ----- </aura:set>
+                              </aura:if>
+                            </aura:set>
+                          </aura:if>
+                          ,
+                          <aura:if isTrue="{!not(empty(eachDegree.degreeYear))}">
+                            <ui:outputText class="italic" value="{!'Class of ' + eachDegree.degreeYear}" />
+                            <aura:set attribute="else"> -- </aura:set>
+                          </aura:if>
+                          <br />
+                        </aura:iteration>
+                        <aura:set attribute="else"> ----- </aura:set>
+                      </aura:if>
+                    </td>
+                    <!--
+                                    <td class="py-2 px-0 md:px-2 text-left border" width="15%">
+                                        <aura:if isTrue="{!not(empty(eachRecord.Affiliations__r[0].Account__r.Industry))}">
+                                            <ui:outputText value="{!eachRecord.Affiliations__r[0].Account__r.Industry}"/>
+                                            <aura:set attribute="else">
+                                                
+                                            </aura:set>
+                                        </aura:if>
+                                        
+                                    </td>
+                                    <td class="py-2 px-0 md:px-2 text-left border" width="15%">
+                                        <aura:if isTrue="{!and(empty(eachRecord.MailingCountry), empty(eachRecord.MailingState))}">
+                                            
+                                            <aura:set attribute="else">
+                                                <aura:if isTrue="{!eachRecord.MailingCountry == 'Australia'}">
+                                                    <ui:outputText value="{!eachRecord.MailingState}"/>
+                                                    <aura:set attribute="else">
+                                                        <ui:outputText value="{!eachRecord.MailingCountry}"/>
+                                                    </aura:set>
+                                                </aura:if>   
+                                            </aura:set>
+                                        </aura:if>                                                                                     
+                                    </td>-->
+                    <td class="border-2 border-gray-mon align-top bg-monash-blue" width="1%">
+                      <div
+                        class="py-2 px-1 md:px-0text-center font-bold border-blue bg-blue text-white modal-link no-border-radius text-lg lg:text-base ucin-listbutton"
+                        onclick="{!c.openMessagingModal}"
+                        id="{!eachRecord.Id}"
+                      >
+                        Get in touch
+                      </div>
+                    </td>
+                  </tr>
+                    <!--
+                -->
+                
+                    <!-- NOT ACTIVE -->
+                    <aura:set attribute="else">
+                        <tr class="border-solid border-gray-600 border text-gray-not-active">
+                          <td class="p-2 text-left border-2 border-gray-mon text-grey text-lg lg:text-base" width="14%">
+                            <aura:if isTrue="{!eachRecord.Users[0].Directory_Opt_In__c}">
+                              <span class="modal-link modal-link-name" onclick="{!c.openProfileModal}" id="{!eachRecord.Id}"
+                                >{!eachRecord.FirstName}</span
+                              >
+                              <aura:set attribute="else">
+                                <ui:outputText value="{!eachRecord.FirstName}" aura:id="{!eachRecord.Id}" />
+                              </aura:set>
+                            </aura:if>
+                          </td>
+                          <td class="p-2 text-left border-2 border-gray-mon text-grey text-lg lg:text-base" width="14%">
+                            <aura:if isTrue="{!eachRecord.Users[0].Directory_Opt_In__c}">
+                              <span class="modal-link modal-link-name" onclick="{!c.openProfileModal}" id="{!eachRecord.Id}"
+                                >{!eachRecord.LastName}</span
+                              >
+                              <aura:set attribute="else">
+                                <ui:outputText value="{!eachRecord.LastName}" aura:id="{!eachRecord.Id}" />
+                              </aura:set>
+                            </aura:if>
+                          </td>
+                          <td
+                            class="hidden sm:table-cell p-2 text-left border-2 border-gray-mon text-grey text-lg sm:text-base"
+                            width="28%"
+                          >
+                            <aura:if isTrue="{!not(empty(eachRecord.Contact_Qualifications__r))}">
+                              <aura:iteration items="{!eachRecord.Contact_Qualifications__r}" var="eachDegree">
+                                <aura:if isTrue="{!not(empty(eachDegree.Qualification__r.Qualification_Name__c))}">
+                                  <ui:outputText value="{!eachDegree.Qualification__r.Qualification_Name__c}" />
+                                  <aura:set attribute="else">
+                                    <aura:if isTrue="{!not(empty(eachDegree.Other_Qualification__c))}">
+                                      <ui:outputText value="{!eachDegree.Other_Qualification__c}" />
+                                      <aura:set attribute="else"> ----- </aura:set>
+                                    </aura:if>
+                                  </aura:set>
+                                </aura:if>
+                                ,
+                                <aura:if isTrue="{!not(empty(eachDegree.degreeYear))}">
+                                  <ui:outputText class="italic" value="{!'Class of ' + eachDegree.degreeYear}" />
+                                  <aura:set attribute="else"> -- </aura:set>
+                                </aura:if>
+                                <br />
+                              </aura:iteration>
+                              <aura:set attribute="else"> ----- </aura:set>
+                            </aura:if>
+                          </td>
+                          <td class="border-2 border-gray-mon text-center align-top" width="1%">
+                            <div
+                              class="py-2 px-1 md:px-0text-center font-bold border-white bg-white no-border-radius text-lg lg:text-base ucin-listbutton"
+                            >
+                              Not active
+                            </div>
+                          </td>
+                        </tr></aura:set>
+                    
+                  </aura:if>
+                </aura:iteration>                   
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <aura:if isTrue="{!v.totalPages > 1 }">
+                        <div class="pt-4">
+                            <lightning:layoutItem class="text-center" padding="around-small" flexibility="auto">
+                                <lightning:button label="First" iconName="utility:left" iconPosition="left"
+                                                    onclick="{!c.onFirst}" disabled="{! v.currentPageNumber == 1}"/>
+                                                 
+                                <lightning:button iconName="utility:chevronleft" iconPosition="left"
+                                                    onclick="{!c.onPrev}" disabled="{! v.currentPageNumber == 1}"/>
+                                               
+                                <aura:if isTrue="{!$Browser.isPhone == false}">
+            
+                                    <span class="slds-p-horizontal_x-small">
+                                        <a onclick="{!c.onFirst}" name="1" 
+                                            class="{! (v.currentPageNumber == 1) ? 'selected' : ''}">1</a>
+                                    </span>
+            
+                                    <aura:if isTrue="{!v.firstPageTracked != 2}">
+                                        <span class="slds-p-horizontal_xxx-small">
+                                            ...
+                                        </span>
+                                    </aura:if> 
+                                    
+                                    
+                                    <aura:iteration items="{!v.pageList}" var="item">
+                                        <span class="slds-p-horizontal_x-small">
+                                            <a onclick="{!c.processMe}" name="{!item}"
+                                                class="{! (v.currentPageNumber == item) ? 'selected' : ''}">{!item}</a>
+                                        </span>
+                                    </aura:iteration>
+                                    
+                                    <aura:if isTrue="{!v.lastPageTracked != v.totalPages-1}">
+                                        <span class="slds-p-horizontal_xxx-small">
+                                            ...
+                                        </span>
+                                    </aura:if>
+                                    
+                                    <span class="slds-p-horizontal_x-small">
+                                        <a onclick="{!c.onLast}" name="{!v.totalPages}"
+                                            class="{! (v.currentPageNumber == v.totalPages) ? 'selected' : ''}">{!v.totalPages}</a>
+                                    </span>
+                                </aura:if>
+            
+                                <lightning:button iconName="utility:chevronright" iconPosition="right" 
+                                                    disabled="{! v.currentPageNumber == v.totalPages}" onclick="{!c.onNext}"/>
+                                <lightning:button label="Last" iconName="utility:right" iconPosition="right" 
+                                                    disabled="{! v.currentPageNumber == v.totalPages}" onclick="{!c.onLast}"/>
+                            </lightning:layoutItem>
+                        </div>
+                    </aura:if>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

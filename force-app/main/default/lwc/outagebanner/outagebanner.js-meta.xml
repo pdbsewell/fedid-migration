@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>45.0</apiVersion>
+    <description>Alerts an outage period to the users of the CRM either on the communities or the core Salesforce
+        platform
+    </description>
+    <targets>
+        <target>lightning__RecordPage</target>
+        <target>lightning__AppPage</target>
+        <target>lightning__HomePage</target>
+        <target>lightningCommunity__Page</target>
+        <target>lightningCommunity__Default</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__HomePage, lightning__AppPage, lightning__RecordPage, lightningCommunity__Default">
+            <property name="message" description="Message to be displayed within the banner" type="String"/>
+        </targetConfig>
+    </targetConfigs>
+    <isExposed>true</isExposed>
+    <masterLabel>outageBanner</masterLabel>
+</LightningComponentBundle>

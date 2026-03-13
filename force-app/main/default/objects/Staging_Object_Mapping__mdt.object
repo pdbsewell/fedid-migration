@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Field mapping for any Staging objects such as Staged Prospective Student to their target SObject and field</description>
+    <fields>
+        <fullName>Staging_SObject_Field__c</fullName>
+        <description>API name of the Staging object field. This was created as a text instead of Field Definition to work around the limitation with referencing compound fields i.e. Contact.Name = (FirstName, LastName)</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Staging SObject Field</label>
+        <length>100</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Staging_SObject__c</fullName>
+        <description>Defines the source Staging object</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Staging SObject</label>
+        <referenceTo>EntityDefinition</referenceTo>
+        <relationshipLabel>SPS_Field_Mappings1</relationshipLabel>
+        <relationshipName>Staging_Object_Mappings1</relationshipName>
+        <required>true</required>
+        <type>MetadataRelationship</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Target_SObject_Field__c</fullName>
+        <description>API name of the Target object field. This was created as a text instead of Field Definition to work around the limitation with referencing compound fields i.e. Contact.Name = (FirstName, LastName)</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Target SObject Field</label>
+        <length>100</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Target_SObject__c</fullName>
+        <description>Target SObject</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Target SObject</label>
+        <referenceTo>EntityDefinition</referenceTo>
+        <relationshipLabel>SPS_Field_Mappings</relationshipLabel>
+        <relationshipName>Staging_Object_Mappings</relationshipName>
+        <required>true</required>
+        <type>MetadataRelationship</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>is_Overwrite__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>option to always overwrite value. when unchecked, only populates field if target SObject field is null</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>is Overwrite</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>is_Text_to_Boolean__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Determines whether we are mapping a text field from the Staging Object into a Boolean field on the target SObject</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>is Text to Boolean</label>
+        <type>Checkbox</type>
+    </fields>
+    <label>Staging Object Field Mapping</label>
+    <pluralLabel>Staging Object Mappings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

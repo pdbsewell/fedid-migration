@@ -1,0 +1,397 @@
+<template>
+    <!-- main wizard -->
+    <div class="slds-align_absolute-center">
+        <div class="slds-template__container"
+            style="width: 100%; background-color: white; border-radius: .25rem; margin-bottom: 50px;">
+            <div class="inlinePanel oneRecordActionWrapper">
+                <!-- wizard header -->
+                <div class="actionBody">
+                    <div class="forceChangeRecordType" data-aura-class="forceChangeRecordType">
+                        <div
+                            class="inlineTitle slds-p-top_large slds-p-horizontal_medium slds-p-bottom_medium slds-text-heading--medium">
+                            <!-- documents section title -->
+                            <lightning-layout vertical-align="center">
+                                <lightning-layout-item size="6">
+                                    <h2 class="inlineTitle slds-text-heading--medium">New Application Course Preference
+                                    </h2>
+                                </lightning-layout-item>
+                                <template if:true={hasSearchResult}>
+                                    <lightning-layout-item size="6" alignment-bump="left">
+                                        <div class="slds-text-heading_small slds-p-left_small slds-text-align_right"
+                                            style="width: 100%;">
+                                            <template if:false={isLargeResults}>
+                                                {searchLength}
+                                            </template>
+                                            <template if:true={isLargeResults}>
+                                                {largeResultMessage}
+                                            </template>
+                                        </div>
+                                    </lightning-layout-item>
+                                </template>
+                            </lightning-layout>
+                        </div>
+                        <div class="modal__content">
+                            <!-- content section -->
+                            <div class="slds-border_top slds-is-relative" style="overflow-y:auto;">
+                                <template if:false={dataLoaded}>
+                                    <div style="width: 100%; height: 62.5vh;">
+                                        <!-- Spinner loader -->
+                                        <lightning-spinner alternative-text="Loading" variant="brand" size="medium">
+                                        </lightning-spinner>
+                                    </div>
+                                </template>
+                                <template if:true={dataLoaded}>
+                                    <lightning-layout>
+                                        <lightning-layout-item size="3">
+                                            <div class="slds-p-right_x-small slds-m-top_small slds-p-left_small"
+                                                style="height: 60vh; overflow-y: auto;">
+                                                <!-- citizenship type -->
+                                                <div class="slds-p-bottom_x-small">
+                                                    <lightning-input type="text" label="Citizenship Type"
+                                                        value={selectedCitizenshipType} disabled>
+                                                    </lightning-input>
+                                                </div>
+                                                <!-- admission year -->
+                                                <div class="slds-p-vertical_xx-small">
+                                                    <lightning-combobox name="admissionYear" label="Admission Year"
+                                                        placeholder="-- Please Select --" value={selectedAdmissionYear}
+                                                        options={admissionYearOption} onchange={handleAdmissionChange}>
+                                                    </lightning-combobox>
+                                                </div>
+                                                <!-- attendance mode & type -->
+                                                <div class="slds-p-top_xx-small slds-border_bottom slds-p-bottom_small">
+                                                    <lightning-combobox name="attendanceModeType"
+                                                        label="Attendance Mode & Type" placeholder="-- Please Select --"
+                                                        value={selectedAttendanceModeType}
+                                                        options={attendanceModeTypeOption}
+                                                        onchange={handleAttendanceModeTypeChange}>
+                                                    </lightning-combobox>
+                                                </div>
+                                                <div class="slds-p-vertical_xx-small">
+                                                    <!-- courses -->
+                                                    <c-input-type-ahead name="course" label="Course"
+                                                        placeholder="-- Please Select --" value={selectedCourse}
+                                                        options={courseOption} onchange={handleCourseChange}
+                                                        onkeyup={handleCourseKeyUp} onclear={handleCourseChange}
+                                                        is-disabled={courseDisabled}>
+                                                    </c-input-type-ahead>
+                                                </div>
+                                                <div class="slds-p-vertical_xx-small">
+                                                    <!-- calendar -->
+                                                    <c-input-type-ahead name="calendar" label="Calendar"
+                                                        placeholder="-- Please Select --" value={selectedCalendar}
+                                                        options={calendarOption} onchange={handleCalendarChange}
+                                                        onkeyup={handleCalendarKeyUp} onclear={handleCalendarChange}
+                                                        is-disabled={calendarDisabled}>
+                                                    </c-input-type-ahead>
+                                                </div>
+                                                <div class="slds-p-vertical_xx-small">
+                                                    <!-- admission category -->
+                                                    <c-input-type-ahead name="admissionCategory"
+                                                        label="Admission Category" placeholder="-- Please Select --"
+                                                        value={selectedAdmissionCategory}
+                                                        options={admissionCategoryOption}
+                                                        onchange={handleAdmissionCategoryChange}
+                                                        onkeyup={handleAdmissionCategoryKeyUp}
+                                                        onclear={handleAdmissionCategoryChange}
+                                                        is-disabled={admissionCategoryDisabled}>
+                                                    </c-input-type-ahead>
+                                                </div>
+                                                <div class="slds-p-vertical_xx-small">
+                                                    <!-- location -->
+                                                    <c-input-type-ahead name="location" label="Location"
+                                                        placeholder="-- Please Select --" value={selectedLocation}
+                                                        options={locationOption} onchange={handleLocationChange}
+                                                        onkeyup={handleLocationKeyUp} onclear={handleLocationChange}
+                                                        is-disabled={locationDisabled}>
+                                                    </c-input-type-ahead>
+                                                </div>
+                                                <div class="slds-p-vertical_xx-small">
+                                                    <!-- Unit Set -->
+                                                    <c-input-type-ahead name="unitSet" label="Unit Set"
+                                                        placeholder="-- Please Select --" value={selectedUnitSet}
+                                                        options={unitSetOption} onchange={handleUnitSetChange}
+                                                        onkeyup={handleUnitSetKeyUp} onclear={handleUnitSetChange}
+                                                        is-disabled={unitSetDisabled}>
+                                                    </c-input-type-ahead>
+                                                </div>
+                                                <!-- 
+                                                <div class="slds-p-vertical_xx-small">
+                                                    Version
+                                                    <c-input-type-ahead
+                                                        name="version"
+                                                        label="Version"
+                                                        placeholder="-- Please Select --"
+                                                        value={selectedVersion}
+                                                        options={versionOption}
+                                                        onchange={handleVersionChange}
+                                                        onkeyup={handleVersionKeyUp}
+                                                        onclear={handleVersionChange}
+                                                        is-disabled={versionDisabled}>
+                                                    </c-input-type-ahead>
+                                                </div>
+                                                 -->
+                                            </div>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="9" padding="around-small">
+                                            <div class="slds-border_left slds-is-relative"
+                                                style="height: 60vh; overflow-y: auto;">
+                                                <!-- searching -->
+                                                <template if:true={isSearching}>
+                                                    <div style="width: 100%;">
+                                                        <!-- Spinner loader -->
+                                                        <lightning-spinner alternative-text="Loading" variant="brand"
+                                                            size="medium"></lightning-spinner>
+                                                    </div>
+                                                </template>
+                                                <!-- search results -->
+                                                <template if:false={isSearching}>
+                                                    <template if:true={hasSearchResult}>
+                                                        <!-- result tiles -->
+                                                        <div class="slds-m-left_small slds-m-top_xx-small">
+                                                            <lightning-layout multiple-rows>
+                                                                <template for:each={showedCourseOfferings}
+                                                                    for:item='courseOffering'>
+                                                                    <!-- calendar -->
+                                                                    <lightning-layout-item key={courseOffering.Id}
+                                                                        size="6">
+                                                                        <!-- result card-->
+                                                                        <c-add-application-course-preference-wizard-result
+                                                                            course-offering={courseOffering}
+                                                                            onselect={handleSelected}
+                                                                            selected-attendance-mode-type={selectedAttendanceModeType}>
+                                                                        </c-add-application-course-preference-wizard-result>
+                                                                    </lightning-layout-item>
+                                                                </template>
+                                                            </lightning-layout>
+                                                        </div>
+                                                    </template>
+                                                    <!-- no search results -->
+                                                    <template if:false={hasSearchResult}>
+                                                        <div class="slds-align_absolute-center">
+                                                            <div style="padding-top:10vh; height: 60vh;">
+                                                                <lightning-layout multiple-rows>
+                                                                    <lightning-layout-item padding="horizontal-small"
+                                                                        size="12">
+                                                                        <div class="slds-align_absolute-center">
+                                                                            <img src="/img/search/no-results.png" />
+                                                                        </div>
+                                                                    </lightning-layout-item>
+                                                                    <lightning-layout-item padding="horizontal-small"
+                                                                        size="12">
+                                                                        <span
+                                                                            class="slds-text-heading_large slds-align_absolute-center"
+                                                                            style="font-size: 3rem; color: #54698d;">No
+                                                                            Course Offering found</span>
+                                                                    </lightning-layout-item>
+                                                                </lightning-layout>
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                </template>
+                                            </div>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </template>
+                            </div>
+                            <!-- wizard actions -->
+                            <div class="slds-p-vertical_x-small slds-border_top">
+                                <template if:true={oldAcp}>
+                                    <div class="slds-docked_container" style="bottom:49px;">
+                                        <section class={dockedClass}
+                                            role="dialog" aria-labelledby="dialog-heading-id-1"
+                                            aria-describedby="dialog-content-id-1">
+                                            <header class="slds-docked-composer__header slds-grid slds-shrink-none"
+                                                aria-live="assertive">
+                                                <div class="slds-media slds-media_center slds-no-space" onclick={showDockedPanel}>
+                                                    <div class="slds-media__figure slds-m-right_x-small">
+                                                        <lightning-icon icon-name="utility:bookmark" size="medium">
+                                                        </lightning-icon>
+                                                    </div>
+                                                    <div class="slds-media__body">
+                                                        <h2 class="slds-truncate" id="dialog-heading-id-1"
+                                                            title="Application Course Preference">
+                                                            <strong>Copy from:</strong>
+                                                            <span
+                                                                class="slds-m-left_small slds-text-color_success slds-truncate">{oldAcp.Name}</span>
+                                                        </h2>
+                                                    </div>
+                                                </div>
+                                                <div class="slds-col_bump-left slds-shrink-none">
+                                                    <lightning-button-icon icon-name="utility:close"
+                                                        alternative-text="Close" title="Close" onclick={hideDockedPanel}></lightning-button-icon>
+                                                </div>
+                                            </header>
+                                            <!-- body -->
+                                            <div class="slds-docked-composer__body" id="dialog-content-id-1">
+                                                <div class="slds-page-header slds-page-header_vertical">
+                                                    <div class="slds-media">
+                                                        <div class="slds-media__figure">
+                                                            <lightning-icon icon-name="custom:custom5" size="medium">
+                                                            </lightning-icon>
+                                                        </div>
+                                                        <div class="slds-media__body">
+                                                            <div class="slds-page-header__name">
+                                                                <div class="slds-page-header__name-title">
+                                                                    <h1>
+                                                                        <span
+                                                                            class="slds-page-header__title slds-hyphenate"
+                                                                            title={oldAcp.Course_Title__c}>{oldAcp.Course_Title__c}
+                                                                        </span>
+                                                                    </h1>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="slds-page-header__controls"></div>
+                                                    <ul class="slds-page-header__detail-list">
+                                                        <li class="slds-page-header__detail-item">
+                                                            <div class="slds-text-title slds-truncate" title="Location">
+                                                                Location</div>
+                                                            <div title={oldAcp.Location_Code__c}>
+                                                                {oldAcp.Location_Code__c}</div>
+                                                        </li>
+                                                        <li class="slds-page-header__detail-item">
+                                                            <div class="slds-text-title slds-truncate" title="Calendar">
+                                                                Calendar</div>
+                                                            <div title={oldAcp.Commencement_Period__c}>
+                                                                {oldAcp.Commencement_Period__c}</div>
+                                                        </li>
+                                                        <template if:true={oldAcp.Offer_Response_Status_LOV__c}>
+                                                            <li class="slds-page-header__detail-item">
+                                                                <div class="slds-text-title slds-truncate"
+                                                                    title="Offer Response Status">Offer Response Status
+                                                                </div>
+                                                                <div title={oldAcp.Offer_Response_Status_LOV__r.Name}>
+                                                                    {oldAcp.Offer_Response_Status_LOV__r.Name}</div>
+                                                            </li>
+                                                        </template>
+                                                        <li class="slds-page-header__detail-item">
+                                                            <div class="slds-text-title slds-truncate"
+                                                                title="Outcome Status">Outcome Status</div>
+                                                            <div title={oldAcp.Outcome_Status_LOV__r.Name}>
+                                                                {oldAcp.Outcome_Status_LOV__r.Name}</div>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            <!-- footer -->
+                                            <footer class="slds-docked-composer__footer slds-shrink-none">
+                                                <div class="slds-col_bump-left slds-text-align_right">
+                                                </div>
+                                            </footer>
+                                        </section>
+                                    </div>
+                                </template>
+                                <div class="slds-align_absolute-center">
+                                    <lightning-button label="Cancel" onclick={handleCancel}></lightning-button>
+                                    <lightning-button label="Default" onclick={handleDefault}
+                                        class="slds-m-left_x-small"></lightning-button>
+                                    <lightning-button label="Add ACP" onclick={showConfirmationModal}
+                                        disabled={addAcpDisabled} variant="brand" class="slds-m-left_x-small">
+                                    </lightning-button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- add acp confirmation -->
+    <template if:true={showConfirmation}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-modal__title slds-hyphenate slds-text-heading_medium">Confirm new Application Course
+                        Preference</h2>
+                    <p class="slds-m-top_x-small">
+                        Please review the below details. Once confirmed, the ACP will be added as the next available
+                        preference.
+                    </p>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium slds-is-relative">
+                    <!-- adding acp -->
+                    <template if:true={isSubmittingACP}>
+                        <div style="width: 100%;">
+                            <!-- Spinner loader -->
+                            <lightning-spinner alternative-text="Loading" variant="brand" size="medium">
+                            </lightning-spinner>
+                        </div>
+                    </template>
+                    <!-- selected acp details -->
+                    <lightning-layout vertical-align="center" multiple-rows>
+                        <!-- header -->
+                        <lightning-layout-item size="12">
+                            <span class="slds-text-heading_small">
+                                <b>{selectedOffering.Course_Code__c} - {selectedOffering.Course_Title__c}</b>
+                            </span>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12"><br /></lightning-layout-item>
+                        <!-- year -->
+                        <lightning-layout-item size="6">
+                            <span class="slds-text-body_regular">
+                                <b>Year:</b> {selectedYear}
+                            </span>
+                        </lightning-layout-item>
+                        <!-- citizenship type -->
+                        <lightning-layout-item size="6">
+                            <span class="slds-text-body_regular">
+                                <b>Citizenship Type:</b> {selectedCitizenshipType}
+                            </span>
+                        </lightning-layout-item>
+                        <!-- semester -->
+                        <lightning-layout-item size="6">
+                            <span class="slds-text-body_regular">
+                                <b>Semester:</b> {selectedSemester}
+                            </span>
+                        </lightning-layout-item>
+                        <!-- admission category -->
+                        <lightning-layout-item size="6">
+                            <span class="slds-text-body_regular">
+                                <b>Admission Category:</b> {selectedOffering.Admission_Category__c}
+                            </span>
+                        </lightning-layout-item>
+                        <!-- location -->
+                        <lightning-layout-item size="6">
+                            <span class="slds-text-body_regular">
+                                <b>Location:</b> {selectedOffering.Location_Code__c}
+                            </span>
+                        </lightning-layout-item>
+                        <!-- unit set -->
+                        <lightning-layout-item size="6">
+                            <span class="slds-text-body_regular">
+                                <b>Unit Set:</b> {selectedOffering.Unit_Set_Code__c}
+                            </span>
+                        </lightning-layout-item>
+                        <!-- attendance mode -->
+                        <lightning-layout-item size="6">
+                            <span class="slds-text-body_regular">
+                                <b>Attendance Mode:</b> {selectedOfferingAttendanceMode}
+                            </span>
+                        </lightning-layout-item>
+                        <!-- version                                  
+                        <lightning-layout-item size="6">
+                            <span class="slds-text-body_regular">
+                                <b>Version:</b> {selectedOffering.Unit_Set_Version__c}
+                            </span>
+                        </lightning-layout-item> -->
+                        <!-- attendance type -->
+                        <lightning-layout-item size="6">
+                            <span class="slds-text-body_regular">
+                                <b>Attendance Type:</b> {selectedOfferingAttendanceType}
+                            </span>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Cancel" onclick={hideConfirmationModal} class="slds-m-left_x-small"
+                        disabled={isSubmittingACP}></lightning-button>
+                    <lightning-button label="Confirm" onclick={addACP} variant="brand" class="slds-m-left_x-small"
+                        disabled={isSubmittingACP}></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

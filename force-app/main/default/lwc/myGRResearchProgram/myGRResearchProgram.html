@@ -1,0 +1,372 @@
+<template>
+    <div class="slds">
+
+        <!-- ALERT: ANY Errors on save-->
+        <div if:true={showErrors}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h3 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Please complete the following:</h3>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <ul class="slds-list_dotted slds-text-align--left">
+                            <template for:each={saveErrors} for:item="error">
+                                <li key={error}>{error}</li>
+                            </template>
+                        </ul>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={onClickCloseErrors}>Close</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+
+    <lightning-spinner if:true={showSpinner} alternative-text="Saving" variant="brand"></lightning-spinner>
+    <div>
+        <h1 style="font-weight:bold;">Research Program</h1>
+        <div class="grtParagraph">To evaluate your application, you are required to provide the following details:</div>
+        <div class="slds-size_5-of-5">
+            <ul class="slds-list_dotted">
+              <li class="grtParagraph">a title and brief summary of your research proposal. </li>
+              <li class="grtParagraph">details of funding you have secured or have applied for to support your research program.</li>
+              <li class="grtParagraph">how you intend to manage any concurrent work commitments. </li>
+          </ul>
+        </div>
+        <div class="grtParagraph">You will be required to upload the following documentation in the <b>Documents section</b>:</div>
+        <div class="slds-size_5-of-5">
+            <ul class="slds-list_dotted">
+              <li class="grtParagraph">a copy of the invitation to apply that you have received as an outcome of the EOI process.</li>
+              <li class="grtParagraph">a more detailed research proposal.</li>
+              <li class="grtParagraph">a copy of your Curriculum Vitae (C.V.)</li>
+              <li class="grtParagraph">If you plan to work full-time, you must provide a statement detailing how you will manage the demands of both your employment and academic commitments.</li>
+          </ul>
+        </div>
+    </div>    
+    <div class="slds-m-top--medium"></div>
+    
+    <!--SUPERVISION DETAILS-->
+    <div class="slds-grid slds-gutters slds-wrap">
+        <div class="slds-col">
+            <div class="sectionContainer slds-wrap">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                  <div class="slds-size_5-of-5">
+                     <h2>Supervision Details</h2>
+                     <div class="slds-m-around_medium"></div>
+                     <lightning-input name="supervisorName"
+                        data-testid="supervisorName" 
+                        data-id="supervisorName"
+                        label="Name of supervisor(s)"
+                        required="true"
+                        onchange={onFieldChange}
+                        type="text"
+                        value={supervisorName}>
+                    </lightning-input>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!--RESEARCH PROPROSAL-->
+    <div class="slds-grid slds-gutters slds-wrap">
+        <div class="slds-col">
+            <div class="sectionContainer slds-wrap">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                  <div class="slds-size_5-of-5">
+                     <h2>Research Proposal</h2>
+                     <span>You are required to upload a summary of no less than 200 words describing your proposed research, including methodology and bibliography. Applicants should refer to the relevant faculty's how to apply information as some faculties may have additional requirements. </br></br>You will be required to upload your research proposal in the <b>Documents section</b>.</span>
+                     <div class="slds-m-around_medium"></div>
+                     <lightning-input name="researchTitle"
+                        data-testid="researchTitle" 
+                        data-id="researchTitle"
+                        label="What is your proposed research title?"
+                        required="true"
+                        onchange={onFieldChange}
+                        type="text"
+                        value={researchTitle}
+                        maxlength="100">
+                    </lightning-input>
+
+                    <lightning-textarea name="researchSummary" 
+                        data-testid="researchSummary" 
+                        data-id="researchSummary"
+                        required 
+                        value={researchSummary}
+                        label="Please provide a brief summary (up to 500 characters):"
+                        maxlength="500" 
+                        onchange={onFieldChange}>
+                    </lightning-textarea>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!--EXTERNAL CANDIDATURE-->
+     <div class="slds-grid slds-gutters slds-wrap">
+        <div class="slds-col">
+            <div class="sectionContainer slds-wrap">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                  <div class="slds-size_5-of-5">
+                     <h2>External Candidature with an On-Site Supervisor</h2>
+                     <div class="slds-m-around_medium"></div>
+                     <lightning:layout multiple-rows="true" class="slds-size_5-of-5">
+                          <lightning:layoutItem size="9">
+                              <span class="fieldTitle">Are you applying for <a href="https://www.monash.edu/graduate-research/support-and-resources/understanding/managing-your-candidature" target="_blank">external candidature</a> with an on-site supervisor?</span><sup class="requiredField">*</sup>
+                          </lightning:layoutItem>
+                          <lightning:layoutItem size="3">
+                            <div style="float:right">
+                                <lightning-radio-group
+                                    name="externalCandidature"
+                                    data-testid="externalCandidature" 
+                                    data-id="externalCandidature"
+                                    label="Yes or No?"
+                                    required
+                                    type="button"
+                                    options={items}
+                                    onchange={onFieldChange}
+                                    variant="label-hidden"
+                                    value={externalSupervisorCheck}>
+                                </lightning-radio-group>
+                            </div>
+                          </lightning:layoutItem>
+                          <div class="slds-m-around_medium"></div>
+                          <template if:true={showExternalCanNotes}>
+                             <span>You will need to complete an <a href="https://www.monash.edu/__data/assets/pdf_file/0020/170741/externalsupervisor.pdf" target="_blank">On-Site Supervisor</a> Form and upload the form in the <b>Documents section</b>.<br></br>Note: An on-site supervisor is mandatory in laboratory-based disciplines.</span>
+                          </template>
+                     </lightning:layout>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!--Research Program Funding-->
+     <div class="slds-grid slds-gutters slds-wrap">
+        <div class="slds-col">
+            <div class="sectionContainer slds-wrap">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                  <div class="slds-size_5-of-5">
+                     <h2>Research Program Funding</h2>
+                     <div class="slds-m-around_medium"></div>
+                     <lightning:layout multiple-rows="true" class="slds-size_5-of-5">
+                          <lightning:layoutItem size="9">
+                              <span class="fieldTitle">Do you hold any other scholarships or awards for this research?</span><sup class="requiredField">*</sup>
+                          </lightning:layoutItem>
+                          <lightning:layoutItem size="3">
+                            <div style="float:right">
+                                <lightning-radio-group
+                                    name="researchProgramFunding"
+                                    data-testid="researchProgramFunding" 
+                                    data-id="researchProgramFunding"
+                                    label="Yes or No?"
+                                    required
+                                    type="button"
+                                    options={items}
+                                    onchange={onFieldChange}
+                                    variant="label-hidden"
+                                    value={researchProgramFundingSelectedCheck}>
+                                </lightning-radio-group>
+                            </div>
+                          </lightning:layoutItem>
+                          <div class="slds-m-around_medium"></div>
+                          <span>Note: Includes sponsorship by an outside body, such as an industry or government sponsor. You will be required to upload a valid letter of financial guarantee indicating the value, duration and terms of the sponsorship in the <b>Documents section</b>.</span>
+                     </lightning:layout>
+                     <div class="slds-m-around_medium"></div>
+                     <template if:true={showNoteSponsorship}>
+                        <span style="font-weight:bold !important">As part of your application you will be automatically considered for all Monash centrally allocated scholarships for which you are eligible.</span>
+                     </template>
+                     <template if:true={researchProgramFundingSelected}>
+                        <lightning-select
+                            name="sponsorshipType"
+                            data-testid="sponsorshipType" 
+                            data-id="sponsorshipType"
+                            label="Type of Scholarship/Sponsorship Award:"
+                            value={selectedExternalFundingValue}
+                            options={externalFundingOptions}
+                            onchange={onFieldChange}
+                            required >
+                        </lightning-select>
+                        <lightning-input name="sponsorAwardName"
+                            data-testid="sponsorAwardName" 
+                            data-id="sponsorAwardName"
+                            label="Scholarship/Sponsorship Award Name:"
+                            required="true"
+                            onchange={onFieldChange}
+                            max-length ="100"
+                            type="text"
+                            value={sponsorAwardName}>
+                        </lightning-input>
+                        <lightning-input name="monetaryAmount"
+                            data-testid="monetaryAmount" 
+                            data-id="monetaryAmount"
+                            label="Duration and monetary value of award:"
+                            required="true"
+                            onchange={onFieldChange}
+                            max-length ="100"
+                            type="text"
+                            value={monetaryAmount}>
+                        </lightning-input>
+                        <template if:true={scholarshipApp}>
+                            <div class="fieldContainer">
+                                <lightning-layout multiple-rows="true" class="slds-size_5-of-5">
+                                    <lightning-layout-item size="12">
+                                    <span class="fieldTitleRes"><sup class="slds-required">*</sup>Will you surrender this scholarship if your application for a Monash HDR scholarship is successful?</span>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="12">
+                                    <lightning-radio-group id="surrenderScholarship" name="surrenderScholarship" label="" options={surrenderScholarshipOptions} onchange={onFieldChange} value={surrenderScholarship} variant="label-hidden" required></lightning-radio-group>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </div>
+                        </template>
+                     </template>
+                     <template if:false={researchProgramFundingSelected}>
+                        <div class="slds-m-around_medium"></div>
+                        <lightning:layout multiple-rows="true" class="slds-size_5-of-5">
+                            <lightning:layoutItem size="9">
+                                <span class="fieldTitle">Do you intend to or have you applied for other scholarships or awards for this research?</span><sup class="requiredField">*</sup>
+                            </lightning:layoutItem>
+                            <lightning:layoutItem size="3">
+                            <div style="float:right">
+                                <lightning-radio-group
+                                    name="researchProgramFundingFuture"
+                                    data-testid="researchProgramFundingFuture" 
+                                    data-id="researchProgramFundingFuture"
+                                    label="Yes or No?"
+                                    required
+                                    type="button"
+                                    options={items}
+                                    onchange={onFieldChange}
+                                    variant="label-hidden"
+                                    value={researchProgramFundingFutureCheck}>
+                                </lightning-radio-group>
+                            </div>
+                            </lightning:layoutItem>
+                            <div class="slds-m-around_medium"></div>
+                            <span>Note: Includes sponsorship by an outside body, such as an industry or government sponsor. You will be required to upload a document showing the scholarship or sponsorship for which you are applying (e.g. weblink or screenshot of the scholarship/sponsorship details) in the <b>Documents section</b>.</span>
+                        </lightning:layout>
+                        <template if:true={researchProgramFundingFuture}>
+                            <lightning-input name="sponsorAwardNameFuture"
+                                data-testid="sponsorAwardNameFuture" 
+                                data-id="sponsorAwardNameFuture"
+                                label="What scholarship/sponsorship are you applying for?"
+                                required="true"
+                                onchange={onFieldChange}
+                                type="text"
+                                value={sponsorAwardNameFuture}
+                                max-length ="100">
+                            </lightning-input>
+                        </template>
+                    </template>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Attendance and Employment Commitments-->
+    <div class="slds-grid slds-gutters slds-wrap">
+        <div class="slds-col">
+            <div class="sectionContainer slds-wrap">
+                <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                  <div class="slds-size_5-of-5">
+                     <h2>Attendance and Employment Commitments</h2>
+                     <div class="slds-m-around_medium"></div>
+                     <lightning-input name="researchDays"
+                        data-testid="researchDays" 
+                        data-id="researchDays"
+                        label="Please state the days you will be undertaking your research:"
+                        required="true"
+                        onchange={onFieldChange}
+                        type="text"
+                        value={researchDays}
+                        maxlength="100">
+                    </lightning-input>
+                    <div class="slds-m-around_medium"></div>
+                     <lightning:layout multiple-rows="true" class="slds-size_5-of-5">
+                          <lightning:layoutItem size="9">
+                              <span class="fieldTitle">Will you be working during the course of your research?</span><sup class="requiredField">*</sup>
+                          </lightning:layoutItem>
+                          <lightning:layoutItem size="3">
+                            <div style="float:right">
+                                <lightning-radio-group
+                                    name="courseResearchAttendance"
+                                    data-testid="courseResearchAttendance" 
+                                    data-id="courseResearchAttendance"
+                                    label="Yes or No?"
+                                    required
+                                    type="button"
+                                    options={items}
+                                    onchange={onFieldChange}
+                                    variant="label-hidden"
+                                    value={courseResearchAttendanceCheck}>
+                                </lightning-radio-group>
+                            </div>
+                          </lightning:layoutItem>
+                     </lightning:layout>
+                     <template if:true={courseResearchAttendance}>
+                        <lightning-input name="employerPosition"
+                            data-testid="employerPosition" 
+                            data-id="employerPosition"
+                            label="Employer/Position:"
+                            required="true"
+                            onchange={onFieldChange}
+                            type="text"
+                            value={employerPosition}>
+                        </lightning-input>
+                        <lightning-select
+                            name="employmentLoad"
+                            data-testid="employmentLoad" 
+                            data-id="employmentLoad"
+                            label="Employment Load:"
+                            value={selectedExternalLoadValue}
+                            options={externalLoadOptions}
+                            onchange={onFieldChange}
+                            required >
+                        </lightning-select>
+                        
+                        <template if:true={partTimeSelected}>
+                            <lightning-dual-listbox
+                                name="employmentDays"
+                                data-testid="employmentDays" 
+                                data-id="employmentDays"
+                                source-label="Available"
+                                selected-label="Selected"
+                                label="On which days during the working week will you undertake your employment responsibilites while conducting your research?"
+                                options={externalDaysOptions}
+                                onchange={handleEmploymentDaysChange}
+                                required="true"
+                                value={selectItems}
+                                >
+
+                            </lightning-dual-listbox>
+                            <lightning-input name="hoursPerWeek"
+                                data-testid="hoursPerWeek" 
+                                data-id="hoursPerWeek"
+                                label="Hours Per Week: "
+                                required="true"
+                                onchange={onFieldChange}
+                                type="text"
+                                value={hoursPerWeek}
+                                pattern="[0-9]*"
+                                max-length="3"
+                                message-when-pattern-mismatch="Only numbers are allowed in this field">
+                            </lightning-input>
+                        </template>
+                        
+                       
+                     </template>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</template>

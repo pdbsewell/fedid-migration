@@ -1,0 +1,86 @@
+<!-- 
+ @name: CommunitySearchPageComponent
+ -->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="LightningSearchPageController">
+    
+    <ltng:require scripts="{!$Resource.jQuery321}" afterScriptsLoaded="{!c.init}"/>
+  <!--  <ltng:require scripts="{!$Resource.SLDS231}"/> -->
+    <aura:attribute name="SearchArticleList" type="KnowledgeArticleVersion[]" default=""/>
+    <aura:attribute name="CurrentArticleList" type="KnowledgeArticleVersion[]" default=""/>
+    <aura:attribute name="PageSize" type="Integer" default=""/>
+    <aura:attribute name="CurrentArticle" type="Integer" default="0"/>
+    <aura:attribute name="LastArticle" type="Integer" default=""/>
+    <aura:attribute name="TotalResultSize" type="Integer" default=""/>
+    <aura:attribute name="hasPreviousArticle" type="boolean" default=""/>
+    <aura:attribute name="hasNextArticle" type="boolean" default=""/>
+    <aura:attribute name="SearchLabel" type="string" default=""/>
+    <aura:attribute name="showArticleSearchLoadingSpinner" type="Boolean" default="true" />
+
+    <div class="slds-container_large slds-container_center">
+        <!--header start -->
+        <div class="slds-grid slds-hide" aura:id="search-header" >
+           
+            <div class="slds-size--12-of-12 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                <h3 class="slds-m-bottom_medium slds-truncate header-responsive">
+                    <span>
+                        <lightning:icon iconName="utility:search"/>
+                    </span>
+                    RESULTS FOR "{!v.SearchLabel}"
+                </h3>                
+            </div>
+            
+        </div>
+        <!-- header end-->
+        
+        <!-- search list-->
+        <div class="slds-grid slds-wrap slds-is-relative" id="search-results">        
+            
+            <aura:if isTrue="{!v.showArticleSearchLoadingSpinner}">
+                <lightning:spinner variant="brand" />
+            </aura:if>
+            
+            <div class="slds-size--12-of-12 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                <aura:iteration items="{!v.CurrentArticleList}" var="searchrecord">
+                    <div class="results-text">
+                        <a id="{!searchrecord.Id}" onclick="{!c.redirectToArticle}">{!searchrecord.Title}</a>   
+                    </div>            
+                </aura:iteration>
+            </div>
+            
+            <!-- pagination btns -->
+            <div class="slds-size--12-of-12 slds-medium-size--7-of-12 slds-large-size--7-of-12 slds-p-top--x-large">
+                
+            </div>
+            
+            <div class="slds-size--12-of-12 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-p-top--x-large slds-hide slds-grid slds-wrap" aura:id="search-pagination">
+                <div class="slds-grid slds-col--bump-left">
+                    <div class="slds-hide" aura:id="search-count">
+                        <ui:outputText value="{!v.CurrentArticle+1}"/> - <ui:outputText value="{!v.LastArticle}"/> of <ui:outputText value="{!v.TotalResultSize}"/>
+                    </div>
+                    <div class="slds-p-left_medium">
+                        <button class="pagination-btn" label="pagination-left" onclick="{!c.previousArticle}" hidden="{!!v.hasPreviousArticle}">&lt;</button>
+                        <button class="pagination-btn2" label="pagination-left" onclick="{!c.previousArticle}" hidden="{!v.hasPreviousArticle}" disabled="true">&lt;</button>
+                        <button class="pagination-btn" label="pagination-right" onclick="{!c.nextArticle}" hidden="{!!v.hasNextArticle}">&gt;</button>
+                        <button class="pagination-btn2" label="pagination-right" onclick="{!c.nextArticle}" hidden="{!v.hasNextArticle}" disabled="true">&gt;</button>
+                    </div>
+                </div>
+            </div>
+           
+             <div class="slds-size--12-of-12 slds-medium-size--2-of-12 slds-large-size--2-of-12 slds-p-top--x-large">
+                
+            </div>
+        </div>
+        <!-- search list end-->
+        
+        <!-- No result section -->
+        <div class="slds-grid slds-wrap">
+            <div class="slds-size--12-of-12 slds-medium-size--2-of-12 slds-large-size--2-of-12 slds-p-top--x-large">
+                
+            </div>
+            <div id="no-searchresults" class="slds-size--12-of-12 slds-medium-size--10-of-12 slds-large-size--10-of-12 slds-p-top--x-large slds-hide">
+                <p>No Search Results</p>
+            </div>
+            
+        </div>
+    </div>
+</aura:component>

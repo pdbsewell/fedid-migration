@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata"><apiVersion>63.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage,lightning__FlowScreen">
+            <property 
+            name="objectsToSearch" 
+            type="String" 
+            label="Objects to find records" 
+            description="Comma separated list of objects in the format - User(Id, Name), Group(Id,Name)"
+            />
+            <property 
+            name="selectedValue" 
+            type="String" 
+            label="Selected Value" 
+            description="Selected Value from the search options" 
+            />
+            <property 
+            name="selectedId" 
+            type="String" 
+            label="Selected Id" 
+            description="Selected Id from the search options" 
+            />
+            <property 
+            name="label" 
+            type="String" 
+            label="Label fo the input field" 
+            description="Example - Owner"
+            />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

@@ -1,0 +1,303 @@
+<!--
+* @author APRivera
+* @date July.13.2022
+* @group Monash Connect
+* @description Emergency Intl Onshore Student Grant application form - Submits case to salesforce, plugged in to https://connect.monash.edu/s/supportgrant
+* @revision July.13.2022 - APRivera - Initial Create <br/>
+ -->
+
+<aura:component description="InternationalGrantScheme" implements="forceCommunity:availableForAllPageTypes" controller="LightningCreateCaseController" access="global">
+    <ltng:require scripts="{!$Resource.jQuery321}" afterScriptsLoaded="{!c.init}"/>
+
+    <aura:attribute name="newCase" type="case"
+                    default="{ 'sobjectType': 'Case',
+                             'Description':'',
+                             'SuppliedPhone':'',
+                             'Amount__c':'',
+                             'Intl_Student_Consent__c':''
+                             }"/>
+    <aura:attribute name="parentId" type="Id"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="firstName" type="String" default=""/>
+    <aura:attribute name="userType" type="String" default=""/>
+    <aura:attribute name="amountNeeded" type="Integer" default=""/>
+    <aura:attribute name="hasExistingApplications" type="Boolean" default="false"/>
+    <aura:attribute name="disableSubmit" type="Boolean" default="fa"/>
+    <aura:attribute name="isButtonClicked" type="boolean" default="false"/>
+    <aura:attribute name="filesProcessed" type="Integer" default="0"/>
+    <aura:attribute name="fileList" type="Object"/>
+    <aura:attribute name="selectedFiles" type="String[]"/>
+    <aura:attribute name="allowedFileTypes" type="String[]"/>
+    <aura:attribute name="consentCenterLink" type="Boolean" default="false"/>
+    <aura:attribute name="consentForm" type="Boolean" default="false"/>
+    <aura:attribute name="consentFormVicGov" type="Boolean" default="false"/>
+
+    <!-- spinner -->
+    <aura:if isTrue="{!v.showSpinner}">
+        <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+            <div class="slds-modal__container" aura:id="block">
+                <div class="slds-modal__header spinner-text">
+                    {!$Label.c.Enquiry_Creation_Message}<c:Spinner type="bubbles" width="64" height="64" color="blue" show="{!v.showSpinner}" />
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+    </aura:if>
+
+    <div class="slds-grid slds-wrap slds-p-bottom_xx-large">
+        <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+            <div class="slds-large-m-horizontal_xx-large content-responsive">
+                <div class="slds-large-m-horizontal_x-large">
+                    <!-- Title -->
+                    <div>
+                        <!-- Section Heading -->
+                        <div>
+                            <h2>{!$Label.c.InternationalGrantTitle}</h2>
+                        </div>
+                        <div>
+                            <lightning:formattedRichText value="{!$Label.c.InternationalGrantTitleBody}"/>
+                        </div>
+                    </div>
+
+                    <!-- Eligibility -->
+                    <div>
+                        <!-- Section Heading -->
+                        <div>
+                            <h2>{!$Label.c.CovidGrantEligibility}</h2>
+                        </div>
+                        <div>
+                            <p>
+                                <lightning:formattedRichText value="{!$Label.c.InternationalGrantEligibilityBody}"/>
+                                <lightning:formattedRichText value="{!$Label.c.InternationalGrantEligibilityCheck}"/>
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Personal Details -->
+                    <div>
+                        <!-- Section Heading -->
+                        <h2>{!$Label.c.CovidGrantPersonalDetails}</h2>
+                        <!-- Phone Number -->
+                        <div class="sq-form-question sq-form-question-text">
+                            <label class="sq-form-question-title" for="phone">Phone number <span style="color: rgb(194, 57, 52);">*</span></label>
+                            <div class="sq-form-question-answer">
+                                <!-- pattern="^\+[0-9]?()[0-9](\s|\S)(\d[0-9]{9})$" -->
+                                <lightning:input type="tel"
+                                                 aura:id="phone"
+                                                 class="sq-form-field"
+                                                 label="Phone Number"
+                                                 placeholder="eg +61 412345678"
+                                                 name="phone"
+                                                 value="{!v.newCase.SuppliedPhone}"
+                                                 pattern="^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$"
+                                                 required="true"
+                                                 onchange="{!c.validateRequiredFields}"
+                                                 messageWhenBadInput="Phone number must not contain letters or special characters."
+                                                 messageWhenPatternMismatch="Phone number format does not match. Please use international format e.g. +86 (China), +61 (Australia)"
+                                                 messageWhenTypeMismatch="Phone number must not contain letters or special characters."
+                                                 messageWhenValueMissing="Phone Number is required."
+                                />
+                                <p><i>{!$Label.c.CovidGrantPhoneLabel}</i></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enquiry Details -->
+                    <div>
+                        <!-- Section Heading -->
+                        <h2>{!$Label.c.CovidGrantDescription}</h2>
+                        <!-- Description -->
+                        <lightning:formattedRichText value="{!$Label.c.InternationalGrantDescriptionBody}"/>
+
+                        <!-- Description - Input Field-->
+                        <div class="sq-form-question-answer sq-form-question-text">
+                            <lightning:textarea aura:id="description"
+                                                id="description-123"
+                                                class="sq-form-field"
+                                                value="{!v.newCase.Description}"
+                                                label="Description"
+                                                placeholder="Tell us about your situation"
+                                                onchange="{!c.validateRequiredFields}"
+                                                required="true"
+                                                messageWhenValueMissing="Description is required."
+                            />
+                            <br/>
+                        </div>
+
+                        <!--Amount Needed-->
+                        <div class="sq-form-question sq-form-question-text">
+                            <label class="sq-form-question-title" for="amount">Amount needed <span style="color: rgb(194, 57, 52);">*</span></label>
+                            <div class="sq-form-question-answer">
+                                <lightning:input aura:id="amount"
+                                                 class="sq-form-field"
+                                                 type="number"
+                                                 name="amount"
+                                                 label="Amount Needed: "
+                                                 value="{!v.newCase.Amount__c}"
+                                                 onchange="{!c.validateRequiredFields}"
+                                                 formatter="currency"
+                                                 required="true"
+                                                 step="0.01"
+                                                 min="1"
+                                                 messageWhenBadInput="Please enter any amount from $1 upwards."
+                                                 messageWhenPatternMismatch="Please enter any amount from $1 upwards."
+                                                 messageWhenTypeMismatch="Please enter any amount from $1 upwards."
+                                                 messageWhenValueMissing="Please enter any amount from $1 upwards."
+                                                 messageWhenRangeOverflow="Please enter any amount from $1 upwards."
+                                                 messageWhenRangeUnderflow="Please enter any amount from $1 upwards."/>
+<!--                                <p><i>{!$Label.c.CovidGrantMax500}</i></p>-->
+                            </div>
+                        </div>
+                        <div style="display: none;">
+                            <!--Centrelink Confirmation-->
+                            <div class="sq-form-question sq-form-question-checkbox">
+                                <div class="sq-form-question-answer" style="display: flex;">
+                                    <lightning:input aura:id="consent"
+                                                     type="checkbox"
+                                                     value="{!v.consentCenterLink}"
+                                                     label="{!$Label.c.CovidGrantCenterlinkConfirmation}"
+                                                     class="sq-form-field"
+                                                     name="consent"
+                                                     checked="false"
+                                                     onchange="{!c.handleCheckboxChange}"
+                                                     variant="label-hidden"/>
+                                    <lightning:formattedRichText value="{!$Label.c.CovidGrantCenterlinkConfirmation}" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Supporting Documentation-->
+                    <div>
+                        <h2>{!$Label.c.CovidGrantSupportingDocs}</h2>
+                        <div>
+                            <lightning:formattedRichText value="{!$Label.c.InternationalGrantSupportingDocsBody}"/>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div>
+                            <div class="sq-form-question">
+                                <!--                                <label class="sq-form-question-title">{!$Label.c.CovidGrantSupportingDocsNotes}</label>                                -->
+                                <!--                            	<p>{!$Label.c.CovidGrantSupportingDocsFileTypes}</p>-->
+                                <!--<p>{!$Label.c.CovidGrantAttachments}</p>-->
+                                <div>
+                                    <div class="sq-form-question-answer">
+                                        <aura:iteration items="{!v.selectedFiles}" var="selectedFiles">
+                                            <div>
+                                                <lightning:buttonIcon iconName="utility:attach" size="small" class="slds-m-bottom_xx-small"/>
+                                                {!selectedFiles}
+                                                <lightning:buttonIcon iconName="utility:delete" size="small" class="slds-m-bottom_xx-small" onclick="{!c.removeFile}" value="{!selectedFiles}"/>
+                                            </div>
+                                        </aura:iteration>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="slds-size_12-of-12 select-border" id="uploadDiv">
+                                <div class="uploadIcon slds-align_absolute-center">
+                                    <img  src="{!$Resource.uploadIcon}" class="uploadIcon" alt=""/>
+                                </div>
+                                <div class="slds-align_absolute-center">
+                                    <span class="drop-file-text">Drop files here</span>
+                                </div>
+                                <div class="slds-align_absolute-center">
+                                    <span class="drop-file-text">or</span>
+                                </div>
+                                <div class="slds-align_absolute-center slds-p-around_small">
+                                    <input
+                                            style="display:none"
+                                            data-buttonText="Select files"
+                                            label = "Drop files here"
+                                            labelClass = "slds-assistive-text"
+                                            id="file-upload"
+                                            type="file"
+                                            class="file"
+                                            aura:id="file"
+                                            multiple="true"
+                                            onchange="{!c.captureupload}"/>
+                                    <button id="uploadFile" class="select-file-btn hover-state">Select files</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Support -->
+                    <div>
+                        <h2>{!$Label.c.CovidGrantSupport}</h2>
+                        <p>{!$Label.c.CovidGrantSupportBody}</p>
+                    </div>
+
+                    <!-- Next Steps -->
+                    <div>
+                        <h2>{!$Label.c.CovidGrantNextSteps}</h2>
+                        <p>{!$Label.c.InternationalGrantNextStepsBody}</p>
+                    </div>
+
+                    <!-- Student Agreement -->
+                    <div>
+                        <h2>{!$Label.c.InternationalGrantAgreement}</h2>
+                        <div class="sq-form-question sq-form-question-checkbox">
+                            <div class="sq-form-question-answer" style="display: flex;">
+                                <lightning:input aura:id="grant-consent"
+                                                 type="checkbox"
+                                                 label="{!$Label.c.CovidGrantAgreementBody500}"
+                                                 class="sq-form-field"
+                                                 name="grant-consent"
+                                                 checked="false"
+                                                 onchange="{!c.handleCheckboxChange}"
+                                                 variant="label-hidden" />
+                                <lightning:formattedRichText value="{!$Label.c.InternationalGrantAgreementBody}" />
+                            </div>
+                            <div style="display: none;">
+                                <div class="sq-form-question-answer" style="display: flex; margin-left: 25px;">
+                                    <lightning:formattedRichText value="{!$Label.c.CovidGrantAgreementForInternalStudents}" />
+                                </div>
+                                <div class="sq-form-question-answer" style="display: flex;">
+                                    <lightning:input aura:id="grant-consent-vicgov"
+                                                     type="checkbox"
+                                                     value="{!v.consentFormVicGov}"
+                                                     label="{!$Label.c.CovidGrantAgreementBodyVicGov}"
+                                                     class="sq-form-field"
+                                                     name="grant-consent-vicgov"
+                                                     checked="false"
+                                                     onchange="{!c.handleCheckboxChange}"
+                                                     variant="label-hidden"/>
+                                    <lightning:formattedRichText value="{!$Label.c.CovidGrantAgreementBodyVicGov}" />
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div>
+                                <p>{!$Label.c.CovidGrantAgreement1}&nbsp;<a href="{!$Label.c.CovidGrantDataProtectionLink}" target="_blank">{!$Label.c.CovidGrantDataProtection}</a>
+                                    and <a href="{!$Label.c.CovidGrantPrivacyCollectionLink}" target="_blank">{!$Label.c.CovidGrantPrivacyCollection}</a>. {!$Label.c.CovidGrantAgreement2}&nbsp;
+                                    <a href="{!$Label.c.CovidGrantDataProtectionMailTo}">{!$Label.c.CovidGrantDataProtectionEmailAddress}</a>.
+                                </p>
+                                <p>{!$Label.c.CovidGrantAgreement3}</p>
+                                <p><br/></p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div>
+                        <div>
+                            <ui:button aura:id="submitBtn" disabled="{!v.disableSubmit}"
+                                       class="Save submit-btn sq-form-submit" label="Submit" press="{!c.save}" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- reset styling auto generated by lightning:formattedRichText -->
+    <aura:html tag="style">
+        .slds-rich-text-editor__output {
+        font-family: inherit;
+        font-weight: inherit;
+        font-size: inherit;
+        color: inherit;
+        }
+    </aura:html>
+</aura:component>

@@ -1,0 +1,30 @@
+<template>
+    <div class="slds-is-relative">
+        <lightning-spinner lwc:if={isLoading}></lightning-spinner>
+        <div lwc:if={showInput} class="slds-grid slds-grid_align-center slds-gutters_small slds-m-around_small">
+            <div class="slds-col slds-grow">
+                <lightning-input
+                        onkeydown={studentKeyDown}
+                        type="text"
+                        label="Student ID"
+                        placeholder="Student ID"
+                        data-id="student-input"
+                        variant="label-hidden">
+                </lightning-input>
+            </div>
+            <div class="slds-col slds-grow-none">
+                <lightning-button
+                        label="Retrieve Data"
+                        onclick={fetchStudentId}
+                        variant="brand-outline">
+                </lightning-button>
+            </div>
+        </div>
+
+        <c-json-tree-viewer
+                json-data={jsonData}
+                title={title}
+                class="viewer">
+        </c-json-tree-viewer>
+    </div>
+</template>

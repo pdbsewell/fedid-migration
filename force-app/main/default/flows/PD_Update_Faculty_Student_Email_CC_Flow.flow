@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>49.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Trigger by a Process Builder with the same name.</description>
+    <interviewLabel>PD Update Faculty Student Email CC [Flow] {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>PD Update Faculty Student Email CC [Flow]</label>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <name>Get_the_CMD_Faculty_Email_CC</name>
+        <label>Get the CMD Faculty Email CC</label>
+        <locationX>122</locationX>
+        <locationY>274</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Update_ACP_Faculty_Email_CC</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Managing_Faculty__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varManagingFaculty</elementReference>
+            </value>
+        </filters>
+        <object>Faculty_Custom_Data__mdt</object>
+        <outputAssignments>
+            <assignToReference>varFacultyEmailCC</assignToReference>
+            <field>Faculty_Student_Email_CC__c</field>
+        </outputAssignments>
+    </recordLookups>
+    <recordUpdates>
+        <name>Update_ACP_Faculty_Email_CC</name>
+        <label>Update ACP Faculty Email CC</label>
+        <locationX>329</locationX>
+        <locationY>275</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>varACP_ID</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Faculty_Student_Email_CC__c</field>
+            <value>
+                <elementReference>varFacultyEmailCC</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Application_Course_Preference__c</object>
+    </recordUpdates>
+    <startElementReference>Get_the_CMD_Faculty_Email_CC</startElementReference>
+    <status>Draft</status>
+    <variables>
+        <name>varACP_ID</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <stringValue></stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>varFacultyEmailCC</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <stringValue></stringValue>
+        </value>
+    </variables>
+    <variables>
+        <name>varManagingFaculty</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+</Flow>

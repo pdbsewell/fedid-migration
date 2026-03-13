@@ -1,0 +1,189 @@
+<template>
+    <!-- show application type selection -->
+    <template if:true={showApplicationSelection}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-describedby="modal-content-id" class="slds-modal slds-fade-in-open slds-modal_small">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                        <lightning-button-icon icon-name="utility:close" size="large" variant="bare-inverse" alternative-text="Close" title="Close" onclick={navigateToHome}></lightning-button-icon>
+                    </button>
+                    <h2 class="slds-modal__title slds-hyphenate">Student Application</h2>
+                </header>
+                <div class="slds-modal__content slds-is-relative">
+                    <lightning-layout class="slds-p-around_medium slds-wrap slds-align_absolute-center" multiple-rows="true">      
+                        <!-- spinner -->
+                        <template if:false={availableApplicationTypes}>
+                            <div class="slds-is-relative" style="height: 128px; z-index: 999;">
+                                <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+                            </div>
+                        </template>    
+                        <template if:true={availableApplicationTypes}>  
+                            <template if:true={hasAvailableTypes}>
+                                <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                                    <div class="slds-is-relative">
+                                        <div class="slds-text-heading_medium slds-p-around_medium slds-align_absolute-center">
+                                            There are no available application types for as per your agreement with Monash.
+                                        </div>       
+                                    </div>
+                                </lightning-layout-item>
+                            </template>       
+                        </template>
+                        <template if:true={isExchangeAvailable}>
+                            <lightning-layout-item size="6" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                <lightning-tile class="slds-p-around_medium slds-border_top slds-border_bottom slds-border_left slds-border_right applicationType" onclick={selectApplicationType} data-id="Exchange">
+                                    <div class="slds-grid">
+                                        <div class="slds-size_1-of-4 slds-p-vertical_xxx-small">
+                                            <span class="slds-icon_container slds-icon-action-web-link slds-theme_default" title="" style="background-color: rgb(0, 95, 178);">
+                                                <div class="iconContainer whiteColor">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="web_link_exchange">
+                                                        <path d="M12.5.9C6.3.9 1.4 5.9 1.4 12s4.9 11.1 11.1 11.1 11-5 11-11.1S18.6.9 12.5.9zm1.3 15.9c-.6.6-.9 2-1.2 2.9 0 .2-.1.4-.3.5l-.5.2c-.3.1-.6.1-.8-.1-.5-.5-.8-1.1-.8-1.7 0-1.2-1.9-.8-1.9-3 0-1.8-2.3-2.9-4-2.1-.1.1-.2.2-.4.2-.3.1-.5-.1-.6-.4 0-.4-.1-.8-.1-1.3 0-2.2.8-4.2 2.1-5.8 0-.1.1-.1.1-.1 1.1-1.3 2.5-2.3 4.2-2.8.4-.2.8.3.6.7-.2.2-.3.5-.3.8 0 .9-.9 1.5-1.3 1.4-.4-.2-1.4.5-.5 1l.5.2h.1l.2.1c1.6 1 1.3 1.8.6 3-.8 1.3-1.1 0-2.2-.4s-2.2.4-1.9 1.1c.4.8 1.5 0 2.3.8.7.7.7 1.8 2.9 1.1 2.2-.8 2.6-.4 3.3.3.7.8 1.1 2.2-.1 3.4zm5.9-.1c-.9-1.1 0-3.4-1.1-4.7-1.1-1.5-2.6 0-4-2.3-1.4-2.1.4-3.9 2.1-4.5.5-.2 1-.3 1.5-.3.1 0 .2.1.3.2 1.9 1.6 3.2 4.1 3.2 6.9 0 1.7-.5 3.2-1.2 4.6-.2.2-.6.3-.8.1z"></path>
+                                                    </svg>
+                                                </div>
+                                            </span>
+                                        </div>
+                                        <div class="slds-size_3-of-4 slds-p-vertical_small">
+                                            <div class="applicationTypeHeader">EXCHANGE APPLICATION</div>
+                                            <div>Create a NEW Exchange Application</div>
+                                        </div>
+                                    </div>
+                                </lightning-tile>
+                            </lightning-layout-item>
+                        </template>
+                        <template if:true={isStudyAbroadAvailable}>
+                            <lightning-layout-item size="6" small-device-size="12" medium-device-size="12" large-device-size="6" padding="around-small">
+                                <lightning-tile class="slds-p-around_medium slds-border_top slds-border_bottom slds-border_left slds-border_right applicationType" onclick={selectApplicationType} data-id="Study Abroad">
+                                    <div class="slds-grid">
+                                        <div class="slds-size_1-of-4 slds-p-vertical_xxx-small">
+                                            <span class="slds-icon_container slds-icon-action-web-link slds-theme_default" title="" style="background-color: rgb(233, 234, 236);">
+                                                <div class="iconContainer blueColor">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="web_link_study_abroad">
+                                                        <path d="M12.5.9C6.3.9 1.4 5.9 1.4 12s4.9 11.1 11.1 11.1 11-5 11-11.1S18.6.9 12.5.9zm1.3 15.9c-.6.6-.9 2-1.2 2.9 0 .2-.1.4-.3.5l-.5.2c-.3.1-.6.1-.8-.1-.5-.5-.8-1.1-.8-1.7 0-1.2-1.9-.8-1.9-3 0-1.8-2.3-2.9-4-2.1-.1.1-.2.2-.4.2-.3.1-.5-.1-.6-.4 0-.4-.1-.8-.1-1.3 0-2.2.8-4.2 2.1-5.8 0-.1.1-.1.1-.1 1.1-1.3 2.5-2.3 4.2-2.8.4-.2.8.3.6.7-.2.2-.3.5-.3.8 0 .9-.9 1.5-1.3 1.4-.4-.2-1.4.5-.5 1l.5.2h.1l.2.1c1.6 1 1.3 1.8.6 3-.8 1.3-1.1 0-2.2-.4s-2.2.4-1.9 1.1c.4.8 1.5 0 2.3.8.7.7.7 1.8 2.9 1.1 2.2-.8 2.6-.4 3.3.3.7.8 1.1 2.2-.1 3.4zm5.9-.1c-.9-1.1 0-3.4-1.1-4.7-1.1-1.5-2.6 0-4-2.3-1.4-2.1.4-3.9 2.1-4.5.5-.2 1-.3 1.5-.3.1 0 .2.1.3.2 1.9 1.6 3.2 4.1 3.2 6.9 0 1.7-.5 3.2-1.2 4.6-.2.2-.6.3-.8.1z"></path>
+                                                    </svg>
+                                                </div>
+                                            </span>
+                                        </div>
+                                        <div class="slds-size_3-of-4 slds-p-vertical_small">
+                                            <div class="applicationTypeHeader">STUDY ABROAD APPLICATION</div>
+                                            <div>Create a NEW Study Abroad Application</div>
+                                        </div>
+                                    </div>
+                                </lightning-tile>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                </div>
+            </div>
+        </section>
+    </template>
+    <!-- show application details form -->
+    <template if:true={showApplicationDetails}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-describedby="modal-content-id" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close">
+                        <lightning-button-icon icon-name="utility:close" size="large" variant="bare-inverse" alternative-text="Close" title="Close" onclick={navigateToHome} disabled={processingRecords}></lightning-button-icon>
+                    </button>
+                    <h2 class="slds-modal__title slds-hyphenate">Application Details</h2>
+                    <h4 class="slds-text-title slds-text-align_center slds-m-top_xx-small">{subtitle}</h4>
+                </header>
+                <div class="slds-modal__content slds-is-relative" style="overflow: visible">
+                    <!-- spinner -->
+                    <template if:true={processingRecords}>
+                        <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+                    </template>
+                    <lightning-layout class="slds-p-around_medium slds-wrap slds-align_absolute-center" multiple-rows="true">
+                        <template if:false={isMononymousName}>
+                            <!-- first / given name -->
+                            <lightning-layout-item size="6" >
+                                <lightning-input class="slds-m-right_x-small" type="text" label="Legal given name(s)" required="true"
+                                                value={newApplicant.First_Name__c} onchange={onchangeNewApplicantFirstName}>
+                                </lightning-input>
+                            </lightning-layout-item>
+                            <!-- last / family name -->
+                            <lightning-layout-item size="6">
+                                <lightning-input type="text" label="Legal last name" required="true" 
+                                                value={newApplicant.Last_Name__c} onchange={onchangeNewApplicantLastName}>
+                                </lightning-input>
+                            </lightning-layout-item>
+                        </template>
+                        <template if:true={isMononymousName}>
+                            <!-- legal name (mononymous) -->
+                            <lightning-layout-item size="12">
+                                <lightning-input type="text" label="Legal name (Mononymous)" required="true" value={newApplicant.Last_Name__c}
+                                    onchange={onchangeNewApplicantLastName}>
+                                </lightning-input>
+                            </lightning-layout-item>
+                        </template>
+                        <!-- mononymous name toggle -->
+                        <lightning-layout-item size="1" class="slds-p-top_x-small">
+                            <lightning-input type="toggle" label="" onchange={handleMononymousName} message-toggle-active="Yes" message-toggle-inactive="No">
+                            </lightning-input>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="11" class="slds-p-top_x-small slds-p-left_small slds-text-align_left">
+                            <label>Applicant has a mononymous name</label>
+                            <lightning-helptext content={mononynmHelpText}></lightning-helptext>
+                        </lightning-layout-item>
+                        <!-- date of birth -->
+                        <lightning-layout-item size="3" >
+                            <lightning-input class="slds-m-right_x-small birthdateField" type="date" label="Date of Birth" required="true" 
+                                            value={newApplicant.Birthdate} onchange={onchangeNewApplicantBirthDate}>
+                            </lightning-input>
+                        </lightning-layout-item>
+                        <!-- email -->
+                        <lightning-layout-item size="9">
+                            <lightning-input type="email" label="Email Address" required="true" class="emailField"
+                                             value={newApplicant.Email} onchange={onchangeNewApplicantEmail}>
+                            </lightning-input>
+                        </lightning-layout-item>
+
+                        <!-- location -->
+                        <lightning-layout-item size="4">
+                            <label for="location" class="slds-form-element__label slds-no-flex">
+                                <abbr title="required" class="slds-required">*</abbr>
+                                Location
+                            </label>
+                            <lightning-combobox variant="label-hidden"
+                                                name="location" 
+                                                value={location} 
+                                                required
+                                                options={locationOptions} 
+                                                onchange={onchangeNewApplicationLocation}
+                                                dropdown-alignment="top-left"
+                                                class="slds-m-right_x-small">
+                            </lightning-combobox>
+                        </lightning-layout-item>                    
+                        <lightning-layout-item size="8">
+                            <template if:true={isNotOnline}>
+                                <label for="CitizenshipType" class="slds-form-element__label slds-no-flex">
+                                    <abbr title="required" class="slds-required">*</abbr>
+                                    Citizenship Type
+                                </label>
+                                <lightning-combobox variant="label-hidden"
+                                                    name="CitizenshipType" 
+                                                    value={citizenshipType} 
+                                                    required
+                                                    options={citizenshipTypeOptions} 
+                                                    onchange={onchangeCitizenshipType}
+                                                    dropdown-alignment="top-left">
+                                </lightning-combobox>
+                            </template>
+                        </lightning-layout-item>                                            
+                    </lightning-layout>
+                </div>
+                <footer class="slds-modal__footer slds-modal__footer_directional">
+                    <button class="slds-button slds-button_neutral" onclick={backToTypeSelection} disabled={processingRecords}>Back</button>
+                    <lightning-button label="Save and Continue" 
+                                      title="Save and Continue" 
+                                      icon-name="utility:chevronright" 
+                                      class="slds-m-left_x-small slds-button" 
+                                      variant="brand" 
+                                      icon-position="right"
+                                      onclick={saveAndContinue}
+                                      disabled={disableActions}>
+                    </lightning-button>
+                </footer>
+            </div>
+        </section>
+    </template>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

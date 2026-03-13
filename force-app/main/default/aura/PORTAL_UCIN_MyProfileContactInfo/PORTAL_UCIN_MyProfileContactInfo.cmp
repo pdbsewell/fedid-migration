@@ -1,0 +1,301 @@
+<!--Contains email, phone, and social media details for a user and address information-->
+<aura:component>
+
+    <aura:attribute name="contactInfo" type="Contact"/>
+    <aura:attribute name="isEditing" type="Boolean"/>
+    <aura:attribute name="isAllValid" type="Boolean"/>
+    <aura:attribute name="isPersonalEmailValid" type="Boolean" default="true"/>
+    <aura:attribute name="isBusinessEmailValid" type="Boolean" default="true"/>
+    <aura:attribute name="isMobileValid" type="Boolean" default="true"/>
+    <aura:attribute name="isHomePhoneValid" type="Boolean" default="true"/>
+    <aura:attribute name="isWorkPhoneValid" type="Boolean" default="true"/>
+    <aura:attribute name="preferredMap" type="Map"/>
+    <aura:attribute name="emailMap" type="Map"/>
+    <aura:attribute name="phoneMap" type="Map"/>
+    <aura:attribute name="socialMap" type="Map"/>
+    <aura:attribute name="prefAddress" type="Address__c"/>
+    <aura:attribute name="countryList" type="List"/>
+    <aura:attribute name="addressLine" type="String"/>
+    <aura:attribute name="oldEmailValue" type="String"/>
+    <aura:attribute name="newEmailValue" type="String"/>
+    <aura:attribute name="oldBusinessEmailValue" type="String"/>
+
+    <div class="float-right pt-8 pr-4">
+        <lightning:icon iconName="utility:edit" class="modal-link" size="small" onclick="{!c.toggleEdit}"/>
+    </div>
+
+    <!--Email, phone, and social media information-->
+    <div class="p-4 sm:p-6 text-dark-grey">
+        <h1 class="text-3xla sm:text-3xl sm:font-bold leading-bitmore py-3">Phones, email and social</h1>  
+        Monash University emails will be sent to your preferred email address*.<br/>
+EXCEPTION:<br/>
+        <ul class="slds-list--dotted">
+  			<li>if you are currently studying at Monash University - we will use details listed in WES. <a href="https://my.monash.edu.au/wes/" target="_blank">Please update your details there</a> and they will be reflected in this record.</li>
+			<li>any notifications generated from this site/portal will be delivered to your personal email address (regardless of preference).</li>
+		</ul>
+        
+        <div class="w-full border-solid border-dark-grey border-b-2"></div>        
+<!--        <div class="block relative w-full rounded overflow-hidden">-->
+            <table class="w-full">
+                <tbody>
+                    <tr class="w-full border-solid border-grey border-b-2">
+                        <th class="py-1 lg:py-3 w-5/12 md:w-1/4 text-left text-xl lg:text-lg">Personal email</th>
+
+                        <aura:if isTrue="{!v.isEditing}">
+                            <td class="overflow-hidden">
+                                <div class="lg:float-left my-2">
+                                    <lightning:input class="float text-xl lg:text-lg" id="personalEmail" type="radio" name="preferredEmail" value="personal" label="Preferred"
+                                        onchange="{!c.handleEmailRadio}" checked="{!v.preferredMap.email == 'personal' ? true : false}" />
+                                </div>
+                                <div class="overflow-hidden block text-xl lg:text-lg paddingTop">
+                                    <c:emailValidationEDQ aura:id="personalEmailValidate"
+                                                          savedEmail="{!v.oldEmailValue}"
+                                                          componentName="personalEmail"
+                                                          verificationStatus="{!v.emailMap.Personal.Verification_Status__c}"/>
+                                </div>
+                            </td>
+                            <aura:set attribute="else">
+                                <td class="text-xl lg:text-lg overflow-hidden">
+                                    <div class="lg:float-left my-2">
+                                        <lightning:input class="float text-xl lg:text-lg" id="personalEmail" type="radio" name="preferredEmail" value="personal" label="Preferred"
+                                        disabled="true" checked="{!v.preferredMap.email == 'personal' ? true : false}" />
+                                    </div>
+                                    <div class="overflow-hidden block my-2 paddingTop1">
+                                        {!v.emailMap.Personal.Name}
+                                    </div>
+                                </td>
+                            </aura:set>
+                        </aura:if>
+
+                    </tr>
+                    <tr class="w-full border-solid border-grey border-b-2">
+                        <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Business email</th>
+
+                        <aura:if isTrue="{!v.isEditing}">
+                            <td class="overflow-hidden">
+                                <div class="lg:float-left my-2">
+                                    <lightning:input class="float text-xl lg:text-lg" id="businessEmail" type="radio" name="preferredEmail" value="business" label="Preferred"
+                                        onchange="{!c.handleEmailRadio}" checked="{!v.preferredMap.email == 'business' ? true : false}"/>
+                                </div>
+                                <div class="overflow-hidden block text-xl lg:text-lg paddingTop">
+                                    <c:emailValidationEDQ aura:id="businessEmailValidate"
+                                                          savedEmail="{!v.oldBusinessEmailValue}"
+                                                          componentName="businessEmail"
+                                                          verificationStatus="{!v.emailMap.Business.Verification_Status__c}"/>
+                                </div>
+                            </td>
+                            <aura:set attribute="else">
+                                <td class="text-xl lg:text-lg overflow-hidden">
+                                    <div class="lg:float-left my-2">
+                                        <lightning:input class="float text-xl lg:text-lg" id="businessEmail" type="radio" name="preferredEmail" value="business" label="Preferred"
+                                        disabled="true" checked="{!v.preferredMap.email == 'business' ? true : false}" />
+                                    </div>
+                                    <div class="overflow-hidden block my-2 paddingTop1">
+                                        {!v.emailMap.Business.Name}
+                                    </div>
+                                </td>
+                            </aura:set>
+                        </aura:if>
+                    </tr>
+                    <tr class="w-full border-solid border-grey border-b-2">
+                        <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Mobile</th>
+                        <aura:if isTrue="{!v.isEditing}">
+                            <td class="text-xl lg:text-lg">
+                                <div class="lg:float-left my-2">
+                                    <lightning:input class="float text-xl lg:text-lg" 
+                                        id="mobilePhone" type="radio" name="preferredPhone" value="mobile" label="Preferred" 
+                                        onchange="{!c.handlePhoneRadio}" checked="{!v.preferredMap.phone == 'mobile' ? true : false}"/>
+                                </div>
+                                <div class="overflow-hidden block paddingTop">
+                                    <!-- Experian phone number validation -->
+                                    <c:phoneNumberValidationEDQ aura:id="mobileNumberSearch"
+                                                                phoneNumberlabel="Phone Number"
+                                                                phoneNumberRegEx="[\+]?[\d\s]{5,25}"
+                                                                savedPhoneNumber="{!v.phoneMap.Mobile.Name}"
+                                                                savedCountry="{!v.phoneMap.Mobile.ISO_Country__c}"
+                                                                verificationStatus="{!v.phoneMap.Mobile.Verification_Status__c}"
+                                                                componentName="mobilePhone">
+                                    </c:phoneNumberValidationEDQ>
+                                </div>
+                            </td>
+                            <aura:set attribute="else">
+                                <td class="text-xl lg:text-lg overflow-hidden">
+                                    <div class="lg:float-left my-2">
+                                        <lightning:input class="float text-xl lg:text-lg"
+                                        id="mobilePhone" type="radio" name="preferredPhone" value="mobile" label="Preferred"
+                                        disabled="true" checked="{!v.preferredMap.phone == 'mobile' ? true : false}" />
+                                    </div>
+                                    <div class="overflow-hidden block my-2 paddingTop1">
+                                            {!v.phoneMap.Mobile.Name}
+                                    </div>
+                                </td>
+                            </aura:set>
+                        </aura:if>
+                    </tr>
+                    <tr class="w-full border-solid border-grey border-b-2">
+                        <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Home/other phone</th>
+                        <aura:if isTrue="{!v.isEditing}">
+                            <td class="text-xl lg:text-lg">
+                                <div class="lg:float-left my-2">
+                                    <lightning:input class="float text-xl lg:text-lg" 
+                                        id="homePhone" type="radio" name="preferredPhone" value="home" label="Preferred" 
+                                        onchange="{!c.handlePhoneRadio}" checked="{!v.preferredMap.phone == 'home' ? true : false}"/>
+                                </div>
+                                <div class="overflow-hidden block paddingTop">
+                                    <!-- Experian phone number validation -->
+                                    <c:phoneNumberValidationEDQ aura:id="homeNumberSearch"
+                                                                phoneNumberlabel="Phone Number"
+                                                                phoneNumberRegEx="[\+]?[\d\s]{5,25}"
+                                                                savedPhoneNumber="{!v.phoneMap.Home.Name}"
+                                                                savedCountry="{!v.phoneMap.Home.ISO_Country__c}"
+                                                                verificationStatus="{!v.phoneMap.Home.Verification_Status__c}"
+                                                                componentName="homePhone">
+                                    </c:phoneNumberValidationEDQ>
+                                </div>
+                            </td>
+                            <aura:set attribute="else">
+                                    <td class="text-xl lg:text-lg overflow-hidden">
+                                        <div class="lg:float-left my-2">
+                                            <lightning:input class="float text-xl lg:text-lg" 
+                                                id="homePhone" type="radio" name="preferredPhone" value="home" label="Preferred" 
+                                                disabled="true" checked="{!v.preferredMap.phone == 'home' ? true : false}" />
+                                        </div>
+                                        <div class="overflow-hidden block my-2 paddingTop1">
+                                                {!v.phoneMap.Home.Name}
+                                        </div>
+                                    </td>
+                            </aura:set>
+                        </aura:if>
+                    </tr>
+                    <tr class="w-full border-solid border-grey border-b-2">
+                        <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Work phone</th>
+                        <aura:if isTrue="{!v.isEditing}">
+                            <td class="text-xl lg:text-lg">
+                                <div class="lg:float-left my-2">
+                                    <lightning:input class="float text-xl lg:text-lg" 
+                                        id="workPhone" type="radio" name="preferredPhone" value="work" label="Preferred" 
+                                        onchange="{!c.handlePhoneRadio}" checked="{!v.preferredMap.phone == 'work' ? true : false}"/>
+                                </div>
+                                <div class="overflow-hidden block paddingTop">
+                                    <!-- Experian phone number validation -->
+                                    <c:phoneNumberValidationEDQ aura:id="workNumberSearch"
+                                                                phoneNumberlabel="Phone Number"
+                                                                phoneNumberRegEx="[\+]?[\d\s]{5,25}"
+                                                                savedPhoneNumber="{!v.phoneMap.Work.Name}"
+                                                                savedCountry="{!v.phoneMap.Work.ISO_Country__c}"
+                                                                verificationStatus="{!v.phoneMap.Work.Verification_Status__c}"
+                                                                componentName="workPhone">
+                                    </c:phoneNumberValidationEDQ>
+                                </div>
+                            </td>
+                            <aura:set attribute="else">
+                                    <td class="text-xl lg:text-lg overflow-hidden">
+                                        <div class="lg:float-left my-2">
+                                            <lightning:input class="float text-xl lg:text-lg" 
+                                            id="workPhone" type="radio" name="preferredPhone" value="work" label="Preferred" 
+                                            disabled="true" checked="{!v.preferredMap.phone == 'work' ? true : false}" />
+                                        </div>
+                                        <div class="overflow-hidden block my-2 paddingTop1">
+                                                {!v.phoneMap.Work.Name}
+                                        </div>
+                                    </td>
+                            </aura:set>
+                        </aura:if>
+                    </tr>
+                    <tr class="w-full border-solid border-grey border-b-2">
+                        <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">LinkedIn profile</th>
+                        <aura:if isTrue="{!v.isEditing}">
+                            <td>
+                                <lightning:input class="w-full  my-2 sm:mr-1 label-hidden text-xl lg:text-lg socialField" variant = "label-hidden"
+                                                 name="linkedIn" aura:id="linkedIn" value="{!v.socialMap.LinkedIn.Name}" onchange="{!c.updateText}"/>
+                            </td>
+                            <aura:set attribute="else">
+                                <td class="text-xl lg:text-lg">{!v.socialMap.LinkedIn.Name}</td>
+                            </aura:set>
+                        </aura:if>
+                    </tr>
+                    <tr class="w-full border-solid border-grey border-b-2">
+                        <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Twitter handle</th>
+                        <aura:if isTrue="{!v.isEditing}">
+                            <td>
+                                <lightning:input class="w-full my-2 sm:mr-1 label-hidden text-xl lg:text-lg socialField" variant = "label-hidden"
+                                                 name="twitter" aura:id="twitter" value="{!v.socialMap.Twitter.Name}" onchange="{!c.updateText}"/>
+                            </td>
+                            <aura:set attribute="else">
+                                <td class="text-xl lg:text-lg">{!v.socialMap.Twitter.Name}</td>
+                            </aura:set>
+                        </aura:if>
+                    </tr>
+                    
+                    <tr class="w-full border-solid border-grey border-b-2">
+                        <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">WeChat</th>
+                        <aura:if isTrue="{!v.isEditing}">
+                            <td>
+                                <lightning:input class="w-full my-2 sm:mr-1 label-hidden text-xl lg:text-lg socialField" variant = "label-hidden"
+                                                 name="weChat" aura:id="weChat" value="{!v.socialMap.WeChat.Name}" onchange="{!c.updateText}"/>
+                            </td>
+                            <aura:set attribute="else">
+                                <td class="text-xl lg:text-lg">{!v.socialMap.WeChat.Name}</td>
+                            </aura:set>
+                        </aura:if>
+                    </tr>
+                </tbody>
+            </table>
+<!--        </div>-->
+    </div>
+
+    <!-- <div class="float-right pt-8 pr-4">
+        <c:alumniManageSmsMFA></c:alumniManageSmsMFA>
+    </div> -->
+
+    <!--Address information-->
+    <div class="p-4 sm:p-6 text-dark-grey">
+        <h1 class="text-3xla sm:text-3xl sm:font-bold leading-bitmore py-3">Preferred address</h1>
+        <div class="w-full border-solid border-dark-grey border-b-2"></div>
+            <table class="w-full">
+                <tbody>
+                <aura:if isTrue="{!v.isEditing}">
+                    <tr class="w-full border-solid border-grey border-b-2">
+                        <th class="py-1 lg:py-3 w-5/12 md:w-1/4 text-left text-xl lg:text-lg">New Address</th>
+                        <td class="text-xl lg:text-lg">
+                            <div class="paddingBottom">
+                            <!-- Experian component -->
+                                <c:addressSearchEDQ aura:id="addressSearchComp"
+                                                    isAddressDisabled="{!!v.isEditing}"
+                                                    streetMandatory = "true"
+                                                    cityMandatory="true"
+                                                    stateMandatory="true"
+                                                    postCodeMandatory="true">
+                                </c:addressSearchEDQ>
+                            </div>
+                        </td>
+                    </tr>
+                </aura:if>
+                    <tr class="w-full border-solid border-grey border-b-2">
+                        <th class="py-1 lg:py-3 w-1/4 text-left text-xl lg:text-lg">Address type</th>
+                        <td class="text-xl lg:text-lg">
+                            <aura:if isTrue="{!v.isEditing}">
+                                <lightning:select class="w-full my-2 sm:mr-1 label-hidden text-xl lg:text-lg" aura:id="addressType" name="addressType" onchange="{!c.updateAddressType}">
+                                    <option value="" selected="selected" hidden="hidden">{!v.prefAddress.Classification__c}</option>    
+                                    <option value="Private">Private</option>
+                                    <option value="Business">Business</option>
+                                </lightning:select>
+                                <aura:set attribute="else">
+                                    {!v.prefAddress.Classification__c}
+                                </aura:set>
+                            </aura:if>
+                        </td>
+                    </tr>
+                    <!-- Address line -->
+                    <tr class="w-full border-solid border-grey border-b-2">
+                        <th class="py-1 lg:py-3 w-5/12 md:w-1/4 text-left text-xl lg:text-lg">Address</th>
+                        <td class="text-xl lg:text-lg">
+                            <aura:if isTrue="{!not(empty(v.addressLine))}">
+                                {!v.addressLine}
+                            </aura:if>
+                        </td>
+                    </tr>
+                </tbody>             
+            </table>
+    </div>
+</aura:component>

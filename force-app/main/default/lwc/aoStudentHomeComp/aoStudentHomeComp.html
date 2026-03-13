@@ -1,0 +1,67 @@
+<template>
+        <br/>
+    <div style="margin-left:12%">
+        <lightning-layout multiple-rows>
+            <lightning-layout-item size="10" style="padding-right:10px;">
+                <lightning-card title="">
+                    <h2 slot="title">
+                        <lightning-icon icon-name="standard:account_info" size="small"></lightning-icon>
+                        <b>My Details</b>
+                    </h2>
+                    <lightning-layout multiple-rows horizontal-align="start" >
+                        <template for:each={currentUser} for:item="item">
+                            <lightning-layout-item size="6" key={item.key}>
+                                <p class="slds-m-left_medium slds-m-top_small slds-wrap"><b>{item.key} : </b> <span class="slds-wrap">{item.value}</span></p>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                </lightning-card>
+            </lightning-layout-item>
+            <lightning-layout-item size="10" style="padding-right:10px; padding-top:10px;">
+                <lightning-card title="" class="card">
+                    <h2 slot="title">
+                        <lightning-icon icon-name="standard:form" size="small"></lightning-icon>
+                        <b>Tasks to Complete</b>
+                    </h2>
+                    <lightning-layout  horizontal-align="start" >
+                       
+                        <lightning-layout-item size="12">
+                            <template lwc:if={displayPending}>
+                                <lightning-datatable
+                                    key-field="id"
+                                    data={pendingForms}
+                                    columns={pendingColumns}
+                                    hide-checkbox-column=true
+                                    sorted-by="deadlineDate"
+                                    sorted-direction="asc">
+
+                                </lightning-datatable>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-card>
+            </lightning-layout-item>  
+            <lightning-layout-item size="10" style="padding-right:10px; padding-top:10px;">
+                <lightning-card title="" class="card">
+                    <h2 slot="title">
+                        <lightning-icon icon-name="standard:outcome" size="small"></lightning-icon>
+                        <b>Submitted Forms</b>
+                    </h2>
+                    <lightning-layout multiple-rows horizontal-align="start" >
+                        <lightning-layout-item size="12">
+                            <template lwc:if={displaySubmittted}>
+                                <lightning-datatable
+                                    key-field="id"
+                                    data={submittedForms}
+                                    columns={submittedColumns}
+                                    hide-checkbox-column=true>
+
+                                </lightning-datatable>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </lightning-card>
+            </lightning-layout-item>    
+        </lightning-layout>
+    </div>
+</template>

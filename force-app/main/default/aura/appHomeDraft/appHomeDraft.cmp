@@ -1,0 +1,160 @@
+<aura:component 
+                implements="flexipage:availableForAllPageTypes,forceCommunity:availableForAllPageTypes" 
+                controller="appHomeDraftCC"
+                access="global" >
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="user" type="User" description="current user object"/>
+    <aura:attribute name="showComponent" type="Boolean" default="false" description="toggle if this component needs to show"/>
+
+
+    <aura:attribute name="application" type="Application__c" description="the only draft application "/>
+    <aura:attribute name="acps" type="List" description="the list of draft acps"/>
+
+    <aura:attribute name="showDraftSpinner" type="Boolean" default="false" description="show the spinner for the page"/>
+    <aura:attribute name="showConfirmCancel" type="Boolean" default="false" description="show the modal for confirming a draft cancel"/>
+
+    <div class="slds-section slds-text-body_small">
+        <!-- LOADING SPINNER -->
+        <div class="{!if(v.showDraftSpinner == true, '', 'slds-hide')}">
+            <lightning:spinner aura:id="spinner" alternativeText="Saving"/>
+        </div>
+        <!-- END LOADING SPINNER -->
+
+        <!-- CONFIRM CANCEL POPUP -->
+        <div class="{!if(v.showConfirmCancel, '', 'slds-hide')}">
+            <div class="" style="">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <div class="slds-modal__header slds-theme--error">
+                            <div class="slds-float_right">
+                                <lightning:buttonIcon iconName="utility:close"
+                                                      alternativeText="close this popup window"
+                                                      size="large"
+                                                      variant="bare-inverse"
+                                                      onclick="{!c.closeConfirmCancel}"
+                                />
+                            </div>
+                            <h2 class="slds-text-heading--small" id="prompt-heading-id">Cancel this Application?</h2>
+                        </div>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <p>By cancelling, your draft application will be deleted. Information in your My Details tab, and information submitted as part of a previous applications (if any), will not be affected.</p>
+                            <p style="font-weight: bold">Are you sure you want to continue?</p>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <div class="slds-m-around_none slds-grid slds-gutters_xxx-small">
+                                <div class="slds-text-align_left slds-col slds-size_2-of-5">
+                                    <p class="slds-text-body_small">This action cannot be undone</p>
+                                </div>
+                                <div class="slds-col slds-size_3-of-5">
+                                    <lightning:button label="No - Do not Cancel"
+                                                      iconPosition="left"
+                                                      variant="neutral"
+                                                      class="slds-button"
+                                                      onclick="{!c.closeConfirmCancel}">
+                                    </lightning:button>
+                                    <lightning:button label="Yes - Cancel"
+                                                      iconPosition="left"
+                                                      variant="destructive"
+                                                      class="slds-button"
+                                                      onclick="{!c.confirmCancel}">
+                                    </lightning:button>
+                                </div>
+                            </div>
+                        </footer>
+
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </div>
+        <!-- END RESPONSE POPUP -->
+
+
+
+        <!-- main table -->
+        <div class="{!if(v.showComponent, '', 'slds-hide')}">
+            <div class="slds-container_center slds-text-body_small">
+                <div class="slds-color__background_gray-4" style="padding-top: 0.5em; padding-bottom: 0.5em">
+                    <h2 class="slds-text-heading_small slds-m-left_medium">Draft Application</h2>
+                </div>
+                <div class="slds-m-bottom_xx-large">
+                        <div class="slds-text-title_caps slds-m-around_medium slds-clearfix" style="font-weight: bold">
+                            <h3 class="slds-float_left">Application - {!v.application.Name}</h3>
+                            <div class="slds-float_right">
+                                <lightning:button class="slds-float_left"
+                                                  name="editApplication"
+                                                  label="Edit Application"
+                                                  variant="brand" onclick="{!c.editApplication}"
+                                />
+                                <lightning:button class="slds-float_left"
+                                                  name="cancelApplication"
+                                                  label="Cancel Application"
+                                                  variant="destructive"
+                                                  onclick="{!c.showCancelModal}" />
+                            </div>
+                        </div>
+
+                        <div class="{!if(v.acps.length > 0, '', 'slds-hide')}">
+                            <table id="appOfferTable" class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout slds-no-row-hover">
+                                <thead>
+                                <tr class="slds-text-title_caps" style="vertical-align:top">
+                                    <th scope="col" title="Preference Number" class="" style="font-weight: bold;width:5%">
+                                        <div class="slds-truncate slds-cell-wrap" >#</div>
+                                    </th>
+                                    <th scope="col" title="Course Title" class="" style="font-weight: bold">
+                                        <div class="slds-truncate slds-cell-wrap slds-text-align_left">Course Title</div>
+                                    </th>
+                                    <th scope="col" title="Attendance Mode" class="" style="font-weight: bold">
+                                        <div class="slds-truncate slds-cell-wrap slds-text-align_left">Attendance Mode</div>
+                                    </th>
+                                    <th scope="col" title="Location" style="font-weight: bold;width:10%">
+                                        <div class="slds-truncate slds-cell-wrap">Location</div>
+                                    </th>
+                                    <th scope="col" title="Period" style="font-weight: bold">
+                                        <div class="slds-truncate slds-cell-wrap">Period</div>
+                                    </th>
+                                    <th scope="col" title="Fee Type" class="" style="font-weight: bold">
+                                        <div class="slds-truncate slds-cell-wrap">Fee Type</div>
+                                    </th>
+                                </tr>
+                                </thead>
+
+                                <tbody class="slds-text-body_small">
+
+                                <aura:iteration var="pref" items="{!v.acps}">
+                                    <tr style="vertical-align: top">
+                                        <td data-label="Preference Number" class="cellACP">
+                                            <div class="slds-cell-wrap slds-align-top">{!pref.Preference_Number__c}</div>
+                                        </td>
+                                        <td data-label="Course Title" class="cellACP">
+                                            <div class="slds-truncate slds-cell-wrap slds-align-top">
+                                                {!pref.Course_Code__c} - {!pref.Course_Title__c} {!if(empty(pref.Unit_Set_Description__c), '', ' - ' + pref.Unit_Set_Description__c)}
+                                            </div>
+                                        </td>
+                                        <td data-label="Attendance Mode" class="cellACP">
+                                            <div class="slds-cell-wrap slds-align-top">{!pref.Course_Offering__r.Attendance_Mode_Description__c}</div>
+                                        </td>
+                                        <td data-label="Location" class="cellACP">
+                                            <div class="slds-cell-wrap">{!pref.Course_Offering__r.Location_Description__c}</div>
+                                        </td>
+                                        <td data-label="Period" class="cellACP">
+                                            <div class="slds-cell-wrap">{!pref.Course_Offering__r.Admission_Calendar_Description__c}</div>
+                                        </td>
+                                        <td data-label="Fee Type" class="cellACP">
+                                            <div class="slds-cell-wrap">{!pref.Course_Offering__r.Type_of_Place_Description__c}</div>
+                                        </td>
+                                    </tr>
+                                </aura:iteration>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+            </div>
+
+        </div>
+        <!-- END main table-->
+
+    </div>
+</aura:component>

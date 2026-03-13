@@ -1,0 +1,95 @@
+<template>
+    <lightning-modal-header label="New Address (Experian)"></lightning-modal-header>
+    <lightning-modal-body>
+        <div data-id="topPage"></div>
+        <div if:true={errors} class="slds-notify slds-notify_alert slds-alert_error">
+            {errors}
+        </div>
+        <!-- Information section starts here --> 
+        <lightning-record-edit-form object-api-name="Address__c" onsubmit={handleSubmit} onsuccess={handleSuccess} onerror={handleError}>        
+            <h3 class="slds-section__title slds-theme_shade">
+                <span class="slds-truncate slds-p-horizontal_small" title="Information">Information</span>
+            </h3>      
+          <br/>
+            <lightning-layout multiple-rows class="slds-gutters">
+              <lightning-layout-item padding="around-medium" size="12">
+        <!-- Experian Address Validation --> 
+                <c-address-search-e-d-q is-address-disabled={isEditing}
+														street-mandatory={streetRequired}
+														city-mandatory={cityRequired}
+														state-mandatory={stateRequired}
+														post-code-mandatory={postCodeRequired}
+                            default-country={defaultCountry}    
+                            onclearaddressdetails={refreshStatusFields}      
+                            onmanualaddressentry={refreshStatusFields}                  
+                            onvalidate={refreshStatusFields}>
+	     </c-address-search-e-d-q>
+              </lightning-layout-item>
+              <lightning-layout-item padding="around-small" size="6">
+                <lightning-input-field field-name="Contact__c" value={recordId}></lightning-input-field>
+              </lightning-layout-item>
+              <lightning-layout-item padding="around-small" size="6">
+                <lightning-input-field field-name="Is_Deleted__c"></lightning-input-field>
+              </lightning-layout-item>
+              <lightning-layout-item padding="around-small" size="6">
+                <lightning-input-field field-name="Type__c"></lightning-input-field>
+              </lightning-layout-item>
+              <lightning-layout-item padding="around-small" size="6">
+                <lightning-input-field field-name="Is_Active__c"></lightning-input-field>
+              </lightning-layout-item>
+              <lightning-layout-item padding="around-small" size="6">
+                <lightning-input-field field-name="Start_Date__c" value={dateToday}></lightning-input-field>
+              </lightning-layout-item>
+              <lightning-layout-item padding="around-small" size="6">
+                <lightning-input-field field-name="Is_Primary__c"></lightning-input-field>
+              </lightning-layout-item>
+              <lightning-layout-item padding="around-small" size="6">
+                <lightning-input-field field-name="End_Date__c"></lightning-input-field>
+              </lightning-layout-item>
+              <lightning-layout-item padding="around-small" size="6">
+                <lightning-input-field field-name="Source__c" value={source}></lightning-input-field>
+              </lightning-layout-item>
+              <lightning-layout-item padding="around-small" size="6">
+                <lightning-input-field field-name="Classification__c" value={classification}></lightning-input-field>
+              </lightning-layout-item>
+              <lightning-layout-item padding="around-small" size="6">
+                <lightning-input-field field-name="DPID__c" value={dpId} disabled=true></lightning-input-field>
+              </lightning-layout-item>
+              <lightning-layout-item padding="around-small" size="6">
+                <lightning-input-field field-name="Verification_Status__c" value={verificationStatus}></lightning-input-field>
+              </lightning-layout-item>       
+            </lightning-layout>
+            <!-- Information section starts here --> 
+
+            <br/>
+             <!-- System Information section starts here --> 
+             <h3 class="slds-section__title slds-theme_shade">
+              <span class="slds-truncate slds-p-horizontal_small" title="System Information">System Information</span>
+            </h3>      
+          <br/>
+          <lightning-layout multiple-rows class="slds-gutters">
+            <lightning-layout-item padding="around-small" size="6">
+              <lightning-input-field field-name="Channel__c"></lightning-input-field>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="6"> 
+              <lightning-input-field field-name="Primary_set_by__c"></lightning-input-field> 
+            </lightning-layout-item> 
+            <lightning-layout-item padding="around-small" size="6"> 
+              <lightning-input-field field-name="Key_UID__c"></lightning-input-field> 
+            </lightning-layout-item> 
+
+          </lightning-layout>
+            
+            <!-- System Information section ends here --> 
+    
+            <lightning-layout-item size="9" flexibility="auto" padding="horizontal-small" class="slds-align_absolute-right">
+    
+              <lightning-button label="Save" type="submit" name="Save" variant="brand" padding="around-medium" class="slds-m-right_x-small slds-float_right" >
+              </lightning-button>
+              
+              <lightning-button label="Cancel" name="Cancel" variant="neutral" onclick={closePopup} padding="around-medium" class="slds-m-right_x-small slds-float_right">
+              </lightning-button>
+          </lightning-layout-item>
+          </lightning-record-edit-form>
+    </lightning-modal-body>
+</template>

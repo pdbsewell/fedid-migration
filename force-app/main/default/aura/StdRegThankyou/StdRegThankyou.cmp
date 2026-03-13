@@ -1,0 +1,12 @@
+<aura:component implements="force:appHostable,forceCommunity:availableForAllPageTypes" access="global" controller="StdRegController">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <div style="padding-top:30px;font-variant:small-caps;color:rgb(0, 112, 210);font-weight:bold;font-size:15px;font-family:'Salesforce Sans',Arial,sans-serif;">
+             Thanks for registering. Redirecting !!
+    </div>
+
+    <div class="slds-col" padding="around-small">
+        <c:Spinner type="bars" width="80" height="34" color="rgb(0, 112, 210)" show="true" />
+    </div>
+
+</aura:component>

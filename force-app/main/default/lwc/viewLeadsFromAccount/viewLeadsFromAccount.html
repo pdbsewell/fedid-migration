@@ -1,0 +1,57 @@
+<!--- Created by Davey Yu on 15/02/2024--->
+<!-- Opportunity Merge Wizard -->
+<template>
+    <template if:true={hasData}>
+        <div class="slds-p-around_x-small">
+            <header class="slds-modal__header">
+                <h2 class="slds-modal__title slds-hyphenate">Related Leads</h2> 
+            </header>
+            <table id="data-table" class=" tableClass slds-table slds-table_cell-buffer slds-table_bordered">
+                <thead>
+                    <tr class="">
+                        <th style="width:20%" scope="col"> 
+                            <div class="columnWrapper" title="">Name</div>
+                        </th>
+                        <th style="width:20%" scope="col">
+                            <div class="columnWrapper" title="">Status</div>
+                        </th>
+                        <th style="width:20%" scope="col">
+                            <div class="columnWrapper" title="">Lead Source</div>
+                        </th>
+                        <th style="width:10%" scope="col">
+                            <div class="columnWrapper" title="">Created Date</div>
+                        </th>
+                        <th style="width:20%" scope="col">
+                            <div class="columnWrapper" title="">Company</div>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template for:each = {data} for:item = "item" for:index="indexVar">
+                        <tr key={item.key} class="slds-hint-parent">
+                            <td class="columnWrapper" data-label="">
+                                <a data-id={item.id} onclick={handleLeadClick}>
+                                    {item.name}
+                                </a>
+                            </td>
+                            <td class="columnWrapper" data-label="delete">
+                               {item.status}
+                            </td>
+                            <td class="columnWrapper" data-label="delete">
+                                {item.leadSource}
+                             </td>
+                           <td class="columnWrapper" data-label="delete">
+                                {item.createdDate}
+                            </td>
+                            <td class="columnWrapper" data-label="">
+                                <a data-id={item.accountId} onclick={handleAccountClick}>
+                                    {item.companyName}
+                                </a>
+                            </td>
+                        </tr>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+   </template>
+</template>

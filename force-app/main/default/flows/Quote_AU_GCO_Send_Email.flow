@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Invokes Apex class to initiate triggering email notification to the student with the GCO offer attached</description>
+        <name>Auto_send_email</name>
+        <label>Auto send email</label>
+        <locationX>50</locationX>
+        <locationY>755</locationY>
+        <actionName>OfferInternalEmailServices</actionName>
+        <actionType>apex</actionType>
+        <faultConnector>
+            <targetReference>Exception_Msg_Assignment</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>quoteIds</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>OfferInternalEmailServices</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <description>Failed to send email notification on auto GCO Offer</description>
+        <name>Failed_to_send_email_notification_on_auto_GCO_Offer</name>
+        <label>Failed to send email notification on auto GCO Offer</label>
+        <locationX>314</locationX>
+        <locationY>971</locationY>
+        <actionName>Nebula__FlowRecordLogEntry</actionName>
+        <actionType>apex</actionType>
+        <dataTypeMappings>
+            <typeName>T__record</typeName>
+            <typeValue>SBQQ__Quote__c</typeValue>
+        </dataTypeMappings>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>ExceptionMsg</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <elementReference>c_FlowName</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <elementReference>c_LogMsgTitle</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>record</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+        </inputParameters>
+        <nameSegment>Nebula__FlowRecordLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>62.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>ACP Count</description>
+        <name>ACP_Count</name>
+        <label>ACP Count</label>
+        <locationX>314</locationX>
+        <locationY>539</locationY>
+        <assignmentItems>
+            <assignToReference>ACPCount</assignToReference>
+            <operator>AssignCount</operator>
+            <value>
+                <elementReference>ACP</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Should_send_email</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assigning exception msg</description>
+        <name>Exception_Msg_Assignment</name>
+        <label>Exception Msg Assignment</label>
+        <locationX>314</locationX>
+        <locationY>863</locationY>
+        <assignmentItems>
+            <assignToReference>ExceptionMsg</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Failed_to_send_email_notification_on_auto_GCO_Offer</targetReference>
+        </connector>
+    </assignments>
+    <constants>
+        <description>Constant flowname</description>
+        <name>c_FlowName</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>QuoteAUGCOSendEmail</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <description>Constant to record fault message title</description>
+        <name>c_LogMsgTitle</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Failed to create send auto GCO email</stringValue>
+        </value>
+    </constants>
+    <decisions>
+        <description>Decision to send email</description>
+        <name>Should_send_email</name>
+        <label>Should send email?</label>
+        <locationX>314</locationX>
+        <locationY>647</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>ACP_meets_criteria</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ACPCount</leftValueReference>
+                <operator>GreaterThan</operator>
+                <rightValue>
+                    <numberValue>0.0</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Auto_send_email</targetReference>
+            </connector>
+            <label>ACP meets criteria</label>
+        </rules>
+    </decisions>
+    <description>Flow to send GCO email notification to the student with the offer attachment</description>
+    <environments>Default</environments>
+    <interviewLabel>Quote: AU: GCO Auto offer {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Quote: AU: GCO Send Email</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Filter for ACPs that have GCO offer outcome status value</description>
+        <name>ACP</name>
+        <label>ACP</label>
+        <locationX>314</locationX>
+        <locationY>431</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>ACP_Count</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Quote_Lines.Application_Course_Preference__r.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Outcome_Status_Value__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>OFFER-G-CO</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Conditional_Automation__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Generic</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>false</getFirstRecordOnly>
+        <object>Application_Course_Preference__c</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>Query Quote Lines with ACP not being blank, this will filter only the Quote lines which are attached to ACP</description>
+        <name>Quote_Lines</name>
+        <label>Quote Lines</label>
+        <locationX>314</locationX>
+        <locationY>323</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>ACP</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>SBQQ__Quote__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>Application_Course_Preference__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue></stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>SBQQ__QuoteLine__c</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Application_Course_Preference__c</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <start>
+        <locationX>188</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Quote_Lines</targetReference>
+        </connector>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterFormula>AND({!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = false, TEXT({!$Record.Sub_Status__c})=&apos;Preview in QA&apos;)</filterFormula>
+        <object>SBQQ__Quote__c</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>ACP Count</description>
+        <name>ACPCount</name>
+        <dataType>Number</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+        <scale>0</scale>
+    </variables>
+    <variables>
+        <description>Capture exception message</description>
+        <name>ExceptionMsg</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

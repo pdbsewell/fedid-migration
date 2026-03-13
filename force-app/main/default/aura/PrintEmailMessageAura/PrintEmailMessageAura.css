@@ -1,0 +1,134 @@
+/**
+ * Created by tom on 27/11/2024.
+ */
+
+.THIS.no-print-area > .buttons {
+    display: flex;
+    justify-content: space-evenly;
+    width: 400px;
+    margin: 20px auto;
+}
+
+.THIS.print-area > .email-metadata {
+    max-width: 800px;
+    margin: 0 auto;
+    font-size: 14px;
+    font-family: Helvetica, Arial, sans-serif;
+    break-inside: avoid;
+    line-height: 1.1rem;
+}
+
+.THIS.print-area > .email-metadata td:first-child {
+    font-weight: bold;
+    padding-right: 1rem;
+    text-align: right;
+}
+
+.THIS.print-area > hr {
+    margin: 1rem 0;
+}
+
+/* Email Container */
+.THIS .printable-email {
+    padding: 0 1rem;
+    max-width: 800px;
+    margin: 0 auto;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    break-inside: auto;
+    /* Default font size and family */
+    font-size: medium;
+    font-family: Helvetica, Arial, sans-serif
+}
+
+/* Encourage content to break */
+.THIS .printable-email * {
+    break-inside: auto;
+    word-break: break-word !important;
+}
+
+/* Some are set to inline-block causing page-break weirdness */
+.THIS .printable-email td {
+    display: table-cell !important;
+}
+
+/* Ensure images don't break across pages */
+.THIS .printable-email img {
+    max-width: 100%;
+    height: auto;
+    break-inside: avoid;
+}
+
+@media print {
+    .THIS a[href]:after {
+        content: none !important;
+    }
+    .THIS.no-print-area {
+        display: none !important;
+    }
+}
+
+/* Replace styles that were ruined by resetCSS */
+.THIS h1,
+.THIS h2,
+.THIS h3,
+.THIS h4,
+.THIS h5,
+.THIS h6,
+.THIS p,
+.THIS blockquote {
+    margin: 0.67em 0;
+}
+
+.THIS h1 {
+    font-size: 2em;
+    font-weight: bold;
+}
+
+.THIS h2 {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.THIS h3 {
+    font-size: 1.17em;
+    font-weight: bold;
+}
+
+.THIS h4 {
+    font-size: 1em;
+    font-weight: bold;
+}
+
+.THIS h5 {
+    font-size: 0.83em;
+    font-weight: bold;
+}
+
+.THIS h6 {
+    font-size: 0.67em;
+    font-weight: bold;
+}
+
+.THIS p {
+    margin: 1em 0;
+    line-height: 1.4;
+}
+
+.THIS a:hover {
+    text-decoration: underline;
+}
+
+.THIS blockquote {
+    margin: 1em 40px;
+}
+
+.THIS fieldset {
+    margin: 0 2px;
+    padding: 0.35em 0.625em 0.75em;
+    border: 1px solid #c0c0c0;
+}
+
+.THIS legend {
+    padding: 0 2px;
+}

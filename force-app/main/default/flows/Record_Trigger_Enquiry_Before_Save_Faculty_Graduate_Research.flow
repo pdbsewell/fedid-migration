@@ -1,0 +1,400 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>60.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Update_Category_Mapping_1</name>
+        <label>Update Category Mapping 1</label>
+        <locationX>50</locationX>
+        <locationY>611</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Category_Level_1__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Graduate Research Admissions</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Category_Level_2__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Assessment</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Update_Category_Mapping_2</name>
+        <label>Update Category Mapping 2</label>
+        <locationX>314</locationX>
+        <locationY>611</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Category_Level_1__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Graduate Research Admissions</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Category_Level_2__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Assessment</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Enquiry_Type__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Future Course</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Update_Category_Mapping_3</name>
+        <label>Update Category Mapping 3</label>
+        <locationX>578</locationX>
+        <locationY>611</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Category_Level_1__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Graduate Research Admissions</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Category_Level_2__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Acceptance</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Enquiry_Type__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Current Course</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Update_Category_Mapping_4</name>
+        <label>Update Category Mapping 4</label>
+        <locationX>842</locationX>
+        <locationY>611</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Category_Level_1__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Candidature</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Category_Level_2__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Thesis Submission</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Enquiry_Type__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Current Course</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Update_Category_Mapping_5</name>
+        <label>Update Category Mapping 5</label>
+        <locationX>1106</locationX>
+        <locationY>611</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Category_Level_1__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Candidature</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Category_Level_2__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Enrolment</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Enquiry_Type__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Future Course</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Update_Category_Mapping_6</name>
+        <label>Update Category Mapping 6</label>
+        <locationX>1370</locationX>
+        <locationY>611</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Category_Level_1__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Supervisor Accreditation</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Category_Level_2__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Accreditation</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Enquiry_Type__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Current Course</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <customErrors>
+        <description>Restrict Ownership change to Faculty Graduate Research enquiries for Faculty Graduate Research users</description>
+        <name>Cannot_change_ownership_on_Non_Faculty_Graduate_Research_enquiries</name>
+        <label>Cannot change ownership on Non Faculty Graduate Research enquiries</label>
+        <locationX>2162</locationX>
+        <locationY>503</locationY>
+        <customErrorMessages>
+            <errorMessage>Ownership change is restricted to Faculty Graduate Research enquiries only</errorMessage>
+            <isFieldError>false</isFieldError>
+        </customErrorMessages>
+    </customErrors>
+    <decisions>
+        <name>Check_If_the_Record_is_New</name>
+        <label>Check If the Record is New</label>
+        <locationX>1370</locationX>
+        <locationY>395</locationY>
+        <defaultConnectorLabel>Existing Record</defaultConnectorLabel>
+        <rules>
+            <name>Record_Is_New</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>IsNew</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_Subjectline</targetReference>
+            </connector>
+            <label>Record Is New</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check for subject</description>
+        <name>Check_Subjectline</name>
+        <label>Check Subjectline</label>
+        <locationX>842</locationX>
+        <locationY>503</locationY>
+        <defaultConnectorLabel>No Match</defaultConnectorLabel>
+        <rules>
+            <name>IF_Subject_is_Higher_DREAMS_Document_request_has_been_submitted</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Subject</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Higher DREAMS Document request has been submitted</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Category_Mapping_1</targetReference>
+            </connector>
+            <label>IF Subject is Higher DREAMS Document request has been submitted</label>
+        </rules>
+        <rules>
+            <name>If_Subject_contains_HDR_Candidature_Application_for</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Subject</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>HDR Candidature Application for</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Category_Mapping_2</targetReference>
+            </connector>
+            <label>If Subject contains HDR Candidature Application for</label>
+        </rules>
+        <rules>
+            <name>IF_Subject_contains_Offer_response_request_outcome</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Subject</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Offer response request outcome</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Category_Mapping_3</targetReference>
+            </connector>
+            <label>IF Subject contains Offer response request outcome</label>
+        </rules>
+        <rules>
+            <name>IF_Subject_contains_Doctorate_Examination</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Subject</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Doctorate Examination</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Category_Mapping_4</targetReference>
+            </connector>
+            <label>IF Subject contains Doctorate Examination</label>
+        </rules>
+        <rules>
+            <name>IF_Subject_contains_Enrollment_information</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Subject</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Enrollment information</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Category_Mapping_5</targetReference>
+            </connector>
+            <label>IF Subject contains Enrollment information</label>
+        </rules>
+        <rules>
+            <name>IF_Subject_contains_Supervisor_Accreditation_Confirmation</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Subject</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Supervisor Accreditation Confirmation</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Category_Mapping_6</targetReference>
+            </connector>
+            <label>IF Subject contains Supervisor Accreditation Confirmation</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Has_Owner_been_changed_by_Faculty_Graduate_Research_user</name>
+        <label>Has Owner been changed by Faculty Graduate Research user?</label>
+        <locationX>2294</locationX>
+        <locationY>395</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Owner_changed_by_Faculty_Graduate_Research_user</name>
+            <conditionLogic>(1 OR 2) AND 3 AND 4</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Owner:User.Id</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Owner:Group.Id</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Profile.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Faculty Graduate Research Profile</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$UserRole.Name</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Biomedical Sciences - Graduate Research</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Cannot_change_ownership_on_Non_Faculty_Graduate_Research_enquiries</targetReference>
+            </connector>
+            <label>Owner changed by Faculty Graduate Research user</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Is_Faculty_Graduate_Research_enquiry</name>
+        <label>Is Faculty Graduate Research enquiry?</label>
+        <locationX>1832</locationX>
+        <locationY>287</locationY>
+        <defaultConnector>
+            <targetReference>Has_Owner_been_changed_by_Faculty_Graduate_Research_user</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Non Faculty Graduate Research enquiry</defaultConnectorLabel>
+        <rules>
+            <name>Faculty_Graduate_Research_enquiry</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.DeveloperName</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Faculty_Graduate_Research</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_If_the_Record_is_New</targetReference>
+            </connector>
+            <label>Faculty Graduate Research enquiry</label>
+        </rules>
+    </decisions>
+    <description>Moved common logic Graduate Research flow</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>To check if the record is new</description>
+        <name>IsNew</name>
+        <dataType>Boolean</dataType>
+        <expression>ISNEW()</expression>
+    </formulas>
+    <interviewLabel>Record-Trigger: Enquiry After Save () {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Record-Trigger: Enquiry Before Save (Faculty Graduate Research)</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>1706</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Is_Faculty_Graduate_Research_enquiry</targetReference>
+        </connector>
+        <filterFormula>{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False</filterFormula>
+        <object>Case</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Draft</status>
+</Flow>

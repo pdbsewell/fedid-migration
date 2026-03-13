@@ -1,0 +1,108 @@
+<!--
+ - Created by trentdelaney on 14/8/18.
+ -->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes,lightning:isUrlAddressable" 
+                access="global"
+                description="ApplicationPath"
+                controller="ApplicationPathController">
+    <aura:attribute name="variant" type="String" default="non-linear"/>
+    <aura:attribute name="hideUpdateButton" type="Boolean" default="false"/>
+    <aura:attribute name="navError" type="Boolean" default="false"/>
+
+    <aura:attribute name="appId" type="String" default="" />
+    <aura:attribute name="application" type="Application__c" description="the application object"/>
+
+    <aura:attribute name="listStates" type="List" description="the list of progress statuses from schema"/>
+    <aura:attribute name="submissionProgressOptions" type="List" description="a list of labels and values of the submissions progress options, this is hard coded to translate the labels"/>
+
+    <aura:attribute name="submissionProgress" type="String" 
+                    description="designer attribute to map this page to the correct Submission_Progress__c value"
+    default="Declaration"/>
+    <aura:attribute name="furthestStepNumber" type="Integer" description="the furthest step number we're up to"/>
+    <aura:attribute name="currentStepNumber" type="Integer" description="the current step number we're up to"/>
+
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <!--lightning:progressIndicator currentStep="{!v.submissionProgress}" type="path" variant="base">
+        <lightning:progressStep aura:id="step-01" label="Declaration" value="Declaration" onclick="{!c.onClickStep}"/>
+        <lightning:progressStep aura:id="step-02" label="Personal Details" value="Personal Details" onclick="{!c.onClickStep}"/>
+        <lightning:progressStep aura:id="step-03" label="Course Preferences" value="Course Preferences" onclick="{!c.onClickStep}" />
+        <lightning:progressStep aura:id="step-04" label="Educational History and Work Experience" value="Credentials" onclick="{!c.onClickStep}" />
+        <lightning:progressStep aura:id="step-05" label="External Sponsorship" value="Scholarship" onclick="{!c.onClickStep}" />
+        <lightning:progressStep aura:id="step-06" label="Documents" value="Documents" onclick="{!c.onClickStep}" />
+        <lightning:progressStep aura:id="step-07" label="Application Fee" value="Application Fee" onclick="{!c.onClickStep}" />
+        <lightning:progressStep aura:id="step-08" label="Review" value="Review" onclick="{!c.onClickStep}" />
+        <lightning:progressStep aura:id="step-09" label="Submit" value="Submit" onclick="{!c.onClickStep}" />
+    </lightning:progressIndicator-->
+
+
+
+    <div class="slds-clearfix slds-path__title">
+        <aura:iteration items="{!v.submissionProgressOptions}" var="state" indexVar="idx">
+
+            <aura:if isTrue="{!state.valid}">
+                <div class="slds-float_left slds-m-bottom_xxx-small" role="presentation">
+                    <aura:if isTrue="{!idx == v.currentStepNumber}">
+                        <div class="myAppProgressStep myAppStepCurrent"
+                             onclick=""
+                             data-id="{!state.value}"
+                             data-url="{!state.url}"
+                        >
+                            <div class="myAppStepIndent"></div>
+                            <div class="myAppStepLabel">
+                                <p>{!add(idx, 1)}. {!state.label}</p>
+                            </div>
+                            <div class="myAppStepArrow"></div>
+                        </div>
+
+                        <aura:set attribute="else">
+                            <aura:if isTrue="{!lessthanorequal(idx, v.furthestStepNumber)}">
+                                <div class="myAppProgressStep myAppStepComplete"
+                                     onclick="{!c.onClickDivStep}"
+                                     data-id="{!state.value}"
+                                     data-url="{!state.url}">
+                                    <div class="myAppStepIndent"></div>
+                                    <div class="myAppStepLabel">
+                                        <p>{!add(idx, 1)}. {!state.label}</p>
+                                    </div>
+                                    <div class="myAppStepArrow"></div>
+                                </div>
+
+                                <aura:set attribute="else">
+                                    <div class="myAppProgressStep myAppStepTodo"
+                                         onclick="{!c.onClickDivStep}"
+                                         data-id="{!state.value}"
+                                         data-url="{!state.url}">
+                                        <div class="myAppStepIndent"></div>
+                                        <div class="myAppStepLabel">
+                                            <p>{!add(idx, 1)}. {!state.label}</p>
+                                        </div>
+                                        <div class="myAppStepArrow"></div>
+                                    </div>
+                                </aura:set>
+                            </aura:if>
+                        </aura:set>
+                    </aura:if>
+
+                </div>
+            </aura:if>
+        </aura:iteration>
+    </div>
+
+
+    <div class="{!if(v.navError== true, '', 'slds-hide')}" style="height: 640px;">
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p class="slds-align_absolute-center">Please complete the application steps in order</p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick="{!c.onClickCloseAlert}">Close</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+</aura:component>

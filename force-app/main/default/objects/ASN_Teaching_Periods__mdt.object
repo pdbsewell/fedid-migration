@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Custom metadata type to maintain the Teaching periods group wise collection of the CI sequence numbers</description>
+    <fields>
+        <fullName>Academic_Year__c</fullName>
+        <description>Academic year configuration which is used to filter Unit Attempts</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Academic Year</label>
+        <length>25</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Group_CI_Sequence_Numbers__c</fullName>
+        <description>To group CI sequence numbers</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Group CI Sequence Numbers</label>
+        <length>32768</length>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Location__c</fullName>
+        <description>Location value where the teaching period is eligible for ASN submission</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Location value where the teaching period is exclusively eligible for ASN submission. (Wherein, null = any.)</inlineHelpText>
+        <label>Location</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Teaching_Period__c</fullName>
+        <description>The teaching period which groups some CI sequence numbers</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Teaching Period</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>ASN Teaching Periods</label>
+    <listViews>
+        <fullName>All_View</fullName>
+        <columns>MasterLabel</columns>
+        <columns>Teaching_Period__c</columns>
+        <columns>Group_CI_Sequence_Numbers__c</columns>
+        <columns>Location__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All_View</label>
+    </listViews>
+    <pluralLabel>ASN Teaching Period</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -1,0 +1,25 @@
+<template>
+    <lightning-card>
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="small"></lightning-spinner>
+        </template>
+
+        <h1 slot="title">ID-XRef Lookup</h1>
+
+        <div class="slds-p-horizontal_medium">
+            <lightning-radio-group onchange={handleLookupAttributeChange} options={lookupAttributeOptions} value={lookupAttributeValue}></lightning-radio-group>
+            
+            <lightning-input onchange={handleLookupValueChange} placeholder="Value" type="text" value={lookupValue}></lightning-input>
+        </div>
+
+        <template if:true={output}>
+            <div class="slds-p-horizontal_medium">
+                <pre><code>{output}</code></pre>
+            </div>
+        </template>
+
+        <div slot="actions">
+            <lightning-button label="Submit" variant="brand" onclick={handleSubmit}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

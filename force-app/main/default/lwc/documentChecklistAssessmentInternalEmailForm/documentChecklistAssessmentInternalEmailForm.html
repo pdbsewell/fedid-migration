@@ -1,0 +1,334 @@
+<template>
+    <template if:false={showPreview}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-docked-composer-modal slds-modal_medium" aria-modal="true" style="overflow: hidden;">
+            <div class="slds-modal__container">
+                <div class="slds-modal__content">
+                    <section class="slds-docked-composer slds-grid slds-grid_vertical" style="overflow: hidden;">
+                        <header class="slds-docked-composer__header slds-grid slds-shrink-none" aria-live="assertive">
+                            <!-- form header -->
+                            <div class="slds-media slds-media_center slds-no-space">
+                                <div class="slds-media__figure slds-m-right_x-small">
+                                    <span class="slds-icon_container">
+                                        <lightning-layout vertical-align="center">
+                                            <!-- notes header icon -->
+                                            <lightning-layout-item>
+                                                <lightning-icon icon-name="utility:email" size="x-small"></lightning-icon>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </span>
+                                </div>
+                                <div class="slds-media__body">
+                                    <lightning-layout vertical-align="center">
+                                        <!-- email header text -->
+                                        <lightning-layout-item>
+                                            <h2 class="slds-truncate">{emailSubject}</h2>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </div>
+                            </div>
+                            <!-- upper right actions -->
+                            <div class="slds-col_bump-left slds-shrink-none">
+                                <lightning-button-icon icon-name="utility:close"  
+                                                    alternative-text="Settings" 
+                                                    variant="bare"
+                                                    onclick={closeWindow}>
+                                </lightning-button-icon>
+                            </div>
+                        </header>
+                        <div class="slds-docked-composer__body">
+                            <lightning-layout multiple-rows>
+                                <lightning-layout-item size="12" padding="vertical-small">
+                                    <!-- from address -->
+                                    <div class="slds-border_bottom slds-p-horizontal_medium slds-p-vertical_xx-small">
+                                        <lightning-layout vertical-align="center">
+                                            <lightning-layout-item size="1" padding="vertical-small">
+                                                <!--<span class="slds-text-color_destructive">* </span>-->
+                                                <span class="slds-text-body_medium">From</span>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="11" padding="vertical-small">
+                                                <lightning-input name="emailFrom" 
+                                                    class="emailFrom"
+                                                    type="email" 
+                                                    label="From"
+                                                    variant="label-hidden" 
+                                                    value={emailFromAddress}
+                                                    onchange={emailFromAddressChange}>
+                                                </lightning-input>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12" padding="vertical-small">
+                                    <!-- to address -->
+                                    <div class="slds-border_bottom slds-p-horizontal_medium slds-p-vertical_xx-small">
+                                        <lightning-layout vertical-align="center">
+                                            <lightning-layout-item size="1" padding="vertical-small">
+                                                <!--<span class="slds-text-color_destructive">* </span>-->
+                                                <span class="slds-text-body_medium">To</span>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="11" padding="vertical-small">
+                                                <span>
+                                                    <lightning-icon icon-name="utility:email" size="xx-small"></lightning-icon> {applicant.fields.Email.value} (Applicant)
+                                                </span>
+                                            </lightning-layout-item>
+                                            <!--<lightning-layout-item size="1" padding="vertical-small" alignment-bump="left">
+                                                <div class="slds-float_right">
+                                                    <lightning-button-icon icon-name="utility:add"  alternative-text="Add Email"></lightning-button-icon>
+                                                </div>
+                                            </lightning-layout-item>-->
+                                        </lightning-layout>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12">
+                                    <!-- cc address -->
+                                    <div class="slds-border_bottom slds-p-horizontal_medium slds-p-vertical_xx-small">
+                                        <lightning-layout vertical-align="center">
+                                            <lightning-layout-item size="1" padding="vertical-small">
+                                                <span class="slds-text-body_medium">Cc</span>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item flexibility="auto" padding="vertical-small">
+                                                <!-- cc'ed emails -->
+                                                <!-- agent email -->
+                                                <template if:true={application.AgentEmailAddress__c}>
+                                                    <span class="slds-m-right_small">
+                                                        <lightning-icon icon-name="utility:email" size="xx-small"></lightning-icon> {application.AgentEmailAddress__c} (Agent)
+                                                    </span>
+                                                </template>
+                                                <!-- sponsor email -->
+                                                <template if:true={application.Sponsor_Email_Address__c}>
+                                                    <span class="slds-m-right_small">
+                                                        <lightning-icon icon-name="utility:email" size="xx-small"></lightning-icon> {application.Sponsor_Email_Address__c} (Sponsor)
+                                                    </span>
+                                                </template>
+                                                <!-- proxy email -->
+                                                <template if:true={application.Proxy_Email_Address__c}>
+                                                    <span class="slds-m-right_small">
+                                                        <lightning-icon icon-name="utility:email" size="xx-small"></lightning-icon> {application.Proxy_Email_Address__c} (Proxy)
+                                                    </span>
+                                                </template>
+                                                <!-- manually added addresses -->
+                                                <template for:each={ccAddresses} for:item="email">
+                                                    <span class="slds-m-right_small" key={email}>                                                        
+                                                        <lightning-icon icon-name="utility:email" size="xx-small"></lightning-icon> {email}
+                                                        <lightning-button-icon icon-name="utility:close" 
+                                                            alternative-text="Remove email address" 
+                                                            variant="bare"
+                                                            onclick={removeAddress}
+                                                            data-address={email}>
+                                                        </lightning-button-icon>
+                                                    </span>
+                                                </template>                                            
+                                            </lightning-layout-item>
+                                            <!-- Actions -->
+                                            <lightning-layout-item flexibility="auto" padding="vertical-small" alignment-bump="left">
+                                                <template if:true={showAddCc}>
+                                                    <lightning-layout vertical-align="center">
+                                                        <lightning-layout-item alignment-bump="left">
+                                                            <div style="width: 200px;">
+                                                                <lightning-input name="ccEmail"
+                                                                    class="ccEmail"
+                                                                    type="email"
+                                                                    value={newCcAddress}
+                                                                    label="CcEmail"
+                                                                    variant="label-hidden"
+                                                                    placeholder="Add CC Address here..."
+                                                                    onchange={onNewCcAddress}
+                                                                    onkeydown={addCcAddress}
+                                                                    message-when-pattern-mismatch="Please enter correct email format.">
+                                                                </lightning-input>
+                                                            </div>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item>
+                                                            <lightning-button label="Add"
+                                                                class="slds-m-left_x-small"
+                                                                alternative-text="Add Email Address here..." 
+                                                                variant="brand"                                                                
+                                                                onclick={hideAddCC}>
+                                                            </lightning-button>
+                                                        </lightning-layout-item>
+                                                    </lightning-layout>
+                                                </template>
+                                                <template if:false={showAddCc}>
+                                                    <lightning-layout vertical-align="center">
+                                                        <lightning-layout-item alignment-bump="left">
+                                                            <lightning-button-icon icon-name="utility:add" 
+                                                                alternative-text="Add Email Address here..." 
+                                                                variant="brand"
+                                                                onclick={showAddCC}>
+                                                            </lightning-button-icon>
+                                                        </lightning-layout-item>
+                                                    </lightning-layout>
+                                                </template>
+                                            </lightning-layout-item>
+                                                <!-- add email 
+                                                <lightning-layout vertical-align="center">
+                                                    <template if:true={showAddCc}>
+                                                        <lightning-layout-item flexibility="auto">
+                                                            <lightning-input type="email"
+                                                                label="CcEmail"
+                                                                variant="label-hidden"
+                                                                placeholder="Add CC Address here...">
+                                                            </lightning-input>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item size="2">
+                                                            <lightning-button-icon icon-name="utility:add" 
+                                                                alternative-text="Add Email Address here..." 
+                                                                variant="brand"
+                                                                onclick={hideAddCC}
+                                                                size="x-small">
+                                                            </lightning-button-icon>
+                                                        </lightning-layout-item>
+                                                    </template>
+                                                    <template if:false={showAddCc}>
+                                                        <lightning-layout-item size="2" padding="vertical-small">
+                                                            <lightning-button-icon icon-name="utility:add" 
+                                                                alternative-text="Add Email Address here..." 
+                                                                variant="brand"
+                                                                onclick={showAddCC}
+                                                                size="x-small">
+                                                            </lightning-button-icon>
+                                                        </lightning-layout-item>
+                                                    </template>
+                                                </lightning-layout>-->
+                                        </lightning-layout>
+                                    </div>
+                                </lightning-layout-item> 
+                                <!--<lightning-layout-item size="12" padding="vertical-small">
+                                    bcc address 
+                                    <div class="slds-border_bottom slds-p-horizontal_medium slds-p-vertical_xx-small">
+                                        <lightning-layout vertical-align="center">
+                                            <lightning-layout-item size="1" padding="vertical-small">
+                                                <span class="slds-text-body_medium">Bcc</span>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="10" padding="vertical-small">
+                                                
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="1" padding="vertical-small" alignment-bump="left">
+                                                <div class="slds-float_right">
+                                                    <lightning-button-icon icon-name="utility:add"  alternative-text="Add Email"></lightning-button-icon>
+                                                </div>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </div>
+                                </lightning-layout-item>-->
+                                <lightning-layout-item size="12" padding="vertical-small">
+                                    <!-- subject -->
+                                    <div class="slds-border_bottom slds-p-horizontal_medium slds-p-vertical_xx-small">
+                                        <lightning-layout vertical-align="center">
+                                            <lightning-layout-item size="1" padding="vertical-small">
+                                                <!--<span class="slds-text-color_destructive">* </span>-->
+                                                <span class="slds-text-body_medium">Subject</span>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="11" padding="vertical-small">
+                                                <lightning-input name="emailSubject" 
+                                                    label="Subject" 
+                                                    variant="label-hidden" 
+                                                    value={emailSubject}
+                                                    onchange={emailSubjectChange}>
+                                            </lightning-input>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="12" padding="vertical-small">
+                                    <!-- email content -->
+                                    <div>
+                                        <lightning-input-rich-text value={emailContent}
+                                            formats={formats}
+                                            onchange={emailContentChange}>
+                                        </lightning-input-rich-text>  
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </div>
+                        <footer class="slds-docked-composer__footer slds-shrink-none">
+                            <div class="slds-col_bump-left slds-text-align_right">
+                                <lightning-button label="Cancel" title="Back" onclick={closeWindow}></lightning-button>
+                                <lightning-button label="Preview" 
+                                    icon-name="utility:preview" 
+                                    class="slds-m-left_x-small"
+                                    onclick={showPreviewForm}
+                                    variant="brand">
+                                </lightning-button>
+                                <lightning-button label="Send" 
+                                    class="slds-m-left_x-small"
+                                    onclick={immediateSendEmail}
+                                    variant="brand">
+                                </lightning-button>
+                            </div>
+                        </footer>
+                    </section>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <template if:true={showPreview}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-docked-composer-modal slds-modal_small" aria-modal="true">
+            <div class="slds-modal__container">
+                <div class="slds-modal__content" style="overflow: hidden;">
+                    <section class="slds-docked-composer slds-grid slds-grid_vertical slds-is-relative">
+                        <header class="slds-docked-composer__header slds-grid slds-shrink-none" aria-live="assertive">
+                            <!-- form header -->
+                            <div class="slds-media slds-media_center slds-no-space">
+                                <div class="slds-media__figure slds-m-right_x-small">
+                                    <span class="slds-icon_container">
+                                        <lightning-layout vertical-align="center">
+                                            <!-- notes header icon -->
+                                            <lightning-layout-item>
+                                                <lightning-icon icon-name="utility:email" size="x-small"></lightning-icon>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </span>
+                                </div>
+                                <div class="slds-media__body">
+                                    <lightning-layout vertical-align="center">
+                                        <!-- email header text -->
+                                        <lightning-layout-item>
+                                            <h2 class="slds-truncate">{emailSubject}</h2>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </div>
+                            </div>
+                            <!-- upper right actions -->
+                            <div class="slds-col_bump-left slds-shrink-none">
+                                <lightning-button-icon icon-name="utility:close"  
+                                                    alternative-text="Settings" 
+                                                    variant="bare"
+                                                    onclick={closeWindow}>
+                                </lightning-button-icon>
+                            </div>
+                        </header>
+                        <div class="slds-docked-composer__body" style="background-color: #F6F6F6;">
+                            <template if:true={emailLoading}>
+                                <!-- Spinner loader -->
+                                <lightning-spinner alternative-text="Loading" variant="brand" size="medium"></lightning-spinner>
+                            </template>
+                            <lightning-layout multiple-rows>
+                                <lightning-layout-item size="12" padding="bottom-small">
+                                    <!-- email content -->
+                                    <div class="slds-align_absolute-center" style="width: 600px;"> 
+                                        <lightning-formatted-rich-text value={emailContentPreview} style="height: 700px;">                                        
+                                        </lightning-formatted-rich-text>      
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </div>
+                        <footer class="slds-docked-composer__footer slds-shrink-none">
+                            <div class="slds-col_bump-left slds-text-align_right">
+                                <lightning-button label="Back" title="Back" onclick={hidePreviewForm}></lightning-button>
+                                <lightning-button variant="brand" 
+                                    label="Send" 
+                                    class="slds-m-left_x-small"
+                                    onclick={sendEmail}>
+                                </lightning-button>
+                            </div>
+                        </footer>
+                    </section>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>    
+</template>

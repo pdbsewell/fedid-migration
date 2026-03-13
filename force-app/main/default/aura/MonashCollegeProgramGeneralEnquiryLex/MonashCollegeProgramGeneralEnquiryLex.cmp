@@ -1,0 +1,931 @@
+<aura:component access="global" controller="MonashCollegeEnquiryFormService">
+    <!-- Spinners -->
+    <aura:attribute name="showContactsSpinner" type="Boolean" default="false" />
+    <aura:attribute name="showFutureGeneralEnquirySpinner" type="Boolean" default="false" />
+    <!-- Page Details -->
+    <aura:attribute name="contactSearchResult" type="String" default="" />
+    <aura:attribute name="enteredStudentId" type="String" default="" />
+    <aura:attribute name="enteredEmail" type="String" default="" />
+    <!-- Button Controls -->
+    <aura:attribute name="disableSubmit" type="Boolean" default="true" /> 
+    <!-- Contact Details -->
+    
+    <aura:attribute name="enquiryStudentFirstName" type="String" default="" /> 
+    <aura:attribute name="enquiryStudentLastName" type="String" default="" /> 
+    <aura:attribute name="enquiryEmail" type="String" default="" /> 
+    <aura:attribute name="enquiryContactDOB" type="Date" default="" /> 
+    <aura:attribute name="enquiryContactTelephone" type="String" default="" /> 
+    <aura:attribute name="contactId" type="String" /> 
+    <aura:attribute name="contact" type="Object" default="[]" /> 
+    <aura:attribute name="hasContactDetails" type="Boolean" default="false" /> 
+    <!-- Enquiry Details -->
+    <aura:attribute name="selectedTitle" type="String" default="" /> 
+    <aura:attribute name="titleOptions" type="List" 
+                    default="[
+								{'label': '', 'value': ''},
+								{'label': 'Mr', 'value': 'Mr'},
+                                {'label': 'Mrs', 'value': 'Mrs'},
+                                {'label': 'Miss', 'value': 'Miss'},
+                                {'label': 'Ms', 'value': 'Ms'},
+                                {'label': 'Dr', 'value': 'Dr'}
+								]"/>
+    
+    <aura:attribute name="submittedEnquiryCaseNumber" type="String" />    
+    <aura:attribute name="selectedProgram" type="String" default="" /> 
+    <aura:attribute name="programOptions" type="List" 
+                    default="[
+                                {'label': 'Professional Year Program (PY)', 'value': 'Professional Year Program (PY)'}
+                            ]"/>
+    <aura:attribute name="selectedProgramStream" type="String" default="" /> 
+    <aura:attribute name="programStreamOptions" type="List" 
+                    default="[
+                                {'label': '', 'value': ''},
+                                {'label': 'Accounting', 'value': 'Accounting'},
+                                {'label': 'Engineering', 'value': 'Engineering'},
+                                {'label': 'Information Communication Technology', 'value': 'Information Communication Technology'}
+                                
+                            ]"/>
+    <aura:attribute name="selectedTopic" type="String" default="" /> 
+    <aura:attribute name="otherTopic" type="String" default="" /> 
+    <aura:attribute name="topicOptions" type="List" 
+                    default="[
+                                {'label': 'choose a topic what is your enquiry all about...', 'value': ''},
+                                {'label': 'Application', 'value': 'Application'},
+                                {'label': 'Attendance Requirements', 'value': 'Attendance Requirements'},
+                                {'label': 'Course Dates', 'value': 'Course Dates'},
+                                {'label': 'Eligibility', 'value': 'Eligibility'},
+                                {'label': 'Internship', 'value': 'Internship'},
+                                {'label': 'Payment', 'value': 'Payment'},
+                                {'label': 'Program Confirmation', 'value': 'Program Confirmation'},
+                                {'label': 'Supporting Documents', 'value': 'Supporting Documents'},
+                                {'label': 'Other', 'value': 'Other'}
+                             ]"/>
+    <aura:attribute name="enquiryDescription" type="String" default="" /> 
+    
+    <aura:attribute name="selectedCountryOfResidence" type="String" default="" /> 
+    <aura:attribute name="countryOfResidenceOptions" type="List" 
+                    default="[
+                                {'label': '', 'value': ''},
+                                {'label': 'ADELIE LAND (FRANCE)', 'value': 'ADELIE LAND (FRANCE)'},
+                                {'label': 'AFGHANISTAN', 'value': 'AFGHANISTAN'},
+                                {'label': 'ALBANIA', 'value': 'ALBANIA'},
+                                {'label': 'ALGERIA	', 'value': 'ALGERIA'},
+                                {'label': 'ANDORRA', 'value': 'ANDORRA'},
+                                {'label': 'ANGOLA', 'value': 'ANGOLA'},
+                                {'label': 'ANTARCTICA, NFD', 'value': 'ANTARCTICA, NFD'},
+                                {'label': 'ARGENTINA', 'value': 'ARGENTINA'},
+                                {'label': 'ARGENTINIAN ANTARCTIC TERRITORY', 'value': 'ARGENTINIAN ANTARCTIC TERRITORY'},
+                                {'label': 'ARMENIA', 'value': 'ARMENIA'},
+                                {'label': 'AUSTRALIA', 'value': 'AUSTRALIA'},
+                                {'label': 'AUSTRALIAN ANTARCTIC TERRITORY', 'value': 'AUSTRALIAN ANTARCTIC TERRITORY'},
+                                {'label': 'AUSTRALIAN EXTERNAL TERRITORIES, NEC', 'value': 'AUSTRALIAN EXTERNAL TERRITORIES, NEC'},
+                                {'label': 'AUSTRIA', 'value': 'AUSTRIA'},
+                                {'label': 'AZERBAIJAN', 'value': 'AZERBAIJAN'},
+                                {'label': 'BAHAMAS', 'value': 'BAHAMAS'},
+                                {'label': 'BAHRAIN', 'value': 'BAHRAIN'},
+                                {'label': 'BANGLADESH', 'value': 'BANGLADESH'},
+                                {'label': 'BARBADOS', 'value': 'BARBADOS'},
+                                {'label': 'BELARUS', 'value': 'BELARUS'},
+                                {'label': 'BELGIUM', 'value': 'BELGIUM'},
+                                {'label': 'BELIZE', 'value': 'BELIZE'},
+                                {'label': 'BENIN', 'value': 'BENIN'},
+                                {'label': 'BERMUDA', 'value': 'BERMUDA'},
+                                {'label': 'BHUTAN', 'value': 'BHUTAN'},
+                                {'label': 'BOLIVIA', 'value': 'BOLIVIA'},
+                                {'label': 'BOSNIA AND HERZEGOVINA', 'value': 'BOSNIA AND HERZEGOVINA'},
+                                {'label': 'BOTSWANA', 'value': 'BOTSWANA'},
+                                {'label': 'BRAZIL', 'value': 'BRAZIL'},
+                                {'label': 'BRITISH ANTARCTIC TERRITORY', 'value': 'BRITISH ANTARCTIC TERRITORY'},
+                                {'label': 'BRUNEI', 'value': 'BRUNEI'},
+                                {'label': 'BRUNEI DARUSSALAM', 'value': 'BRUNEI DARUSSALAM'},
+                                {'label': 'BULGARIA', 'value': 'BULGARIA'},
+                                {'label': 'BURMA (MYANMAR)', 'value': 'BURMA (MYANMAR)'},
+                                {'label': 'BURUNDI','value': 'BURUNDI'},
+                                {'label': 'CAMBODIA', 'value': 'CAMBODIA'},
+                                {'label': 'CAMEROON', 'value': 'CAMEROON'},
+                                {'label': 'CANADA', 'value': 'CANADA'},
+                                {'label': 'CAPE VERDE', 'value': 'CAPE VERDE'},
+                                {'label': 'CHAD', 'value': 'CHAD'},
+                                {'label': 'CHANNEL ISLANDS', 'value': 'CHANNEL ISLANDS'},
+                                {'label': 'CHILE', 'value': 'CHILE'},
+                                {'label': 'CHINA, PEOPLE\'S REPUBLIC','value': 'CHINA PEOPLE\'S REPUBLIC'},
+                                {'label': 'CHINA (EXCLUDES SARS AND TAIWAN PROVINCE)','value': 'CHINA (EXCLUDES SARS AND TAIWAN PROVINCE)'},
+                                {'label': 'CHINESE ASIA (INCLUDES MONGOLIA), NFD','value': 'CHINESE ASIA (INCLUDES MONGOLIA), NFD'},
+                                {'label': 'COCOS (KEELING) ISLAND', 'value': 'COCOS (KEELING) ISLAND'},
+                                {'label': 'COLOMBIA', 'value': 'COLOMBIA'},
+                                {'label': 'CONGO', 'value': 'CONGO'},
+                                {'label': 'CONGO, DEMOCRATIC REPUBLIC OF', 'value': 'DEMOCRATIC REPUBLIC OF'},
+                                {'label': 'COSTA RICA', 'value': 'COSTA RICA'},
+                                {'label': 'COTE D\'IVOIRE', 'value': 'COTE D\'IVOIRE'},
+                                {'label': 'CROATIA', 'value': 'CROATIA'},
+                                {'label': 'CUBA', 'value': 'CUBA'},
+                                {'label': 'CYPRUS', 'value': 'CYPRUS'},
+                                {'label': 'CZECHOSLOVAKIA', 'value': 'CZECHOSLOVAKIA'},
+                                {'label': 'CZECH REPUBLIC', 'value': 'CZECH REPUBLIC'},
+                                {'label': 'DENMARK', 'value': 'DENMARK'},
+                                {'label': 'DJIBOUTI', 'value': 'DJIBOUTI'},
+                                {'label': 'DOMINICAN REPUBLIC', 'value': 'DOMINICAN REPUBLIC'},
+                                {'label': 'EASTERN EUROPE, NFD', 'value': 'EASTERN EUROPE, NFD'},
+                                {'label': 'EAST TIMOR', 'value': 'EAST TIMOR'},
+                                {'label': 'ECUADOR', 'value': 'ECUADOR'},
+                                {'label': 'EGYPT', 'value': 'EGYPT'},
+                                {'label': 'EL SALVADOR', 'value': 'EL SALVADOR'},
+                                {'label': 'ENGLAND', 'value': 'ENGLAND'},
+                                {'label': 'EQUATORIAL GUINEA', 'value': 'EQUATORIAL GUINEA'}, 
+                                {'label': 'ERITREA', 'value': 'ERITREA'},
+                             	{'label': 'ESTONIA', 'value': 'ESTONIA'},
+                                {'label': 'ETHIOPIA', 'value': 'ETHIOPIA'},
+                                {'label': 'FIJI', 'value': 'FIJI'},
+                                {'label': 'FINLAND', 'value': 'FINLAND'},
+                                {'label': 'FORMER YUGOSLAVIA NOT FURTHER DEFINED', 'value': 'FORMER YUGOSLAVIA NOT FURTHER DEFINED'},
+                                {'label': 'FORMER YUGOSLAV REPUBLIC OF MACEDONIA (FYROM)', 'value': 'FORMER YUGOSLAV REPUBLIC OF MACEDONIA (FYROM)'},
+                                {'label': 'FRANCE', 'value': 'FRANCE'},
+                                {'label': 'FRENCH POLYNESIA', 'value': 'FRENCH POLYNESIA'},
+                                {'label': 'GABON', 'value': 'GABON'},
+                                {'label': 'GAMBIA', 'value': 'GAMBIA'},
+                                {'label': 'GAZA STRIP AND WEST BANK', 'value': 'GAZA STRIP AND WEST BANK'},
+                                {'label': 'GEORGIA', 'value': 'GEORGIA'},
+                                {'label': 'GERMANY', 'value': 'GERMANY'},
+                                {'label': 'GHANA', 'value': 'GHANA'},
+                                {'label': 'GIBRALTAR', 'value': 'GIBRALTAR'},
+                                {'label': 'GREECE', 'value': 'GREECE'},
+                                {'label': 'GUADELOUPE', 'value': 'GUADELOUPE'},
+                                {'label': 'GUAM', 'value': 'GUAM'},
+                                {'label': 'GUATEMALA', 'value': 'GUATEMALA'},
+                                {'label': 'GUINEA', 'value': 'GUINEA'},
+                                {'label': 'GUYANA', 'value': 'GUYANA'},
+                                {'label': 'HONDURAS', 'value': 'HONDURAS'},
+                                {'label': 'HONG KONG', 'value': 'HONG KONG'},
+                                {'label': 'HONG KONG (SAR OF CHINA)', 'value': 'HONG KONG (SAR OF CHINA)'},
+                                {'label': 'HUNGARY', 'value': 'HUNGARY'},
+                                {'label': 'ICELAND', 'value': 'ICELAND'},
+                                {'label': 'INDIA', 'value': 'INDIA'},
+                                {'label': 'INDONESIA', 'value': 'INDONESIA'},
+                                {'label': 'INDONESIA (INCLUDING TIMOR)', 'value': 'INDONESIA (INCLUDING TIMOR)'},
+                                {'label': 'IRAN', 'value': 'IRAN'},
+                                {'label': 'IRAQ', 'value': 'IRAQ'},
+                                {'label': 'IRELAND', 'value': 'IRELAND'},
+                                {'label': 'ISRAEL', 'value': 'ISRAEL'},
+                                {'label': 'ITALY', 'value': 'ITALY'},
+                                {'label': 'JAMAICA', 'value': 'JAMAICA'},
+                                {'label': 'JAPAN', 'value': 'JAPAN'},
+                                {'label': 'JAPAN AND THE KOREAS, NFD', 'value': 'JAPAN AND THE KOREAS, NFD'},
+                                {'label': 'JORDAN', 'value': 'JORDAN'},
+                                {'label': 'KAZAKHSTAN', 'value': 'KAZAKHSTAN'},
+                                {'label': 'KENYA', 'value': 'KENYA'},
+                                {'label': 'KIRIBATI', 'value': 'KIRIBATI'},
+                                {'label': 'KOREA, DEMOCRATIC PEOPLE\'S REPUBLIC OF (NORTH)	KOREA', 'value': 'DEMOCRATIC PEOPLE\'S REPUBLIC OF (NORTH)'},
+                                {'label': 'KOREA, REPUBLIC OF (SOUTH)', 'value': 'KOREA, REPUBLIC OF (SOUTH)'},
+                                {'label': 'KOREA - NORTH', 'value': 'KOREA - NORTH'},
+                                {'label': 'KOREA - SOUTH', 'value': 'KOREA - SOUTH'},
+                                {'label': 'KUWAIT', 'value': 'KUWAIT'},
+                                {'label': 'KYRGYZ REPUBLIC', 'value': 'KYRGYZ REPUBLIC'},
+                                {'label': 'LAOS', 'value': 'LAOS'},
+                                {'label': 'LATVIA', 'value': 'LATVIA'},
+                                {'label': 'LEBANON', 'value': 'LEBANON'},
+                                {'label': 'LESOTHO', 'value': 'LESOTHO'},
+                                {'label': 'LIBERIA', 'value': 'LIBERIA'},
+                                {'label': 'LIBYA', 'value': 'LIBYA'},
+                                {'label': 'LIECHTENSTEIN', 'value': 'LIECHTENSTEIN'},
+                                {'label': 'LITHUANIA', 'value': 'LITHUANIA'},
+                                {'label': 'LUXEMBOURG', 'value': 'LUXEMBOURG'},
+                                {'label': 'MACAU', 'value': 'MACAU'},
+                                {'label': 'MACAU (SAR OF CHINA)', 'value': 'MACAU (SAR OF CHINA)'},
+                                {'label': 'MADAGASCAR', 'value': 'MADAGASCAR'},
+                                {'label': 'MALAWI', 'value': 'MALAWI'},
+                                {'label': 'MALAYSIA', 'value': 'MALAYSIA'},
+                                {'label': 'MALDIVES', 'value': 'MALDIVES'},
+                                {'label': 'MALI', 'value': 'MALI'},
+                                {'label': 'MALTA', 'value': 'MALTA'},
+                                {'label': 'MARITIME SOUTH-EAST ASIA, NFD', 'value': 'MARITIME SOUTH-EAST ASIA, NFD'},
+                                {'label': 'MARSHALL ISLANDS', 'value': 'MARSHALL ISLANDS'},
+                                {'label': 'MAURITANIA', 'value': 'MAURITANIA'},
+                                {'label': 'MAURITIUS', 'value': 'MAURITIUS'},
+                                {'label': 'MEXICO', 'value': 'MEXICO'},
+                                {'label': 'MICRONESIA, FEDERATED STATES OF', 'value': 'MICRONESIA, FEDERATED STATES OF'},
+                                {'label': 'MOLDOVA', 'value': 'MOLDOVA'},
+                                {'label': 'MONACO', 'value': 'MONACO'},
+                                {'label': 'MONGOLIA', 'value': 'MONGOLIA'},
+                                {'label': 'MOROCCO', 'value': 'MOROCCO'},
+                                {'label': 'MOZAMBIQUE', 'value': 'MOZAMBIQUE'},
+                                {'label': 'NAMIBIA', 'value': 'NAMIBIA'},
+                                {'label': 'NAURU', 'value': 'NAURU'},
+                                {'label': 'NEPAL', 'value': 'NEPAL'},
+                                {'label': 'NETHERLANDS', 'value': 'NETHERLANDS'},
+                                {'label': 'NEW CALEDONIA', 'value': 'NEW CALEDONIA'},
+                                {'label': 'NEW ZEALAND', 'value': 'NEW ZEALAND'},
+                                {'label': 'NIGER', 'value': 'NIGER'},
+                                {'label': 'NIGERIA', 'value': 'NIGERIA'},
+                                {'label': 'NORFOLK ISLAND', 'value': 'NORFOLK ISLAND'},
+                                {'label': 'NORTHERN IRELAND', 'value': 'NORTHERN IRELAND'},
+                                {'label': 'NORWAY', 'value': 'NORWAY'},
+                                {'label': 'OMAN', 'value': 'OMAN'},
+                                {'label': 'PAKISTAN', 'value': 'PAKISTAN'},
+                                {'label': 'PANAMA', 'value': 'PANAMA'},
+                                {'label': 'PAPUA NEW GUINEA', 'value': 'PAPUA NEW GUINEA'},
+                                {'label': 'PARAGUAY', 'value': 'PARAGUAY'},
+                                {'label': 'PERU', 'value': 'PERU'},
+                                {'label': 'PHILIPPINES', 'value': 'PHILIPPINES'},
+                                {'label': 'POLAND', 'value': 'POLAND'},
+                                {'label': 'PORTUGAL', 'value': 'PORTUGAL'},
+                                {'label': 'PUERTO RICO', 'value': 'PUERTO RICO'},
+                                {'label': 'QATAR', 'value': 'QATAR'},
+                                {'label': 'REUNION', 'value': 'REUNION'},
+                                {'label': 'ROMANIA', 'value': 'ROMANIA'},
+                                {'label': 'RUSSIAN FEDERATION', 'value': 'RUSSIAN FEDERATION'},
+                                {'label': 'RWANDA', 'value': 'RWANDA'},
+                                {'label': 'SAMOA', 'value': 'SAMOA'},
+                                {'label': 'SAUDI ARABIA', 'value': 'SAUDI ARABIA'},
+                                {'label': 'SCOTLAND', 'value': 'SCOTLAND'},
+                             	{'label': 'SENEGAL', 'value': 'SENEGAL'},
+                             	{'label': 'SERBIA', 'value': 'SERBIA'},
+                             	{'label': 'SERBIA AND MONTENEGRO', 'value': 'SERBIA AND MONTENEGRO'},
+                             	{'label': 'SEYCHELLES', 'value': 'SEYCHELLES'},
+                             	{'label': 'SIERRA LEONE', 'value': 'SIERRA LEONE'},
+                             	{'label': 'SINGAPORE', 'value': 'SINGAPORE'},
+                                {'label': 'SLOVAKIA', 'value': 'SLOVAKIA'},
+                                {'label': 'SLOVENIA', 'value': 'SLOVENIA'},
+                                {'label': 'SOLOMON ISLANDS', 'value': 'SOLOMON ISLANDS'},
+                                {'label': 'SOMALIA	SOMALIA'},
+                              	{'label': 'SOUTH AFRICA', 'value': 'SOUTH AFRICA'},
+                             	{'label': 'SOUTH SUDAN', 'value': 'SOUTH SUDAN'},
+                             	{'label': 'SPAIN', 'value': 'SPAIN'},
+                             	{'label': 'SRI LANKA', 'value': 'SRI LANKA'},
+                             	{'label': 'ST KITTS AND NEVIS', 'value': 'ST KITTS AND NEVIS'},
+                             	{'label': 'ST LUCIA', 'value': 'ST LUCIA'},
+                             	{'label': 'ST VINCENT AND THE GRENADINES', 'value': 'ST VINCENT AND THE GRENADINES'},
+                             	{'label': 'SUDAN', 'value': 'SUDAN'},
+                             	{'label': 'SURINAME', 'value': 'SURINAME'},
+                             	{'label': 'SWAZILAND', 'value': 'SWAZILAND'},
+                             	{'label': 'SWEDEN', 'value': 'SWEDEN'},
+                             	{'label': 'SWITZERLAND', 'value': 'SWITZERLAND'},
+                             	{'label': 'SYRIA', 'value': 'SYRIA'},
+                             	{'label': 'TAIWAN', 'value': 'TAIWAN'},
+                             	{'label': 'TAJIKISTAN', 'value': 'TAJIKISTAN'},
+                             	{'label': 'TANZANIA', 'value': 'TANZANIA'},
+                             	{'label': 'THAILAND', 'value': 'THAILAND'},
+                             	{'label': 'TOGO', 'value': 'TOGO'},
+                             	{'label': 'TONGA', 'value': 'TONGA'},
+                             	{'label': 'TRINIDAD AND TOBAGO', 'value': 'TRINIDAD AND TOBAGO'},
+                             	{'label': 'TUNISIA', 'value': 'TUNISIA'},
+                             	{'label': 'TURKEY', 'value': 'TURKEY'},
+                             	{'label': 'TURKMENISTAN', 'value': 'TURKMENISTAN'},
+                             	{'label': 'TURKS AND CAICOS ISLANDS', 'value': 'TURKS AND CAICOS ISLANDS'},
+                             	{'label': 'TUVALU', 'value': 'TUVALU'},
+                             	{'label': 'UGANDA', 'value': 'UGANDA'},
+                             	{'label': 'UKRAINE', 'value': 'UKRAINE'},
+                             	{'label': 'UNITED ARAB EMIRATES', 'value': 'UNITED ARAB EMIRATES'},                             
+                                {'label': 'UNITED KINGDOM, NFD', 'value': 'UNITED KINGDOM, NFD'},
+                                {'label': 'UNITED KINGDOM (INCLUDING NORTHERN IRELAND)', 'value': 'UNITED KINGDOM (INCLUDING NORTHERN IRELAND)'},                             	
+								{'label': 'UNITED STATES OF AMERICA', 'value': 'UNITED STATES OF AMERICA'},
+                                {'label': 'URUGUAY', 'value': 'URUGUAY'},
+                             	{'label': 'UZBEKISTAN', 'value': 'UZBEKISTAN'},
+                             	{'label': 'VANUATU', 'value': 'VANUATU'},
+                             	{'label': 'VENEZUELA', 'value': 'VENEZUELA'},
+                                {'label': 'URUGUAY', 'value': 'URUGUAY'},
+                                {'label': 'UZBEKISTAN', 'value': 'UZBEKISTAN'},
+                                {'label': 'VANUATU', 'value': 'VANUATU'},
+                                {'label': 'VENEZUELA', 'value': 'VENEZUELA'},
+                                {'label': 'VIET NAM', 'value': 'VIET NAM'},
+                                {'label': 'VIRGIN ISLANDS, BRITISH', 'value': 'VIRGIN ISLANDS, BRITISH'},
+                                {'label': 'WALES', 'value': 'WALES'},
+                                {'label': 'YEMEN', 'value': 'YEMEN'},
+                                {'label': 'ZAMBIA', 'value': 'ZAMBIA'},
+                                {'label': 'ZIMBABWE', 'value': 'ZIMBABWE'}
+                                                                ]"/>
+                                                            
+    <aura:attribute name="selectedNationality" type="String" default="" /> 
+    <aura:attribute name="nationalityOptions" type="List" 
+                    default="[
+                                {'label': '', 'value': ''},
+                                {'label': 'ADELIE LAND (FRANCE)', 'value': 'ADELIE LAND (FRANCE)'},
+                                {'label': 'AFGHANISTAN', 'value': 'AFGHANISTAN'},
+                                {'label': 'ALBANIA', 'value': 'ALBANIA'},
+                                {'label': 'ALGERIA	', 'value': 'ALGERIA'},
+                                {'label': 'ANDORRA', 'value': 'ANDORRA'},
+                                {'label': 'ANGOLA', 'value': 'ANGOLA'},
+                                {'label': 'ANTARCTICA, NFD', 'value': 'ANTARCTICA, NFD'},
+                                {'label': 'ARGENTINA', 'value': 'ARGENTINA'},
+                                {'label': 'ARGENTINIAN ANTARCTIC TERRITORY', 'value': 'ARGENTINIAN ANTARCTIC TERRITORY'},
+                                {'label': 'ARMENIA', 'value': 'ARMENIA'},
+                                {'label': 'AUSTRALIA', 'value': 'AUSTRALIA'},
+                                {'label': 'AUSTRALIAN ANTARCTIC TERRITORY', 'value': 'AUSTRALIAN ANTARCTIC TERRITORY'},
+                                {'label': 'AUSTRALIAN EXTERNAL TERRITORIES, NEC', 'value': 'AUSTRALIAN EXTERNAL TERRITORIES, NEC'},
+                                {'label': 'AUSTRIA', 'value': 'AUSTRIA'},
+                                {'label': 'AZERBAIJAN', 'value': 'AZERBAIJAN'},
+                                {'label': 'BAHAMAS', 'value': 'BAHAMAS'},
+                                {'label': 'BAHRAIN', 'value': 'BAHRAIN'},
+                                {'label': 'BANGLADESH', 'value': 'BANGLADESH'},
+                                {'label': 'BARBADOS', 'value': 'BARBADOS'},
+                                {'label': 'BELARUS', 'value': 'BELARUS'},
+                                {'label': 'BELGIUM', 'value': 'BELGIUM'},
+                                {'label': 'BELIZE', 'value': 'BELIZE'},
+                                {'label': 'BENIN', 'value': 'BENIN'},
+                                {'label': 'BERMUDA', 'value': 'BERMUDA'},
+                                {'label': 'BHUTAN', 'value': 'BHUTAN'},
+                                {'label': 'BOLIVIA', 'value': 'BOLIVIA'},
+                                {'label': 'BOSNIA AND HERZEGOVINA', 'value': 'BOSNIA AND HERZEGOVINA'},
+                                {'label': 'BOTSWANA', 'value': 'BOTSWANA'},
+                                {'label': 'BRAZIL', 'value': 'BRAZIL'},
+                                {'label': 'BRITISH ANTARCTIC TERRITORY', 'value': 'BRITISH ANTARCTIC TERRITORY'},
+                                {'label': 'BRUNEI', 'value': 'BRUNEI'},
+                                {'label': 'BRUNEI DARUSSALAM', 'value': 'BRUNEI DARUSSALAM'},
+                                {'label': 'BULGARIA', 'value': 'BULGARIA'},
+                                {'label': 'BURMA (MYANMAR)', 'value': 'BURMA (MYANMAR)'},
+                                {'label': 'BURUNDI','value': 'BURUNDI'},
+                                {'label': 'CAMBODIA', 'value': 'CAMBODIA'},
+                                {'label': 'CAMEROON', 'value': 'CAMEROON'},
+                                {'label': 'CANADA', 'value': 'CANADA'},
+                                {'label': 'CAPE VERDE', 'value': 'CAPE VERDE'},
+                                {'label': 'CHAD', 'value': 'CHAD'},
+                                {'label': 'CHANNEL ISLANDS', 'value': 'CHANNEL ISLANDS'},
+                                {'label': 'CHILE', 'value': 'CHILE'},
+                                {'label': 'CHINA, PEOPLE\'S REPUBLIC','value': 'CHINA PEOPLE\'S REPUBLIC'},
+                                {'label': 'CHINA (EXCLUDES SARS AND TAIWAN PROVINCE)','value': 'CHINA (EXCLUDES SARS AND TAIWAN PROVINCE)'},
+                                {'label': 'CHINESE ASIA (INCLUDES MONGOLIA), NFD','value': 'CHINESE ASIA (INCLUDES MONGOLIA), NFD'},
+                                {'label': 'COCOS (KEELING) ISLAND', 'value': 'COCOS (KEELING) ISLAND'},
+                                {'label': 'COLOMBIA', 'value': 'COLOMBIA'},
+                                {'label': 'CONGO', 'value': 'CONGO'},
+                                {'label': 'CONGO, DEMOCRATIC REPUBLIC OF', 'value': 'DEMOCRATIC REPUBLIC OF'},
+                                {'label': 'COSTA RICA', 'value': 'COSTA RICA'},
+                                {'label': 'COTE D\'IVOIRE', 'value': 'COTE D\'IVOIRE'},
+                                {'label': 'CROATIA', 'value': 'CROATIA'},
+                                {'label': 'CUBA', 'value': 'CUBA'},
+                                {'label': 'CYPRUS', 'value': 'CYPRUS'},
+                                {'label': 'CZECHOSLOVAKIA', 'value': 'CZECHOSLOVAKIA'},
+                                {'label': 'CZECH REPUBLIC', 'value': 'CZECH REPUBLIC'},
+                                {'label': 'DENMARK', 'value': 'DENMARK'},
+                                {'label': 'DJIBOUTI', 'value': 'DJIBOUTI'},
+                                {'label': 'DOMINICAN REPUBLIC', 'value': 'DOMINICAN REPUBLIC'},
+                                {'label': 'EASTERN EUROPE, NFD', 'value': 'EASTERN EUROPE, NFD'},
+                                {'label': 'EAST TIMOR', 'value': 'EAST TIMOR'},
+                                {'label': 'ECUADOR', 'value': 'ECUADOR'},
+                                {'label': 'EGYPT', 'value': 'EGYPT'},
+                                {'label': 'EL SALVADOR', 'value': 'EL SALVADOR'},
+                                {'label': 'ENGLAND', 'value': 'ENGLAND'},
+                                {'label': 'EQUATORIAL GUINEA', 'value': 'EQUATORIAL GUINEA'}, 
+                                {'label': 'ERITREA', 'value': 'ERITREA'},
+                             	{'label': 'ESTONIA', 'value': 'ESTONIA'},
+                                {'label': 'ETHIOPIA', 'value': 'ETHIOPIA'},
+                                {'label': 'FIJI', 'value': 'FIJI'},
+                                {'label': 'FINLAND', 'value': 'FINLAND'},
+                                {'label': 'FORMER YUGOSLAVIA NOT FURTHER DEFINED', 'value': 'FORMER YUGOSLAVIA NOT FURTHER DEFINED'},
+                                {'label': 'FORMER YUGOSLAV REPUBLIC OF MACEDONIA (FYROM)', 'value': 'FORMER YUGOSLAV REPUBLIC OF MACEDONIA (FYROM)'},
+                                {'label': 'FRANCE', 'value': 'FRANCE'},
+                                {'label': 'FRENCH POLYNESIA', 'value': 'FRENCH POLYNESIA'},
+                                {'label': 'GABON', 'value': 'GABON'},
+                                {'label': 'GAMBIA', 'value': 'GAMBIA'},
+                                {'label': 'GAZA STRIP AND WEST BANK', 'value': 'GAZA STRIP AND WEST BANK'},
+                                {'label': 'GEORGIA', 'value': 'GEORGIA'},
+                                {'label': 'GERMANY', 'value': 'GERMANY'},
+                                {'label': 'GHANA', 'value': 'GHANA'},
+                                {'label': 'GIBRALTAR', 'value': 'GIBRALTAR'},
+                                {'label': 'GREECE', 'value': 'GREECE'},
+                                {'label': 'GUADELOUPE', 'value': 'GUADELOUPE'},
+                                {'label': 'GUAM', 'value': 'GUAM'},
+                                {'label': 'GUATEMALA', 'value': 'GUATEMALA'},
+                                {'label': 'GUINEA', 'value': 'GUINEA'},
+                                {'label': 'GUYANA', 'value': 'GUYANA'},
+                                {'label': 'HONDURAS', 'value': 'HONDURAS'},
+                                {'label': 'HONG KONG', 'value': 'HONG KONG'},
+                                {'label': 'HONG KONG (SAR OF CHINA)', 'value': 'HONG KONG (SAR OF CHINA)'},
+                                {'label': 'HUNGARY', 'value': 'HUNGARY'},
+                                {'label': 'ICELAND', 'value': 'ICELAND'},
+                                {'label': 'INDIA', 'value': 'INDIA'},
+                                {'label': 'INDONESIA', 'value': 'INDONESIA'},
+                                {'label': 'INDONESIA (INCLUDING TIMOR)', 'value': 'INDONESIA (INCLUDING TIMOR)'},
+                                {'label': 'IRAN', 'value': 'IRAN'},
+                                {'label': 'IRAQ', 'value': 'IRAQ'},
+                                {'label': 'IRELAND', 'value': 'IRELAND'},
+                                {'label': 'ISRAEL', 'value': 'ISRAEL'},
+                                {'label': 'ITALY', 'value': 'ITALY'},
+                                {'label': 'JAMAICA', 'value': 'JAMAICA'},
+                                {'label': 'JAPAN', 'value': 'JAPAN'},
+                                {'label': 'JAPAN AND THE KOREAS, NFD', 'value': 'JAPAN AND THE KOREAS, NFD'},
+                                {'label': 'JORDAN', 'value': 'JORDAN'},
+                                {'label': 'KAZAKHSTAN', 'value': 'KAZAKHSTAN'},
+                                {'label': 'KENYA', 'value': 'KENYA'},
+                                {'label': 'KIRIBATI', 'value': 'KIRIBATI'},
+                                {'label': 'KOREA, DEMOCRATIC PEOPLE\'S REPUBLIC OF (NORTH)	KOREA', 'value': 'DEMOCRATIC PEOPLE\'S REPUBLIC OF (NORTH)'},
+                                {'label': 'KOREA, REPUBLIC OF (SOUTH)', 'value': 'KOREA, REPUBLIC OF (SOUTH)'},
+                                {'label': 'KOREA - NORTH', 'value': 'KOREA - NORTH'},
+                                {'label': 'KOREA - SOUTH', 'value': 'KOREA - SOUTH'},
+                                {'label': 'KUWAIT', 'value': 'KUWAIT'},
+                                {'label': 'KYRGYZ REPUBLIC', 'value': 'KYRGYZ REPUBLIC'},
+                                {'label': 'LAOS', 'value': 'LAOS'},
+                                {'label': 'LATVIA', 'value': 'LATVIA'},
+                                {'label': 'LEBANON', 'value': 'LEBANON'},
+                                {'label': 'LESOTHO', 'value': 'LESOTHO'},
+                                {'label': 'LIBERIA', 'value': 'LIBERIA'},
+                                {'label': 'LIBYA', 'value': 'LIBYA'},
+                                {'label': 'LIECHTENSTEIN', 'value': 'LIECHTENSTEIN'},
+                                {'label': 'LITHUANIA', 'value': 'LITHUANIA'},
+                                {'label': 'LUXEMBOURG', 'value': 'LUXEMBOURG'},
+                                {'label': 'MACAU', 'value': 'MACAU'},
+                                {'label': 'MACAU (SAR OF CHINA)', 'value': 'MACAU (SAR OF CHINA)'},
+                                {'label': 'MADAGASCAR', 'value': 'MADAGASCAR'},
+                                {'label': 'MALAWI', 'value': 'MALAWI'},
+                                {'label': 'MALAYSIA', 'value': 'MALAYSIA'},
+                                {'label': 'MALDIVES', 'value': 'MALDIVES'},
+                                {'label': 'MALI', 'value': 'MALI'},
+                                {'label': 'MALTA', 'value': 'MALTA'},
+                                {'label': 'MARITIME SOUTH-EAST ASIA, NFD', 'value': 'MARITIME SOUTH-EAST ASIA, NFD'},
+                                {'label': 'MARSHALL ISLANDS', 'value': 'MARSHALL ISLANDS'},
+                                {'label': 'MAURITANIA', 'value': 'MAURITANIA'},
+                                {'label': 'MAURITIUS', 'value': 'MAURITIUS'},
+                                {'label': 'MEXICO', 'value': 'MEXICO'},
+                                {'label': 'MICRONESIA, FEDERATED STATES OF', 'value': 'MICRONESIA, FEDERATED STATES OF'},
+                                {'label': 'MOLDOVA', 'value': 'MOLDOVA'},
+                                {'label': 'MONACO', 'value': 'MONACO'},
+                                {'label': 'MONGOLIA', 'value': 'MONGOLIA'},
+                                {'label': 'MOROCCO', 'value': 'MOROCCO'},
+                                {'label': 'MOZAMBIQUE', 'value': 'MOZAMBIQUE'},
+                                {'label': 'NAMIBIA', 'value': 'NAMIBIA'},
+                                {'label': 'NAURU', 'value': 'NAURU'},
+                                {'label': 'NEPAL', 'value': 'NEPAL'},
+                                {'label': 'NETHERLANDS', 'value': 'NETHERLANDS'},
+                                {'label': 'NEW CALEDONIA', 'value': 'NEW CALEDONIA'},
+                                {'label': 'NEW ZEALAND', 'value': 'NEW ZEALAND'},
+                                {'label': 'NIGER', 'value': 'NIGER'},
+                                {'label': 'NIGERIA', 'value': 'NIGERIA'},
+                                {'label': 'NORFOLK ISLAND', 'value': 'NORFOLK ISLAND'},
+                                {'label': 'NORTHERN IRELAND', 'value': 'NORTHERN IRELAND'},
+                                {'label': 'NORWAY', 'value': 'NORWAY'},
+                                {'label': 'OMAN', 'value': 'OMAN'},
+                                {'label': 'PAKISTAN', 'value': 'PAKISTAN'},
+                                {'label': 'PANAMA', 'value': 'PANAMA'},
+                                {'label': 'PAPUA NEW GUINEA', 'value': 'PAPUA NEW GUINEA'},
+                                {'label': 'PARAGUAY', 'value': 'PARAGUAY'},
+                                {'label': 'PERU', 'value': 'PERU'},
+                                {'label': 'PHILIPPINES', 'value': 'PHILIPPINES'},
+                                {'label': 'POLAND', 'value': 'POLAND'},
+                                {'label': 'PORTUGAL', 'value': 'PORTUGAL'},
+                                {'label': 'PUERTO RICO', 'value': 'PUERTO RICO'},
+                                {'label': 'QATAR', 'value': 'QATAR'},
+                                {'label': 'REUNION', 'value': 'REUNION'},
+                                {'label': 'ROMANIA', 'value': 'ROMANIA'},
+                                {'label': 'RUSSIAN FEDERATION', 'value': 'RUSSIAN FEDERATION'},
+                                {'label': 'RWANDA', 'value': 'RWANDA'},
+                                {'label': 'SAMOA', 'value': 'SAMOA'},
+                                {'label': 'SAUDI ARABIA', 'value': 'SAUDI ARABIA'},
+                                {'label': 'SCOTLAND', 'value': 'SCOTLAND'},
+                             	{'label': 'SENEGAL', 'value': 'SENEGAL'},
+                             	{'label': 'SERBIA', 'value': 'SERBIA'},
+                             	{'label': 'SERBIA AND MONTENEGRO', 'value': 'SERBIA AND MONTENEGRO'},
+                             	{'label': 'SEYCHELLES', 'value': 'SEYCHELLES'},
+                             	{'label': 'SIERRA LEONE', 'value': 'SIERRA LEONE'},
+                             	{'label': 'SINGAPORE', 'value': 'SINGAPORE'},
+                                {'label': 'SLOVAKIA', 'value': 'SLOVAKIA'},
+                                {'label': 'SLOVENIA', 'value': 'SLOVENIA'},
+                                {'label': 'SOLOMON ISLANDS', 'value': 'SOLOMON ISLANDS'},
+                                {'label': 'SOMALIA	SOMALIA'},
+                              	{'label': 'SOUTH AFRICA', 'value': 'SOUTH AFRICA'},
+                             	{'label': 'SOUTH SUDAN', 'value': 'SOUTH SUDAN'},
+                             	{'label': 'SPAIN', 'value': 'SPAIN'},
+                             	{'label': 'SRI LANKA', 'value': 'SRI LANKA'},
+                             	{'label': 'ST KITTS AND NEVIS', 'value': 'ST KITTS AND NEVIS'},
+                             	{'label': 'ST LUCIA', 'value': 'ST LUCIA'},
+                             	{'label': 'ST VINCENT AND THE GRENADINES', 'value': 'ST VINCENT AND THE GRENADINES'},
+                             	{'label': 'SUDAN', 'value': 'SUDAN'},
+                             	{'label': 'SURINAME', 'value': 'SURINAME'},
+                             	{'label': 'SWAZILAND', 'value': 'SWAZILAND'},
+                             	{'label': 'SWEDEN', 'value': 'SWEDEN'},
+                             	{'label': 'SWITZERLAND', 'value': 'SWITZERLAND'},
+                             	{'label': 'SYRIA', 'value': 'SYRIA'},
+                             	{'label': 'TAIWAN', 'value': 'TAIWAN'},
+                             	{'label': 'TAJIKISTAN', 'value': 'TAJIKISTAN'},
+                             	{'label': 'TANZANIA', 'value': 'TANZANIA'},
+                             	{'label': 'THAILAND', 'value': 'THAILAND'},
+                             	{'label': 'TOGO', 'value': 'TOGO'},
+                             	{'label': 'TONGA', 'value': 'TONGA'},
+                             	{'label': 'TRINIDAD AND TOBAGO', 'value': 'TRINIDAD AND TOBAGO'},
+                             	{'label': 'TUNISIA', 'value': 'TUNISIA'},
+                             	{'label': 'TURKEY', 'value': 'TURKEY'},
+                             	{'label': 'TURKMENISTAN', 'value': 'TURKMENISTAN'},
+                             	{'label': 'TURKS AND CAICOS ISLANDS', 'value': 'TURKS AND CAICOS ISLANDS'},
+                             	{'label': 'TUVALU', 'value': 'TUVALU'},
+                             	{'label': 'UGANDA', 'value': 'UGANDA'},
+                             	{'label': 'UKRAINE', 'value': 'UKRAINE'},
+                             	{'label': 'UNITED ARAB EMIRATES', 'value': 'UNITED ARAB EMIRATES'},                             
+                                {'label': 'UNITED KINGDOM, NFD', 'value': 'UNITED KINGDOM, NFD'},
+                                {'label': 'UNITED KINGDOM (INCLUDING NORTHERN IRELAND)', 'value': 'UNITED KINGDOM (INCLUDING NORTHERN IRELAND)'},                             	
+								{'label': 'UNITED STATES OF AMERICA', 'value': 'UNITED STATES OF AMERICA'},
+                                {'label': 'URUGUAY', 'value': 'URUGUAY'},
+                             	{'label': 'UZBEKISTAN', 'value': 'UZBEKISTAN'},
+                             	{'label': 'VANUATU', 'value': 'VANUATU'},
+                             	{'label': 'VENEZUELA', 'value': 'VENEZUELA'},
+                                {'label': 'URUGUAY', 'value': 'URUGUAY'},
+                                {'label': 'UZBEKISTAN', 'value': 'UZBEKISTAN'},
+                                {'label': 'VANUATU', 'value': 'VANUATU'},
+                                {'label': 'VENEZUELA', 'value': 'VENEZUELA'},
+                                {'label': 'VIET NAM', 'value': 'VIET NAM'},
+                                {'label': 'VIRGIN ISLANDS, BRITISH', 'value': 'VIRGIN ISLANDS, BRITISH'},
+                                {'label': 'WALES', 'value': 'WALES'},
+                                {'label': 'YEMEN', 'value': 'YEMEN'},
+                                {'label': 'ZAMBIA', 'value': 'ZAMBIA'},
+                                {'label': 'ZIMBABWE', 'value': 'ZIMBABWE'}
+                                                                ]"/>
+                    
+    <aura:attribute name="cityTown" type="String" default="" /> 
+    <aura:attribute name="selectedResidency" type="String" default="" />
+    <aura:attribute name="residencyStatusOptions" type="List" 
+                    default="[
+								{'label': '', 'value': ''},
+                                {'label': 'Australian Permanent Residence', 'value': 'Australian Permanent Residence'},
+                                {'label': 'Australian Citizen', 'value': 'Australian Citizen'},
+                                {'label': 'Bridging', 'value': 'Bridging'},
+                                {'label': 'New Zealand Citizen', 'value': 'New Zealand Citizen'},
+                                {'label': 'Other (International)', 'value': 'Other (International)'},
+                                {'label': 'Skilled Recognised Graduate', 'value': 'Skilled Recognised Graduate'},
+                                {'label': 'Temporary Graduate', 'value': 'Temporary Graduate'}
+											]"/>
+    <aura:attribute name="selectedIntendedCommencement" type="String" default="" /> 
+    <aura:attribute name="intendedCommencementOptions" type="List" 
+                    default="[
+								{'label': '', 'value': ''},
+                                {'label': 'January', 'value': 'January'},
+                                {'label': 'February', 'value': 'February'},
+                                {'label': 'March', 'value': 'March'},
+                                {'label': 'April', 'value': 'April'},
+								{'label': 'May', 'value': 'May'},
+                                {'label': 'June', 'value': 'June'},
+                                {'label': 'July', 'value': 'July'},
+                                {'label': 'August', 'value': 'August'},
+                                {'label': 'September', 'value': 'September'},
+								{'label': 'October', 'value': 'October'},
+								{'label': 'November', 'value': 'November'},
+								{'label': 'December', 'value': 'December'}
+								]"/>
+    <aura:attribute name="selectedHighestLevelOfStudy" type="String" default="" /> 
+    <aura:attribute name="highestLevelOfStudyOptions" type="List" 
+                    default="[
+								{'label': '', 'value': ''},
+                                {'label': 'Bachelors', 'value': 'Bachelors'},
+                                {'label': 'Bachelors with Honours', 'value': 'Bachelors with Honours'},
+                                {'label': 'Certificate', 'value': 'Certificate'},
+                                {'label': 'Diploma', 'value': 'Diploma'},
+								{'label': 'Doctorate', 'value': 'Doctorate'},
+                                {'label': 'English Language', 'value': 'English Language'},
+                                {'label': 'Masters', 'value': 'Masters'},
+                                {'label': 'Other', 'value': 'Other'},
+                                {'label': 'Postgraduate', 'value': 'Postgraduate'},
+								{'label': 'Secondary School', 'value': 'Secondary School'},
+								{'label': 'TAFE', 'value': 'TAFE'},
+								{'label': 'Undergraduate', 'value': 'Undergraduate'}
+								]"/>
+    <aura:attribute name="selectedLevelOfStudy" type="String" default="" /> 
+    <aura:attribute name="levelOfStudyOptions" type="List" 
+                    default="[
+								{'label': '', 'value': ''},
+                                {'label': 'Professional Year Program', 'value': 'Professional Year Program'}
+								]"/>
+    <aura:attribute name="nameOfInstitution" type="String" default="" />
+    
+    <aura:attribute name="selectedAboutUs" type="String" default="" /> 
+    <aura:attribute name="aboutUsOptions" type="List" 
+                    default="[
+								{'label': '', 'value': ''},
+                                {'label': 'Agent', 'value': 'Agent'},
+                                {'label': 'Big Meet', 'value': 'Big Meet'},
+                                {'label': 'Facebook', 'value': 'Facebook'},
+                                {'label': 'Friend/Family', 'value': 'Friend/Family'},                                
+                                {'label': 'Google Search', 'value': 'Google Search'},
+                                {'label': 'Monash Careers Fair', 'value': 'Monash Careers Fair'},                                
+                                {'label': 'Other', 'value': 'Other'}								
+								]"/>
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <div class="slds-is-relative" style="max-width: 73.25rem; padding: 0 1rem; margin: 0 auto; color: black;">
+        <aura:if isTrue="{!v.showFutureGeneralEnquirySpinner}">
+            <lightning:spinner class="slds-align_absolute-center" variant="brand" />
+        </aura:if>
+        
+        <!-- Form -->
+        <div class="slds-p-left_small">
+            <!-- Form Details -->
+            <h2 class="slds-tree__group-header slds-text-heading_large" style="color: #006dae;">Future Student Enquiry Form</h2>
+            <!--<h2 class="slds-tree__group-header slds-text-heading_large" style="color: #006dae;">Please fill out the form below</h2> -->
+           <!--  <div>
+                <p style="font-size:14px; color: #505050;">
+                    Use this form if you are studying with Monash Professional Pathways and have the following type of enquiry:
+                </p>
+                <ul style="list-style-type: square; padding-left: 50px;">
+                    <li style="margin-top: 8px; margin-bottom: 8px; font-size:14px; color: #505050;">
+                        Do you have a question about the <b>program rules, requirements or events</b>?
+                    </li>
+                    <li style="margin-top: 8px; margin-bottom: 8px; font-size:14px; color: #505050;">
+                        Do you need to contact our support team regarding <b>coursework, internship or payment</b>?
+                    </li>
+                    <li style="font-size:14px; color: #505050;">
+                        Do you need to update your <b>details</b> (i.e. address, phone number or visa)?
+                    </li>
+                </ul> 
+            </div> -->
+            
+            <!-- Personal Details 
+            <h2 class="slds-tree__group-header slds-text-heading_large slds-m-top_small" style="color: #006dae;">Quick Search</h2>
+            <div>
+                <p style="font-size:14px; color: #505050;">
+                    Save time and use the FAQ search button to find the information you need.
+                </p>
+            </div>
+            <div class="slds-size_1-of-1" onkeyup="{!c.searchHandleKeyUp}">
+                <lightning:input aura:id="enter-search"
+                                 name="enter-search"
+                                 type="search" />
+            </div>
+            
+            <div>
+                <p style="margin-top: 10px; padding-left: 20px; font-size:15px; color: #505050;; float: right;">
+                    Fields marked with an <span style="color: red;">*</span> are compulsory
+                </p>
+            </div> -->
+            
+            <!-- Personal Details -->
+            <!-- <h2 class="slds-tree__group-header slds-text-heading_large slds-m-top_small" style="color: #006dae;">Enquiry Form</h2>-->
+            <div>
+                <p style="font-size:14px; color: #505050;">
+                    Are you interested in the Professional Year Program? Please fill out the form below.
+                </p>
+            </div>
+            <br></br>
+            <div class="slds-form slds-is-relative">
+                <aura:if isTrue="{!v.showContactsSpinner}">
+                    <lightning:spinner class="slds-align_absolute-center" variant="brand" />
+                </aura:if>
+                
+                <!-- Enquiry submitted confirmation -->
+                <aura:if isTrue="{!v.submittedEnquiryCaseNumber}">
+                    <div id="successToast" aura:id="successToast" class="slds-m-bottom_medium" style="height: 4.5rem; background color: white; padding-bottom: 20px;">
+                        <div class="slds-notify_container slds-is-relative">
+                            <div class="slds-notify slds-notify_toast slds-theme_success" role="alert">
+                                <span class="slds-assistive-text">info</span>
+                                <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top">
+                                    <lightning:icon src="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#success" />
+                                </span>
+                                <div class="slds-notify__content">
+                                    <h2 class="slds-text-heading_small" style="color: #fff;">Successfully submitted enquiry. We will be in touch via email. <br/> Enquiry Number: {!v.submittedEnquiryCaseNumber}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aura:if>
+            </div>
+            
+            <!-- Enquiry Details -->
+            <div class="slds-form slds-p-top_small">
+                
+                <!-- Contact Details -->
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-name">
+                        <div>Name <span style="color: red;">*</span></div>
+                    </label>
+                    <div class="slds-form-element__control" id="horizontal-name">
+                        <fieldset class="slds-form-element slds-form-element_compound">
+                            <div class="slds-form-element__control">
+                                <div class="slds-form-element__row">
+                                    <div class="slds-size_1-of-2">
+                                        <div class="slds-form-element" style="padding: 0 0 0 0;">
+                                            <label class="slds-form-element__label fieldLabel" for="horizontal-student-first-name">First Name as per passport <span style="color: red;">*</span></label>
+                                            <div class="slds-form-element__control">
+                                                <lightning:input aura:id="studentFirstNameField" id="horizontal-student-first-name" class="labelColor" value="{!v.enquiryStudentFirstName}" disabled="{!v.submittedEnquiryCaseNumber}"
+                                                                 required="true" messageWhenValueMissing="Please enter your first name." onchange="{!c.validateFields}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="slds-size_1-of-2">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label fieldLabel" for="horizontal-student-last-name">Family Name as per passport <span style="color: red;">*</span></label>
+                                            <div class="slds-form-element__control">
+                                                <lightning:input aura:id="studentLastNameField" id="horizontal-student-last-name" class="labelColor" value="{!v.enquiryStudentLastName}" disabled="{!v.submittedEnquiryCaseNumber}"
+                                                                 required="true" messageWhenValueMissing="Please enter your last name." onchange="{!c.validateFields}" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <!-- Title -->
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-program-stream">Title <span style="color: red;">*</span></label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col">
+                                <lightning:select aura:id="titleField" class="labelColor" value="{!v.selectedTitle}" disabled="{!v.submittedEnquiryCaseNumber}"
+                                          onchange="{!c.validateFields}">
+                                    <aura:iteration items="{!v.titleOptions}" var="titleOption">
+                                        <option text="{!titleOption.label}" value="{!titleOption.value}" selected="{titleOption.selected}"/>
+                                    </aura:iteration>
+                                </lightning:select>
+                            </div>
+                        </div>
+                    </div>
+                </div>   
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-email">Personal Email <span style="color: red;">*</span></label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col">
+                                <lightning:input aura:id="emailField" id="horizontal-email" class="labelColor" type="email" value="{!v.enquiryEmail}" required="true" disabled="{!v.submittedEnquiryCaseNumber}"
+                                                 messageWhenTypeMismatch="Please enter a valid email address." messageWhenValueMissing="Please enter your email address." onchange="{!c.validateFields}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- DOB -->
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-dob">Date of Birth <span style="color: red;">*</span></label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col">
+                                <lightning:input aura:id="dobField" id="horizontal-dob" class="labelColor" type="date" value="{!v.enquiryContactDOB}" required="true" disabled="{!v.submittedEnquiryCaseNumber}"
+                                                 onchange="{!c.validateFields}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Telephone -->
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-telephone">Mobile/Telephone <span style="color: red;">*</span></label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col">
+                                <lightning:input aura:id="telephoneField" id="horizontal-telephone" class="labelColor" type="tel" value="{!v.enquiryContactTelephone}" required="true" disabled="{!v.submittedEnquiryCaseNumber}"
+                                                 onchange="{!c.validateFields}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                	<!-- Residency -->
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-residence-status">Residency status </label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col">
+                                <lightning:select aura:id="residencyField" class="labelColor" value="{!v.selectedResidency}" disabled="{!v.submittedEnquiryCaseNumber}"
+                                          onchange="{!c.validateFields}">
+                                    <aura:iteration items="{!v.residencyStatusOptions}" var="residencyStatusOption">
+                                        <option text="{!residencyStatusOption.label}" value="{!residencyStatusOption.value}" selected="{residencyStatusOption.selected}"/>
+                                    </aura:iteration>
+                                </lightning:select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                 <!-- Country of Residence -->
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-country-residence">Country of residence <span style="color: red;">*</span></label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col">
+                                <lightning:select aura:id="countryOfResidenceField" class="labelColor" value="{!v.selectedCountryOfResidence}" required="true" disabled="{!v.submittedEnquiryCaseNumber}"
+                                          onchange="{!c.validateFields}">
+                                    <aura:iteration items="{!v.countryOfResidenceOptions}" var="countryOfResidenceOption">
+                                        <option text="{!countryOfResidenceOption.label}" value="{!countryOfResidenceOption.value}" selected="{countryOfResidenceOption.selected}"/>
+                                    </aura:iteration>
+                                </lightning:select>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
+                           
+                <!-- City / Town -->
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-city-town">City/Town <span style="color: red;">*</span></label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col">
+                                <lightning:input aura:id="cityTownField" id="horizontal-city-town" class="labelColor" value="{!v.cityTown}" required="true" disabled="{!v.submittedEnquiryCaseNumber}"
+                                                 onchange="{!c.validateFields}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>     
+                <!-- Nationality -->
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-country-residence">Nationality <span style="color: red;">*</span></label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col">
+                                <lightning:select aura:id="nationalityField" class="labelColor" value="{!v.selectedNationality}" required="true" disabled="{!v.submittedEnquiryCaseNumber}"
+                                          onchange="{!c.validateFields}">
+                                    <aura:iteration items="{!v.nationalityOptions}" var="nationalityOption">
+                                        <option text="{!nationalityOption.label}" value="{!nationalityOption.value}" selected="{nationalityOption.selected}"/>
+                                    </aura:iteration>
+                                </lightning:select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Highest Level of Study -->
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-residence-status">What is your highest level of study (completed) </label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col">
+                                <lightning:select aura:id="highestLevelOfStudyOptionField" class="labelColor" value="{!v.selectedHighestLevelOfStudy}" disabled="{!v.submittedEnquiryCaseNumber}"
+                                          onchange="{!c.validateFields}">
+                                    <aura:iteration items="{!v.highestLevelOfStudyOptions}" var="highestLevelOfStudyOption">
+                                        <option text="{!highestLevelOfStudyOption.label}" value="{!highestLevelOfStudyOption.value}" selected="{highestLevelOfStudyOption.selected}"/>
+                                    </aura:iteration>
+                                </lightning:select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Name of Institution -->
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-institution">Institution Name </label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col">
+                                <lightning:input aura:id="institutionField" id="horizontal-institution" class="labelColor" value="{!v.nameOfInstitution}" disabled="{!v.submittedEnquiryCaseNumber}"
+                                                 onchange="{!c.validateFields}" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Commencement Date -->
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-level-of-study">When do you plan to start? </label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col">
+                                <lightning:select aura:id="IntendedCommencementField" class="labelColor" value="{!v.selectedIntendedCommencement}" disabled="{!v.submittedEnquiryCaseNumber}"
+                                          onchange="{!c.validateFields}">
+                                    <aura:iteration items="{!v.intendedCommencementOptions}" var="intendedCommencementOption">
+                                        <option text="{!intendedCommencementOption.label}" value="{!intendedCommencementOption.value}" selected="{intendedCommencementOption.selected}"/>
+                                    </aura:iteration>
+                                </lightning:select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Level Of Study -->
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-level-of-study">What program are you interested in? </label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col">
+                                <lightning:select aura:id="levelStudyField" class="labelColor" value="{!v.selectedLevelOfStudy}" disabled="{!v.submittedEnquiryCaseNumber}"
+                                          onchange="{!c.validateFields}">
+                                    <aura:iteration items="{!v.levelOfStudyOptions}" var="levelOfStudyOption">
+                                        <option text="{!levelOfStudyOption.label}" value="{!levelOfStudyOption.value}" selected="{levelOfStudyOption.selected}"/>
+                                    </aura:iteration>
+                                </lightning:select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Program Stream -->
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-program-stream">What Professional Year stream are you interested in? </label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col">
+                                <lightning:select aura:id="programStreamField" class="labelColor" value="{!v.selectedProgramStream}" disabled="{!v.submittedEnquiryCaseNumber}"
+                                          onchange="{!c.validateFields}">
+                                    <aura:iteration items="{!v.programStreamOptions}" var="programStreamOption">
+                                        <option text="{!programStreamOption.label}" value="{!programStreamOption.value}" selected="{programStreamOption.selected}"/>
+                                    </aura:iteration>
+                                </lightning:select>
+                            </div>
+                        </div>
+                    </div>
+                </div>           
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-description">What would you like to ask? <span style="color: red;">*</span></label>
+                    <div class="slds-form-element__control">
+                        <lightning:textarea aura:id="descriptionField" id="horizontal-description" value="{!v.enquiryDescription}" required="true" disabled="{!v.submittedEnquiryCaseNumber}"
+                                            messageWhenValueMissing="Please enter your question." onchange="{!c.validateFields}" />
+                    </div>
+                </div>
+                <!-- Hear About Us --> 
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-program-stream">How did you hear about us? <span style="color: red;">*</span></label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col">
+                                <lightning:select aura:id="aboutUsField" class="labelColor" value="{!v.selectedAboutUs}" disabled="{!v.submittedEnquiryCaseNumber}"
+                                          onchange="{!c.validateFields}">
+                                    <aura:iteration items="{!v.aboutUsOptions}" var="aboutUsOption">
+                                        <option text="{!aboutUsOption.label}" value="{!aboutUsOption.value}" selected="{aboutUsOption.selected}"/>
+                                    </aura:iteration>
+                                </lightning:select>
+                            </div>
+                        </div>
+                    </div>
+                </div>   
+            </div>
+            
+            <lightning:button aura:id="sendEnquiryBtn" variant="brand" label="Submit Enquiry" disabled="{!v.disableSubmit || v.submittedEnquiryCaseNumber}"
+                              class="slds-text-heading_small slds-align_absolute-center slds-m-bottom_medium slds-m-top_medium slds-p-bottom_x-small slds-p-top_x-small submitBtn"
+                              onclick="{!c.submitEnquiry}" />
+        </div>
+    </div>
+</aura:component>

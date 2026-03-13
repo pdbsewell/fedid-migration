@@ -1,0 +1,67 @@
+<!--
+  @File Name          : psWizardContainer.html
+  @Description        : Main container component of prospective student wizard
+  @Author             : Nick Guia
+  @Group              : Lead Management
+-->
+<template>
+    <div class="slds-is-relative">
+        <lightning-layout multiple-rows="true">
+            
+            <!-- SPINNER -->
+            <template if:true={isLoading}>
+                <div class="slds-align_absolute-center">
+                    <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                </div>
+            </template>
+
+            <!-- BODY : CONTENT -->
+            <lightning-layout-item size="12">
+                <!-- CONTACT PAGE -->
+                <div>
+                    <c-ps-wizard-contact-info
+                        contact-record={contactRecord}
+                        case-record={caseRecord}>
+                    </c-ps-wizard-contact-info>
+                </div>
+                <!-- LEAD PAGE -->
+                <div>
+                    <c-ps-wizard-lead-info
+                        lead-id={_leadId}
+                        case-record={caseRecord}>
+                    </c-ps-wizard-lead-info>
+                </div>
+            </lightning-layout-item>
+            
+            <!-- FOOTER -->
+            <lightning-layout-item size="12">
+                <div class="slds-border_top slds-p-top_large slds-m-top_small">
+                    <lightning-layout>
+
+                        <!-- CANCEL BUTTON -->
+                        <lightning-layout-item alignment-bump="right">
+                            <lightning-button 
+                                label="Cancel" 
+                                title="Cancel" 
+                                onclick={handleCancelBtn} 
+                                class="hvr-grow_btn">
+                            </lightning-button>
+                        </lightning-layout-item>
+
+                        <!-- SAVE BUTTON -->
+                        <lightning-layout-item alignment-bump="left">
+                            <lightning-button 
+                                label="Save" 
+                                title="Save"
+                                variant="brand" 
+                                onclick={handleSaveBtn} 
+                                class="hvr-grow_btn">
+                            </lightning-button>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </lightning-layout-item>
+
+        </lightning-layout>
+    </div>
+</template>

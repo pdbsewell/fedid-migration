@@ -1,0 +1,513 @@
+<!--c:createComponent-->
+<aura:component implements="force:appHostable,forceCommunity:availableForAllPageTypes" access="global" controller="CourseEnrolmentController">
+	<!-- Handler -->
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+	<!-- Attributes -->
+	<aura:attribute name="courseCode" type="String" default="" />
+	<aura:attribute name="isExpanded1" type="Boolean" default="true"/>
+	<aura:attribute name="isExpanded2" type="Boolean" default="true"/>
+	<aura:attribute name="howDidyouHearAboutUs" type="String" default="" />
+	<aura:attribute name="attachList" type="List" description="list of documents"/>
+	<aura:attribute name="currentState" type="String" default="" />
+	<aura:attribute name="errorMessage" type="String" default="" />
+	<aura:attribute name="selectedCourseOffering" type="Object" default=""/>
+	<aura:attribute name="cont" type="Object[]"/>
+	<aura:attribute name="exception" type="String" default=""/>
+	<aura:attribute name="feeToPay" type="String" default="" />
+	<aura:attribute name="noDataText" type="String" default="No documents uploaded yet" />
+	<aura:attribute name="showConfirmPopup" type="Boolean" default="false" />
+	<aura:attribute name="paymentLink" type="String" default="" />
+	<aura:attribute name="tAndC" type="String" default="http://www.monash.edu/education/future-students/courses/short-courses/payment" />		
+	<aura:attribute name="addressHelpText" type="String" default="Course completion certifications (wherever applicable) will be mailed to this address" />
+	<aura:attribute name="orgAddressHelpText" type="String" default="Use this address to send the receipt to the company" />
+	<aura:attribute name="emailHelpText" type="String" default="All course related communications will be sent to this email address" />
+	<aura:attribute name="courseNameHelpText" type="String" default="Enter course name, if you are a previous monash graduate" />
+	<aura:attribute name="isLoading" type="Boolean" default="false" />
+	<!-- Header Text -->
+	<div class="slds-page-header">
+		<div class="slds-grid">
+			<div class="slds-col slds-has-flexi-truncate">
+				<span>
+					<p class="slds-text-heading--label" style="font-weight:bold; color:#006DAE;">Professional Development</p>
+				</span>
+				<span>
+					<p class="slds-text-heading--label heading">{!v.currentState}</p>
+				</span>
+			</div>
+		</div>
+	</div>
+	<!-- Confirmation Popup -->
+	<aura:if isTrue="{!v.showConfirmPopup}">
+		<div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+			<div class="slds-modal__container">
+				<div class="slds-modal__header slds-theme--error slds-theme--alert-texture">
+					<h2 class="slds-text-heading--small" id="prompt-heading-id">Required information missing</h2>
+				</div>
+				<div class="slds-modal__content slds-p-around--medium">
+					<p>
+                        {!v.errorMessage}
+                    </p>
+				</div>
+				<div class="slds-modal__footer slds-theme--default">
+					<div aura:id="alertButton">
+						<lightning:button variant="brand" label="OK" onclick="{!c.closeAlert}" />
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="slds-backdrop slds-backdrop--open"></div>
+	</aura:if>
+	<!-- Body -->
+	<form class="slds-form--stacked" style="padding-bottom: 50px;">
+		<div class="header-styling" style="padding-top: 1rem;">
+			<ui:outputText aura:id="coDescription" value="{!v.selectedCourseOffering.Course__r.Course_Description__c}" class="slds-text-heading_large"/>
+		</div>
+		<div class="header-styling">
+			<ui:outputText aura:id="coLocation" value="{!v.selectedCourseOffering.Venue__r.Name}" class="slds-text-heading_medium"/>
+		</div>
+		<div class="header-styling">
+			<ui:outputDate aura:id="coStartDate" value="{!v.selectedCourseOffering.Start_Date__c}" format="DD-MM-YYYY" class="slds-text-heading_medium"/>
+			<ui:outputText aura:id="seperator" value="{!'     -     '}" class="slds-text-heading_medium whitespace"/>
+			<ui:outputDate aura:id="coEndDate" value="{!v.selectedCourseOffering.End_Date__c}" format="DD-MM-YYYY" class="slds-text-heading_medium"/>
+		</div>
+		<div class="header-styling" style="padding-bottom:10px;">
+			<ui:outputText aura:id="coPrice" value="{!'$' + v.feeToPay}" class="slds-text-heading_medium"/>
+		</div>
+
+
+		<div class="section-title-styling">
+			Registration Details
+		</div>
+		<aura:if isTrue="{!v.isExpanded1}">
+			<div aura:id="section1" data-reactroot="" class="slds-m-left_x-large slds-grid section-float" style="width: 100%; padding-bottom: 25px;">
+				<h3 class="slds-section__title" aura:id="section1header">
+					
+					<!-- <ui:button class="slds-section__title-action stacked-header-styling">
+		                Registration Details
+					</ui:button> -->
+				</h3>
+				<div class="slds-col" style="width: 100%;">
+					<div class="slds-form slds-form_compound" style="padding-top: 25px;padding-bottom: 25px; max-width: 800px;margin: 0 auto;">
+						<div class="slds-col">
+							<fieldset class="slds-form-element">
+								<legend class="slds-form-element__label slds-text-title_caps"></legend>
+								<div class="slds-form-element__group">
+									<div class="slds-grid slds-wrap slds-grid--pull-padded">
+										<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4 field-spacing">
+											<div class="slds-form-element__control">
+												<ui:inputText aura:id="givenName" label="Given name"
+		                                              class="slds-input"
+		                                              labelClass="slds-form-element__label"
+		                                              value="{!v.cont.givenName}"
+		                                              maxlength="200"/>
+											</div>
+										</div>
+										<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4 field-spacing">
+											<div class="slds-form-element__control">
+												<ui:inputText aura:id="familyName" label="Family name"
+		                                              class="slds-input"
+		                                              labelClass="slds-form-element__label"
+		                                              value="{!v.cont.familyName}"
+		                                              maxlength="200"/>
+											</div>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+						<div class="slds-text-title tooltip" style="padding-top:10px;">
+							<span>Address</span>
+							
+							<lightning:icon iconName="utility:info" size="x-small" alternativeText="Additional Information"/>
+							<span class="tooltiptext">{!v.addressHelpText}</span>
+						</div>
+						<div class="slds-col">
+							<fieldset class="slds-form-element">
+								<legend class="slds-form-element__label slds-text-title_caps"></legend>
+								<div class="slds-form-element__group">
+									<div class="slds-grid slds-wrap slds-grid--pull-padded">
+										<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4 field-spacing">
+											<div class="slds-form-element__control">
+												<ui:inputText aura:id="address" label="Street address"
+		                                              class="slds-input"
+		                                              labelClass="slds-form-element__label"
+		                                              value="{!v.cont.address}"
+		                                              maxlength="200"/>
+											</div>
+										</div>
+									</div>
+									<div class="slds-grid slds-wrap slds-grid--pull-padded">
+										<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4 field-spacing">
+											<div class="slds-form-element__control">
+												<ui:inputText aura:id="suburb" label="Suburb"
+		                                              class="slds-input"
+		                                              labelClass="slds-form-element__label"
+		                                              value="{!v.cont.suburb}"
+		                                              maxlength="200"/>
+											</div>
+										</div>
+									</div>
+									<div class="slds-grid slds-wrap slds-grid--pull-padded">
+										<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4 field-spacing">
+											<div class="slds-form-element__control">
+												<ui:inputSelect label="State"
+	                                                    aura:id="state"
+	                                                    class="dynamic" 
+	                                                    labelClass="slds-form-element__label"
+	                                                    value="{!v.cont.state}" />
+											</div>
+										</div>
+									</div>
+									<div class="slds-grid slds-wrap slds-grid--pull-padded">
+										<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4 field-spacing">
+											<div class="slds-form-element__control">
+												<ui:inputText aura:id="postcode" label="Postcode"
+		                                              class="slds-input"
+		                                              labelClass="slds-form-element__label"
+		                                              value="{!v.cont.postCode}"
+		                                              maxlength="4"/>
+											</div>
+										</div>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+						<div class="slds-col">
+							<fieldset class="slds-form-element">
+								<legend class="slds-form-element__label slds-text-title_caps"></legend>
+								<div class="slds-form-element__group">
+									<div class="slds-grid slds-wrap slds-grid--pull-padded">
+										<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4 field-spacing">
+											<div class="slds-form-element__control">
+												<ui:inputPhone aura:id="homePhoneNumber" label="Home phone number (optional)"
+		                                              class="slds-input"
+		                                              labelClass="slds-form-element__label"
+		                                              value="{!v.cont.homePhoneNumber}"
+		                                              maxlength="10"/>
+											</div>
+										</div>
+									</div>
+									<div class="slds-grid slds-wrap slds-grid--pull-padded">
+										<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4 field-spacing">
+											<div class="slds-form-element__control">
+												<ui:inputPhone aura:id="workPhoneNumber" label="Work phone number (optional)"
+		                                              class="slds-input"
+		                                              labelClass="slds-form-element__label"
+		                                              value="{!v.cont.workPhoneNumber}"
+		                                              maxlength="10"/>
+											</div>
+										</div>
+									</div>
+									<div class="slds-grid slds-wrap slds-grid--pull-padded">
+										<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4 field-spacing">
+											<div class="slds-form-element__control">
+												<ui:inputPhone aura:id="mobileNumber" label="Mobile number"
+		                                              class="slds-input"
+		                                              labelClass="slds-form-element__label"
+		                                              value="{!v.cont.mobileNumber}"
+		                                              maxlength="15"/>
+											</div>
+										</div>
+									</div>
+									<div class="slds-text-title tooltip" style="padding-top:5px;">
+										<span>Email</span>
+										
+										<lightning:icon iconName="utility:info" size="x-small" alternativeText="Additional Information"/>
+										<span class="tooltiptext">{!v.emailHelpText}</span>
+									</div>
+									<div class="slds-grid slds-wrap slds-grid--pull-padded" style="padding-bottom:5px;">
+										<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4">
+											<div class="slds-form-element__control">
+												<ui:inputEmail aura:id="email" label=""
+		                                              class="slds-input"
+		                                              labelClass="slds-form-element__label"
+		                                              value="{!v.cont.email}"
+		                                              maxlength="200"/>
+											</div>
+										</div>
+									</div>
+									<!-- <div class="tooltip"><lightning:icon iconName="utility:info" size="x-small" alternativeText="Additional Information"/><span class="tooltiptext">All course related communications will be sent to this email address</span></div> -->
+									
+									<div class="slds-text-title tooltip" style="padding-top:10px;">
+										<span>Organisation Address (If applicable)</span>
+										
+										<lightning:icon iconName="utility:info" size="x-small" alternativeText="Additional Information"/>
+										<span class="tooltiptext">{!v.orgAddressHelpText}</span>
+									</div>
+
+									<div class="slds-grid slds-wrap slds-grid--pull-padded">
+										<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4 field-spacing">
+											<div class="slds-form-element__control">
+												<ui:inputText aura:id="organisation" label="Organisation"
+		                                              class="slds-input"
+		                                              labelClass="slds-form-element__label"
+		                                              value="{!v.cont.organisation}"
+		                                              maxlength="200"/>
+											</div>
+										</div>
+									</div>
+									<div class="slds-grid slds-wrap slds-grid--pull-padded">
+										<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4 field-spacing">
+											<div class="slds-form-element__control">
+												<ui:inputText aura:id="orgStreetAddress" label="Organisation Street Address"
+		                                              class="slds-input"
+		                                              labelClass="slds-form-element__label"
+		                                              value="{!v.cont.orgStreetAddress}"
+		                                              maxlength="200"/>
+											</div>
+										</div>
+									</div>
+									<div class="slds-grid slds-wrap slds-grid--pull-padded">
+										<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4 field-spacing">
+											<div class="slds-form-element__control">
+												<ui:inputText aura:id="orgSuburb" label="Organisation Suburb"
+		                                              class="slds-input"
+		                                              labelClass="slds-form-element__label"
+		                                              value="{!v.cont.orgSuburb}"
+		                                              maxlength="200"/>
+											</div>
+										</div>
+									</div>
+									<div class="slds-grid slds-wrap slds-grid--pull-padded">
+										<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4 field-spacing">
+											<div class="slds-form-element__control">
+												<ui:inputSelect label="Organisation State"
+	                                                    aura:id="orgState"
+	                                                    class="dynamic" 
+	                                                    labelClass="slds-form-element__label"
+	                                                    value="{!v.cont.orgState}" />
+											</div>
+										</div>
+									</div>
+									<div class="slds-grid slds-wrap slds-grid--pull-padded">
+										<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4 field-spacing">
+											<div class="slds-form-element__control">
+												<ui:inputText aura:id="orgPostcode" label="Organisation Postcode"
+		                                              class="slds-input"
+		                                              labelClass="slds-form-element__label"
+		                                              value="{!v.cont.orgPostcode}"
+		                                              maxlength="4"/>
+											</div>
+										</div>
+									</div>
+									<div class="slds-grid slds-wrap slds-grid--pull-padded">
+										<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4 field-spacing">
+											<div class="slds-form-element__control">
+												<ui:inputText aura:id="jobTitle" label="Job title (optional)"
+		                                              class="slds-input"
+		                                              labelClass="slds-form-element__label"
+		                                              value="{!v.cont.jobTitle}"
+		                                              maxlength="200"/>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="slds-grid slds-wrap slds-grid--pull-padded">
+									<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4 field-spacing">
+										<div class="slds-form-element__control">
+											<ui:inputSelect label="How did you hear about us ? (optional)"
+                                                    aura:id="howDidUHear"
+                                                    class="dynamic" 
+                                                    labelClass="slds-form-element__label"
+                                                    value="{!v.cont.howDidyouHearAboutUs}" />
+										</div>
+									</div>
+								</div>
+								<div class="slds-grid slds-wrap slds-grid--pull-padded" style="padding-top:10px;">
+									<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4 field-spacing">
+										<label class="slds-checkbox--toggle slds-grid">
+											<span class="slds-form-element__label slds-m-bottom--none">Are you a concession card holder ?</span>
+											<ui:inputCheckbox value="{!v.cont.concessionCardHolder}" change="{!c.applyConcession}"/>
+											<span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
+												<span class="slds-checkbox--faux"></span>
+												<span class="slds-checkbox--on">Yes</span>
+												<span class="slds-checkbox--off">No</span>
+											</span>
+										</label>
+									</div>
+								</div>
+								<div class="slds-grid slds-wrap slds-grid--pull-padded" style="padding-top:10px;">
+									<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4 field-spacing">
+										<label class="slds-checkbox--toggle slds-grid">
+											<span class="slds-form-element__label slds-m-bottom--none">Are you a Monash University graduate ?</span>
+											<ui:inputCheckbox value="{!v.cont.graduate}" change="{!c.toggleCourseName}"/>
+											<span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
+												<span class="slds-checkbox--faux"></span>
+												<span class="slds-checkbox--on">Yes</span>
+												<span class="slds-checkbox--off">No</span>
+											</span>
+										</label>
+									</div>
+								</div>
+								<div class="slds-text-title tooltip" style="padding-top:5px;">
+									<span>Course Name</span>									
+									<lightning:icon iconName="utility:info" size="x-small" alternativeText="Additional Information"/>
+									<span class="tooltiptext">{!v.courseNameHelpText}</span>
+								</div>
+								<div class="slds-grid slds-wrap slds-grid--pull-padded">
+									<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4 field-spacing">
+										<div class="slds-form-element__control">
+											<ui:inputText aura:id="previousCourse"
+	                                              class="slds-input"
+	                                              labelClass="slds-form-element__label"
+	                                              value="{!v.cont.previousCourse}"
+	                                              maxlength="200"/>
+										</div>
+									</div>
+								</div>
+								<div class="slds-grid slds-wrap slds-grid--pull-padded" style="padding-top:10px;">
+									<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--4-of-4 slds-large-size--4-of-4 field-spacing">
+										<label class="slds-checkbox--toggle slds-grid">
+											<span class="slds-form-element__label slds-m-bottom--none">I have read and agreed to the 
+                                            	
+												<ui:outputURL value="{!v.tAndC}" label="Terms and Conditions" target="_blank" />
+											</span>
+											<ui:inputCheckbox value="{!v.cont.termsAccepted}"/>
+											<span id="toggle-desc" class="slds-checkbox--faux_container" aria-live="assertive">
+												<span class="slds-checkbox--faux"></span>
+												<span class="slds-checkbox--on">Yes</span>
+												<span class="slds-checkbox--off">No</span>
+											</span>
+										</label>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+					</div>
+				</div>
+				<div>
+					<lightning:buttonGroup class="button-group-styling">
+						<div class="slds-col" padding="around-small">
+							<lightning:button variant="neutral" label="Cancel" iconName="utility:close" iconPosition="left" onclick="{! c.redirectToOfferingPage}" />
+						</div>
+						<div class="slds-col" padding="around-small">
+							<lightning:button aura:id="bookButton" variant="brand" label="Next" iconName="utility:check" iconPosition="left" onclick="{! c.book }" class="button-styling" />
+						</div>
+					</lightning:buttonGroup>
+				</div>
+			</div>
+		</aura:if>
+		
+		<div style="padding-top:10px;" />
+		<aura:if isTrue="{!not(v.exception == '')}">
+            <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert">
+            	<ui:outputText value="We are sorry. Something went wrong with the submission of details. Please try again later by refreshing the page or contact Monash University"/>
+            </div>
+        </aura:if>
+        <div style="padding-bottom:10px;" />
+        <aura:if isTrue="{!v.isLoading}">
+			<div role="status" class="slds-spinner slds-spinner_medium slds-is-relative" style="display:inline-block;margin: 2rem auto;">
+				<span class="slds-assistive-text">Loading</span>
+				<div class="slds-spinner__dot-a"></div>
+				<div class="slds-spinner__dot-b"></div>
+			</div>
+		</aura:if>
+		<div class="section-title-styling">
+			<!--Documents--><br/>  
+		</div>
+		<aura:if isTrue="{!v.isExpanded2}">
+			<div aura:id="section2" data-reactroot="" class="slds-m-left_x-large slds-grid section-float" style="width: 100%; padding-bottom: 25px; ">
+				<h3 class="slds-section__title scroll-to-documents" aura:id="section2header">
+					<!-- <ui:button class="slds-section__title-action stacked-header-styling">
+		                Documents
+					</ui:button> -->
+				</h3>
+				<div class="slds-col" style="width: 100%;">
+					<div class="slds-form slds-form_compound" style="padding-bottom: 25px; padding-left: 25px;max-width: 800px; margin: 0 auto;">
+						<div class="slds-col">
+							<aura:if isTrue="{!v.isExpanded2}">
+								<div aura:id="section2" class="slds-col--padded slds-p-top--large">
+									<div class="container">
+										<div>
+<!-- 											<aura:if isTrue="{!v.currentState == 'Course Registration'}">
+												<div aura:id="payButton" style="padding-top:20px; padding-bottom:20px;">
+													<lightning:button variant="brand" label="Pay Now" iconName="utility:moneybag" iconPosition="left" onclick="{!c.redirectToPaymentPage}" disabled="{!or(v.cont.enquiryId == null, v.cont.enquiryId == '')}" class="button-styling"/>
+												</div>
+											</aura:if> -->
+											<aura:if isTrue="{!v.currentState == 'Course Registration'}">
+												<div aura:id="payButtonMagento" style="padding-top:20px; padding-bottom:20px;">
+													<lightning:button variant="brand" label="Pay Now" iconName="utility:moneybag" iconPosition="left" onclick="{!c.redirectToMagento}" disabled="{!or(v.cont.enquiryId == null, v.cont.enquiryId == '')}" class="button-styling"/>
+												</div>
+											</aura:if>
+											<aura:if isTrue="{!v.currentState == 'Waiting List'}">
+												<div aura:id="doneButton" style="padding-top:20px; padding-bottom:20px;">
+													<lightning:button variant="brand" label="Done" iconName="utility:success" iconPosition="left" onclick="{!c.redirectToConfirmationPage}" disabled="{!or(v.cont.enquiryId == null, v.cont.enquiryId == '')}" class="button-styling"/>
+												</div>
+											</aura:if>
+											<form class="slds-form--stacked">
+												<div class="slds-text--regular">
+													<aura:if isTrue="{!v.currentState == 'Course Registration'}">
+														<p>Upload proof of concession if applicable before you make a payment</p>
+													</aura:if>
+<!-- 													<aura:if isTrue="{!v.currentState == 'Wait Listing'}">
+														<p class="slds-p-top_medium">Upload proof of qualification if applicable 	before you click 'Done'
+														</p>
+													</aura:if> -->
+													<p class="slds-p-top_medium">
+				                                    	*** Only upload: pdf files, jpg files, gif files, word files (.doc, .docx), rtf files, txt files ***
+				                                    </p>
+				                                    <p class="slds-p-top_medium">
+				                                    	*** There is a document file size limit of 5 MB ***	
+				                                	</p>
+											
+												</div>
+												<br/>
+												<div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-bottom--x-large">
+													<div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+														<input type="file" class="file" aura:id="file" />
+													</div>
+												</div>
+												<div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-vertical--x-large">
+													<div class="slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+														<div>
+															<lightning:button variant="brand" label="Upload" iconName="utility:upload" iconPosition="left" onclick="{!c.saveDocument}" disabled="{!or(v.cont.enquiryId == null, v.cont.enquiryId == '')}" class="button-styling"/>
+														</div>
+													</div>
+												</div>
+											</form>
+										</div>
+										<aura:if isTrue="{!v.attachList.length >0}">
+											<div class="slds-p-vertical--x-large">
+												<h4 >Documents Already Uploaded</h4>
+											</div>
+											<table class="slds-table slds-table--bordered slds-table--cell-buffer">
+												<thead>
+													<tr class="slds-text-title--caps">
+														<th scope="col" width="50%">
+															<div class="slds-truncate" title="">Document Name</div>
+														</th>
+														<th scope="col" width="50%">
+															<div class="slds-truncate" title="">File Type</div>
+														</th>
+														<!-- <th scope="col" width="20%"><div class="slds-truncate" title=""></div></th> -->
+													</tr>
+												</thead>
+												<tbody>
+													<aura:iteration items="{!v.attachList}" var="attach">
+														<ui:outputText value="{!attach.Id}" class="slds-hide" />
+														<tr>
+															<td scope="col" width="50%">
+																<div class="wrapClass" >{!attach.Name}</div>
+															</td>
+															<td scope="col" width="50%">
+																<div class="wrapClass" >{!attach.ContentType}</div>
+															</td>
+															<!-- <td scope="col" width="20%"><lightning:button variant="destructive" label="Delete" iconName="utility:delete" iconPosition="left" value="{!attach}" onclick="{! c.deleteDocument }"/></td> -->
+														</tr>
+													</aura:iteration>
+												</tbody>
+											</table>
+											<aura:set attribute="else">
+												<ui:message severity="info">{!v.noDataText}</ui:message>
+											</aura:set>
+										</aura:if>
+									</div>
+								</div>
+							</aura:if>
+						</div>
+					</div>
+				</div>
+			</div>
+		</aura:if>
+	</form>
+</aura:component>

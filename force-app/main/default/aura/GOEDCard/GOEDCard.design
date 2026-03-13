@@ -1,0 +1,53 @@
+<design:component >
+    
+  <design:attribute name="cardLabel" label="Default card title" Description="Label at top of card"/>
+  <design:attribute name="cardLabelColor" label="Default card title color" Description="Color of label at top of card"/>
+  <design:attribute name="headerLogoIcon" label="Default header logo" Description="Icon to show on right-side of header section"/> 
+  <design:attribute name="headerBackgroundImage" label="Default header background image" Description="Background image for header section" />
+  <design:attribute name="headerBackgroundColor" label="Default header background color" Description="Background color for header section (this will override background image)"/>
+  <design:attribute name="outcomeLabel" label="Label for outcome score" Description="Label for outcome score"/> 
+  <design:attribute name="outcomeUnit" label="Unit of outcome score" Description="Unit of outcome score"/>
+  <design:attribute name="outcomeUnitBefore" label="Unit before Outcome (ex: $)" Description="Place the unit before outcome value (ex: $)"/>
+  <design:attribute name="outcomeUnitSpace" label="Space before Unit" Description="Add space before unit"/>
+  <design:attribute name="outcomeField" label="API field name for outcome score" Description="API field name for outcome score"/> 
+  <design:attribute name="outcomeColor" label="Color range definition for red,yellow,green" Description="Color range definition for red,yellow,green"/> 
+  
+  <design:attribute name="explanationLabel" label="Label for Explanation" Description="Label for Explanation"/> 
+  <design:attribute name="explanationCollapsible" label="Is Explanation Collapsible?" Description="Check if explanation section is collapsible"/> 
+  <design:attribute name="explanationCollapsedByDefault" label="Is Explanation Collapsed by Default?" Description="Check if explanation section is collapsed by default"/> 
+  <design:attribute name="explanationEmptyMsg" label="Empty msg for Explanation" Description="Empty msg for Explanation"/> 
+  <design:attribute name="explanationField" label="API field name for Explanation" Description="API field name for Explanation"/> 
+  <design:attribute name="explanationColor" label="Explanation color range definition for red,yellow,green" Description="Color range definition for red,yellow,green"/> 
+  <design:attribute name="explanationRowLimit" label="Explanation Row Limit" Description="Number of results to show. If this is less than or equal to 0, shows all."/> 
+  
+  <design:attribute name="recommendationLabel" label="Label for Recommendation" Description="Label for Recommendation"/> 
+  <design:attribute name="recommendationCollapsible" label="Is Recommendation Collapsible?" Description="Check if recommendation section is collapsible"/> 
+  <design:attribute name="recommendationCollapsedByDefault" label="Is Recommendation Collapsed by Default?" Description="Check if recommendation section is collapsed by default"/> 
+  <design:attribute name="recommendationEmptyMsg" label="Empty msg for Recommendation" Description="Empty msg for Recommendation"/> 
+  <design:attribute name="recommendationField" label="API field name for Recommendation" Description="API field name for Recommendation"/> 
+  <design:attribute name="recommendationColor" label="Recommendation color range definition for red,yellow,green" Description="Color range definition for red,yellow,green"/> 
+  <design:attribute name="recommendationRowLimit" label="Recommendation row limit" Description="Number of results to show. If this is less than or equal to 0, shows all."/> 
+  
+
+  <design:attribute name="threshold1UpperLimit" label="Threshold 1 upper limit" Description="Format must be in basis points (E.g. Enter 5075 for 50.75%). If outcome is LTE threshold 1 upper limit then the threshold 1 header configuration will be used."/>
+  <design:attribute name="threshold1cardLabel" label="Threshold 1 card title" Description="Threshold 1 label at top of card"/>
+  <design:attribute name="threshold1cardLabelColor" label="Threshold 1 card title color" Description="Threshold 1 color of label at top of card"/>
+  <design:attribute name="threshold1headerLogoIcon" label="Threshold 1 header logo" Description="Threshold 1 icon to show on right-side of header section"/> 
+  <design:attribute name="threshold1headerBackgroundImage" label="Threshold 1 header background image" Description="Threshold 1 background image for header section" />
+  <design:attribute name="threshold1headerBackgroundColor" label="Threshold 1 header background color" Description="Threshold 1 background color for header section (this will override background image)"/>
+  
+  <design:attribute name="threshold2UpperLimit" label="Threshold 2 upper limit" Description="Format must be in basis points (E.g. Enter 5075 for 50.75%). If outcome is GT threshold 1 upper limit and LTE threshold 2 limit then the threshold 2 header configuration will be used."/>
+  <design:attribute name="threshold2cardLabel" label="Threshold 2 card title" Description="Threshold 2 label at top of card"/>
+  <design:attribute name="threshold2cardLabelColor" label="Threshold 2 card title color" Description="Threshold 2 color of label at top of card"/>
+  <design:attribute name="threshold2headerLogoIcon" label="Threshold 2 header logo" Description="Threshold 2 icon to show on right-side of header section"/> 
+  <design:attribute name="threshold2headerBackgroundImage" label="Threshold 2 header background image" Description="Threshold 2 background image for header section" />
+  <design:attribute name="threshold2headerBackgroundColor" label="Threshold 2 header background color" Description="Threshold 2 background color for header section (this will override background image)"/>
+  
+  <design:attribute name="threshold3UpperLimit" label="Threshold 3 upper limit" Description="Format must be in basis points (E.g. Enter 5075 for 50.75%). If outcome is GT threshold 2 upper limit and LTE threshold 3 limit then the threshold 3 header configuration will be used."/>
+  <design:attribute name="threshold3cardLabel" label="Threshold 3 card title" Description="Threshold 3 label at top of card"/>
+  <design:attribute name="threshold3cardLabelColor" label="Threshold 3 card title color" Description="Threshold 3 color of label at top of card"/>
+  <design:attribute name="threshold3headerLogoIcon" label="Threshold 3 header logo" Description="Threshold 3 icon to show on right-side of header section"/> 
+  <design:attribute name="threshold3headerBackgroundImage" label="Threshold 3 header background image" Description="Threshold 3 background image for header section" />
+  <design:attribute name="threshold3headerBackgroundColor" label="Threshold 3 header background color" Description="Threshold 3 background color for header section (this will override background image)"/>
+      
+</design:component>

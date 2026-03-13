@@ -1,0 +1,25 @@
+<!--
+  Wrapper for uploadJrgRecords lwc component.
+   - This is required because Campaign does not support LWC quick actions as of Feb 2022
+   - The styling removes aura's quick action modal container (as the LWC component has its own)
+ -->
+
+<aura:component description="UploadJrgRecordsQuickAction" implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+    <aura:html tag="style">
+        .cuf-content {
+            padding: 0 0rem !important;
+        }
+        .slds-p-around--medium {
+            padding: 0rem !important;
+        }
+        .slds-modal__content{
+            height:unset !important;
+            max-height:unset !important;
+        }
+        .slds-modal__container {
+            max-width: 60rem !important;
+            width: 80% !important;
+        }
+    </aura:html>
+    <c:uploadJrgRecords recordId="{!v.recordId}" onclose="{!c.closeMethodInAuraController}"></c:uploadJrgRecords>
+</aura:component>

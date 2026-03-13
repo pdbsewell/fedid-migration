@@ -1,0 +1,132 @@
+<!--
+Author: Cartick Sub
+Date: 11 August 2020. Revised 1 October 2020.
+Description: Lighting web component which displays student's letter entitlements and Student Letter Logs
+-->
+
+<template>
+  <lightning-card title="Letters" icon-name="standard:letterhead">
+    <div class="slds-m-around_medium">
+      <div if:true={entitlementsAreLoaded}>
+        <template if:true={entitlements}>
+          <div class="slds-text-title_bold">Eligible For:</div>
+          <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+            <thead>
+              <tr class="slds-line-height_reset">
+                <th scope="col">
+                  <div class="slds-truncate" title="Code">Code</div>
+                </th>
+                <th scope="col">
+                  <div class="slds-truncate" title="Description">Description</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <template for:each={entitlements} for:item="ent">
+                <tr key={ent.code} class="slds-hint-parent">
+                  <td>
+                    <div class="slds-truncate">{ent.code}</div>
+                  </td>
+                  <td>
+                    <div class="slds-truncate">{ent.description} - {ent.courseTitle}</div>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </template>
+        <template if:false={entitlements}>
+          <div class="slds-text-title_bold">No eligible letters are available.</div>
+        </template>
+        {error}
+      </div>
+    </div>
+  </lightning-card>
+  <div class="slds-p-around_small"></div>
+  <!-- Temporary message to warn users Student Letter Log table is not yet in use - will be removed at go-live -->
+  <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning" role="alert">
+    <span class="slds-assistive-text">warning</span>
+    <span class="slds-icon_container slds-m-right_x-small" title="SLL under construction">
+      <lightning-icon icon-name="utility:warning" alternative-text="Warning" title="Warning" size="x-small"></lightning-icon>
+    </span>
+    <div class="slds-text-heading_small">Note: The below Student Letter Log table is under construction.</div>
+  </div>
+  <!-- End of under construction message -->
+  <lightning-card title="Student Letter Logs" icon-name="standard:related_list">
+    <div class="slds-m-around_medium">
+      <div if:true={studentLetterLogsAreLoaded}>
+        <template if:true={studentLetterLogs}>
+          <table class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+            <thead>
+              <tr>
+                <th scope="col" class="slds-size_2-of-12">
+                  <div title="Student Letter Log Name">Student Letter Log Name</div>
+                </th>
+                <th scope="col" class="slds-size_1-of-12">
+                  <div title="Created Date">Created Date</div>
+                </th>
+                <th scope="col" class="slds-size_1-of-12">
+                  <div title="Channel">Channel</div>
+                </th>
+                <th scope="col" class="slds-size_2-of-12">
+                  <div title="Letter Description">Letter Description</div>
+                </th>
+                <th scope="col" class="slds-size_2-of-12">
+                  <div title="Course Title">Course Title</div>
+                </th>
+                <th scope="col" class="slds-size_2-of-12">
+                  <div class="slds-cell-wrap" title="Message">Message</div>
+                </th>
+                <th scope="col" class="slds-size_1-of-12">
+                  <div title="Payment Method">Payment Method</div>
+                </th>
+                <th scope="col" class="slds-size_1-of-12">
+                  <div title="Letter Status">Letter Status</div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <template for:each={studentLetterLogs} for:item="sll">
+                <tr key={sll.Id} class="slds-hint-parent">
+                  <td>
+                    <div>
+                      <lightning-button variant="base" label={sll.Name} title="Name" onclick={handleSllNameClick}
+                        data-id={sll.Id} class="slds-button"></lightning-button>
+                    </div>
+                  </td>
+                  <td>
+                    <div>{sll.Date}</div>
+                  </td>
+                  <td>
+                    <div>{sll.Channel}</div>
+                  </td>
+                  <td>
+                    <div class="slds-cell-wrap">{sll.LetterDescription}</div>
+                  </td>
+                  <td>
+                    <div class="slds-cell-wrap">{sll.CourseTitle}</div>
+                  </td>
+                  <td>
+                    <div class="slds-cell-wrap">
+                      <lightning-formatted-rich-text value={sll.Message}></lightning-formatted-rich-text>
+                    </div>
+                  </td>
+                  <td>
+                    <div>{sll.PaymentMethod}</div>
+                  </td>
+                  <td>
+                    <div>{sll.LetterStatus}</div>
+                  </td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+        </template>
+        <template if:false={studentLetterLogs}>
+          <div class="slds-text-title_bold">No Student Letter Logs are available.</div>
+        </template>
+        {error}
+      </div>
+    </div>
+  </lightning-card>
+</template>

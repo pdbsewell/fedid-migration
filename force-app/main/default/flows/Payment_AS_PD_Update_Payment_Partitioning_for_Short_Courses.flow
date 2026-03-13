@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Error_Update_Course_Faculty_Type_Fields</name>
+        <label>Error Update Course Faculty &amp; Type Fields</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Nebula__FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <stringValue>Payment : AS : PD Update Payment [Partitioning for Short Courses]</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Error Update Course Faculty &amp; Type Fields</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Check_CO_For_Short_Course</name>
+        <label>Check CO For Short Course</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>CO Not For Short Course</defaultConnectorLabel>
+        <rules>
+            <name>CO_For_Short_Course</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Course_Offering__r.Course_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Professional Development</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Course_Faculty_Type_fields</targetReference>
+            </connector>
+            <label>CO For Short Course</label>
+        </rules>
+    </decisions>
+    <description>Update Course Offering&apos;s &apos;Course Faculty&apos; and &apos;Course Type&apos; from Course [for Short Courses only]</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>GetCourseOfferingType</name>
+        <dataType>String</dataType>
+        <expression>CASE( 
+{!$Record.Course_Offering__r.Faculty__c},
+&quot;Faculty of Education&quot;,&quot;Faculty of Education&quot;,
+&quot;Faculty of Medicine, Nursing &amp; Health Sciences&quot;,&quot;Faculty of Medicine, Nursing &amp; Health Sciences&quot;,
+&quot;The School of Public Health and Preventive Medicine (SPHPM)&quot;,&quot;The School of Public Health and Preventive Medicine (SPHPM)&quot;,
+&quot;Monash Centre for Health Research and Implementation (MCHRI)&quot;,&quot;Monash Centre for Health Research and Implementation (MCHRI)&quot;,
+&quot;MNHS Student Academic Support Unit (SASU)&quot;,&quot;MNHS Student Academic Support Unit (SASU)&quot;,
+&quot;School of Clinical Sciences (SCS)&quot;,&quot;School of Clinical Sciences (SCS)&quot;,
+&quot;Faculty of Business &amp; Economics&quot;,&quot;Faculty of Business &amp; Economics&quot;,
+&quot;Faculty of Arts&quot;,&quot;Faculty of Arts&quot;,
+&quot;Monash Sustainable Development Institute&quot;,&quot;Monash Sustainable Development Institute&quot;,
+&quot;Monash Centre for Professional Development&quot;,&quot;Monash Centre for Professional Development&quot;,
+&quot;&quot;
+)</expression>
+    </formulas>
+    <interviewLabel>Payment : AS : {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Payment : AS : PD Update Payment [Partitioning for Short Courses]</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Course_Faculty_Type_fields</name>
+        <label>Update Course Faculty &amp; Type fields</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <faultConnector>
+            <targetReference>Error_Update_Course_Faculty_Type_Fields</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Course_Faculty__c</field>
+            <value>
+                <elementReference>GetCourseOfferingType</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Course_Type__c</field>
+            <value>
+                <stringValue>Professional Development</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_CO_For_Short_Course</targetReference>
+        </connector>
+        <filterFormula>{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False</filterFormula>
+        <object>Payment__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

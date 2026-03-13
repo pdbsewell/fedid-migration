@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>Used to maintain the credentials for Western Union</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Base_Url__c</fullName>
+        <description>Base Url used for the Western Union Submission</description>
+        <label>Base Url</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Callback_Url__c</fullName>
+        <description>The callback which is used for the Western Union Submission string</description>
+        <label>Callback Url</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>ClientId__c</fullName>
+        <description>Reference to the client gateway configured for Western Union.</description>
+        <externalId>false</externalId>
+        <label>Client Id</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>ServiceId__c</fullName>
+        <description>Western Union Service Id</description>
+        <externalId>false</externalId>
+        <label>Service Id</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Western Union Config</label>
+    <visibility>Protected</visibility>
+</CustomObject>

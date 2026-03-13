@@ -1,0 +1,48 @@
+<template>
+    <!--<lightning-button label="open" title="Non-primary action" onclick={openSteps} class="slds-m-left_x-small"></lightning-button>-->
+    <div class="backgroundContainer" style="margin-left: 30px;">        
+        <template if:true={applicationName}>
+            <div class="sidebarHeaderContainer">
+                <span class="sidebarHeader" >APPLICATION-{applicationName}</span>
+                <br/><br/>
+                <div style="font-size: 16px;font-weight:bold; line-height:19px; font-family:Roboto Condensed;">LOCATION:<span style="font-size: 16px;padding-left:24px;font-weight:normal;font-family:Roboto Condensed;">{campusLocation}</span></div>
+                <div style="font-size: 16px; font-weight:bold;line-height:19px;font-family:Roboto Condensed;">STUDY TYPE:<span style="font-size: 16px;padding-left:10px;font-weight:normal;font-family:Roboto Condensed;">{studyType}</span></div>
+                <template if:true={showSeeMore}>
+                    <!-- additional details toggle -->
+                    <div class="slds-p-right_small" style="float:center;padding-top:20px;color: #006EB3; cursor: pointer;font-size: 16px;font-weight:normal;font-family:Roboto Condensed;" onclick={toggleDetails}>
+                            {seeStatus}
+                        <template if:true={showDetails}>
+                            <img src={applicationChevron} class="applicationChevronIconUp slds-show_small" />
+                        </template>
+                        <template if:false={showDetails}>
+                            <img src={applicationChevron} class="applicationChevronIconDown slds-show_small" />
+                        </template>
+                    </div>
+                </template>
+                <div data-component="additionalDetailsDesktop" class="acpAdditionalDetails acpAdditionalDetailsClosed" style="font-size: 14px;font-weight:normal;font-family:Roboto Condensed;">   
+                    Return to the homepage to cancel this application.
+                </div>
+            </div>
+            <div class="sidebarStepsContainer">
+                <div class="sidebarStepsHeader">
+                    Steps
+                </div>
+                <div class="sidebarSteps">
+                    <template for:each={applicationSteps} for:item='applicationStep'>
+                        <template if:false={applicationStep.isHidden}>
+                            <c-my-app-application-form-sidebar-item key={applicationStep.step} application-step={applicationStep} onselect={selectItem} selected-step={selectedStep}></c-my-app-application-form-sidebar-item>
+                        </template>
+                    </template>
+                </div>
+            </div>
+            <div class="sidebarSupportContainer">
+                <div style="margin-bottom: 15px;">
+                    <h6 style="margin-top: 5px;font-weight:bold">NEED HELP?</h6>
+                </div>
+                <div style="font-size: 18px;font-style:Roboto Condensed Regular;word-wrap:break-word;padding-bottom:20px;">
+                   <p><a href='?chatbot=open&hiddenMessage=hello'>Try asking our virtual assistant.</a> If it doesn’t have an answer, it’ll help you submit an online enquiry.</p> 
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

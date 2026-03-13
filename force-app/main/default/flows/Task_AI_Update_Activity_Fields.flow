@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Error_Copy_User_Values_to_Activity</name>
+        <label>Error Copy User Values to Activity</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Nebula__FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <stringValue>Task : AI : Update Activity Fields</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Error Copy User Values to Activity</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>tagsString</name>
+            <value>
+                <stringValue>Task : AI : Update Activity Fields</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Validate_Running_User</name>
+        <label>Validate Running User</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Running User Invalid</defaultConnectorLabel>
+        <rules>
+            <name>Running_User_Valid</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$UserRole.Name</leftValueReference>
+                <operator>Contains</operator>
+                <rightValue>
+                    <stringValue>Monash Connect</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Copy_User_Values_to_Activity</targetReference>
+            </connector>
+            <label>Running User Valid</label>
+        </rules>
+    </decisions>
+    <description>Copy user info to activities at creation</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>Task_Copy_Location_to_Activity</name>
+        <dataType>String</dataType>
+        <expression>IF( AND (TEXT({!$User.Location__c}) !=  &apos;Not Set&apos; , TEXT({!$User.Location__c}) !=  &apos;&apos;), TEXT({!$User.Location__c}), &apos;&apos;)</expression>
+    </formulas>
+    <formulas>
+        <name>Task_Copy_Queue_data_to_Activity</name>
+        <dataType>String</dataType>
+        <expression>IF( AND (TEXT({!$User.Queue__c}) !=  &apos;Not Set&apos; , TEXT({!$User.Queue__c}) !=  &apos;&apos;), TEXT({!$User.Queue__c}), &apos;&apos;)</expression>
+    </formulas>
+    <interviewLabel>Task : AI : {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Task : AI : Update Activity Fields</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Copy_User_Values_to_Activity</name>
+        <label>Copy User Values to Activity</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <faultConnector>
+            <targetReference>Error_Copy_User_Values_to_Activity</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Location__c</field>
+            <value>
+                <elementReference>Task_Copy_Location_to_Activity</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Queue__c</field>
+            <value>
+                <elementReference>Task_Copy_Queue_data_to_Activity</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Validate_Running_User</targetReference>
+        </connector>
+        <filterFormula>{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False</filterFormula>
+        <object>Task</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

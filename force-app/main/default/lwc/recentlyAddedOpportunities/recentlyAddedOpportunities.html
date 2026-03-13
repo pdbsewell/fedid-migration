@@ -1,0 +1,51 @@
+<template>
+    <div class="myColor">
+        <lightning-card title='All Recently Added Opportunities' > 
+            <!--LOADING SPINNER-->
+            <template if:true={showSpinner}> 
+                <div class="slds-is-relative" style="min-height: 200px;">
+                    <lightning-spinner alternative-text="Loading" class="spins" variant="brand" size="large"></lightning-spinner>
+                </div>            
+            </template>
+            <template if:false={showSpinner}>
+                <div class="slds-p-around_x-small">
+                    <table id="data-table" class="tableClass slds-table slds-border_left slds-border_right slds-table_cell-buffer slds-table_bordered">
+                        <thead>
+                            <tr class="">
+                                <th style="width:40%" scope="col">
+                                    <div class="slds-truncate" title="">Opportunity Name</div>
+                                </th>
+                                <th style="width:35%" scope="col">
+                                    <div class="slds-truncate" title="">Account</div>
+                                </th>
+                                <th style="width:25%" scope="col">
+                                    <div class="slds-truncate" title="">Amount</div>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <template for:each = {relatedOpportunities} for:item = "item" for:index="indexVar">
+                                <tr key={item.key} class="slds-hint-parent">
+                                    <td class="columnWidth" data-label="">
+                                        <a data-id={item.id} onclick={handleClick}>
+                                            {item.name}
+                                        </a>
+                                    </td>
+                                    <td class="columnWidth" data-label="">
+                                        <a data-id={item.accountId} onclick={handleClick}>
+                                            {item.accountName}
+                                        </a>
+                                    </td>
+                                    <td class="columnWidth" data-label="delete">
+                                        {item.amount}
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </template>
+            <div class="slds-align_absolute-center"><a onclick={handleViewAll}>View All</a></div>
+        </lightning-card>
+    </div>
+</template>

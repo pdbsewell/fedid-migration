@@ -1,0 +1,25 @@
+<template>
+    <!--<lightning-button label="open" title="Non-primary action" onclick={openSteps} class="slds-m-left_x-small"></lightning-button>-->
+    <div class="backgroundContainer" style="margin-left: 30px;">        
+        <template if:true={applicationName}>
+            <div class="sidebarHeaderContainer">
+                <span class="sidebarHeader" >APPLICATION-{applicationName}</span>
+                <br/><br/>
+                <div style="font-size: 16px;font-weight:bold; line-height:19px; font-family:Roboto Condensed;">LOCATION:<span style="font-size: 16px;padding-left:24px;font-weight:normal;font-family:Roboto Condensed;">{campusLocation}</span></div>
+                <div style="font-size: 16px; font-weight:bold;line-height:19px;font-family:Roboto Condensed;">STUDY TYPE:<span style="font-size: 16px;padding-left:10px;font-weight:normal;font-family:Roboto Condensed;">{studyType}</span></div>
+            </div>
+            <div class="sidebarStepsContainer">
+                <div class="sidebarStepsHeader">
+                    Steps
+                </div>
+                <div class="sidebarSteps">
+                    <template for:each={applicationSteps} for:item='applicationStep'>
+                        <template if:false={applicationStep.isHidden}>
+                            <c-partner-application-form-sidebar-item key={applicationStep.step} application-step={applicationStep} onselect={selectItem} selected-step={selectedStep}></c-partner-application-form-sidebar-item>
+                        </template>
+                    </template>
+                </div>
+            </div>
+        </template>
+    </div>
+</template>

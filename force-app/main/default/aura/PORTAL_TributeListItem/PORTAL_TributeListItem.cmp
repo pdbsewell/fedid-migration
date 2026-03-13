@@ -1,0 +1,55 @@
+<!--
+/*
+ * Copyright (c) 2019, UC Innovation, Inc.  All Rights Reserved.
+ *                     http://www.ucinnovation.com
+ *
+ * This source code is licensed, not sold, and is subject to a written
+ * license agreement.  Among other things, no portion of this source
+ * code may be copied, transmitted, disclosed, displayed, distributed,
+ * translated, used as the basis for a derivative work, or used, in
+ * whole or in part, for any program or purpose other than its intended
+ * use in compliance with the license agreement as part of UC Innovation's
+ * software.  This source code and certain of the algorithms contained
+ * within it are confidential trade secrets of UC Innovation, Inc.
+ * and may not be used as the basis for any other
+ * software, hardware, product or service.
+ */
+-->
+
+<aura:component >
+    <aura:attribute name="tributeRec" type="Object" access="public"/>
+    <aura:attribute name="tableIndexVar" type="Integer" access="public" default="-1"/>
+
+    <aura:registerEvent name="tributeListItemEvent" type="c:PORTAL_EVT_ListItem"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <tr>
+        <td scope="row" class="show-on-mobile">
+            <div>Tribute {!v.tableIndexVar + 1}</div>
+            <div class="slds-is-absolute" style="bottom: 8px">
+                <lightning:buttonIcon title="Delete" iconName="utility:delete" onclick="{!c.deleteTribute}" alternativeText="Delete"/>
+            </div>
+        </td>
+        <td scope="row" data-label="Tribute Type" class="actual-first-col">
+            <ui:inputSelect multiple="false" class="dynamic slds-input" aura:id="inputSelectDynamic" change="{!c.onSelectChange}" />
+        </td>
+        <td scope="row" data-label="Constituent">
+            <ui:inputText value="{!v.tributeRec.ucinn_ascendv2__Contact_Text__c}" class="slds-input"/>
+        </td>
+        <td scope="row" data-label="Tributee">
+            <ui:inputText value="{!v.tributeRec.ucinn_ascendv2__Tributee__c}" class="slds-input"/>
+        </td>
+        <td scope="row" data-label="Notify">
+            <ui:inputText value="{!v.tributeRec.ucinn_ascendv2__Notify_Contact_Text__c}" class="slds-input" />
+        </td>
+        <td scope="row" data-label="Address">
+            <ui:inputTextArea value="{!v.tributeRec.ucinn_ascendv2__Notify_Address__c}" class="slds-input" />
+        </td>
+        <td scope="row" data-label="Occasion">
+            <ui:inputText value="{!v.tributeRec.ucinn_ascendv2__Occasion__c}" class="slds-input"/>
+        </td>
+        <td scope="row">
+            <lightning:buttonIcon title="Delete" iconName="utility:delete" onclick="{!c.deleteTribute }" alternativeText="Delete" class="hide-on-mobile"/>
+        </td>
+    </tr>
+</aura:component>

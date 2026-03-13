@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Record type access for Known and Unknown to Monash</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Contact - RT - Student</label>
+    <recordTypeVisibilities>
+        <recordType>Contact.Non_Student</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+    <recordTypeVisibilities>
+        <recordType>Contact.Student</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+</PermissionSet>

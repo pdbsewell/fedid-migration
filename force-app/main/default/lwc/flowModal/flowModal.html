@@ -1,0 +1,19 @@
+<template>
+    <lightning-modal-header 
+    lwc:if={modalHeader} 
+    label={modalHeader}>
+        <p lwc:if={modalSubHeader}>
+            {modalSubHeader}
+        </p>
+    </lightning-modal-header>
+    <div class="slds-modal__content slds-var-p-around_medium slds-is-relative">
+        <div class="flow-container">
+            <lightning-flow
+            flow-api-name={flowApiName}
+            flow-input-variables={flowInputVariables}
+            onstatuschange={handleFlowStatusChange}
+            >
+            </lightning-flow>
+        </div>
+    </div>
+</template>

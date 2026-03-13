@@ -1,0 +1,101 @@
+<template>
+    <lightning-spinner lwc:if={loading}></lightning-spinner>
+
+    <template lwc:if={hasRecord}>
+
+        <!-- Comments -->
+        <template lwc:if={hasComments}>
+            <article class="slds-card">
+                <div class="slds-card__body slds-card__body_inner">
+                    <c-expandable-section id="1" label="Comments History" show-click-to-expand="true">
+                        <div class="slds-m-horizontal_x-small">
+                            <template lwc:if={endorseComments}>
+                                <div class="slds-form-element">
+                                    <span class="slds-form-element__label">Endorse Comments</span>
+                                    <div class="slds-form-element__control slds-border_bottom">
+                                        <div class="slds-form-element__static" style="white-space: pre-line">
+                                            <lightning-formatted-rich-text value={endorseComments}></lightning-formatted-rich-text>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                            <template lwc:if={escalationComments}>
+                                <div class="slds-form-element">
+                                    <span class="slds-form-element__label">Escalation Comments</span>
+                                    <div class="slds-form-element__control slds-border_bottom">
+                                        <div class="slds-form-element__static" style="white-space: pre-line">
+                                            <lightning-formatted-rich-text value={escalationComments}></lightning-formatted-rich-text>
+                                        </div>
+                                    </div>
+                                </div>
+                            </template>
+                        </div>
+                    </c-expandable-section>
+                </div>
+            </article>
+        </template>
+
+        <!-- Additional Considerations -->
+        <template lwc:if={hasAdditionalConsiderations}>
+            <article class="slds-card">
+                <div class="slds-card__body slds-card__body_inner">
+                    <c-expandable-section id="2" label="Additional Considerations" show-click-to-expand="true">
+                        <template lwc:if={planTriggerFaa}>
+                            <div class="slds-box slds-m-bottom_small">
+                                <span class="slds-text-title_bold">Foreign Affiliations & Associations</span>
+                                <p>The Foreign Affiliation and Associations management trigger means the entity’s country of ownership presents a higher risk of foreign interference or corruption. Ensure that you understand the nature of the interest in education or research-related activities in any of these countries and treat any foreign interference or undue influence risk like a conflict of interest (request a management plan).</p>
+                            </div>
+                        </template>
+                    </c-expandable-section>
+                </div>
+            </article>
+        </template>
+
+        <!-- Declaration of Interest -->
+        <article class="slds-card">
+            <div class="slds-card__body slds-card__body_inner">
+                <c-expandable-section id="3" label="Declaration of Interest" show-click-to-expand="true">
+                    <div class="slds-m-horizontal_x-small">
+                        Please find below the submission for {contactName}.<br/><br/>
+                        Please note that the Declaration of Interest form has identified the following question sets as potential Management Plan triggers:<br>
+                        <ul class="slds-list_dotted">
+                            <template for:each={planTriggers} for:item="pt">
+                                <li key={pt}>{pt}</li>
+                            </template>
+                        </ul>
+                        <hr class="slds-m-vertical_medium">
+                    </div>
+                    <div class="slds-m-horizontal_x-small">
+                        <lightning-formatted-rich-text value={declaration}></lightning-formatted-rich-text>
+                    </div>
+                </c-expandable-section>
+            </div>
+        </article>
+
+        <!-- Management Plan -->
+        <template lwc:if={showManagementPlan}>
+            <article class="slds-card">
+                <div class="slds-card__body slds-card__body_inner">
+                    <c-expandable-section id="4" label="Management Plan" show-click-to-expand="true">
+                        <div class="slds-m-horizontal_x-small">
+                            <lightning-formatted-rich-text value={managementPlan}></lightning-formatted-rich-text>
+                        </div>
+                    </c-expandable-section>
+                </div>
+            </article>
+        </template>
+    </template>
+    <template lwc:else>
+        <article class="slds-card">
+            <div class="slds-card__body slds-card__body_inner slds-text-align_center">
+                <div class="slds-text-heading_medium">Unable to load DoI information</div>
+                <template lwc:if={errorMessage}>
+                    <p>{errorMessage}</p>
+                </template>
+                <template lwc:else>
+                    <p>No Case Extension record</p>
+                </template>
+            </div>
+        </article>
+    </template>
+</template>

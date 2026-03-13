@@ -1,0 +1,51 @@
+<aura:component implements="force:lightningQuickAction,flexipage:availableForAllPageTypes,force:hasRecordId" access="global" controller="LogAnActivityController">
+    
+    <lightning:utilityBarAPI aura:id="utilitybar" />
+    <lightning:workspaceAPI aura:id="workspace" />
+    
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+    
+    <!-- page record -->
+    <aura:attribute name="recordId" type="Id" />
+    <!-- Case Record -->
+    <aura:attribute name="currentEnquiry" type="Object"/>
+    <aura:attribute name="enquiryError" type="String"/>
+    <force:recordData aura:id="caseRecordLoader"
+        recordId="{!v.recordId}"
+        fields="Id,ContactId"
+        targetFields="{!v.currentEnquiry}"
+        targetError="{!v.enquiryError}"
+        mode="EDIT"
+        recordUpdated="{!c.enquiryUpdated}"
+    />
+    
+    <!-- activity details -->
+    <aura:attribute name="activityType" type="String"/>
+    <aura:attribute name="activitySubject" type="String"/>
+    <aura:attribute name="activityDescription" type="String"/>
+    
+    <!-- spinner -->
+    <aura:attribute name="logAnActivitySpinner" type="Boolean" default="true" />
+    
+    <!-- activity type options -->
+    <aura:attribute name="options" type="List" default="[{'label': 'Face to Face', 'value': 'Face to Face'},
+                                                         {'label': 'Internal Email', 'value': 'Internal Email'},
+                                                         {'label': 'Inbound Call', 'value': 'Inbound Call'},
+                                                         {'label': 'Outbound Call', 'value': 'Outbound Call'},
+                                                         {'label': 'Other', 'value': 'Other'}]" />
+    
+    <!-- Activity Card -->
+    <div aria-hidden="false">
+        <div class="slds-panel__body slds-card_boundary slds-is-relative">
+            <aura:if isTrue="{!v.logAnActivitySpinner}">
+                <lightning:spinner variant="brand" />
+            </aura:if>
+            <!-- Activity Inputs -->
+            <lightning:combobox aura:id="activityTypeField" label="Type" placeholder="Select activity type" value="{!v.activityType}" options="{!v.options}" required="true" />
+            <!--<lightning:input name="input1" label="Subject" value="{!v.activitySubject}"/>-->
+            <lightning:textarea name="input2" label="Comments" value="{!v.activityDescription}" />  
+            <lightning:button aura:id="submit" type="submit" label="Log an Activity" class="slds-button slds-button_brand slds-m-top_small slds-size_1-of-1" 
+                              onclick="{!c.submitActivity}"/>
+        </div>
+    </div>
+</aura:component>

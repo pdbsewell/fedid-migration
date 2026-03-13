@@ -1,0 +1,656 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Coaching_Opportunities_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <enableActivities>true</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>Private</externalSharingModel>
+    <fields>
+        <fullName>Assessor__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Field is to be used for Lookup on the assessing user</description>
+        <label>Assessor</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Coaching_Opportunities9</relationshipName>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Date__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field used for assessing linked date</description>
+        <label>Date</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Enquiry_Number__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <deleteConstraint>Restrict</deleteConstraint>
+        <description>Field used access linked enquiry</description>
+        <label>Enquiry Number</label>
+        <referenceTo>Case</referenceTo>
+        <relationshipLabel>Coaching Opportunities</relationshipLabel>
+        <relationshipName>Coaching_Opportunities11</relationshipName>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Error_Reason__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field used store reason for the error</description>
+        <label>Error Reason</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>Error_type__c</controllingField>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Customer expectations could not be met</fullName>
+                    <default>false</default>
+                    <label>Customer expectations could not be met</label>
+                </value>
+                <value>
+                    <fullName>Customer was unaware/mistaken</fullName>
+                    <default>false</default>
+                    <label>Customer was unaware/mistaken</label>
+                </value>
+                <value>
+                    <fullName>Customer did not provide a reason for lower score</fullName>
+                    <default>false</default>
+                    <label>Customer did not provide a reason for lower score</label>
+                </value>
+                <value>
+                    <fullName>Staff provided incorrect or incomplete information</fullName>
+                    <default>false</default>
+                    <label>Staff provided incorrect or incomplete information</label>
+                </value>
+                <value>
+                    <fullName>Staff provided incorrect or broken links</fullName>
+                    <default>false</default>
+                    <label>Staff provided incorrect or broken links</label>
+                </value>
+                <value>
+                    <fullName>Staff did not check enquiry history</fullName>
+                    <default>false</default>
+                    <label>Staff did not check enquiry history</label>
+                </value>
+                <value>
+                    <fullName>Staff failed to follow/investigate the correct process</fullName>
+                    <default>false</default>
+                    <label>Staff failed to follow/investigate the correct process</label>
+                </value>
+                <value>
+                    <fullName>Staff behaved inappropriately/was rude</fullName>
+                    <default>false</default>
+                    <label>Staff behaved inappropriately/was rude</label>
+                </value>
+                <value>
+                    <fullName>Staff was not helpful</fullName>
+                    <default>false</default>
+                    <label>Staff was not helpful</label>
+                </value>
+                <value>
+                    <fullName>Untimely Response- not sent within SLA</fullName>
+                    <default>false</default>
+                    <label>Untimely Response- not sent within SLA</label>
+                </value>
+                <value>
+                    <fullName>Delayed Response - not sent within SLA due to waiting on another team/faculty</fullName>
+                    <default>false</default>
+                    <label>Delayed Response - not sent within SLA due to waiting on another team/faculty</label>
+                </value>
+                <value>
+                    <fullName>No response provided at all</fullName>
+                    <default>false</default>
+                    <label>No response provided at all</label>
+                </value>
+                <value>
+                    <fullName>Website was incorrect/ not updated/ conflicted with another website</fullName>
+                    <default>false</default>
+                    <label>Website was incorrect/ not updated/ conflicted with another website</label>
+                </value>
+                <value>
+                    <fullName>Monash system/process fail</fullName>
+                    <default>false</default>
+                    <label>Monash system/process fail</label>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Monash failed to meet an obligation</controllingFieldValue>
+                <valueName>Staff provided incorrect or incomplete information</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Monash failed to meet an obligation</controllingFieldValue>
+                <valueName>Staff provided incorrect or broken links</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Monash failed to meet an obligation</controllingFieldValue>
+                <valueName>Staff did not check enquiry history</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Monash failed to meet an obligation</controllingFieldValue>
+                <valueName>Staff failed to follow/investigate the correct process</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Monash failed to meet an obligation</controllingFieldValue>
+                <valueName>Staff behaved inappropriately/was rude</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Monash failed to meet an obligation</controllingFieldValue>
+                <valueName>Staff was not helpful</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Monash failed to meet an obligation</controllingFieldValue>
+                <valueName>Untimely Response- not sent within SLA</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Monash failed to meet an obligation</controllingFieldValue>
+                <valueName>Delayed Response - not sent within SLA due to waiting on another team/faculty</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Monash failed to meet an obligation</controllingFieldValue>
+                <valueName>No response provided at all</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Monash failed to meet an obligation</controllingFieldValue>
+                <valueName>Website was incorrect/ not updated/ conflicted with another website</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Monash failed to meet an obligation</controllingFieldValue>
+                <valueName>Monash system/process fail</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Monash met all obligations</controllingFieldValue>
+                <valueName>Customer expectations could not be met</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Monash met all obligations</controllingFieldValue>
+                <valueName>Customer was unaware/mistaken</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>Monash met all obligations</controllingFieldValue>
+                <valueName>Customer did not provide a reason for lower score</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Error_type__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field used store type for the error</description>
+        <label>Error type</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Monash failed to meet an obligation</fullName>
+                    <default>false</default>
+                    <label>Monash failed to meet an obligation</label>
+                </value>
+                <value>
+                    <fullName>Monash met all obligations</fullName>
+                    <default>false</default>
+                    <label>Monash met all obligations</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Officer_TC_Faculty_Other_Sources__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Looks up on the User assigned to the Coaching Opportunity</description>
+        <label>Officer/TC/Faculty/Other Sources</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Coaching_Opportunities12</relationshipName>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Process_Owner__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Name of the Process Owner</description>
+        <externalId>false</externalId>
+        <label>Process Owner</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Source__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field used store the Source</description>
+        <label>Source</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>QA Queue</fullName>
+                    <default>false</default>
+                    <label>QA Queue</label>
+                </value>
+                <value>
+                    <fullName>SET BAU</fullName>
+                    <default>false</default>
+                    <label>SET BAU</label>
+                </value>
+                <value>
+                    <fullName>Surveys</fullName>
+                    <default>false</default>
+                    <label>Surveys</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Summary_of_error__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field used store the Error Summary</description>
+        <label>Summary of error</label>
+        <length>32768</length>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Survey__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Field used store the linked survey</description>
+        <label>Survey</label>
+        <referenceTo>Survey__c</referenceTo>
+        <relationshipLabel>Coaching Opportunities</relationshipLabel>
+        <relationshipName>Coaching_Opportunities5</relationshipName>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>TC_TL_Final_Comments__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <complianceGroup>GDPR</complianceGroup>
+        <description>Field to capture comments for Coaching Opportunities</description>
+        <label>TC/TL Final Comments</label>
+        <length>131072</length>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>TC_TL_actions_to_be_taken__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field used store actions to be done by the team lead or team co-ordinator</description>
+        <label>TC/TL actions to be taken</label>
+        <length>32768</length>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Html</type>
+        <visibleLines>25</visibleLines>
+    </fields>
+    <fields>
+        <fullName>TC_TL_feedback_assigned_to__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Field used store feedback actions to be done by the team lead or team co-ordinator</description>
+        <label>TC/TL feedback assigned to</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Coaching_Opportunities6</relationshipName>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>TC_TL_final_response__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field used store actions to be done by the team lead or team co-ordinator as a final response</description>
+        <label>TC/TL final response</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Followed up with student</fullName>
+                    <default>false</default>
+                    <label>Followed up with student</label>
+                </value>
+                <value>
+                    <fullName>Provided coaching feedback</fullName>
+                    <default>false</default>
+                    <label>Provided coaching feedback</label>
+                </value>
+                <value>
+                    <fullName>Followed up with student &amp; Provided coaching feedback</fullName>
+                    <default>false</default>
+                    <label>Followed up with student &amp; Provided coaching feedback</label>
+                </value>
+                <value>
+                    <fullName>Escalated</fullName>
+                    <default>false</default>
+                    <label>Escalated</label>
+                </value>
+                <value>
+                    <fullName>Investigated - no error found</fullName>
+                    <default>false</default>
+                    <label>Investigated - no error found</label>
+                </value>
+                <value>
+                    <fullName>Unable to provide feedback</fullName>
+                    <default>false</default>
+                    <label>Unable to provide feedback</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Team_Coordinator__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Field used store the linked team co-ordinator</description>
+        <label>Team Coordinator</label>
+        <referenceTo>User</referenceTo>
+        <relationshipName>Coaching_Opportunities10</relationshipName>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <label>Coaching Opportunities</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>Enquiry_Number__c</columns>
+        <columns>NAME</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>Officer_TC_Faculty_Other_Sources__c</columns>
+        <columns>Team_Coordinator__c</columns>
+        <columns>TC_TL_actions_to_be_taken__c</columns>
+        <columns>Error_Reason__c</columns>
+        <columns>Error_type__c</columns>
+        <columns>TC_TL_feedback_assigned_to__c</columns>
+        <columns>TC_TL_final_response__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All Coaching Opportunities</label>
+    </listViews>
+    <listViews>
+        <fullName>All_Open_Coaching_Opportunities</fullName>
+        <columns>Enquiry_Number__c</columns>
+        <columns>NAME</columns>
+        <columns>OWNER.FIRST_NAME</columns>
+        <columns>OWNER.LAST_NAME</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>Officer_TC_Faculty_Other_Sources__c</columns>
+        <columns>Team_Coordinator__c</columns>
+        <columns>TC_TL_actions_to_be_taken__c</columns>
+        <columns>Error_Reason__c</columns>
+        <columns>Error_type__c</columns>
+        <columns>TC_TL_feedback_assigned_to__c</columns>
+        <columns>TC_TL_final_response__c</columns>
+        <columns>LAST_UPDATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>TC_TL_final_response__c</field>
+            <operation>notContain</operation>
+            <value>Provided coaching feedback,Followed up with student &amp; Provided coaching feedback,Investigated - no error found</value>
+        </filters>
+        <label>All Open Coaching Opportunities</label>
+    </listViews>
+    <listViews>
+        <fullName>All_Open_Coaching_Opportunities_no_FR</fullName>
+        <columns>Enquiry_Number__c</columns>
+        <columns>NAME</columns>
+        <columns>OWNER.FIRST_NAME</columns>
+        <columns>OWNER.LAST_NAME</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>Officer_TC_Faculty_Other_Sources__c</columns>
+        <columns>Team_Coordinator__c</columns>
+        <columns>TC_TL_actions_to_be_taken__c</columns>
+        <columns>Error_Reason__c</columns>
+        <columns>Error_type__c</columns>
+        <columns>TC_TL_feedback_assigned_to__c</columns>
+        <columns>TC_TL_final_response__c</columns>
+        <columns>LAST_UPDATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>TC_TL_final_response__c</field>
+            <operation>notEqual</operation>
+            <value>Followed up with student,Provided coaching feedback,Followed up with student &amp; Provided coaching feedback,Escalated,Investigated - no error found,Unable to provide feedback</value>
+        </filters>
+        <label>All Open Coaching Opportunities - no FR</label>
+    </listViews>
+    <nameField>
+        <label>Coaching Opportunities Name</label>
+        <trackHistory>false</trackHistory>
+        <type>Text</type>
+    </nameField>
+    <pluralLabel>Coaching Opportunities</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>Private</sharingModel>
+    <validationRules>
+        <fullName>Error_Reason_Check</fullName>
+        <active>true</active>
+        <description>If a user is a selected in &quot;Officer TC Faculty Other Sources&quot;, then a value must be supplied in &quot;Error Reason&quot;</description>
+        <errorConditionFormula>NOT(ISBLANK(Officer_TC_Faculty_Other_Sources__c)) &amp;&amp; ISPICKVAL(Error_Reason__c, &quot;&quot;)</errorConditionFormula>
+        <errorMessage>Please select &apos;Error reason&apos; before proceeding.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Error_Type_Check</fullName>
+        <active>true</active>
+        <description>If a user is a selected in &quot;Officer TC Faculty Other Sources&quot;, then a value must be supplied in &quot;Error Type&quot;</description>
+        <errorConditionFormula>NOT(ISBLANK(Officer_TC_Faculty_Other_Sources__c)) &amp;&amp; ISPICKVAL(Error_type__c, &quot;&quot;)</errorConditionFormula>
+        <errorMessage>Please select &apos;Error type&apos; before proceeding</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Process_Owner_Check</fullName>
+        <active>true</active>
+        <description>If the Responsible User is empty &amp; Team Coordinator is empty then process Owner should have a value</description>
+        <errorConditionFormula>ISBLANK(Officer_TC_Faculty_Other_Sources__c) &amp;&amp; ISBLANK(Process_Owner__c)</errorConditionFormula>
+        <errorMessage>Process Owner OR Officer not selected. Please check if correct.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Team_Coord_Check</fullName>
+        <active>true</active>
+        <description>If a user is a selected in &quot;Officer TC Faculty Other Sources&quot;, then a value must be supplied in &quot;Team Coordinator&quot;</description>
+        <errorConditionFormula>NOT(ISBLANK(Officer_TC_Faculty_Other_Sources__c)) &amp;&amp; ISBLANK(Team_Coordinator__c)</errorConditionFormula>
+        <errorMessage>Team Coordinator not selected. Please check if correct.</errorMessage>
+    </validationRules>
+    <visibility>Public</visibility>
+</CustomObject>

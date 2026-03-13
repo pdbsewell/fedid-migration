@@ -1,0 +1,29 @@
+<!--
+  @File Name          : offerWIzardACPWrapper.cmp
+  @Description        : 
+  @Author             : jasmin.rudio@monash.edu
+  @Group              : Offer
+  @Last Modified By   : jasmin.rudio@monash.edu
+  @Last Modified On   : 3/5/2020, 1:58:22 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    3/5/2020   jasmin.rudio@monash.edu     Initial Version
+-->
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" >
+    <ltng:require styles="{!$Resource.ModalWidthCSS}"/>
+	<aura:attribute name="opptyRecord" type="Object"/>
+    <aura:attribute name="recordLoadError" type="String"/>
+    
+    <force:recordData aura:id="opptyLoader"
+        recordId="{!v.recordId}"
+        fields="Name,PrimaryContact__c"
+        targetFields="{!v.opptyRecord}"
+        targetError="{!v.recordLoadError}"
+    />    
+    <aura:if isTrue="{!v.opptyRecord}">
+        <c:offerWizard 
+            recordId="{!v.opptyRecord.PrimaryContact__c}"  
+            opptyId="{!v.recordId}" 
+            onclose="{!c.closeModal}"/>
+    </aura:if>
+</aura:component>

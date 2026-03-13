@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>defines mappings that enable copying of information from a Task &apos;who&apos; (Contact) to the task record itself, when the task is of a specific record type. This enables some reporting not possible without information being copied to the activity record itself, such as for MonTrack reporting purposes.</description>
+    <fields>
+        <fullName>Contact_field_API_name__c</fullName>
+        <description>field on contact to be copied</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>API name (not label) of Contact field to be copied over to Task record</inlineHelpText>
+        <label>Contact field API name</label>
+        <length>100</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Task_Record_Type__c</fullName>
+        <description>Record type of Task record that should use this mapping. Allows custom metadata to map different fields based on record type of the Task record itself.</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Record type (API Name not label ) of Task record that should use this mapping. Allows custom metadata to map different fields based on record type of the Task record itself.</inlineHelpText>
+        <label>Task Record Type API Name</label>
+        <length>100</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Task_field_API_name__c</fullName>
+        <description>API name (not label) of field on Task record that Contact field will be copied to</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>API name (not label) of field on Task record that Contact field will be copied to</inlineHelpText>
+        <label>Task field API name</label>
+        <length>100</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Contact to Task Field Mapping</label>
+    <listViews>
+        <fullName>All</fullName>
+        <columns>MasterLabel</columns>
+        <columns>Contact_field_API_name__c</columns>
+        <columns>Task_field_API_name__c</columns>
+        <columns>Task_Record_Type__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>All</label>
+    </listViews>
+    <pluralLabel>Contact to Task Field  Mappings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

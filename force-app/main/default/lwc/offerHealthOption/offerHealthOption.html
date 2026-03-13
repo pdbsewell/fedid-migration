@@ -1,0 +1,51 @@
+<!--
+  @File Name          : offerHealthOption.html
+  @Description        : 
+  @Author             : jasmin.rudio@monash.edu
+  @Group              : 
+  @Last Modified By   : jasmin.rudio@monash.edu
+  @Last Modified On   : 2/18/2020, 3:44:49 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    2/18/2020   jasmin.rudio@monash.edu     Initial Version
+-->
+<template>
+  <div class="form__section__item health-option slds-grid">
+    <span class="slds-form-element__control slds-col slds-size_1-of-1">
+      <span class="slds-radio">
+        <!-- TODO why has teh selection stoppped working check the std formatting / html for this-->
+        <input
+          type="radio"
+          id={radioOption.value}
+          value={radioOption.value}
+          name="healthOptions"
+          checked={radioSelected}
+          disabled={radioDisabled}
+          onchange={handleSelectChange}
+        />
+        <label class="slds-radio__label slds-grid" for={radioOption.value}>
+                <span class="slds-col slds-medium-size_5-of-6 slds-small-size_4-of-6">
+                                <span class="slds-radio_faux health-option__slds-radio_faux"></span>
+                                <span class="health-option__detail slds-form-element"
+                                ><b>{radioOption.label}</b><span if:true={radioOption.description}> {radioOption.description}</span></span
+                              >
+                        </span>
+                        <span class="slds-col slds-medium-size_1-of-6 slds-small-size_2-of-6">
+                                        {AUD}
+                                        <lightning-formatted-number
+                                        value={radioOption.price}
+                                        format-style="decimal"
+                                        minimum-fraction-digits="2"
+                                        currency-code="AUD"
+                                      ></lightning-formatted-number>
+                                                
+                                </span>                                         
+      
+                
+          
+          
+        </label>
+      </span>
+    </span>
+  </div>
+</template>

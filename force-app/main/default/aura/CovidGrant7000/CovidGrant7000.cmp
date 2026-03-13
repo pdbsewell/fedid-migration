@@ -1,0 +1,138 @@
+<!--
+* @author
+* @date
+* @group Monash Connect
+* @description Covid Grant Form - Submits case to salesforce, plugged in to https://connect.monash.edu/s/covidgrant
+* @revision  -  - Initial Create <br/>
+ -->
+
+<aura:component description="CovidGrant7000" implements="forceCommunity:availableForAllPageTypes" controller="LightningCreateCaseController" access="global">
+    <ltng:require scripts="{!$Resource.jQuery321}" afterScriptsLoaded="{!c.init}"/>
+
+    <aura:attribute name="newCase" type="case"
+                    default="{ 'sobjectType': 'Case',
+                             'Description':'',
+                             'SuppliedPhone':'',
+                             'Supplied_Country_of_Residence__c':'',
+                             'Amount__c':'',
+                             'Intl_Student_Consent__c':''
+                             }"/>
+    <aura:attribute name="parentId" type="Id"/>
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+    <aura:attribute name="firstName" type="String" default=""/>
+    <aura:attribute name="userType" type="String" default=""/>
+    <aura:attribute name="amountNeeded" type="Integer" default=""/>
+    <aura:attribute name="hasExistingApplications" type="Boolean" default="false"/>
+    <aura:attribute name="disableSubmit" type="Boolean" default="fa"/>
+    <aura:attribute name="isButtonClicked" type="boolean" default="false"/>
+    <aura:attribute name="filesProcessed" type="Integer" default="0"/>
+    <aura:attribute name="fileList" type="Object"/>
+    <aura:attribute name="selectedFiles" type="String[]"/>
+    <aura:attribute name="allowedFileTypes" type="String[]"/>
+    <aura:attribute name="consentCenterLink" type="Boolean" default="false"/>
+    <aura:attribute name="consentForm" type="Boolean" default="false"/>
+
+    <!-- grant variable -->
+    <aura:attribute name="covidGrantAmount" type="String" default="7000"/>
+
+    <!-- spinner -->
+    <aura:if isTrue="{!v.showSpinner}">
+        <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+            <div class="slds-modal__container" aura:id="block">
+                <div class="slds-modal__header spinner-text">
+                    {!$Label.c.Enquiry_Creation_Message}<c:Spinner type="bubbles" width="64" height="64" color="blue" show="{!v.showSpinner}" />
+                </div>
+            </div>
+        </div>
+        <div class="slds-backdrop slds-backdrop--open"></div>
+    </aura:if>    
+
+    <div class="slds-grid slds-wrap slds-p-bottom_xx-large">
+        <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+            <div class="slds-large-m-horizontal_xx-large content-responsive">
+                <div class="slds-large-m-horizontal_x-large">
+                    
+                    <!-- Form Header -->
+                    <c:CovidGrantHeader covidGrantAmount="{!v.covidGrantAmount}" newCase="{!v.newCase}" />
+                     
+                    <!-- Eligibility -->
+                    <c:CovidGrantEligibility covidGrantAmount="{!v.covidGrantAmount}" newCase="{!v.newCase}" />
+                    
+                    <!-- Personal Details -->
+                    <c:CovidGrantPersonalDetails aura:id="personaldetails" covidGrantAmount="{!v.covidGrantAmount}" newCase="{!v.newCase}" />
+                    
+                    <!-- Tell us about your situation -->
+                    <c:CovidGrantDescription covidGrantAmount="{!v.covidGrantAmount}" newCase="{!v.newCase}" />
+
+                    <!-- Financial impacts -->
+                    <c:CovidGrantFinancialImpact covidGrantAmount="{!v.covidGrantAmount}" newCase="{!v.newCase}" />
+                    
+                    <!-- Supporting Documents -->
+                    <c:CovidGrantSupportingDocs covidGrantAmount="{!v.covidGrantAmount}" newCase="{!v.newCase}" />
+
+                    <!-- Upload Documents -->
+                    <div>
+                        <div>
+                            <div class="sq-form-question">
+                                <!-- <label class="sq-form-question-title"><lightning:formattedRichText value="{!$Label.c.CovidGrantSupportingDocsNotes}" /></label>                                
+                            	<p><lightning:formattedRichText value="{!$Label.c.CovidGrantSupportingDocsFileTypes}" /></p> -->
+                                <div>
+                                    <div class="sq-form-question-answer">
+                                        <aura:iteration items="{!v.selectedFiles}" var="selectedFiles">
+                                            <div>
+                                                <lightning:buttonIcon iconName="utility:attach" size="small" class="slds-m-bottom_xx-small"/>
+                                                {!selectedFiles}
+                                                <lightning:buttonIcon iconName="utility:delete" size="small" class="slds-m-bottom_xx-small" onclick="{!c.removeFile}" value="{!selectedFiles}"/>
+                                            </div>
+                                        </aura:iteration>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="slds-size_12-of-12 select-border" id="uploadDiv">
+                                <div class="uploadIcon slds-align_absolute-center">
+                                    <img  src="{!$Resource.uploadIcon}" class="uploadIcon" alt=""/>
+                                </div>
+                                <div class="slds-align_absolute-center">
+                                    <span class="drop-file-text">Drop files here</span>
+                                </div>
+                                <div class="slds-align_absolute-center">
+                                    <span class="drop-file-text">or</span>
+                                </div>
+                                <div class="slds-align_absolute-center slds-p-around_small">
+                                    <input
+                                            style="display:none"
+                                            data-buttonText="Select files"
+                                            label = "Drop files here"
+                                            labelClass = "slds-assistive-text"
+                                            id="file-upload"
+                                            type="file"
+                                            class="file"
+                                            aura:id="file"
+                                            multiple="true"
+                                            onchange="{!c.captureupload}"/>
+                                    <button id="uploadFile" class="select-file-btn hover-state">Select files</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Next steps -->
+                    <c:CovidGrantNextSteps covidGrantAmount="{!v.covidGrantAmount}" newCase="{!v.newCase}" />
+
+                    <!-- Agreement and consent -->
+                    <c:CovidGrantAgreementConsent covidGrantAmount="{!v.covidGrantAmount}" newCase="{!v.newCase}" />
+                    
+                    <!-- Submit Button -->
+                    <div>
+                        <div>
+                            <ui:button aura:id="submitBtn" disabled="{!v.disableSubmit}" 
+                                       class="Save submit-btn sq-form-submit" label="Submit" press="{!c.save}" />
+                        </div>
+                        <div class="clear"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

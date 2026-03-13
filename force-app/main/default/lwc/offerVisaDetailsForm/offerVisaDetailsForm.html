@@ -1,0 +1,78 @@
+<!--
+  @File Name        : offerVisaDetailsForm.html
+  @Description      : 
+  @Author           : JM
+  @Group            : 
+  @Revisions
+                    26.AUG.2020 - JM - Initial Created
+-->
+<template>
+    <template if:true={spinner}>
+        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </template>
+    <template if:true={hasRendered}>
+        <p><b>Please confirm your Visa details</b></p>
+        <br/>
+        <p>We need to confirm your Visa details that you provided in your application.</p>
+        <br/>
+        <p>Please review the information below to ensure that your answers are current and correct.</p>
+        <br/>
+        <p><b>Visa Status</b></p>
+        <template if:true={objectInfo.data}>
+            <div class="slds-form">
+                <template if:true={AusVisaStatusTypePicklistValues.data}>
+                    <lightning-combobox name="VisaDetails_AustralianVisaStatus__c"
+                                        label="Do you currently hold an Australian visa, or will you apply for an Australian Student Visa?"
+                                        value={visaDetailsInfo.VisaDetails_AustralianVisaStatus__c}
+                                        placeholder="Please indicate your Australian Visa Status"
+                                        class="select-option-box"
+                                        options={AusVisaStatusTypePicklistValues.data.values}
+                                        onchange={handlePicklistChange}>
+                    </lightning-combobox>
+                    <br/>
+                </template>
+                <template if:true={showSubInformation}>
+                    <template if:true={showVisaNumberStartDateEndDate}>
+                        <lightning-input type="text"
+                                        label="Visa Number"
+                                        name="VisaDetails_VisaNumber__c"
+                                        value={offerRecord.VisaDetails_VisaNumber__c.value}
+                                        placeholder="Please enter your visa number"
+                                        onchange={handleTextChange}>
+                        </lightning-input>
+                        <div class="slds-form-element_compound">
+                            <div class="slds-form-element__row">
+                                <div class="slds-size_1-of-2">
+                                    <lightning-input type="date"
+                                                    label="Visa Start Date"
+                                                    name="VisaDetails_StartDate__c"
+                                                    value={offerRecord.VisaDetails_StartDate__c.value}
+                                                    onchange={handleDateChange}
+                                                    style="padding-left: 0rem;">
+                                    </lightning-input>
+                                </div>
+                                <div class="slds-size_1-of-2">
+                                    <lightning-input type="date"
+                                                    label="Visa End Date"
+                                                    name="VisaDetails_EndDate__c"
+                                                    value={offerRecord.VisaDetails_EndDate__c.value}
+                                                    onchange={handleDateChange}
+                                                    style="padding-left: 0rem;">
+                                    </lightning-input>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <template if:true={immigrationOfficeLabel}>
+                        <lightning-input type="text"
+                                        label={immigrationOfficeLabel}
+                                        name="VisaDetails_ImmigrationOffice__c"
+                                        value={offerRecord.VisaDetails_ImmigrationOffice__c.value}
+                                        onchange={handleTextChange}>
+                        </lightning-input>
+                    </template>
+                </template>
+            </div>
+        </template>
+    </template>
+</template>

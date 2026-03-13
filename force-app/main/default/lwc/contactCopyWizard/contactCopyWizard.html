@@ -1,0 +1,457 @@
+<template>
+    <div class="slds-card">
+
+        <!-- Spinner -->
+        <template if:true={showSpinner}> 
+            <div class="slds-is-relative" style="min-height: 200px;">
+                <lightning-spinner alternative-text="Loading" class="spins" variant="brand" size="large"></lightning-spinner>
+            </div>            
+        </template>
+
+        <template if:false={showSpinner}>
+            <div class="slds-p-around--medium">
+                <div class="slds-grid slds-wrap slds-gutters">
+                    <!-- Duplicate Rule dropdown -->
+                    <div class="slds-col slds-size--2-of-12">
+                        <lightning-combobox
+                            name="Duplicate Rule"
+                            label="Duplicate Rule"
+                            value={ruleValue}
+                            placeholder="Select a Duplicate Rule"
+                            options={duplicateRuleOptions}
+                            onchange={handleRuleChange}>
+                        </lightning-combobox>
+                    </div>
+
+                    <!-- Business Unit dropdown -->
+                    <div class="slds-col slds-size--2-of-12">
+                        <lightning-combobox
+                            name="Business Unit"
+                            label="Business Unit"
+                            value={businessUnitValue}
+                            placeholder="Select a Business Unit"
+                            options={businessUnitOptions}
+                            onchange={handleBusinessUnitChange}>
+                        </lightning-combobox>
+                    </div>
+
+                    <div class="slds-m-top--large slds-col slds-size--3-of-12">
+                        <!-- Fetch/Refresh button -->
+                        <span>
+                            <lightning-button variant="brand" label="Fetch/Refresh" onclick={searchOnClick} icon-name="utility:search" title="Search for Duplicates"></lightning-button>
+                        </span>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <!-- Top Save button -->
+                        <template if:true={isContactsMarkedForUpdate}>
+                            <span>
+                                <lightning-button variant="brand" label="Save" onclick={saveChanges} icon-name="utility:save" title="Save"></lightning-button>
+                            </span>
+                        </template>
+                    </div>
+                    
+                    <!-- Top Stats Labels -->
+                    <div class="slds-m-top--large slds-col slds-size--4-of-12">
+                        <div class="slds-p-top_xxx-small">
+                            &nbsp;&nbsp;<span class="slds-badge slds-badge_lightest">Total Duplicate Pairs :&nbsp;{totalDRSRecords}</span>
+                            &nbsp;<span class="slds-badge slds-theme_warning">Contacts Marked For Update :&nbsp;{totalContactsForUpdate}</span>
+                        </div>
+                    </div>
+
+                    <!-- Top Page Size button -->
+                    <div class="slds-col slds-size--1-of-12">
+                        <lightning-combobox
+                            name="Page Size"
+                            label="Page Size"
+                            value={pageSizeValue}
+                            placeholder="Select a Page Size"
+                            options={pageSizeOptions}
+                            onchange={handlePageSizeChange}>
+                        </lightning-combobox>
+                    </div>
+                </div>
+
+                <!-- 'Excluded from merge' info -->
+                <div class="slds-grid slds-wrap slds-gutters slds-p-top--x-small">
+                    <div class="slds-col slds-size--2-of-12">
+                        <span >
+                            <lightning-icon icon-name="utility:info" alternative-text="Excluded from merge" variant="brand"
+                                            title="Excluded from merge" size="small"></lightning-icon>
+                        </span>&nbsp;&nbsp;
+                        <span> Excluded from merge </span>
+                    </div>
+                </div>
+
+                <!-- Instructions/Considerations -->
+                <div class="slds-grid slds-wrap slds-gutters slds-p-top--x-small slds-p-left--small">
+                    <span><b>Instructions/Considerations : </b></span>
+                </div>
+                <div class="slds-grid slds-wrap slds-gutters slds-p-top--x-small slds-p-left--x-small">
+                    <ul class="slds-list_dotted">
+                        <li>Select the fields that needs to be copied</li>
+                        <li>Clicking Save will update <b>ONLY</b> the fields highlighted in <span style="background-color:#45c65a;">green</span></li>
+                        <li>Contacts with exactly 2 duplicates are listed</li>
+                    </ul>
+                </div>
+            </div>
+
+            <template if:true={isDataPresent}>
+                <table id="tab1" class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered">
+                    <thead>
+                        <th>DRS Name</th>
+                    </thead>
+                    <tbody >
+                        <template for:each={myList} for:item="drsitem" for:index="indexVar">
+                            <tr key={drsitem.key}> 
+                                <!-- DRS Name -->
+                                <td data-label={drsitem.drsname}>
+                                    <span>
+                                        <b><a target="_blank" href={drsitem.drsId}>{drsitem.drsname}</a></b>
+                                    </span>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <span >
+                                        <lightning-button variant="neutral"
+                                                        label="Open in Contact Merge App"
+                                                        onclick={navigateToContactMergeApp}
+                                                        title="Open in Contact Merge App"
+                                                        disabled={drsitem.updated}
+                                                        data-id={indexVar}>
+                                        </lightning-button>
+
+                                        <template if:true={drsitem.updated}>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <lightning-button variant="brand"
+                                                            label="Reset"
+                                                            onclick={reset}
+                                                            title="Reset"
+                                                            data-id={indexVar}>
+                                            </lightning-button>
+                                        </template>
+
+                                        <template if:true={drsitem.excludeFromMerge}>
+                                            &nbsp;&nbsp;&nbsp;
+                                            <lightning-icon icon-name="utility:info" alternative-text="Excluded from merge" variant="brand"
+                                                title="Excluded from merge" size="small"></lightning-icon>
+                                        </template>
+                                    </span>
+                                </td>                                    
+                            </tr>
+                            <tr key={drsitem.key}>
+                                <td colspan="3">
+                                    <table id={drsitem.key} class="slds-table slds-table_cell-buffer slds-table_bordered slds-table_col-bordered slds-table_fixed-layout">
+                                        <!-- Field Headers -->
+                                        <thead>
+                                            <th>Legal First Name</th>
+                                            <th>Preferred First Name</th>
+                                            <th>Legal Last Name</th>
+                                            <th>Email</th>
+                                            <th>Personal Email</th>
+                                            <th>Mobile</th>
+                                            <th>Date of Birth</th>
+                                            <th>Person Id</th>
+                                            <th>Gender</th>
+                                            <th>Pronoun</th>
+                                            <th>Profile</th>
+                                            <th>RecordType</th>
+                                        </thead>
+                                        <tbody >
+                                            <template for:each={drsitem.contact} for:item="conitem">
+                                                <tr key={conitem.key}> 
+                                                    <!-- Legal First Name-->
+                                                    <td data-label="Legal First Name" bgcolor={conitem.firstname_bgcolor}>
+                                                        <span class="slds-radio slds-truncate" title={conitem.firstname}>
+                                                            <input type="radio" 
+                                                                    name={conitem.firstname_rname} 
+                                                                    id={conitem.firstname_rid} 
+                                                                    data-field-name={conitem.firstname_fieldname} 
+                                                                    data-field-value={conitem.firstname} 
+                                                                    data-contact-key={conitem.key} 
+                                                                    data-contact-personid={conitem.personid}
+                                                                    data-contact-profile={conitem.profile}
+                                                                    onclick={handleClick} 
+                                                                    checked="" />
+                                                            <label class="slds-radio__label" for={conitem.firstname_rid}>
+                                                                <span class="slds-radio_faux"></span>&nbsp;&nbsp;
+                                                                <span class="slds-form-element__label">{conitem.firstname}</span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+
+                                                    <!-- Preferred First Name-->
+                                                    <td data-label="Preferred First Name" bgcolor={conitem.preferredname_bgcolor}>
+                                                        <span class="slds-radio slds-truncate" title={conitem.preferredname}>
+                                                            <input type="radio" 
+                                                                    name={conitem.preferredname_rname} 
+                                                                    id={conitem.preferredname_rid} 
+                                                                    data-field-name={conitem.preferredname_fieldname} 
+                                                                    data-field-value={conitem.preferredname} 
+                                                                    data-contact-key={conitem.key} 
+                                                                    data-contact-personid={conitem.personid} 
+                                                                    data-contact-profile={conitem.profile} 
+                                                                    onclick={handleClick} 
+                                                                    checked="" />
+                                                            <label class="slds-radio__label" for={conitem.preferredname_rid}>
+                                                                <span class="slds-radio_faux"></span>&nbsp;&nbsp;
+                                                                <span class="slds-form-element__label">{conitem.preferredname}</span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+
+                                                    <!-- Legal Last Name-->
+                                                    <td data-label="Legal Last Name" bgcolor={conitem.lastname_bgcolor}>    
+                                                        <span class="slds-radio slds-truncate" title={conitem.lastname}>                                
+                                                            <input type="radio" 
+                                                                    name={conitem.lastname_rname} 
+                                                                    id={conitem.lastname_rid} 
+                                                                    data-field-name={conitem.lastname_fieldname} 
+                                                                    data-field-value={conitem.lastname} 
+                                                                    data-contact-key={conitem.key} 
+                                                                    data-contact-personid={conitem.personid} 
+                                                                    data-contact-profile={conitem.profile} 
+                                                                    onclick={handleClick} 
+                                                                    checked="" />
+                                                            <label class="slds-radio__label" for={conitem.lastname_rid}>
+                                                                <span class="slds-radio_faux"></span>&nbsp;&nbsp;
+                                                                <!--span class="slds-form-element__label">{conitem.lastname}</span-->
+                                                                <span class="slds-form-element__label">
+                                                                    <b><a target="_blank" href={conitem.contactId}>{conitem.lastname}</a></b>
+                                                                </span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+        
+                                                    <!-- Email-->
+                                                    <td data-label="Email" bgcolor={conitem.email_bgcolor}>
+                                                        <span class="slds-radio slds-truncate" title={conitem.email}>
+                                                            <input type="radio" 
+                                                                    name={conitem.email_rname} 
+                                                                    id={conitem.email_rid} 
+                                                                    data-field-name={conitem.email_fieldname} 
+                                                                    data-field-value={conitem.email} 
+                                                                    data-contact-key={conitem.key} 
+                                                                    data-contact-personid={conitem.personid} 
+                                                                    data-contact-profile={conitem.profile} 
+                                                                    onclick={handleClick} 
+                                                                    checked="" />
+                                                            <label class="slds-radio__label" for={conitem.email_rid}>
+                                                                <span class="slds-radio_faux"></span>&nbsp;&nbsp;
+                                                                <span class="slds-form-element__label slds-truncate">{conitem.email}</span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+        
+                                                    <!-- Personal Email-->
+                                                    <td data-label="Personal Email" bgcolor={conitem.personalemail_bgcolor}>
+                                                        <span class="slds-radio slds-truncate" title={conitem.personalemail}>
+                                                            <input type="radio" 
+                                                                    name={conitem.personalemail_rname} 
+                                                                    id={conitem.personalemail_rid} 
+                                                                    data-field-name={conitem.personalemail_fieldname} 
+                                                                    data-field-value={conitem.personalemail} 
+                                                                    data-contact-key={conitem.key} 
+                                                                    data-contact-personid={conitem.personid} 
+                                                                    data-contact-profile={conitem.profile} 
+                                                                    onclick={handleClick} 
+                                                                    checked="" />
+                                                            <label class="slds-radio__label" for={conitem.personalemail_rid}>
+                                                                <span class="slds-radio_faux"></span>&nbsp;&nbsp;
+                                                                <span class="slds-form-element__label slds-truncate">{conitem.personalemail}</span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+        
+                                                    <!-- Mobile-->
+                                                    <td data-label="Mobile" bgcolor={conitem.mobilephone_bgcolor}>
+                                                        <span class="slds-radio slds-truncate" title={conitem.mobilephone}>
+                                                            <input type="radio" 
+                                                                    name={conitem.mobilephone_rname} 
+                                                                    id={conitem.mobilephone_rid} 
+                                                                    data-field-name={conitem.mobilephone_fieldname} 
+                                                                    data-field-value={conitem.mobilephone} 
+                                                                    data-contact-key={conitem.key} 
+                                                                    data-contact-personid={conitem.personid} 
+                                                                    data-contact-profile={conitem.profile} 
+                                                                    onclick={handleClick} 
+                                                                    checked="" />
+                                                            <label class="slds-radio__label" for={conitem.mobilephone_rid}>
+                                                                <span class="slds-radio_faux"></span>&nbsp;&nbsp;
+                                                                <span class="slds-form-element__label">{conitem.mobilephone}</span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+                                                    
+                                                    <!-- Date of Birth-->
+                                                    <td data-label="Date of Birth" bgcolor={conitem.dob_bgcolor}>
+                                                        <span class="slds-radio slds-truncate" title={conitem.dob}>
+                                                            <input type="radio" 
+                                                                    name={conitem.dob_rname} 
+                                                                    id={conitem.dob_rid} 
+                                                                    data-field-name={conitem.dob_fieldname} 
+                                                                    data-field-value={conitem.dob} 
+                                                                    data-contact-key={conitem.key} 
+                                                                    data-contact-personid={conitem.personid} 
+                                                                    data-contact-profile={conitem.profile} 
+                                                                    onclick={handleClick} 
+                                                                    checked="" />
+                                                            <label class="slds-radio__label" for={conitem.dob_rid}>
+                                                                <span class="slds-radio_faux"></span>&nbsp;&nbsp;
+                                                                <span class="slds-form-element__label">{conitem.dob}</span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+
+                                                    <!-- Person Id-->
+                                                    <td data-label="Person Id" bgcolor={conitem.personid_bgcolor}>
+                                                        <span class="slds-radio slds-truncate" title={conitem.personid}>
+                                                            <input type="radio" 
+                                                                    name={conitem.personid_rname} 
+                                                                    id={conitem.personid_rid} 
+                                                                    data-field-name={conitem.personid_fieldname} 
+                                                                    data-field-value={conitem.personid} 
+                                                                    data-contact-key={conitem.key} 
+                                                                    data-contact-personid={conitem.personid} 
+                                                                    data-contact-profile={conitem.profile} 
+                                                                    onclick={handleClick} 
+                                                                    disabled="True" 
+                                                                    checked="" />
+                                                            <label class="slds-radio__label" for={conitem.personid_rid}>
+                                                                <span class="slds-radio_faux"></span>&nbsp;&nbsp;
+                                                                <span class="slds-form-element__label">{conitem.personid}</span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+
+                                                    <!-- Gender-->
+                                                    <td data-label="Gender" bgcolor={conitem.gender_bgcolor}>
+                                                        <span class="slds-radio slds-truncate" title={conitem.gender}>
+                                                            <input type="radio" 
+                                                                    name={conitem.gender_rname} 
+                                                                    id={conitem.gender_rid} 
+                                                                    data-field-name={conitem.gender_fieldname} 
+                                                                    data-field-value={conitem.gender} 
+                                                                    data-contact-key={conitem.key} 
+                                                                    data-contact-personid={conitem.personid} 
+                                                                    data-contact-profile={conitem.profile} 
+                                                                    onclick={handleClick} 
+                                                                    checked="" />
+                                                            <label class="slds-radio__label" for={conitem.gender_rid}>
+                                                                <span class="slds-radio_faux"></span>&nbsp;&nbsp;
+                                                                <span class="slds-form-element__label">{conitem.gender}</span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+
+                                                    <!-- Pronoun-->
+                                                    <td data-label="Pronoun" bgcolor={conitem.pronoun_bgcolor}>
+                                                        <span class="slds-radio slds-truncate" title={conitem.pronoun}>
+                                                            <input type="radio" 
+                                                                    name={conitem.pronoun_rname} 
+                                                                    id={conitem.pronoun_rid} 
+                                                                    data-field-name={conitem.pronoun_fieldname} 
+                                                                    data-field-value={conitem.pronoun} 
+                                                                    data-contact-key={conitem.key} 
+                                                                    data-contact-personid={conitem.personid} 
+                                                                    data-contact-profile={conitem.profile} 
+                                                                    onclick={handleClick} 
+                                                                    checked="" />
+                                                            <label class="slds-radio__label" for={conitem.pronoun_rid}>
+                                                                <span class="slds-radio_faux"></span>&nbsp;&nbsp;
+                                                                <span class="slds-form-element__label">{conitem.pronoun}</span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+
+                                                    <!-- Contact Profile-->
+                                                    <td data-label="Profile" bgcolor={conitem.profile_bgcolor}>
+                                                        <span class="slds-radio slds-truncate" title={conitem.profile}>
+                                                            <input type="radio" 
+                                                                    name={conitem.profile_rname} 
+                                                                    id={conitem.profile_rid} 
+                                                                    data-field-name={conitem.profile_fieldname} 
+                                                                    data-field-value={conitem.profile} 
+                                                                    data-contact-key={conitem.key} 
+                                                                    data-contact-personid={conitem.personid} 
+                                                                    data-contact-profile={conitem.profile} 
+                                                                    disabled="True" 
+                                                                    onclick={handleClick} 
+                                                                    checked="" />
+                                                            <label class="slds-radio__label" for={conitem.profile_rid}>
+                                                                <span class="slds-radio_faux"></span>&nbsp;&nbsp;
+                                                                <span class="slds-form-element__label">{conitem.profile}</span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+
+                                                    <!-- Record Type-->
+                                                    <td data-label="RecordType" bgcolor={conitem.recordtype_bgcolor}>
+                                                        <span class="slds-radio slds-truncate" title={conitem.recordtype}>
+                                                            <input type="radio" 
+                                                                    name={conitem.recordtype_rname} 
+                                                                    id={conitem.recordtype_rid} 
+                                                                    data-field-name={conitem.recordtype_fieldname} 
+                                                                    data-field-value={conitem.recordtype} 
+                                                                    data-contact-key={conitem.key} 
+                                                                    data-contact-personid={conitem.personid} 
+                                                                    data-contact-profile={conitem.profile} 
+                                                                    disabled="True" 
+                                                                    onclick={handleClick} 
+                                                                    checked="" />
+                                                            <label class="slds-radio__label" for={conitem.recordtype_rid}>
+                                                                <span class="slds-radio_faux"></span>&nbsp;&nbsp;
+                                                                <span class="slds-form-element__label">{conitem.recordtype}</span>
+                                                            </label>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </template>
+                                        </tbody>          
+                                    </table>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+        
+                <div class="slds-card">
+                    <div class="slds-p-around--x-small">
+                        <div class="slds-grid slds-wrap slds-gutters">
+                            <div class="slds-col slds-size--5-of-12"></div>
+
+                            <!-- Bottom Save button -->
+                            <template if:true={isContactsMarkedForUpdate}>
+                                <div class="slds-m-top--large slds-col slds-size--1-of-12">
+                                    <lightning-button variant="brand" label="Save" onclick={saveChanges} icon-name="utility:save" title="Save"></lightning-button>
+                                </div>
+                            </template>
+
+                            <template if:false={isContactsMarkedForUpdate}>
+                                <div class="slds-m-top--large slds-col slds-size--1-of-12"></div>
+                            </template>
+
+                            <div class="slds-col slds-size--1-of-12"></div>
+
+                            <!-- Bottom Stats Labels -->
+                            <div class="slds-m-top--large slds-col slds-size--4-of-12">
+                                <div class="slds-p-top_xxx-small">
+                                    &nbsp;&nbsp;<span class="slds-badge slds-badge_lightest">Total Duplicate Pairs :&nbsp;{totalDRSRecords}</span>
+                                    &nbsp;<span class="slds-badge slds-theme_warning">Contacts Marked For Update :&nbsp;{totalContactsForUpdate}</span>
+                                </div>
+                            </div>
+
+                            <!-- Bottom Page Size button -->
+                            <div class="slds-col slds-size--1-of-12">
+                                <lightning-combobox
+                                    name="Page Size"
+                                    label="Page Size"
+                                    value={pageSizeValue}
+                                    placeholder="Select a Page Size"
+                                    options={pageSizeOptions}
+                                    onchange={handlePageSizeChange}>
+                                </lightning-combobox>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </template>
+    </div>
+    
+</template>

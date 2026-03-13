@@ -1,0 +1,139 @@
+<!--- Created by idha0002 on 29/04/2021--->
+<!-- Account Merge Wizard -->
+<template>
+    <template if:true={openModal}>
+        <section class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-modal__title slds-hyphenate">Account Merge</h2> 
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" >
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </header>
+                
+                <div class="slds-modal__content .slds-is-absolute slds-p-around_medium">
+                    <!--LOADING SPINNER-->
+                    <template if:true={showSpinner}> 
+                        <div class="slds-is-relative" style="min-height: 200px;">
+                            <lightning-spinner alternative-text="Loading" class="spins" variant="brand" size="large"></lightning-spinner>
+                        </div>            
+                    </template>
+                    <template if:false={showSpinner}>
+                        <template if:true={isAdminUser}> 
+                            <lightning-layout-item size="9">
+                                <lightning-layout multiple-rows="true">
+                                    <lightning-layout-item size="12" padding="around-small">
+                                        <lightning-card>
+                                            <lightning-layout slot="actions">
+                                                <!-- CARD BUTTONS -->
+                                                <lightning-layout-item padding="around-small">
+                                                    <lightning-button label="Unselect All" variant="neutral" 
+                                                        onclick={toggleAllSelected} icon-name="utility:unlinked" title="Select / Deselect All duplicate records"></lightning-button>
+                                                </lightning-layout-item>
+                                                <lightning-layout-item padding="around-small">
+                                                    <lightning-button label="Merge" variant="neutral" onclick={mergeOnClick} icon-name="utility:process" title="Begin Processing"></lightning-button>
+                                                </lightning-layout-item>
+                                            </lightning-layout>
+                                        </lightning-card>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                        </template>                    
+                    
+                        <div class="slds-p-around_x-small">
+                            <table id="data-table" class=" tableClass slds-table slds-table_cell-buffer slds-table_bordered">
+                                <thead>
+                                    <tr class="">
+                                        <template if:true={isAdminUser}> 
+                                            <th style="width:10%" scope="col">
+                                                <div class="columnWrapper" title="">Is Primary</div>
+                                            </th>
+                                            <th style="width:10%" scope="col">
+                                                <div class="columnWrapper" title="">Included</div>
+                                            </th>
+                                        </template>
+                                        <th style="width:20%" scope="col"> 
+                                            <div class="columnWrapper" title="">Name</div>
+                                        </th>
+                                        <th style="width:15%" scope="col">
+                                            <div class="columnWrapper" title="">Mailing Address</div>
+                                        </th>
+                                        <th style="width:10%" scope="col">
+                                            <div class="columnWrapper" title="">Website</div>
+                                        </th>
+                                        <th style="width:20%" scope="col">
+                                            <div class="columnWrapper" title="">Industry Classification (SIC4)</div>
+                                        </th>
+                                        <th style="width:10%" scope="col">
+                                            <div class="columnWrapper" title="">DUNS Number</div>
+                                        </th>
+                                        <th style="width:15%" scope="col">
+                                            <div class="columnWrapper" title="">Account Owner</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <template for:each = {data} for:item = "item" for:index="indexVar">
+                                        <tr key={item.key} class="slds-hint-parent">
+                                            <template if:true={isAdminUser}>
+                                                <td class="columnWrapper" data-label=""> 
+                                                    <a data-id={item.id} onclick={handlePrimaryChange}>
+                                                        <input id={item.id} checked={item.isPrimary} type="radio"/>
+                                                    </a>
+                                                </td>
+                                                <td class="columnWrapper" data-label="">
+                                                    <a data-id={item.id} onclick={handleIsIncludedChange}>
+                                                        <input id={item.id} type="checkbox" checked={item.isIncluded} >
+                                                    </a>
+                                                </td>
+                                            </template>
+                                            <td class="columnWrapper" data-label="">
+                                                <a data-id={item.id} onclick={handleAccountClick}>
+                                                    {item.name}
+                                                </a>
+                                            </td>
+                                            <td class="columnWrapper" data-label="delete">
+                                                {item.mailingAddress}
+                                            </td>
+                                            <td class="columnWrapper" data-label="delete">
+                                                {item.website}
+                                            </td>
+                                            <td class="columnWrapper" data-label="delete">
+                                                {item.industryClassification}
+                                            </td>
+                                            <td class="columnWrapper" data-label="delete">
+                                                {item.dunsNumber}
+                                            </td>
+                                            <td class="columnWrapper" data-label="delete"> 
+                                                {item.owner}
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div> 
+    </template>
+    <template if:true={hasData}>
+        <div class="slds-box slds-theme_default">
+            <lightning-layout>
+                <lightning-layout-item>
+                    <lightning-icon icon-name="standard:account" size="small"></lightning-icon>
+                </lightning-layout-item> 
+                <lightning-layout-item padding="horizontal-small">
+                    <div class="slds-card__header-title">We found {duplicateCount} potential duplicates of this Account.</div> 
+                    <a onclick={showModal}>View Duplicates</a>
+                </lightning-layout-item>        
+            </lightning-layout>
+        </div>
+    </template>
+</template>

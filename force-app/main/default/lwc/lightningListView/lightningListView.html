@@ -1,0 +1,31 @@
+<template>
+
+    <template lwc:if={error}>
+        <div class="slds-scoped-notification slds-media slds-media_center slds-theme_warning" role="status">
+            <div class="slds-media__figure">
+                <lightning-icon icon-name="utility:warning" size="medium"></lightning-icon>
+            </div>
+            <div class="slds-media__body">
+                <p>{error}</p>
+            </div>
+        </div>
+    </template>
+
+    <template lwc:else>
+        <lightning-card title={title}>
+            <lightning-spinner lwc:if={loading}></lightning-spinner>
+            <c-list-view-datatable
+                    key-field="id"
+                    data={records}
+                    columns={columns}
+                    wrap-text-max-lines="3"
+                    hide-checkbox-column
+                    sorted-by={sortBy}
+                    sorted-direction={sortDirection}
+                    onsort={doSorting}
+            >
+            </c-list-view-datatable>
+        </lightning-card>
+    </template>
+
+</template>

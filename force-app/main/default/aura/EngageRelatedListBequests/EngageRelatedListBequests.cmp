@@ -1,0 +1,10 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
+
+    <aura:attribute access="global" name="recordId" type="String"/>
+    <aura:attribute name="relatedListSettingName" type="String" default="RelatedList_Bequests"/>
+
+    <ucinn_ascendv2:RelatedList recordId="{!v.recordId}"
+    							outsideAscendPackage = "true"
+                    			relatedListSettingName="{!v.relatedListSettingName}"
+                    />
+</aura:component>

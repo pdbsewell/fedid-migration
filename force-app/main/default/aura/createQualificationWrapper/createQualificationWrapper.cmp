@@ -1,0 +1,15 @@
+<!--
+ - Created by jmap0002 on 23/10/2019.
+ -->
+
+<aura:component description="createQualificationWrapper" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickActionWithoutHeader" access="global" >
+    <aura:attribute name="applicationId" access="global" type="String"/>
+    <div>
+        <c:createQualificationManager recordId="{!v.recordId}" onclosemodal="{!c.closeModal}"/>
+    </div>
+    <aura:html tag="style">
+        .closeIcon {
+            display:none !important;
+        }
+    </aura:html>
+</aura:component>

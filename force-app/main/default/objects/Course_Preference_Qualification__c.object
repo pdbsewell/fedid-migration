@@ -1,0 +1,465 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Used to track the pre requisite information relating to an individual Application Course Preference. For example, where English is a requirement for course entry, this junction object serves as the fulfilment of that requirement by assigning a Qualification record to the ACP.</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>Private</externalSharingModel>
+    <fields>
+        <fullName>Application_Course_Preference_Parent__c</fullName>
+        <deleteConstraint>Cascade</deleteConstraint>
+        <description>Used as the &quot;parent&quot; record when linking them together. Always populated on create</description>
+        <inlineHelpText>Used as the &quot;parent&quot; record when linking them together. Always populated on create</inlineHelpText>
+        <label>Application Course Preference Parent</label>
+        <referenceTo>Application_Course_Preference__c</referenceTo>
+        <relationshipLabel>Course Preference Qualifications (Application Course Preference Parent)</relationshipLabel>
+        <relationshipName>Assessed_Qualifications</relationshipName>
+        <required>true</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Application_Course_Preference__c</fullName>
+        <deleteConstraint>Cascade</deleteConstraint>
+        <description>Lookup to the Application Course Preference object which should be associated with a Qualification for the purposes of pre requisite fulfilment</description>
+        <inlineHelpText>Lookup to the Application Course Preference object which should be associated with a Qualification for the purposes of pre requisite fulfilment</inlineHelpText>
+        <label>Application Course Preference</label>
+        <referenceTo>Application_Course_Preference__c</referenceTo>
+        <relationshipLabel>Course Preference Qualifications</relationshipLabel>
+        <relationshipName>Course_Preference_Qualifications</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Contact_Qualification__c</fullName>
+        <deleteConstraint>Cascade</deleteConstraint>
+        <description>The Contact Qualification which is reflective of a record which meets the eligibility criteria of the Application Course Preference.</description>
+        <inlineHelpText>The Contact Qualification which is reflective of a record which meets the eligibility criteria of the Application Course Preference.</inlineHelpText>
+        <label>Contact Qualification</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>$Source.Contact__c</field>
+                <operation>equals</operation>
+                <valueField>Contact_Qualification__c.Contact__c</valueField>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Contact_Qualification__c</referenceTo>
+        <relationshipLabel>Course Preference Qualifications</relationshipLabel>
+        <relationshipName>Course_Preference_Qualifications</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Contact__c</fullName>
+        <deleteConstraint>Cascade</deleteConstraint>
+        <description>A link to the applicant record</description>
+        <inlineHelpText>A link to the applicant record</inlineHelpText>
+        <label>Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Course Preference Qualifications</relationshipLabel>
+        <relationshipName>Course_Preference_Qualifications</relationshipName>
+        <required>true</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Date_Achieved__c</fullName>
+        <description>Date in which the qualification was achieved</description>
+        <externalId>false</externalId>
+        <formula>TEXT(Contact_Qualification__r.Date_Achieved__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>Date in which the qualification was achieved</inlineHelpText>
+        <label>Date Achieved</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Monash_English_Module__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>English Modules for Monash English Pathway</description>
+        <label>Monash English Module</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Module 1</fullName>
+                    <default>false</default>
+                    <label>Module 1</label>
+                </value>
+                <value>
+                    <fullName>Module 2</fullName>
+                    <default>false</default>
+                    <label>Module 2</label>
+                </value>
+                <value>
+                    <fullName>Module 3</fullName>
+                    <default>false</default>
+                    <label>Module 3</label>
+                </value>
+                <value>
+                    <fullName>Module 4</fullName>
+                    <default>false</default>
+                    <label>Module 4</label>
+                </value>
+                <value>
+                    <fullName>Module 4 Advanced</fullName>
+                    <default>false</default>
+                    <label>Module 4 Advanced</label>
+                </value>
+                <value>
+                    <fullName>Module 4 Advanced Plus</fullName>
+                    <default>false</default>
+                    <label>Module 4 Advanced Plus</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Qualification_Name__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <externalId>false</externalId>
+        <formula>Contact_Qualification__r.Qualification_Name__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Qualification Name</label>
+        <required>false</required>
+        <securityClassification>Public</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Qualification_Type__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Used to differentiate between Education and English qualification.</description>
+        <label>Qualification Type</label>
+        <required>false</required>
+        <securityClassification>Public</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Education</fullName>
+                    <default>false</default>
+                    <label>Education</label>
+                </value>
+                <value>
+                    <fullName>English</fullName>
+                    <default>false</default>
+                    <label>English</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Result__c</fullName>
+        <description>Defines if the assigned Qualification/ACP to the assessed ACP meets selection criteria. This is integrated with Callista.</description>
+        <inlineHelpText>Defines if the assigned Qualification/ACP to the assessed ACP meets selection criteria. This is integrated with Callista.</inlineHelpText>
+        <label>Result</label>
+        <required>true</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>Type__c</controllingField>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Satisfactory</fullName>
+                    <default>false</default>
+                    <label>Satisfactory</label>
+                </value>
+                <value>
+                    <fullName>Unsatisfactory</fullName>
+                    <default>false</default>
+                    <label>Unsatisfactory</label>
+                </value>
+                <value>
+                    <fullName>To be completed</fullName>
+                    <default>false</default>
+                    <label>To be completed</label>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>VCE English Equivalent</controllingFieldValue>
+                <controllingFieldValue>Monash English Pathway</controllingFieldValue>
+                <controllingFieldValue>Language of Instruction</controllingFieldValue>
+                <controllingFieldValue>English Test Results</controllingFieldValue>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <controllingFieldValue>Valid and Verified Professional Registration</controllingFieldValue>
+                <valueName>Satisfactory</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>VCE English Equivalent</controllingFieldValue>
+                <controllingFieldValue>Monash English Pathway</controllingFieldValue>
+                <controllingFieldValue>Language of Instruction</controllingFieldValue>
+                <controllingFieldValue>English Test Results</controllingFieldValue>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Unsatisfactory</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>VCE English Equivalent</controllingFieldValue>
+                <controllingFieldValue>Monash English Pathway</controllingFieldValue>
+                <controllingFieldValue>Language of Instruction</controllingFieldValue>
+                <controllingFieldValue>English Test Results</controllingFieldValue>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>To be completed</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Type__c</fullName>
+        <description>Used to define the link to the Qualification record</description>
+        <inlineHelpText>Used to define the link to the Qualification record</inlineHelpText>
+        <label>Type</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <controllingField>Qualification_Type__c</controllingField>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>VCE English Equivalent</fullName>
+                    <default>false</default>
+                    <label>VCE English Equivalent</label>
+                </value>
+                <value>
+                    <fullName>Monash English Pathway</fullName>
+                    <default>false</default>
+                    <label>Monash English Pathway</label>
+                </value>
+                <value>
+                    <fullName>Language of Instruction</fullName>
+                    <default>false</default>
+                    <label>Language of Instruction</label>
+                </value>
+                <value>
+                    <fullName>English Test Results</fullName>
+                    <default>false</default>
+                    <label>English Test Results</label>
+                </value>
+                <value>
+                    <fullName>Education</fullName>
+                    <default>false</default>
+                    <label>Education</label>
+                </value>
+                <value>
+                    <fullName>Valid and Verified Professional Registration</fullName>
+                    <default>false</default>
+                    <label>Valid and Verified Professional Registration</label>
+                </value>
+            </valueSetDefinition>
+            <valueSettings>
+                <controllingFieldValue>Education</controllingFieldValue>
+                <valueName>Education</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>English</controllingFieldValue>
+                <valueName>VCE English Equivalent</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>English</controllingFieldValue>
+                <valueName>Monash English Pathway</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>English</controllingFieldValue>
+                <valueName>Language of Instruction</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>English</controllingFieldValue>
+                <valueName>English Test Results</valueName>
+            </valueSettings>
+            <valueSettings>
+                <controllingFieldValue>English</controllingFieldValue>
+                <valueName>Valid and Verified Professional Registration</valueName>
+            </valueSettings>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Verification_Status__c</fullName>
+        <description>Verification status of the Contact Qualification</description>
+        <externalId>false</externalId>
+        <formula>TEXT(Contact_Qualification__r.Verification_Status__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <inlineHelpText>Verification status of the Contact Qualification</inlineHelpText>
+        <label>Verification Status</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Qualification Assesment</label>
+    <nameField>
+        <displayFormat>ACPQ-{000000}</displayFormat>
+        <label>Qualification Assessment Name</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Qualification Assessments</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ReadWrite</sharingModel>
+    <visibility>Public</visibility>
+</CustomObject>

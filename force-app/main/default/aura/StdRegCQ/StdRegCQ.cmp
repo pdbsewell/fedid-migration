@@ -1,0 +1,31 @@
+<aura:component  implements="force:appHostable,forceCommunity:availableForAllPageTypes" access="global" controller="StdRegController">
+    <aura:attribute name="ACPId" type="String" default=""/>
+    <aura:attribute name="bookingId" type="String" default=""/>
+    <aura:attribute name="ccode" type="String" default=""/>
+    <aura:attribute name="regtype" type="String" default=""/>
+    <aura:attribute name="lastSavedTab" type="String"/>
+    <aura:attribute name="ValidationMsg" type="String"/>
+    <aura:attribute name="FSLink" type="String"/>
+    <aura:attribute name="framesrc" type="String" default=""/>
+    <aura:handler event="c:Tab2Save" action="{!c.updateLastTabSaved}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <center>
+        <aura:if isTrue="{!(v.ValidationMsg!='')}">
+            <div style="text-align:center;padding-top:10px;font-weight:bold;font-variant:small-caps;font-family:'Salesforce Sans',Arial,sans-serif;">
+                <label class="slds-checkbox__label">
+                    <span class="slds-checkbox_faux"></span>
+                    <span class="slds-form-element__label" style="font-variant:small-caps;color:red;font-weight:bold;font-size:15px;font-family:'Salesforce Sans',Arial,sans-serif;">
+                                    {!v.ValidationMsg}</span>
+                </label>
+            </div>
+        </aura:if>
+    </center>
+    <aura:If isTrue="{!v.lastSavedTab=='tab2'}">
+        <div class="slds-align_absolute-center" style="text-align:center;color:rgb(0, 112, 210);padding-top:10px;font-size:15px;font-weight:bold;font-variant:small-caps;font-family:'Salesforce Sans',Arial,sans-serif;">
+            Save &amp; Proceed button click will take the user to a separate site.<br/>
+            Please make sure to review all the details before clicking the button.
+        </div>
+        <iframe frameborder="0"  src="{!v.framesrc}" title="EDForm2" height="3500px" width="100%"></iframe>
+    </aura:If>
+</aura:component>

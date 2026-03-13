@@ -1,0 +1,125 @@
+.THIS .progress25 {
+	width: 25%;
+}
+
+.THIS .progress50 {
+	width: 50%;
+}
+
+.THIS .progress75 {
+	width: 75%;
+}
+
+.THIS .progress100 {
+	width: 100%;
+}
+
+.THIS .button-styling {
+   background-color: #006DAE;
+   color: white;
+   white-space: nowrap;
+}
+
+.THIS .button-styling:hover{
+   text-decoration: underline;
+}
+
+.THIS .footer-styling {
+	color: #006DAE;
+}
+
+.THIS.slds-form--stacked {
+   max-width: 1440px;
+   margin: 0 auto;
+}
+
+.THIS .slds-page-header-styling {
+   max-width: 1440px;
+   margin: 0 auto;
+}
+
+.THIS .div-table-wrapper {
+   display: block;
+   overflow-y: visible;
+   overflow-x: auto;
+   
+}
+
+.THIS .heading {
+   color: #006DAE;
+   font-weight: 300;
+   font-size: 20px;
+}
+
+.THIS .table-header {
+   font-weight: 500;
+}
+
+.THIS .table-header-styling {
+   color: #006DAE;
+}
+
+.THIS .table-header-styling th {
+   text-align: center;
+}
+.THIS .table-header-styling th div {
+   white-space: pre-wrap;
+   text-overflow: initial;
+}
+
+.THIS.footer-wrapper-styling {
+   width: 100%;
+   background-color: rgb(244, 246, 249);
+   display: flex;
+   justify-content: center;
+   flex-wrap: nowrap;
+   align-items: flex-start;
+   padding-top: 10px;
+   margin-top: 30px;
+}
+
+.THIS.footer-wrapper-styling > div {
+   order: 1;
+   padding: 1rem;
+}
+
+.THIS .slds-grid {
+   max-width: 1440px;
+   margin: 0 auto;
+}
+
+.THIS.footer-wrapper-styling > div#ui-footer-text {
+   text-align: left;
+   font-size: 12px;
+   width: 100%;
+   color: #3c3c3c;
+   max-width: 1140px;
+}
+
+.THIS.footer-wrapper-styling > div#ui-privacy {
+   padding: 1rem 0 0 1rem;
+   white-space: nowrap;
+}
+
+.THIS.footer-wrapper-styling > div#ui-group8logo {
+   padding: 1rem 1rem 0 0;
+   text-align: right;
+   min-width: 140px;
+}
+
+@media (max-width: 767px) {
+   .THIS.footer-wrapper-styling {
+      flex-wrap: wrap;
+      justify-content: space-between;
+   }
+   .THIS.footer-wrapper-styling > div#ui-privacy {
+      order: -2;
+   }
+   .THIS.footer-wrapper-styling > div#ui-footer-text {
+      text-align: justify;
+   }
+   .THIS.footer-wrapper-styling > div#ui-group8logo {
+      order: -1;
+      padding: 0 1rem;
+   }
+}

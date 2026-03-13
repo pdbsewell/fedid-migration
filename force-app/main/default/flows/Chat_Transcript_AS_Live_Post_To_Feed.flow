@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Validate_Record_Status</name>
+        <label>Validate Record Status</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Record Not Completed</defaultConnectorLabel>
+        <rules>
+            <name>Record_Completed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Completed</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Post_to_Chatter</targetReference>
+            </connector>
+            <label>Record Completed</label>
+        </rules>
+    </decisions>
+    <description>When Live Chat Transcript status updated to completed, it posts chatter posts to case feed via ‘Case Feed Chatter Post’ sub-flow</description>
+    <environments>Default</environments>
+    <interviewLabel>L {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Chat Transcript : AS : Live Post To Feed</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Validate_Record_Status</targetReference>
+        </connector>
+        <filterFormula>{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False</filterFormula>
+        <object>LiveChatTranscript</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <subflows>
+        <name>Post_to_Chatter</name>
+        <label>Post to Chatter</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <flowName>Case_Feed_Chatter_Post</flowName>
+        <inputAssignments>
+            <name>VarCaseID</name>
+            <value>
+                <elementReference>$Record.CaseId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <name>VarChatId</name>
+            <value>
+                <elementReference>$Record.Chat_Link__c</elementReference>
+            </value>
+        </inputAssignments>
+    </subflows>
+</Flow>

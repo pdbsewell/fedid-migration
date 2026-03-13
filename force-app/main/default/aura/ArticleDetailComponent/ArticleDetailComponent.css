@@ -1,0 +1,72 @@
+.THIS .fonts {
+    font-family: "Roboto Condensed", sans-serif;
+    font-weight: 400;
+    font-size: 1rem;
+    color: #505050;
+}
+.THIS .headlineTitleText {
+    text-transform: none;
+    text-align: left !important;
+    font-family: "Century Schoolbook", Georgia, "Times New Roman", Times, serif !important; 
+    color: #006DAE !important;
+    font-size: 1.7rem !important;    
+    font-weight:normal !important;
+    margin-bottom: -1rem !important;
+}
+
+/*NG(22.01.2018) : DCXCRM-1285*/
+/*override slds styling of h3 into slds-rich-text-editor__output class*/
+
+.THIS h2 + h3 {
+    margin-top: -0.5rem;
+}
+
+.THIS h4 {
+    font-size: 110% !important;
+    font-weight: bold;
+    -webkit-margin-before: 1.5rem;
+    -webkit-margin-after: 1rem;
+	color: #555555;
+}
+
+.THIS h3 {
+    margin-top: 1.5rem;
+    font-size: 100% !important;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+}
+
+.THIS h2 {
+    margin-top: 1.75rem;    
+    font-size: 120%;
+}
+
+
+.THIS p {
+    margin-bottom: 0.75rem;    
+}
+
+.THIS ul {
+    margin-bottom: 1.5rem;
+    padding-left: 0;
+}
+
+.THIS ol {
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.THIS ol ul {
+    margin-left: 1rem;
+	margin-bottom: 1rem;
+}
+.THIS a {
+    word-break: normal !important;
+    text-decoration: underline;
+}
+
+@media only screen and (min-width: 320px) and (max-width : 767px) {
+    .THIS ul {
+        padding-left: 0px !important;
+    }
+}

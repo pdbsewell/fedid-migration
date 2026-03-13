@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>List of MFA enabled sites. Inspected during login flow.  If true, community user subjected to MFA flow when logging into community.</description>
+    <fields>
+        <fullName>Max_skip_count__c</fullName>
+        <description>Maximum number of times a user can skip MFA registration</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Maximum number of times a user can skip MFA registration</inlineHelpText>
+        <label>Max skip count</label>
+        <precision>4</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Max_skip_days__c</fullName>
+        <description>Maximum number of days a user can skip MFA registrationm since MFA comms was emailed</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Maximum number of days a user can skip MFA registrationm since MFA comms was emailed</inlineHelpText>
+        <label>Max skip days</label>
+        <precision>4</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Skip_Limit_Strategy__c</fullName>
+        <description>Strategy to employ limit number of times a user of this site can skip MFA registration
+* Count - limit based on number of skips
+* Days - limit based on number of days since MFA comms send</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Strategy to employ limit number of times a user of this site can skip MFA registration
+* Count - limit based on number of skips
+* Days - limit based on number of days since MFA comms send</inlineHelpText>
+        <label>Skip Limit Strategy</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Count</fullName>
+                    <default>true</default>
+                    <label>Count</label>
+                </value>
+                <value>
+                    <fullName>Days</fullName>
+                    <default>false</default>
+                    <label>Days</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Skip_count_reminder_threshold__c</fullName>
+        <description>Skip count at which user is sent an MFA reminder</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Skip count at which user is sent an MFA reminder</inlineHelpText>
+        <label>Skip count reminder threshold</label>
+        <precision>4</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Skip_days_reminder_threshold__c</fullName>
+        <description>Number of days since MFA comms was sent out before a reminder email is sent</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Number of days since MFA comms was sent out before a reminder email is sent</inlineHelpText>
+        <label>Skip days reminder threshold</label>
+        <precision>4</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>MFA Enabled Site</label>
+    <pluralLabel>MFA Enabled Sites</pluralLabel>
+    <validationRules>
+        <fullName>Skip_count_reminder_must_be_lt_max</fullName>
+        <active>true</active>
+        <description>Skip count reminder must be less than max skip count</description>
+        <errorConditionFormula>Skip_count_reminder_threshold__c &gt;  Max_skip_count__c</errorConditionFormula>
+        <errorDisplayField>DeveloperName</errorDisplayField>
+        <errorMessage>Skip count reminder must be less than max skip count</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>Skip_days_reminder_must_be_less_than_max</fullName>
+        <active>true</active>
+        <description>Skip days reminder must be less than skip days max</description>
+        <errorConditionFormula>Skip_days_reminder_threshold__c &gt;  Max_skip_days__c</errorConditionFormula>
+        <errorDisplayField>Skip_days_reminder_threshold__c</errorDisplayField>
+        <errorMessage>Skip days reminder must be less than skip days max</errorMessage>
+    </validationRules>
+    <visibility>Public</visibility>
+</CustomObject>

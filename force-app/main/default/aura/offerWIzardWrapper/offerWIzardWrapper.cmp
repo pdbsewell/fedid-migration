@@ -1,0 +1,4 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId" >
+    <ltng:require styles="{!$Resource.ModalWidthCSS}"/>
+    <c:offerWizard recordId="{!v.recordId}" onclose="{!c.closeModal}"/>
+</aura:component>

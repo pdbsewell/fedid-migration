@@ -1,0 +1,98 @@
+<template>
+    <template if:true={objData}>
+        <template if:true={showMessageToast}>
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture" role="alert" style={alertShade}>
+                <span class="slds-m-right_x-small">
+                    <lightning-icon icon-name={iconName} alternative-text={alterText} variant="inverse" size="small"></lightning-icon>
+                </span>
+                <h2>
+                    {alertMsg}
+                </h2>
+            </div>
+        </template>
+        <div class="slds-is-relative">
+            <!--<template if:true={showSpinner}>
+                <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+            </template>-->
+            <!--<template if:false={showSpinner}>-->
+                <lightning-card title={fileName} icon-name={fileIconUtil}>
+                    <div slot="actions">
+                        <lightning-layout>
+                            <lightning-layout-item>
+                                <lightning-button label="Download" title="Download" onclick={downloadFile} class="slds-m-left_x-small"></lightning-button>
+                            </lightning-layout-item>
+                            <lightning-layout-item>
+                                <lightning-button label="Save" title="Save" variant="brand" onclick={saveDocument} class="slds-m-left_x-small" disabled={disableSaveButton}></lightning-button>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </div>
+                    <div class="slds-p-around_none slds-m-top_x-small slds-m-bottom_x-small slds-m-horizontal_none slds-is-relative" style="border-top: 1px solid #dddbda;">       
+                        <template if:true={showSpinner}>                 
+                            <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+                        </template>
+                        <lightning-layout multiple-rows>
+                            <lightning-layout-item size="12" small-device-size="6" medium-device-size="4" large-device-size="3" padding="around-small">
+                                <lightning-combobox name="checklistItemPicklist"
+                                                    label="CHECKLIST ITEM"
+                                                    value={selectedChecklistItem}
+                                                    placeholder="-- Select One --"
+                                                    options={checklistItemOptions}
+                                                    onchange={handleChecklistItemChange}
+                                ></lightning-combobox>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="6" medium-device-size="4" large-device-size="3" padding="around-small">
+                                <lightning-combobox name="documentTypePicklist"
+                                                    label="DOCUMENT TYPE"
+                                                    value={selectedDocumentType}
+                                                    placeholder="-- Select One --"
+                                                    options={documentTypeOptions}
+                                                    onchange={handleDocumentTypeChange}
+                                                    disabled={isDocTypeDisabled}
+                                ></lightning-combobox>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="6" medium-device-size="4" large-device-size="3" padding="around-small">
+                                <lightning-combobox name="documentAssessmentStatus"
+                                                    label="DOCUMENT ASSESSMENT STATUS"
+                                                    value={selectedDocumentAssessmentStatus}
+                                                    options={documentAssessmentStatusOptions}
+                                                    onchange={handleDocumentAssessmentStatusChange}
+                                                    field-level-help={documentAssessmentStatusHelpText}
+                                ></lightning-combobox>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" small-device-size="6" medium-device-size="4" large-device-size="3" padding="around-small">
+                                <lightning-layout>
+                                    <lightning-layout-item size="4">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">
+                                                UPLOADED DATE
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <lightning-formatted-date-time value={uploadedDate}></lightning-formatted-date-time>
+                                            </div>
+                                        </div>                                        
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="8">
+                                        <div class="slds-form-element">
+                                            <label class="slds-form-element__label">                                        
+                                            </label>
+                                            <div class="slds-form-element__control">
+                                                <!-- internal -->
+                                                <lightning-input type="toggle" 
+                                                    message-toggle-active="Internal Only" 
+                                                    message-toggle-inactive="Public" 
+                                                    checked={internalOnly}
+                                                    variant="label-hidden"
+                                                    onchange={switchInternalOnly}>
+                                                </lightning-input>
+                                            </div>
+                                        </div>
+                                    </lightning-layout-item>
+                                </lightning-layout>                                
+                            </lightning-layout-item>                         
+                        </lightning-layout>
+                    </div>
+                </lightning-card>
+            <!--</template>-->
+        </div>
+    </template>
+</template>

@@ -1,0 +1,271 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="PaymentGatewayController">
+
+    <aura:attribute name="applicationId" 
+        type="String" 
+        access="global" />
+
+    <aura:attribute name="campusLocation"
+        type="String"
+        access="global" />
+
+    <aura:attribute name="studyType"
+        type="String"
+        access="global" />
+
+    <!--Design Bindings for Configuration-->
+    <aura:attribute name="helperText" 
+        type="String" />
+
+    <!--Form Configuration-->
+    <aura:attribute name="feeRequired" 
+        type="Boolean" 
+        default="true" />
+    <aura:attribute name="sourceSystem" 
+        type="String"
+        default="" />
+    <aura:attribute name="processingFeeLabel" 
+        type="String"
+        default="" />
+    <aura:attribute name="paymentOptions" 
+        type="String[]" 
+        default="[{'label': 'Credit Card', 'value': 'Credit Card'},
+                {'label': 'Convera (Previously Western Union)', 'value': 'Western Union'},
+                {'label': 'Application Processing Fee Waiver Code', 'value': 'Application Fee Waiver Code'}]" />
+    <aura:attribute name="isExpanded" 
+        type="Boolean" 
+        default="true" />
+    <aura:attribute name="westernUnionToggle" 
+        type="Boolean" 
+        default="false" />
+    <aura:attribute name="feeWaiverToggle" 
+        type="Boolean" 
+        default="false" />
+    <aura:attribute name="otherToggle" 
+        type="Boolean" 
+        default="false" />
+    <!--Event Handlers-->
+    <aura:handler name="init" 
+        action="{!c.doInit}" 
+        value="{!this}" />
+    <!--Data State-->
+    <aura:attribute name="waiverCode" 
+        type="String" 
+        default=""/>
+    <aura:attribute name="feeAmount" 
+        type="String" 
+        default=""/>
+    <aura:attribute name="appId" 
+        type="String" 
+        default="" />
+    <aura:attribute name="selectedPayment" 
+        type="String" />
+    <aura:attribute name="invalidWaiver" 
+        type="Boolean" 
+        default="false" />
+    <aura:attribute name="validWaiver" 
+        type="Boolean" 
+        default="false" />
+    <aura:attribute name="errorDetails" 
+        type="String" 
+        default="" />
+    <aura:attribute name="successDetails" 
+        type="String" 
+        default="" />
+    <aura:attribute name="internationalStudent" 
+        type="Boolean" 
+        default="false" />
+    <aura:attribute name="verifyWaiverLoading" 
+        type="Boolean" 
+        default="false" />
+    <!-- Page Loader -->
+    <aura:attribute name="hasPageLoaded" 
+        type="Boolean" 
+        default="false" />
+    <aura:attribute name="isCallistaUnderMaintenance" type="Boolean" access="global" default="false"/>
+    <aura:attribute name="callistaMaintenanceMessage" type="String" access="global" default=""/>
+        <div class="slds slds-is-relative">
+        <div class="slds-section section-float">
+            <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col">
+                    <!-- Application Processing -->
+                    <div class="sectionContainer slds-wrap" 
+                        style="padding: 0 15px 20px 0;">
+                        <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                        <div class="sectionContainerBody slds-size_5-of-5">
+                            <div class="slds-size_5-of-5">
+                                <h2>Application processing</h2>
+                            </div>
+
+                            <div class="slds-size_5-of-5">
+                                <!-- Loading spinner while retrieving applicant -->
+                                <aura:if isTrue="{!!v.hasPageLoaded}">
+                                    <div class="forceListViewPlaceholder">
+                                        <!-- Stencil loader -->
+                                        <aura:iteration items="1,2,3,4,5,6,7,8,9,10" var="item">
+                                            <div style="height: 30px;"></div>
+                                        </aura:iteration>
+                                    </div>
+                                    <!-- Spinner loader -->
+                                    <lightning:spinner class="slds-align_absolute-center" variant="brand" />
+                                </aura:if>
+            
+                                <!-- Show page when fee amount is loaded -->
+                                <aura:if isTrue="{!v.hasPageLoaded}">                
+                                    <aura:if isTrue="{!v.feeRequired == true}">
+                                        <aura:if isTrue="{!v.isExpanded}">
+                                            <div class="slds-grid slds-wrap slds-gutters">
+                                                <div class="slds-col slds-size-8-of-12">
+                                                    {!v.helperText}
+                                                    <!--Check the type of payment method chosen-->
+                                                    <br />
+                                                    Amount Owing: ${!v.feeAmount} AUD
+                                                    <!-- display only when there is maintenance message to display -->
+                                                    <aura:if isTrue="{!(notequals(v.callistaMaintenanceMessage,''))}">
+                                                        <c:myAppNotification message="{!v.callistaMaintenanceMessage}"
+                                                            variant="warning" />
+                                                    </aura:if>
+                                                    <aura:if isTrue="{!$Label.c.App_PaymentNoteToggle}"> <!--this is the toggle for the banner-->
+                                                        <aura:if isTrue="{!and(v.studyType == 'Coursework', v.campusLocation == 'Australia', v.sourceSystem == 'my.app')}">
+                                                            <div class="slds-p-around_small">
+                                                                <div class="slds-card" style="background:#fef4e4;padding-right:0px;padding-left:0px; ">
+                                                                    <div class="slds-p-around_small">
+                                                                        <div class="slds-grid slds-wrap">
+                                                                            <div class="slds-col slds-size_1-of-12">
+                                                                                <span><lightning:icon class="slds-m-right_xxx-small" iconName="utility:warning" alternativeText="Warning!" variant="warning" title="warning variant" /></span>
+                                                                            </div>
+                                                                            <div class="slds-col slds-size_11-of-12" style="color: #70480e; font-style: italic">
+                                                                                <aura:unescapedHtml value="{!$Label.c.App_PaymentNote}"/>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </aura:if>
+                                                    </aura:if>
+                                                    <div class="fieldContainer">
+                                                        <lightning:layout multipleRows="true" 
+                                                            class="slds-size_5-of-5">
+
+                                                            <lightning:layoutItem size="4">
+                                                                <span class="fieldTitle">
+                                                                    <sup class="requiredField">*</sup>
+                                                                    Select a payment option&nbsp;
+                                                                </span>
+                                                            </lightning:layoutItem>
+
+                                                            <lightning:layoutItem size="6">
+                                                                <lightning:select aura:id="payment" 
+                                                                    name="paymentOption" 
+                                                                    value="{!v.selectedPayment}" 
+                                                                    onchange="{!c.updateOption}" 
+                                                                    label="Select a payment option" 
+                                                                    required="true" 
+                                                                    variant="label-hidden">
+                                                                    <aura:iteration items="{!v.paymentOptions}" var="option">
+                                                                        <option text="{!option.label}" value="{!option.value}" disabled="{!option.isDisabled}"></option>
+                                                                    </aura:iteration>
+                                                                </lightning:select>
+                                                            </lightning:layoutItem>
+                                                        </lightning:layout>
+                                                    </div>
+                                                    <aura:if isTrue="{!v.selectedPayment == 'Credit Card'}">
+                                                        <p class="generalText">You have chosen to pay by credit card (Visa and Mastercard only). You will be prompted for your credit card details when you are ready to submit your application (Step 9. Submit)</p>
+                                                    </aura:if>
+                        
+                                                    <aura:if isTrue="{!v.westernUnionToggle}">
+                                                        <button class="secondaryButton" onclick="{!c.payFee}" style="margin-bottom: 15px;">
+                                                            Pay Fee
+                                                        </button>
+                                                        <br/>
+                                                    </aura:if>
+
+                                                    <!--Only display if Waiver code is selected-->
+                                                    <aura:if isTrue="{!v.feeWaiverToggle}" >
+                                                        <div class="fieldContainer">
+                                                            <lightning:layout multipleRows="true" 
+                                                                class="slds-size_5-of-5">
+
+                                                                <lightning:layoutItem size="3">
+                                                                    <span class="fieldTitle">
+                                                                        Waiver Code&nbsp;
+                                                                    </span><sup class="requiredField">*</sup>
+                                                                </lightning:layoutItem>
+
+                                                                <lightning:layoutItem size="5">                                                                
+                                                                    <lightning:input aura:id="waiver" 
+                                                                        label="Waiver Code"
+                                                                        name="waiverCodeInput"
+                                                                        value="{!v.waiverCode}"
+                                                                        required="true"
+                                                                        readonly="{!v.isCallistaUnderMaintenance}"
+                                                                        variant="label-hidden" />
+                                                                </lightning:layoutItem>
+                                                                <aura:if isTrue="{!!v.isCallistaUnderMaintenance}">
+                                                                    <lightning:layoutItem  alignmentBump="left">     
+                                                                        <button class="primaryButton" onclick="{!c.checkValidWaiver}">
+                                                                            Verify Waiver&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                        </button>       
+                                                                    </lightning:layoutItem>
+                                                                    </aura:if>
+                                                                <br/><br/>
+
+                                                                <aura:if isTrue="{!v.verifyWaiverLoading}">
+                                                                    <lightning:spinner alternativeText="Loading" size="medium" variant="brand" />
+                                                                </aura:if>
+
+                                                                <aura:if isTrue="{!v.invalidWaiver}" >
+                                                                    <lightning:layoutItem size="12">
+                                                                        <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+                                                                            <span class="slds-assistive-text">Error</span>
+                                                                            <span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small" >
+                                                                            </span>
+                                                                            {!v.errorDetails}
+                                                                        </div>
+                                                                    </lightning:layoutItem>
+                                                                </aura:if>
+
+                                                                <aura:if isTrue="{!v.validWaiver}" >
+                                                                    <lightning:layoutItem size="12">
+                                                                        <div class="slds-notify slds-notify--alert slds-theme--success slds-theme--alert-texture" role="alert">
+                                                                            <span class="slds-assistive-text">Success</span>
+                                                                            <span class="slds-icon_container slds-icon-utility-error slds-m-right_x-small">
+                                                                            </span>
+                                                                            {!v.successDetails}
+                                                                        </div>
+                                                                    </lightning:layoutItem>
+                                                                </aura:if>
+
+                                                            </lightning:layout>
+                                                        </div>                                                        
+                                                    </aura:if>
+
+                                                    <aura:if isTrue="{!v.otherToggle}" >
+                                                        <p class="generalText">Please attach a proof of payment below if you are paying or have already paid your application processing fee via other channels outside of this application to avoid processing delays.</p>
+                                                        <c:FileUploader />
+                                                    </aura:if>
+                                                </div>                
+                                            </div>
+                                        </aura:if>
+                                    </aura:if>
+
+                                    <!-- DETERMINE PROCESS FEE AMOUNT LABEL -->
+                                    <aura:if isTrue="{!v.sourceSystem == 'AgentPortal'}">
+                                        <!-- DEFAULT MESSAGE FOR AGENT PORTAL APPLICATIONS -->
+                                        You do not need to submit application fee {!v.processingFeeLabel} for this application. Your agent has made this payment on your behalf and will upload the payment receipt for you.<br/>Please proceed to the next page.
+                                        <aura:set attribute="else">
+                                            <!-- DEFAULT MESSAGE FOR NON-AGENT PORTAL APPLICATIONS -->
+                                            <aura:if isTrue="{!v.feeRequired == false}">
+                                                You do not need to submit any fee for this application.<br/>Please proceed to the next page.
+                                            </aura:if>
+                                        </aura:set>
+                                    </aura:if>
+
+                                </aura:if>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

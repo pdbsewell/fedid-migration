@@ -1,0 +1,108 @@
+<aura:component >
+    
+    <aura:attribute name="agency" type="Account" />
+    <lightning:card title="{!v.agency.Name}" class="slds-card"/>
+    
+    <lightning:layout multipleRows="true">
+        
+        <aura:if isTrue="{!v.agency.Legal_Entity_Name__c != null}">
+            <lightning:layoutItem flexibility="auto" size="3" padding="around-small">
+                <div class="header-column">
+                    <p class="field-title" title="Field 1">Legal Entity Name:</p>
+                </div>
+            </lightning:layoutItem>
+
+            <lightning:layoutItem flexibility="auto" size="9" padding="around-small">
+                <div class="header-column">
+                    <lightning:formattedText value="{!v.agency.Legal_Entity_Name__c }" />
+                </div>
+            </lightning:layoutItem>
+        </aura:if>
+
+        <aura:if isTrue="{!v.agency.ShippingAddress != null}">
+            <lightning:layoutItem flexibility="auto" size="3" padding="around-small">
+                <div class="header-column">
+                    <p class="field-title" title="Field 1">Address:</p>
+                </div>
+            </lightning:layoutItem>
+            
+            <lightning:layoutItem flexibility="auto" size="9" padding="around-small">
+                <div class="header-column">
+                    <lightning:formattedAddress street="{!v.agency.ShippingStreet}" 
+                                                city="{!v.agency.ShippingCity}" 
+                                                province="{!v.agency.ShippingState}" 
+                                                country="{!v.agency.ShippingCountry}" 
+                                                postalCode="{!v.agency.ShippingPostalCode}" />
+                </div>
+            </lightning:layoutItem>
+        </aura:if>
+
+        <aura:if isTrue="{!v.agency.Phone != null}">
+            <lightning:layoutItem flexibility="auto" size="3" padding="around-small">
+                <div class="header-column">
+                    <p class="field-title" title="Field 1">Phone:</p>
+                </div>
+            </lightning:layoutItem>
+
+            <lightning:layoutItem flexibility="auto" size="9" padding="around-small">
+                <div class="header-column">
+                    <lightning:formattedPhone value="{!v.agency.Phone}" />
+                </div>
+            </lightning:layoutItem>
+        </aura:if>
+        
+        <aura:if isTrue="{!v.agency.Principal_Agent__r.Name != null }">
+            <lightning:layoutItem flexibility="auto" size="3" padding="around-small">
+                <div class="header-column">
+                    <p class="field-title" title="Field 1">Principal Agent:</p>
+                </div>
+            </lightning:layoutItem>
+            
+            <lightning:layoutItem flexibility="auto" size="9" padding="around-small">
+                <div class="header-column">
+                    <lightning:formattedText value="{!v.agency.Principal_Agent__r.Name}" />
+                </div>
+            </lightning:layoutItem>
+        </aura:if>
+        
+        <aura:if isTrue="{!v.agency.Branch_Manager__r.Name != null }">
+            <lightning:layoutItem flexibility="auto" size="3" padding="around-small">
+                <div class="header-column">
+                    <p class="field-title" title="Field 1">Branch Manager:</p>
+                </div>
+            </lightning:layoutItem>
+            
+            <lightning:layoutItem flexibility="auto" size="9" padding="around-small">
+                <div class="header-column">
+                    <lightning:formattedText value="{!v.agency.Branch_Manager__r.Name}" />
+                </div>
+            </lightning:layoutItem>
+        </aura:if>
+        
+        <aura:if isTrue="{!v.agency.Email__c != null }">
+            <lightning:layoutItem flexibility="auto" size="3" padding="around-small">
+                <div class="header-column">
+                    <p class="field-title" title="Field 1">Email:</p>
+                </div>
+            </lightning:layoutItem>
+            
+            <lightning:layoutItem flexibility="auto" size="9" padding="around-small">
+                <lightning:formattedText linkify="true" value="{!v.agency.Email__c}" target="_self" />
+            </lightning:layoutItem>
+        </aura:if>
+
+        <aura:if isTrue="{!v.agency.Website != null }">
+            <lightning:layoutItem flexibility="auto" size="3" padding="around-small">
+                <div class="header-column">
+                    <p class="field-title" title="Field 1">Website:</p>
+                </div>
+            </lightning:layoutItem>
+            
+            <lightning:layoutItem flexibility="auto" size="9" padding="around-small">
+                <lightning:formattedUrl value="{!v.agency.Website}" target="_blank" />
+            </lightning:layoutItem>
+        </aura:if>
+        
+    </lightning:layout>
+    
+</aura:component>

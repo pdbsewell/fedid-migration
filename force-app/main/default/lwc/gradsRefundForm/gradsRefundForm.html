@@ -1,0 +1,159 @@
+<template>
+    <c-expandable-section id="1" label="Refunds" expanded="true">
+        <template lwc:if={ready}>
+            <div class="container">
+
+                <template if:true={isLoading}>
+                    <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+                </template>
+
+                <h2><lightning-formatted-rich-text value={headerText}></lightning-formatted-rich-text></h2>
+
+                <div class="slds-text-align_center slds-m-top_medium">
+                    <template lwc:if={validationMsg}>
+                        <p class="slds-m-bottom_medium validation-error">{validationMsg}</p>
+                    </template>
+                </div>
+
+                <template lwc:if={hasRefunds}>
+                    <!-- Refund Select -->
+                    <div class="refund-list">
+                        <template for:each={refundReqs} for:item="rr">
+                            <div key={rr.paymentId} class={rr.style}>
+                                <div class="refund-type">{rr.originLabel}</div>
+                                <div class="info">
+                                    <a onclick={navigateToPayment} data-id={rr.paymentId}>
+                                        <h3>{rr.label}</h3>
+                                    </a>
+                                    <div class="">
+                                        <dl class="">
+                                            <dt class="">
+                                                    <span>Amount</span>
+                                            </dt>
+                                            <dd class="">
+                                                <template lwc:if={rr.amount}>
+                                                    <p class="slds-truncate"><lightning-formatted-number value={rr.amount} format-style="currency"></lightning-formatted-number></p>
+                                                </template>
+                                                <template lwc:else>
+                                                    <p class="slds-truncate">n/a</p>
+                                                </template>
+                                            </dd>
+                                            <dt class="">
+                                                <span>Requested</span>
+                                            </dt>
+                                            <dd class="">
+                                                <p class="slds-truncate">{rr.requestedDate}</p>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                </div>
+                                <div class="slds-text-align_center">
+                                    <span class="status">{rr.statusLabel}</span>
+                                </div>
+                                <div class="actions">
+                                    <lightning-button-group  >
+                                    <lightning-button label="Approve" lwc:if={rr.hasActionApprove}
+                                                      variant="brand" onclick={handleActionClick}
+                                                      data-id={rr.paymentId} data-action="approve">
+                                    </lightning-button>
+                                    <lightning-button label="Completed" lwc:if={rr.hasActionComplete}
+                                                      variant="brand" onclick={handleActionClick}
+                                                      data-id={rr.paymentId} data-action="complete">
+                                    </lightning-button>
+                                    <lightning-button label="Reject" lwc:if={rr.hasActionReject}
+                                                      variant="destructive-text" onclick={handleActionClick}
+                                                      data-id={rr.paymentId} data-action="reject">
+                                    </lightning-button>
+                                        <lightning-button label="Resolved" lwc:if={rr.hasActionResolve}
+                                                          variant="neutral" onclick={handleActionClick}
+                                                          data-id={rr.paymentId} data-action="resolve">
+                                        </lightning-button>
+<!--                                        <lightning-button-menu >-->
+
+<!--                                        </lightning-button-menu>-->
+                                    </lightning-button-group>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </div>
+        </template>
+    </c-expandable-section>
+
+    <template lwc:if={approveModalVisible}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-01" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__content slds-p-around_medium slds-modal__content_headless" id="modal-content-id-1">
+                    <p class="slds-text-align_center slds-text-heading_small">
+                        <lightning-formatted-rich-text value={modalText}></lightning-formatted-rich-text>
+                    </p>
+                    <template if:true={modalShowNote}>
+                        <div class="slds-m-around_small">
+                            <lightning-textarea name="internal-note" label="Internal note (not visible to student)"
+                                                onchange={handleNoteChange} value={internalNote}>
+                            </lightning-textarea>
+                        </div>
+                    </template>
+                </div>
+                <div class="slds-modal__footer slds-modal__footer_directional">
+                    <lightning-button label="Close" class="slds-button" onclick={onModalCancel}></lightning-button>
+                    <lightning-button label={modalActionLabel} class="slds-button" variant={modalActionVariant} onclick={onModalConfirm}></lightning-button>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+
+    <template lwc:if={rejectModalVisible}>
+        <section role="dialog" tabindex="-1" aria-modal="true" aria-labelledby="modal-heading-02" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <div class="slds-modal__content slds-p-around_medium slds-modal__content_headless" id="modal-content-id-2">
+                    <!-- First screen: Text input screen (only for reject action) -->
+                    <template if:true={modalReasonInputScreen}>
+                        <template if:true={modalShowReason}>
+                            <div class="slds-m-around_small">
+                                <lightning-textarea name="reject-reason" label="Provide a message for the student explaining the refund denial"
+                                                    onchange={handleReasonChange} value={reasonText}>
+                                </lightning-textarea>
+                            </div>
+                        </template>
+                        <template if:true={modalShowNote}>
+                            <div class="slds-m-around_small">
+                                <lightning-textarea name="internal-note" label="Internal note (not visible to student)"
+                                                    onchange={handleNoteChange} value={internalNoteText}>
+                                </lightning-textarea>
+                            </div>
+                        </template>
+                    </template>
+
+                    <!-- Second screen: Confirmation screen -->
+                    <template if:false={modalReasonInputScreen}>
+                        <p class="slds-text-align_center slds-text-heading_small">{modalText}</p>
+                        <template if:true={modalShowReason}>
+                            <div class="slds-m-around_small" lwc:if={reasonText}>
+                                <p><strong>Message to be sent:</strong> {reasonText}</p>
+                            </div>
+                        </template>
+                        <template if:true={modalShowNote}>
+                            <div class="slds-m-around_small" lwc:if={internalNoteText}>
+                                <p><strong>Internal note:</strong> {internalNoteText}</p>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+                <div class="slds-modal__footer slds-modal__footer_directional">
+                    <template if:true={modalReasonInputScreen}>
+                        <lightning-button label="Close" class="slds-button" onclick={onModalCancel}></lightning-button>
+                        <lightning-button label="Next" class="slds-button" variant="brand" onclick={onModalNext}></lightning-button>
+                    </template>
+                    <template if:false={modalReasonInputScreen}>
+                        <lightning-button label="Back" class="slds-button" onclick={onModalBack}></lightning-button>
+                        <lightning-button label={modalActionLabel} class="slds-button" variant={modalActionVariant} onclick={onModalConfirm}></lightning-button>
+                    </template>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open" role="presentation"></div>
+    </template>
+</template>

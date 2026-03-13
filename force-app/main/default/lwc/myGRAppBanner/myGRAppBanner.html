@@ -1,0 +1,12 @@
+<template>    
+    <div if:true={expression}>
+      <div>
+        <div class="main" role="alert">
+          <span class="slds-assistive-text">warning</span>
+          <div class="message" if:true={banner.data}>{message}&nbsp;
+            <a class="link" href={urlLink} target="_blank">{urlText}</a>.
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>

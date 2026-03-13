@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>53.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Has_IDR_currency</name>
+        <label>Has IDR currency</label>
+        <locationX>165</locationX>
+        <locationY>345</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Check_currency_value</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Currency__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>IDR</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_CurrencyISOCode</targetReference>
+            </connector>
+            <label>Check currency value</label>
+        </rules>
+    </decisions>
+    <description>Convert CurrencyISOCode to IDR for MI_DOM fee category records for Indonesia</description>
+    <interviewLabel>Stg course fee - CurrencyISOCode conversion {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Stg course fee - CurrencyISOCode conversion</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_CurrencyISOCode</name>
+        <label>Update CurrencyISOCode</label>
+        <locationX>172</locationX>
+        <locationY>541</locationY>
+        <inputAssignments>
+            <field>CurrencyIsoCode</field>
+            <value>
+                <stringValue>IDR</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>53</locationX>
+        <locationY>40</locationY>
+        <connector>
+            <targetReference>Has_IDR_currency</targetReference>
+        </connector>
+        <object>Stg_Course_Fee__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

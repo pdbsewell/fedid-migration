@@ -1,0 +1,403 @@
+<!--
+  @File Name          : offerWizard.html
+  @Description        : 
+  @Author             : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Group              : 
+  @Last Modified By   : vinoth.raja@monash.edu
+  @Last Modified On   : 7/5/2021
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    11/26/2019   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
+  2.0    07/05/2021   Vinothraja                    Passed OpportunityLineItems to the Child components PackageOfferDuration & OfferManualClause
+-->
+
+<template>
+    <template if:false={loaded}>
+        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </template>
+    <c-wizard header={wizardHeader} variant="base" current-step="step-1">
+        <c-wizard-step label="Start Offer" name="step-1" hide-next-button="true">
+            <div class="slds-text-heading_medium slds-text-align_center">Step 1: Start Offer</div>
+            <template if:true={contact}>
+                <c-offer-wizard-header contact={contact}></c-offer-wizard-header>
+            </template>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col" style="max-width: 50%; border-right: 1px solid #DDDBDA;">
+                    <h2 class="slds-align_absolute-center">INTERNATIONAL OFFERS</h2>
+                    <lightning-layout multiple-rows>
+                        <lightning-layout-item size="6" padding="around-small">
+                            <c-custom-visual-picker svg-icon="utility:new" title="Coursework - Australia" 
+                                content=""
+                                type="International"
+                                link-id={newOfferId}
+                                onpickerclick={handlePicker}
+                                hide-icon="true">
+                            </c-custom-visual-picker>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" padding="around-small">
+                            <c-custom-visual-picker svg-icon="utility:new" title="Coursework - Malaysia" 
+                                content=""
+                                type="International"
+                                link-id={newOfferId}
+                                onpickerclick={handlePicker}
+                                hide-icon="true"
+                                is-disabled="true">
+                            </c-custom-visual-picker>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" padding="around-small">
+                            <c-custom-visual-picker svg-icon="utility:new" title="Coursework - Monash Abroad" 
+                                content=""
+                                type="International"
+                                link-id={newOfferId}
+                                onpickerclick={handlePicker}
+                                hide-icon="true">
+                            </c-custom-visual-picker>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" padding="around-small">
+                            <c-custom-visual-picker svg-icon="utility:new" title="Coursework - Indonesia" 
+                                content=""
+                                type="International"
+                                link-id={newOfferId}
+                                onpickerclick={handlePicker}
+                                hide-icon="true"
+                                is-disabled="true">
+                            </c-custom-visual-picker>
+                        </lightning-layout-item>
+                        <template if:true={canCreateAvenuOffer}>
+                            <lightning-layout-item size="6" padding="around-small">
+                                <c-custom-visual-picker svg-icon="utility:new" title="Coursework - Avenu" 
+                                    content=""
+                                    type="Online"
+                                    link-id={newOfferId}
+                                    onpickerclick={handlePicker}
+                                    hide-icon="true">
+                                </c-custom-visual-picker>
+                            </lightning-layout-item>
+                        </template>
+                        <!--
+                        <lightning-layout-item size="6" padding="around-small">
+                            <c-custom-visual-picker svg-icon="utility:loop" title="Deferral"
+                                content="Defer an existing offer."
+                                link-id={deferOfferId}
+                                onpickerclick={handlePicker}
+                                hide-icon="true">
+                            </c-custom-visual-picker>
+                        </lightning-layout-item>
+                        -->
+                    </lightning-layout>
+                </div>
+                <div class="slds-col" style="max-width: 50%;">
+                    <h2 class="slds-align_absolute-center">DOMESTIC OFFERS</h2>
+                    <lightning-layout multiple-rows>
+                        <lightning-layout-item size="6" padding="around-small">
+                            <c-custom-visual-picker svg-icon="utility:new" title="Coursework - Australia" 
+                                content=""
+                                type="Domestic"
+                                link-id={newDomesticOfferId}
+                                onpickerclick={handlePicker}
+                                hide-icon="true"
+                            >
+                            </c-custom-visual-picker>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" padding="around-small">
+                            <c-custom-visual-picker svg-icon="utility:new" title="Coursework - Indonesia" 
+                            content=""
+                            type="Domestic"
+                            link-id={newDomesticOfferId}
+                            onpickerclick={handlePicker}
+                            hide-icon="true"
+                        >
+                        </c-custom-visual-picker>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" padding="around-small">
+                            <c-custom-visual-picker svg-icon="utility:new" title="Monash College - Australia" 
+                                content=""
+                                type="Domestic"
+                                link-id={newDomesticOfferId}
+                                onpickerclick={handlePicker}
+                                hide-icon="true">
+                            </c-custom-visual-picker>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" padding="around-small">
+                            <c-custom-visual-picker svg-icon="utility:new" title="Coursework - Malaysia" 
+                                content=""
+                                type="Domestic"
+                                link-id={newDomesticOfferId}
+                                onpickerclick={handlePicker}
+                                hide-icon="true"
+                                is-disabled="true">
+                            </c-custom-visual-picker>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="6" padding="around-small">
+                            <c-custom-visual-picker svg-icon="utility:new" title="Coursework - Monash Abroad" 
+                                content=""
+                                type="Domestic"
+                                link-id={newDomesticOfferId}
+                                onpickerclick={handlePicker}
+                                hide-icon="true"
+                                is-disabled="true">
+                            </c-custom-visual-picker>
+                        </lightning-layout-item>
+                      
+                        <!--
+                        <lightning-layout-item size="6" padding="around-small">
+                            <c-custom-visual-picker svg-icon="utility:loop" title="Deferral"
+                                content="Defer an existing offer."
+                                link-id={deferOfferId}
+                                onpickerclick={handlePicker}
+                                hide-icon="true"
+                                is-disabled="true">
+                            </c-custom-visual-picker>
+                        </lightning-layout-item>
+                        -->
+                    </lightning-layout>
+                </div>
+            </div>
+
+            <!--
+            <h2>What would you like to do?</h2>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col" style="max-width: 50%;">
+                    <c-custom-visual-picker svg-icon="utility:new" title="International Offer" 
+                        content="Create a new offer for international applicant."
+                        link-id={newOfferId}
+                        onpickerclick={handlePicker}>
+                    </c-custom-visual-picker>
+                </div>
+                <div class="slds-col" style="max-width: 50%;">
+                    <c-custom-visual-picker svg-icon="utility:loop" title="International Deferral"
+                        content="Defer an existing offer."
+                        link-id={deferOfferId}
+                        onpickerclick={handlePicker}>
+                    </c-custom-visual-picker>
+                </div>
+            </div>         
+            <br/>
+            <div class="slds-grid slds-gutters">
+                <div class="slds-col" style="max-width: 50%;">
+                    <c-custom-visual-picker svg-icon="utility:new" title="Domestic Offer" 
+                        content="Create a new offer for domestic applicant."
+                        link-id={newDomesticOfferId}
+                        onpickerclick={handlePicker}>
+                    </c-custom-visual-picker>
+                </div>
+            </div>
+            -->
+            <lightning-button slot="actions" label="Next" onclick={startOfferNextHandler} variant="brand" title="Next1"></lightning-button>
+        </c-wizard-step>
+        <c-wizard-step label="Select ACP" name="step-2" hide-next-button="true" hide-previous-button="true">
+            <div class="slds-text-heading_medium slds-text-align_center">Step 2: {startTitle}</div>
+            <template if:true={contact}>
+                <c-offer-wizard-header contact={contact}></c-offer-wizard-header>
+            </template>
+            <div if:true={newOffer}>
+                <c-offer-select-acp 
+                    acps={acps} 
+                    preselected-acp-ids={preselectedAcpIds}
+                    regeneration-reason={regenerationReason}
+                    contact-id={recordId} 
+                    bdp-rec={bdpRec}
+                    offer-type={pricebookExtId}>
+                </c-offer-select-acp>
+            </div>
+            <div if:true={deferOffer}>
+                <c-offer-select-defer-acp offered-acp={offerDeferralList} contact-id={recordId} 
+                                            grants={grants} selected-clauses={selectedClauses}
+                                            selected-deferral-list={selectedDeferralList}>
+                </c-offer-select-defer-acp>
+            </div>
+            <div if:true={newDomesticOffer}>
+                <c-offer-select-domestic-acp acps={acps} contact-id={recordId}></c-offer-select-domestic-acp>
+            </div>
+            <template if:false={isDeferral}>
+                <lightning-button slot="actions" label="Previous" onclick={backToStartScreen} variant="neutral" title="Previous" style="padding-right: 15px;"></lightning-button>
+            </template>
+            <lightning-button slot="actions" label="Next" onclick={validate} variant="brand" title="Next"></lightning-button>
+        </c-wizard-step>
+
+        <c-wizard-step label="Validate ACPs" name="step-3" hide-next-button="true">
+            <div class="slds-text-heading_medium slds-text-align_center">Step 3: Validate ACP's</div>
+            <template if:true={contact}>
+                <c-offer-wizard-header contact={contact}></c-offer-wizard-header>
+            </template>
+            <template if:true={hasACP}>
+                <br/>
+                <c-offer-validate-acp offer-lapse-date={offerLapseDate} acps={acpUpdateList}></c-offer-validate-acp>
+            </template>
+            <lightning-button slot="actions" label="Next" onclick={validateACP} variant="brand" title="Next"></lightning-button>
+        </c-wizard-step>
+
+        <c-wizard-step label="Add Manual Clauses" name="step-4" hide-next-button="true" hide-previous-button="true">
+            <div class="slds-text-heading_medium slds-text-align_center">Step 4: Add Manual Clauses</div>
+            <template if:true={contact}>
+                <c-offer-wizard-header contact={contact}></c-offer-wizard-header>
+            </template>
+            <template if:true={hasValidACP}>
+                <br/>
+                <c-offer-manual-clause 
+                    offer-category={opp.Offer_Category__c}
+                    selectedacp-list={selectedacps} 
+                    opportunity-record={opp} 
+                    selected-clauses={selectedClauses} 
+                    bahasa-offer-condition={bahasaOfferCondition}
+                    offer-template ={offerTemplate}
+                    bdp-rec={bdpRec}></c-offer-manual-clause>
+            </template>
+            <lightning-button slot="actions" label="Previous" onclick={getClausesOnPrevious} variant="neutral" title="Previous" style="padding-right: 15px;"></lightning-button>
+            <lightning-button slot="actions" label="Next" onclick={getClausesOnNext} variant="brand" title="Next"></lightning-button>
+        </c-wizard-step>
+
+        <c-wizard-step label="Add Grant & Scholarship" name="step-5">
+            <div class="slds-text-heading_medium slds-text-align_center">Step 5: Select Grant & Scholarship</div>
+            <template if:true={contact}>
+                <c-offer-wizard-header contact={contact} show-destination-a-c-p-submission-location="true" 
+                    destination-a-c-p-submission-location={destinationACPSubmissionLocation}>
+                </c-offer-wizard-header>
+            </template>
+            <div onchange={searchGrants} role="grants-search">
+                <lightning-input
+                    name="enter-search"
+                    label="Do you want to manually add a grant or scholarship to this offer ?"
+                    type="search"
+                ></lightning-input>
+            </div>
+            <br/>
+            <template if:true={displayGrants}>
+                <div class="slds-scrollable slds-grow">
+                    <div class="slds-scrollable_y">
+                        <table aria-multiselectable="true"
+                            class="slds-table slds-no-row-hover slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols"
+                            role="grid">
+                            <thead>
+                                <tr class="slds-line-height_reset">
+                                    <th class="" scope="col" style="width:4.75rem"></th>
+                                    <th aria-label="Name" aria-sort="none" scope="col" colspan="3" style="width:21%">
+                                        <div class="slds-truncate" title="Name">Name</div>
+                                    </th>
+                                    <th aria-label="Type" aria-sort="none" scope="col" style="width:10%"> 
+                                        <div class="slds-truncate slds-text-align_center" title="Type">Type</div>
+                                    </th>   
+                                    <th aria-label="Quota" aria-sort="none" scope="col" style="width:5%"> 
+                                        <div class="slds-truncate slds-text-align_center" title="Quota">Quota</div>
+                                    </th>                                    
+                                    <th aria-label="Expiry Days" aria-sort="none" scope="col" style="width:10%"> 
+                                        <div class="slds-cell-wrap slds-text-align_center" title="Expiry Days">Expiry Date (Projected)</div>
+                                    </th>
+                                    <th aria-label="Deductable from Deposit" aria-sort="none" scope="col" style="width:8%"> 
+                                        <div class="slds-truncate slds-text-align_center" title="Deductable from Deposit">Deposit</div>
+                                    </th>
+                                    <th aria-label="Keywords" aria-sort="none" scope="col" >
+                                        <div class="slds-truncate" title="Keywords">Keywords</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each={grants} for:item="product">
+                                    <template if:false={product.hidden}>
+                                        <tr key={product.Id} aria-selected={product.selected} class="slds-hint-parent">
+                                            <td class="slds-text-align_right" role="gridcell" tabindex="0">
+                                                <div class="slds-checkbox_add-button" id={product.Id} onclick={selectGrantRow}>
+                                                    <template if:true={product.selected}>
+                                                        <input type="checkbox" class="slds-assistive-text" value={product.Id} tabindex="-1" checked="checked" aria-label={product.Product2.Name} />
+                                                    </template>
+                                                    <template if:false={product.selected}>
+                                                        <template if:true={product.quotaOver}>
+                                                            <input disabled type="checkbox" class="slds-assistive-text" value={product.Id} tabindex="-1" aria-label={product.Product2.Name}/>
+                                                        </template>
+                                                        <template if:false={product.quotaOver}>
+                                                            <input type="checkbox" class="slds-assistive-text" value={product.Id} tabindex="-1" aria-label={product.Product2.Name}/>
+                                                        </template>
+                                                    </template>
+                                                    <label class="slds-checkbox_faux">
+                                                        <span class="slds-assistive-text">{product.Product2.Name}</span>
+                                                    </label>
+                                                </div>
+                                            </td>
+                                            <td colspan="3" role="gridcell">
+                                                <div class="slds-truncate" title={product.Product2.Name}>
+                                                    <lightning-formatted-url value={product.viewUrl} label={product.Product2.Name}
+                                                        target="_blank"></lightning-formatted-url>
+                                                </div>
+                                            </td>
+                                            <td role="gridcell">
+                                                <div class="slds-cell-wrap slds-text-align_center" title={product.Product2.Family}>{product.Product2.Family}</div>
+                                            </td>
+                                            <td role="gridcell">
+                                                <div class="slds-truncate slds-text-align_center" title={product.Product2.Quota_Available__c}>{product.Product2.Quota_Available__c}                                             
+                                                    <template if:true={product.quotaOver}>
+                                                        <lightning-icon icon-name="utility:error" alternative-text="Error!" variant="error" title="Quota Exhausted!" size="small"></lightning-icon>
+                                                    </template>
+                                                    <template if:true={product.quotaNearlyOver}>
+                                                        <lightning-icon icon-name="utility:warning" alternative-text="Warning!" variant="warning" title="Quota about to be exhausted!" size="small"></lightning-icon>
+                                                    </template>                                                
+                                                </div>
+                                            </td>      
+                                            <td role="gridcell">
+                                                <div class="slds-cell-wrap slds-text-align_center" title={product.Product2.Expiry_days__c}>{product.Product2.Expiry_days__c} days <br/> ({product.projectedExpiryDate})</div>
+                                            </td>
+                                            <td role="gridcell">
+                                                <div class="slds-truncate slds-text-align_center" title={product.Product2.Value_Deductable__c}>   <!--should replace currency-code by CurrencyIsoCode if multi currency is enabled -->
+                                                    <lightning-formatted-number value={product.Product2.Value_Deductable__c} format-style="currency" currency-code="AUD"></lightning-formatted-number>
+                                                </div>
+                                            </td>
+                                            <td role="gridcell">
+                                                <div class="slds-cell-wrap" title={product.Product2.Keywords__c}>{product.Product2.Keywords__c}</div>
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </template>
+            <template if:false={displayGrants}>
+                <div class="slds-illustration slds-illustration_large" aria-hidden="true">
+                    <img src="/img/chatter/OpenRoad.svg" class="slds-illustration__svg" alt=""/>
+                    <div class="slds-text-color_weak">
+                        <h3 class="slds-text-heading_medium">No Grants & Scholarship to display</h3>
+                    </div>
+                </div>
+            </template>
+        </c-wizard-step>
+      
+        <c-wizard-step label="Finalise Offer" name="step-7" hide-next-button="true">
+            <div class="slds-text-heading_medium slds-text-align_center">Step 6: Finalise Offer</div>
+            <template if:true={contact}>
+                <c-offer-wizard-header 
+                    contact={contact} 
+                    show-destination-a-c-p-submission-location="true" 
+                    destination-a-c-p-submission-location={destinationACPSubmissionLocation}>
+                </c-offer-wizard-header>
+            </template>
+            <template if:true={selectedacps}>
+                    <c-package-offer-duration
+                            acp-list={selectedacps}
+                            opportunity-record={opp}
+                            show-buttons={showButtons}
+                            offer-category={opp.Offer_Category__c}
+                            offer-template ={offerTemplate}
+                            agent-name={destinationAcpAgentName}>
+                    </c-package-offer-duration>
+                    <lightning-button 
+                        slot="actions" 
+                        label="Finish" 
+                        onclick={createOffer} 
+                        variant="brand" 
+                        title="Finish" 
+                        name="Finish">
+                    </lightning-button>
+                    <lightning-button 
+                        slot="actions" 
+                        label="Finish and Close" 
+                        onclick={createOffer} 
+                        variant="brand" 
+                        title="Finish and Close" 
+                        name="FinishAndClose" 
+                        style="margin-left: 15px;">
+                    </lightning-button>
+            </template>
+        </c-wizard-step>
+       
+    </c-wizard>
+</template>

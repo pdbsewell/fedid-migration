@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>unicrm.coreadmin@monash.edu</contactEmail>
+    <label>Monash Forms (UAT)</label>
+    <oauthConfig>
+        <callbackUrl>https://forms-uat.monash.edu/api/v1/oauth/salesforce/callback</callbackUrl>
+        <certificate>MIIDRjCCAi4CCQCZlPZjg7auWjANBgkqhkiG9w0BAQsFADBlMQswCQYDVQQGEwJBVTERMA8GA1UECAwIVmljdG9yaWExEjAQBgNVBAcMCU1lbGJvdXJuZTEaMBgGA1UECgwRTW9uYXNoIFVuaXZlcnNpdHkxEzARBgNVBAsMCmVTb2x1dGlvbnMwHhcNMjExMjEzMDAxNzAzWhcNMjIxMjEzMDAxNzAzWjBlMQswCQYDVQQGEwJBVTERMA8GA1UECAwIVmljdG9yaWExEjAQBgNVBAcMCU1lbGJvdXJuZTEaMBgGA1UECgwRTW9uYXNoIFVuaXZlcnNpdHkxEzARBgNVBAsMCmVTb2x1dGlvbnMwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQDMR5HEHuTvboNFs0eaF/Lu55vod1D03JImZx/i6GxNhEfgrlHHu1TXXaGHV6/9ASN2dyCiwp4ghci0RilRcdm/5Jrb9wLURw5Gu1m0w0oNVdnQ8FJAr2uUdpuA9PWRVmnVSh99ffytrkL9cAmc0g80vJdGesp9V6MmBKqTKLH2xKnmqTiKcR0qzIn08s0V3nQ/Gjt73ntPIZhs+rROOSqEApqFzyGVBxP7o5H0XOUvPqxzRaH33Y1i12/LWXKndxoPYAFXJfN3Z3e5ehVUF5N54i7njil/pK6kktzm9TQlG/u+S0Zp5vzvkbWMhM2qOs2CmxEnyvGaOKtO54RaA4wnAgMBAAEwDQYJKoZIhvcNAQELBQADggEBAGoWGBl0xev2sYSiKWy4cBFRmIsnkKsKXoFH02dhdMNZFbVQtHt6wwetXEt+pn56o43QqiJYYZBpEk9EPNo0hcZq0lU22ncNoZ/5PBq6A+3n2K5xKlCt40634dG6Vv3zTZg6jQB/IFGPBkeoEhw21GhfH3WWGdgr1FwfyLRavS66f74KkVPeE8G1H1/Id8laAxIN6cG4qP1Hx8Tfc2pLuLoQcDVf1/gXfSjdd5kAMpEFUMytbPiSjnTdNNfMDAbTlUxXs9lGzVri97EMY1+zvy6d8QTgK82eKLrnx/9MJ2XcO7JvjXYwFSBEIIDWwG5s92/B73cZve0JgA5hgfZxwKA=</certificate>
+        <consumerKey>3MVG9mywN3hwYEwnV8jOpeEH05ojaRPSqIbqJeUi8qrPcymrNfgkc76Hnl4AFb0RRCp0bigPOdxUAY_wgMIpm</consumerKey>
+        <isAdminApproved>true</isAdminApproved>
+        <isClientCredentialEnabled>false</isClientCredentialEnabled>
+        <isCodeCredentialEnabled>false</isCodeCredentialEnabled>
+        <isCodeCredentialPostOnly>false</isCodeCredentialPostOnly>
+        <isConsumerSecretOptional>false</isConsumerSecretOptional>
+        <isIntrospectAllTokens>false</isIntrospectAllTokens>
+        <isNamedUserJwtEnabled>false</isNamedUserJwtEnabled>
+        <isPkceRequired>false</isPkceRequired>
+        <isRefreshTokenRotationEnabled>false</isRefreshTokenRotationEnabled>
+        <isSecretRequiredForRefreshToken>false</isSecretRequiredForRefreshToken>
+        <isSecretRequiredForTokenExchange>false</isSecretRequiredForTokenExchange>
+        <isTokenExchangeEnabled>false</isTokenExchangeEnabled>
+        <scopes>Api</scopes>
+        <scopes>RefreshToken</scopes>
+    </oauthConfig>
+    <oauthPolicy>
+        <ipRelaxation>ENFORCE</ipRelaxation>
+        <isTokenExchangeFlowEnabled>false</isTokenExchangeFlowEnabled>
+        <refreshTokenPolicy>specific_lifetime:1:DAYS</refreshTokenPolicy>
+    </oauthPolicy>
+    <sessionPolicy>
+        <sessionTimeout>60</sessionTimeout>
+    </sessionPolicy>
+</ConnectedApp>

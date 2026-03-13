@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>defines the time interval for Lead Course Association to determine the grouping of batches and for considering the latest primary course association (should be in SECONDS)</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Time_Interval_In_Seconds__c</fullName>
+        <defaultValue>3600</defaultValue>
+        <description>time interval value in seconds</description>
+        <externalId>false</externalId>
+        <label>Time Interval In Seconds</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>LCA Grouping Interval</label>
+    <visibility>Public</visibility>
+</CustomObject>

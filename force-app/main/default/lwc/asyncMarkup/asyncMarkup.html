@@ -1,0 +1,25 @@
+<!--
+  @File Name          : asyncMarkup.html
+  @Description        : 
+  @Author             : Jasmin Joy Rudio
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 11/26/2019, 8:51:14 AM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    11/26/2019   Jasmin Joy Rudio     Initial Version
+-->
+<template>
+    <div>
+        <template if:true={value}>
+            <slot name="onFulfilled"></slot>
+        </template>
+        <template if:true={error}>
+            <slot name="onRejected"></slot>
+        </template>
+        <template if:true={pending}>
+            <slot name="onPending"></slot>
+        </template>
+        <slot></slot>
+    </div>
+</template>

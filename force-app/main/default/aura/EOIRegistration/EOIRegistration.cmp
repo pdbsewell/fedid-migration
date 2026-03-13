@@ -1,0 +1,220 @@
+<aura:component implements="force:appHostable,forceCommunity:availableForAllPageTypes" access="global" controller="EOIRegController">
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+	<!-- Handler -->
+	<aura:attribute name="monashLogo" type="String" default="https://www.monash.edu/__data/assets/git_bridge/0006/509343/deploy/mysource_files/monash-logo-mono.svg"/>
+	<aura:attribute name="newContact" type="Object[]"/>
+    <aura:attribute name="courseOffering" type="Object" default=""/>
+	<aura:attribute name="errorMessage" type="String" default="" />
+	<aura:attribute name="hasValidationErrors" type="Boolean" default="" />
+	<aura:attribute name="exception" type="String" default="" />
+	<aura:attribute name="isLoading" type="Boolean" default="false" />
+	<aura:attribute name="privacyPolicy" type="String" default="https://www.monash.edu/privacy-monash/privacy-collection-statements#monashuni"/>
+	<aura:attribute name="group8Logo" type="String" default="https://www.monash.edu/__data/assets/git_bridge/0006/509343/deploy/mysource_files/go8_logo_mono.svg"/>
+	<aura:attribute name="footerText" type="String" default="Maintained by: eSolutions Service Desk. Last updated: Jun 2017.
+
+Copyright © 2017 Monash University. ABN 12 377 614 012 Accessibility - Disclaimer and copyright - Privacy, Monash University CRICOS Provider Number: 00008C, Monash College CRICOS Provider Number: 01857J. Monash University is a registered higher education provider under the TEQSA Act 2011.
+
+We acknowledge and pay respects to the Elders and Traditional Owners of the land on which our five Australian campuses stand. Information for Indigenous Australians."/>
+	<div class="wrapper">
+    
+    <span id="Accspinner" style="display:none">
+            <div class="slds-spinner_container">
+                <lightning:spinner variant="brand" size="medium" alternativeText="Loading"/>
+            </div>
+	</span>
+    <div class="slds-page-header">
+		<div class="slds-page-header-styling"><img src="{!v.monashLogo}" alt="" /></div>
+	</div>
+
+	<!-- Header Text -->
+	<div class="slds-page-header">
+		<div class="slds-grid">
+			<div class="slds-col slds-has-flexi-truncate">
+				<span>
+					<p class="slds-text-heading--label" style="font-weight:bold; color:#006DAE;">Professional Development</p>
+				</span>
+				<span>
+					<p class="slds-text-heading--label heading">Express your Interest</p>
+				</span>
+			</div>
+		</div>
+	</div>
+	<center>
+		<div class="header-styling" style="padding-top: 1rem;">
+			<ui:outputText aura:id="coDescription" value="{!v.courseOffering.Course__r.Course_Description__c}" class="slds-text-heading_large"/>
+		</div>
+		<div class="header-styling">
+			<ui:outputText aura:id="coLocation" value="{!v.courseOffering.Venue__r.Name}" class="slds-text-heading_medium"/>
+		</div>
+		<div class="header-styling">
+			<ui:outputDate aura:id="coStartDate" value="{!v.courseOffering.Start_Date__c}" format="DD-MM-YYYY" class="slds-text-heading_medium"/>
+			<ui:outputText aura:id="seperator" value="{!'     -     '}" class="slds-text-heading_medium whitespace"/>
+			<ui:outputDate aura:id="coEndDate" value="{!v.courseOffering.End_Date__c}" format="DD-MM-YYYY" class="slds-text-heading_medium"/>
+		</div>
+
+	</center>
+	<aura:If isTrue="{!v.exception != ''}">
+		<div style="padding-top:10px;" />
+		<div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert">
+			<span class="slds-assistive-text">Error</span>
+			<lightning:icon iconName="utility:sentiment_negative" size="small" alternativeText="negative"/>
+			&nbsp;&nbsp;<ui:outputText value="  We are sorry. Something went wrong with the registration. Please try again later by refreshing the page or contact Monash University  "/>
+			<lightning:icon iconName="utility:sentiment_negative" size="small" alternativeText="negative"/>
+		</div>
+	</aura:If>
+	<center>
+		<div class="section-title-styling">
+			Contact Details
+		</div>
+	</center>
+			<form>
+				<div class="slds-grid slds-grid_align-center slds-wrap">
+					<div class="slds-col">
+						<div class="slds-text-align_left slds-m-around_x-small">
+							<div class="slds-form-element__control">
+								<ui:inputSelect label="Title"
+												class="dynamic" aura:id="title"
+												labelClass="slds-form-element__label"
+												value="{!v.newContact.title}"
+												change="{!c.resetError}"
+												required="true"/>
+							</div>
+						</div>
+					</div>
+
+				</div>
+				<div class="slds-grid slds-grid_align-center slds-wrap">
+					<div class="slds-col">
+						<div class="slds-text-align_left slds-m-around_x-small">
+							<div class="slds-form-element__control">
+								<ui:inputText aura:id="fname" label="First Name"
+											  class="dynamic"
+											  labelClass="slds-form-element__label"
+											  change="{!c.resetError}"
+											  value="{!v.newContact.firstname}" required="true"/>
+							</div>
+						</div>
+					</div>
+					<div class="slds-col">
+						<div class="slds-text-align_left slds-m-around_x-small">
+							<div class="slds-form-element__control">
+								<ui:inputText aura:id="lname" label="Last Name"
+											  class="dynamic"
+											  labelClass="slds-form-element__label"
+											  change="{!c.resetError}"
+											  value="{!v.newContact.lastname}" required="true"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="slds-grid slds-grid_align-center slds-wrap">
+					<div class="slds-col">
+						<div class="slds-text-align_left slds-m-around_x-small">
+							<div class="slds-form-element__control">
+								<ui:inputText aura:id="jtitle" label="Job Title"
+											  class="dynamic"
+											  labelClass="slds-form-element__label"
+											  change="{!c.resetError}"
+											  value="{!v.newContact.jtitle}" required="true"/>
+							</div>
+						</div>
+					</div>
+					<div class="slds-col">
+						<div class="slds-text-align_left slds-m-around_x-small">
+							<div class="slds-form-element__control">
+								<ui:inputText aura:id="orga" label="Organisation"
+											  class="dynamic"
+											  labelClass="slds-form-element__label"
+											  change="{!c.resetError}"
+											  value="{!v.newContact.orga}"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="slds-grid slds-grid_align-center slds-wrap">
+						<div class="slds-col">
+							<div class="slds-text-align_left slds-m-around_x-small">
+								<div class="slds-form-element__control">
+									<ui:inputText aura:id="pnumber" label="Mobile Number/Phone Number"
+												  class="dynamic"
+												  labelClass="slds-form-element__label"
+												  change="{!c.resetError}"
+												  value="{!v.newContact.pnumber}" required="true"/>
+								</div>
+							</div>
+						</div>
+
+
+					<div class="slds-col">
+						<div class="slds-text-align_left slds-m-around_x-small">
+							<div class="slds-form-element__control">
+								<ui:inputText aura:id="email" label="Email"
+											  class="dynamic"
+											  labelClass="slds-form-element__label"
+											  change="{!c.resetError}"
+											  value="{!v.newContact.email}" required="true"/>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div></div>
+					<div class="slds-grid slds-grid_align-center slds-wrap">
+						<div class="slds-col">
+							<div class="slds-text-align_left slds-m-around_x-small">
+								<div class="slds-form-element__control">
+									<ui:inputSelect label="How did you hear about us ?"
+													class="dynamic" aura:id="heardfrom"
+													labelClass="slds-form-element__label"
+													value="{!v.newContact.heardfrom}"
+													change="{!c.resetError}"
+													required="true"/>
+								</div>
+							</div>
+						</div>
+					</div>
+				<div class="slds-align_absolute-center" style="padding-top:20px;padding-bottom:40px;">
+					<aura:if isTrue="{!v.isLoading}">
+						<div class="slds-col slds-align_absolute-center" padding="around-small">
+							<c:Spinner type="bars" width="80" height="34" color="rgb(0, 112, 210)" show="true" />
+						</div>
+					</aura:if>
+					<div>
+						<div class="slds-grid_align-center slds-m-around_x-small">
+							<div class="slds-col" padding="around-small">
+								<lightning:button aura:id="bookButton" variant="brand" onclick="{!c.saveRecord}"  label="Express your interest" iconName="utility:approval" iconPosition="left"  class="button-styling" />
+							</div>
+						</div>
+					</div>
+					<aura:if isTrue="{!v.isLoading}">
+						<div class="slds-col slds-align_absolute-center" padding="around-small">
+							<c:Spinner type="bars" width="80" height="34" color="rgb(0, 112, 210)" show="true" />
+						</div>
+					</aura:if>
+				</div>
+			</form>
+	<aura:If isTrue="{!v.exception != ''}">
+		<div style="padding-top:10px;" />
+		<div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert">
+			<span class="slds-assistive-text">Error</span>
+			<lightning:icon iconName="utility:sentiment_negative" size="small" alternativeText="negative"/>
+			<ui:outputText value="  We are sorry. Something went wrong with the registration. Please try again later by refreshing the page or contact Monash University  "/>
+			<lightning:icon iconName="utility:sentiment_negative" size="small" alternativeText="negative"/>
+		</div>
+	</aura:If>
+	<div class="footer-wrapper-styling">
+		<!-- <div style="align:center; padding-left:10px; padding-right:10px;">
+            <ui:outputURL value="{!v.termsAndConditions}" label="Terms and Conditions" target="_blank" class="footer-styling" />
+          </div> -->
+		<div id="ui-privacy">
+			<ui:outputURL value="{!v.privacyPolicy}" label="Privacy Statement" target="_blank" class="footer-styling" />
+		</div>
+
+		<div id="ui-footer-text">{!v.footerText}</div>
+
+		<div id="ui-group8logo">
+			<img src="{!v.group8Logo}" alt="" />
+		</div>
+	</div>
+  	</div>
+
+</aura:component>

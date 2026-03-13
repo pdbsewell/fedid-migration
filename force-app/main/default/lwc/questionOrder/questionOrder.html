@@ -1,0 +1,53 @@
+<template>
+    <lightning-card>
+        <!--<div class="slds-m-around_medium">
+            
+            <lightning-button label="Save Order" onclick={handleSaveOrder}></lightning-button>
+        </div>-->
+
+        <div class="slds-m-around_medium">
+            <table class="table-dragable slds-table slds-table_bordered slds-table_cell-buffer slds-table_col-bordered slds-table_striped">
+                <thead>
+                    <tr class="slds-line-height_reset">
+                        <th scope="col">Order</th>
+                        <th style="display:none;" scope="col">Id</th>
+                        <th scope="col">Text</th>
+                        <th scope="col">Data Type</th>
+                        <th scope="col">Parent Element</th>
+                        <th scope="col">Parent Element Name</th>
+                        <th scope="col" style="width: 3rem;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <template if:true={questions}>
+                        <template for:each={questions} for:item="question" for:index="index">
+                            <tr 
+                                data-key={question.uniqueId}
+                                class="grabable"
+                                key={question.uniqueId}
+                                id={question.uniqueId}
+                                draggable="true"
+                                data-drag-id={index}
+                                ondragstart={onDragStart}
+                                ondragover={onDragOver}
+                                ondrop={onDrop}
+                            >
+                                <td data-label="Order" class="myIndex">{index}</td>
+                                <td style="display:none;" data-label="id" class="myId">{question.uniqueId}</td>
+                                <td data-label="Text">{question.Name}</td>
+                                <td data-label="Data Type">{question.AO_Type__c}</td>
+                                <td data-label="Data Type">{question.Parent_Element__c}</td>
+                                <td data-label="Data Type">{question.Parent_Element_Name__c}</td>
+                                
+                            </tr>
+                        </template>
+                    </template>
+                </tbody>
+            </table>
+        </div>
+        <div slot="footer" class="slds-m-around_medium slds-text-align_right">
+            
+            <lightning-button label="Next" onclick={handleNext}></lightning-button>
+        </div>
+    </lightning-card>
+</template>

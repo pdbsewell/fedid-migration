@@ -1,0 +1,515 @@
+<aura:component implements="force:appHostable,forceCommunity:availableForAllPageTypes" access="global" controller="StdRegController">
+    <aura:attribute name="Tncaccept" type="String" default="http://www.monash.edu/education/future-students/courses/short-courses/payment" />
+    <aura:attribute name="PPLink" type="String" default="https://www.monash.edu/privacy-monash/privacy-collection-statements#monashuni" />
+    <aura:attribute name="copval" type="String" default=""/>
+    <aura:attribute name="tAndCLink" type="String" default="" />
+    <aura:attribute name="hasValidationErrors" type="Boolean" default="false" />
+    <aura:attribute name="lastSavedTab" type="String" default=""/>
+    <aura:attribute name="showUpload" type="Boolean" default="" />
+    <aura:attribute name="showText" type="Boolean" default="" />
+    <aura:attribute name="coNamePar" type="String" default="" />
+    <aura:attribute name="idnumber" type="String" default="" />
+    <aura:attribute name="attachList" type="List" description="list of documents"/>
+    <aura:attribute name="currentState" type="String" default="" />
+    <aura:attribute name="FormstackURLlength" type="Integer" default="0"/>
+    <aura:attribute name="envLink" type="String" default=""/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler event="c:communicateUploadStatus" action="{!c.readFileUploadStatus}"/>
+    <aura:handler event="c:Tab1Save" action="{!c.updateLastTabSaved}"/>
+
+    <aura:attribute name="tacMap" type="Map"/>
+    <aura:attribute name="ValidationMsg" type="String"/>
+    <aura:attribute name="isLoading" type="Boolean" default="false" />
+    <aura:attribute name="saveMsg" type="String" default="" />
+    <aura:attribute name="tabswitchErrMsg" type="String" default=""/>
+
+    <aura:registerEvent name="FileuploadFreeze" type="c:FileuploadFreeze"/>
+    <aura:registerEvent name="communicateUploadStatus" type="c:communicateUploadStatus"/>
+    <aura:registerEvent name="Tab2Save" type="c:Tab2Save"/>
+
+    <aura:attribute name="noDataText" type="String" default="No documents uploaded yet"/>
+    <aura:attribute name="fileUploadErr" type="Boolean" default=""/>
+    <aura:attribute name="termsAccepted" type="Boolean" default="false"/>
+    <aura:attribute name="privacyAccepted" type="Boolean" default="false"/>    
+    <aura:attribute name="COPMandatoryMsg" type="Boolean" default="false"/>
+    <aura:attribute name="TncMandatoryMsg" type="Boolean" default="false"/>
+    <aura:attribute name="contactId" type="String" default=""/>
+    <aura:attribute name="exception" type="String" default=""/>
+    <aura:attribute name="appId" type="String" default=""/>
+    <aura:attribute name="enqId" type="String" default=""/>
+    <aura:attribute name="courseoffering" type="Object" default=""/>
+    <aura:attribute name="conObj" type="Object" default=""/>
+
+    <!-- Nadula Karunaratna | 24/07/2019 | PRODEV-359 Adding invoicing related changes -->
+    <aura:attribute name="showInvoiceQuestions" type="Boolean" default="false" />
+    <aura:attribute name="invoice" type="Object[]" default=""/>
+    <!-- <aura:attribute name="showABN" type="Boolean" default="false" /> -->
+    <aura:attribute name="isNewOrgData" type="Boolean" default="false" />
+
+    <!-- Nadula Karunaratna | 10/08/2020 | PRODEV-582 Adding Cost Centre & Fund payment option related changes -->
+    <aura:attribute name="showCCFundQuestions" type="Boolean" default="false" />
+    <aura:attribute name="ccfund" type="Object[]" default=""/>
+
+
+    <aura:If isTrue="{!v.exception != ''}">
+        <div style="padding-top:10px;" />
+        <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert">
+            <lightning:icon iconName="utility:sentiment_negative" size="medium" alternativeText="negative"/>
+            <span style="font-size:10px;font-weight:bold;font-variant:small-caps;font-family:'Salesforce Sans',Arial,sans-serif;">
+            &nbsp;&nbsp;<ui:outputText value="  We are sorry. Something went wrong with the registration. Please try again later by refreshing the page or contact Monash University  "/>
+            &nbsp;&nbsp;</span>
+            <lightning:icon iconName="utility:sentiment_negative" size="medium" alternativeText="negative"/>
+        </div>
+    </aura:If>
+
+    <aura:If isTrue="{!(v.saveMsg!='' &amp;&amp; v.exception == '')}">
+        <div  class="slds-notify slds-notify--alert slds-theme--success slds-theme--alert-texture" role="alert">
+            <span  class="slds-assistive-text">Success</span>
+            <lightning:icon iconName="utility:smiley_and_people" size="medium" alternativeText="positive"/>
+            <span style="font-size:10px;font-weight:bold;font-variant:small-caps;font-family:'Salesforce Sans',Arial,sans-serif;">
+                &nbsp;&nbsp;<ui:outputText value="{!v.saveMsg}"/> &nbsp;&nbsp;</span>
+            <lightning:icon iconName="utility:smiley_and_people" size="medium" alternativeText="positive"/>
+        </div>
+    </aura:If>
+    <center>
+        <aura:if isTrue="{!(v.ValidationMsg!='')}">
+            <div style="text-align:center;padding-top:10px;font-weight:bold;font-variant:small-caps;font-family:'Salesforce Sans',Arial,sans-serif;">
+                <label class="slds-checkbox__label">
+                    <span class="slds-checkbox_faux"></span>
+                    <span class="slds-form-element__label" style="font-variant:small-caps;color:red;font-weight:bold;font-size:15px;font-family:'Salesforce Sans',Arial,sans-serif;">
+                                    {!v.ValidationMsg}</span>
+                </label>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.COPMandatoryMsg}">
+            <div style="text-align:center;padding-top:10px;font-size:15px;font-weight:bold;font-variant:small-caps;font-family:'Salesforce Sans',Arial,sans-serif;">
+                 <label class="slds-checkbox__label">
+                     <span class="slds-checkbox_faux"></span>
+                     <span class="slds-form-element__label" style="font-variant:small-caps;color:red;font-weight:bold;font-size:15px;font-family:'Salesforce Sans',Arial,sans-serif;">
+                            Course offer prices is required</span>
+                 </label>
+            </div>
+        </aura:if>
+
+    </center>
+
+    <aura:If isTrue="{!v.lastSavedTab=='tab1'}"> 
+        <div class="c-container slds-align_absolute-center">
+            <lightning:layout multipleRows="true">
+                <lightning:layoutItem padding="around-small" size="12">
+                    <lightning:layout>
+                        <lightning:layoutItem padding="around-small" size="{!(v.showUpload || v.showText)?6:12}">
+                            <fieldset class="slds-box slds-theme--default">
+                                <legend id="agentDetailsSection">
+                                <span style="font-size:10px;font-family:'Salesforce Sans',Arial,sans-serif;">
+
+                                    Course Offer Prices</span> <span class="required " data-aura-rendered-by="197:0">*</span>
+                                </legend>
+
+                            <div class="page-section page-main">
+                                <div class="slds-text-align_left slds-m-around_x-small">
+                                    <div class="slds-form-element__control">
+                                    <lightning:radioGroup aura:id="cop"
+                                                          labelClass="slds-form-element__label"
+                                                      value="{!v.copval}" name="coprg"
+                                                      type="radio"
+                                                      onchange="{! c.COP_onChange }"
+                                    />
+                                    </div>
+                                </div>
+                            </div>
+                            </fieldset>
+                        </lightning:layoutItem>
+                       
+                        <aura:if isTrue="{!v.showUpload}">
+                            <lightning:layoutItem  padding="around-small" size="6">
+                                <div class="page-section page-right">
+                                    <c:FileUpload parentId="{!v.enqId}"/>
+                                </div>
+                            </lightning:layoutItem>
+                        </aura:if>
+                        <aura:if isTrue="{!v.showText}">
+                            <lightning:layoutItem  padding="around-small" size="6">
+                                <div class="page-section page-right">
+                                    <div class="slds-text-align_left slds-m-around_x-small">
+                                        <div class="slds-form-element__control">
+                                            <ui:inputText aura:id="showtext" label="Please provide the relevant ID number to support your discount claim:"
+                                                          class="dynamic"
+                                                          labelClass="slds-form-element__label"
+                                                          value="{!v.idnumber}"/>
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </lightning:layoutItem>
+                        </aura:if>
+                    </lightning:layout>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </div>
+        <center>
+
+            <aura:if isTrue="{!v.showUpload}">
+                <aura:if isTrue="{!v.attachList.length >0}">
+                        <h1>Documents Already Uploaded</h1>
+                    <table class="slds-table slds-table--bordered slds-table--cell-buffer" style="width:50%">
+                        <thead>
+                        <tr class="slds-text-title--caps">
+                            <th scope="col" width="50%">
+                                <div class="slds-truncate" title="">Document Name</div>
+                            </th>
+                            <th scope="col" width="50%">
+                                <div class="slds-truncate" title="">File Type</div>
+                            </th>
+
+                            <th scope="col" width="50%">
+                                <div class="slds-truncate" title="">Delete?</div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <aura:iteration items="{!v.attachList}" var="attach">
+                            <ui:outputText value="{!attach.Id}" class="slds-hide" />
+                            <tr>
+                                <td scope="col" width="30%">
+                                    <div class="wrapClass" >{!attach.Name}</div>
+                                </td>
+                                <td scope="col" width="30%">
+                                    <div class="wrapClass" >{!attach.ContentType}</div>
+                                </td>
+                                <td scope="col" width="30%">
+                                    <lightning:buttonIcon  iconName="utility:delete" title="Default" alternativeText="Default" value="{!attach.Id}" onclick="{!c.deleteDocument}"/>
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                        </tbody>
+                    </table>
+                    <aura:set attribute="else">
+                        <ui:message severity="info">{!v.noDataText}</ui:message>
+                    </aura:set>
+                </aura:if>
+            </aura:if>
+        </center>
+        <aura:If isTrue="{!(v.courseoffering.Is_Selective__c == true)}">
+            <center>
+                <div class="slds-scoped-notification slds-media slds-media_center" role="status">
+                    <div class="slds-media__body">
+                        <p style="padding-left:5px;font-weight:bold;font-size:16px;line-height:21px;font-family:'Salesforce Sans',Arial,sans-serif;">
+                            This is a selective course which requires approval. No payment is required at this stage.</p>
+                    </div>
+                </div>
+            </center>
+        </aura:If>
+
+
+        <!--Invoicing -->
+        <!-- <aura:if isTrue="{!(v.courseoffering.Pay_by_Invoice__c == true)}"> -->
+        <aura:if isTrue="{! (v.currentState != 'WAITLIST' &amp;&amp; ( v.courseoffering.Pay_by_Invoice__c || v.courseoffering.Pay_by_Cost_Centre_and_Fund__c) ) }">
+        <!-- <aura:If isTrue="{! (v.currentState != 'WAITLIST') }"> -->
+        <div class="c-container slds-align_absolute-center">
+            <lightning:layoutItem padding="around-small" size="12">                        
+                <lightning:layout multipleRows="true">
+                    <lightning:layoutItem padding="around-small" size="{!(v.showUpload || v.showText)?6:12}">                        
+                        
+                        <fieldset class="slds-box slds-theme--default">
+                            <legend id="agentDetailsSection"><span style="font-size:10px;font-family:'Salesforce Sans',Arial,sans-serif;">
+                                Payment Method</span><!-- <span class="required " data-aura-rendered-by="197:0">*</span> -->
+                            </legend>                            
+
+                            <div class="page-section page-main slds-wrap" style="padding-bottom:20px;">
+
+                                <div class="slds-grid slds-gutters">
+                                  <div class="slds-col">
+                                        <div class=" slds-medium-size" style="max-width: 400px;vertical-align:top;">
+                                        <!-- <aura:component> -->
+                                            <lightning:select aura:id="paymentMethod" class="slds-small-size" name="paymentMethod" label="How would you like to pay?" required="true" onchange="{! c.paymentMethod_onChange }">
+                                                <option value="0">choose one...</option>
+                                                <option value="1">CreditCard or Paypal</option>                                                
+
+                                                <aura:if isTrue="{! v.courseoffering.Pay_by_Invoice__c }">
+                                                    <option value="2">Invoice (Not for Monash Staff)</option>        
+                                                </aura:if>
+
+                                                <aura:if isTrue="{! v.courseoffering.Pay_by_Cost_Centre_and_Fund__c }">
+                                                    <option value="3">Cost Centre &amp; Fund (Monash staff only)</option>        
+                                                </aura:if>
+
+                                            </lightning:select>
+                                        <!-- </aura:component> -->
+                                         </div>
+                                  </div>
+                                  <div class="slds-col">
+                                    <!-- <span>Text</span> -->
+                                  </div>
+                                </div>                                
+
+                                <!-- Cost Centre & Fund related questions -->                                
+                                <aura:if isTrue="{!v.showCCFundQuestions}">
+                                    <div><hr/></div>
+                                    <div class="slds-text-title_bold"><span>Monash University staff please complete following details:</span></div>
+                                    <div class="slds-grid slds-grid_align-center slds-grid--pull-padded slds-wrap">
+                                        <div class="slds-col">
+                                            <div class="slds-text-align_left slds-m-around_x-small">
+                                                <div class="slds-form-element__control" style="max-width: 400px;">
+                                                    <ui:inputText aura:id="costCentre" label="Cost Centre"
+                                                                class=""
+                                                                labelClass="slds-form-element__label"
+                                                                change="{!c.resetError}"
+                                                                value="{!v.ccfund.costCentre}" size="6" required="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col">
+                                            <div class="slds-text-align_left slds-m-around_x-small">
+                                                <div class="slds-form-element__control" style="max-width: 400px;">
+                                                    <ui:inputText aura:id="fund" label="Fund"
+                                                                class=""
+                                                                labelClass="slds-form-element__label"
+                                                                change="{!c.resetError}"
+                                                                value="{!v.ccfund.fund}" size="6" required="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>                                    
+                                </aura:if>
+
+                                <!-- Invoice related questions -->                                
+                                <aura:if isTrue="{!v.showInvoiceQuestions}">
+ 
+                                    <div><hr/></div>
+            
+                                    <div class="slds-text-title_bold"><span>Invoice Organisation Details</span></div>
+
+                                    <div class="slds-grid slds-grid_align-center slds-grid--pull-padded slds-wrap">
+                                        <div class="slds-col">
+                                            <div class="slds-text-align_left slds-m-around_x-small">
+                                                <div class="slds-form-element__control" style="max-width: 400px;">
+                                                    <ui:inputText aura:id="orgName" label="Organisation Name"
+                                                                class="invoicing"
+                                                                labelClass="slds-form-element__label"
+                                                                change="{!c.resetError}"
+                                                                value="{!v.invoice.orgName}" size="12" required="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col">
+                                            <div class="slds-text-align_left slds-m-around_x-small">
+                                                <div class="slds-form-element__control" style="max-width: 400px;">
+                                                    <ui:inputText aura:id="poNumber" label="Purchase Order Number (if required)"
+                                                                class="invoicing"
+                                                                labelClass="slds-form-element__label"
+                                                                change="{!c.resetError}"
+                                                                value="{!v.invoice.poNumber}" size="6" required="false"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="slds-grid slds-grid_align-center slds-grid--pull-padded slds-wrap">
+                                        <div class="slds-col">
+                                            <div class="slds-text-align_left slds-m-around_x-small">
+                                                <div class="slds-form-element__control" style="max-width: 400px;">
+                                                    <ui:inputText aura:id="orgStreet" label="Organisation Street Address"
+                                                                class="invoicing"
+                                                                labelClass="slds-form-element__label"
+                                                                change="{!c.resetError}"
+                                                                value="{!v.invoice.orgStreet}" size="6" required="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col">
+                                            <div class="slds-text-align_left slds-m-around_x-small">
+                                                <div class="slds-form-element__control" style="max-width: 400px;">
+                                                    <ui:inputText aura:id="orgSuburb" label="Organisation Suburb"
+                                                                class="invoicing"
+                                                                labelClass="slds-form-element__label"
+                                                                change="{!c.resetError}"
+                                                                value="{!v.invoice.orgSuburb}" required="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="slds-grid slds-grid_align-center slds-grid--pull-padded slds-wrap">
+                                        <div class="slds-col">
+                                            <div class="slds-text-align_left slds-m-around_x-small">
+                                                <div class="slds-form-element__control" style="max-width: 400px;">
+                                                    <ui:inputText aura:id="orgState" label="Organisation State"
+                                                                class="invoicing"
+                                                                labelClass="slds-form-element__label"
+                                                                change="{!c.resetError}"
+                                                                value="{!v.invoice.orgState}" size="6" required="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col">
+                                            <div class="slds-text-align_left slds-m-around_x-small">
+                                                <div class="slds-form-element__control" style="max-width: 400px;">
+                                                    <ui:inputText aura:id="orgPostcode" label="Organisation Postcode"
+                                                                class="invoicing"
+                                                                labelClass="slds-form-element__label"
+                                                                change="{!c.resetError}"
+                                                                value="{!v.invoice.orgPostcode}" required="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="slds-grid slds-grid_align-center slds-grid--pull-padded slds-wrap">
+                                        <div class="slds-col">
+                                            <div class="slds-text-align_left slds-m-around_x-small">
+                                                <!-- <div class="slds-form-element__control" style="max-width: 400px;" onChange="{!c.toggleABN_onChange}"> -->
+                                                <div class="slds-form-element__control" style="max-width: 400px;">
+                                                    <ui:inputText aura:id="orgCountry" label="Organisation Country"
+                                                                class="invoicing"
+                                                                labelClass="slds-form-element__label"
+                                                                change="{!c.resetError}"
+                                                                value="{!v.invoice.orgCountry}" size="6" required="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- <aura:if isTrue="{!v.showABN}"> -->
+                                        <div class="slds-col">
+                                            <div class="slds-text-align_left slds-m-around_x-small">
+                                                <div class="slds-form-element__control" style="max-width: 400px;"> 
+                                                    <ui:inputText aura:id="orgABN" label="Organisation ABN (required for Australia)"
+                                                                class="invoicing"
+                                                                labelClass="slds-form-element__label"
+                                                                change="{!c.resetError}"
+                                                                value="{!v.invoice.orgABN}" size="6" required="false"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- </aura:if>   -->
+                                    </div>            
+
+                                    <!--   </div>
+                                    <footer class="slds-card__footer">
+                                    </footer>
+                                    </article> -->
+
+                                    <div class="slds-text-title_bold slds-p-top_xx-large"><span>Invoice Contact Person Details</span></div>
+
+                                    <div class="slds-grid slds-grid_align-center slds-grid--pull-padded slds-wrap">
+                                        <div class="slds-col">
+                                            <div class="slds-text-align_left slds-m-around_x-small">
+                                                <div class="slds-form-element__control" style="max-width: 400px;">
+                                                    <ui:inputText aura:id="orgContactName" label="Contact Person Name"
+                                                                class="invoicing"
+                                                                labelClass="slds-form-element__label"
+                                                                change="{!c.resetError}"
+                                                                value="{!v.invoice.orgContactName}" size="6" required="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col">
+                                            <div class="slds-text-align_left slds-m-around_x-small">
+                                                <div class="slds-form-element__control" style="max-width: 400px;">
+                                                    <ui:inputText aura:id="orgContactEmail" label="Contact Person Email"
+                                                                class="invoicing"
+                                                                labelClass="slds-form-element__label"
+                                                                change="{!c.resetError}"
+                                                                value="{!v.invoice.orgContactEmail}" required="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="slds-grid slds-grid_align-center slds-grid--pull-padded slds-wrap">
+                                        <div class="slds-col">
+                                            <div class="slds-text-align_left slds-m-around_x-small">
+                                                <div class="slds-form-element__control" style="max-width: 400px;">
+                                                    <ui:inputText aura:id="orgContactPhone" label="Contact Person Phone"
+                                                                class="invoicing"
+                                                                labelClass="slds-form-element__label"
+                                                                change="{!c.resetError}"
+                                                                value="{!v.invoice.orgContactPhone}" size="6" required="true"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col">
+                                            <div class="slds-text-align_left slds-m-around_x-small">
+                                                <div class="slds-form-element__control" style="max-width: 400px;">
+                                                    <ui:inputText aura:id="OrgContactDepartment" label="Department"
+                                                                class="invoicing"
+                                                                labelClass="slds-form-element__label"
+                                                                change="{!c.resetError}"
+                                                                value="{!v.invoice.OrgContactDepartment}" size="6" required="false"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div> 
+
+                                </aura:if> 
+
+                            </div>
+
+                        </fieldset>
+                    </lightning:layoutItem>
+                </lightning:layout>
+            </lightning:layoutItem>
+        </div>
+        </aura:if>
+
+        <!-- Invoicing End -->
+
+
+        <div class="slds-form-element" style="padding-top:10px">
+            <div class="slds-form-element__control" style="max-width: 500px; margin: auto;">
+                <span  style="padding-left:5px;font-weight:bold;font-size:16px;line-height:21px;font-family:'Salesforce Sans',Arial,sans-serif;">
+                    <ui:inputCheckbox aura:id="tcbox" change="{!c.tcbox_onChange}"  value="{!v.termsAccepted}"/>
+                    I have read and agreed to the <ui:outputURL value="{!v.tAndCLink}" label="Terms and Conditions" target="_blank" />
+                </span>
+                <br/>
+                <!-- Nadula Karunaratna | 24/10/2019 | PRODEV-440 Adding a checkbox Privacy Policy consent -->
+                <span  style="padding-left:5px;font-weight:bold;font-size:16px;line-height:21px;font-family:'Salesforce Sans',Arial,sans-serif;">
+                    <ui:inputCheckbox aura:id="ppbox" change="{!c.ppbox_onChange}"  value="{!v.privacyAccepted}"/>
+                    I have read and agreed to the <ui:outputURL value="{!v.PPLink}" label="Privacy Policy" target="_blank" />
+                </span>
+            </div>
+        </div>        
+
+        <div class="slds-align_absolute-center" style="padding-top:20px;padding-bottom:40px;">
+            <lightning:buttonGroup class="button-group-styling">
+                <aura:if isTrue="{!v.isLoading}">
+                    <div class="slds-col" padding="around-small">
+                        <c:Spinner type="bars" width="80" height="34" color="rgb(0, 112, 210)" show="true" />
+                    </div>
+                </aura:if>
+                <div class="slds-col" padding="around-small">
+                    <aura:If isTrue="{! (v.currentState=='REGISTER' &amp;&amp; !v.courseoffering.Is_Selective__c)}">
+                        <aura:If isTrue="{!(v.FormstackURLlength>0)}">
+                            <lightning:button variant="brand"  aura:id="savebtn" onclick="{!c.registerSave}"  iconName="utility:database" label="Save &amp; Proceed" />
+                            <aura:set attribute="else">
+                                <lightning:button variant="brand"  aura:id="savebtn" onclick="{!c.registerSave}"  iconName="utility:database" label="Save &amp; Proceed To Pay" />
+                            </aura:set>
+                        </aura:If>
+                    </aura:If>
+                    <aura:If isTrue="{!v.currentState=='WAITLIST'}">
+                        <aura:If isTrue="{!(v.FormstackURLlength>0)}">
+                            <lightning:button variant="brand"  aura:id="savebtn" onclick="{!c.registerSave}"  iconName="utility:database" label="Save &amp; Proceed" />
+                            <aura:set attribute="else">
+                                <lightning:button variant="brand"  aura:id="savebtn" onclick="{!c.registerSave}"  iconName="utility:database" label="Save &amp; Complete" />
+                            </aura:set>
+                        </aura:If>
+                    </aura:If>
+                    <aura:If isTrue="{! (v.currentState=='REGISTER' &amp;&amp; v.courseoffering.Is_Selective__c) }">
+                        <aura:If isTrue="{!(v.FormstackURLlength>0)}">
+                            <lightning:button variant="brand"  aura:id="savebtn" onclick="{!c.registerSave}"  iconName="utility:database" label="Save &amp; Proceed" />
+                            <aura:set attribute="else">
+                                <lightning:button variant="brand"  aura:id="savebtn" onclick="{!c.registerSave}"  iconName="utility:database" label="Save &amp; Complete" />
+                            </aura:set>
+                        </aura:If>
+                    </aura:If>
+                </div>
+                <aura:if isTrue="{!v.isLoading}">
+                    <div class="slds-col" padding="around-small">
+                        <c:Spinner type="bars" width="80" height="34" color="rgb(0, 112, 210)" show="true" />
+                    </div>
+                </aura:if>
+            </lightning:buttonGroup>
+        </div>
+
+
+    </aura:If>
+</aura:component>

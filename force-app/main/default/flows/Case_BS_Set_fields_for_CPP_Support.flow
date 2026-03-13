@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Update_CPP_Exceptional_Circumstances</name>
+        <label>Update CPP Exceptional Circumstances</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Category_Level_1__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Fees &amp; Financial Matters</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Category_Level_2__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Commonwealth Prac Payment (CPP)</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Enquiry_Type__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Special Circumstances</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Update_CPP_Support</name>
+        <label>Update CPP Support</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Category_Level_1__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Fees &amp; Financial Matters</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Category_Level_2__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Commonwealth Prac Payment (CPP)</stringValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.Enquiry_Type__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Current Course</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <name>Check_Record_Types</name>
+        <label>Check Record Types</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Standard_Enquiry</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Standard Enquiry</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_CPP_Support</targetReference>
+            </connector>
+            <label>Standard Enquiry</label>
+        </rules>
+        <rules>
+            <name>Special_Consideration</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.RecordType.Name</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Special Consideration</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_CPP_Exceptional_Circumstances</targetReference>
+            </connector>
+            <label>Special Consideration</label>
+        </rules>
+    </decisions>
+    <description>Flow is used to pre-populate fields Category Level 1, Category Level 2 and Enquiry Type for CPP Support Enquiries.</description>
+    <environments>Default</environments>
+    <interviewLabel>Case : BS : {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Case : BS : Set fields for CPP Support</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Record_Types</targetReference>
+        </connector>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterFormula>AND(
+   {!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False,
+   TEXT({!$Record.Origin})=&apos;CPP - Support&apos;)</filterFormula>
+        <object>Case</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

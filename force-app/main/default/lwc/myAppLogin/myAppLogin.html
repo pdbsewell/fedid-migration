@@ -1,0 +1,153 @@
+<template>
+    <template if:true={resourcesReady}>
+        <div class="slds-is-relative" style="background-color:#91B1CE">
+            <div class="loginFrame">
+                <div class="loginForm slds-p-horizontal_large slds-m-horizontal_medium slds-p-vertical_medium">
+                    <lightning-layout multiple-rows>
+                        <!-- header -->
+                        <lightning-layout-item size="12">
+                            <div>
+                                <div style="font-family:'Roboto', sans-serif; font-size: 30px;">
+                                    WELCOME TO
+                                </div>
+                                <div style="font-family:'Roboto Condensed', sans-serif; font-size: 60px; font-weight: bold; line-height: 50px;">
+                                    MY.APP
+                                </div>
+                                <div class="slds-m-top_medium" style="color: #707070;">
+                                    Here you can apply and accept offers to join Monash.
+                                </div>
+                                <div style="color: #707070;">
+                                    To continue, please login or register.
+                                </div>
+                            </div>
+                        </lightning-layout-item>
+                        <!-- login form -->
+                        <lightning-layout-item size="12">
+                            <div style="font-family:'Roboto', sans-serif; font-size: 15px; color: #707070;">
+                                <!-- error notification -->
+                                <template if:true={credsError}>
+                                    <div style="font-family:'Roboto', sans-serif; font-size: 13px; color: #EE0220;"
+                                        class="slds-m-top_x-small slds-m-bottom_x-small">
+                                        <lightning-formatted-rich-text value={credsError}>
+                                        </lightning-formatted-rich-text>
+                                    </div>
+                                </template>
+                                <!-- no-error padding -->
+                                <template if:false={credsError}>
+                                    <div style="font-family:'Roboto', sans-serif; font-size: 13px; color: #EE0220;" class="slds-m-top_medium"></div>
+                                </template>
+
+                                <!-- Email -->
+                                <div class="slds-form-element">
+                                    <label for="email_field"><b>Email</b></label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input class="emailField inputField corneredInput"
+                                            placeholder="example@email.com"
+                                            type="email"
+                                            name="email_field"
+                                            label="Email"
+                                            variant="label-hidden"
+                                            value={username}
+                                            onchange={changeUsername}
+                                            onkeypress={handleKeyPress}
+                                            message-when-type-mismatch="Please use the right email address format, for example 'email@domain.com'.">
+                                        </lightning-input>
+                                        <template if:true={usernameError}>
+                                            <span style="font-family:'Roboto', sans-serif; font-size: 13px; color: rgb(194, 57, 52);">
+                                                {usernameError}
+                                            </span>
+                                        </template>
+                                    </div>
+                                </div>
+                                <template if:true={usernameError}>
+                                    <div class="slds-m-top_xx-small">
+                                    </div>
+                                </template>
+                                <template if:false={usernameError}>
+                                    <div class="slds-m-top_small">
+                                    </div>
+                                </template>
+                                <!-- Password -->
+                                <div class="slds-form-element">
+                                    <label for="password_field"><b>Password</b></label>
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                        <lightning-input class="passwordField inputField corneredInput"
+                                            type={passwordType}
+                                            name="password_field"
+                                            label="Password"
+                                            variant="label-hidden"
+                                            value={password}
+                                            onchange={changePassword}
+                                            onkeypress={handleKeyPress}>
+                                        </lightning-input>
+                                        <lightning-button-icon class="front slds-button slds-button_icon slds-input__icon slds-input__icon_right"
+                                            icon-name={passwordIcon}
+                                            alternative-text={passwordIconTitle}
+                                            variant="bare"
+                                            style="pointer-events: visible;"
+                                            size="large"
+                                            onclick={togglePasswordVisibility}>
+                                        </lightning-button-icon>
+                                    </div>
+                                    <template if:true={passwordError}>
+                                        <span style="font-family:'Roboto', sans-serif; font-size: 13px; color: rgb(194, 57, 52);">
+                                            {passwordError}
+                                        </span>
+                                    </template>
+                                </div>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item size="12" padding="around-small">
+                            <span class="slds-align_absolute-center" >
+                                <c-recaptcha-button data-id="crmcaptchabuttonlwc" buttontext={buttonText} onbuttonclicked={handleButtonClick}></c-recaptcha-button>
+                            </span>
+                        </lightning-layout-item>
+                        <!-- forgot password -->
+                        <lightning-layout-item size="12" padding="around-small">
+                            <span style="font-family:'Roboto', sans-serif; font-size: 15px; color: #707070;"
+                                  class="slds-align_absolute-center">
+                                <a href="/admissions/s/login/ForgotPassword">
+                                    Reset your password
+                                </a>
+                            </span>
+                        </lightning-layout-item>
+                        <!-- sign up -->
+                        <lightning-layout-item size="12" padding="around-small">
+                            <span class="slds-align_absolute-center" >
+                                <button class="btn slds-p-vertical_small slds-m-top_small" 
+                                        style="font-size: 15px; width: 45%;background-color: #fff; color: #0E6EAC;border: 1px solid #0E6EAC;" 
+                                        onclick={redirectRegister}>
+                                    Create a new account
+                                </button>
+                            </span>
+                        </lightning-layout-item>
+                        <template if:true={showSSOLogin}>
+                            <lightning-layout-item size="12" padding="around-small">
+                                <lightning-layout>
+                                    <lightning-layout-item size="5">
+                                        <div class="slds-border_bottom slds-p-top_small"></div>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="1" padding="horizontal-small">
+                                        <div style="color: #707070;">OR</div>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item size="6" padding="horizontal-small">
+                                        <div class="slds-border_bottom slds-p-top_small"></div>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="12" padding="around-small">
+                                <span class="slds-align_absolute-center" style="font-family:'Roboto', sans-serif; font-size: 15px; color: #707070;">
+                                    <button class="btn btn--blue slds-p-vertical_small slds-m-top_small"
+                                        style="font-size: 15px; width: 45%;text-decoration: none;" title="Login button for active Graduate Research students who wish to apply for Graduate Research scholarship only"
+                                        onclick={redirectSSO}>
+                                        Graduate Research Scholarship Only Application Login
+                                    </button>
+                                </span>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

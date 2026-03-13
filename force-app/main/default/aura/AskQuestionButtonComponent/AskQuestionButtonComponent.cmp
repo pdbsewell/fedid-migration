@@ -1,0 +1,22 @@
+<!-- 
+    @name : AskQuestionButtonComponent
+ -->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <!-- inline styling required to override default -->
+    <div class="bg-color" id="color" 
+        style="position: relative;
+               width: 100vw;
+               left: calc(-50vw + 50%);">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-size--12-of-12 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+                <div id="question-label" class="slds-text-align--center">Don't see what you're looking for?</div>
+            </div>
+            <div class="slds-size--12-of-12 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-m-top--xx-large">
+                <div> <button class="" type="button" onclick="{!c.redirectContactSupport}">
+                    Ask a question
+                    </button>
+                </div>
+            </div> 
+        </div>
+    </div>
+</aura:component>

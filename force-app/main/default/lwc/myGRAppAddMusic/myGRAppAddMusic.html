@@ -1,0 +1,258 @@
+<template>
+    <div class="slds">
+        <!-- DELETE CONFIRMATION POPUP -->
+        <div if:true={showConfirmDelete}>
+
+            <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header slds-theme--error slds-theme--alert-texture">
+                        <h2 class="slds-text-heading--small" id="prompt-heading-id" style="color: #ffffff;">{label.app_DeleteConfirmation}</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <p>Are you sure you want to delete this record? Please note any document uploaded as part of this claim will also be deleted.</p>
+                    </div>
+                    <div class="slds-modal__footer slds-theme--default">
+                        <lightning-button label="Yes"
+                                          icon-position="left"
+                                          variant="brand"
+                                          onclick={onClickConfirmDelete}>
+                        </lightning-button>&nbsp;
+                        <lightning-button label="No"
+                                          icon-position="left"
+                                          variant="neutral"
+                                          onclick={onClickCancelDelete}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+        </div>
+
+        <!-- ALERT: ANY Errors on save-->
+        <div if:true={showErrors}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h3 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Please complete the following:</h3>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <ul class="slds-list_dotted slds-text-align--left">
+                            <template for:each={saveErrors} for:item="error">
+                                <li key={error}>{error}</li>
+                            </template>
+                        </ul>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={onClickCloseErrors}>Close</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+
+        <!-- page heading and desciption-->
+        <div>
+                <h1 style="font-weight:bold;">Music Performance/Composition</h1>
+                <div class="grtParagraph">Please provide details of up to five music performances or compositions relevant to and in support of your application. Details of additional music performances may be provided in your Curriculum Vitae (CV).</div>
+                <ul class="slds-list_dotted" >
+                    <li class="grtParagraph">You are required to provide documentary evidence of each performance or composition you specify here. Where relevant, this should include copies of brochures, invitations, flyers, reviews or articles.</li>
+                    <li class="grtParagraph">You will be required to upload supporting documentation in the <b>Documents section</b>.</li>
+                </ul>        
+        </div>
+        <c-my-g-r-app-declaration 
+        application-id={applicationId} 
+        qualification-name="Do you have any music compositions or performances you wish to advise us of" 
+        record-type-name={recTypeDevName} 
+        ondeclarationchange={handleDeclarationChange}
+        >
+        </c-my-g-r-app-declaration>
+        <template if:true={declarationSigned}>
+            <div class="sectionContainer slds-wrap slds-p-top_large slds-m-top_medium" if:true={isStateStart}>
+                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                    <div class="sectionContainerBody slds-size_5-of-5">
+                        <div class="slds-size_5-of-5">
+                            <h2>Performances/Compositions </h2>
+                        </div>
+                        <div class="slds-size_5-of-5">
+                            <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                                <thead>
+                                <tr class="slds-text-title--caps">
+                                    <th scope="col" class="hideOnMobile">
+                                        <div title="empTH">Type</div>
+                                    </th> 
+                                    <th scope="col">
+                                        <div title="posTH">Name</div>
+                                    </th>                                
+                                    <th scope="col" class="hideOnMobile">
+                                        <div title="empTH">Organisation</div>
+                                    </th>
+                                    
+                                    <th scope="col">
+                                        <div class="slds-truncate slds-align_absolute-center" title="Action" >Action</div>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!-- ITERATION FOR Qualifications -->
+                                <template for:each={contactQualifications} for:item="qualification">                                    
+                                    <tr key={qualification.Id}>
+                                        <td>
+                                            <div class="slds-truncate" style="max-width: 250px;">
+                                                {qualification.Evidence_Type_Value}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate" style="max-width: 250px;">
+                                                {qualification.Title_of_Publication_Work_Chapter_Paper__c}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate" style="max-width: 250px;">
+                                                {qualification.Name_of_Publisher_Journal_Org__c}
+                                            </div>
+                                        </td>
+                                        
+                                        <td data-label="Action">
+                                            <div class="slds-truncate slds-align--absolute-center">                                            
+                                                <lightning-button-icon variant="bare" icon-position="left" name={qualification.Id} onclick={onClickEdit} icon-name="utility:edit" size="medium" alternative-text="Edit"></lightning-button-icon>&nbsp;
+                                                <lightning-button-icon variant="bare" icon-position="left" name={qualification.Id} onclick={onClickDelete} icon-name="utility:close" size="medium" alternative-text="Remove item"></lightning-button-icon> 
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                                    
+                                <!-- END - ITERATION FOR APPLICATION Qualification PROVIDED -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                
+
+                <div class="slds-p-vertical--large">
+                    
+                </div>
+
+                <!-- ADD NEW BUTTON -->
+                <div if:false={isNewDisabled} class="slds-button-group slds-p-left_medium" role="group">
+                    <button class="secondaryButton" onclick={onClickAddNew} style="margin-top: 10px;">
+                        <lightning-icon class="secondaryIcon" icon-name="utility:add" size="small"></lightning-icon>&nbsp;&nbsp;Add a new Performance/Composition
+                    </button>
+                </div>
+            </div>
+            <!-- qualification form input fields -->
+            <div class="sectionContainer" if:true={isStateEdit}>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                <br/>
+                <lightning-select name="qualificationType"
+                                data-id="qualificationType" 
+                                label="Performance or Composition"
+                                value={contactQualification.Evidence_Type__c}
+                                required="true"
+                                options={performanceOrComposition}
+                                onchange={onFieldChange}></lightning-select>  
+                <div if:true={isPerformance} class="slds-m-top_medium sectionContainer">
+                    <div class="slds-m-left_medium" style="font-family:Roboto Condensed;font-size:14px;">
+                    <div class="slds-m-bottom_small slds-m-top_small"><b>Music Performance Audition Requirements</b></div>
+                    <div class="slds-m-bottom_small"><b>Local Applicants</b></div>
+                    <div class="slds-m-bottom_small">Applicants will be required to perform a 30 minute audition followed by a 30 minute interview. Contact the school of Music on +61 3 9905 3231.</div>
+                    <div class="slds-m-bottom_small">More information can be found at the School of Music website at: <a target="_blank" href="https://www.monash.edu/arts/music-performance"> https://www.monash.edu/arts/music-performance </a></div>
+                    <div class="slds-m-bottom_small"><b>Interstate and International Applicants</b></div>
+                    <div class="slds-m-bottom_small">In the case of International or interstate applicants, a video recording of a performance will be accepted for consideration of entry in lieu of an audition. The video must be recorded in one session, be uncut, and be accompanied by a declaration of authenticity.</div>
+                    <div>Recordings must be sent to the School of Music with a declaration form quoting the application number. The declaration form can be found at: <a target="_blank" href="https://www.monash.edu/arts/music-performance"> https://www.monash.edu/arts/music-performance </a></div>
+                    </div>
+                </div>
+                <div if:true={isComposition} class="slds-m-top_medium sectionContainer">
+                    <div class="slds-m-left_medium" style="font-family:Roboto Condensed;font-size:14px;">
+                    <div class="slds-m-bottom_small slds-m-top_small"><b>Music Composition and Special Requirements</b></div>
+                    <div class="slds-m-bottom_small"><b>Submission of a Composition Folio</b></div>
+                    <div class="slds-m-bottom_small">Applicants must demonstrate their ability to compose through the submission of at least two original works to the satisfaction of the Co-ordinator of Composition in the School of Music.</div>
+                    <div>Each composition can be submitted with the application either in the from of a PDF (Music score) or an mp3 file (audio recording).</div>
+                    </div>
+                </div>                
+                <lightning-input name="organisation"
+                                data-id="organisation"
+                                label="If the performance or composition was
+                                    commissioned, published by or for a
+                                    specific organisation, please
+                                    provide the name of
+                                    that organisation"
+                                maxlength="200"
+                                onchange={onFieldChange}
+                                value={contactQualification.Name_of_Publisher_Journal_Org__c}></lightning-input>
+                <lightning-input name="name"
+                                data-id="name"
+                                label="Title of work / composition	"
+                                required="true"
+                                maxlength="200"
+                                onchange={onFieldChange}
+                                value={contactQualification.Title_of_Publication_Work_Chapter_Paper__c}></lightning-input> 
+                <lightning-input name="duration"
+                                data-id="duration"
+                                value={contactQualification.Duration__c}
+                                required="true"
+                                maxlength="8"
+                                label="Duration (HH:MM:SS)"
+                                pattern={durationPattern}
+                                onchange={onFieldChange}></lightning-input>                              
+                <lightning-select name="status"
+                                data-id="status" 
+                                label="Status"
+                                value={contactQualification.Qualification_Status__c}
+                                required="true"
+                                options={statusOptions}
+                                onchange={onFieldChange}></lightning-select>
+                <lightning-select name="numberOfPerformers"
+                                data-id="numberOfPerformers" 
+                                label="Number of Performers / Authors"
+                                value={contactQualification.Number_of_Author_Performer__c}
+                                required="true"
+                                options={numberOfPerformerOptions}
+                                onchange={onFieldChange}></lightning-select>
+                <lightning-select if:true={isMoreThanOneAuthor} name="contributionPercentage"
+                                data-id="contributionPercentage" 
+                                label="Percentage contribution to work"
+                                value={contactQualification.Contribution_Percentage__c}
+                                required="true"
+                                options={percentageOptions}
+                                onchange={onFieldChange}></lightning-select>                                    
+                
+                <lightning-textarea name="qualityOfWork" 
+                                    label="Quality of Performance / Work" 
+                                    data-id="qualityOfWork"
+                                    field-level-help="(eg. Reviews, status
+                                                    of venue, status of other musicians, local/
+                                                    national/international publisher,
+                                                    label, broadcast, etc.)"
+                                    required="true"
+                                    max-length="1000"
+                                    onchange={onFieldChange}
+                                    value={contactQualification.Quality_of_work__c}>
+                                </lightning-textarea> 
+                <lightning-textarea name="description" 
+                                label="Describe your contribution to the work" 
+                                field-level-help="Specify
+                                        your contribution to its development or
+                                        creation, the research involved and
+                                        any other relevant information."
+                                data-id="description"
+                                required="true"
+                                max-length="1000"
+                                onchange={onFieldChange}
+                                value={contactQualification.Description__c}>
+                            </lightning-textarea>                              
+                <div class="slds-form-element slds-p-vertical--large">
+                    <div class="slds-m-top_medium">                    
+                        <button class="primaryButton" onclick={saveCurrentQualification} style="margin-right: 15px;">
+                            Save
+                        </button>
+                        <button class="secondaryButton" onclick={onClickCancel}>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </template>
+    </div>
+    <lightning-spinner if:true={showSpinner} alternative-text="Saving" variant="brand"></lightning-spinner>
+</template>

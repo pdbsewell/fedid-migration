@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Error_Updating_Record</name>
+        <label>Error Updating Record</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Nebula__FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <elementReference>Flow_Name</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Error Updating External Field</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>scenario</name>
+            <value>
+                <elementReference>Flow_Name</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <constants>
+        <name>Flow_Name</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>Configuration_Attribute_AI_Update_Fields</stringValue>
+        </value>
+    </constants>
+    <description>Update fields on Configuration Attribute - External Id. 
+Migrated from the Set Configuration Attribute ExternalId process builder.
+This is to facilitate data migration between environments for Configuration attribute
+When a Configuration Attribute record is created with External Id field as null, populate it with an id</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>Formula to generate External Id - Concatenation of Org Id and Record Id</description>
+        <name>Formula_Generate_External_Id</name>
+        <dataType>String</dataType>
+        <expression>$Organization.Id &amp;&quot;_&quot;&amp; {!$Record.Id}</expression>
+    </formulas>
+    <interviewLabel>Configuration Attribute : AI : Update Fields {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Configuration Attribute : AI : Update Fields</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Configuration_Attribute_Record</name>
+        <label>Update Configuration Attribute Record</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <faultConnector>
+            <targetReference>Error_Updating_Record</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>External_Id__c</field>
+            <value>
+                <elementReference>Formula_Generate_External_Id</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Configuration_Attribute_Record</targetReference>
+        </connector>
+        <filterFormula>{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = false &amp;&amp; ISBLANK({!$Record.External_Id__c})</filterFormula>
+        <object>SBQQ__ConfigurationAttribute__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

@@ -1,0 +1,129 @@
+<!--
+ - Created by ariv0002 on 2/08/2019.
+ -->
+<aura:component description="ContactCallAttemptHistory"
+                implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,forceCommunity:availableForAllPageTypes,force:hasRecordId"
+                access="global"
+                controller="MontrackServiceClass">
+
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="hasPreviousCallAttempts" type="Boolean" default="false"/>
+    <aura:attribute name="lstTasks" type="Task[]"/>
+    <aura:attribute name="contactName" type="String"/>
+    <aura:attribute name="enableSpinner" type="Boolean" default="true"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <force:recordData aura:id="CallHistoryLoader"
+                      recordId="{!v.recordId}"
+                      fields="Id,Offer_Status__c"
+                      mode="VIEW"
+                      recordUpdated="{!c.doInit}"
+    />
+
+    <aura:if isTrue="{!v.enableSpinner}">
+        <div class="slds-box slds-theme_default">
+           <lightning:spinner alternativeText="Loading" size="medium" />
+        </div>
+        <aura:set attribute="else">
+            <div class="slds-box slds-theme_default">
+                <aura:if isTrue="{!v.hasPreviousCallAttempts}">
+                    <div class="slds-box slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_success" >
+                        <div class="slds-notify__content slds-m-around_none slds-p-around_none">
+                            <h2 class="slds-text-heading_small"><strong>{!v.contactName}'s</strong></h2>
+                            <h1 class="slds-text-heading_small">Other Completed Call Attempts</h1>
+                        </div>
+                    </div>
+                    <ul class="slds-timeline">
+                        <aura:iteration items="{!v.lstTasks}" var="tsk">
+                                <div class="slds-m-top_x-small">
+                                        <div class="slds-media__body">
+                                            <div class="slds-grid slds-grid_align-spread slds-timeline__trigger">
+                                                <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                                                    <h3 class="slds-truncate">
+                                                        <strong>
+                                                            <a data-taskid="{!tsk.Id}" onclick="{!c.navigateToTask}" >
+                                                                {!tsk.Subject}
+                                                            </a>
+                                                        </strong>
+                                                    </h3>
+                                                </div>
+                                                <div>
+                                                    <h1 class="slds-truncate">
+                                                        <span class="slds-text-body_medium slds-truncate">
+                                                           <strong>{!tsk.Call_Attempt__c}</strong>
+                                                        </span>
+                                                    </h1>
+                                                </div>
+                                            </div>
+                                            <article class="slds-box slds-timeline__item_details slds-theme_shade slds-m-top_x-small slds-m-horizontal_xx-small slds-p-around_medium" id="task-item-narrow" aria-hidden="false">
+                                                <ul class="slds-list_horizontal slds-wrap">
+                                                    <li class="slds-grid slds-grid_vertical slds-size_1-of-2 slds-p-bottom_small">
+                                                        <span class="slds-text-title slds-p-bottom_x-small">Assigned To</span>
+                                                        <span class="slds-text-body_medium slds-truncate">
+                                                           {!tsk.Owner.Name}
+                                                        </span>
+                                                    </li>
+                                                    <li class="slds-grid slds-grid_vertical slds-size_1-of-2 slds-p-bottom_small">
+                                                        <span class="slds-text-title slds-p-bottom_x-small">Related To</span>
+                                                        <span class="slds-text-body_medium slds-truncate">
+                                                            {!tsk.What.Name}
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                                <ul class="slds-list_horizontal slds-wrap">
+                                                    <li class="slds-grid slds-grid_vertical slds-size_1-of-2 slds-p-bottom_small">
+                                                        <span class="slds-text-title slds-p-bottom_x-small">Call Outcome</span>
+                                                        <span class="slds-text-body_medium slds-truncate" title="{!tsk.Offer_Status__c}">
+                                                            {!tsk.Offer_Status__c}
+                                                        </span>
+                                                    </li>
+                                                    <li class="slds-grid slds-grid_vertical slds-size_1-of-2 slds-p-bottom_small">
+                                                        <span class="slds-text-title slds-p-bottom_x-small">Completed Date</span>
+                                                        <span class="slds-text-body_medium slds-truncate">
+                                                            {!tsk.CompletedDate}
+                                                        </span>
+                                                    </li>
+                                                </ul>
+                                                <ul class="slds-list_horizontal slds-wrap">
+                                                    <li class="slds-grid slds-grid_vertical slds-size_1-of-2 slds-p-bottom_small">
+                                                        <span class="slds-text-title slds-p-bottom_x-small">Last Modified By</span>
+                                                        <span class="slds-text-body_medium slds-truncate">
+                                                            {!tsk.LastModifiedBy.Name}
+                                                        </span>
+                                                    </li>
+                                                    <li class="slds-grid slds-grid_vertical slds-size_1-of-2 slds-p-bottom_small">
+                                                        <span class="slds-text-title slds-p-bottom_x-small">Last Modified Date</span>
+                                                        <span class="slds-text-body_medium slds-truncate">
+                                                        {!tsk.LastModifiedDateTime}
+                                                    </span>
+                                                    </li>
+                                                </ul>
+                                                <div>
+                                                    <span class="slds-text-title">Comments</span>
+                                                    <p class="slds-p-top_x-small">{!tsk.Description}</p>
+                                                </div>
+                                            </article>
+                                        </div>
+                                </div>
+                        </aura:iteration>
+                    </ul>
+                    <br/>
+                    <aura:if isTrue="{!v.lstTasks.length > 20}">
+                        <div class="slds-p-top_x-small slds-text-color_success">
+                            <span class="slds-text-title">Please Note:</span>
+                            <p class="slds-p-top_x-small">Only 20 most recent call attempts are displayed.</p>
+                        </div>
+                    </aura:if>
+                    <aura:set attribute="else">
+                        <div class="slds-box slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error slds-text-align_left" role="alert">
+                            <div class="slds-notify__content slds-m-around_none slds-p-around_none">
+                                <h2 class="slds-text-heading_small">No Previous Call Attempts.</h2>
+                            </div>
+                        </div>
+                    </aura:set>
+                </aura:if>
+            </div>
+        </aura:set>
+    </aura:if>
+</aura:component>

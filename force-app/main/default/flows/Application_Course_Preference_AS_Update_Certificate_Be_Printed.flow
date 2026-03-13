@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Error_Update_Certificate_Value</name>
+        <label>Error Update Certificate Value</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Nebula__FlowLogEntry</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <stringValue>Application Course Preference : AS : Update Certificate Be Printed</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Error Update Certificate Value</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recordId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>tagsString</name>
+            <value>
+                <stringValue>Application Course Preference : AS : Update Certificate Be Printed</stringValue>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <name>Validate_Course_Type_Pass_Status</name>
+        <label>Validate Course Type Pass Status</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Validate_Result_Status_Credit_Point</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Result Is Not Pass</defaultConnectorLabel>
+        <rules>
+            <name>Result_Is_Pass</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Course_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Short_Course</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Course_Result__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Pass</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Certificate_To_Completion_Without_Credit_Points</targetReference>
+            </connector>
+            <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+            <label>Result Is Pass</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Validate_Result_Attended</name>
+        <label>Validate Result Attended</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Validate_Result_Incomplete</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Result Is Attended</defaultConnectorLabel>
+        <rules>
+            <name>Result_Is_Attended</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Course_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Short_Course</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Course_Result__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Attended</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Certificate_To_Attendance</targetReference>
+            </connector>
+            <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+            <label>Result Is Not Attended</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Validate_Result_Fail</name>
+        <label>Validate Result Fail</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Validate_Result_Attended</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Result Is Not Fail</defaultConnectorLabel>
+        <rules>
+            <name>Result_Is_Fail</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Course_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Short_Course</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Course_Result__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Fail</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Certificate_To_Empty</targetReference>
+            </connector>
+            <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+            <label>Result Is Fail</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Validate_Result_Incomplete</name>
+        <label>Validate Result Incomplete</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Validate_Result_Null</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Result Is Not Incomplete</defaultConnectorLabel>
+        <rules>
+            <name>Result_Is_Incomplete</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Course_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Short_Course</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Course_Result__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Incomplete</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Certificate_To_Empty</targetReference>
+            </connector>
+            <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+            <label>Result Is Incomplete</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Validate_Result_Null</name>
+        <label>Validate Result Null</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Result Is Not Null</defaultConnectorLabel>
+        <rules>
+            <name>Result_Is_Null</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>formula_TRUE_myRule_11</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Certificate_To_Empty</targetReference>
+            </connector>
+            <label>Result Is Null</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Validate_Result_Status_Credit_Point</name>
+        <label>Validate Result Status Credit Point</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnector>
+            <targetReference>Validate_Result_Fail</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Result Is Not Pass With Credit Points</defaultConnectorLabel>
+        <rules>
+            <name>Result_Is_Pass_With_Credit_Points</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Course_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Short_Course</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Course_Result__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Pass with credit points</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Course_Result_To_Pass_With_Credit_Points</targetReference>
+            </connector>
+            <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+            <label>Result Is Pass With Credit Points</label>
+        </rules>
+    </decisions>
+    <description>Updates the certificate to be printed field based on the outcome</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>formula_TRUE_myRule_11</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+{!$Record.Course_Type__c} = &apos;Short_Course&apos;,
+ISPICKVAL( {!$Record.Course_Result__c} ,&quot;&quot;),
+NOT(ISPICKVAL(PRIORVALUE({!$Record.Course_Result__c}),&quot;&quot;)))</expression>
+    </formulas>
+    <interviewLabel>Application Course Preference : AS : Update Certificate Be Printed {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Application Course Preference : AS : Update Certificate Be Printed</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Update_Certificate_To_Attendance</name>
+        <label>Update Certificate To Attendance</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Update_Certificate_Value</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Certificate_to_be_printed__c</field>
+            <value>
+                <stringValue>Attendance</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Certificate_To_Completion_Without_Credit_Points</name>
+        <label>Update Certificate To Completion Without Credit Points</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Update_Certificate_Value</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Certificate_to_be_printed__c</field>
+            <value>
+                <stringValue>Completion without credit points</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Certificate_To_Empty</name>
+        <label>Update Certificate To Empty</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <faultConnector>
+            <targetReference>Error_Update_Certificate_Value</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Certificate_to_be_printed__c</field>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Update_Course_Result_To_Pass_With_Credit_Points</name>
+        <label>Update Course Result To Pass With Credit Points</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <faultConnector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Error_Update_Certificate_Value</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>Certificate_to_be_printed__c</field>
+            <value>
+                <stringValue>Completion with credit points</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Validate_Course_Type_Pass_Status</targetReference>
+        </connector>
+        <filterFormula>{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False</filterFormula>
+        <object>Application_Course_Preference__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

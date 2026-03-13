@@ -1,0 +1,104 @@
+<!--
+  @File Name          : psWizardContactInfo.html
+  @Description        : Contact Info section for Prospective Student Wizard component
+  @Author             : Nick Guia
+  @Group              : Lead Management
+-->
+<template>
+    <div>
+        <lightning-accordion allow-multiple-sections-open active-section-name={activeSections}>
+            
+            <lightning-record-edit-form 
+                object-api-name="Contact" 
+                record-id={_contactId}
+                onload={handleFormLoad}>
+
+                <lightning-messages></lightning-messages>
+
+                <template if:true={isLoading}>
+                    <div style="min-height: 500px;" class="slds-is-relative">
+                        <div class="slds-align_absolute-center">
+                            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                        </div>
+                    </div>
+                </template>
+                <template if:false={isLoading}>
+                    <!-- BASIC PERSON INFO -->
+                    <lightning-accordion-section 
+                        name="basicPersonInfo" 
+                        label="Person Information"
+                        title="The minimum basic information of a Prospective Student">
+                            <lightning-layout multiple-rows="true">
+                                <template for:each={_fieldConfig.basicInfoFields} for:item='fieldInfo'>
+                                    <lightning-layout-item 
+                                        key={fieldInfo.key} 
+                                        size="12" 
+                                        large-device-size={fieldInfo.largeDeviceSize}>
+
+                                        <lightning-input-field 
+                                            data-id={fieldInfo.fieldName}
+                                            data-item={fieldInfo.key}
+                                            field-name={fieldInfo.fieldName}
+                                            onchange={updateRecordObject}>
+                                        </lightning-input-field>
+
+                                    </lightning-layout-item>
+                                </template>
+
+                            </lightning-layout>
+                    </lightning-accordion-section>
+
+                    <!-- ADDITIONAL PERSON INFO -->
+                    <lightning-accordion-section 
+                        name="additionalPersonInfo" 
+                        label="Additional Information"
+                        title="Capture additional information of a Prospective Student">
+
+                        <lightning-layout multiple-rows="true">
+                            <template for:each={_fieldConfig.additionalInfoFields} for:item='fieldInfo'>
+                                <lightning-layout-item 
+                                    key={fieldInfo.key} 
+                                    size="12" 
+                                    large-device-size={fieldInfo.largeDeviceSize}>
+                        
+                                    <lightning-input-field 
+                                        data-id={fieldInfo.fieldName}
+                                        data-item={fieldInfo.key} 
+                                        field-name={fieldInfo.fieldName}
+                                        onchange={updateRecordObject}>
+                                    </lightning-input-field>
+                        
+                                </lightning-layout-item>
+                            </template>
+                        </lightning-layout>
+
+                        <lightning-record-edit-form 
+                            object-api-name="Staged_Prospective_Student__c"
+                            onload={getAddressValues}>
+                            <lightning-messages></lightning-messages>
+
+                            <lightning-layout multiple-rows="true">
+                                <template for:each={_fieldConfig.spsFields} for:item='fieldInfo'>
+                                    <lightning-layout-item 
+                                        key={fieldInfo.key} 
+                                        size="12" 
+                                        large-device-size={fieldInfo.largeDeviceSize}>
+                                        <lightning-input-field 
+                                            data-id={fieldInfo.key}
+                                            data-item={fieldInfo.fieldName} 
+                                            field-name={fieldInfo.fieldName}
+                                            onchange={updateRecordObject}>
+                                        </lightning-input-field>
+                            
+                                    </lightning-layout-item>
+                                </template>
+                            </lightning-layout>
+
+                        </lightning-record-edit-form>
+
+                    </lightning-accordion-section>
+                </template>
+            </lightning-record-edit-form>
+        </lightning-accordion>
+    </div>
+</template>

@@ -1,0 +1,23 @@
+<!-- 
+    @name: ArticleDetailcomponent
+ -->
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:hasRecordId" access="global" controller="LightningArticleDetailController">
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <aura:attribute name="ArticleDetail" type="sobject"/>  
+    <aura:attribute name="recordId" type="Id"/> 
+    <div class="slds-grid slds-wrap headlineTitleText" id="modal-content-id-1">
+    	{!v.ArticleDetail.Title}        
+    </div>
+    <br/>
+    <div class="slds-grid slds-wrap" id="modal-content-id-1">
+        <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 fonts">
+            
+            <ui:outputRichText value="{!v.ArticleDetail.Australia_Student__c}" class="slds-rich-text-editor__output uiOutputRichText forceOutputRichText"/><br/>
+            <ui:outputRichText value="{!v.ArticleDetail.Australia_Staff__c}" class="slds-rich-text-editor__output uiOutputRichText forceOutputRichText"/>
+            <ui:outputRichText value="{!v.ArticleDetail.Answer__c}" class="slds-rich-text-editor__output uiOutputRichText forceOutputRichText"/> <br/>
+        </div>
+        
+    </div>
+</aura:component>

@@ -1,0 +1,179 @@
+<!--
+/*
+ * Copyright (c) 2019, UC Innovation, Inc.  All Rights Reserved.
+ *                     http://www.ucinnovation.com
+ *
+ * This source code is licensed, not sold, and is subject to a written
+ * license agreement.  Among other things, no portion of this source
+ * code may be copied, transmitted, disclosed, displayed, distributed,
+ * translated, used as the basis for a derivative work, or used, in
+ * whole or in part, for any program or purpose other than its intended
+ * use in compliance with the license agreement as part of UC Innovation's
+ * software.  This source code and certain of the algorithms contained
+ * within it are confidential trade secrets of UC Innovation, Inc.
+ * and may not be used as the basis for any other
+ * software, hardware, product or service.
+ */
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" controller="PORTAL_MyProfileController">
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:attribute name="userId" type="String" default="" access="public"/>
+    <aura:attribute name="contactId" type="String" default="" access="public"/>
+    
+    <aura:attribute name="mode" type="String" default="View" access="public"/>
+    
+	<aura:attribute name="contactFields" type="String[]" default="['FirstName', 'LastName']" /> 
+    
+    <aura:attribute name="contact" type="Contact" 
+    				default="{ 'sobjectType': 'Contact' }" access="public"/>
+    <aura:attribute name="originalContact" type="Contact" 
+    				default="{ 'sobjectType': 'Contact' }" access="public"/>     
+    
+	<aura:attribute name="isDirectorySearch" type="Boolean" default="false" access="public"/>
+	<aura:attribute name="isNewsletter" type="Boolean" default="false" access="public"/>
+    
+	<aura:attribute name="orginalIsDirectorySearch" type="Boolean" default="false" access="public"/>
+	<aura:attribute name="originalIsNewsletter" type="Boolean" default="false" access="public"/>
+    
+    <aura:attribute name="initializationFinished" type="Boolean" default="false" access="public"/>
+ 
+    
+    <!-- Can't embed in <aura:if> since Lightning doesn't display lookup if we do that.  Thus, need to use hide/show. -->
+    
+    <div class="slds-form-element slds-show" aura:id="viewMode">
+
+        <lightning:layout >
+            <lightning:layoutItem padding="around-small" size="6">
+                <label class="slds-form-element__label">Name</label>
+                <div class="slds-form-element__control">
+                    <force:outputField value="{!v.originalContact.Name}"/>
+                </div>                
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="6">
+                <label class="slds-form-element__label">Mobile Phone</label>
+                <div class="slds-form-element__control">
+                    <force:outputField value="{!v.originalContact.MobilePhone}"/>
+                </div>   
+            </lightning:layoutItem>
+        </lightning:layout>
+        <lightning:layout >
+            <lightning:layoutItem padding="around-small" size="6">
+                
+                <lightning:formattedAddress
+                                            street="{!v.originalContact.MailingStreet}"
+                                            city="{!v.originalContact.MailingCity}"
+                                            country="{!v.originalContact.MailingCountry}"
+                                            province="{!v.originalContact.MailingState}"
+                                            postalCode="{!v.originalContact.MailingPostalCode}"  
+                                            />  
+
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="6">
+                <label class="slds-form-element__label">Email</label>
+                <div class="slds-form-element__control">
+                    <force:outputField value="{!v.originalContact.ucinn_ascendv2__Personal_Email__c}"/>
+                </div>   
+            </lightning:layoutItem>
+        </lightning:layout>
+        
+        <lightning:layout >
+            <lightning:layoutItem padding="around-small" size="12">
+				<lightning:input type="checkbox" label="Show my info in alumni directory search" name="directorySearch" checked="{!v.orginalIsDirectorySearch}" disabled="true"/>
+                <lightning:input type="checkbox" label="Receive monthly alumni email newsletter" name="newsletter" checked="{!v.originalIsNewsletter}" disabled="true"/> 
+            </lightning:layoutItem>
+
+        </lightning:layout>    
+		
+        <lightning:layout >
+            <lightning:layoutItem padding="around-small" size="12">
+				<lightning:button variant="brand" type="button" name="Edit" label="Edit" onclick="{!c.edit}"/>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+    
+	<div class="slds-form-element slds-hide" aura:id="editMode">        
+        <lightning:layout >
+            <lightning:layoutItem padding="around-small" size="6">
+                <label class="slds-form-element__label">First Name</label>
+                <div class="slds-form-element__control">
+                    <force:inputField value="{!v.contact.FirstName}"/>
+                </div>
+                <label class="slds-form-element__label">Last Name</label>
+                <div class="slds-form-element__control">
+                    <force:inputField value="{!v.contact.LastName}"/>
+                </div>     
+            </lightning:layoutItem>
+            <lightning:layoutItem padding="around-small" size="6">
+                <label class="slds-form-element__label">Mobile Phone</label>
+                <div class="slds-form-element__control">
+                    <force:inputField value="{!v.contact.MobilePhone}"/>
+                </div> 
+                <label class="slds-form-element__label">Email</label>
+                <div class="slds-form-element__control">
+                    <force:inputField value="{!v.contact.ucinn_ascendv2__Personal_Email__c}"/>
+                </div>                   
+            </lightning:layoutItem>
+        </lightning:layout>
+        <lightning:layout >
+            <lightning:layoutItem padding="around-small" size="12">
+                
+            <lightning:inputAddress
+                addressLabel="Address"
+                streetLabel="Street"
+                cityLabel="City"
+                countryLabel="Country"
+                provinceLabel="State"
+                postalCodeLabel="Postal Code"
+                street="{!v.contact.MailingStreet}"
+                city="{!v.contact.MailingCity}"
+                country="{!v.contact.MailingCountry}"
+                province="{!v.contact.MailingState}"
+                postalCode="{!v.contact.MailingPostalCode}"
+                required="true"
+            />
+
+            </lightning:layoutItem>
+
+        </lightning:layout>
+        
+        <lightning:layout >
+            <lightning:layoutItem padding="around-small" size="12">
+				<lightning:input type="checkbox" label="Show my info in alumni directory search" name="directorySearch" checked="{!v.isDirectorySearch}" disabled="false"/>
+                <lightning:input type="checkbox" label="Receive monthly alumni email newsletter" name="newsletter" checked="{!v.isNewsletter}" disabled="false"/> 
+            </lightning:layoutItem>
+
+        </lightning:layout>    
+		
+        <lightning:layout >
+            <lightning:layoutItem padding="around-small" size="12">
+                <lightning:button variant="brand" type="button" name="Cancel" label="Cancel" onclick="{!c.cancel}"/>
+				<lightning:button variant="brand" type="button" name="Save" label="Save" onclick="{!c.save}"/>
+            </lightning:layoutItem>
+        </lightning:layout>
+    </div>
+
+    
+<!--
+        <lightning:recordViewForm recordId="{!v.contactId}" objectApiName="Contact">
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning:outputField fieldName="Name" />
+                </div>
+                <div class="slds-col slds-size_2-of-2">
+                    <lightning:outputField fieldName="MobilePhone" />
+                </div>
+            </div>
+            <div class="slds-grid">
+                <div class="slds-col slds-size_1-of-2">
+                    <lightning:outputField fieldName="MailingAddress" />
+                </div>
+                <div class="slds-col slds-size_2-of-2">
+                    <lightning:outputField fieldName="ucinn_ascendv2__Personal_Email__c" />
+                </div>                
+            </div>
+        </lightning:recordViewForm>
+-->
+
+</aura:component>

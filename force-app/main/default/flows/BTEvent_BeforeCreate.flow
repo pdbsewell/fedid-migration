@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>57.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Assign_Free_Field_Value</name>
+        <label>Assign Free Field Value</label>
+        <locationX>176</locationX>
+        <locationY>311</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.conference360__Free__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>FreeFieldVal</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>Before create flow for BT Event</description>
+    <environments>Default</environments>
+    <formulas>
+        <description>Get Default Free field value from Blackthorn Event Settings</description>
+        <name>FreeFieldVal</name>
+        <dataType>Boolean</dataType>
+        <expression>{!$Setup.conference360__Blackthorn_Events_Settings__c.Free__c}</expression>
+    </formulas>
+    <interviewLabel>BTEvent_BeforeCreate {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>BTEvent_BeforeCreate</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Assign_Free_Field_Value</targetReference>
+        </connector>
+        <filterFormula>{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False</filterFormula>
+        <object>conference360__Event__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

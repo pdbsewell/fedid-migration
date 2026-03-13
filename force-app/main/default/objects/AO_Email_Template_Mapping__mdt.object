@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>Business_Unit__c</fullName>
+        <description>Contains the Business Unit Information for the email to be sent</description>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <label>Business Unit</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Monash_Led</fullName>
+                    <default>true</default>
+                    <label>Monash_Led</label>
+                </value>
+                <value>
+                    <fullName>Partner_Led</fullName>
+                    <default>false</default>
+                    <label>Partner_Led</label>
+                </value>
+                <value>
+                    <fullName>Study_Tours_GCE_GWIL</fullName>
+                    <default>false</default>
+                    <label>Study_Tours_GCE_GWIL</label>
+                </value>
+                <value>
+                    <fullName>Study_Tours_GIG_GST</fullName>
+                    <default>false</default>
+                    <label>Study_Tours_GIG_GST</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Email_Sent_to__c</fullName>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <label>Email Sent To</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Students</fullName>
+                    <default>true</default>
+                    <label>Students</label>
+                </value>
+                <value>
+                    <fullName>Finance</fullName>
+                    <default>false</default>
+                    <label>Finance</label>
+                </value>
+                <value>
+                    <fullName>MUM</fullName>
+                    <default>false</default>
+                    <label>MUM</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Email_Template__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <externalId>false</externalId>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <label>Email Template</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <label>Status</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Accepted</fullName>
+                    <default>true</default>
+                    <label>Accepted</label>
+                </value>
+                <value>
+                    <fullName>Accepted by Host Institution</fullName>
+                    <default>false</default>
+                    <label>Accepted by Host Institution</label>
+                </value>
+                <value>
+                    <fullName>Accepted Pending Study Plan Approval</fullName>
+                    <default>false</default>
+                    <label>Accepted Pending Study Plan Approval</label>
+                </value>
+                <value>
+                    <fullName>Allocated</fullName>
+                    <default>false</default>
+                    <label>Allocated</label>
+                </value>
+                <value>
+                    <fullName>Approved for Travel</fullName>
+                    <default>false</default>
+                    <label>Approved for Travel</label>
+                </value>
+                <value>
+                    <fullName>Awaiting Response Host Institution</fullName>
+                    <default>false</default>
+                    <label>Awaiting Response Host Institution</label>
+                </value>
+                <value>
+                    <fullName>Cancelled</fullName>
+                    <default>false</default>
+                    <label>Cancelled</label>
+                </value>
+                <value>
+                    <fullName>Conditionally Allocated</fullName>
+                    <default>false</default>
+                    <label>Conditionally Allocated</label>
+                </value>
+                <value>
+                    <fullName>Conditionally Approved</fullName>
+                    <default>false</default>
+                    <label>Conditionally Approved</label>
+                </value>
+                <value>
+                    <fullName>Conditionally Nominated</fullName>
+                    <default>false</default>
+                    <label>Conditionally Nominated</label>
+                </value>
+                <value>
+                    <fullName>Deferred</fullName>
+                    <default>false</default>
+                    <label>Deferred</label>
+                </value>
+                <value>
+                    <fullName>Nominated</fullName>
+                    <default>false</default>
+                    <label>Nominated</label>
+                </value>
+                <value>
+                    <fullName>Draft</fullName>
+                    <default>false</default>
+                    <label>Draft</label>
+                </value>
+                <value>
+                    <fullName>Short-listed</fullName>
+                    <default>false</default>
+                    <label>Short-listed</label>
+                </value>
+                <value>
+                    <fullName>Submitted</fullName>
+                    <default>false</default>
+                    <label>Submitted</label>
+                </value>
+                <value>
+                    <fullName>Successful</fullName>
+                    <default>false</default>
+                    <label>Successful</label>
+                </value>
+                <value>
+                    <fullName>Transcript Sent to Faculty/school</fullName>
+                    <default>false</default>
+                    <label>Transcript Sent to Faculty/school</label>
+                </value>
+                <value>
+                    <fullName>Under Assessment by Faculty</fullName>
+                    <default>false</default>
+                    <label>Under Assessment by Faculty</label>
+                </value>
+                <value>
+                    <fullName>Unsuccessful</fullName>
+                    <default>false</default>
+                    <label>Unsuccessful</label>
+                </value>
+                <value>
+                    <fullName>Waitlist</fullName>
+                    <default>false</default>
+                    <label>Waitlist</label>
+                </value>
+                <value>
+                    <fullName>Withdrawn</fullName>
+                    <default>false</default>
+                    <label>Withdrawn</label>
+                </value>
+                <value>
+                    <fullName>Withdrawn (with Penalty)</fullName>
+                    <default>false</default>
+                    <label>Withdrawn (with Penalty)</label>
+                </value>
+                <value>
+                    <fullName>Withdrawn (post-registration)</fullName>
+                    <default>false</default>
+                    <label>Withdrawn (post-registration)</label>
+                </value>
+                <value>
+                    <fullName>Withdrawn (post-commencement)</fullName>
+                    <default>false</default>
+                    <label>Withdrawn (post-commencement)</label>
+                </value>
+                <value>
+                    <fullName>Eligible</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Eligible</label>
+                </value>
+                <value>
+                    <fullName>Transcript Received</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Transcript Received</label>
+                </value>
+                <value>
+                    <fullName>Withdrawn (Post - registration)</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Withdrawn (Post - registration)</label>
+                </value>
+                <value>
+                    <fullName>Withdrawn (Post- Commencement)</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Withdrawn (Post- Commencement)</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>Email Template Mapping</label>
+    <pluralLabel>Email Template Mappings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

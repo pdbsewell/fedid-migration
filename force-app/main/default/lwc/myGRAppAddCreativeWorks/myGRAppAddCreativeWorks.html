@@ -1,0 +1,245 @@
+<template>
+    <div class="slds">
+        <!-- DELETE CONFIRMATION POPUP -->
+        <div if:true={showConfirmDelete}>
+
+            <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header slds-theme--error slds-theme--alert-texture">
+                        <h2 class="slds-text-heading--small" id="prompt-heading-id" style="color: #ffffff;">{label.app_DeleteConfirmation}</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around--medium">
+                        <p>Are you sure you want to delete this record? Please note any document uploaded as part of this claim will also be deleted.</p>
+                    </div>
+                    <div class="slds-modal__footer slds-theme--default">
+                        <lightning-button label="Yes"
+                                          icon-position="left"
+                                          variant="brand"
+                                          onclick={onClickConfirmDelete}>
+                        </lightning-button>&nbsp;
+                        <lightning-button label="No"
+                                          icon-position="left"
+                                          variant="neutral"
+                                          onclick={onClickCancelDelete}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+        </div>
+
+        <!-- ALERT: ANY Errors on save-->
+        <div if:true={showErrors}>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h3 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Please complete the following:</h3>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                        <ul class="slds-list_dotted slds-text-align--left">
+                            <template for:each={saveErrors} for:item="error">
+                                <li key={error}>{error}</li>
+                            </template>
+                        </ul>
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <button class="slds-button slds-button_neutral" onclick={onClickCloseErrors}>Close</button>
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+
+        <!-- page heading and desciption-->
+        <div>
+                <h1 style="font-weight:bold;">Creative Works</h1>
+                <div class="grtParagraph">Please provide details of up to five creative works relevant to and in support of your application. Details of additional creative works may be provided in your Curriculum Vitae (CV).</div>
+                <ul class="slds-list_dotted" >
+                    <li class="grtParagraph">You are required to provide documentary evidence of each creative work you specify here. Where relevant, this must include a copy of the title, table of contents showing the name, and the first page of the creative work. In the case of works accepted or provisionally accepted for publication, evidence of acceptance must be provided.</li>
+                    <li class="grtParagraph">Further to the information provided here, applicants may be asked to submit a portfolio consisting of a representative selection of the candidate's creative work, completed or in progress, published or unpublished.</li>
+                    <li class="grtParagraph">You will be required to upload supporting documentation in the <b>Documents section.</b></li>
+                </ul>    
+        </div>
+        <c-my-g-r-app-declaration 
+        application-id={applicationId} 
+        qualification-name="Do you have any creative works you wish to advise us of" 
+        record-type-name={recTypeDevName} 
+        ondeclarationchange={handleDeclarationChange}
+        >
+        </c-my-g-r-app-declaration>
+        <template if:true={declarationSigned}>
+            <div class="sectionContainer slds-wrap slds-p-top_large" if:true={isStateStart}>
+                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                    <div class="sectionContainerBody slds-size_5-of-5">
+                        <div class="slds-size_5-of-5">
+                            <h2>Creative Works</h2>
+                        </div>
+                        <div class="slds-size_5-of-5">
+                            <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                                <thead>
+                                <tr class="slds-text-title--caps">
+                                                                    
+                                    <th scope="col" class="hideOnMobile">
+                                        <div title="empTH">Name</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div title="posTH">Title</div>
+                                    </th>
+                                    <th scope="col">
+                                        <div class="slds-truncate slds-align_absolute-center" title="Action" >Action</div>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <!-- ITERATION FOR Qualifications -->
+                                <template for:each={contactQualifications} for:item="qualification">                                    
+                                    <tr key={qualification.Id}>
+                                        
+                                        <td>
+                                            <div class="slds-truncate" style="max-width: 330px;">
+                                                {qualification.Name_of_Publisher_Journal_Org__c}
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="slds-truncate" style="max-width: 330px;">
+                                                {qualification.Title_of_Publication_Work_Chapter_Paper__c}
+                                            </div>
+                                        </td>
+                                        <td data-label="Action">
+                                            <div class="slds-truncate slds-align--absolute-center">                                            
+                                                <lightning-button-icon variant="bare" icon-position="left" name={qualification.Id} onclick={onClickEdit} icon-name="utility:edit" size="medium" alternative-text="Edit"></lightning-button-icon>&nbsp;
+                                                <lightning-button-icon variant="bare" icon-position="left" name={qualification.Id} onclick={onClickDelete} icon-name="utility:close" size="medium" alternative-text="Remove item"></lightning-button-icon> 
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </template>
+                                    
+                                <!-- END - ITERATION FOR APPLICATION Qualification PROVIDED -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                
+
+                <div class="slds-p-vertical--large">
+                    
+                </div>
+
+                <!-- ADD NEW BUTTON -->
+                <div if:false={isNewDisabled} class="slds-button-group slds-p-left_medium" role="group">
+                    <button class="secondaryButton" onclick={onClickAddNew} style="margin-top: 10px;">
+                        <lightning-icon class="secondaryIcon" icon-name="utility:add" size="small"></lightning-icon>&nbsp;&nbsp;Add a new Creative Work
+                    </button>
+                </div>
+            </div>
+            <!-- qualification form input fields -->
+            <div class="sectionContainer" if:true={isStateEdit}>
+                <div class="sectionContainerBody slds-size_5-of-5">
+                <br/>
+                
+                <lightning-input name="name"
+                                data-id="name"
+                                label="Name of the publisher for which the creative work was produced"
+                                maxlength="200"
+                                required="true"
+                                onchange={onFieldChange}
+                                value={contactQualification.Name_of_Publisher_Journal_Org__c}></lightning-input>
+                <lightning-input name="title"
+                                data-id="title"
+                                label="Title of creative work"
+                                maxlength="200"
+                                required="true"
+                                onchange={onFieldChange}
+                                value={contactQualification.Title_of_Publication_Work_Chapter_Paper__c}></lightning-input>
+                <lightning-select name="typeOfPublisher"
+                                data-id="typeOfPublisher" 
+                                label="Type of publisher"
+                                value={contactQualification.Type_of_publisher__c}
+                                required="true"
+                                options={typeOfPublisherOptions}
+                                onchange={onFieldChange}></lightning-select>
+                <lightning-input name="wordLengthOfWork"
+                                data-id="wordLengthOfWork"
+                                value={contactQualification.Word_Length__c}
+                                required="true"
+                                maxlength="18"
+                                label="Word length of creative work"
+                                type="number"
+                                onchange={onFieldChange}></lightning-input>                              
+                <lightning-select name="status"
+                                data-id="status" 
+                                label="Status"
+                                value={contactQualification.Qualification_Status__c}
+                                required="true"
+                                options={publicationStatusOptions}
+                                onchange={onFieldChange}></lightning-select>
+                <lightning-select name="numberOfAuthors"
+                                data-id="numberOfAuthors" 
+                                label="Number of Authors"
+                                value={contactQualification.Number_of_Author_Performer__c}
+                                required="true"
+                                options={numberOfAuthorsOptions}
+                                onchange={onFieldChange}></lightning-select>
+                <lightning-select if:true={isMoreThanOneAuthor} name="contributionPercentage"
+                                data-id="contributionPercentage" 
+                                label="Percentage contribution to the creative work"
+                                value={contactQualification.Contribution_Percentage__c}
+                                required="true"
+                                options={percentageOptions}
+                                onchange={onFieldChange}></lightning-select>                 
+                <label class="slds-p-top_small slds-form-element__label">
+                    <abbr class="slds-required" title="required">*</abbr>
+                    Is the publication written in English?
+                </label>
+                <lightning-radio-group                                 
+                                name="publicationInEnglish"
+                                data-id="publicationInEnglish"
+                                options={yesNoOptions}
+                                value={publicationInEnglish}
+                                type="radio"
+                                onchange={onFieldChange}
+                                variant="label-hidden"
+                                ></lightning-radio-group> 
+                <lightning-select name="nonEnglishLanguages"
+                                if:true={publicationNonEnglist}
+                                data-id="nonEnglishLanguages" 
+                                label="Language"
+                                value={contactQualification.Language__c}
+                                required="true"
+                                options={languageOptions}
+                                onchange={onFieldChange}></lightning-select>                
+                <lightning-textarea name="qualityOfWork" 
+                                label="Quality of creative work" 
+                                data-id="qualityOfWork"
+                                field-level-help="(e.g. reviews, awards, grants,
+                                                    standing of gallery/performance venue, etc.)"
+                                required="true"
+                                max-length="1000"
+                                onchange={onFieldChange}
+                                value={contactQualification.Quality_of_work__c}>
+                            </lightning-textarea>  
+                <lightning-textarea name="description" 
+                            label="Describe your contribution to the creative work." 
+                            data-id="description"
+                            field-level-help="Specify your contribution to its writing, the research involved and any other relevant information"
+                            required="true"
+                            max-length="1000"
+                            onchange={onFieldChange}
+                            value={contactQualification.Description__c}>
+                        </lightning-textarea>                                                            
+                <div class="slds-form-element slds-p-vertical--large">
+                    <div class="slds-m-top_medium">                    
+                        <button class="primaryButton" onclick={saveCurrentQualification} style="margin-right: 15px;">
+                            Save
+                        </button>
+                        <button class="secondaryButton" onclick={onClickCancel}>
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </template>
+    </div>
+    <lightning-spinner if:true={showSpinner} alternative-text="Saving" variant="brand"></lightning-spinner>
+</template>

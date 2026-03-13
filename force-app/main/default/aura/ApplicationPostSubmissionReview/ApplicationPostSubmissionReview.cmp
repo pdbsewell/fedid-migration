@@ -1,0 +1,24 @@
+<aura:component description="Application Post Submission Review" implements="forceCommunity:availableForAllPageTypes,lightning:isUrlAddressable" controller="ApplicationNavigationController">
+    <aura:attribute name="openedTab" type="String" default="Details" />
+    <aura:attribute name="instructions" type="String" default="To speed up processing of your application, the checklist items below are a guide as to which documents you need to provide. Monash University will contact you when specific evidence or clarifications are required. Upload your documents next to the relevant item." />
+    <aura:attribute name="myAppFeatures" type="object" />
+    <aura:attribute name="typeOfStudy" type="String"/>
+    <aura:attribute name="appId" type="String"/>
+    <!--Handlers-->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+
+    <!-- Details tab & Document Requirements tab -->
+    <lightning:tabset selectedTabId="{!v.openedTab}">
+        <lightning:tab label="Details" id="Details">
+            <aura:if isTrue="{!v.typeOfStudy == 'Graduate Research'}">
+                <c:myGRApplicationReview applicationId="{!v.appId}"/>
+                <aura:set attribute="else">
+                        <c:myApplicationReview/>
+                </aura:set>
+            </aura:if>
+        </lightning:tab>
+        <lightning:tab label="Documents" id="Documents">
+                <c:myApplicationDocuments pageTitle="Document Requirements" pageSubTitle="{!v.instructions}"></c:myApplicationDocuments>  
+        </lightning:tab>
+    </lightning:tabset>
+</aura:component>

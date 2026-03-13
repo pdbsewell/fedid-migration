@@ -1,0 +1,248 @@
+<template>
+    <template if:true={resourcesReady}>
+        <template if:true={countries}>
+            <div class="slds-is-relative" style="background-color:#91B1CE;">
+                <!-- spinner -->
+                <template if:true={showSpinner}> 
+                    <lightning-spinner alternative-text="Loading" class="spins" variant="brand" size="medium"></lightning-spinner>
+                </template>
+                <template if:false={showSpinner}>
+                    <div class="mfaEnquiryFrame">
+                        <div class="mfaEnquiryForm slds-p-horizontal_large slds-m-horizontal_medium slds-p-vertical_medium slds-is-relative">                            
+                            <!-- spinner -->
+                            <template if:true={isSubmitting}> 
+                                <lightning-spinner alternative-text="Loading" class="spins" variant="brand" size="medium"></lightning-spinner>
+                            </template>
+                            <lightning-layout multiple-rows>
+                                <!-- header -->
+                                <lightning-layout-item size="12">
+                                    <div>
+                                        <div style="font-family:'Roboto Condensed', sans-serif; font-size: 60px; font-weight: bold; line-height: 50px;">
+                                            MY.APP MFA Support
+                                        </div>
+                                        <template if:false={hasSubmittedEnquiry}>
+                                        <div class="slds-m-top_small slds-m-bottom_small" style="color: #707070;">
+                                            <h3>Have you read our troubleshooting tips?</h3>
+                                        </div>
+
+                                        <div class="slds-m-top_small slds-m-bottom_small" style="color: #707070;">
+                                            Please read the Admissions Application FAQs for troubleshooting tips if you did not receive 
+                                            your verification code via SMS.                                        </div>
+                                        <div class="slds-m-top_small slds-m-bottom_small" style="color: #707070;">
+                                            <h3>Still need assistance?</h3>
+                                            If our troubleshooting tips din't help resolve your issue, please fill out the enquiry form below and tell us what your issue is.
+                                            Please attach screenshots of any error codes that are displayed during your registration.
+                                        </div>
+                                        <!-- message before sending enquiry -->
+                                            <div class="slds-m-top_small slds-m-bottom_small" style="color: #707070;">
+                                                Please complete the enquiry form below for assistance
+                                            </div>
+                                        </template>
+                                        <!-- message after sending enquiry -->
+                                        <template if:true={hasSubmittedEnquiry}>
+                                            <div class="slds-m-top_small slds-m-bottom_small" style="font-family:'Roboto Condensed', sans-serif; font-size: 20px; color: #707070;"> 
+                                                An email has been sent to <a style="text-decoration: none;">{suppliedEmail}</a> with your enquiry number and further instructions.
+                                            </div>
+                                        </template>
+                                    </div>
+                                </lightning-layout-item>
+
+                                <!-- confirmation message -->
+                                <template if:true={hasSubmittedEnquiry}>
+                                    <lightning-layout-item size="12">
+                                        <div class="slds-m-top_medium" style="font-family:'Roboto Condensed', sans-serif; font-size: 20px;">
+                                            <span style="font-weight: bold;">No email from us?</span>
+                                            <div style="color: #707070;">
+                                                <lightning-layout multiple-rows>
+                                                    <lightning-layout-item size="1">
+                                                        <center>•</center>
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item size="11">
+                                                        Make sure the email you provided was correct
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item size="1">
+                                                        <center>•</center>
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item size="11">
+                                                        Check your spam folder
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item size="1">
+                                                        <center>•</center>
+                                                    </lightning-layout-item>
+                                                    <lightning-layout-item size="11">
+                                                        If you have not received an email within 30 minutes, do not hesitate to <a href="https://www.monash.edu/connect" target="_blank" style="text-decoration: none;">contact us</a> for assistance.
+                                                    </lightning-layout-item>
+                                                </lightning-layout>
+                                            </div>
+                                        </div>
+                                        <center>
+                                            <button class="btn btn--blue applicationAction slds-p-vertical_xx-small slds-m-top_small" style="width: 45%; margin-right: 5%; border: 2px solid #0E6EAC; background-color: #fff; color: #0E6EAC; font-size: 15px;" onclick={redirectLogin}>
+                                                <b>Return to login</b>
+                                            </button>
+                                        </center>
+                                    </lightning-layout-item>
+                                </template>
+
+                                <!-- show form when no enquiry has been submitted yet-->
+                                <template if:false={hasSubmittedEnquiry}>
+                                    <!-- mfaEnquiry form -->
+                                    <lightning-layout-item size="12">
+                                        <lightning-layout multiple-rows="true">
+                                            <lightning-layout-item size="12">
+                                                <!-- Personal details section -->
+                                                <div class="sectionContainer slds-wrap">
+                                                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                                                    <div class="sectionContainerBody slds-size_5-of-5">
+                                                        <div class="slds-size_5-of-5">
+                                                            <h2>Personal details</h2>
+                                                        </div>
+                                                        
+                                                        <div class="fieldContainer slds-size_5-of-5">
+                                                            <div class="slds-size_2-of-7">
+                                                                <span class="fieldTitle">Legal given name(s)</span>
+                                                            </div>
+                                                            <div class="slds-size_5-of-7">
+                                                                <lightning-input 
+                                                                    label="Legal given name(s)"
+                                                                    class="mfaFormField"
+                                                                    name="legalGivenName"
+                                                                    type="text"
+                                                                    pattern="[A-z '\-]*"
+                                                                    variant="label-hidden"
+                                                                    value={suppliedFirstName}
+                                                                    onkeyup={firstNameChange}>
+                                                                </lightning-input>
+                                                            </div>
+                                                        </div>
+                                                        <div class="fieldContainer slds-size_5-of-5">
+                                                            <div class="slds-size_2-of-7">
+                                                                <span class="fieldTitle">Legal last name</span>
+                                                            </div>                            
+                                                            <div class="slds-size_5-of-7">
+                                                                <lightning-input 
+                                                                    label="Legal last name"
+                                                                    class="mfaFormField"
+                                                                    name="legalLastName"
+                                                                    type="text"
+                                                                    pattern="[A-z '\-]*"
+                                                                    variant="label-hidden"
+                                                                    value={suppliedLastName}
+                                                                    onkeyup={lastNameChange}>
+                                                                </lightning-input>
+                                                            </div>    
+                                                        </div>
+                                                        <div class="fieldContainer slds-size_5-of-5">
+                                                            <div class="slds-size_2-of-7">
+                                                                <span class="fieldTitle">Email</span>
+                                                            </div>                            
+                                                            <div class="slds-size_5-of-7">
+                                                                <lightning-input 
+                                                                    label="Email"
+                                                                    class="mfaFormField"
+                                                                    name="email"
+                                                                    type="email"
+                                                                    variant="label-hidden"
+                                                                    value={suppliedEmail}
+                                                                    onkeyup={emailChange}>
+                                                                </lightning-input>
+                                                            </div>  
+                                                        </div>
+                                                        <div class="fieldContainer slds-size_5-of-5">
+                                                            <div class="slds-size_2-of-7">
+                                                                <span class="fieldTitle">Country code</span>
+                                                            </div>
+                                                            <div class="slds-size_5-of-7">
+                                                                <c-input-type-ahead 
+                                                                    name="country" 
+                                                                    label="" 
+                                                                    class="mfaFormField"
+                                                                    placeholder="-- Please Select --" 
+                                                                    value={countryCode}
+                                                                    options={countryOption} 
+                                                                    onchange={handleCountryChange}
+                                                                    onkeyup={handleCountryKeyUp} 
+                                                                    onclear={handleCountryChange}
+                                                                    is-disabled={disableMobileNumberFields}
+                                                                    autocomplete="false">
+                                                                </c-input-type-ahead>                                                                
+                                                                <template if:true={hasAttemptedSubmitting}>
+                                                                    <template if:false={selectedCountryCode}>
+                                                                        <div class="slds-form-element__help" style="color: rgb(234, 0, 30)" data-help-message="" role="alert">
+                                                                            Please select from the list of countries in the field.
+                                                                        </div>
+                                                                    </template>
+                                                                </template>
+                                                            </div>
+                                                        </div>
+                                                        <div class="fieldContainer slds-size_5-of-5">
+                                                            <div class="slds-size_2-of-7">
+                                                                <span class="fieldTitle">Mobile number</span>
+                                                            </div>
+                                                            <div class="slds-size_5-of-7">
+                                                                <lightning-input 
+                                                                    label="Mobile number" 
+                                                                    class="mfaFormField" 
+                                                                    name="mobileNumber"
+                                                                    value={mobileNumber} 
+                                                                    variant="label-hidden" 
+                                                                    onkeyup={mobileChange} 
+                                                                    disabled={disableMobileNumberFields} 
+                                                                    onkeypress={mobileChangeNumericOnly}
+                                                                    autocomplete="false">
+                                                                </lightning-input>
+                                                            </div>
+                                                        </div>
+                                                        <div class="fieldContainer slds-size_5-of-5">
+                                                            <div class="slds-size_2-of-7">
+                                                                <span class="fieldTitle">Student type</span>
+                                                            </div>
+                                                            <div class="slds-size_5-of-7">
+                                                                <lightning-combobox 
+                                                                    label="Student type"
+                                                                    class="mfaFormField"
+                                                                    name="studentType"
+                                                                    value={selectedStudentType}
+                                                                    options={studentTypeOptions}
+                                                                    onchange={handleStudentTypeChange} 
+                                                                    variant="label-hidden"
+                                                                    placeholder="-- Please Select --">
+                                                                </lightning-combobox>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                    </div>
+                                                </div>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item flexibility="auto" size="12">
+                                                <!-- additional details section -->
+                                                <div class="sectionErrorContainer slds-wrap">
+                                                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                                                    <div class="sectionContainerBody slds-size_5-of-5">
+                                                        <div class="slds-size_5-of-5">
+                                                            <h2>Additional details</h2>
+                                                        </div>
+                                                        
+                                                        <div class=" slds-size_5-of-5">
+                                                            <div class="slds-size_5-of-5">
+                                                                <span>Tell us additional information about your issue</span>
+                                                                <lightning-textarea class="textAreaBody" name="comments" label="" value={comments} onkeyup={handleCommentsChange}></lightning-textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                           </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-layout-item>
+                                    <!-- submit -->
+                                    <lightning-layout-item size="12">
+                                        <c-recaptcha-button data-id="crmcaptchabuttonlwc" buttontext={buttonText} onbuttonclicked={handleButtonClick}></c-recaptcha-button>
+                                    </lightning-layout-item>
+                                </template>
+                            </lightning-layout>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </template>
+    </template>
+</template>

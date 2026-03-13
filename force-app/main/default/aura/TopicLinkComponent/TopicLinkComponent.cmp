@@ -1,0 +1,20 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,force:hasRecordId" access="global" controller="LightningTopicLinks">
+    <ltng:require scripts="{!$Resource.jQuery321}" afterScriptsLoaded="{!c.init}"/>
+    <aura:attribute name="TopicList" type="Topic[]"/>  
+    <aura:attribute name="recordId" type="Id"/>
+    
+    <div class="slds-grid slds-wrap slds-hide" id="topic-links">
+        <div class="slds-size--12-of-12 slds-medium-size--12-of-12 slds-large-size--12-of-12">
+            <p class="faq-related-to">FAQs related to</p>
+        </div>  
+        
+        <div class="slds-size--12-of-12 slds-medium-size--12-of-12 slds-large-size--12-of-12 slds-p-top--large">
+        <aura:iteration items="{!v.TopicList}" var="topic">
+            
+                <a class="faq-divider" href="javascript:void(0);" onclick="{!c.redirectToTopic}" id="{!topic.Id}">{!topic.Name}</a>
+            
+        </aura:iteration>
+        </div>
+        
+    </div>
+</aura:component>

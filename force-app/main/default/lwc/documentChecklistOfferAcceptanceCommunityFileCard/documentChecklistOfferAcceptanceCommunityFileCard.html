@@ -1,0 +1,47 @@
+<template>
+    {message}
+    <div class="slds-is-relative">
+        <article class="slds-card slds-card_boundary slds-m-around_xx-small file-card" style="box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10);">
+            <template if:true={documentDetails}>
+                <div class="slds-p-left_x-small slds-p-right_xxx-small" onclick={previewFile} title={documentComments}>
+                    <lightning-layout vertical-align="center" style="min-height: 65px;">
+                        <lightning-layout-item>
+                            <div style="width: 45px;">
+                                <img class="slds-icon slds-icon_large" src={iconURL} />
+                                <span class="slds-assistive-text">{documentDetails.fileType}</span>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item>
+                            <div class="slds-p-left_x-small slds-text-body_regular" style="font-weight: bold;">
+                                {documentDetails.fileName} <b>•</b> {documentDetails.formattedCreatedDateTime}<template if:false={isCommunityUser}><template if:true={documentDetails.contactDocument.Document_Assessment_Status__c}><span style="color: #C23934;"> ({documentDetails.contactDocument.Document_Assessment_Status__c})</span></template></template>
+                            </div>
+                            <div class="slds-p-left_x-small slds-p-right_small slds-text-body_regular">
+                                {documentType}
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item alignment-bump="left">
+                            <template if:true={isCommunityUser}>
+                                <template if:false={isSubmitted}>
+                                    <lightning-button-icon class="slds-m-left_xx-small" icon-name="utility:delete" variant="border-filled" alternative-text="Delete Document" onclick={showFileDeleteWindow}></lightning-button-icon>
+                                </template>
+                            </template>
+                        </lightning-layout-item>
+                    </lightning-layout>
+                </div>
+            </template>   
+            <template if:false={documentDetails}>
+                <!-- Loading spinner while retrieving document item -->
+                <div style="min-height: 40px; min-width: 60px;">
+                    <lightning-spinner alternative-text="Loading" size="small" variant="brand"></lightning-spinner>
+                </div>
+            </template>
+        </article>
+    </div>
+
+    <!-- Delete File Modal -->
+    <template if:true={showFileDelete}>
+        <c-document-checklist-assessment-community-file-delete onclose={refreshSiblingDocuments} oncancel={hideFileDeleteWindow} document-details={documentDetails}>
+        </c-document-checklist-assessment-community-file-delete>
+    </template>
+
+</template>

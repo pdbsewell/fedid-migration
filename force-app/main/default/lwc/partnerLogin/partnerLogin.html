@@ -1,0 +1,117 @@
+<template>
+    <template if:true={resourcesReady}>
+        <div class="slds-is-relative slds-grid slds-grid_vertical-align-center slds-grid_align-center" style="background-color:#91B1CE;">
+            
+            <div class="loginFrame slds-col">
+                <div class="loginForm slds-p-horizontal_large slds-m-horizontal_medium slds-p-vertical_medium">
+                    <lightning-layout multiple-rows>
+                        <!-- header -->
+                        <lightning-layout-item size="12">
+                            <div>
+                                <div style="font-family:'Roboto', sans-serif; font-size: 30px;">
+                                    WELCOME TO
+                                </div>
+                                <div style="font-family:'Roboto Condensed', sans-serif; font-size: 60px; font-weight: bold; line-height: 50px;">
+                                    PARTNER PORTAL
+                                </div>
+                                <div class="slds-m-top_medium" style="color: #707070;"> 
+                                    Here you can lodge applications on behalf of an applicant to join Monash. To continue, please login.
+                                </div>
+                            </div>
+                        </lightning-layout-item>
+                        <!-- login form -->
+                        <lightning-layout-item size="12">
+                            <div style="font-family:'Roboto', sans-serif; font-size: 15px; color: #707070;">
+                                <!-- error notification -->
+                                <template if:true={credsError}>
+                                    <div style="font-family:'Roboto', sans-serif; font-size: 13px; color: #EE0220;" class="slds-m-top_x-small slds-m-bottom_x-small">                                        
+                                        <lightning-formatted-rich-text value={credsError}></lightning-formatted-rich-text>
+                                    </div>
+                                </template>
+                                <!-- no-error padding -->
+                                <template if:false={credsError}>
+                                    <div style="font-family:'Roboto', sans-serif; font-size: 13px; color: #EE0220;" class="slds-m-top_medium"></div>
+                                </template>
+
+                                <!-- Email -->
+                                <div class="slds-form-element">
+                                    <label for="email_field"><b>Username</b></label>
+                                    <div class="slds-form-element__control">
+                                        <lightning-input class="emailField inputField corneredInput"
+                                            placeholder="example@email.com"
+                                            type="email" 
+                                            name="email_field" 
+                                            label="Email"
+                                            variant="label-hidden"
+                                            value={username}
+                                            onchange={changeUsername}
+                                            onkeypress={handleKeyPress}
+                                            message-when-type-mismatch="Please use the right email address format, for example 'email@domain.com'.">
+                                        </lightning-input>
+                                        <template if:true={usernameError}>                                                
+                                            <span style="font-family:'Roboto', sans-serif; font-size: 13px; color: rgb(194, 57, 52);">
+                                                {usernameError}
+                                            </span>
+                                        </template>
+                                    </div>
+                                </div>
+                                <template if:true={usernameError}>                                                
+                                    <div class="slds-m-top_xx-small">
+                                    </div>
+                                </template>
+                                <template if:false={usernameError}>                                                
+                                    <div class="slds-m-top_small">
+                                    </div>
+                                </template>
+                                <!-- Password -->
+                                <div class="slds-form-element">
+                                    <label for="password_field"><b>Password</b></label>
+                                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                                        <lightning-input class="passwordField inputField corneredInput"
+                                            type={passwordType} 
+                                            name="password_field" 
+                                            label="Password"
+                                            variant="label-hidden"
+                                            value={password}
+                                            onchange={changePassword}
+                                            onkeypress={handleKeyPress}>
+                                        </lightning-input>
+                                        <lightning-button-icon class="front slds-button slds-button_icon slds-input__icon slds-input__icon_right"
+                                            icon-name={passwordIcon}
+                                            alternative-text={passwordIconTitle}
+                                            variant="bare"
+                                            style="pointer-events: visible;"
+                                            size="large"
+                                            onclick={togglePasswordVisibility}>
+                                        </lightning-button-icon>
+                                    </div>
+                                    <template if:true={passwordError}>                                                
+                                        <span style="font-family:'Roboto', sans-serif; font-size: 13px; color: rgb(194, 57, 52);">
+                                            {passwordError}
+                                        </span>
+                                    </template>
+                                </div> 
+                                <c-recaptcha-button data-id="crmcaptchabuttonlwc" buttontext={buttonText} onbuttonclicked={handleButtonClick}></c-recaptcha-button>
+                            </div> 
+                        </lightning-layout-item>
+                        <!-- forgot password -->
+                        <lightning-layout-item size="12">
+                            <div class="slds-m-top_medium" style="font-family:'Roboto', sans-serif; font-size: 15px; color: #707070;">
+                                Forgotten your password? <a href="/partner/s/login/ForgotPassword">Reset it.</a>
+                            </div>
+                        </lightning-layout-item>
+                        <!-- sign up -->
+                        <lightning-layout-item size="12">
+                            <div class="slds-m-top_medium" style="font-family:'Roboto', sans-serif; font-size: 15px; color: #707070;">
+                                Don't have an account yet?
+                                <br/>
+                                Please check in with your Institution to get an access here.
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>   
+                </div>
+            </div>
+
+        </div>
+    </template>
+</template>

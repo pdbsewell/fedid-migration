@@ -1,0 +1,27 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId" access="global" controller="EmailFromSelectorController">
+    <lightning:quickActionAPI aura:id="quickActionAPI" />
+    
+    <!-- Component variables -->
+    <aura:attribute name="lstEmailFrom" type="Object[]"/>
+    <aura:attribute name="recordId" default="{!v.recordId}" type="Id" access="global" />
+    <aura:attribute name="graduateResearchUserPermission" default="false" type="boolean"/> <!-- Added for Graduate_Research_User custom Permission Check -->
+    <aura:attribute name="selectedEmail" type="string"/> <!-- Added for Selected Email Address -->
+    <!-- Constructor -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <lightning:accordion aura:id="fromAccordion" activeSectionName="" allowMultipleSectionsOpen="true" class="slds-card_boundary">
+        <lightning:accordionSection name="fromSet" label="From Address">
+            <aura:iteration items="{!v.lstEmailFrom}" var="obj">
+                
+                <span class="slds-pill slds-pill_link">
+                    <a class="slds-pill__action slds-align_absolute-center" title="{!obj.From_Address__c}" data-emailvalue="{!obj.From_Address__c}" data-quickactionname="{!obj.Send_Email_Quick_Action_API_Name__c}" onclick="{!c.updateFrom}">
+                        <span class="slds-pill__label">{!obj.From_Address__c}</span>
+                    </a>
+                    <button class="slds-button slds-button_icon slds-button_icon slds-pill__remove" title="{!obj.From_Address__c}">
+                        <lightning:icon iconName="utility:email" alternativeText="{!obj.From_Address__c}" />
+                    </button>
+                </span>           
+            </aura:iteration>
+        </lightning:accordionSection>
+    </lightning:accordion>
+</aura:component>

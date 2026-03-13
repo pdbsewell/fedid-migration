@@ -1,0 +1,45 @@
+<template>
+    <template if:true={showSpinner}> 
+        <div class="slds-align_absolute-center">
+            <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+        </div>
+    </template>
+    <lightning-layout size="12" multiple-rows="true">
+        <lightning-layout-item flexibility="auto" padding="around-small">
+            <lightning-radio-group  name="radioGroup"
+                                    label=""
+                                    options={options}
+                                    value={collaboratorRecord.collaboratorType}
+                                    type="button"
+                                    onchange={handleCollaboratorChange}>
+            </lightning-radio-group>
+        </lightning-layout-item>  
+    </lightning-layout>
+    
+    <!-- Record Form -->
+    <lightning-record-edit-form object-api-name="Opportunity_Collaborator__c">
+        <lightning-layout size="12" multiple-rows="true">
+            <lightning-layout-item size="12" padding="around-small" >
+                <div style="padding-bottom:0.5%;padding-left:0.5%;">Organisation</div>
+                <c-lookup-component 
+                    data-id="accountLookup" 
+                    obj-name="Account" 
+                    placeholder="Search Organisations..."
+                    icon-name="standard:account" 
+                    filters={filter}
+                    onvalueselect={handleOrganisationChange}>  
+                </c-lookup-component>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="around-small" >
+                <lightning-input-field field-name='Lead__c' value={collaboratorRecord.lead} onchange={handleLeadChange}></lightning-input-field>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="around-small" >
+                <lightning-input-field field-name='Value_Involvement__c' value={collaboratorRecord.amount} required onchange={handleValueChange}></lightning-input-field>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-record-edit-form> 
+    <div class="slds-align_absolute-center slds-p-top_x-large">
+        <lightning-button class="slds-button section-float slds-p-around_small"  variant="base" label="Cancel" title="Cancel" onclick={closeModal}></lightning-button>
+        <lightning-button class="section-float slds-p-around_small" variant="brand" label="Save" title="Success" onclick={save}></lightning-button> 
+    </div>  
+</template>

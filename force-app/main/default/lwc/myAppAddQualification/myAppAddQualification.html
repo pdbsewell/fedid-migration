@@ -1,0 +1,966 @@
+<template>
+    <div class="slds">
+        <!-- current/previous notification message -->
+        <template if:true={currentPreviousNotification}>
+            <div class="slds-card">
+                <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-text-heading_medium" role="alert">
+                    <lightning-icon icon-name="utility:info_alt"></lightning-icon>
+                    <span class="slds-var-m-left_small" style="color: #080707;">
+                        {currentPreviousNotification}
+                    </span>
+                </div>
+            </div>
+        </template>
+        <!-- SPINNER -->
+        <template if:true={showSpinner}>
+            <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+        </template>
+
+        <!-- DELETE CONFIRMATION POPUP -->
+        <template if:true={showConfirmDelete}>  
+            <div role="alertdialog" tabindex="-1" aria-labelledby="prompt-heading-id" aria-describedby="prompt-message-wrapper" class="slds-modal slds-fade-in-open slds-modal--prompt">
+                <div class="slds-modal__container">
+                    <div class="slds-modal__header slds-theme_error slds-theme--alert-texture">
+                        <h2 class="sslds-text-heading_small" id="prompt-heading-id" style="color: #ffffff;">{label.App_DeleteConfirmation}</h2>
+                    </div>
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <p>
+                            {label.App_DeleteQualificationLabel}
+                        </p>
+                    </div>
+                    <div class="slds-modal__footer slds-theme_default">
+                        <lightning-button label="Yes"
+                                          variant="brand"
+                                          onclick={onClickConfirmDelete}>
+                        </lightning-button>
+                        <lightning-button label="No"
+                                          onclick={onClickCancelDelete}>
+                        </lightning-button>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+        <!-- END - CONFIRMATION POPUP -->
+        
+        <!-- ALERT: ANY Errors on save-->
+        <template lwc:if={showErrors}>
+            <div>
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <h3 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Please complete the following:</h3>
+                        </header>
+                        <div class="slds-modal__content slds-var-p-around_medium" id="modal-content-id-1">              
+                            <ul class="slds-list_dotted slds-text-align_left">
+                                <template for:each={saveErrors} for:item="error">
+                                    <li key={error}>{error}</li>
+                                </template> 
+                            </ul>
+                        </div>
+                        <footer class="slds-modal__footer">
+                        <lightning-button variant="base" label="Close" title="" onclick={onClickCloseAlert} class="slds-button slds-button_neutral"></lightning-button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </template>
+        <div class="slds-hide">
+            <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+                <span class="slds-assistive-text">Error</span>
+                <span class="slds-icon_container slds-icon-utility-error slds-var-m-right_x-small" ></span>
+                <div class="slds-align-top">Please correct the following:</div>
+                <ul class="slds-list_dotted slds-text-align_left">
+                    <template for:each={saveErrors} for:item="error">
+                        <li key={error}>{error}</li>
+                    </template> 
+                </ul>
+                <lightning-button-icon 
+                    icon-name="utility:close" 
+                    alternative-text="Close" 
+                    class="slds-button slds-button_icon slds-notify__close slds-button_icon-inverse" 
+                    title="Close" 
+                    onclick={onClickCloseAlert}>
+                </lightning-button-icon>
+            </div>
+        </div>
+
+        <!-- current institution -->
+
+        <template if:true={isAbroadType}>
+            <div class="slds-grid slds-gutters slds-wrap">
+                <div class="slds-col slds-is-relative">
+                    <template if:true={showInstitutionSpinner}>
+                        <lightning-spinner variant="brand"></lightning-spinner>
+                    </template>
+                    <div data-id="currentInstitution" class="sectionContainer slds-wrap">
+                        <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                        <div class="sectionContainerBody slds-size_5-of-5">
+                            <div class="slds-size_5-of-5">
+                                <h2>Current Institution</h2>
+                            </div>
+                                                        
+                            <!-- search/enter institution -->
+                            <div class="slds-is-relative">
+                                <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                    <p>Monash University has reciprocal Exchange and Study Abroad programs with many institutions around the world. Please use the Partner University look up tool below to search and select your current institution from the results.</p>
+                                </div>
+
+                                <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                    <span class="generalText">If your institution cannot be found via search, please enter the details manually.</span>
+                                </div>
+    
+                                <div class="slds-size_5-of-5" style="margin-top: 20px;">
+                                    <span class="generalText"><b>Your current institution</b></span>
+                                </div>
+
+                                <!-- institution -->
+                                <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                    <template if:false={isApplicationCreatedByPartner}>
+                                        <c-input-type-ahead name="institution" label=""
+                                            placeholder="Enter your current institution" value={institutionName}
+                                            options={institutionOptions} onchange={handleInstitutionChange}
+                                            onkeyup={handleInstitutionKeyUp} onclear={handleInstitutionChange}
+                                            is-disabled="false">
+                                        </c-input-type-ahead>
+                                    </template>
+                                    <template if:true={isApplicationCreatedByPartner}>
+                                        <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                            <p>{institutionName}</p>
+                                        </div>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>            
+            </div>
+        </template>
+
+        <!-- educational history -->
+        <div class="slds-grid slds-gutters slds-wrap">
+            <div class="slds-col">
+                <!-- Educational History -->
+                <div class="sectionContainer slds-wrap">
+                    <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                    <div class="sectionContainerBody slds-size_5-of-5">
+                        <div class="slds-size_5-of-5">
+                            <h2>Educational History</h2>
+                        </div>
+                        <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                            <p>In addition to your secondary and tertiary studies, you will need to include how you meet the minimum entry requirement for English language.</p>
+                        </div>
+                        <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                            <span class="generalText">Every entry in this section will require supporting documentation.</span>
+                        </div>
+                        <div class="slds-size_5-of-5 slds-p-bottom_large" style="margin-top: 10px;">
+                            <span class="generalText">Educational claims entered and submitted in previous applications cannot be edited or deleted as they form part of your history with Monash. Add any additional claims below.</span>
+                        </div>
+
+                        <!-- STATE 1 - START: Button to add a new qualification and display existing qualifications -->
+                        <template lwc:if={showMain}>
+                        <div>
+                            <!-- SECTION :TABLE of qualifications  -->
+                            <div>
+                                <table class="slds-table slds-table--bordered slds-table--cell-buffer slds-table--fixed-layout ">
+                                    <thead>
+                                    <tr class="slds-text-title_caps">
+                                        <th scope="col">
+                                            <div class="slds-truncate slds-cell-wrap" title="qType">Qualification Type</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate slds-cell-wrap" title="School">Institution/School</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="slds-truncate slds-cell-wrap" title="Assessment Type/Qualification">Assessment Type/Qualification</div>
+                                        </th>
+                                        <template if:true={allowDelete}>
+                                            <th scope="col">
+                                                <div class="slds-truncate slds-align_absolute-center" title="Action" >Action</div>
+                                            </th>
+                                        </template>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <!-- ITERATION FOR APPLICATION QUALIFICATION PROVIDED VISIBLE ONLY WHEN THIS COMPONENT IS UNDER THE APPLICATION DETAIL -->
+                                    <template if:true={isAppComponent}>
+                                        <template for:each={qualListDraft} for:item="qualRec">
+                                            <tr key={qualRec}>
+                                                <td>
+                                                    <div class="slds-cell-wrap slds-truncate">
+                                                        {qualRec.recordTypeLabel}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="slds-cell-wrap slds-truncate" style="float: left; width: 225px; word-wrap: break-word;">
+                                                        <template lwc:if={qualRec.Institution_Name__c}>{qualRec.Institution_Name__c}</template>
+                                                        <template lwc:else>{qualRec.Other_Institution__c}</template>
+                                                    </div>
+                                                </td>
+                                                <td data-label="Assessment Type/Qualification">
+                                                    <div class="slds-cell-wrap slds-truncate" style="float: left; width: 225px; word-wrap: break-word;">
+                                                            <template lwc:if={qualRec.Qualification__c}>{qualRec.Qualification__r.Qualification_Name__c}</template>
+                                                            <template lwc:else>{qualRec.Other_Qualification__c}</template>
+                                                    </div>
+                                                </td>
+                                                <td data-label="Action">
+                                                    <div class="slds-truncate slds-align_absolute-center">
+                                                        <lightning-button-icon label="Edit" 
+                                                                                name={qualRec.Id} 
+                                                                                icon-name="utility:edit" 
+                                                                                variant="base" 
+                                                                                onclick={onClickEdit} 
+                                                                                alternative-text="Edit Form" 
+                                                                                class="slds-m-left_xx-small">
+                                                                            </lightning-button-icon>
+                                                        <lightning-button-icon name={qualRec.Id} 
+                                                                                icon-name="utility:close" 
+                                                                                variant="base" 
+                                                                                onclick={onClickDelete} 
+                                                                                alternative-text="Remove Item" 
+                                                                                class="slds-m-left_xx-small">
+                                                                            </lightning-button-icon>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </template>
+
+                                        <template for:each={qualListHistorical} for:item="qualRec">
+                                            <tr key={qualRec.Id}>
+                                                <td>
+                                                    <div class="slds-cell-wrap slds-truncate">
+                                                        {qualRec.recordTypeLabel}
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="slds-cell-wrap slds-truncate" style="float: left; width: 225px; word-wrap: break-word;">
+                                                        <template lwc:if={qualRec.Institution_Name__c}>{qualRec.Institution_Name__c}</template>
+                                                        <template lwc:else>{qualRec.Other_Institution__c}</template>
+                                                    </div>
+                                                </td>
+                                                <td data-label="Assessment Type/Qualification">
+                                                    <div class="slds-cell-wrap slds-truncate" style="float: left; width: 225px; word-wrap: break-word;">
+                                                        <template lwc:if={qualRec.Qualification__c}>{qualRec.Qualification__r.Qualification_Name__c}</template>
+                                                        <template lwc:else>{qualRec.Other_Qualification__c}</template>
+                                                    </div>
+                                                </td>
+                                                <td data-label="Action">
+                                                    <div class="slds-truncate slds-align_absolute-center">
+                                                        <lightning-helptext content="This qualification cannot be edited or deleted" icon-name="utility:preview"></lightning-helptext>
+                                                    </div>
+                                                </td>
+                                            </tr>
+                                        </template>
+                                    </template>
+                                    <!-- END - ITERATION FOR APPLICATION QUALIFICATION PROVIDED VISIBLE ONLY WHEN THIS COMPONENT IS UNDER THE APPLICATION DETAIL -->
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                            <div if:true={noQualificationFound}>
+                                <div style="font-size:13px; 
+                                            padding: 5px;
+                                            margin: 5px;
+                                            border-width: 1px;
+                                            border-style: solid;
+                                            border-radius: 5px;
+                                            background-color: var(--slds-g-color-brand-base-95, #f5fcff);
+                                            border-color: var(--slds-g-color-brand-base-95, #bee6ff);
+                                            color: var(--slds-g-color-neutral-base-10, #464646);"> <!--TODO move this to css-->
+                                    No Qualifications to Display
+                                </div>
+                            </div>
+                            <!-- SECTION END:TABLE of qualifications  -->
+
+                            <!-- ADD NEW BUTTON -->
+                            <button class="secondaryButton" onclick={onClickAddNew} style="margin-top: 10px;">
+                                <lightning-icon class="secondaryIcon" icon-name="utility:add" size="small"></lightning-icon>&nbsp;&nbsp;Add New Qualification
+                            </button>
+                            <!-- END ADD NEW BUTTON -->
+                        </div>
+                        </template>
+
+                         <!-- STATE 2: Select qualification type, persistent until entry complete -->
+                        <template if:true={showQualificationTypeSelect}>
+                        <div>
+                            <!-- qualification type -->
+                            <lightning-select id="selectQualificationType"
+                                            label="Please select the type of qualification you wish to add"
+                                            value={selectedQualRecordTypeId}
+                                            required="true"
+                                            disabled={editingDraft}
+                                            options={qualRecordTypes}
+                                            onchange={onSelectQualificationType}>
+                            </lightning-select>
+                        </div>
+                        </template>
+
+                        <!-- STATE 3: Form to enter new qualification -->
+                        <template if:true={showNewQualfiication}>
+                            <div data-id="qualifications">
+                                <!-- context specific instructions -->
+                                <div class="slds-p-vertical--medium">
+                                    <!-- TERTIARY BEGIN -->
+                                    <template if:true={terEducQualType}>
+                                    <div>
+                                        {label.App_TertiaryEducationDetails}&nbsp;{label.App_TertiaryEducationDetails_2}.
+                                        <!-- SECTION: TERTIARY COUNTRY -->
+                                        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                            <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2">
+                                                <div class="slds-form-element__control">
+                                                    <lightning-select id="selectCountryTer"
+                                                                    label="Country in which you studied"
+                                                                    value={qualTertiaryCountryId}
+                                                                    required="true"
+                                                                    options={countryOptions}
+                                                                    onchange={onSelectTertiaryCountry}>
+                                                    </lightning-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <!-- SECTION : TERTIARY QUALIFICATION NAME/TITLE -->
+                                        <lightning-input name="inputQualTertiaryName"
+                                                        value={qualTertiaryName}
+                                                        required="true"
+                                                        placeholder="Qualification Name, eg. Bachelor of Arts"
+                                                        label="Qualification" 
+                                                        onchange={captureInputs}></lightning-input>
+                                        <!-- SECTION END : TERTIARY QUALIFICATION NAME/TITLE -->
+    
+                                        <!-- SECTION : TERTIARY AWARDING BODY -->
+                                        <div>
+                                            <div>Enter the keyword and select your institution from the drop down list.
+                                                If you cannot find your institution, enter it manually.</div>
+                                            <lightning-tabset active-tab-value={tabIdTertiaryAwardingBody}>
+                                                <lightning-tab label="Select From List" value="AUS_TER_SEARCH" onactive={onTabSelectInstitution}>
+                                                    <c-my-app-search-with-dropdown
+                                                            data-id="searchTertiaryAwardingBody"
+                                                            selected-result={qualTertiaryAwardingBody}
+                                                            map-results={mapTertiaryAwardingBody}
+                                                            place-holder="search for awarding body/institution"
+                                                            input-label="Awarding Body or Institution"
+    
+                                                            object-api-name="Institution__c"
+                                                            fields-to-return="['Id', 'Institution_Name__c', 'Institution_Code__c']"
+                                                            where-fields="['Type__c', 'ISO_Country_API_Name__c']"
+                                                            where-value0="Tertiary"
+                                                            where-value1={qualTertiaryCountry}
+                                                            search-fields="['Institution_Name__c']"
+                                                            label-field="Institution_Name__c"
+    
+                                                            onsearchselectevent={onSearchSelectTertiaryAwardingBody}
+                                                    ></c-my-app-search-with-dropdown>
+                                                </lightning-tab>
+                                                <lightning-tab label="Enter Manually" value="AUS_TER_MANUAL" onactive={onTabSelectInstitution}>
+                                                    <lightning-input name="inputQualAwardingBodyOther"
+                                                                    value={qualTertiaryAwardingBodyOther}
+                                                                    placeholder="Enter Institution Name"
+                                                                    required="true"
+                                                                    label="Awarding Body or Institution"
+                                                                    onchange={captureInputs}></lightning-input>
+                                                </lightning-tab>
+                                            </lightning-tabset>
+                                        </div>
+                                        <!-- SECTION END : TERTIARY AWARDING BODY -->
+    
+                                        <!-- SECTION : TERTIARY ENGLISH INSTRUCTION -->
+                                        <!-- Is English the ONLY language of instruction and testing for all courses at the institution where you completed your studies? -->
+                                        <lightning-input name="inputQualTertiaryEnglishOnly"
+                                                        checked={qualTertiaryEnglishOnly}
+                                                        label={label.App_InstructedInEnglish}
+                                                        message-toggle-active="Yes" 
+                                                        message-toggle-inactive="No"
+                                                        type="toggle"
+                                                        onchange={captureInputs}>
+                                        </lightning-input>
+                                        <!-- SECTION END : TERTIARY ENGLISH INSTRUCTION -->
+    
+                                        <!-- SECTION : TERTIARY FIRST YEAR OF ENROLMENT-->
+                                        <lightning-input data-id="inputQualTertiaryFirstYearEnrolment"
+                                                        name="inputQualTertiaryFirstYearEnrolment"
+                                                        label="First year of enrolment"
+                                                        type="text"
+                                                        required="true"
+                                                        value={qualTertiaryFirstYearEnrolled}
+                                                        pattern="(19|20)\d{2}"
+                                                        message-when-pattern-mismatch="please enter a valid year"
+                                                        onchange={captureInputs}
+                                        ></lightning-input>
+                                        <!-- SECTION END : TERTIARY FIRST YEAR OF ENROLMENT-->
+    
+                                        <!-- SECTION : TERTIARY LAST YEAR OF ENROLMENT-->
+                                        <lightning-input data-id="inputQualTertiaryLastYearEnrolment"
+                                                        name="inputQualTertiaryLastYearEnrolment"
+                                                        type="text"
+                                                        required="true"
+                                                        label="Last year of enrolment"
+                                                        value={qualTertiaryLastYearEnrolled}
+                                                        pattern="(19|20)\d{2}"
+                                                        message-when-pattern-mismatch="please enter a valid year"
+                                                        onchange={captureInputs}
+                                        ></lightning-input>
+                                        <!-- SECTION END : TERTIARY LAST YEAR OF ENROLMENT-->
+    
+                                        <!-- SECTION: TERTIARY LEVEL OF COMPLETION -->
+                                        <lightning-select aid="selectCompletionLevel"
+                                                        label="Level of Completion"
+                                                        value={qualTertiaryLevelOfCompletion}
+                                                        required="true"
+                                                        options={completionLevelOptions}
+                                                        onchange={onSelectCompletionLevel}>
+                                        </lightning-select>
+                                        <!-- SECTION END : TERTIARY LEVEL OF COMPLETION -->
+                                        <!-- SECTION: SECONDARY COMMENTS -->
+                                        <lightning-textarea name="inputQualTertiaryComments"
+                                                            value={qualTertiaryComments}
+                                                            label="Comments"
+                                                            placeholder="Any other comments"
+                                                            max-length={MAX_COMMENTS_LENGTH}
+                                                            onchange={captureInputs}
+                                        ></lightning-textarea>
+                                        <!-- SECTION END: SECONDARY COMMENTS -->
+                                    </div>
+                                    </template>
+                                    <!-- TERTIARY END -->
+
+                                    <!-- SECONDARY BEGIN -->
+                                    <template if:true={secEducQualType}>
+                                    <div>
+                                        <div class="slds-text-body_regular">{label.App_SecondaryEducDetails}</div>
+                                        <div class="slds-text-body_regular slds-p-top_medium">{label.App_SecondaryEducDetails_2}</div>
+                                        <!-- SECTION: SECONDARY COUNTRY -->
+                                        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                                            <div class="slds-p-horizontal_small slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-2">
+                                                <div class="slds-form-element__control">
+                                                    <lightning-select id="selectCountrySec"
+                                                                    label="Country in which you studied"
+                                                                    value={qualSecondaryCountryId}
+                                                                    required="true"
+                                                                    options={countryOptions}
+                                                                    onchange={onSelectSecondaryCountry}>
+                                                    </lightning-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- SECTION END: SECONDARY COUNTRY -->
+                                        <!-- SECTION : SECONDARY STATE -->
+                                        <template if:true={isChinaOrIndia}>
+                                        <lightning-input name="inputState"
+                                                        value={qualSecondaryStateProvince}
+                                                        required={isChinaOrIndia}
+                                                        placeholder="State/Province of Study"
+                                                        label="State/Province" 
+                                                        onchange={onSelectStateProvince}>
+                                        </lightning-input>
+                                        </template>
+                                        <!-- australian state -->
+                                        <template if:true={isAustralia}>
+                                        <lightning-select id="selectAusState"
+                                                        label="Australian State in which you studied"
+                                                        value={qualSecondaryState}
+                                                        required={isAustralia}
+                                                        options={ausStateOptions}
+                                                        onchange={onSelectAusState}>
+                                        </lightning-select>
+                                        </template>
+                                        <!-- SECTION END : SECONDARY STATE -->
+
+                                        <!-- SECTION : SECONDARY QUALIFICATION NAME -->
+                                        <div class="">
+                                            <div>Enter the keyword and select your Qualification from the drop down list.
+                                                If you cannot find your institution, enter it manually.</div>
+                                                <lightning-tabset id="secondaryQualificationTabs"
+                                                active-tab-value={tabIdSecondaryType}
+                                                variant="scoped">
+                                                <lightning-tab label="Select From List" value="SEC_QUAL_NAME_SEARCH" onactive={onTabSelectQualification} >
+                                                    <template lwc:if={isAustralia}>
+                                                        <div>
+                                                            <c-my-app-search-with-dropdown
+                                                                                data-id="searchSecondaryAusQualification"
+                                                                                selected-result={qualSecondaryTypeId}
+                                                                                place-holder="enter to search for an Australian Secondary qualification"
+                                                                                input-label="Qualification Name"
+                                                                                object-api-name="Qualification__c"
+                                                                                fields-to-return="['Id', 'Qualification_Name__c']"
+                                                                                where-fields="['Overseas__c', 'State__c', 'RecordType.Name']"
+                                                                                where-value0="false"
+                                                                                where-value1={qualSecondaryState}
+                                                                                where-value2="Secondary Qualification"
+                                                                                optional-where-fields="['State__c']"
+                                                                                search-fields="['Qualification_Name__c']"
+                                                                                label-field="Qualification_Name__c"
+                                                                                
+                                                                                onsearchselectevent={onSearchSelectSecondaryQualification}
+                                                            ></c-my-app-search-with-dropdown>
+                                                        </div>
+                                                    </template>
+                                                    <template lwc:else>
+                                                        <div>
+                                                            <c-my-app-search-with-dropdown
+                                                                    data-id="searchSecondaryIntlQualification"
+                                                                    selected-result={qualSecondaryTypeId}
+                                                                    place-holder="enter to search for a secondary qualification"
+                                                                    input-label="Qualification Name"
+
+                                                                    object-api-name="Qualification__c"
+                                                                    fields-to-return="['Id', 'Qualification_Name__c']"
+                                                                    where-fields="['Overseas__c','RecordType.Name', '!%Qualification_Name__c']"
+                                                                    where-value0="true"
+                                                                    where-value1="Secondary Qualification"
+                                                                    where-value2="VTAC"
+                                                                    search-fields="['Qualification_Name__c']"
+                                                                    label-field="Qualification_Name__c"
+
+                                                                    onsearchselectevent={onSearchSelectSecondaryQualification}
+                                                            ></c-my-app-search-with-dropdown>
+                                                        </div>
+                                                    </template>
+                                                </lightning-tab>
+                                                <lightning-tab label="Enter Manually" value="SEC_QUAL_NAME_MANUAL" onactive={onTabSelectQualification} >
+                                                    <lightning-input name="inputQualSecondaryOther"
+                                                                    value={qualSecondaryTypeOther}
+                                                                    required="true"
+                                                                    placeholder="Secondary Qualification Name"
+                                                                    label="Name of Secondary Qualification"
+                                                                    onchange={captureInputs}></lightning-input>
+                                                </lightning-tab>
+                                            </lightning-tabset>
+                                        </div>
+                                        <!-- SECTION : SECONDARY QUALIFICATION NAME -->
+
+                                        <!-- SECTION : AUSTRALIAN SECONDARY SCHOOL OF ATTENDANCE -->
+                                        <template lwc:if={isAustralia}>
+                                            <div>
+                                                <div>Enter the keyword and select your School, College or Institution from the drop down list.
+                                                    If you cannot find your it, enter it manually.</div>
+                                                <lightning-tabset active-tab-value={tabIdSecondarySchool}>
+                                                    <lightning-tab label="Select From List" value="AUS_SEC_SEARCH" onactive={onTabSelectInstitution}>
+                                                        <c-my-app-search-with-dropdown
+                                                                data-id="searchSecondarySchool"
+                                                                selected-result={qualSecondarySchool}
+                                                                map-results={mapSecondarySchool}
+                                                                place-holder="enter to search for schools"
+                                                                input-label="School, College or Institution Name"
+
+                                                                object-api-name="Institution__c"
+                                                                fields-to-return="['Id', 'Institution_Name__c', 'Institution_Code__c', 'Type__c']"
+                                                                where-fields="['Type__c', 'Country__c', 'State__c']"
+                                                                where-value0="Secondary"
+                                                                where-value1={qualSecondaryCountry}
+                                                                where-value2={qualSecondaryState}
+                                                                search-fields="['Institution_Name__c']"
+                                                                label-field="Institution_Name__c"
+
+                                                                onsearchselectevent={onSearchSelectSecondarySchool}
+                                                        ></c-my-app-search-with-dropdown>
+                                                    </lightning-tab>
+                                                    <lightning-tab label="Enter Manually" value="AUS_SEC_MANUAL" onactive={onTabSelectInstitution}>
+                                                        <lightning-input name="inputQualAwardingBodyOtherSec"
+                                                                        value={qualSecondarySchoolOther}
+                                                                        required="true"
+                                                                        placeholder=""
+                                                                        label="Enter School Name"
+                                                                        onchange={captureInputs}></lightning-input>
+                                                    </lightning-tab>
+                                                </lightning-tabset>
+                                            </div>
+                                        </template>
+                                        <template lwc:else>
+                                            <div>
+                                                <!-- MANUAL ENTRY of Other Awarding Body / Institution -->
+                                                <lightning-input name="inputQualAwardingBodyOtherSec"
+                                                                value={qualSecondarySchoolOther}
+                                                                required="true"
+                                                                placeholder=""
+                                                                label="Enter School Name"
+                                                                onchange={captureInputs}></lightning-input>
+                                            </div>
+                                        </template>
+                                        <!-- SECTION END : SECONDARY SCHOOL OF ATTENDANCE  -->
+
+                                        <!-- SECTION : SECONDARY ENGLISH INSTRUCTION -->
+                                        <!-- Is English the ONLY language of instruction and testing for all courses at the institution where you completed your studies? -->
+                                        <lightning-input name="inputQualSecondaryEnglishOnly"
+                                                        checked={qualSecondaryEnglishOnly}                                     
+                                                        label={label.App_InstructedInEnglish}
+                                                        message-toggle-active="Yes" 
+                                                        message-toggle-inactive="No"
+                                                        type="toggle"
+                                                        onchange={captureInputs}
+                                        ></lightning-input>
+                                        <!-- SECTION END : SECONDARY ENGLISH INSTRUCTION -->
+
+                                        <!-- SECTION: SECONDARY Is Qualification Complete? -->
+                                        <lightning-input name="inputQualSecondaryIsCompleted"
+                                                        checked={qualSecondaryCompleted}
+                                                        label="Have you completed this qualification?"
+                                                        message-toggle-active="Yes" 
+                                                        message-toggle-inactive="No"
+                                                        type="toggle"
+                                                        onchange={captureInputs}
+                                        ></lightning-input>
+                                        <!-- SECTION END: SECONDARY Is Qualification Complete? -->
+
+                                        <!-- SECTION: SECONDARY YEAR COMPLETION -->
+                                        <template lwc:if={qualSecondaryCompleted}>
+                                        <div>
+
+                                            <!-- moving to input text field instead
+                                            <lightning:select aura:id="selectYearCompleted"
+                                                            label="Year of Completion (or current year)"
+                                                            required=""
+                                                            value="{!v.qualSecondaryYearCompleted}"
+                                                            onchange="{!c.onSelectYearCompleted}"
+                                            >
+                                                <aura:iteration var="option" items="{! v.yearCompletedOptions}">
+                                                    <option value="{! option.value }" selected="{!if(option.value==v.qualSecondaryYearCompleted)}">{! option.label }</option>
+                                                </aura:iteration>
+                                            </lightning:select>
+                                            -->
+                                            <lightning-input data-id="inputQualSecondaryYearCompleted"
+                                                            name="inputQualSecondaryYearCompleted"
+                                                            label="Year of Completion"
+                                                            type="text"
+                                                            required="true"
+                                                            value={qualSecondaryYearCompleted}
+                                                            pattern="(19|20)\d{2}"
+                                                            message-when-pattern-mismatch="please enter a valid year"
+                                                            onchange={captureInputs}
+                                            ></lightning-input>
+                                        </div>
+                                        </template>
+                                        <!-- SECTION END: SECONDARY YEAR COMPLETION -->
+                                        <!-- SECTION: SECONDARY DATE EXPECTED COMPLETION -->
+                                        <template lwc:else>
+                                            <div>
+                                                <lightning-input id="inputQualSecondaryDateExpected"
+                                                                value={qualSecondaryDateExpected}
+                                                                label="When do you expect to complete your qualification?"
+                                                                onchange={onChangeSecondaryDateExpected}
+                                                                required="true"
+                                                                type="date">
+                                                </lightning-input>
+                                                <template if:true={errorMsgSecondaryDateExpected}>
+                                                    <div>
+                                                        <div class="slds-form-element__help slds-text-color_error">
+                                                            <span class="slds-text-color_error">Please select a date today or later</span>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </template>
+                                        <!-- SECTION END: SECONDARY DATE EXPECTED COMPLETION -->
+
+                                        <!-- SECTION: SECONDARY COMMENTS -->
+                                        <lightning-textarea name="inputQualSecondaryComments"
+                                                            value={qualSecondaryComments}
+                                                            label="Comments"
+                                                            placeholder="Any other comments"
+                                                            maxlength={MAX_COMMENTS_LENGTH}
+                                                            onchange={captureInputs}>
+                                        </lightning-textarea>
+                                        <!-- SECTION END: SECONDARY COMMENTS -->
+                                    </div>
+                                    </template>
+                                    <!-- SECONDARY END -->
+
+                                    <!-- OTHER ADMISSIONS BEGIN -->
+                                    <template if:true={otherQualType}>
+                                    <div>
+                                        <div class="slds-text-body_regular">
+                                            <lightning-formatted-rich-text
+                                                value={label.App_OtherQualificationDetails}>
+                                            </lightning-formatted-rich-text>
+                                        </div>
+
+                                        <!-- SECTION: ADMISSION QUALIFICATION NAME -->
+                                        <lightning-input name="inputQualAdmissionsName"
+                                                        value={qualAdmissionsName}
+                                                        placeholder="Qualification Name"
+                                                        required="true"
+                                                        label="Name of Qualification"
+                                                        onchange={captureInputs}></lightning-input>
+                                        <!-- SECTION END: ADMISSION QUALIFICATION NAME -->
+
+
+                                        <!-- SECTION: ADMISSION Is Qualification Complete? -->
+                                        <lightning-input name="inputQualAdmissionsIsCompleted"
+                                                        checked={qualAdmissionsCompleted}
+                                                        label="Have you completed this qualification?"
+                                                        message-toggle-active="Yes" 
+                                                        message-toggle-inactive="No"
+                                                        type="toggle"
+                                                        onchange={onToggleAdmissionsCompleted}
+                                                        ></lightning-input>
+                                        <!-- SECTION END : ADMISSION Is Qualification Complete? -->
+
+                                        <!-- SECTION: ADMISSION DATE COMPLETED -->
+                                        <template if:true={qualAdmissionsCompleted}>
+                                        <div>
+                                            <lightning-input id="inputQualAdmissionsDateCompleted"
+                                                            name="inputQualAdmissionsDateCompleted"
+                                                            value={qualAdmissionsDateCompleted}
+                                                            label="Date Achieved"
+                                                            required="true"
+                                                            type="date"
+                                                            message-when-bad-input="Please enter a date today or earlier"
+                                                            onchange={captureInputs}
+                                                            ></lightning-input>
+                                        </div>
+                                        </template>
+                                        <!-- SECTION END: ADMISSION DATE COMPLETED -->
+                                        <!-- SECTION: ADMISSION DATE EXPECTED -->
+                                        <template if:false={qualAdmissionsCompleted}>
+                                        <div>
+                                            <lightning-input id="inputQualAdmissionsDateExpected"
+                                                            name="inputQualAdmissionsDateExpected"
+                                                            value={qualAdmissionsDateExpected}
+                                                            label="The date you expect to complete this"
+                                                            type="date"
+                                                            required="true"
+                                                            onchange={captureInputs}
+                                                            ></lightning-input>
+                                        </div>
+                                        </template>
+                                        <!-- SECTION END: ADMISSION DATE EXPECTED -->
+
+                                        <!-- SECTION: ADMISSION COMMENTS -->
+                                        <lightning-textarea name="inputQualAdmissionsComments"
+                                                            value={qualAdmissionsComments}
+                                                            label="Comments"
+                                                            placeholder="Any other comments"
+                                                            max-length={MAX_COMMENTS_LENGTH}
+                                                            onchange={captureInputs}
+                                        ></lightning-textarea>
+                                        <!-- SECTION END: ADMISSION COMMENTS -->
+                                    </div>
+                                    </template>
+                                    <!-- OTHER END -->
+
+                                    <!-- ENGLISH BEGIN -->                                    
+                                    <template if:true={engTestQualType}>
+                                    <div>
+                                        <div class="slds-text-body_regular">
+                                            <lightning-formatted-rich-text
+                                                value={label.App_EnglishTestDetails_1}>
+                                            </lightning-formatted-rich-text> 
+                                        </div>
+                                        <!-- SECTION: ENGLISH TEST TYPE -->
+                                        <lightning-select id="selectEnglishTestType"
+                                                        label="Please select the type of qualification you wish to add"
+                                                        value={qualEnglishTestId}
+                                                        required="true"
+                                                        options={englishTestOptions}
+                                                        onchange={onSelectEnglishTestType}>
+                                        </lightning-select>
+                                        <!-- SECTION END: ENGLISH TEST TYPE -->
+
+
+                                        <!-- SECTION: ENGLISH Is Qualification Complete? -->
+                                        <lightning-input name="inputQualEnglishIsCompleted"
+                                                        checked={qualEnglishCompleted}
+                                                        label="Have you completed this qualification?"
+                                                        message-toggle-active="Yes" 
+                                                        message-toggle-inactive="No"
+                                                        type="toggle"
+                                                        onchange={toggleComplete}
+                                                        ></lightning-input>
+                                        <!-- SECTION END: ENGLISH Is Qualification Complete? -->
+
+                                        <!-- SECTION: ENGLISH RESULTS DATE-->
+                                        <template if:true={qualEnglishCompleted}>
+                                            <div>
+                                                <lightning-input id="inputQualEnglishTestDateCompleted"
+                                                                name="inputQualEnglishTestDateCompleted"
+                                                                value={qualEnglishTestDateCompleted}
+                                                                label="Date Achieved"
+                                                                required="true"
+                                                                type="date"
+                                                                onchange={captureInputs}
+                                                                ></lightning-input>
+                                                <!-- SECTION : ENGLISH TEST SCORES --><!--NS: Check values in onSelectEnglishTestType-->
+                                                <template if:true={showinputQualEngGPAResult}>
+                                                    <lightning-input data-id="inputQualEnglishGPAResult"
+                                                                    name="inputQualEnglishGPAResult"
+                                                                    value={qualEnglishGPAResult}
+                                                                    label="Score/Result"
+                                                                    pattern="[0-9]{1,3}(\.[0-9]{1,2})?"
+                                                                    message-when-pattern-mismatch="Please ensure you enter your score in the correct format. (e.g 9.2 or 9)"
+                                                                    placeholder=""
+                                                                    onchange={captureInputs}
+                                                                    ></lightning-input>
+                                                </template>
+
+                                                <template if:true={showinputQualEngFourScores}>
+                                                    <lightning-input data-id="inputQualEnglishListeningScore"
+                                                                    name="inputQualEnglishListeningScore"
+                                                                    value={qualEnglishTestScoreListening}
+                                                                    label="Listening Score"
+                                                                    maxlength="10"
+                                                                    message-when-too-long="Enter up 10 characters"
+                                                                    placeholder=""
+                                                                    onchange={captureInputs}
+                                                                    ></lightning-input>
+                                                    <lightning-input data-id="inputQualEnglishReadingScore"
+                                                                    name="inputQualEnglishReadingScore"
+                                                                    value={qualEnglishTestScoreReading}
+                                                                    label="Reading Score"
+                                                                    maxlength="10"
+                                                                    message-when-too-long="Enter up 10 characters"
+                                                                    placeholder=""
+                                                                    onchange={captureInputs}
+                                                                    ></lightning-input>
+                                                    <lightning-input data-id="inputQualEnglishWritingScore"
+                                                                    name="inputQualEnglishWritingScore"
+                                                                    value={qualEnglishTestScoreWriting}
+                                                                    label="Writing Score"
+                                                                    maxlength="10"
+                                                                    message-when-too-long="Enter up 10 characters"
+                                                                    placeholder=""
+                                                                    onchange={captureInputs}
+                                                                    ></lightning-input>
+                                                    <lightning-input data-id="inputQualEnglishSpeakingScore"
+                                                                    name="inputQualEnglishSpeakingScore"
+                                                                    value={qualEnglishTestScoreSpeaking}
+                                                                    label="Speaking Score"
+                                                                    maxlength="10"
+                                                                    message-when-too-long="Enter up 10 characters"
+                                                                    placeholder=""
+                                                                    onchange={captureInputs}
+                                                                    ></lightning-input>
+                                                </template>
+                                                <!-- SECTION END : ENGLISH TEST SCORES -->
+                                            </div>
+                                        </template>
+                                        <!-- SECTION END: ENGLISH RESULTS DATE -->
+
+                                        <!-- SECTION: ENGLISH TEST DATE EXPECTED -->
+                                        <template if:false={qualEnglishCompleted}>
+                                            <div>
+                                                <lightning-input id="inputQualEnglishTestDateExpected"
+                                                                value={qualEnglishTestDateExpected}
+                                                                label="The date you expect to complete this"
+                                                                type="date"
+                                                                required="true"
+                                                                onchange={onChangeEnglishExpected}
+                                                                ></lightning-input>
+                                                
+                                                <template if:true={errorMsgEnglishTestDateExpected}>
+                                                    <div>
+                                                        <div class="slds-form-element__help slds-text-color_error">
+                                                            <span class="slds-text-color_error">Please select a date today or later</span>
+                                                        </div>
+                                                    </div>
+                                                </template>
+                                            </div>
+                                        </template>
+                                        <!-- SECTION END: ENGLISH TEST DATE EXPECTED -->
+
+                                        <!-- SECTION: ENGLISH COMMENTS -->
+                                        <lightning-textarea name="inputQualEnglishComments"
+                                                            value={qualEnglishComments}
+                                                            label="Comments"
+                                                            placeholder="Any other comments"
+                                                            maxlength={MAX_COMMENTS_LENGTH}
+                                                            onchange={captureInputs}
+                                        ></lightning-textarea>
+                                        <!-- SECTION END: ENGLISH COMMENTS -->
+
+                                    </div>
+                                    </template>
+                                    <!-- ENGLISH END -->
+                                </div>
+                            </div>
+                        </template>
+
+                        <!-- SAVE/CANCEL BUTTONS -->
+                        <div class="slds-form-element">
+                            <template if:true={showSave}>
+                                <button title="Save" onclick={onClickSave} class="slds-m-top_large primaryButton" style="margin-right: 15px;">Save</button>
+                            </template>
+                            <template if:true={showCancel}>
+                                <button title="Cancel" onclick={onClickCancel} class="slds-m-top_large secondaryButton" >Cancel</button>
+                            </template>
+                        </div>
+                        <!-- BUTTONS END -->
+                    </div>
+
+                    <!-- Additional English language proficiency question -->
+                    <div id="englishLanguageProficiency" class="sectionContainerBody slds-size_5-of-5">
+                        <div style="margin-top: 20px; display: flex;">
+                            <lightning-layout multiple-rows="true" class="slds-size_5-of-5">
+                                <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                    <div if:true={showRequiredEng} class="slds-text-color_error">* Required</div>
+                                </div>
+                                <lightning-layout-item size="12">                                    
+                                  <lightning-layout-item size="10">
+                                        <p>Have you completed at least six years of schooling in an English medium institution in an <a href="https://www.monash.edu/admissions/entry-requirements/english-language/countries" target="_blank" class="slds-text-link">English-speaking country</a> prior to the age of 19?</p>
+                                </lightning-layout-item>
+                                <lightning-layout-item size="2">
+                                    <lightning-radio-group 
+                                        data-id="englishLanguageProficiency"
+                                        name="English Language Proficiency"
+                                        label="Have you completed at least six years of schooling in an English medium institution in an English-speaking country prior to the age of 19?"
+                                        required="true"
+                                        type="button"
+                                        options={yesNoOptions}
+                                        onchange={onChangeEnglishLanguageProficiency}
+                                        value={englishLanguageProficiency}
+                                        variant="label-hidden"></lightning-radio-group>
+                                </lightning-layout-item>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </div>
+                    </div>
+
+                    
+                </div>
+            </div>            
+        </div> 
+        
+        <!-- CREDIT INTENTION -->
+        <template if:true={isNotAbroadType}>
+            <template if:true={showCreditIntention}>
+                <div class="slds-grid slds-gutters slds-wrap">
+                    <div class="slds-col">
+                        <!-- Credit Intention -->
+                        <div class="sectionContainer slds-wrap">
+                            <div class="slds-size_3-of-6 sectionContainerTopBorder"></div>
+                            <div class="sectionContainerBody slds-size_5-of-5">
+                                <div class="slds-size_5-of-5">
+                                    <h2>Credit Intention</h2>
+                                </div>
+                                <div class="slds-size_5-of-5" style="margin-top: 10px;">
+                                    <p>Please indicate below if you wish to apply for credit as part of your application.</p>
+                                </div>
+
+                                <div class="fieldContainer">
+                                    <lightning-layout multiple-rows="true" class="slds-size_5-of-5">
+                                        <lightning-layout-item size="10">
+                                            <span class="fieldTitle">I wish to apply for credit</span>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item size="2">
+                                            <lightning-input id="inputCreditIntention"
+                                                checked={creditIntention}
+                                                onchange={onChangeCreditIntention}
+                                                label="I wish to apply for credit"                                     
+                                                message-toggle-active="Yes" 
+                                                message-toggle-inactive="No"
+                                                type="toggle"
+                                                variant="label-hidden"></lightning-input>
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>    
+        </template>
+        <!-- END CREDIT INTENTION -->
+    </div>
+    
+</template>

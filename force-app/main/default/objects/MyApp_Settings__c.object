@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Offer_Navigation_Version__c</fullName>
+        <defaultValue>1</defaultValue>
+        <externalId>false</externalId>
+        <label>Offer Navigation Version</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>PackageLicenses__c</fullName>
+        <description>Indicate the nameprefix of managed package licenses to assign(coma separated)</description>
+        <inlineHelpText>Indicate the nameprefix of managed package licenses to assign(coma separated)</inlineHelpText>
+        <label>PackageLicenses</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Permission_Set_Licenses__c</fullName>
+        <description>Permission Set Licenses to be provisioned to users during Offer generation to allow the user to access the Offers related functionality in the portal (communities).</description>
+        <inlineHelpText>Developer Names of Permission Set Licenses to be provisioned to users during Offer generation. Multiple Permission Set Licenses can be added with comma separated (,) with no spaces. E.g. SalesforceCPQ_CPQStandardPerm,SalesConsoleUser</inlineHelpText>
+        <label>Permission Set Licenses</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Permission_Sets__c</fullName>
+        <description>Indicate api name of all permission sets to assign to community user (coma separated)</description>
+        <inlineHelpText>Indicate api name of all permission sets to assign to community user (coma separated)</inlineHelpText>
+        <label>Permission Sets</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <label>My.App Settings</label>
+    <visibility>Public</visibility>
+</CustomObject>

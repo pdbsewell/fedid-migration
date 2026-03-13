@@ -1,0 +1,103 @@
+<!--Credit Card Lightning Web Component
+Author : Trent De Laney
+Date : 19/02/2019
+Version : 1.0 -->
+<template>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="slds-modal__container">
+            <header class="slds-modal__header">
+                <h3 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Application Processing Fee Payment</h3>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium slds-is-relative" id="modal-content-id-1">
+                <p>All payments will be charged in Australian Dollars (AUD). You may be charged a transaction fee by your card issuer.</p>
+                <br />
+                <p>Amount : ${fee} AUD</p>
+                <div class="slds-grid slds-gutters slds-wrap" >
+                    <div class="slds-grid--align-center slds-col slds-size--12-of-12">
+                        <div if:true={isMastercard}>
+                            <img class="imgGrey" src={visa}>
+                            <img src={mastercard}>
+                        </div>
+                        <div if:true={isVisa}>
+                            <img src={visa}>
+                            <img class="imgGrey" src={mastercard}>
+                        </div>
+                        <div if:true={isNoCard}>
+                            <img src={visa}>
+                            <img src={mastercard}>
+                        </div>
+                    </div>
+                    <div class="slds-col slds-size--6-of-12">
+                        <lightning-input label="Card Holder Name"
+                                         required="True" data-my-id="cholder"
+                                         onblur={updateCardHolderName}
+                                         value={cardHolderName}>
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size--6-of-12">
+                        <lightning-input label="Card Number"
+                                         type="text"
+                                         maxlength="19"
+                                         minlength="16"
+                                         pattern="[0-9 ]*"
+                                         required="True"
+                                         value={cardNumber}
+                                         message-when-pattern-mismatch="Please ensure only valid numbers are entered"
+                                         onchange={updateCard}>
+
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size--6-of-12">
+                        <lightning-input label="Expiry Date"
+                                         placeholder="mm/yy"
+                                         type="text"
+                                         maxlength="5"
+                                         pattern="[0-9]{2}/[0-9]{2}"
+                                         required="True"
+                                         message-when-pattern-mismatch="Please enter a valid date in the format 'mm/yy'"
+                                         onblur={updateExpiryDate}
+                                         value={expiryDate}>
+
+                        </lightning-input>
+                    </div>
+                    <div class="slds-col slds-size--6-of-12">
+                        <lightning-input label="CCV"
+                                         type="text"
+                                         placeholder="***"
+                                         maxlength="3"
+                                         pattern="[0-9]*"
+                                         required="True"
+                                         message-when-pattern-mismatch="Please enter your 3 digit CCV number"
+                                         onblur={updateCVV}
+                                         value={ccv}>
+
+                        </lightning-input>
+                    </div>
+                </div>
+
+                <div if:true={cancelDisabled}>
+                    <lightning-spinner alternative-text="Loading" size="medium"></lightning-spinner>
+                </div>
+                <br />
+                <div if:true={showAlert} class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_warning" role="alert">
+                    <span class="slds-assistive-text">warning</span>
+                    <span class="slds-icon_container slds-icon-utility-warning slds-m-right_x-small" title="Error">
+                        <svg class="slds-icon slds-icon_x-small" aria-hidden="true">
+                        <use xlink:href="/assets/icons/utility-sprite/svg/symbols.svg#warning"></use>
+                        </svg>
+                        </span>
+                    <h2>{errorMessage}</h2>
+                </div>
+                <div if:true={showError} class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+                    <span class="slds-assistive-text">Error</span>
+                    <h2>{serverMessage}</h2>
+                </div>
+            </div>
+            <footer class="slds-modal__footer">
+                <lightning-button class="slds-m-right_small" label="Cancel" disabled={cancelDisabled} onclick={closeModal}></lightning-button>
+                <lightning-button class="slds-float_right slds-m-right_small" label="Pay and Submit" variant="brand" disabled={payDisabled} onclick={processCard}></lightning-button>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

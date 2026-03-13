@@ -1,0 +1,127 @@
+<template>
+    <template if:false={showCommentPreview}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_small" aria-modal="true">
+            <div class="slds-modal__container" style="overflow: auto;">
+                <header class="slds-modal__header">
+                    <!-- documents section title -->
+                    <lightning-layout vertical-align="center">
+                        <lightning-layout-item>
+                            <span class="slds-text-heading_medium">{checklistRequirement} Comments</span>                                
+                        </lightning-layout-item>    
+                        <lightning-layout-item alignment-bump="left">
+                            <lightning-button label="X"
+                                              onclick={closeWindow} 
+                                              variant="destructive"
+                                              icon-position="center">
+                            </lightning-button>                             
+                        </lightning-layout-item>                
+                    </lightning-layout>
+                </header>
+                <div class="slds-modal__content slds-p-horizontal_medium slds-p-horizontal_small slds-is-relative">
+                    <template if:true={showLoadingSpinner}>
+                        <!-- Spinner loader -->
+                        <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+                    </template>
+                    <!-- add comment section -->
+                    <template if:true={showNewComment}>
+                        <div class="slds-card_boundary slds-p-horizontal_x-small slds-p-bottom_x-small slds-m-vertical_x-small" 
+                             style="box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10);">
+
+                            <template if:true={showNewSpinner}>
+                                <!-- Spinner loader -->
+                                <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+                            </template>
+
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item size="12">
+                                    <lightning-input-rich-text value={comment}
+                                                               formats={formats}
+                                                               placeholder="Enter a comment..."
+                                                               class="slds-m-top_x-small"
+                                                               onchange={commentContentChange}>
+                                    </lightning-input-rich-text>         
+                                </lightning-layout-item>
+
+                                <lightning-layout-item alignment-bump="left">
+                                    <div class="slds-m-top_x-small">
+                                        <lightning-button variant="brand" 
+                                                          label="Preview Comment" 
+                                                          class="slds-m-left_x-small" 
+                                                          disabled={isIncompleteNoteDetails}
+                                                          onclick={showCommentsPreviewModal}>
+                                        </lightning-button>
+                                    </div>
+                                </lightning-layout-item>
+
+                            </lightning-layout>
+                        </div>
+                    </template>
+
+                    <!-- show mark as not required confirmation -->
+                    <template if:true={showMarkAsNotRequiredConfirmation}>
+                        <template if:true={showMarkAsNotRequiredConfirmationSpinner}>
+                            <!-- Spinner loader -->
+                            <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+                        </template>
+                        <div class="slds-card_boundary slds-p-around_x-small slds-m-vertical_x-small" style="box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10);">
+                            <div class="slds-text-color_error">
+                                Are you sure you want to mark this as <b>NOT REQUIRED?</b>
+                            </div>
+                            <div class="">
+                                <lightning-input type="checkbox" label="Include additional comment" onchange={includeAdditionalCommentChange}></lightning-input>
+                            </div> 
+                            <template if:true={includeAdditionalComment}>
+                                <lightning-input-rich-text value={markAsNotRequiredComment}
+                                                        formats={formats}
+                                                        placeholder="Optional comment..."
+                                                        class="slds-m-top_x-small slds-has-focus"
+                                                        onchange={markAsNotRequiredCommentContentChange}>
+                                </lightning-input-rich-text> 
+                            </template>  
+                            <div class="slds-m-top_x-small slds-p-top_x-small slds-border_top">
+                                <div class="slds-clearfix">
+                                    <div class="slds-float_right">
+                                        <lightning-button variant="brand" label="Confirm" class="slds-m-left_x-small" onclick={updateNotRequired}></lightning-button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+
+                    <!-- comments -->
+                    <template if:true={hasCommentItems}>    
+                        <div class="slds-card_boundary slds-m-vertical_x-small slds-p-top_x-small slds-p-bottom_x-small">
+                            <!-- comments section -->
+                            <ul class="slds-timeline">
+                                <template for:each={commentItems} for:item='commentItem'>
+                                    <li key={commentItem.contentNote.Id}>
+                                        <c-document-checklist-assessment-internal-comment-item comment-item={commentItem} 
+                                                     onread={onReadNotes} 
+                                                     assessor-view={assessorView}
+                                                     is-comments-read={commentItem.contentNote.NotesSeen__c}
+                                                     checklist={checklistItem}
+                                                     is-comments-opened={isCommentsOpened}>
+                                        </c-document-checklist-assessment-internal-comment-item>
+                                    </li>
+                                </template>
+                            </ul>
+                        </div>
+                    </template>
+                </div>
+                <footer class="slds-modal__footer">
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>    
+
+    <!-- comments preview -->
+    <template if:true={showCommentPreview}>
+        <c-document-checklist-assessment-internal-comment-preview onclose={hideCommentsPreviewModal} 
+                           onsubmit={submittedCommentsPreviewModal} 
+                           notes-title={commentTitle} 
+                           notes-content={comment}
+                           current-user-name={currentUserName}>
+        </c-document-checklist-assessment-internal-comment-preview>
+    </template>
+</template>

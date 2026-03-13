@@ -1,0 +1,168 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,force:hasRecordId,force:hasSObjectName,flexipage:availableForRecordHome,forceCommunity:availableForAllPageTypes"
+                access="global"
+                controller="CitizenshipController" >
+
+    <!-- MyApp common CSS  -->
+    <!--<ltng:require styles="/resource/MyApp/MyApp.css" />-->
+
+    <!-- Initilialization -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <aura:method name="refreshComponent" action="{!c.reloadComponent}" access="public"/>
+
+    <aura:attribute name="appId" type="String" default="" />
+    <aura:attribute name="retrivalIsDone" type="String" default="false" />
+    <aura:attribute name="disableSave" type="Boolean" default="false"/>
+
+    <!-- Default the citizenshipType to Domestic which means it hide the Citizenship Section -->
+    <!-- After retrival of the citizenshipType if it was INTERNATIONAL we will show the value -->
+    <aura:attribute name="residency_Status" type="Boolean" default="false"/>
+
+    <!-- Show the message to attach the docs -->
+    <aura:attribute name="showAttachDocsMessage1" type="String" default="" />
+    <aura:attribute name="showAttachDocsMessage2" type="String" default="" />
+    <aura:attribute name="showAttachDocsMessage3" type="String" default="" />
+    <aura:attribute name="showAttachDocsMessage4" type="String" default="" />
+    <aura:attribute name="showAttachDocsMessage5" type="String" default="" />
+    
+    <aura:attribute name="showSpinner" type="Boolean" default="false"/>
+    <aura:attribute name="showErrors" type="Boolean" default="false"/>
+    <aura:attribute name="saveErrors" type="List" default="[]"/>
+
+    <!--<aura:if isTrue="{!v.residency_Status}">-->
+        <div class="slds">
+            
+            <!-- SAVE SPINNER -->
+            <div id="Accspinner" class="{!if(v.showSpinner == true, '', 'slds-hide')}">                
+                <div class="slds-spinner_container">
+                    <lightning:spinner variant="brand" size="medium" alternativeText="Loading"/>
+                </div>                
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+            
+            <!-- SAVE ERRORS -->
+            <div class="{!if(v.showErrors == true, '', 'slds-hide')}" style="">
+                <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header">
+                            <h3 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Please complete the following:</h3>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">              
+                            <ul class="slds-list_dotted slds-text-align--left">
+                                <aura:iteration items="{!v.saveErrors}" var="error">
+                                    <li>{!error}</li>
+                                </aura:iteration>
+                            </ul>
+                        </div>
+                        <footer class="slds-modal__footer">
+                            <button class="slds-button slds-button_neutral" onclick="{!c.onClickCloseAlert}">Close</button>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>            
+            <!-- END SAVE ERRORS -->
+            
+            <!-- END SAVE SPINNER -->
+            <div class="slds-section section-float">                
+                <div class="slds-col--padded slds-p-top--large">
+                    <div class="container">
+                        
+                            <lightning:recordEditForm aura:id="editForm" 
+                                                      recordId="{!v.appId}" 
+                                                      objectApiName="Application__c"
+                                                      onsubmit="{!c.onSubmitForm}"
+                                                      onsuccess="{!c.onSuccess}"
+                                                      onload="{!c.onLoadForm}"
+                                                      >
+                                <span onkeypress="{!c.keyCheck}">
+                                    <label for="field00Id">Country of Citizenship</label>                                
+                                    <lightning:inputField aura:id="field00Id" variant="label-hidden" class="customRequired"
+                                                          fieldName="Citizenship_Country__c" onchange="{!c.updateAppCitizenship}" required="true"/>                                
+                                    <label for="field01Id">Visa Type</label>
+                                    <lightning:inputField aura:id="field01Id" variant="label-hidden" 
+                                                          fieldName="Visa_Type__c" onchange="{!c.updateAppCitizenship}" required="false"/>
+                                    <label for="field02Id">Which Australian Immigration Office issued your visa?</label>
+                                    
+                                    <lightning:inputField aura:id="field02Id" variant="label-hidden" 
+                                                          fieldName="Australian_Immigration_Office_Issued__c"  onchange="{!c.updateAppCitizenship}" required="false"/>
+                                    
+                                    <label for="field03Id">Visa Number</label>
+                                    <lightning:inputField aura:id="field03Id" variant="label-hidden" 
+                                                          fieldName="Visa_Number__c" onchange="{!c.updateAppCitizenship}"/>
+                                    <label for="field04Id">Passport Number</label>
+                                    <lightning:inputField aura:id="field04Id" variant="label-hidden" 
+                                                          fieldName="Passport_Number__c" onchange="{!c.updateAppCitizenship}"/>
+                                    <label for="field05Id">Visa Start Date</label>
+                                    <lightning:inputField aura:id="field05Id" variant="label-hidden" 
+                                                      fieldName="Visa_Start_Date__c"  onchange="{!c.updateAppCitizenship}"/>
+                                    <label for="field06Id">Visa End Date</label>
+                                    <lightning:inputField aura:id="field06Id" variant="label-hidden" 
+                                                          fieldName="Visa_End_Date__c"  onchange="{!c.updateAppCitizenship}"/>
+                                    
+                                    <label for="refusedEntryId">Have you been refused an entry visa to any country?</label>
+                                    <lightning:inputField aura:id="refusedEntryId" variant="label-hidden" class="customRequired"
+                                                          required="true"
+                                                          fieldName="Refused_entry_visa_to_any_country__c"  onchange="{!c.updateAppCitizenship}"/>
+                                    <aura:If isTrue="{!v.showAttachDocsMessage1 != ''}">
+                                        <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert">
+                                            <span class="slds-assistive-text">Error</span>
+                                            <aura:unescapedHtml value="{!v.showAttachDocsMessage1}"/>
+                                        </div>
+                                    </aura:If>
+                                    <label for="breachedVisaId">Have you breached any visa conditions in any country?</label>
+                                    <lightning:inputField aura:id="breachedVisaId" variant="label-hidden" class="customRequired" 
+                                                          required="true"
+                                                          fieldName="Breached_visa_condition__c"  onchange="{!c.updateAppCitizenship}"/>
+                                    <aura:If isTrue="{!v.showAttachDocsMessage2 != ''}">
+                                        <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert">
+                                            <span class="slds-assistive-text">Error</span>
+                                            <aura:unescapedHtml value="{!v.showAttachDocsMessage2}"/>
+                                        </div>
+                                    </aura:If>
+
+                                    <label for="medicalHealthId">Do you have any medical or health issues that may prevent you from obtaining your visa?</label>
+                                    <lightning:inputField aura:id="medicalHealthId" variant="label-hidden" class="customRequired" 
+                                                          required="true"
+                                                          fieldName="Medical_health_prevent_visa__c" onchange="{!c.updateAppCitizenship}"/>
+                                    <aura:If isTrue="{!v.showAttachDocsMessage3 != ''}">
+                                        <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert">
+                                        <span class="slds-assistive-text">Error</span>
+                                            <aura:unescapedHtml value="{!v.showAttachDocsMessage3}"/>
+                                        </div>
+                                    </aura:If>
+                                    <label for="protectionVisaId">Have you been issued a protection visa in any country to date?</label>
+                                    <lightning:inputField aura:id="protectionVisaId" variant="label-hidden" class="customRequired" 
+                                                          required="true"
+                                                          fieldName="Protection_visa_in_any_country__c"  onchange="{!c.updateAppCitizenship}"/>
+                                    <aura:If isTrue="{!v.showAttachDocsMessage4 != ''}">
+                                        <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert">
+                                            <span class="slds-assistive-text">Error</span>
+                                            <aura:unescapedHtml value="{!v.showAttachDocsMessage4}"/>
+                                        </div>
+                                    </aura:If>
+                                    
+                                    <label for="convictedId">Have you been convicted of any crime or offence in any country?</label>
+                                    <lightning:inputField aura:id="convictedId" variant="label-hidden" class="customRequired" 
+                                                          required="true"
+                                                          fieldName="Convicted_of_crime_offence__c"  onchange="{!c.updateAppCitizenship}"/>
+                                    <aura:If isTrue="{!v.showAttachDocsMessage5 != ''}">
+                                        <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert">
+                                            <span class="slds-assistive-text">Error</span>
+                                            <aura:unescapedHtml value="{!v.showAttachDocsMessage5}"/>
+                                        </div>
+                                    </aura:If>
+                                </span>
+                                <div class="slds-p-top_medium">
+                                    <lightning:button variant="brand"
+                                                      type="submit"
+                                                      name="save" label="Save Citizenship Information" 
+                                                      disabled="{!v.disableSave}"/>
+                                </div>
+                        </lightning:recordEditForm>                            
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!--</aura:if>-->
+</aura:component>

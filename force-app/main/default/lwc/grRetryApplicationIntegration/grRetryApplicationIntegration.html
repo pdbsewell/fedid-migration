@@ -1,0 +1,16 @@
+<template>
+    <lightning-quick-action-panel>
+        <div style="margin:20px;margin-top:20px; font-size:16px; text-align:center; font-weight:bold;">            
+            <span class="slds-text-color_success">{successMsg}</span>
+            <span class="slds-text-color_error">{errorMsg}</span>
+        </div>
+        <div if:true={showSpinner} style="position:relative; min-height:100px;"> <!-- Spinner container -->
+            <lightning-spinner                
+                alternative-text="Saving"
+                variant="brand"
+                size="medium"
+                style="position:absolute; top:0; left:0; right:0; bottom:0; margin:auto;">
+            </lightning-spinner>
+        </div>
+    </lightning-quick-action-panel>
+</template>

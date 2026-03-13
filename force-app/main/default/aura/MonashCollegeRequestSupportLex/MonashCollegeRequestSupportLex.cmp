@@ -1,0 +1,263 @@
+<aura:component access="global" controller="MonashCollegeEnquiryFormService">
+    <!-- Spinners -->
+    <aura:attribute name="showContactsSpinner" type="Boolean" default="false" />
+    <aura:attribute name="showSpecialConsiderationSpinner" type="Boolean" default="false" />
+    <!-- Page Details -->
+    <aura:attribute name="contactSearchResult" type="String" default="" />
+    <aura:attribute name="enteredStudentId" type="String" default="" />
+    <aura:attribute name="enteredEmail" type="String" default="" />
+    <aura:attribute name="personalLeaveNote" type="String" default="Please provide doctor" />
+    <!-- Button Controls -->
+    <aura:attribute name="disableSubmit" type="Boolean" default="true" /> 
+    <!-- Contact Details -->
+    <aura:attribute name="doContactExist" type="Boolean" default="false" /> 
+    <aura:attribute name="enquiryStudentId" type="String" default="" /> 
+    <aura:attribute name="enquiryEmail" type="String" default="" /> 
+    <aura:attribute name="contactId" type="String" /> 
+    <aura:attribute name="contact" type="Object" default="[]" /> 
+    <aura:attribute name="hasContactDetails" type="Boolean" default="false" /> 
+    <!-- Enquiry Details -->
+    <aura:attribute name="submittedEnquiryCaseNumber" type="String" />    
+    <aura:attribute name="selectedProgram" type="String" default="" /> 
+    <aura:attribute name="programOptions" type="List" 
+                    default="[
+                                {'label': 'Professional Year Program (PY)', 'value': 'Professional Year Program (PY)'},
+                                {'label': 'Global Professionals Program (GPP)', 'value': 'Global Professionals Program (GPP)'}
+                            ]"/>
+    <aura:attribute name="selectedClassDay" type="String" default="" /> 
+    <aura:attribute name="classDayOptions" type="List" 
+                    default="[
+                                {'label': 'choose the day of your current class your are enquiring about...', 'value': ''},
+                                {'label': 'Monday', 'value': 'Monday'},
+                                {'label': 'Tuesday', 'value': 'Tuesday'},
+                                {'label': 'Wednesday', 'value': 'Wednesday'},
+                                {'label': 'Thursday', 'value': 'finished'},
+                                {'label': 'Friday', 'value': 'Friday'},
+                                {'label': 'Saturday', 'value': 'Saturday'},
+                                {'label': 'Sunday', 'value': 'Sunday'}
+                            ]"/>
+    <aura:attribute name="selectedNotificationType" type="String" default="" />
+    <aura:attribute name="otherNotificationType" type="String" default="" /> 
+    <aura:attribute name="notificationTypeOptions" type="List" 
+                default="[
+                            {
+                                'label': 'Ongoing health issue or condition', 
+                                'value': 'Ongoing health issue or condition'
+                            },
+                            {
+                                'label': 'Religious reasons', 
+                                'value': 'Religious reasons'
+                            },
+                            {
+                                'label': 'Hardship or trauma', 
+                                'value': 'Hardship or trauma'
+                            },
+                            {
+                                'label': 'Other', 
+                                'value': 'Other'
+                            }
+                        ]"/>
+    <aura:attribute name="enquiryDescription" type="String" default="" /> 
+    <!-- Enquiry Id -->
+    <aura:attribute name="enquiryId" type="String" default="" access="global"/>
+    <!-- File Input Disabled -->
+    <aura:attribute name="isDisabled" type="Boolean" default="false" />
+    <!-- File Name -->
+    <aura:attribute name="fileName" type="String" default="" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <div class="slds-is-relative" style="max-width: 73.25rem; padding: 0 1rem; margin: 0 auto; color: black;">
+        <aura:if isTrue="{!v.showSpecialConsiderationSpinner}">
+            <lightning:spinner class="slds-align_absolute-center" variant="brand" />
+        </aura:if>
+        
+        <!-- Form -->
+        <div class="slds-p-left_small">
+            <!-- Form Details -->
+            <h2 class="slds-tree__group-header slds-text-heading_large" style="color: #006dae;">Do you have a request for extra support?</h2>
+            <div>
+                <p style="font-size:14px; color: #505050;">
+                    Use this form if you are studying with Monash Professional Pathways and have the following type of request:
+                </p>
+                <ul style="list-style-type: square; padding-left: 50px;">
+                    <li style="margin-top: 8px; margin-bottom: 8px; font-size:14px; color: #505050;">
+                        Do you have an <b>ongoing physical or mental health issue or condition</b> which will impact the training or internship component (i.e. a back issue requiring a special chair and the need to stand/stretch regularly; pregnancy)? Note, general sickness such as cold and hay fever would be considered a leave request.
+                    </li>
+                    <li style="margin-top: 8px; margin-bottom: 8px; font-size:14px; color: #505050;">
+                        Do you have special requirements due to <b>religious</b> reasons which will impact the training or internship component (i.e. prayer breaks)?
+                    </li>
+                    <li style="font-size:14px; color: #505050;">
+                        Have you experienced <b>hardship or trauma</b> (i.e. victim of crime, financial issues, severe disruption to domestic situation)?
+                    </li>
+                </ul>
+            </div>
+            
+            <div>
+                <p style="margin-top: 10px; padding-left: 20px; font-size:15px; color: #505050;; float: right;">
+                    Fields marked with an <span style="color: red;">*</span> are compulsory
+                </p>
+            </div>
+            
+            <!-- Personal Details -->
+            <h2 class="slds-tree__group-header slds-text-heading_large slds-m-top_small" style="color: #006dae;">Your details</h2>
+            <div>
+                <p style="font-size:14px; color: #505050;">
+                    To help us respond to your request promptly, please provide us with the information below.
+                </p>
+            </div>
+            <div class="slds-form slds-is-relative">
+                <aura:if isTrue="{!v.showContactsSpinner}">
+                    <lightning:spinner class="slds-align_absolute-center" variant="brand" />
+                </aura:if>
+        
+                <!-- Results -->
+                <aura:renderIf isTrue="{!!v.showSpecialConsiderationSpinner}">
+                    <aura:renderIf isTrue="{!and(v.doContactExist, v.contactSearchResult == 'Success', v.submittedEnquiryCaseNumber == '')}">
+                        <div id="successToast" aura:id="successToast" class="slds-size_1-of-1" style="height: 4.5rem; background color: white; padding-bottom: 20px;">
+                            <div class="slds-notify_container slds-is-relative">
+                                <div class="slds-notify slds-notify_toast slds-theme_success" role="alert">
+                                    <span class="slds-assistive-text">info</span>
+                                    <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top">
+                                        <lightning:icon src="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#success" />
+                                    </span>
+                                    <div class="slds-notify__content">
+                                        <h2 class="slds-text-heading_small" style="color: #fff;">Hello! Please fill up the form below to send us your request.</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aura:renderIf>
+                    <aura:renderIf isTrue="{!and(v.contactSearchResult == 'No Match', v.submittedEnquiryCaseNumber == '')}">
+                        <div id="errorToast" aura:id="errorToast" class="slds-size_1-of-1" style="height: 4.5rem; background color: white; padding-bottom: 20px; width: 100%;">
+                            <div class="slds-notify_container slds-is-relative">
+                                <div class="slds-notify slds-notify_toast slds-theme_error" role="alert">
+                                    <span class="slds-assistive-text">info</span>
+                                    <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top">
+                                        <lightning:icon iconName="utility:error" alternativeText="Error!" variant="inverse"/>
+                                    </span>
+                                    <div class="slds-notify__content">
+                                        <h2 class="slds-text-heading_small" style="color: #fff;">Student ID: {!v.enteredStudentId}. Email: {!v.enteredEmail}. Contact Not Found.</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aura:renderIf>
+                </aura:renderIf>
+                
+                <!-- Enquiry submitted confirmation -->
+                <aura:if isTrue="{!v.submittedEnquiryCaseNumber}">
+                    <div id="successToast" aura:id="successToast" class="slds-m-bottom_medium" style="height: 4.5rem; background color: white; margin-bottom: 20px; padding-bottom: 20px;">
+                        <div class="slds-notify_container slds-is-relative">
+                            <div class="slds-notify slds-notify_toast slds-theme_success" role="alert">
+                                <span class="slds-assistive-text">info</span>
+                                <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top">
+                                    <lightning:icon src="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#success" />
+                                </span>
+                                <div class="slds-notify__content">
+                                    <h2 class="slds-text-heading_small" style="color: #fff;">Successfully submitted your request. We will be in touch via email. <br/> Enquiry Number: {!v.submittedEnquiryCaseNumber}</h2>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </aura:if>
+            </div>
+            
+            <!-- Enquiry Details -->
+            <div class="slds-form slds-p-top_small">
+                
+                <!-- Contact Details -->
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-student-id">Monash Student ID <span style="color: red;">*</span></label>
+                    <div class="slds-form-element__control">
+                        <div onkeyup="{!c.verifyHandleKeyUp}">
+                            <lightning:input aura:id="studentIdField" id="horizontal-student-id" class="labelColor" value="{!v.enquiryStudentId}" disabled="{!v.doContactExist}" maxlength="8"
+                                             required="true" messageWhenValueMissing="Please enter your Monash Student ID." onchange="{!c.validateFields}" />
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-email">Monash Email <span style="color: red;">*</span></label>
+                    <div class="slds-form-element__control">
+                        <div class="slds-grid slds-wrap">
+                            <div class="slds-col" style="width: 80%;">
+                                <div onkeyup="{!c.verifyHandleKeyUp}">
+                                    <lightning:input aura:id="emailField" id="horizontal-email" class="labelColor" type="email"  value="{!v.enquiryEmail}" required="true" disabled="{!v.doContactExist}"
+                                                     messageWhenTypeMismatch="Please enter a valid email address." messageWhenValueMissing="Please enter your Monash Email." onchange="{!c.validateFields}" />
+                                 </div>
+                            </div>
+                            
+                            <div class="slds-col" style="width: 20%;">
+                                <aura:renderIf isTrue="{!!v.doContactExist}">
+                                    <lightning:button aura:id="verifyContactBtn" variant="brand" label="Verify" disabled="{!!v.hasContactDetails || v.submittedEnquiryCaseNumber}" 
+                                                      class="slds-text-heading_small slds-p-left_large slds-p-right_large slds-p-bottom_x-small slds-p-top_x-small submitBtn slds-float_right"
+                                                      onclick="{! c.validateContactDetails }" />
+                                    <aura:set attribute="else">
+                                        <lightning:button aura:id="resetContactBtn" variant="destructive" label="Reset" disabled="{!v.submittedEnquiryCaseNumber}"
+                                                      class="slds-text-heading_small slds-p-left_large slds-p-right_large slds-p-bottom_x-small slds-p-top_x-small slds-float_right"
+                                                      onclick="{! c.resetContactDetails }" />
+                                    </aura:set>
+                                </aura:renderIf> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-program">Program <span style="color: red;">*</span></label>
+                    <div class="slds-form-element__control" id="horizontal-program">
+                        
+                        <lightning:radioGroup aura:id="programField" class="labelColor" value="{!v.selectedProgram}" disabled="{!!v.doContactExist || v.submittedEnquiryCaseNumber}"
+                                              messageWhenValueMissing="Please select a program for this request." onchange="{!c.validateFields}"
+                                              options="{!v.programOptions}" />
+                        
+                    </div>
+                </div>
+                
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-notification-type">Reason <span style="color: red;">*</span></label>
+                    <div class="slds-form-element__control" id="horizontal-notification-type">
+                        <lightning:radioGroup aura:id="notificationTypeField" class="labelColor" value="{!v.selectedNotificationType}" required="true" disabled="{!!v.doContactExist || v.submittedEnquiryCaseNumber}"
+                                              messageWhenValueMissing="Please select a notification type for this request."
+                                              options="{!v.notificationTypeOptions}" onchange="{!c.validateFields}" />
+                        <aura:renderIf isTrue="{!v.selectedNotificationType == 'Other'}">
+                            <lightning:input aura:id="notificationTypeOtherField" value="{!v.otherNotificationType}" 
+                                                placeholder="Enter other reason..."/>
+                        </aura:renderIf>
+                        <aura:renderIf isTrue="{!v.selectedNotificationType == 'Religious reasons'}">
+                            <span class="labelColor">{!v.personalLeaveNote}</span>
+                        </aura:renderIf>
+                    </div>
+                </div>
+                
+                <div class="slds-form-element slds-form-element_horizontal">
+                    <label class="slds-form-element__label fieldLabel" for="horizontal-description">Please tell us about your situation? <span style="color: red;">*</span></label>
+                    <div class="slds-form-element__control">
+                        <lightning:textarea aura:id="descriptionField" id="horizontal-description" value="{!v.enquiryDescription}" required="true" disabled="{!!v.doContactExist || v.submittedEnquiryCaseNumber}"
+                                            messageWhenValueMissing="Please enter your question." onchange="{!c.validateFields}" />
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Form file upload section -->
+            <div>
+                <c:MonashCollegeFormFileUploadLex aura:id="fileUploader" parentId="{!v.enquiryId}" label="Supporting document (e.g. Medical certificate)" 
+                                  fileCategory="Request" siteLocation="MonashCollegeEnquiryForms" fileName="{!v.fileName}"
+                                  isDisabled="{!v.isDisabled}" />
+            </div>
+            
+            <lightning:button aura:id="sendEnquiryBtn" variant="brand" label="Submit Request" disabled="{!!v.doContactExist || v.disableSubmit || v.submittedEnquiryCaseNumber}"
+                              class="slds-text-heading_small slds-align_absolute-center slds-m-bottom_medium slds-m-top_medium slds-p-bottom_x-small slds-p-top_x-small submitBtn"
+                              onclick="{!c.submitEnquiry}" />
+            
+            <div class="slds-p-bottom_medium">           
+                <div style="font-size: 10px; color: #b4b3b1;">
+                    Please note:
+                </div>
+                <div style="font-size: 10px; color: #b4b3b1;">
+                    As part of our Duty of Care responsibilities and commitment to equal participation throughout the training and internship component of the program, Monash Professional Pathways has processes in place to ensure participants are supported appropriately. During the program it is our obligation to ensure that Monash Professional Pathways staff, and host company supervisors during the internship, are aware of any special requirements in order to provide the necessary support and study/work conditions. In regards to special requirements, it is important to note that a participant is under no obligation to inform Monash Professional Pathways of their special needs or medical condition unless it represents a health risk to other staff or participants (e.g. highly contagious infectious disease).
+                </div>
+            </div>  
+        </div>
+    </div>
+</aura:component>

@@ -1,0 +1,43 @@
+<template>
+    <template if:true={isModalOpen}>
+        <section class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-modal__title slds-hyphenate">Express Create Opportunity</h2>
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" >
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </header>
+                <div class="slds-modal__content .slds-is-absolute slds-p-around_medium">
+                    <!--LOADING SPINNER-->
+                    <template if:true={isLoading}> 
+                        <div class="slds-is-relative" style="min-height: 100px;">
+                            <lightning-spinner alternative-text="Loading" variant="brand" size="large"></lightning-spinner>
+                        </div>            
+                    </template>
+                    <template if:false={isLoading}> 
+                        <c-opportunity-creation-form onamountchange={handleAmountChange}></c-opportunity-creation-form> 
+                        <c-opportunity-collaborators></c-opportunity-collaborators> 
+                        <div class="slds-align_absolute-center slds-p-top_x-large">
+                            <lightning-button class="slds-button section-float slds-p-around_small " variant="base" label="Cancel" title="Cancel" onclick={closeModal}></lightning-button>
+                            <lightning-button class="section-float slds-p-around_small" variant="brand" label="Save" title="Success" onclick={handleSave}></lightning-button>
+                        </div> 
+                    </template>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div> 
+    </template>
+    
+    <div class="slds-align_absolute-center addButton">
+        <a onclick={openModal}>
+            <img class="slds-icon slds-icon_large" src={addButtonImage}/> 
+        </a>
+        <p class="largeText">Express Create Opportunity</p> 
+    </div>
+</template>

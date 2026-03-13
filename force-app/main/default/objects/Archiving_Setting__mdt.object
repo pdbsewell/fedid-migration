@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fields>
+        <fullName>Fields_to_query__c</fullName>
+        <description>Sets the fields to query for a certain object that needs archiving/purging</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Fields to query</label>
+        <required>false</required>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Filter_Criteria_Long__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Specifies the condition of the SOQL query that will be formed</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Filter Criteria Long</label>
+        <length>32768</length>
+        <securityClassification>Internal</securityClassification>
+        <type>LongTextArea</type>
+        <visibleLines>20</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Filter_criteria__c</fullName>
+        <description>Sets the where clause of the sObject that needs to have their records archived/purged</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Filter criteria</label>
+        <required>false</required>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>IsActive__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>This will turn on/off sobjects that needs to use the Archiving functionality</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>IsActive</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>No_of_years_to_archive__c</fullName>
+        <description>Sets the number of years to archive the record</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>No of years to archive</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>No_of_years_to_purge__c</fullName>
+        <description>Sets the number of years to purge a standard enquiry</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>No of years to purge</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Object_Name__c</fullName>
+        <description>The name of the sObject that we want to include in the archive</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Object Name</label>
+        <length>150</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Record_Type__c</fullName>
+        <description>Identifies the record type of the Enquiry to be archived/purged</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Record Type</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <description>Identifies the status of the record that will be purged/archived</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Status</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Archiving Setting</label>
+    <listViews>
+        <fullName>Summary</fullName>
+        <columns>Object_Name__c</columns>
+        <columns>Record_Type__c</columns>
+        <columns>No_of_years_to_archive__c</columns>
+        <columns>No_of_years_to_purge__c</columns>
+        <columns>Status__c</columns>
+        <columns>Fields_to_query__c</columns>
+        <columns>Filter_Criteria_Long__c</columns>
+        <columns>IsActive__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>Summary</label>
+        <language>en_US</language>
+    </listViews>
+    <pluralLabel>Archiving Settings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

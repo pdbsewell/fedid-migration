@@ -1,0 +1,151 @@
+<template>
+    <template lwc:if={isOutput}>
+        <div class="slds-p-vertical_xx-small">
+            <b>{element.label}</b><br/>
+            <template lwc:if={isRichText}>
+                <lightning-formatted-rich-text value={element.outputDefinition.value}></lightning-formatted-rich-text>
+            </template>
+            <template lwc:else>
+                <lightning-formatted-text value={element.outputDefinition.value}></lightning-formatted-text>
+            </template>
+        </div>
+    </template>
+    <template lwc:else>
+        <template lwc:if={isStandardInput}>
+            <lightning-input
+                    lwc:ref="inputElem"
+                    type={inputType}
+                    label={element.label}
+                    name={element.name}
+                    onchange={handleInputChange}
+                    required={element.inputDefinition.required}
+                    disabled={element.inputDefinition.readOnly}
+                    field-level-help={element.inputDefinition.helpText}
+                    value={value}
+                    checked={value}
+                    variant="label-stacked">
+            </lightning-input>
+        </template>
+        <template lwc:if={isTextArea}>
+            <lightning-textarea
+                    lwc:ref="inputElem"
+                    label={element.label}
+                    name={element.name}
+                    onchange={handleInputChange}
+                    required={element.inputDefinition.required}
+                    disabled={element.inputDefinition.readOnly}
+                    field-level-help={element.inputDefinition.helpText}
+                    value={value}
+                    class="slds-p-horizontal_xx-small">
+            </lightning-textarea>
+        </template>
+        <template lwc:if={isPicklist}>
+            <lightning-combobox
+                    lwc:ref="inputElem"
+                    label={element.label}
+                    name={element.name}
+                    onchange={handleInputChange}
+                    required={element.inputDefinition.required}
+                    disabled={element.inputDefinition.readOnly}
+                    field-level-help={element.inputDefinition.helpText}
+                    options={element.inputDefinition.options}
+                    value={value}>
+            </lightning-combobox>
+        </template>
+        <template lwc:if={isCheckboxGroup}>
+            <div class="slds-form-element_stacked slds-form-element">
+                <div class="slds-grid">
+                    <lightning-checkbox-group
+                            lwc:ref="inputElem"
+                            label={element.label}
+                            name={element.name}
+                            onchange={handleInputChange}
+                            required={element.inputDefinition.required}
+                            disabled={element.inputDefinition.readOnly}
+                            options={element.inputDefinition.options}
+                            value={value}>
+                    </lightning-checkbox-group>
+                    <template if:true={element.inputDefinition.helpText}>
+                        <lightning-helptext content={element.inputDefinition.helpText}></lightning-helptext>
+                    </template>
+                </div>
+            </div>
+        </template>
+        <template lwc:if={isRadio}>
+            <div class="slds-form-element_stacked slds-form-element">
+                <div class="slds-grid">
+                    <lightning-radio-group
+                            lwc:ref="inputElem"
+                            label={element.label}
+                            name={element.name}
+                            onchange={handleInputChange}
+                            disabled={element.inputDefinition.readOnly}
+                            required={element.inputDefinition.required}
+                            options={element.inputDefinition.options}
+                            value={value}>
+                    </lightning-radio-group>
+                    <template if:true={element.inputDefinition.helpText}>
+                        <lightning-helptext content={element.inputDefinition.helpText}></lightning-helptext>
+                    </template>
+                </div>
+            </div>
+        </template>
+        <template lwc:if={isFileUpload}>
+            <div class="slds-p-bottom_x-small slds-p-horizontal_xx-small">
+                <lightning-file-upload
+                        lwc:ref="inputElem"
+                        label={element.label}
+                        multiple
+                        name={element.name}
+                        accept={acceptedUploadTypes}
+                        onchange={handleInputChange}
+                        disabled={element.inputDefinition.readOnly}
+                        required={element.inputDefinition.required}
+                        onuploadfinished={handleUploadFinished}>
+                </lightning-file-upload>
+                <template lwc:if={uploadedFiles}>
+                    <fieldset class="slds-box slds-box_xx-small slds-m-top_small">
+                        <template lwc:if={element.inputDefinition.readOnly}>
+                            <legend style="font-size: var(--lwc-fontSize2, 0.75rem);">Uploaded Files</legend>
+                        </template>
+                        <ul class="slds-list_vertical slds-list_vertical-space slds-p-left_xx-small">
+                            <template for:each={uploadedFiles} for:item="file">
+                                <li key={file.documentId} class="slds-item slds-m-horizontal_x-small slds-m-vertical_x-small">
+                                    <div class="slds-grid slds-grid_vertical-align-center">
+                                        <!-- File Name Section -->
+                                        <div class="slds-col slds-truncate slds-p-horizontal_none slds-p-left_xx-small" title={file.name} style="max-width: 90%;">
+                                            {file.name}
+                                        </div>
+                                        <div class="slds-col slds-no-flex slds-grid slds-align-top slds-p-right_none">
+<!--                                            <lightning-button-icon-->
+<!--                                                    icon-name="utility:download"-->
+<!--                                                    variant="bare"-->
+<!--                                                    alternative-text="Remove"-->
+<!--                                                    title="Download"-->
+<!--                                                    onclick={downloadFile}-->
+<!--                                                    data-id={file.documentId}-->
+<!--                                                    class="slds-button_icon-small">-->
+<!--                                            </lightning-button-icon>-->
+                                            <template if:false={element.inputDefinition.readOnly}>
+                                                <lightning-button-icon
+                                                        icon-name="utility:clear"
+                                                        variant="bare"
+                                                        alternative-text="Remove"
+                                                        title="Remove"
+                                                        onclick={removeFile}
+                                                        data-id={file.documentId}
+                                                        class="slds-button_icon-small"
+                                                        icon-class="">
+                                                </lightning-button-icon>
+                                            </template>
+                                        </div>
+                                    </div>
+                                </li>
+                            </template>
+                        </ul>
+                    </fieldset>
+                </template>
+            </div>
+        </template>
+    </template>
+</template>

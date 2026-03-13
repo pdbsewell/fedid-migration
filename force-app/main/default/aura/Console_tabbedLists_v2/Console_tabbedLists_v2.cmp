@@ -1,0 +1,130 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,forceCommunity:availableForAllPageTypes,force:hasRecordId"
+                access="global"
+                controller="Console_components_CEv2">
+
+    <aura:attribute name="recordId" type="Id"/>
+    <aura:attribute name="wrapperClass" type="Object"/>
+    <aura:attribute name="lstPersonNotes" type="Object[]"/>
+    <aura:attribute name="lstEncumbrances" type="Object[]"/>
+    <aura:attribute name="showEncModal" default="false" type="Boolean" />
+    <aura:attribute name="isSCNAcknowledged" type="Boolean" />
+    <aura:attribute name="isEncAcknowledged" type="Boolean" />
+    <aura:attribute name="isEncumbered" type="Boolean" default="false" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <!-- Case Record -->
+    <aura:attribute name="currentEnquiry" type="Object"/>
+    <aura:attribute name="enquiryError" type="String"/>
+    <force:recordData aura:id="caseRecordLoader"
+                      recordId="{!v.recordId}"
+                      fields="Id,ContactId,Contact.Person_ID__c, Contact.Person_Notes__c"
+                      targetFields="{!v.currentEnquiry}"
+                      targetError="{!v.enquiryError}"
+                      mode="EDIT"
+                      recordUpdated="{!c.enquiryUpdated}"
+    />
+
+    <!-- spinner -->
+    <aura:if isTrue="{!v.showSpinner}">
+        <div role="dialog" tabindex="-1" aria-labelledby="header99" class="slds-modal slds-fade-in-open ">
+            <div class="slds-modal__container" aura:id="block">
+                <div class="slds-modal__header spinner-text">
+                    <div class="slds-spinner_container">
+                        <c:Spinner type="spin" width="100" height="100" color="green" show="{!v.showSpinner}" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+
+
+    <div class="slds-box" style="background-color: white">
+        <div class="things-to-know">
+            <section >
+                <div>
+                    <span class="header-label2">THINGS TO KNOW</span>
+                </div>
+            </section>
+            <div>
+                <table>
+                    <aura:iteration items="{!v.lstPersonNotes}" var="pn">
+                        <tr>
+                            <td>{!pn.Notes__c}</td>
+                        </tr>
+                    </aura:iteration>
+                </table>
+            </div>
+        </div>
+
+        <aura:if isTrue="{!v.isEncumbered}">
+            <div class="encumbrances">
+                <section>
+                    <div>
+                        <span class="header-label2">ENCUMBRANCES</span>
+                    </div>
+                </section>
+                <div style="margin-left: 3px;margin-right: 5px;">
+                    <table>
+                        <aura:iteration items="{!v.lstEncumbrances}" var="enc">
+                            <tr style="padding-bottom: 6px;">
+                                <div style="padding-top: 5px;"><span style="font-weight: bold;">CATEGORY:</span>
+                                <p style="padding: 5px;">{!enc.enc_category__c}</p>
+                                </div>
+                                <div><span style="font-weight: bold;">DESCRIPTION:</span>
+                                <p style="padding: 5px;text-align: justify;">{!enc.enc_description__c}</p>
+                                </div>
+                                <div><span style="font-weight: bold;">COMMENTS:</span>
+                                <p style="padding: 5px;text-align: justify;">{!enc.enc_comments__c}</p>
+                                </div>
+                            </tr>
+                        </aura:iteration>
+                    </table>
+                </div>
+            </div>
+        </aura:if>
+    </div>
+
+    <aura:if isTrue="{!not(v.isEncAcknowledged)}">
+        <aura:if isTrue="{!v.showEncModal}">
+            <div style="height:640px">
+                <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_small" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1">
+                    <div class="slds-modal__container">
+                        <header class="slds-modal__header modalHeader-encumbrance">
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                                <lightning:icon iconName="utility:warning" alternativeText="Warning!" variant="warning"/>
+                                <span class="header-label">Encumbrances</span>
+                            </h2>
+                        </header>
+                        <div class="slds-modal__content slds-p-around_large modalBody-encumbrance" id="modal-content-id-1">
+                            <table>
+                                <tr>
+                                    <th>Category</th>
+                                    <th>Description</th>
+                                    <th>Comments</th>
+                                </tr>
+                                <aura:iteration items="{!v.lstEncumbrances}" var="enc">
+                                    <tr>
+                                        <td>{!enc.enc_category__c}</td>
+                                        <td>{!enc.enc_description__c}</td>
+                                        <td>{!enc.enc_comments__c}</td>
+                                    </tr>
+                                </aura:iteration>
+                            </table>
+                        </div>
+                        <footer class="slds-modal__footer modalFooter-encumbrance">
+                            <div class="enc-form-inline">
+                                <ui:inputCheckbox aura:id="checkbox" label="" change="{!c.Showhide}"/>
+                                <label>I have read the Encumbrances.</label>
+                                <lightning:button variant="brand" label="Acknowledge" aura:id="disableenable" disabled="true" onclick="{!c.confirmEncumbrances}"/>
+                            </div>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+            </div>
+        </aura:if>
+    </aura:if>
+
+</aura:component>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ConnectedApp xmlns="http://soap.sforce.com/2006/04/metadata">
+    <contactEmail>unicrm.coreadmin@monash.edu</contactEmail>
+    <description>Monash Refunds IDP</description>
+    <label>Monash Refunds SSO</label>
+    <samlConfig>
+        <acsUrl>https://refunds.apps.monash.edu/saml2-unicrm</acsUrl>
+        <encryptionType>AES_128</encryptionType>
+        <entityUrl>https://refunds.apps.monash.edu</entityUrl>
+        <issuer>https://unicrm.my.salesforce.com</issuer>
+        <samlNameIdFormat>Unspecified</samlNameIdFormat>
+        <samlSigningAlgoType>SHA256</samlSigningAlgoType>
+        <samlSubjectCustomAttr>Person_Id</samlSubjectCustomAttr>
+        <samlSubjectType>CustomAttribute</samlSubjectType>
+    </samlConfig>
+</ConnectedApp>

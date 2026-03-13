@@ -1,0 +1,91 @@
+.calendar-select.mouse-focus, .calendar-select:focus-visible {
+    outline: var(--slds-g-link-color-focus, #014486) auto 1px;
+}
+
+.calendar-list li {
+    transition: all 0.2s ease-out;
+    cursor: pointer;
+    margin: 1rem;
+    padding: 0;
+}
+
+.calendar-list li.hover {
+    background-color: #f3f2f2;
+}
+
+.calendar-list li:not(.selected):hover {
+    transform: translateX(2px);
+}
+
+.calendar-list .slds-item.selected {
+    border: 1px solid;
+    border-color: var(--slds-g-color-brand-base-50, #0176D3);
+    background-color: var(--slds-g-color-brand-base-95, #EEF4FF) !important;
+    transform: none;
+}
+
+.calendar-list .slds-item.hidden {
+    display: none;
+    opacity: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+}
+
+.record-fields {
+    font-size: 0.875rem;
+}
+
+.field {
+    display: inline-block;
+}
+
+.separator {
+    color: #706e6b;
+    margin: 0 0.5rem;
+}
+
+.year {
+    /*min-width: 3rem;*/
+}
+
+.calendar-code {
+    /*min-width: 4rem;*/
+}
+
+.type {
+    min-width: 6rem;
+}
+
+.description {
+    color: #706e6b;
+}
+
+.close-button {
+    cursor: pointer;
+}
+
+.close-button:hover {
+    color: #706e6b;
+}
+.show-btn {
+    text-align: center;
+    cursor: pointer;
+    /*width: auto;*/
+    width: calc(100% - 2rem);
+    margin: 0 1rem;
+    border: 1px solid rgb(201, 201, 201);
+    border-radius: 0.25rem;
+    padding: 0.75rem;
+    background: none;
+    color: #333;
+    transition: 0.2s ease-out;
+}
+.show-btn:hover {
+    background-color: #f3f2f2;
+    color: #000;
+}
+.show-btn:active {
+    transform: scale(0.99);
+}

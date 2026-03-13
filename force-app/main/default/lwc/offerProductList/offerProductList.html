@@ -1,0 +1,43 @@
+<!--
+  @File Name          : offerProductList.html
+  @Description        : 
+  @Author             : Jasmin Joy Rudio
+  @Group              : 
+  @Last Modified By   : jasmin.rudio@monash.edu
+  @Last Modified On   : 1/23/2020, 7:19:48 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    11/25/2019  Jasmin Joy Rudio     Initial Version
+-->
+<template>
+    <div if:true={hasRendered}>
+        <c-async-markup promise={promise}>
+            <div slot="onFulfilled">
+                <template if:true={quoteLineItems}>
+                    <div class="top-space">
+                        <b>The Agreement contains offers in the following:</b>
+                        <br/><br/>
+                        <template for:each={quoteLineItems} for:item="ql">
+                            <div class="slds-form-element slds-form-element_horizontal" key={ql.Id}>
+                                <label class="slds-form-element__label" for={ql.Id} key={ql.Id}>{ql.Label}: </label>
+                                <div class="slds-form-element__control form-content" key={ql.Id}>
+                                    <span id={ql.Id} key={ql.Id}>{ql.Value}</span>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+            </div>
+            <div slot="onRejected">
+                Error occured while retrieving Products.
+            </div>
+            <div slot="onPending">
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </div>
+        </c-async-markup>
+    </div>
+    <br/>
+    <p>{regenReason}</p>
+    <c-offer-managed-clauses offer-id={offerId} location="Cover letter" quote-clauses={quoteClauses}></c-offer-managed-clauses>
+
+</template>

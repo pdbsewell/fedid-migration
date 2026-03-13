@@ -1,0 +1,777 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Generate_Domestic_Contract</name>
+        <label>Generate Domestic Contract</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>SBQQ__Quote__c.Generate_Domestic_Contract</actionName>
+        <actionType>outboundMessage</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <nameSegment>SBQQ__Quote__c.Generate_Domestic_Contract</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>Generate_ISCA_Contract_Outbound_Message</name>
+        <label>Generate ISCA Contract Outbound Message</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>SBQQ__Quote__c.Generate_ISCA_Contract_Outbound_Message</actionName>
+        <actionType>outboundMessage</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <nameSegment>SBQQ__Quote__c.Generate_ISCA_Contract_Outbound_Message</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>Generate_ISCA_Preview_Outbound_message</name>
+        <label>Generate ISCA Preview Outbound message</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>SBQQ__Quote__c.Generate_ISCA_Preview_Outbound_message</actionName>
+        <actionType>outboundMessage</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <nameSegment>SBQQ__Quote__c.Generate_ISCA_Preview_Outbound_message</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>Generate_Manual_ISCA_Outbound_message</name>
+        <label>Generate Manual ISCA Outbound message</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>SBQQ__Quote__c.Generate_Manual_ISCA_Outbound_message</actionName>
+        <actionType>outboundMessage</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <nameSegment>SBQQ__Quote__c.Generate_Manual_ISCA_Outbound_message</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>Log_the_error</name>
+        <label>Log the error</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>Nebula__FlowRecordLogEntry</actionName>
+        <actionType>apex</actionType>
+        <dataTypeMappings>
+            <typeName>T__record</typeName>
+            <typeValue>SBQQ__Quote__c</typeValue>
+        </dataTypeMappings>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>faultMessage</name>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>flowName</name>
+            <value>
+                <stringValue>Quote_AS_Handle_Quote_operations</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <stringValue>Updating Quote Record failed</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>record</name>
+            <value>
+                <elementReference>$Record</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>saveLog</name>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>scenario</name>
+            <value>
+                <elementReference>txtScenario</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>Nebula__FlowRecordLogEntry</nameSegment>
+        <offset>0</offset>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </actionCalls>
+    <actionCalls>
+        <name>Send_Offer_Cancelled_email</name>
+        <label>Send Offer Cancelled email</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>SBQQ__Quote__c.Offer_Cancellation_Email</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>SBQQ__Quote__c.Offer_Cancellation_Email</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <name>Send_Offer_Expired_email</name>
+        <label>Send Offer Expired email</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <actionName>SBQQ__Quote__c.Offer_Expiration_Email</actionName>
+        <actionType>emailAlert</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>SObjectRowId</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>SBQQ__Quote__c.Offer_Expiration_Email</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Set_the_scenario_Conga_Final_Contract_Error</name>
+        <label>Set the scenario</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>txtScenario</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Conga Final Contract Error</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Log_the_error</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_the_scenario_Conga_Preview_Contract</name>
+        <label>Set the scenario</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>txtScenario</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Conga Preview Contract</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Log_the_error</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_the_scenario_CPQ_API_Error</name>
+        <label>Set the scenario</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>txtScenario</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>CPQ API Error</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Log_the_error</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_the_scenario_Error_Date_Time</name>
+        <label>Set the scenario</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>txtScenario</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Set the start date time for Error Tracking</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Log_the_error</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <name>Set_the_scenario_Expire_the_Offer</name>
+        <label>Set the scenario</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>txtScenario</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Expire the offer</stringValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <isGoTo>true</isGoTo>
+            <targetReference>Log_the_error</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <name>Conga_Generation_required</name>
+        <label>Conga Generation required ?</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>ISCA_Contract_Preview</name>
+            <conditionLogic>1 AND 2 AND (3 OR 4 OR 5)</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Sub_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Preview Requested</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.SBQQ__Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>In Review</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Offer_Category__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>International Offer</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Offer_Category__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>International Deferral</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Offer_Category__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Online Offer</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Generate_ISCA_Preview_Outbound_message</targetReference>
+            </connector>
+            <label>ISCA Contract Preview</label>
+        </rules>
+        <rules>
+            <name>ISCA_Contract</name>
+            <conditionLogic>1 AND 2 AND (3 OR 4 OR 5)</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Sub_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Details completed</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.SBQQ__Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Published</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Offer_Category__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>International Offer</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Offer_Category__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>International Deferral</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Offer_Category__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Online Offer</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Contract_Generation_Requested_Date</targetReference>
+            </connector>
+            <label>ISCA Contract</label>
+        </rules>
+        <rules>
+            <name>Domestic_Contract</name>
+            <conditionLogic>1 AND 2 AND 3 AND ( 4 OR 5)</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Sub_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Preview Requested</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.SBQQ__Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>In Review</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Template_Type__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Domestic Coursework Australia</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Offer_Category__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Domestic Deferral</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Offer_Category__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Domestic Offer</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Generate_Domestic_Contract</targetReference>
+            </connector>
+            <label>Domestic Contract</label>
+        </rules>
+        <rules>
+            <name>Manual_ISCA</name>
+            <conditionLogic>1 AND 2 AND 3 AND (4 OR 5 OR 6)</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Manual_ISCA_Edit_Required__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Sub_Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Preview Requested</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.SBQQ__Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>In Review</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Offer_Category__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>International Offer</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Offer_Category__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>International Deferral</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Offer_Category__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Online Offer</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Generate_Manual_ISCA_Outbound_message</targetReference>
+            </connector>
+            <label>Manual ISCA</label>
+        </rules>
+        <rules>
+            <name>Cancelled</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Agent_Email__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.SBQQ__Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Cancelled</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.SBQQ__Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Published</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Offer_Cancelled_email</targetReference>
+            </connector>
+            <label>Cancelled</label>
+        </rules>
+        <rules>
+            <name>Expired</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Agent_Email__c</leftValueReference>
+                <operator>IsBlank</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.SBQQ__Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Expired</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.SBQQ__Status__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Published</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Offer_Expired_email</targetReference>
+            </connector>
+            <label>Expired</label>
+        </rules>
+    </decisions>
+    <description>Migrated from the following 
+WF: 
+- Generate Manual ISCA Workflow
+- Generate Domestic Contract 
+- Generate ISCA Contract Workflow  [ Workflow to generate the ISCA contract when the quote status changes to accepted, and only when contract hasn&apos;t been generated before ]
+- Generate ISCA Contract Preview Workflow [ Workflow rule description: Workflow to generate the ISCA contract preview when the quote status changes to Generate Preview ]
+- Quote Expiry - Scheduled update Status workflow rule [updates Quote status into expired when current date is past quote expires on date ]
+
+PB:
+- Email Agent [ Email to be sent to the agent when the Published Offer is Cancelled or Expired ]
+- Technical Error for Conga or CPQ APIs process [ Technical Error when Conga or CPQ APIs when not responding ]
+- JBSystem_SBQQ_Quote_c_Process [ Invokes a flow ]</description>
+    <environments>Default</environments>
+    <formulas>
+        <name>formula_Cancelled</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+    NOT(ISBLANK({!$Record.Agent_Email__c} )),
+    ISPICKVAL({!$Record.SBQQ__Status__c}, &apos;Cancelled&apos;),
+    ISPICKVAL(PRIORVALUE({!$Record.SBQQ__Status__c}), &apos;Published&apos;)
+)</expression>
+    </formulas>
+    <formulas>
+        <name>formula_Error_Logging_Time</name>
+        <dataType>DateTime</dataType>
+        <expression>NOW() - (45/1440)</expression>
+    </formulas>
+    <formulas>
+        <name>formula_Expired</name>
+        <dataType>Boolean</dataType>
+        <expression>AND(
+    NOT(ISBLANK({!$Record.Agent_Email__c} )),
+    ISPICKVAL({!$Record.SBQQ__Status__c}, &apos;Expired&apos;),
+    ISPICKVAL(PRIORVALUE({!$Record.SBQQ__Status__c}), &apos;Published&apos;)
+)</expression>
+    </formulas>
+    <interviewLabel>Quote : AS : Handle Quote operations {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Quote : AS : Handle Quote operations</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Conga_Final_Contract_Error</name>
+        <label>Conga Final Contract Error</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>CPQ_API_Error</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Set_the_scenario_Conga_Final_Contract_Error</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Sub_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Contract requested</stringValue>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Error_Log__c</field>
+            <value>
+                <stringValue>&apos;Conga error generating Final Contract. Conga taking more that 15 minutes to generate pdf&apos;</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sub_Status__c</field>
+            <value>
+                <stringValue>Conga Error</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Conga_Preview_Contract</name>
+        <label>Conga Preview Contract</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Conga_Final_Contract_Error</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Set_the_scenario_Conga_Preview_Contract</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Sub_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Preview Requested</stringValue>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Error_Log__c</field>
+            <value>
+                <stringValue>&apos;Conga error requesting preview pdf. Conga taking more that 15 minutes to generate pdf&apos;</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sub_Status__c</field>
+            <value>
+                <stringValue>Conga Error</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>CPQ_API_Error</name>
+        <label>CPQ API Error</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <faultConnector>
+            <targetReference>Set_the_scenario_CPQ_API_Error</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Sub_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Products Added</stringValue>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Error_Log__c</field>
+            <value>
+                <stringValue>&apos;CPQ API error. SF CPQ taking more that 15 minutes to calculate CPQ rules&apos;</stringValue>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Sub_Status__c</field>
+            <value>
+                <stringValue>Conga Error</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Expire_the_Offer</name>
+        <label>Expire the Offer</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <faultConnector>
+            <targetReference>Set_the_scenario_Expire_the_Offer</targetReference>
+        </faultConnector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>SBQQ__Status__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Expired and regenerated</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SBQQ__Status__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Expired</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SBQQ__Status__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Cancelled</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SBQQ__Status__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Deferred</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SBQQ__Status__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Rejected</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SBQQ__Status__c</field>
+            <operator>NotEqualTo</operator>
+            <value>
+                <stringValue>Signed</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>SBQQ__ExpirationDate__c</field>
+            <operator>IsNull</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>SBQQ__Status__c</field>
+            <value>
+                <stringValue>Expired</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <name>Set_the_start_date_time_for_Error_Tracking</name>
+        <label>Set the start date time for Error Tracking</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Conga_Generation_required</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Set_the_scenario_Error_Date_Time</targetReference>
+        </faultConnector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>Sub_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Preview Requested</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Sub_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Contract requested</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Sub_Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Products Added</stringValue>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Error_Tracking_Start_Date_Time__c</field>
+            <value>
+                <elementReference>formula_Error_Logging_Time</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Updates the Update Contract Generation Requested Date in Quote object</description>
+        <name>Update_Contract_Generation_Requested_Date</name>
+        <label>Update Contract Generation Requested Date</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Generate_ISCA_Contract_Outbound_Message</targetReference>
+        </connector>
+        <inputAssignments>
+            <field>Contract_Generation_Requested_Date__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Set_the_start_date_time_for_Error_Tracking</targetReference>
+        </connector>
+        <filterFormula>AND({!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False,
+CONTAINS({!$Label.Bypass_Specific_Flow}, &quot;QuoteASHandleQuoteOperations,&quot;) = false)</filterFormula>
+        <object>SBQQ__Quote__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <scheduledPaths>
+            <name>Conga_Error_Logging</name>
+            <connector>
+                <targetReference>Conga_Preview_Contract</targetReference>
+            </connector>
+            <label>Conga Error Logging</label>
+            <offsetNumber>1</offsetNumber>
+            <offsetUnit>Hours</offsetUnit>
+            <recordField>Error_Tracking_Start_Date_Time__c</recordField>
+            <timeSource>RecordField</timeSource>
+        </scheduledPaths>
+        <scheduledPaths>
+            <name>Quote_Expiry</name>
+            <connector>
+                <targetReference>Expire_the_Offer</targetReference>
+            </connector>
+            <label>Quote Expiry</label>
+            <offsetNumber>1</offsetNumber>
+            <offsetUnit>Days</offsetUnit>
+            <recordField>SBQQ__ExpirationDate__c</recordField>
+            <timeSource>RecordField</timeSource>
+        </scheduledPaths>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Scenario for logging the error</description>
+        <name>txtScenario</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

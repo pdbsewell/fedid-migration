@@ -1,0 +1,18 @@
+<aura:component >
+    <aura:attribute name="IconName" type="String" access="global"/>
+    <aura:attribute name="Title" type="String" access="global"/>
+    <aura:attribute name="SubTitle" type="String" access="global"/>
+    
+	<!-- PAGE HEADER -->
+    <lightning:layout class="slds-page-header slds-page-header--object-home">
+        <lightning:layoutItem>
+            <lightning:icon iconName="{!v.IconName}" alternativeText="{!v.Title}"/>
+        </lightning:layoutItem>
+        <lightning:layoutItem padding="horizontal-small">
+            <div class="page-section page-header">
+                <h1 class="slds-text-heading--label">{!v.SubTitle}</h1>
+                <h2 class="slds-text-heading--medium">{!v.Title}</h2>
+            </div>
+        </lightning:layoutItem>
+    </lightning:layout>
+</aura:component>

@@ -1,0 +1,36 @@
+<template>
+    <div class="c-container">
+        <lightning-layout>
+            <lightning-layout-item flexibility="auto" padding="around-small" size="3">
+                <lightning-input type="date" 
+                    name="lapseDate" 
+                    label="Offer Lapse Date" 
+                    value={offerLapseDate} 
+                    onchange={handleLapseDateInputChange} 
+                    required
+                    message-when-value-missing="Please enter the offer lapse date to proceed.">
+                </lightning-input>
+            </lightning-layout-item>
+        </lightning-layout>
+    <!--
+        <lightning-layout multiple-rows>
+            <template for:each={acps} for:item="acp">
+                <lightning-layout-item size="3" key={acp.id}>
+                    <div class="column-border slds-m-around_x-small slds-p-around_medium">
+                        <c-offer-wizard-a-c-p-update-card acp={acp}></c-offer-wizard-a-c-p-update-card>
+                    </div>
+                </lightning-layout-item>
+            </template>
+        </lightning-layout> 
+    -->
+        <div class="slds-scrollable_x">
+            <div class="slds-grid slds-gutters">
+                <template for:each={acps} for:item="acp">
+                    <div class="slds-col column-border" key={acp.Id}>
+                        <c-offer-wizard-a-c-p-update-card acp={acp}></c-offer-wizard-a-c-p-update-card>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

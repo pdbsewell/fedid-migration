@@ -1,0 +1,83 @@
+<!--
+Revision History:
+    30/04/2019 - APRivera - Make the component's width responsive.
+    01/05/2020 - Steffinarang - call new EnquiryListenr comp when agenta accept the call
+    14/09/2201 - Stefan Scheit - Updated Helper.js to open the related case (of ChatTranscript) in a subtab properly
+-->
+<aura:component controller="ChatLog365DetailCC" implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global">
+    <aura:attribute name="recordId" type="String" default=""/>
+    <aura:attribute name="chatLogDetailList" type="List" default="[]"/>
+    <aura:attribute name="card" type="boolean" default="false"/>
+    <aura:attribute name="error" type="boolean" default="false"/>
+    <aura:attribute name="spinner" type="boolean" default="false"/>
+    <aura:attribute name="caseID" type="string" default=""/>
+    <lightning:workspaceAPI aura:id="workspace"/>
+
+    <aura:handler  name="init" value="{!this}" action="{!c.doInit}"/>
+    
+    <aura:if isTrue ="{!v.spinner}">
+        <lightning:spinner alternativeText="Loading" size="small" />
+    </aura:if>
+        <aura:if isTrue="{!v.error}">
+            <div class="slds-box slds-theme_default slds-align_absolute-center">
+                <p><h1><strong>Chatbot transcript is not applicable for this enquiry.</strong></h1></p>
+            </div>
+        </aura:if>
+        <aura:if isTrue="{!v.card}">
+            <lightning:card footer="END" title="Chatbot Transcript">
+                <div class="nf-chat" >
+                    <div class="slds-scrollable_y" style="height: 24rem; width: auto;">
+                        <aura:iteration items="{!v.chatLogDetailList}" var="item">
+                            <aura:if isTrue="{!item.request != null}">
+                                <div class="nf-cont">
+                                    <div class="slds-grid slds-grid_vertical">
+                                        <div class="slds-col">
+                                            <div style="float:right ; margin-bottom: -25px">
+                                                    <lightning:layout>
+                                                            <lightning:layoutItem>
+                                                                <div class="nf-req">
+                                                                    <p><aura:unescapedHtml value="{!item.request}"/></p>
+                                                                </div>
+                                                            </lightning:layoutItem>
+                                                            <lightning:layoutItem>    
+                                                                <lightning:icon iconName="standard:live_chat_visitor" alternativeText="visitor" />
+                                                            </lightning:layoutItem>
+                                                    </lightning:layout>
+                                            </div>
+                                        </div>
+                                        <div class="slds-col">
+                                            <div class="nf-details-visitor">{!item.timeFormated}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </aura:if>
+                            <aura:if isTrue="{!item.response != null}">
+                                    <div class="nf-cont">
+                                        <div class="slds-grid slds-grid_vertical">
+                                            <div class="slds-col">
+                                                <div style="float:left ; margin-bottom: -30px">
+                                                    <lightning:layout>
+                                                        <lightning:layoutItem>
+                                                            <lightning:icon iconName="standard:bot" alternativeText="bot" />
+                                                        </lightning:layoutItem>
+                                                        <lightning:layoutItem>
+                                                            <div class="nf-res">
+                                                                <p><aura:unescapedHtml value="{!item.response}"/></p>
+                                                            </div>
+                                                        </lightning:layoutItem>
+                                                    </lightning:layout>
+                                                </div>
+                                            </div>
+                                            <div class="slds-col">
+                                                <div class="nf-details-bot">{!item.timeFormated}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                            </aura:if>
+                        </aura:iteration>
+                    </div>
+                </div>
+            </lightning:card>
+        </aura:if>
+       
+</aura:component>

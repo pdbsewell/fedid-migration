@@ -1,0 +1,101 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes,force:hasRecordId" controller="DocumentViewerService">
+    <aura:attribute name="selectedApplicationId" type="Id" />
+    <aura:attribute name="selectedOfferId" type="Id" />
+    <aura:attribute name="selectedContactDocumentId" type="Id" />
+    <aura:attribute name="selectedDocumentChecklistId" type="Id" />
+    <aura:attribute name="selectedContentDocumentData" type="String" />
+    <aura:attribute name="selectedContentDocumentLink" type="String" />
+
+    <aura:attribute name="applicantId" type="Id" />
+    <aura:attribute name="applicationId" type="Id" />
+    <aura:attribute name="offerId" type="Id" />
+    <aura:attribute name="checklistId" type="Id" />
+    <aura:attribute name="fileExtensionType" type="String" />
+    <aura:attribute name="initializeReady" type="Boolean" default="false" />
+    <aura:attribute name="pageReady" type="Boolean" default="false" />
+    <aura:attribute name="totalPageCount" type="Integer" />
+    <aura:attribute name="requestedPages" type="String" />
+    <aura:attribute name="frameReady" type="Boolean" default="false" />
+
+    <!-- split result blob -->
+    <aura:attribute name="splitResultData" type="String" />
+
+    <!-- select options -->
+    <aura:attribute name="checklistsMap" type="Map" />
+    <aura:attribute name="checklistDocumentTypesMap" type="Map" />
+
+    <!-- constructor -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <!-- retrieving data -->
+    <aura:if isTrue="{!!v.initializeReady}">
+        <lightning:spinner alternativeText="Loading" size="medium" variant="brand" />
+    </aura:if>
+
+    <!-- document splitter -->
+    <aura:if isTrue="{!v.selectedContactDocumentId}">
+        <iframe aura:id="documentSplitter" style="width: 0.1px; height: 0.1px; border: none; float:left;" src="/apex/PdfSplitter" onload="{!c.splitterFrameLoad}"/>
+    </aura:if>
+    
+    <!-- data ready -->
+    <aura:if isTrue="{!v.initializeReady}">
+        <aura:if isTrue="{!!v.pageReady}">
+            <lightning:spinner alternativeText="Loading" size="medium" variant="brand" />
+        </aura:if>
+        <aura:if isTrue="{!v.pageReady}">
+            <lightning:layout>
+                <lightning:layoutItem size="3">
+                    <div style="overflow-y: auto;">
+                            <c:documentViewerChecklist aura:id="fileChecklistSection"
+                                applicationId="{!v.applicationId}" 
+                                applicantId="{!v.applicantId}" 
+                                opportunityId="{!v.offerId}"
+                                checklistId="{!v.checklistId}" 
+                                selectedContactDocumentId="{!v.selectedContactDocumentId}"
+                                selectedDocumentChecklistId="{!v.selectedDocumentChecklistId}"
+                                checklistsMap="{!v.checklistsMap}"
+                                checklistDocumentTypesMap="{!v.checklistDocumentTypesMap}"
+                                pageCount="{!v.totalPageCount}" 
+                                splitResult="{!v.splitResultData}"
+                                onrequestsplit="{!c.handleRequestSplit}"
+                                onchecklistrefresh="{!c.refreshChecklistDetails}" />
+                    </div>
+                </lightning:layoutItem>
+                <lightning:layoutItem size="9">
+                    <aura:if isTrue="{!v.selectedContactDocumentId}">
+                        <div style="box-shadow: -10px 0px 10px 1px rgba(0, 0, 0, 0.10);">
+                            <c:documentViewerFrame aura:id="documentFrame"
+                                requestedSplitPages="{!v.requestedPages}"
+                                fileUrl="{!v.selectedContentDocumentLink}" 
+                                fileBlob="{!v.selectedContentDocumentData}" 
+                                fileType="{!v.fileExtensionType}"
+                                applicationId="{!v.applicationId}" 
+                                applicantId="{!v.applicantId}" 
+                                checklistId="{!v.checklistId}" 
+                                selectedContactDocumentId="{!v.selectedContactDocumentId}" />
+                        </div>
+                    </aura:if>
+                    <aura:if isTrue="{!!v.selectedContactDocumentId}">
+                        <article class="slds-card slds-card_boundary slds-m-vertical_small slds-m-right_small" style="box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10); height:97vh;">
+                            <div class="slds-align_absolute-center">
+                                <div class="slds-card__body slds-card__body_inner">
+                                    <div style="margin-top: 30vh;">
+                                        <img src="/img/search/no-results.png" />
+                                        <span class="slds-text-heading_large slds-align_absolute-center" style="font-size: 3rem; color: #54698d;">Please select a file</span>
+                                    </div> 
+                                </div>
+                            </div>
+                        </article>                           
+                    </aura:if>
+                </lightning:layoutItem>
+            </lightning:layout>
+        </aura:if>
+    </aura:if>
+
+    <!-- hack to hide the extra space below the screen that hides the helptexts -->
+    <aura:html tag="style">
+        lightning-primitive-bubble.slds-popover_tooltip { 
+            position: fixed !important; 
+        }
+    </aura:html>
+</aura:component>

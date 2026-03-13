@@ -1,0 +1,42 @@
+<template>
+    <template if:true={isText}>
+        <lightning-input
+            type="text"
+            name="textinput"
+            label={element.questionLabel}
+            class="inputCmp"
+            required={element.required}
+            onchange={handleOnChange}
+            field-level-help={element.helpText}
+            disabled={readOnly}
+            value={value}>
+        </lightning-input>
+    </template>
+    <template if:true={isNumber}>
+        <lightning-input
+            type="text"
+            name="textinput"
+            label={element.questionLabel}
+            class="inputCmp"
+            required={element.required}
+            onchange={handleOnChange}
+            field-level-help={element.helpText}
+            disabled={readOnly}
+            value={value}>
+        </lightning-input>
+    </template>
+    <template if:true={isPicklist}>
+        <lightning-combobox
+            name="progress"
+            class="inputCmp"
+            label={element.questionLabel}
+            value={value}
+            placeholder="-Select-"
+            options={picklistOptions}
+            required={element.required}
+            onchange={handleOnChange}
+            field-level-help={element.helpText}
+            disabled={readOnly}>
+        </lightning-combobox>
+    </template>
+</template>

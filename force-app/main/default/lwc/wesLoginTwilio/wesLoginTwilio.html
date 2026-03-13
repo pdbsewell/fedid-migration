@@ -1,0 +1,195 @@
+<template>   
+
+    <div class="main-container slds-grid slds-grid_vertical slds-gutters slds-gutters slds-border_top slds-border_bottom slds-border_left slds-border_right">
+
+        <div class="slds-col slds-var-p-bottom_medium">
+            <p class="text-align-center">
+                <span class="main-heading">
+                    {headerTitleValue} <br>
+                </span>
+            </p>
+        
+            <!-- Error Message Panel-->
+            <template if:true={showErrorPanel}>
+                <div class="error slds-var-p-around_x-small slds-var-p-top_small" role="alert">
+                    <span>{errorMessage}</span>
+                </div>
+            </template>
+
+        </div>
+
+        <!-- Spinner Panel-->
+        <div if:true={isLoading} class="slds-is-relative">
+            <lightning-spinner
+                alternative-text="Loading..." variant="brand">
+            </lightning-spinner>
+        </div>
+
+        <!-- Student Details Panel-->
+        <template if:true={showStudentDetailsPanel}>
+
+            <!-- Student Id -->
+            <div class="slds-col">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
+                        <lightning-icon class="input-icon" icon-name="utility:number_input" alternative-text="Student ID (eg 12345678)" size="xx-small"></lightning-icon>
+                        <input type="text" data-id="inputStudentId" placeholder="Student ID (eg 12345678)" class="slds-input input-element" value={studentId} onchange={handleStudentIdChange} disabled={isStudentDetailFieldsDisabled}/>
+                        <span class={requiredTooltipDisplayData.studentId}>This field is required</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DOB -->
+            <div class="slds-col">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
+                        <lightning-input type="date" data-id="dateOfBirth" name="dateOfBirth" variant="label-hidden" placeholder="Date of Birth (dd/mm/yyyy)" value={dateOfBirth} onchange={handleDateOfBirthChange} disabled={isStudentDetailFieldsDisabled}></lightning-input>
+                        <span class={requiredTooltipDisplayData.dateOfBirth}>This field is required</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- First Name -->
+            <template if:true={showFirstNameInput}>
+                <div class="slds-col">
+                    <div class="slds-form-element">
+                        <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
+                            <lightning-icon class="input-icon" icon-name="utility:user" alternative-text="First Name" size="xx-small"></lightning-icon>
+                            <input type="text" data-id="inputFirstName" placeholder={firstNamePlaceholderText} class="slds-input input-element" value={firstName} onchange={handleFirstNameChange} disabled={isStudentDetailFieldsDisabled}/>
+                            <span class={requiredTooltipDisplayData.firstName}>This field is required</span>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Last Name -->
+            <div class="slds-col">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
+                        <lightning-icon class="input-icon" icon-name="utility:user" alternative-text="username" size="xx-small"></lightning-icon>
+                        <input type="text" data-id="inputLastName" placeholder="Surname" class="slds-input input-element" value={lastName} onchange={handleLastNameChange} onkeydown={handleLastNameKeydown} disabled={isStudentDetailFieldsDisabled}/>
+                        <span class={requiredTooltipDisplayData.lastName}>This field is required</span>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+        <!-- Footer Panels -->
+
+        <!-- Login Panel -->
+        <template if:true={showLoginPanel}>
+            <div class="slds-col">
+                <template if:true={isLoginButtonDisabled}>
+                    <button type="submit" class="login-button-disabled slds-button" disabled>Login</button>
+                </template>
+                <template if:false={isLoginButtonDisabled}>
+                    <button type="submit" class="login-button slds-button" onclick={handleLogin}>Login</button>
+                </template>            
+            </div>
+
+            <div class="slds-col">
+                <ul class="slds-list_dotted">
+                    <li>Your details must exactly match those we have on your student record</li>
+                    <li>Use the Surname field if you only have one name (leave First name blank)</li>
+                    <li>A personal email address and optionally a mobile must be present on your student record</li>
+                    <li>If your details have changed please contact Monash Connect</li>
+                </ul>
+            </div>
+        </template>
+
+        <!-- Send Code Panel -->
+        <template if:true={showSendCodePanel}>
+            <div class="slds-col verification-message">
+                <template if:true={isMultipleContactPoints}>
+                    We need to verify your identity by sending you a security code. 
+                    <br>How would you like to get your code? 
+                </template>
+                <template if:false={isMultipleContactPoints}>
+                    We need to verify your identity by sending a security code to the {contactPointType} listed below.
+                </template>
+            </div>
+            <div>
+                <div class="radio-container">
+                    <div class="radio-column radio-left-column"></div>
+                    <div class="radio-column radio-middle-column radio-group-white-box">
+                        <lightning-radio-group
+                            data-id="contactPointRadioGroup"
+                            name="contactPointOptions"
+                            label="Select an Option"
+                            options={contactPoints}
+                            value={selectedContactPoint}
+                            onchange={handleContactPointChange}
+                            variant="label-hidden">
+                        </lightning-radio-group>
+                    </div>
+                    <div class="radio-column radio-right-column"></div>
+                </div>
+            </div>
+            <div class="slds-col">
+                <template if:true={isSendCodeButtonDisabled}>
+                    <button type="submit" class="login-button-disabled slds-button" disabled>Send Code</button>
+                </template>
+                <template if:false={isSendCodeButtonDisabled}>
+                    <button type="submit" class="login-button slds-button" onclick={handleSendCode}>Send Code</button>
+                </template>            
+            </div>
+            <div class="slds-col">
+                <div class="text-align-left slds-var-p-top_x-small">
+                    <ul class="slds-list_dotted">
+                        <li><strong>If the mobile or email details above have changed please contact Monash Connect</strong></li>
+                    </ul>                    
+                </div>
+            </div>
+        </template>
+
+        <!-- Verify Code Panel -->
+        <template if:true={showVerifyCodePanel}>
+            <div class="slds-col verification-message">
+                A one time code has been sent to the selected {contactPointType}. 
+                To complete the login, enter this code then click <strong>Verify Code</strong> 
+            </div>
+            <div class="slds-col usernameColumn">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
+                        <lightning-icon class="input-icon" icon-name={contactPointIcon} alternative-text="username" size="xx-small"></lightning-icon>
+                        <input type="text" data-id="inputContactPoint" placeholder="" class="slds-input input-element" value={contactPoint} disabled />
+                        <span class={infoTooltipDisplayData.username}>Verification code sent to</span>
+                        <span class={requiredTooltipDisplayData.contactPoint}></span>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col usernameColumn">
+                <div class="slds-form-element">
+                    <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left tooltip">
+                        <lightning-icon class="input-icon" icon-name="utility:number_input" alternative-text="Enter code" size="xx-small"></lightning-icon>
+                        <input type="text" data-id="inputVerificationCode" placeholder="Enter code" class="slds-input input-element" value={verificationCode} onchange={handleVerificationCodeChange}/>
+                        <span class={requiredTooltipDisplayData.verificationCode}>Enter the code sent to your {contactPointType}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-col">
+                <template if:true={isVerifyCodeButtonDisabled}>
+                    <button type="submit" class="login-button-disabled slds-button" disabled>Verify Code</button>     
+                </template>
+                <template if:false={isVerifyCodeButtonDisabled}>
+                    <button type="submit" class="login-button slds-button" onclick={handleVerification}>Verify Code</button>     
+                </template> 
+            </div>
+            <div class="slds-col">
+                <div class="text-align-left slds-var-p-top_x-small">
+                    <ul class="slds-list_dotted">
+                        <li><strong>If the {contactPointType} above has changed please contact Monash Connect</strong></li>
+                    </ul>                    
+                </div>
+            </div>
+        </template>
+
+        <!-- Universal OTP Footer -->
+        <div class="slds-col">
+            <p class="text-align-center slds-var-p-around_x-small">
+                <lightning-formatted-url class="formatted-url-link" value="https://www.monash.edu/students/support/connect/contact-us" tooltip="Contact Monash Connect" label="Contact Monash Connect" target="_blank" ></lightning-formatted-url>
+            </p>
+        </div>
+    </div>  
+    
+</template>

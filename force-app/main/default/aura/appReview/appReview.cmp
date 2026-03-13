@@ -1,0 +1,851 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="appReviewCC">
+	
+	<!-- Parent Application -->
+	<aura:attribute name="appRecord" type="Application__c" 
+                    default="{'sobjectType' : 'Application__c',
+                             'Status__c' : '',
+                             'Guardian_Full_Name__c': '',
+                             'Guardian_Phone_Number__c': '',
+                             'Guardian_Email_Address__c': '',
+                             'Guardian_Relationship__c': ''}"/>
+    <aura:attribute name="appId" type="String" default=""/>
+    <!-- END - Parent Application -->                         
+
+    <!-- Application Related List -->
+    <aura:attribute name="coursePrefList" type="List" description="Application Course Preference List"/>
+    <aura:attribute name="qualMap" type="Map" description="Application Qualification List"/>
+    <aura:attribute name="workExpList" type="List" description="Application Work Experience List"/>
+    <aura:attribute name="appDocList" type="List" description="Application Documents List"/>
+
+    <aura:attribute name="citizenship" type="String" default=""/>
+
+    <!-- END - Application Related List -->
+
+    <!-- Fields used accross the page -->
+    <aura:attribute name="errorMessage" type="String" default="" />
+    <aura:attribute name="noDataText" type="String" default="No records to display." />
+    <aura:attribute name="printURL" type="String" default="" />
+    <!-- END - Fields used accross the page -->
+
+    <!-- Run on page load -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+    <!-- Loading Wheel -->
+    <aura:handler event="aura:waiting" action="{!c.waiting}"/> 
+    <aura:handler event="aura:doneWaiting" action="{!c.doneWaiting}"/>
+
+    <!-- global properties -->
+    <aura:attribute name="showContinue" type="Boolean" access="global" />
+    <aura:attribute name="showEdit" type="Boolean" access="global" />
+    <aura:attribute name="showPrint" type="Boolean" access="global" />
+
+    <div class="slds" id="printDiv">
+    	<!-- SPINNER -->
+        <span id="Accspinner" style="display:none">
+            <lightning:spinner variant="neutral" size="medium" alternativeText="Loading"/>
+        </span>
+        <!-- END - SPINNER -->
+        <!-- ERROR MESSAGE -->
+        <aura:If isTrue="{!v.errorMessage != ''}">
+            <div class="slds-notify slds-notify--alert slds-theme--error slds-theme--alert-texture" role="alert">
+                <span class="slds-assistive-text">Error</span>
+                {!v.errorMessage}
+            </div>
+        </aura:If>
+        <!-- END - ERROR MESSAGE -->
+
+        <div class="slds-section section-float ">
+    		<div class="slds-page-header">
+                <div class="slds-grid">
+                    <div class="slds-col slds-has-flexi-truncate">
+                        <p class="slds-text-heading--label">Review Application</p>
+                        <div class="slds-grid">
+                            <div class="slds-grid slds-no-space">
+                                <h1 class="slds-text-heading--medium slds-truncate" title="NewApplication">{!v.appRecord.Name}</h1>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!--<aura:If isTrue="{!!v.showPrint}">
+                        <div class="hideButton slds-float_right ">
+                            <lightning:button label="Print"
+                                iconPosition="left"
+                                iconName="utility:file"
+                                variant="brand"
+                                onclick="{!c.printForm}" >
+                            </lightning:button>
+                        </div>
+                    </aura:If>-->
+                </div>
+            </div>
+            <div class="slds-p-top--small" />
+            <center>
+                <div class="hideButton">
+                    <div class="slds-form-element">
+                        <aura:If isTrue="{!and(v.showEdit, v.appRecord.Status__c == 'Draft')}">
+                            <lightning:button label="Back"
+                                iconPosition="left"
+                                class="slds-button slds-button--neutral" 
+                                onclick="{!c.redirectToEditApplication}" />
+                        </aura:If>
+                        <aura:If isTrue="{!v.showPrint}">
+                            <ui:outputURL value="{!v.printURL}" label="Print Ready Version" target="_blank" class="slds-button slds-button--brand"/>
+                        </aura:If>
+                        <aura:If isTrue="{!and(v.showContinue, v.appRecord.Status__c == 'Draft')}">
+                            <lightning:button label="Continue"
+                                iconPosition="left"
+                                variant="brand"
+                                onclick="{!c.redirectToPaymentOrDec}" />
+                        </aura:If>
+                    </div>
+                </div>
+            </center>  
+
+            <aura:If isTrue="{!v.showPrint}">
+                <div class="slds-text--regular slds-p-vertical--medium">
+                    <aura:If isTrue="{!v.appRecord.Status__c == 'Draft'}">
+                        <aura:unescapedHtml value="{!$Label.c.App_CheckOtherRequirements}" />
+                        <aura:set attribute="else">
+                            <aura:unescapedHtml value="{!$Label.c.AppReviewSubmittedLabel}" />
+                        </aura:set>
+                    </aura:If>
+                </div>
+            </aura:If>
+            
+            <form class="slds-form--stacked">
+                <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                    <!-- STATUS -->
+                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                        <div class="slds-form-element__control">
+                            <div class="slds-text-title">Status</div>
+                            <h2 class="slds-text-heading--small" title="appStatus">{!v.appRecord.Status__c}</h2>
+                            <aura:set attribute="else">
+                                <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                            </aura:set>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <!-- MY DETAILS -->
+        <c:applicationPortal showButtons="false" />
+        <!-- END - MY DETAILS -->
+
+        <div class="slds-p-top--x-small" />
+
+        <!-- COURSE PREFERENCE -->
+        <div class="slds-section section-float ">
+            <div class="slds-col--padded">
+                <form class="slds-form--stacked">
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                        <div class="slds-p-vertical--x-large">
+                            <h3 class="slds-section__title">Course Preference</h3>
+                        </div>
+                    </div>
+
+        			<div class="slds-grid slds-wrap slds-grid--pull-padded">
+        				<aura:If isTrue="{!v.coursePrefList.length >0}">
+                            <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                                <thead>
+                                    <tr class="slds-text-title--caps">
+                                        <th scope="col" width="30%">
+                                            <div class="" >Course Code &amp; Title</div>
+                                        </th>
+                                        <th scope="col" width="20%">
+                                            <div class="slds-truncate">Mode</div>
+                                        </th>
+                                        <th scope="col" width="20%">
+                                            <div class="slds-truncate">Location</div>
+                                        </th>
+                                        <th scope="col" width="30%">
+                                            <div class="slds-truncate">Commencing</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <aura:iteration items="{!v.coursePrefList}" var="course">
+                                        <tr>
+                                            <td scope="col" width="30%">
+                                                <div class="wrapClass" title="{!course.courseDetail}">
+                                                    {!course.courseDetail}
+                                                </div>
+                                            </td>
+                                            <td scope="col" width="20%">
+                                                <div class="wrapClass" title="{!course.attMode}">
+                                                   {!course.attMode}
+                                                </div>
+                                            </td>
+                                            <td scope="col" width="20%">
+                                                <div class="wrapClass" title="{!course.location}">
+                                                   {!course.location}
+                                               </div>
+                                            </td>
+                                            <td scope="col" width="30%">
+                                                <div class="wrapClass" title="{!course.commencementPeriod}">
+                                                   {!course.commencementPeriod}
+                                               </div>
+                                            </td>
+                                        </tr>
+                                    </aura:iteration>
+                                </tbody>
+                            </table>
+                            <aura:set attribute="else">
+                                <ui:message severity="info">{!$Label.c.App_NoCoursePref}</ui:message>
+                            </aura:set>
+                        </aura:If>
+        			</div>
+        		</form>
+            </div>
+        </div>
+        <!-- END - COURSE PREFERENCE -->
+
+        <div class="slds-p-top--x-small" />
+
+        <!-- QUALIFICATION -->
+        <div class="slds-section section-float">
+            <div class="slds-col--padded">
+                <form class="slds-form--stacked">
+
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                        <div class="slds-p-vertical--x-large">
+                            <h3 class="slds-section__title">Tertiary Education/Post Secondary</h3>
+                        </div>
+                    </div>
+        			<aura:If isTrue="{!v.qualMap.Tertiary_Education.length > 0}">
+            			<aura:iteration items="{!v.qualMap.Tertiary_Education}" var="qualRec">
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-vertical--medium iteration-block">
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Country</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Country__c != '', qualRec.Contact_Qualification__r.Country__c != null)}">
+                                        <div class="slds-text-body--regular">{!qualRec.Contact_Qualification__r.Country__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">English instruction</div>
+                                    <div class="slds-text-body--regular checkbox-read">
+                                        <ui:outputCheckbox value="{!qualRec.Contact_Qualification__r.Instruction_in_English__c}"/>
+                                    </div>
+                                    <div class="slds-text-body--regular checkbox-print">
+                                        <aura:If isTrue="{!qualRec.Contact_Qualification__r.Instruction_in_English__c}" >
+                                            Yes
+                                            <aura:set attribute="else">
+                                                No
+                                            </aura:set>
+                                        </aura:If>
+                                    </div>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">First year enrolled</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.First_Year_Enrolled__c != '', qualRec.Contact_Qualification__r.First_Year_Enrolled__c != null)}">
+                                        <div class="slds-text-body--regular">{!qualRec.Contact_Qualification__r.First_Year_Enrolled__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Last year enrolled</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Last_Year_Enrolled__c != '', qualRec.Contact_Qualification__r.Last_Year_Enrolled__c != null)}">
+                                        <div class="slds-text-body--regular">{!qualRec.Contact_Qualification__r.Last_Year_Enrolled__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Level of completion</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Status__c != '', qualRec.Contact_Qualification__r.Status__c != null)}">
+                                        <div class="slds-text-body--regular">{!qualRec.Contact_Qualification__r.Status__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Qualification</div>
+                                    <aura:If isTrue="{!qualRec.Contact_Qualification__r.Qualification__c != null}">
+                                        {!qualRec.Contact_Qualification__r.Qualification__r.Qualification_Name__c}
+                                        <aura:set attribute="else">
+                                            {!qualRec.Contact_Qualification__r.Other_Qualification__c}
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Institution</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Institution_Name__c != null, qualRec.Contact_Qualification__r.Institution_Name__c != '')}">
+                                        {!qualRec.Contact_Qualification__r.Institution_Name__c}
+                                        <aura:set attribute="else">
+                                            {!qualRec.Contact_Qualification__r.Other_Institution__c}
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Document Attached</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Qualification_Document__r.Filename__c != '', qualRec.Contact_Qualification__r.Qualification_Document__r.Filename__c != null)}">
+                                        <div class="slds-text-body--regular"><lightning:icon iconName="utility:attach" size="x-small" alternativeText="attach"/>&nbsp;{!qualRec.Contact_Qualification__r.Qualification_Document__r.Filename__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Document Type</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Qualification_Document__r.Document_Type__c != '', qualRec.Contact_Qualification__r.Qualification_Document__r.Document_Type__c != null)}">
+                                        <div class="slds-text-body--regular">{!qualRec.Contact_Qualification__r.Qualification_Document__r.Document_Type__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Document Comments</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Qualification_Document__r.Comments__c != '', qualRec.Contact_Qualification__r.Qualification_Document__r.Comments__c != null)}">
+                                        <div class="slds-text-body--regular">{!qualRec.Contact_Qualification__r.Qualification_Document__r.Comments__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+            			     </div>
+                             <div class="slds-p-bottom--medium" />
+                        </aura:iteration>
+                        <aura:set attribute="else">
+                            <ui:message severity="info">{!v.noDataText}</ui:message>
+                        </aura:set>
+                    </aura:If>
+                    
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                        <div class="slds-p-vertical--x-large">
+                            <h3 class="slds-section__title">Secondary Education</h3>
+                        </div>
+                    </div>
+
+        			<aura:If isTrue="{!v.qualMap.Secondary_Education.length > 0}">
+                        <aura:iteration items="{!v.qualMap.Secondary_Education}" var="qualRec">
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-vertical--medium iteration-block">
+            				    <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Country</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Country__c != '', qualRec.Contact_Qualification__r.Country__c != null)}">
+                                        <div class="slds-text-body--regular">{!qualRec.Contact_Qualification__r.Country__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">English instruction</div>
+                                    <div class="slds-text-body--regular checkbox-read">
+                                        <ui:outputCheckbox value="{!qualRec.Contact_Qualification__r.Instruction_in_English__c}"/>
+                                    </div>
+                                    <div class="slds-text-body--regular checkbox-print">
+                                        <aura:If isTrue="{!qualRec.Contact_Qualification__r.Instruction_in_English__c}" >
+                                            Yes
+                                            <aura:set attribute="else">
+                                                No
+                                            </aura:set>
+                                        </aura:If>
+                                    </div>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Year</div>
+                                    <div class="slds-text-body--regular">{!qualRec.Contact_Qualification__r.Year_of_Completion__c}</div>
+                                </div>
+
+                                <aura:If isTrue="{!qualRec.Contact_Qualification__r.Country__c == 'Australia'}" >
+                                    <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                        <div class="slds-text-title">State</div>
+                                        <div class="slds-text-body--regular">{!qualRec.Contact_Qualification__r.State__c}</div>
+                                    </div>
+                                </aura:If>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Assessment Type/Qualification</div>
+                                    <aura:If isTrue="{!qualRec.Contact_Qualification__r.Qualification__c != null}">
+                                        {!qualRec.Contact_Qualification__r.Qualification__r.Qualification_Name__c}
+                                        <aura:set attribute="else">
+                                            {!qualRec.Contact_Qualification__r.Other_Qualification__c}
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">School</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Institution_Name__c != null, qualRec.Contact_Qualification__r.Institution_Name__c != '')}">
+                                        {!qualRec.Contact_Qualification__r.Institution_Name__c}
+                                        <aura:set attribute="else">
+                                            {!qualRec.Contact_Qualification__r.Other_Institution__c}
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Score/Result</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Score__c != '', qualRec.Contact_Qualification__r.Score__c != null)}">
+                                        <div class="slds-text-body--regular">{!qualRec.Contact_Qualification__r.Score__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text--regular">
+                                                <i>Not Specified</i>
+                                            </div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Document Attached</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Qualification_Document__r.Filename__c != '', qualRec.Contact_Qualification__r.Qualification_Document__r.Filename__c != null)}">
+                                        <div class="slds-text-body--regular"><lightning:icon iconName="utility:attach" size="x-small" alternativeText="attach"/>&nbsp;{!qualRec.Contact_Qualification__r.Qualification_Document__r.Filename__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Document Type</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Qualification_Document__r.Document_Type__c != '', qualRec.Contact_Qualification__r.Qualification_Document__r.Document_Type__c != null)}">
+                                        <div class="slds-text-body--regular">{!qualRec.Contact_Qualification__r.Qualification_Document__r.Document_Type__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Document Comments</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Qualification_Document__r.Comments__c != '', qualRec.Contact_Qualification__r.Qualification_Document__r.Comments__c != null)}">
+                                        <div class="slds-text-body--regular">{!qualRec.Contact_Qualification__r.Qualification_Document__r.Comments__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+                            </div>
+                            <div class="slds-p-bottom--medium" />
+            			</aura:iteration>
+                        <aura:set attribute="else">
+                            <ui:message severity="info">{!v.noDataText}</ui:message>
+                        </aura:set>
+        			</aura:If>
+                    
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                        <div class="slds-p-vertical--x-large">
+                            <h3 class="slds-section__title">Other Qualification</h3>
+                        </div>
+                    </div>
+
+                    <aura:If isTrue="{!v.qualMap.Other_Qualification.length > 0}">
+            			<aura:iteration items="{!v.qualMap.Other_Qualification}" var="qualRec">
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-vertical--medium iteration-block">
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Assessment Type/Qualification</div>
+                                    <aura:If isTrue="{!qualRec.Contact_Qualification__r.Qualification__c != null}">
+                                        {!qualRec.Contact_Qualification__r.Qualification__r.Qualification_Name__c}
+                                        <aura:set attribute="else">
+                                            {!qualRec.Contact_Qualification__r.Other_Qualification__c}
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Date Achieved</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Date_Achieved__c != '', qualRec.Contact_Qualification__r.Date_Achieved__c != null)}">
+                                        <ui:outputDate value="{!qualRec.Contact_Qualification__r.Date_Achieved__c}" format="dd/MMM/yyyy"/>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text--regular">
+                                                <i>Not Specified</i>
+                                            </div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Comments</div>
+                                    <div class="slds-text-body--regular">{!qualRec.Contact_Qualification__r.Other_Qualification_Comments__c}</div>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Document Attached</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Qualification_Document__r.Filename__c != '', qualRec.Contact_Qualification__r.Qualification_Document__r.Filename__c != null)}">
+                                        <div class="slds-text-body--regular"><lightning:icon iconName="utility:attach" size="x-small" alternativeText="attach"/>&nbsp;{!qualRec.Contact_Qualification__r.Qualification_Document__r.Filename__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Document Type</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Qualification_Document__r.Document_Type__c != '', qualRec.Contact_Qualification__r.Qualification_Document__r.Document_Type__c != null)}">
+                                        <div class="slds-text-body--regular">{!qualRec.Contact_Qualification__r.Qualification_Document__r.Document_Type__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Document Comments</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Qualification_Document__r.Comments__c != '', qualRec.Contact_Qualification__r.Qualification_Document__r.Comments__c != null)}">
+                                        <div class="slds-text-body--regular">{!qualRec.Contact_Qualification__r.Qualification_Document__r.Comments__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+                            </div>
+                            <div class="slds-p-bottom--medium" />
+            			</aura:iteration>
+                        <aura:set attribute="else">
+                            <ui:message severity="info">{!v.noDataText}</ui:message>
+                        </aura:set>
+        			</aura:If>
+
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                        <div class="slds-p-vertical--x-large">
+                            <h3 class="slds-section__title">English Test</h3>
+                        </div>
+                    </div>
+
+                    <aura:If isTrue="{!v.qualMap.English_Test.length > 0}">
+                        <aura:iteration items="{!v.qualMap.English_Test}" var="qualRec">
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-vertical--medium iteration-block">
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Admission Test Type</div>
+                                    <div class="slds-text-body--regular">{!qualRec.Contact_Qualification__r.Qualification__r.Qualification_Name__c}</div>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Is Completed</div>
+                                    <div class="slds-text-body--regular checkbox-read">
+                                        <ui:outputCheckbox value="{!qualRec.Contact_Qualification__r.isTestCompleted__c}"/>
+                                    </div>
+                                    <div class="slds-text-body--regular checkbox-print">
+                                        <aura:If isTrue="{!qualRec.Contact_Qualification__r.isTestCompleted__c}" >
+                                            Yes
+                                            <aura:set attribute="else">
+                                                No
+                                            </aura:set>
+                                        </aura:If>
+                                    </div>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">{!if(qualRec.Contact_Qualification__r.isTestCompleted__c,'Date Achieved', 'Date Planned' )}</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Date_Achieved__c != '', qualRec.Contact_Qualification__r.Date_Achieved__c != null)}">
+                                        <ui:outputDate value="{!qualRec.Contact_Qualification__r.Date_Achieved__c}" format="dd/MMM/yyyy"/>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text--regular">
+                                                <i>Not Specified</i>
+                                            </div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Overall Score</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Score__c != '', qualRec.Contact_Qualification__r.Score__c != null)}">
+                                        <ui:outputText value="{!qualRec.Contact_Qualification__r.Score__c}"/>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text--regular">
+                                                <i>Not Specified</i>
+                                            </div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Listening__c != '', qualRec.Contact_Qualification__r.Listening__c != null)}">
+                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space">
+                                        <div class="slds-text-title">Listening</div>
+                                        <ui:outputText value="{!qualRec.Contact_Qualification__r.Listening__c}"/>
+                                    </div>
+                                </aura:If>
+
+                                <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Reading__c != '', qualRec.Contact_Qualification__r.Reading__c != null)}">
+                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space">
+                                        <div class="slds-text-title">Reading</div>
+                                        <ui:outputText value="{!qualRec.Contact_Qualification__r.Reading__c}"/>
+                                    </div>
+                                </aura:If>
+
+                                <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Speaking__c != '', qualRec.Contact_Qualification__r.Speaking__c != null)}">
+                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space">
+                                        <div class="slds-text-title">Speaking</div>
+                                        <ui:outputText value="{!qualRec.Contact_Qualification__r.Speaking__c}"/>
+                                    </div>
+                                </aura:If>
+
+                                <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Writing__c != '', qualRec.Contact_Qualification__r.Writing__c != null)}">
+                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space">
+                                        <div class="slds-text-title">Writing</div>
+                                        <ui:outputText value="{!qualRec.Contact_Qualification__r.Writing__c}"/>
+                                    </div>
+                                </aura:If>
+
+                                <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Essay_Rating__c != '', qualRec.Contact_Qualification__r.Essay_Rating__c != null)}">
+                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space">
+                                        <div class="slds-text-title">Essay Rating</div>
+                                        <ui:outputText value="{!qualRec.Contact_Qualification__r.Essay_Rating__c}"/>
+                                    </div>
+                                </aura:If>
+
+                                <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Test_of_Written_English__c != '', qualRec.Contact_Qualification__r.Test_of_Written_English__c != null)}">
+                                    <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space">
+                                        <div class="slds-text-title">Test of Written English</div>
+                                        <ui:outputText value="{!qualRec.Contact_Qualification__r.Test_of_Written_English__c}"/>
+                                    </div>
+                                </aura:If>
+
+            					<div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Document Attached</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Qualification_Document__r.Filename__c != '', qualRec.Contact_Qualification__r.Qualification_Document__r.Filename__c != null)}">
+                                        <div class="slds-text-body--regular"><lightning:icon iconName="utility:attach" size="x-small" alternativeText="attach"/>&nbsp;{!qualRec.Contact_Qualification__r.Qualification_Document__r.Filename__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Document Type</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Qualification_Document__r.Document_Type__c != '', qualRec.Contact_Qualification__r.Qualification_Document__r.Document_Type__c != null)}">
+                                        <div class="slds-text-body--regular">{!qualRec.Contact_Qualification__r.Qualification_Document__r.Document_Type__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Document Comments</div>
+                                    <aura:If isTrue="{!and(qualRec.Contact_Qualification__r.Qualification_Document__r.Comments__c != '', qualRec.Contact_Qualification__r.Qualification_Document__r.Comments__c != null)}">
+                                        <div class="slds-text-body--regular">{!qualRec.Contact_Qualification__r.Qualification_Document__r.Comments__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+            				</div>
+                            <div class="slds-p-bottom--medium" />
+                        </aura:iteration>
+                        <aura:set attribute="else">
+                            <ui:message severity="info">{!v.noDataText}</ui:message>
+                        </aura:set>
+                    </aura:If>
+        		</form>
+            </div>
+        </div>
+        <!-- END - QUALIFICATION -->
+
+        <div class="slds-p-top--x-small" />
+
+        <!-- CREDIT INTENTION -->
+        <aura:If isTrue="{!v.qualMap.Tertiary_Education.length > 0}">
+            <c:appCreditIntention aura:id="appCredIntention" isReviewMode="true"/>
+        </aura:If>
+        <!-- END - CREDIT INTENTION -->
+
+        <div class="slds-p-top--x-small" />
+
+        <!-- WORK EXPERIENCE -->
+        <div class="slds-section section-float">
+            <div class="slds-col--padded">
+        		<form class="slds-form--stacked">
+                    <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                        <div class="slds-p-vertical--x-large">
+                            <h3 class="slds-section__title">Work Experience</h3>
+                        </div>
+                    </div>
+
+                    <aura:If isTrue="{!v.workExpList.length > 0}">
+                        <aura:iteration items="{!v.workExpList}" var="workExpRec">
+                            <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-vertical--medium iteration-block">
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Position</div>
+                                    <aura:If isTrue="{!and(workExpRec.Work_Experience__r.Position__c != '', workExpRec.Work_Experience__r.Position__c != null)}">
+                                        <div class="slds-text-body--regular">{!workExpRec.Work_Experience__r.Position__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Employer</div>
+                                    <aura:If isTrue="{!and(workExpRec.Work_Experience__r.Employer_Name__c != '', workExpRec.Work_Experience__r.Employer_Name__c != null)}">
+                                        <div class="slds-text-body--regular">{!workExpRec.Work_Experience__r.Employer_Name__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Start Date</div>
+                                    <aura:If isTrue="{!and(workExpRec.Work_Experience__r.Start_Date__c != '', workExpRec.Work_Experience__r.Start_Date__c != null)}">
+                                        <ui:outputDate value="{!workExpRec.Work_Experience__r.Start_Date__c}" format="dd/MMM/yyyy"/>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text--regular">
+                                                <i>Not Specified</i>
+                                            </div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">End Date</div>
+                                    <aura:If isTrue="{!and(workExpRec.Work_Experience__r.End_Date__c != '', workExpRec.Work_Experience__r.End_Date__c != null)}">
+                                        <ui:outputDate value="{!workExpRec.Work_Experience__r.End_Date__c}" format="dd/MMM/yyyy"/>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text--regular">
+                                                <i>Present</i>
+                                            </div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-1 slds-medium-size--1-of-1 slds-large-size--1-of-1  slds-has-divider--bottom-space ">
+                                    <h3>Contact Person</h3>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Given Name</div>
+                                    <aura:If isTrue="{!and(workExpRec.Work_Experience__r.Contact_Person_First_Name__c != '', workExpRec.Work_Experience__r.Contact_Person_First_Name__c != null)}">
+                                        <div class="slds-text-body--regular">{!workExpRec.Work_Experience__r.Contact_Person_First_Name__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Family Name</div>
+                                    <aura:If isTrue="{!and(workExpRec.Work_Experience__r.Contact_Person_Last_Name__c != '', workExpRec.Work_Experience__r.Contact_Person_Last_Name__c != null)}">
+                                        <div class="slds-text-body--regular">{!workExpRec.Work_Experience__r.Contact_Person_Last_Name__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Email</div>
+                                    <aura:If isTrue="{!and(workExpRec.Work_Experience__r.Contact_Person_Email__c != '', workExpRec.Work_Experience__r.Contact_Person_Email__c != null)}">
+                                        <div class="slds-text-body--regular">{!workExpRec.Work_Experience__r.Contact_Person_Email__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Contact Number</div>
+                                    <aura:If isTrue="{!and(workExpRec.Work_Experience__r.Contact_Person_Phone__c != '', workExpRec.Work_Experience__r.Contact_Person_Phone__c != null)}">
+                                        <div class="slds-text-body--regular">{!workExpRec.Work_Experience__r.Contact_Person_Phone__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Street</div>
+                                    <aura:If isTrue="{!and(workExpRec.Work_Experience__r.Contact_Person_Street__c != '', workExpRec.Work_Experience__r.Contact_Person_Street__c != null)}">
+                                        <div class="slds-text-body--regular">{!workExpRec.Work_Experience__r.Contact_Person_Street__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">City</div>
+                                    <aura:If isTrue="{!and(workExpRec.Work_Experience__r.Contact_Person_City__c != '', workExpRec.Work_Experience__r.Contact_Person_City__c != null)}">
+                                        <div class="slds-text-body--regular">{!workExpRec.Work_Experience__r.Contact_Person_City__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">State</div>
+                                    <aura:If isTrue="{!and(workExpRec.Work_Experience__r.Contact_Person_State__c != '', workExpRec.Work_Experience__r.Contact_Person_State__c != null)}">
+                                        <div class="slds-text-body--regular">{!workExpRec.Work_Experience__r.Contact_Person_State__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+
+                                <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                    <div class="slds-text-title">Postal Code</div>
+                                    <aura:If isTrue="{!and(workExpRec.Work_Experience__r.Contact_Person_PostalCode__c != '', workExpRec.Work_Experience__r.Contact_Person_PostalCode__c != null)}">
+                                        <div class="slds-text-body--regular">{!workExpRec.Work_Experience__r.Contact_Person_PostalCode__c}</div>
+                                        <aura:set attribute="else">
+                                            <div class="slds-text-body--regular opacity-5"><i>Not specified</i></div>
+                                        </aura:set>
+                                    </aura:If>
+                                </div>
+                            </div>
+                            <div class="slds-p-bottom--medium" />
+                        </aura:iteration>
+                        <aura:set attribute="else">
+                            <ui:message severity="info">{!v.noDataText}</ui:message>
+                        </aura:set>
+                    </aura:If>
+        		</form>
+            </div>
+        </div>
+        <!-- END - WORK EXPERIENCE -->
+        <!-- START PARENT GUARDIAN INFORMATION-->
+        <aura:If isTrue="{!and(v.appRecord.Guardian_Full_Name__c != '', v.appRecord.Guardian_Full_Name__c != null)}">
+            <div class="slds-section section-float">
+                <div class="slds-col--padded">
+                    <form class="slds-form--stacked">
+                        <div class="slds-grid slds-wrap slds-grid--pull-padded">
+                            <div class="slds-p-vertical--x-large">
+                                <h3 class="slds-section__title">Parent Guardian Information</h3>
+                            </div>
+                        </div>
+                        <div class="slds-grid slds-wrap slds-grid--pull-padded slds-p-vertical--medium iteration-block">
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                <div class="slds-text-title">Guardian Full Name</div>
+                                <div class="slds-text-body--regular">{!v.appRecord.Guardian_Full_Name__c}</div>
+                            </div>
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                <div class="slds-text-title">Guardian Phone Number</div>
+                                <div class="slds-text-body--regular">{!v.appRecord.Guardian_Phone_Number__c}</div>
+                            </div>
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                <div class="slds-text-title">Guardian Email Address</div>
+                                <div class="slds-text-body--regular">{!v.appRecord.Guardian_Email_Address__c}</div>
+                            </div>
+                            <div class="slds-p-horizontal--small slds-size--1-of-2 slds-medium-size--1-of-2 slds-large-size--1-of-2  slds-has-divider--bottom-space">
+                                <div class="slds-text-title">Guardian Full Name</div>
+                                <div class="slds-text-body--regular">{!v.appRecord.Guardian_Relationship__c}</div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </aura:If>
+        
+
+    </div>
+</aura:component>

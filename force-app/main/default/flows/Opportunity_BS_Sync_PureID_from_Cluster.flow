@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>Opportunities created in UNICRM, syncs the Pure Application Id &amp;  Pure Award Id from Cluster to Opportunity
+Migrated from the following field updates:
+- Sync Cluster Pure ApplicationID
+- Sync Cluster Pure AwardID</description>
+        <name>Sync_PURE_Appl_Award_IDs</name>
+        <label>Sync PURE Appl &amp; Award IDs</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.PURE_Application_ID__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Opportunity_Cluster__r.PURE_Application_ID__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>$Record.PURE_Award_ID__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Record.Opportunity_Cluster__r.PURE_Award_ID__c</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>Migrated from the: Sync_PureID_Cluster_Opportunity workflow rule
+For Enterprise Oppty created in CRM(NON PURE), the Pure Ids (Application &amp; Award) should be synced from Cluster to Opportunity&quot;</description>
+    <environments>Default</environments>
+    <interviewLabel>Opportunity : BS : Sync PureID from Cluster {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Opportunity : BS : Sync PureID from Cluster</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Sync_PURE_Appl_Award_IDs</targetReference>
+        </connector>
+        <filterFormula>AND(
+   {!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False,
+   CONTAINS({!$Label.Bypass_Specific_Flow}, &quot;Opportunity_BS_Sync_PureID_from_Cluster,&quot;) = false,
+   {!$Record.RecordType.DeveloperName} = &apos;Enterprise&apos;,
+   {!$Record.Opportunity_Cluster__c} &lt;&gt; null,
+   (ISNEW() ||  ISCHANGED({!$Record.Opportunity_Cluster__c})),
+   TEXT({!$Record.Source__c}) &lt;&gt; &apos;PURE&apos;, 
+   NOT(ISBLANK({!$Record.Opportunity_Cluster__r.PURE_Application_ID__c}))
+)</filterFormula>
+        <object>Opportunity</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

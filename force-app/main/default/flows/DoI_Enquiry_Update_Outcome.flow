@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>57.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <name>Set_Plan_Approved</name>
+        <label>Set Plan Approved</label>
+        <locationX>314</locationX>
+        <locationY>431</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Case_Outcome__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Plan Approved</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <name>Set_Plan_Not_Required</name>
+        <label>Set Plan Not Required</label>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Case_Outcome__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Plan Not Required</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <decisions>
+        <name>Set_Outcome</name>
+        <label>Set Outcome</label>
+        <locationX>446</locationX>
+        <locationY>323</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Management_Plan_Not_Required</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Management Plan Not Required</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Plan_Not_Required</targetReference>
+            </connector>
+            <label>Management Plan Not Required</label>
+        </rules>
+        <rules>
+            <name>Management_Plan_Approved</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Management Plan Approved</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Plan_Approved</targetReference>
+            </connector>
+            <label>Management Plan Approved</label>
+        </rules>
+        <rules>
+            <name>Management_Plan_Requested</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Plan Requested</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Management_Plan_Requested</targetReference>
+            </connector>
+            <label>Management Plan Requested</label>
+        </rules>
+    </decisions>
+    <description>SA-2106</description>
+    <environments>Default</environments>
+    <interviewLabel>DoI {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>DoI - Enquiry - Update Outcome</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Set_Management_Plan_Requested</name>
+        <label>Set Management Plan Requested</label>
+        <locationX>578</locationX>
+        <locationY>431</locationY>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>CE_Enquiry__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <inputAssignments>
+            <field>Management_Plan_Requested__c</field>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </inputAssignments>
+        <object>Case_Ext_DoI__c</object>
+    </recordUpdates>
+    <start>
+        <locationX>320</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Set_Outcome</targetReference>
+        </connector>
+        <filterFormula>{!$Record.RecordType.DeveloperName} = &quot;Declaration_of_Interest&quot;
+&amp;&amp;
+(ISCHANGED({!$Record.Status}) || ISNEW())
+&amp;&amp;
+(ISPICKVAL({!$Record.Status}, &quot;Management Plan Not Required&quot;) || ISPICKVAL({!$Record.Status}, &quot;Management Plan Approved&quot;) || ISPICKVAL({!$Record.Status}, &quot;Plan Requested&quot;))</filterFormula>
+        <object>Case</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

@@ -1,0 +1,19 @@
+<!--
+  @File Name          : offerConfirmDetails.html
+  @Description        : 
+  @Author             : jasmin.rudio@monash.edu
+  @Group              : Offer
+  @Last Modified By   : jasmin.rudio@monash.edu
+  @Last Modified On   : 3/16/2020, 12:24:14 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    3/2/2020   jasmin.rudio@monash.edu     Initial Version
+-->
+<template>
+  <template if:false={hasRendered}>
+      <lightning-spinner alternative-text="Loading"></lightning-spinner>
+  </template>
+    <template if:true={hasRendered}>
+            <lightning-formatted-rich-text value={contentSummary}></lightning-formatted-rich-text>
+    </template>
+</template>

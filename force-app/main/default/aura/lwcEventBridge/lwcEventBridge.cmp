@@ -1,0 +1,13 @@
+<!--
+Listen for certain lightning events that are not available in LWC and publish a message.
+-->
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId">
+    <aura:handler event="lightning:tabRefreshed" action="{! c.onTabRefreshed }"/>
+    <lightning:quickActionAPI aura:id="quickActionAPI" />
+    <lightning:messageChannel
+        type="AuraEventBridge__c"
+        aura:id="eventChannel"
+        onMessage="{!c.handleMessage}"
+        scope="APPLICATION"
+    />
+</aura:component>

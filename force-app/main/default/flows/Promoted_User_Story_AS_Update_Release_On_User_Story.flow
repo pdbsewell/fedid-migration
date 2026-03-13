@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>63.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <description>Update the release field on the related user stories originating to &apos;No Release Required&apos;. This is to tag remedy changes user stories to the right release record.</description>
+    <environments>Default</environments>
+    <interviewLabel>Promoted User Story : AS : Update Release On User Story {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Promoted User Story : AS : Update Release On User Story</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>Update the release field on the User Stories originating from Hotfix to &apos;No Release Required&apos;. This is for remedy user stories.</description>
+        <name>Update_Release_On_User_Story</name>
+        <label>Update Release On User Story</label>
+        <locationX>176</locationX>
+        <locationY>323</locationY>
+        <inputAssignments>
+            <field>copado__Release__c</field>
+            <value>
+                <stringValue>aGDOa0000000xphOAA</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record.copado__User_Story__r</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>50</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Release_On_User_Story</targetReference>
+        </connector>
+        <filterFormula>{!$Record.copado__Promotion__r.copado__Source_Environment__r.Name}=&apos;Hotfix&apos;</filterFormula>
+        <object>copado__Promoted_User_Story__c</object>
+        <recordTriggerType>Create</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

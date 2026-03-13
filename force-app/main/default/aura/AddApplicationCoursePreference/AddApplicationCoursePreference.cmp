@@ -1,0 +1,19 @@
+<aura:component implements="force:lightningQuickAction,lightning:actionOverride,force:hasRecordId,lightning:isUrlAddressable" access="global">
+    <!-- open subtab-->
+    <lightning:workspaceAPI aura:id="workspace" />
+    
+    <!-- component variables -->
+    <aura:attribute access="global" name="applicationId" type="Id" />
+    <aura:attribute access="global" name="openedOnRelatedList" type="String" default="relatedList" />
+     <!-- attributes set from CMTD Enhanced Related List -->   
+    <aura:attribute access="global" name="parentFieldName" type="String" />
+    <aura:attribute access="global" name="parentFieldId" type="String" />    
+
+    <!-- constructor -->
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <!-- add application course preference wizard -->
+    <aura:renderIf isTrue="{!v.applicationId}">
+        <c:addApplicationCoursePreferenceWizard applicationId="{!v.applicationId}" onrequestclose="{!c.closeTab}"/>
+    </aura:renderIf>
+</aura:component>

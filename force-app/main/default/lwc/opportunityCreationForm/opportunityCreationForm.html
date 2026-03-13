@@ -1,0 +1,50 @@
+<template>     
+    <lightning-record-edit-form object-api-name="Opportunity">
+        <lightning-layout size="12" multiple-rows="true">
+            <lightning-layout-item size="12" padding="around-small" >
+                <div style="background:rgb(220,220,220);padding:1%;" class="slds-text-title_bold">Opportunity Information</div>
+            </lightning-layout-item>
+            <lightning-layout-item size="12" padding="around-small" >
+                Please describe the opportunity you are pursuing with external partner(s). 
+            </lightning-layout-item> 
+            <lightning-layout-item size="6" padding="around-small" >
+                <lightning-input-field field-name="Name" required onchange={handleNameChange} ></lightning-input-field>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small" >
+                <lightning-input-field field-name="Description" onchange={handleDescriptionChange}></lightning-input-field>
+            </lightning-layout-item>
+			<!--ENGAGEIE-1730
+            <lightning-layout-item size="6" padding="around-small" >
+                <lightning-input-field data-id="primaryContactLookup" value={primaryContacttRecordId} field-name='PrimaryContact__c' onchange={handlePrimaryContactIdChange}></lightning-input-field> 
+            </lightning-layout-item>-->
+            <lightning-layout-item size="6" padding="around-small" >
+                <lightning-input-field data-id="accountLookup" value={accountRecordId} field-name='AccountId' onchange={handleAccountIdChange}></lightning-input-field>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small">
+                <lightning-input-field field-name="Amount" onchange={handleAmountChange}></lightning-input-field>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small" >
+                <lightning-input-field field-name='CloseDate' value={defaultClosedate} required onchange={handleCloseDateChange}></lightning-input-field>
+            </lightning-layout-item>
+			<!--ENGAGEIE-1730
+            <lightning-layout-item size="6" padding="around-small" >
+                <lightning-input-field field-name='Category__c' required onchange={handleCategoryChange}></lightning-input-field>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small" >
+                <lightning-input-field field-name='Visibility_Category__c' required onchange={handleVisibilityCatgChange}></lightning-input-field>
+            </lightning-layout-item>-->
+            <lightning-layout-item size="6" padding="around-small" >
+                <lightning-input-field field-name='Breadth_of_Strategic_Alignment__c' onchange={handleStrategicAlignmentChange}></lightning-input-field>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small" >
+                <lightning-input-field field-name='Service_Catalogue_Alignment__c' onchange={handleServiceCatalogueChange}></lightning-input-field>
+            </lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small" >
+                <lightning-input-field field-name='Broad_area_s_of_interest__c' onchange={handleAreasOfInterestChange}></lightning-input-field>
+            </lightning-layout-item>
+			<lightning-layout-item size="6" padding="around-small" >
+                <lightning-input type="checkbox" label="Add Default Opportunity Team" onchange={handleTeamMemberChange}> </lightning-input>
+            </lightning-layout-item>
+        </lightning-layout>
+    </lightning-record-edit-form>
+</template>

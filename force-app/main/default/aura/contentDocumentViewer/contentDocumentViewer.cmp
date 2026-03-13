@@ -1,0 +1,32 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes,flexipage:availableForAllPageTypes,force:hasRecordId" controller="ContentDocumentViewerController">
+    <aura:attribute name="contactDocumentId" type="Id" />
+    <aura:attribute name="contentDocumentId" type="Id" />
+    <aura:attribute name="contactDocument" type="Object" />
+    <aura:attribute name="contentDocument" type="Object" />
+    <aura:attribute name="documentName" type="String" />
+    <aura:attribute name="documentFileType" type="String" />
+    <aura:attribute name="documentLink" type="String" />
+    <aura:attribute name="documentThumbnailLink" type="String" />
+
+    <!-- constructor -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <!-- header start -->
+    <div class="slds-m-bottom_small" style="overflow: initial;z-index: 2;">   
+        <c:documentChecklistAssessmentInternalFilePreview conDocumentId="{!v.contactDocumentId}" fileIconUtil="{!v.documentFileType}" contentDocumentId="{!v.contentDocumentId}" /> 
+    </div>
+
+    <!-- file viewer -->
+    <aura:if isTrue="{!v.contentDocumentId}">
+        <article class="slds-card" style="z-index: 1;border-bottom: 1px solid #dddbda;background-clip: padding-box; box-shadow: 0 2px 2px 0 rgba(0,0,0,.1); border: 1px solid #dddbda;">
+            <div class="slds-card__body slds-card__body_inner">
+                <aura:if isTrue="{!v.documentFileType == 'doctype:pdf'}">
+                    <c:contentDocumentPdfViewer fileId="{!v.contentDocumentId}" heightInRem="46" />
+                </aura:if>                
+                <aura:if isTrue="{!v.documentFileType != 'doctype:pdf'}">            
+                    <iframe title="nonPdfViewer" src="{!v.documentLink}" style="border: 0; width: 100%; height: 90rem; object-fit:cover;" />
+                </aura:if>
+            </div>
+        </article>
+    </aura:if>
+</aura:component>

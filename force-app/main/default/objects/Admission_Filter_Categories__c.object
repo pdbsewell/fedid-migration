@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>List</customSettingsType>
+    <description>Stores all sort of admission filters that is needed for the Real time sync to callista</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Admission_Categories__c</fullName>
+        <description>List of categories the applications should belong to</description>
+        <inlineHelpText>List of categories the applications should belong to</inlineHelpText>
+        <label>Admission Categories</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Min_Year__c</fullName>
+        <description>The year to filter out past applications</description>
+        <externalId>false</externalId>
+        <inlineHelpText>The year to filter out past applications</inlineHelpText>
+        <label>Min. Year</label>
+        <length>5</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Admission Filter Categories</label>
+    <visibility>Public</visibility>
+</CustomObject>

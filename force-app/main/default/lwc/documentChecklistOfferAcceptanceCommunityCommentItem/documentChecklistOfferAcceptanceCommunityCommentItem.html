@@ -1,0 +1,52 @@
+<template>
+    <div class="slds-timeline__item_expandable slds-timeline__item_task slds-is-open slds-m-left_x-small">
+        <div class="slds-media">
+            <div class="slds-media__figure">
+                <button class="slds-button slds-button_icon" aria-controls="task-item-expanded" aria-expanded="true" onclick={toggleComments}>
+                    <!-- toggle show comments -->
+                    <template if:true={isCommentsOpened}>
+                        <lightning-icon icon-name="utility:chevrondown" size="x-small"></lightning-icon>
+                    </template>
+                    <template if:false={isCommentsOpened}>
+                        <lightning-icon icon-name="utility:chevronright" size="x-small"></lightning-icon>
+                    </template>
+                </button>
+                <div class="slds-icon_container slds-icon-standard-task slds-timeline__icon">
+                    <lightning-icon class="slds-p-around_xx-small" icon-name="utility:note" size="x-small" variant="inverse"></lightning-icon>
+                </div>
+            </div>
+            <div class="slds-media__body">
+                <div class="slds-grid slds-grid_align-spread">
+                    <div class="slds-grid slds-grid_vertical-align-center slds-truncate_container_75 slds-no-space">
+                        <span class="slds-truncate">
+                            <template if:false={isCommentsRead}>
+                                <template if:false={forceRead}>                                        
+                                    <lightning-icon icon-name="utility:notification" variant="error" size="small"></lightning-icon>
+                                    &nbsp;
+                                </template>
+                            </template>
+                            <a href="javascript:void(0);" style="text-decoration: none; font-size: 20px; cursor: context-menu;">
+                                <template if:true={assessorView}>
+                                    {commentItem.contentNote.CreatedBy.Name} added a comment
+                                </template>
+                                <template if:false={assessorView}>
+                                    Monash University added a comment
+                                </template>                        
+                            </a>
+                        </span>
+                    </div>
+                    <div class="slds-timeline__actions slds-timeline__actions_inline">
+                        <p class="slds-timeline__date">
+                            <lightning-formatted-date-time value={commentItem.contentNote.CreatedDate} hour="2-digit" minute="2-digit"></lightning-formatted-date-time> | <lightning-formatted-date-time value={commentItem.contentNote.CreatedDate} year="numeric" month="numeric" day="numeric"></lightning-formatted-date-time>
+                        </p>
+                    </div>
+                </div>
+                <template if:true={isCommentsOpened}>
+                    <article class="slds-box slds-timeline__item_details slds-theme_shade slds-m-top_x-small slds-m-horizontal_xx-small slds-p-around_small" aria-hidden="false">
+                        <lightning-formatted-rich-text value={commentItem.noteDetails}></lightning-formatted-rich-text>
+                    </article>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

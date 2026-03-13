@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <classAccesses>
+        <apexClass>CampaignMemberServices</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <description>Permission set to assign to SMC users to access Consent Management</description>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>CampaignMember.Lead_Contact_ID_18_digits__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>CampaignMember.Subscriptions_List__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>SMC - Consent Management</label>
+</PermissionSet>

@@ -1,0 +1,75 @@
+.THIS ul {
+    padding:0;
+}
+
+.THIS .divider-style {
+    border-bottom: solid 1px #979797;
+    list-style-type: none !important; /*NG(22.01.2018) : DCXCRM-1275*/
+}
+
+.THIS .faq-list {
+    color: #0066CC !important;
+    font-family: Arial,Helvetica,sans-serif;
+    font-weight:400;
+    font-size:1rem;
+}
+
+.THIS .faq-text-color {
+    color: #006dae; 
+}
+
+.THIS .faq-list a {
+    text-decoration:none;
+}
+
+.THIS .faq-text-responsive {
+    color: #006dae; 
+    font-weight: 400;
+    font-family: "Century Schoolbook", Georgia, "Times New Roman", Times, serif;
+    font-size: 1.5rem ;
+}
+
+.THIS .hover-state:hover {
+    text-decoration:underline;    
+}
+
+.THIS .background-white {
+    background-color: #fff;
+}
+
+.THIS .overflow {
+    position: relative !important;
+    width: 100vw !important;
+    left: calc(-50vw + 50%) !important;
+}
+
+/*MEDIA QUERIES*/
+
+/* Custom, iPhone Retina*/ 
+@media only screen and (min-width: 320px)  and (max-width : 479px) {
+    .THIS .remove-margin-mobile-view div {
+        margin-right: 0rem !important;
+        margin-left: 0rem !important;
+        padding-left: 0.2rem;
+        padding-right: 0.2rem;
+    }
+
+    .THIS .faq-text-responsive {
+        display: flex;
+        justify-content: center !important;
+        padding-left: 0rem;
+    }
+}
+
+/*medium sized screens*/
+@media only screen and (min-width: 480px)  and (max-width : 767px) {
+
+    .THIS .remove-margin-mobile-view div {
+        margin-right: 0.5rem !important;
+        margin-left: 0.5rem !important;
+    }
+
+    .THIS .faq-text-responsive {
+        padding-left: 0rem !important;
+    }
+}

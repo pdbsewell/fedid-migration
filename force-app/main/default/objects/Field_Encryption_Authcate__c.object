@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>custom setting for authcate field encryption</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Encrypt__c</fullName>
+        <defaultValue>true</defaultValue>
+        <description>By default it is checked. This drives the encryption of Authcate</description>
+        <label>Encrypt</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Role__c</fullName>
+        <description>This will contain the roles where Authcate will be masked when displayed.</description>
+        <label>Role</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>TextArea</type>
+    </fields>
+    <label>Field Encryption Authcate</label>
+    <visibility>Public</visibility>
+</CustomObject>

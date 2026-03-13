@@ -1,0 +1,38 @@
+<aura:component controller="EngageCSVParserController">
+    <aura:attribute name="rows" type="Object[]" access="public" description="The data rows from the parser"/>
+    <aura:attribute name="headers" type="String[]" access="public" description="The header row from the parser"/>
+
+	<aura:attribute name="file" type="Object"/>
+	<aura:attribute name="fileName" type="String"/>
+	<aura:attribute name="isParsing" type="Boolean" default="false"/>
+	<aura:attribute name="showTable" type="Boolean"/>
+	<aura:attribute name="chooseFileString" type="String" default="Choose File"/>
+	<aura:attribute name="recordId" type="Id"/>
+	<aura:attribute name="errorMessage" type="String" default=""/>
+
+    <ltng:require scripts="{!$Resource.CSVParser}"/>
+
+    <aura:if isTrue="{!v.errorMessage}">
+    	<div class="slds-m-bottom--small">
+        	<lightning:textArea value="{!v.errorMessage}" label="Please resolve the following before creating event members:"/>
+    	</div>
+    </aura:if>
+
+    <div class="slds-p-horizontal_xx-small" >
+        <aura:if isTrue="{!v.isParsing}">
+            <lightning:spinner size="medium"/>
+        </aura:if>      
+
+			<header class="slds-media slds-media_center">
+				<div class="slds-media__body">
+				<lightning:input class="slds-p-vertical_small" name="fileUpload" type="file" label="{!v.chooseFileString}" multiple="false" accept=".csv" onchange="{!c.parseFile}" disabled="{!v.isParsing}"/>
+				</div>
+				
+				<aura:if isTrue="{!v.showTable}">
+				<lightning:button class="slds-float--right" variant="brand" label="Create Event Members" title="Create Event Members" onclick="{! c.handleCreateEventMembers }" />
+			</aura:if>
+		</header>
+
+    </div>
+
+</aura:component>

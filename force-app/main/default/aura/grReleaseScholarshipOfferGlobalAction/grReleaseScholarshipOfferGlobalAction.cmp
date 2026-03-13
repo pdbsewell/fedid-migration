@@ -1,0 +1,11 @@
+<aura:component implements="force:lightningQuickAction,force:hasRecordId" access="global">
+    <aura:html tag="style">
+        .slds-modal__container{
+            max-width: 100rem !important;
+            width:100% !important;
+        }
+    </aura:html>
+<div class="custom-modal-container">   
+<c:grReleaseScholarshipOfferAction recordId="{!v.recordId}" />
+</div> 
+</aura:component>

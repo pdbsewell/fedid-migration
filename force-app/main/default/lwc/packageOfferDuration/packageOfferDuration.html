@@ -1,0 +1,139 @@
+<!--
+  @File Name          : packageOfferDuration.html
+  @Description        : 
+  @Author             : Jasmin Joy Rudio
+  @Group              : 
+  @Last Modified By   : ChangeMeIn@UserSettingsUnder.SFDoc
+  @Last Modified On   : 11/26/2019, 2:31:14 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    10/21/2019   Jasmin Joy Rudio     Initial Version
+-->
+<template>
+    <template if:true={sortedAcpList}>
+        <div class="slds-scrollable slds-grow">
+            <div class="slds-scrollable_y">
+                    <table class="slds-table slds-no-row-hover slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols"
+                    role="grid">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th aria-label="ACP ID" aria-sort="none" scope="col" style="width:8.75rem">
+                                <div class="slds-truncate" title="ACP ID">ACP ID</div>
+                            </th>
+                            <th aria-label="Course Name" aria-sort="none" scope="col">
+                                <div class="slds-truncate" title="Course Name">Course Name</div>
+                            </th>
+                            <th aria-label="Approved Credit Points" aria-sort="none" scope="col">
+                                <div class="slds-truncate" title="Approved Credit Points">Approved Credit Points</div>
+                            </th>
+                            <th aria-label="Start Date" aria-sort="none" scope="col">
+                                <div class="slds-truncate" title="Start Date">Start Date</div>
+                            </th>
+                            <th aria-label="End Date" aria-sort="none" scope="col">
+                                <div class="slds-truncate" title="End Date">End Date</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template for:each={sortedAcpList} for:item="acp">
+                            <tr key={acp.Id} class="slds-hint-parent">
+                                <th scope="row">
+                                    <div class="slds-truncate" title={acp.ACP_ID__c}>
+                                        <lightning-formatted-url value={acp.ACP_Url__c} label={acp.ACP_ID__c}
+                                            target="_blank"></lightning-formatted-url>
+                                    </div>
+                                </th>
+                                <td role="gridcell">
+                                    <div class="slds-truncate" title={acp.Course_Title__c}>{acp.Course_Title__c}</div>
+                                </td>
+                                <td role="gridcell">
+                                    <div class="slds-truncate" title={acp.Approved_Credit_Points__c}>
+                                        {acp.Approved_Credit_Points__c}
+                                    </div>
+                                </td>
+                                <td role="gridcell">
+                                    <div class="slds-truncate" title={acp.Course_Start_Date_Updated__c}>
+                                        <lightning-formatted-date-time value={acp.Course_Start_Date_Updated__c}></lightning-formatted-date-time>
+                                    </div>
+                                </td>
+                                <td role="gridcell">
+                                    <div class="slds-truncate" title={acp.Course_End_Date_Updated__c}>
+                                        <lightning-formatted-date-time value={acp.Course_End_Date_Updated__c}></lightning-formatted-date-time>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="slds-form" style="margin-bottom: 10px;">
+            <div class="slds-form-element slds-form-element_horizontal">
+                <label class="slds-form-element__label" for="form-element-agent">Agent</label>
+                <div class="slds-form-element__control">
+                    <lightning-input id="form-element-agent" value={agentName} readonly></lightning-input>
+                </div>
+            </div>
+            <div class="slds-form-element slds-form-element_horizontal">
+                <label class="slds-form-element__label" for="signatureType">Signature Type</label>
+                <lightning-combobox
+                        id="signatureType"
+                        name="signatureType"
+                        placeholder="Select Signature Type"
+                        options={signatypeTypeOptions}
+                        onchange={handleSignatureSelection}
+                        value={signatureType}
+                        required
+                        read-only={defaultSignType}
+                ></lightning-combobox> 
+            </div>
+            <div class="slds-form-element slds-form-element_horizontal">
+                <label class="slds-form-element__label" for="form-element-01">{offerDurationLabel}</label>
+                <div class="slds-form-element__control" style="width: 50%;height: 10px;">
+                    <lightning-input id="form-element-01" value={monthsBetween} read-only class="center-text"></lightning-input>
+                </div>
+            </div>
+            <br />
+
+            <div class="slds-form-element slds-form-element_horizontal">
+                <label class="slds-form-element__label" for="form-element-01b">{currentStudentFieldInfo.label}?</label>
+                <lightning-helptext content={currentStudentFieldInfo.inlineHelpText} ></lightning-helptext>
+                <div class="slds-form-element__control" style="width: 50%;height: 10px;">
+                    <lightning-input id="form-element-01b" value={oppRec.Is_Current_MU_Student__c} type="checkbox" class="center-checkbox" onchange={handleCurrentStudentChange}></lightning-input>
+                </div>
+            </div>           
+            
+            <template if:true={isNotDomesticOffer}>
+                <div class="slds-form-element slds-form-element_compound">
+                    <div class="slds-form-element__control">
+                        <div class="slds-form-element__row">
+                            <div class="slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                    <label class="slds-form-element__label" for="input-01">Visa/OSHC Start Date</label>
+                                    <lightning-input type="date" name="startDateInput" id="input-01" class="date-input"
+                                                    value={oppRec.Visa_Start_Date__c} onchange={handleDateChange}>
+                                    </lightning-input> 
+                                </div>
+                            </div>
+                            <div class="slds-size_1-of-2">
+                                <div class="slds-form-element">
+                                        <label class="slds-form-element__label" for="input-02">Visa/OSHC End Date</label>
+                                    <lightning-input type="date" name="lastDateInput" id="input-02" class="date-input"
+                                                    value={oppRec.Visa_End_Date__c} onchange={handleDateChange}>
+                                    </lightning-input> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+    </template>
+       
+    
+    <div if:false={sortedAcpList}>
+        Please select at least one ACP
+    </div>
+    
+
+</template>

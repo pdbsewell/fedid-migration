@@ -1,0 +1,757 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>used to join contacts to contacts, and describe the link between them</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>false</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Contact__c</fullName>
+        <description>the student side of the relationship being described</description>
+        <label>Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipName>Relationships</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>false</reparentableMasterDetail>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>true</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>End_Date__c</fullName>
+        <label>End Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>IsActive__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>ndicates whether a record is active</description>
+        <label>IsActive</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Reciprocal_Relationship__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>A lookup field which links the current relationship record to the reciprocal relationship record.</description>
+        <label>Reciprocal Relationship</label>
+        <referenceTo>Contact_Relationship__c</referenceTo>
+        <relationshipLabel>Contact Relationships</relationshipLabel>
+        <relationshipName>Relationships</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Related_Contact__c</fullName>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>the relation side of the relationship being described</description>
+        <label>To Related Contact</label>
+        <referenceTo>Contact</referenceTo>
+        <relationshipLabel>Contact Relationships (Relation)</relationshipLabel>
+        <relationshipName>Relationships1</relationshipName>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Relationship_Type__c</fullName>
+        <description>Type of relationship being described</description>
+        <label>Relationship Type</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Parent</fullName>
+                    <default>false</default>
+                    <label>Parent</label>
+                </value>
+                <value>
+                    <fullName>Guardian</fullName>
+                    <default>false</default>
+                    <label>Guardian</label>
+                </value>
+                <value>
+                    <fullName>Emergency Contact</fullName>
+                    <default>false</default>
+                    <label>Emergency Contact</label>
+                </value>
+                <value>
+                    <fullName>Acquaintance</fullName>
+                    <default>false</default>
+                    <label>Acquaintance</label>
+                </value>
+                <value>
+                    <fullName>Assistant</fullName>
+                    <default>false</default>
+                    <label>Assistant</label>
+                </value>
+                <value>
+                    <fullName>Aunt/Uncle</fullName>
+                    <default>false</default>
+                    <label>Aunt/Uncle</label>
+                </value>
+                <value>
+                    <fullName>Child</fullName>
+                    <default>false</default>
+                    <label>Child</label>
+                </value>
+                <value>
+                    <fullName>Cousin</fullName>
+                    <default>false</default>
+                    <label>Cousin</label>
+                </value>
+                <value>
+                    <fullName>Deceased Spouse</fullName>
+                    <default>false</default>
+                    <label>Deceased Spouse</label>
+                </value>
+                <value>
+                    <fullName>Ex-Partner</fullName>
+                    <default>false</default>
+                    <label>Ex-Partner</label>
+                </value>
+                <value>
+                    <fullName>Ex-Spouse</fullName>
+                    <default>false</default>
+                    <label>Ex-Spouse</label>
+                </value>
+                <value>
+                    <fullName>Former Assistant</fullName>
+                    <default>false</default>
+                    <label>Former Assistant</label>
+                </value>
+                <value>
+                    <fullName>Former Manager</fullName>
+                    <default>false</default>
+                    <label>Former Manager</label>
+                </value>
+                <value>
+                    <fullName>Friend</fullName>
+                    <default>false</default>
+                    <label>Friend</label>
+                </value>
+                <value>
+                    <fullName>Grand Child</fullName>
+                    <default>false</default>
+                    <label>Grand Child</label>
+                </value>
+                <value>
+                    <fullName>Grand Parent</fullName>
+                    <default>false</default>
+                    <label>Grand Parent</label>
+                </value>
+                <value>
+                    <fullName>Great Aunt/Uncle</fullName>
+                    <default>false</default>
+                    <label>Great Aunt/Uncle</label>
+                </value>
+                <value>
+                    <fullName>Great Grand Child</fullName>
+                    <default>false</default>
+                    <label>Great Grand Child</label>
+                </value>
+                <value>
+                    <fullName>Great Grand Parent</fullName>
+                    <default>false</default>
+                    <label>Great Grand Parent</label>
+                </value>
+                <value>
+                    <fullName>Great Niece/Nephew</fullName>
+                    <default>false</default>
+                    <label>Great Niece/Nephew</label>
+                </value>
+                <value>
+                    <fullName>Legal Guardian</fullName>
+                    <default>false</default>
+                    <label>Legal Guardian</label>
+                </value>
+                <value>
+                    <fullName>Manager</fullName>
+                    <default>false</default>
+                    <label>Manager</label>
+                </value>
+                <value>
+                    <fullName>Mother/Father in Law</fullName>
+                    <default>false</default>
+                    <label>Mother/Father in Law</label>
+                </value>
+                <value>
+                    <fullName>Neighbor</fullName>
+                    <default>false</default>
+                    <label>Neighbor</label>
+                </value>
+                <value>
+                    <fullName>Niece/Nephew</fullName>
+                    <default>false</default>
+                    <label>Niece/Nephew</label>
+                </value>
+                <value>
+                    <fullName>Other Relative</fullName>
+                    <default>false</default>
+                    <label>Other Relative</label>
+                </value>
+                <value>
+                    <fullName>Partner</fullName>
+                    <default>false</default>
+                    <label>Partner</label>
+                </value>
+                <value>
+                    <fullName>Philanthropy Advisor</fullName>
+                    <default>false</default>
+                    <label>Philanthropy Advisor</label>
+                </value>
+                <value>
+                    <fullName>Philanthropy Client</fullName>
+                    <default>false</default>
+                    <label>Philanthropy Client</label>
+                </value>
+                <value>
+                    <fullName>Scheduler</fullName>
+                    <default>false</default>
+                    <label>Scheduler</label>
+                </value>
+                <value>
+                    <fullName>Senator</fullName>
+                    <default>false</default>
+                    <label>Senator</label>
+                </value>
+                <value>
+                    <fullName>Sibling</fullName>
+                    <default>false</default>
+                    <label>Sibling</label>
+                </value>
+                <value>
+                    <fullName>Sister/Brother in Law</fullName>
+                    <default>false</default>
+                    <label>Sister/Brother in Law</label>
+                </value>
+                <value>
+                    <fullName>Son/Daughter in Law</fullName>
+                    <default>false</default>
+                    <label>Son/Daughter in Law</label>
+                </value>
+                <value>
+                    <fullName>Spouse</fullName>
+                    <default>false</default>
+                    <label>Spouse</label>
+                </value>
+                <value>
+                    <fullName>Step Brother/Sister</fullName>
+                    <default>false</default>
+                    <label>Step Brother/Sister</label>
+                </value>
+                <value>
+                    <fullName>Step Child</fullName>
+                    <default>false</default>
+                    <label>Step Child</label>
+                </value>
+                <value>
+                    <fullName>Step Mother/Father</fullName>
+                    <default>false</default>
+                    <label>Step Mother/Father</label>
+                </value>
+                <value>
+                    <fullName>Ward</fullName>
+                    <default>false</default>
+                    <label>Ward</label>
+                </value>
+                <value>
+                    <fullName>Widow</fullName>
+                    <default>false</default>
+                    <label>Widow</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Source__c</fullName>
+        <description>Indicates how the information was acquired.</description>
+        <label>Source</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetName>Contact_Point_Source</valueSetName>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Start_Date__c</fullName>
+        <description>Effective from/start date</description>
+        <label>Start Date</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <label>Status</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Current</fullName>
+                    <default>false</default>
+                    <label>Current</label>
+                </value>
+                <value>
+                    <fullName>Former</fullName>
+                    <default>false</default>
+                    <label>Former</label>
+                </value>
+                <value>
+                    <fullName>Suspended</fullName>
+                    <default>false</default>
+                    <label>Suspended</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Type__c</fullName>
+        <description>The Type of the relationship, i.e. describing the connection between contacts/persons.</description>
+        <inlineHelpText>Describe this person&apos;s relationship to the new related contact</inlineHelpText>
+        <label>Has this relationship</label>
+        <required>true</required>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Child</fullName>
+                    <default>false</default>
+                    <label>Child</label>
+                </value>
+                <value>
+                    <fullName>Cousin</fullName>
+                    <default>false</default>
+                    <label>Cousin</label>
+                </value>
+                <value>
+                    <fullName>Friend</fullName>
+                    <default>false</default>
+                    <label>Friend</label>
+                </value>
+                <value>
+                    <fullName>Grandchild</fullName>
+                    <default>false</default>
+                    <label>Grand Child</label>
+                </value>
+                <value>
+                    <fullName>Grandparent</fullName>
+                    <default>false</default>
+                    <label>Grand Parent</label>
+                </value>
+                <value>
+                    <fullName>Parent</fullName>
+                    <default>false</default>
+                    <label>Parent</label>
+                </value>
+                <value>
+                    <fullName>Partner</fullName>
+                    <default>false</default>
+                    <label>Partner</label>
+                </value>
+                <value>
+                    <fullName>Aunt/Uncle</fullName>
+                    <default>false</default>
+                    <label>Aunt/Uncle</label>
+                </value>
+                <value>
+                    <fullName>Great Aunt/Uncle</fullName>
+                    <default>false</default>
+                    <label>Great Aunt/Uncle</label>
+                </value>
+                <value>
+                    <fullName>Great Grand Child</fullName>
+                    <default>false</default>
+                    <label>Great Grand Child</label>
+                </value>
+                <value>
+                    <fullName>Great Grand Parent</fullName>
+                    <default>false</default>
+                    <label>Great Grand Parent</label>
+                </value>
+                <value>
+                    <fullName>Great Niece/Nephew</fullName>
+                    <default>false</default>
+                    <label>Great Niece/Nephew</label>
+                </value>
+                <value>
+                    <fullName>Mother/Father in Law</fullName>
+                    <default>false</default>
+                    <label>Mother/Father in Law</label>
+                </value>
+                <value>
+                    <fullName>Niece/Nephew</fullName>
+                    <default>false</default>
+                    <label>Niece/Nephew</label>
+                </value>
+                <value>
+                    <fullName>Sibling</fullName>
+                    <default>false</default>
+                    <label>Sibling</label>
+                </value>
+                <value>
+                    <fullName>Sister/Brother in Law</fullName>
+                    <default>false</default>
+                    <label>Sister/Brother in Law</label>
+                </value>
+                <value>
+                    <fullName>Son/Daughter in Law</fullName>
+                    <default>false</default>
+                    <label>Son/Daughter in Law</label>
+                </value>
+                <value>
+                    <fullName>Spouse</fullName>
+                    <default>false</default>
+                    <label>Spouse</label>
+                </value>
+                <value>
+                    <fullName>Step Child</fullName>
+                    <default>false</default>
+                    <label>Step Child</label>
+                </value>
+                <value>
+                    <fullName>Step Mother/Father</fullName>
+                    <default>false</default>
+                    <label>Step Mother/Father</label>
+                </value>
+                <value>
+                    <fullName>Widow</fullName>
+                    <default>false</default>
+                    <label>Widow/Widower</label>
+                </value>
+                <value>
+                    <fullName>Deceased Spouse</fullName>
+                    <default>false</default>
+                    <label>Spouse (Deceased)</label>
+                </value>
+                <value>
+                    <fullName>Colleague</fullName>
+                    <default>false</default>
+                    <label>Colleague</label>
+                </value>
+                <value>
+                    <fullName>Assistant</fullName>
+                    <default>false</default>
+                    <label>Assistant</label>
+                </value>
+                <value>
+                    <fullName>Estate Executor</fullName>
+                    <default>false</default>
+                    <label>Estate Executor</label>
+                </value>
+                <value>
+                    <fullName>Estate Testator</fullName>
+                    <default>false</default>
+                    <label>Estate Testator</label>
+                </value>
+                <value>
+                    <fullName>Guardian</fullName>
+                    <default>false</default>
+                    <label>Guardian</label>
+                </value>
+                <value>
+                    <fullName>Ward</fullName>
+                    <default>false</default>
+                    <label>Ward</label>
+                </value>
+                <value>
+                    <fullName>Advisee</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Advisee</label>
+                </value>
+                <value>
+                    <fullName>Advisor</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Advisor</label>
+                </value>
+                <value>
+                    <fullName>Aunt</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Aunt</label>
+                </value>
+                <value>
+                    <fullName>Coworker</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Coworker</label>
+                </value>
+                <value>
+                    <fullName>Daughter</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Daughter</label>
+                </value>
+                <value>
+                    <fullName>Emergency Contact</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Emergency Contact</label>
+                </value>
+                <value>
+                    <fullName>Employee</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Employee</label>
+                </value>
+                <value>
+                    <fullName>Employer</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Employer</label>
+                </value>
+                <value>
+                    <fullName>Family</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Family</label>
+                </value>
+                <value>
+                    <fullName>Father</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Father</label>
+                </value>
+                <value>
+                    <fullName>Granddaughter</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Granddaughter</label>
+                </value>
+                <value>
+                    <fullName>Grandfather</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Grandfather</label>
+                </value>
+                <value>
+                    <fullName>Grandmother</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Grandmother</label>
+                </value>
+                <value>
+                    <fullName>Grandson</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Grandson</label>
+                </value>
+                <value>
+                    <fullName>Husband</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Husband</label>
+                </value>
+                <value>
+                    <fullName>Mother</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Mother</label>
+                </value>
+                <value>
+                    <fullName>Son</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Son</label>
+                </value>
+                <value>
+                    <fullName>Uncle</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Uncle</label>
+                </value>
+                <value>
+                    <fullName>Wife</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Wife</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>Contact Relationship</label>
+    <nameField>
+        <displayFormat>REL-{000000}</displayFormat>
+        <label>Relationship ID</label>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Contact Relationships</pluralLabel>
+    <searchLayouts/>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>End_Date_Greater_Than_Start_Date</fullName>
+        <active>true</active>
+        <errorConditionFormula>AND(
+	End_Date__c  &lt;  Start_Date__c,
+    NOT($Setup.Bypass_Mute_Request__c.Bypass_All_Validation_Rules__c)
+	)</errorConditionFormula>
+        <errorMessage>End Date cannot be smaller than Start Date</errorMessage>
+    </validationRules>
+    <visibility>Public</visibility>
+</CustomObject>

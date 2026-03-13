@@ -1,0 +1,177 @@
+<aura:component implements="forceCommunity:availableForAllPageTypes"
+                access="global"
+                controller="FileUploadController" >
+    
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+
+    <aura:attribute name="user" type="User" default="" />
+    <aura:attribute name="contactId" type="Id" default="" />
+
+    <aura:attribute name="objectBinding" type="String" />
+    <aura:attribute name="documents" type="Contact_Document__c[]" />
+
+    <aura:attribute name="appId" type="String" default="" />
+    <aura:attribute name="addDocumentModal" type="Boolean" default="false" />
+    <aura:attribute name="accept" type="List" default="['.pdf', '.png', '.jpg', '.gif', '.doc', '.docx', '.rtf', '.txt']" />
+    <aura:attribute name="documentTypeSelection" type="String" default=""/>
+    <aura:attribute name="documentTypeOptions" type="List" description="the Document Type options in {value,label}"/>
+    <aura:attribute name="documentSubTypeSelection" type="String"  default=""/>
+    <aura:attribute name="documentSubTypeOptions" type="String[]" />
+    <aura:attribute name="documentComments" type="String" />
+    <aura:attribute name="documentId" type="Id" />
+    <aura:attribute name="documentName" type="String" default="" />
+
+
+    <aura:attribute name="fileId" type="Id" description="the Id of the most recently uploaded File"/>
+
+    <aura:attribute name="uploadDisabled" type="Boolean" default="false"/>
+    <aura:attribute name="modalSaveDisabled" type="Boolean" default="true"/>
+    <aura:attribute name="default" type="String" default="" />
+
+    <!--Designer Attributes -->
+    <aura:attribute name="saveSubmitted" type="Boolean" default="false" />
+
+    <aura:attribute name="helperText" type="String" />
+    <aura:attribute name="modalHelperText" type="String" />
+
+    <aura:attribute name="showSpinner" type="Boolean" default="false"/>    
+    <aura:attribute name="filenameIsTooLong" type="Boolean" default="false"/>
+      <!--Modal Popup for Document Edit-->
+      <div class="{!if(v.addDocumentModal==true, '', 'slds-hide')}">
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                    <div class="slds-modal__container">
+                        <!-- ###### MODAL BOX HEADER Start ######-->
+                        <header class="slds-modal__header">
+                            <lightning:buttonIcon iconName="utility:close"
+                                                  onclick="{! c.closeUploadModal}"
+                                                  alternativeText="close"
+                                                  variant="bare-inverse"
+                                                  class="slds-modal__close"/>
+                            <div class="slds-text-heading_medium">Create New Document</div>
+                        </header>
+                        <!--###### MODAL BOX BODY Part Start######-->
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <p>{!v.modalHelperText}</p>
+                            <lightning:select name="documentType" aura:id="docType"
+                                              value="{!v.documentTypeSelection}"
+                                              label="Select Document Type"
+                                              required="true"
+                                              onchange="{!c.onChangeDocType}">
+                                <option value="">choose an option...</option>
+                                <aura:iteration items="{!v.documentTypeOptions}" var="option">
+                                    <option value="{!option.value}" >{!option.label}</option>
+                                </aura:iteration>
+                            </lightning:select>
+
+                            <lightning:fileUpload aura:id="myAppFileUploader"
+                                                  label="File Upload (Maximum file size: 5MB)"
+                                                  accept="{!v.accept}"
+                                                  recordId="{!v.contactId}"
+                                                  multiple="false"
+                                                  disabled="{!v.uploadDisabled}"
+                                                  onuploadfinished="{!c.handleUploadFinished}" />
+                            <p>{!v.documentName}</p>
+                            
+                            <aura:if isTrue="{!v.filenameIsTooLong}" >
+                            	<p class="slds-text-color_error slds-text-body--small">File name cannot exceed 100 characters (inc. file extension).</p>
+                            </aura:if>
+
+                            <lightning:textArea aura:id="comments" label="Comments (255 Characters Max)" value="{!v.documentComments}" maxlength="255" />
+                            <p>Only images, Word documents and PDFs are acceptable.</p>
+                        </div>
+                        <!--###### MODAL BOX FOOTER Part Start ######-->
+                        <footer class="slds-modal__footer slds-modal__footer_directional">
+                            <lightning:button variant="neutral" 
+                                              label="Cancel"
+                                              title="Cancel"
+                                              onclick="{! c.closeUploadModal }"/>
+                            <lightning:button variant="brand" 
+                                              label="Save Document"
+                                              title="Save Document"
+                                              disabled="{!v.modalSaveDisabled}"
+                                              onclick="{!c.saveContactDoc}"/>
+                        </footer>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+
+    <!--Frame-->
+    <div id="documentsListDiv" class="slds">
+        <div class="slds-section section-float">
+
+            <div class="{!if(v.showSpinner == true, '', 'slds-hide')}">
+                <lightning:spinner aura:id="spinner" alternativeText="Saving"/>
+            </div>
+            <!--<h3 class="slds-section__title">
+                <ui:button class="slds-button slds-section__title-action header-collapsible" press="{!c.showHideComponent}">                       
+                    Application Documents
+                </ui:button>
+            </h3>
+            <p>
+               {!v.helperText}
+                <br /> <br />
+            *** Only upload: pdf files, png files, jpg files, gif files, word files (.doc, .docx), rtf files, txt files *** <br />
+            *** There is a document file size limit of 5 MB ***
+            </p>
+            <br />-->
+            <!--Main Content-->
+                <table class="slds-table slds-table--bordered slds-table--cell-buffer">
+                    <thead>
+                        <tr class="slds-text-title_caps">
+                            <th scope="col">
+                                <div class="slds-truncate" title="Document Type">Document Type</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="File Name">File Name </div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Upload Date">Upload Date</div>
+                            </th>
+                            <th scope="col" class="slds-align_absolute-center">
+                                <div class="slds-truncate" title="Remove">Remove</div>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <aura:iteration aura:id="testDocument" items="{!v.documents}" var="doc">
+                            <tr>
+                                <td data-label="Document Type">
+                                    <div class="slds-truncate">{!doc.Document_Type__c}</div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate">{!doc.Filename__c}</div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate"><lightning:formattedDateTime value="{!doc.LastModifiedDate}"/></div>
+                                </td>
+                                <td data-label="Actions" class="slds-align_absolute-center">
+                                    <!--<button type="button" class="slds-button" id="{!doc.Id}" onclick="{!c.editDocument}">
+                                        <lightning:icon iconName="utility:edit" size="small" alternativeText="Move this item up" />
+                                    </button>-->
+                                    <aura:if isTrue="{!doc.Submitted__c == false}" >
+                                        <button type="button" class="slds-button" id="{!doc.Id}" onclick="{!c.removeDocument}">
+                                            <lightning:icon iconName="utility:close" size="small" alternativeText="Remove Document" />
+                                        </button>
+                                    </aura:if>
+                                </td>
+                            </tr>
+                        </aura:iteration>
+                    </tbody>
+                </table>
+
+                <br />
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_10-of-12">
+                    <lightning:button variant="brand" label="Add Document" onclick="{!c.showUploadModal}" />
+                </div>
+                <div class="slds-col slds-size_2-of-12">
+                    <aura:if isTrue="{!v.saveSubmitted == true}" >
+                        <lightning:button name="submitDocuments" label="Submit Documents" variant="brand" onclick="{!c.submitDocuments}" />
+                    </aura:if>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</aura:component>

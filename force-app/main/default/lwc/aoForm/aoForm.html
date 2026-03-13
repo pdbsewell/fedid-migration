@@ -1,0 +1,110 @@
+<template>
+    <div style="width:800px;margin:0 auto;padding:14px">
+        <template lwc:if={isLoading}>
+            <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+        </template>
+        <template lwc:if={doneMessage}>
+            <div class="alert-container" lwc:ref="alert">
+                <div class="alert alert-success" role="alert">
+                    {doneMessage}
+                </div>
+            </div>
+        </template>
+        <template lwc:if={loadFailed}>
+            <div class="alert-container" lwc:ref="alert">
+                <div class="alert alert-info" role="alert">
+                    Failed to load form
+                </div>
+            </div>
+        </template>
+        <template lwc:if={formDisplay}>
+            <h1>{formDisplay.formName}</h1>
+            <template lwc:if={formDisplay.formDescription}>
+                <p>{formDisplay.formDescription}</p><br/>
+            </template>
+            <template lwc:if={formDisplay.readOnly}>
+                <div class="alert-container" lwc:ref="alert">
+                    <div class="alert alert-info" role="alert">
+                        You've already submitted this form - Below is a read-only view of your submission.
+                    </div>
+                </div>
+            </template>
+            <div class="alert-container" lwc:ref="alert">
+                <template lwc:if={hasError}>
+                    <div class="alert alert-danger" role="alert">
+                        Please correct the error(s) before clicking submit
+                        <div class="alert-close">
+                            <lightning-button-icon onclick={handleCloseError}
+                                    icon-name="utility:close" variant="bare"
+                                    alternative-text="Close" class="slds-m-left_small" title="Close">
+                            </lightning-button-icon>
+                        </div>
+                    </div>
+                </template>
+            </div>
+            <template lwc:if={errorMessage}>
+                <div class="alert-container" lwc:ref="alert">
+                    <div class="alert alert-info" role="alert">
+                        {errorMessage}
+                    </div>
+                </div>
+            </template>
+            <template lwc:else>
+            <!------ BEGIN FORM ------>
+                <lightning-layout class="slds-m-around_medium slds-m-top_none slds-grid_pull-padded-x-small" multiple-rows="true">
+                    <template for:each={formDisplay.childElements} for:item="element">
+                        <template lwc:if={element.isVisible}>
+                            <template lwc:if={element.isSection}>
+                                <!------ BEGIN SECTION ------>
+                                <lightning-layout-item class="slds-p-horizontal_small" key={element.id} size={element.colSize} data-size={element.colSize}>
+                                    <fieldset class="section">
+                                        <legend>{element.label}</legend>
+                                        <lightning-layout multiple-rows="true">
+                                            <template for:each={element.childElements} for:item="childElement">
+                                                <template lwc:if={childElement.isVisible}>
+                                                    <!------ BEGIN SECTION ELEMENT ------>
+                                                    <lightning-layout-item class="slds-p-around_x-small" key={childElement.id} data-id={childElement.id} size={childElement.colSize} data-size={childElement.colSize}>
+                                                        <c-ao-form-element
+                                                                element={childElement}
+                                                                oninputchange={handleInputChange}
+                                                                value={childElement.value}>
+                                                        </c-ao-form-element>
+                                                    </lightning-layout-item>
+                                                    <!------ END SECTION ELEMENT ------>
+                                                </template>
+                                            </template>
+                                        </lightning-layout>
+                                    </fieldset>
+                                </lightning-layout-item>
+                                <!------ END SECTION ------>
+                            </template>
+                            <template lwc:else>
+                                <!------ BEGIN ELEMENT ------>
+                                <lightning-layout-item class="slds-p-around_x-small" key={element.id} data-id={element.id} size={element.colSize} data-size={element.colSize}>
+                                    <c-ao-form-element
+                                            element={element}
+                                            oninputchange={handleInputChange}
+                                            value={element.value}>
+                                    </c-ao-form-element>
+                                </lightning-layout-item>
+                                <!------ END ELEMENT ------>
+                            </template>
+                        </template>
+                    </template>
+                </lightning-layout>
+                <!------ END FORM ------>
+                <template lwc:if={showButtons}>
+                    <div class="slds-align_absolute-center">
+                        <lightning-button class="slds-m-around_medium" variant="brand" label="Submit" onclick={handleSubmit} icon-name="utility:send" icon-position="right"></lightning-button>
+                        <lightning-button class="slds-m-around_medium" variant="brand" label="Save Draft" onclick={handleSave} icon-name="utility:save" icon-position="right"></lightning-button>
+                    </div>
+                </template>
+                <template lwc:if={adminUpdate}>
+                    <div class="slds-align_absolute-center">
+                        <lightning-button class="slds-m-around_medium" variant="brand" label="Update" onclick={handleUpdate} icon-name="utility:send" icon-position="right"></lightning-button>
+                    </div>
+                </template>
+            </template>
+        </template>
+    </div>
+</template>

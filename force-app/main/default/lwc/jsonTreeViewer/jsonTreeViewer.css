@@ -1,0 +1,44 @@
+:host {
+    --json-tree-js-default-font:
+        /* macOS */    "Menlo",
+        /* Windows */  "Consolas",
+        /* Linux */    "Liberation Mono",
+        /* fallback */ "Courier New",
+    monospace;
+
+    /* disable coding ligatures that can merge `!=`, `=>`, etc */
+    font-variant-ligatures: none;
+    font-feature-settings: "liga" 0;
+
+    --json-tree-js-color-string: #ce9178;
+    --json-tree-js-color-number: #b5cea8;
+    --json-tree-js-color-boolean: #569cd6;
+    --json-tree-js-color-array: #949494;
+    --json-tree-js-color-object: #E8E8E8;
+    --json-tree-js-color-null: rgba(149, 165, 166, 0.7);
+    --json-tree-js-color-date: #c68344;
+}
+
+.json-tree-js .highlight-selected {
+    padding: 0 !important;
+
+}
+.json-tree-js.json-tree-container {
+    max-width: unset;
+}
+
+div.json-tree-js div.contents {
+    max-height: var(--jsontree-contents-max-height, revert);
+    min-height: var(--jsontree-contents-min-height, revert);
+}
+
+/* Hide the root node */
+.json-tree-js .object-type-title > .root-name,
+.json-tree-js .object-type-title > .split {
+    display: none;
+}
+
+/* Remove extra space below objects */
+div.json-tree-js div.object-type-contents {
+    margin-bottom: 0 !important;
+}

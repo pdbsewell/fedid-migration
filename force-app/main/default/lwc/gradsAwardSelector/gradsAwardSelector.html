@@ -1,0 +1,196 @@
+<!-- Grads Award Form -->
+<template>
+    <div class={containerClass}>
+        <a class="slds-hidden top-anchor"></a>
+        <lightning-spinner if:true={loading}></lightning-spinner>
+        <div class="screen-award-select">
+            <div class="error" lwc:if={errorMessage}>
+                <lightning-formatted-rich-text value={errorMessage}></lightning-formatted-rich-text>
+            </div>
+            <div class="select-award-content" lwc:if={showAwardSelect}>
+                <div class="award-options" tabindex="0">
+                    <template lwc:if={isNewApplication}></template>
+                    <template lwc:else>
+                        <h1>{title}</h1>
+                    </template>
+                    <template for:each={awardsOutput} for:item="course">
+                        <!-- Each award is grouped by course -->
+                        <div class="course" key={course.courseCode}>
+                            <div class="course-header">
+                                <div>
+                                    <lightning-helptext
+                                            lwc:if={course.warningsText}
+                                            icon-name="utility:warning"
+                                            content={course.warningsText}
+                                            icon-variant="warning"
+                                    ></lightning-helptext>
+                                    <h2>Course Code: {course.courseCode}</h2>
+                                    <lightning-helptext
+                                            lwc:if={course.warningsText}
+                                            icon-name="utility:warning"
+                                            content={course.warningsText}
+                                            icon-variant="warning"
+                                    ></lightning-helptext>
+                                </div>
+                                <h3>Course Version: {course.courseVersionNumber}</h3>
+                            </div>
+                            <template for:each={course.awards} for:item="award">
+                                <div class={award.cssClass} key={award.inputRef} data-ref={award.inputRef} onclick={handleAwardClick} accesskey={award.accessKey}>
+                                    <h3>{award.title}</h3>
+                                    <div class="award-info">
+                                        <div>Award Code: {award.awardCodes}</div>
+                                        <div>Award Version: {award.version}</div>
+                                    </div>
+                                    <template lwc:if={award.isCurrentRecord}>
+                                        <div class="bottom">This record</div>
+                                    </template>
+                                    <template lwc:elseif={award.existingRecordUrl}>
+                                        <div class="bottom">
+                                            <a href={award.existingRecordUrl}
+                                               data-recordid={award.existingRecordId}
+                                               onclick={handleExistingRecordClick}
+                                               tabindex="-1"
+                                            >
+                                                Existing record - {award.existingRecordName}
+                                            </a>
+                                        </div>
+                                    </template>
+                                    <template lwc:elseif={award.callistaTransNo}>
+                                        <div class="bottom">Exists in Callista - {award.callistaTransNo}</div>
+                                    </template>
+                                </div>
+                            </template>
+                        </div>
+                    </template>
+                </div>
+
+                <template if:true={isApplicationMode}>
+                    <div class="proceed-button">
+                        <lightning-button
+                                label={proceedButtonLabel}
+                                variant="brand"
+                                onclick={handleProceed}
+                                disabled={isProceedDisabled}>
+                        </lightning-button>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+        <div class="screen-confirmation">
+            <div class="confirmation-content">
+                <template lwc:if={isApplicationMode}>
+                    <!-- Create new records screen -->
+                    <template lwc:if={isNewApplication}></template>
+                    <template lwc:else>
+                        <h1>{createNewTitle}</h1>
+                    </template>
+                    <template for:each={selectedAwardData} for:item="data">
+                        <div key={data.inputRef} class="award-confirmation">
+                            <h3>{data.awTitle}</h3>
+                            <div class="award-details">
+                                <div>Course Code: {data.award.courseCode}</div>
+                                <div>Course Version: {data.award.courseVersionNumber}</div>
+                                <div>Award Code: {data.awCodes}</div>
+                                <div>Award Version: {data.award.awardCourseVersionNumber}</div>
+                            </div>
+
+                            <div class="award-fields">
+                                <lightning-input
+                                        type="checkbox"
+                                        label="Attending Ceremony"
+                                        data-ref={data.inputRef}
+                                        data-field="isAttendingCeremony"
+                                        checked={data.isAttendingCeremony}
+                                        onchange={handleFieldChange}>
+                                </lightning-input>
+
+                                <lightning-input
+                                        type="text"
+                                        label="Receipt Number (External System)"
+                                        data-ref={data.inputRef}
+                                        data-field="receiptNumber"
+                                        value={data.receiptNumber}
+                                        max-length="20"
+                                        onchange={handleFieldChange}>
+                                </lightning-input>
+
+                                <lightning-input
+                                        type="checkbox"
+                                        label="Attendance Fee Waiver"
+                                        data-ref={data.inputRef}
+                                        data-field="hasFeeWaiver"
+                                        value={data.hasFeeWaiver}
+                                        onchange={handleFieldChange}>
+                                </lightning-input>
+
+                                <lightning-textarea
+                                        label="Staff Comments"
+                                        data-ref={data.inputRef}
+                                        data-field="staffComments"
+                                        value={data.staffComments}
+                                        onchange={handleFieldChange}>
+                                </lightning-textarea>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template lwc:if={preConfirmMessage}>
+                        <div class="pre-confirm-warning">{preConfirmMessage}</div>
+                    </template>
+
+                    <div class="confirmation-buttons">
+                        <template lwc:if={isNewApplication}>
+                            <lightning-button label="Change Award Selection" onclick={handleGoBack}></lightning-button>
+                            <lightning-button label="Create Application" variant="brand" onclick={handleConfirm}
+                                              disabled={isConfirmDisabled}></lightning-button>
+                        </template>
+                        <template lwc:else>
+                            <lightning-button label="Go Back" onclick={handleGoBack}></lightning-button>
+                            <lightning-button label="Create Awards" variant="brand" onclick={handleConfirm}
+                                              disabled={isConfirmDisabled}></lightning-button>
+                        </template>
+                    </div>
+                </template>
+                <template lwc:else>
+                    <!-- Confirmation screen for editing existing records -->
+                    <h1>{confirmChangesTitle}</h1>
+                    <div class="comparison-table">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Field</th>
+                                <th>Current Value</th>
+                                <th>New Value</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <template for:each={comparisonData} for:item="field">
+                                <tr key={field.label} class={field.rowClass}>
+                                    <td>{field.label}</td>
+                                    <td>{field.current}</td>
+                                    <td>{field.new}</td>
+                                </tr>
+                            </template>
+                            </tbody>
+                        </table>
+                    </div>
+                    <template lwc:if={editNotice}>
+                        <div class="edit-notice">
+                            <lightning-formatted-rich-text value={editNotice}></lightning-formatted-rich-text>
+                        </div>
+                    </template>
+                    <div class="confirmation-buttons">
+                        <lightning-button label="Go Back" onclick={handleGoBack}></lightning-button>
+                        <template lwc:if={hasChanges}>
+                            <lightning-button label="Confirm Change" variant="brand" onclick={handleConfirm}></lightning-button>
+                        </template>
+                        <template lwc:else>
+                            <lightning-button label="Close" onclick={handleClose}></lightning-button>
+                        </template>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+</template>

@@ -1,0 +1,53 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" controller="EngageServiceIndicatorAlertsCC" access="global">
+	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+	<aura:attribute name="customMetadata" type="Object"/>
+	<aura:attribute name="recordToOperateOn" type="Object"/>
+	<aura:attribute name="fieldsToOperateOn" type="String"/>
+	<aura:attribute name="recordLoadError" type="String"/>
+	<aura:attribute name="iconsToDisplay" type="List"/>
+	<aura:attribute name="fontSize" type="List"/>
+	<aura:attribute name="initialized" type="Boolean" default="false"/>
+
+	<aura:if isTrue="{!v.fieldsToOperateOn}">
+		<force:recordData 	aura:id="recordLoader"
+						    recordId="{!v.recordId}"
+						    fields="{!v.fieldsToOperateOn}"
+						    targetFields="{!v.recordToOperateOn}"
+						    targetError="{!v.recordLoadError}"
+						    recordUpdated="{!c.displayIcons}"
+	    />
+	</aura:if>
+
+	<div style="solid #ccc; border-radius: 5px; background-color: white;" class="slds-align_absolute-center">
+		<aura:if isTrue="{!v.initialized}">
+			<aura:iteration items="{!v.iconsToDisplay}" var="icon" indexVar="iconIndex">
+				<aura:iteration items="{!v.fontSize}" var="fontSize" indexVar="fontIndex">
+
+					<aura:if isTrue="{!iconIndex == fontIndex}">
+						<div class="slds-m-around_xxx-small">
+							<aura:if isTrue="{!icon.type == 'Icon'}">
+								<lightning:icon iconName="{!icon.icon}" alternativeText="{!icon.label}" title="{!icon.label}" variant="{!icon.iconVariant}" size="large" />
+							</aura:if>
+							<aura:if isTrue="{!icon.type == 'Text'}">
+								<div class="slds-icon_large slds-icon_container slds-icon" title="{!icon.label}" style="{! 'background-color: ' + icon.textBkgColor}">
+								    <div class="slds-align_absolute-center" style="{! 'position: relative; top: 50%; transform: translateY(-50%); font-weight: bold; color: white; font-size :' + fontSize + ';'}">{!icon.icon}</div>
+								  	<span class="slds-assistive-text">{!icon.label}</span>
+								</div>
+							</aura:if>
+							<aura:if isTrue="{!icon.type == 'ContentAsset'}">
+								<img  src="{!icon.imageURL}"  title="{!icon.toolTip}" style="width: 40px; height: 40px" alt="{!icon.label}"/> 
+							</aura:if>
+						</div>
+					</aura:if>
+				</aura:iteration>
+			</aura:iteration>
+		</aura:if>
+
+
+
+	</div>
+
+
+
+</aura:component>

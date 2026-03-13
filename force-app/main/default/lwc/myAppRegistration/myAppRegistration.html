@@ -1,0 +1,217 @@
+<template>
+    <template if:true={resourcesReady}>
+        <div class="slds-is-relative" style="background-color:#91B1CE">
+            
+            <div class="loginFrame">
+                <div class="loginForm slds-p-horizontal_large slds-m-horizontal_medium slds-p-vertical_medium">
+                    <!-- initial view -->
+                    <template if:false={showRegistrationSuccessNotification}>    
+                        <lightning-layout multiple-rows>
+                            <!-- header -->
+                            <lightning-layout-item size="12">
+                                <div>
+                                    <div style="font-family:'Roboto Condensed', sans-serif; font-size: 45px; line-height: 50px;">
+                                        CREATE A NEW ACCOUNT
+                                    </div>
+                                    <div class="slds-m-top_small" style="color: #707070;"> 
+                                        Your application starts here.
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+                            <!-- login form -->
+                            <lightning-layout-item size="12">
+                                <div style="font-family:'Roboto', sans-serif; font-size: 15px; color: #707070;">
+                                    <!-- error notification -->
+                                    <template if:true={credsError}>
+                                        <div style="font-family:'Roboto', sans-serif; font-size: 13px; color: rgb(194, 57, 52);" class="slds-m-top_x-small slds-m-bottom_x-small">                                        
+                                            {credsError}
+                                        </div>
+                                    </template>
+                                    <!-- no-error padding -->
+                                    <template if:false={credsError}>
+                                        <div style="font-family:'Roboto', sans-serif; font-size: 13px; color: rgb(194, 57, 52);" class="slds-m-top_medium"></div>
+                                    </template>
+
+                                    <!-- First Name -->
+                                    <template if:false={isMononymousName}>
+                                        <div class="slds-form-element">
+                                            <template if:true = {isMononymousName}>
+                                                <label for="first_name_field"><b>Name</b></label>
+                                            </template>
+                                            <template if:false = {isMononymousName}>
+                                                <label for="first_name_field"><b>First Name</b></label>
+                                            </template>
+                                            <div class="slds-form-element__control">
+                                                <lightning-input class="firstNameField inputField corneredInput"
+                                                    type="text" 
+                                                    name="first_name_field" 
+                                                    label="First Name"
+                                                    variant="label-hidden"
+                                                    value={firstname}
+                                                    onchange={changeFirstName}
+                                                    onkeypress={handleKeyPress}>
+                                                </lightning-input>
+
+                                                <template if:true={firstNameError}>                                                
+                                                    <span style="font-family:'Roboto', sans-serif; font-size: 13px; color: rgb(194, 57, 52);">
+                                                        {firstNameError}
+                                                    </span>
+                                                </template>
+                                            </div>
+                                        </div>
+                                        <template if:true={firstNameError}>                                                
+                                            <div class="slds-m-top_xx-small">
+                                            </div>
+                                        </template>
+                                        <template if:false={firstNameError}>                                                
+                                            <div class="slds-m-top_small">
+                                            </div>
+                                        </template>
+                                    </template>
+
+                                    <!-- Last Name -->
+                                    <div class="slds-form-element">
+                                        <template if:true={isMononymousName}>
+                                            <label for="last_name_field"><b>Name</b></label>
+                                        </template>
+                                        <template if:false={isMononymousName}>
+                                            <label for="last_name_field"><b>Last Name</b></label>
+                                        </template>
+                                        <div class="slds-form-element__control">
+                                            <lightning-input class="lastNameField inputField corneredInput"
+                                                type="text" 
+                                                name="last_name_field" 
+                                                label="Last Name"
+                                                variant="label-hidden"
+                                                value={lastname}
+                                                onchange={changeLastName}
+                                                onkeypress={handleKeyPress}>
+                                            </lightning-input>
+                                            <template if:true={lastNameError}>                                                
+                                                <span style="font-family:'Roboto', sans-serif; font-size: 13px; color: rgb(194, 57, 52);">
+                                                    {lastNameError}
+                                                </span>
+                                            </template>
+                                        </div>
+                                    </div>
+                                    <template if:true={lastNameError}>                                                
+                                        <div class="slds-m-top_xx-small">
+                                        </div>
+                                    </template>
+                                    <template if:false={lastNameError}>                                                
+                                        <div class="slds-m-top_small">
+                                        </div>
+                                    </template>
+
+                                    <!-- Mononymous Name Toggle -->
+                                    <div class="slds-form-element">
+                                        <span style="display: inline-block">
+                                            <lightning-input type="toggle" 
+                                                            name="mononymous_name_toggle" 
+                                                            label=""
+                                                            message-toggle-active="Yes"
+                                                            message-toggle-inactive="No"
+                                                            onchange={handleMononyms}>
+                                            </lightning-input>
+                                        </span>
+                                        <span class="slds-m-bottom_medium" style="display: inline-block; vertical-align: top;">
+                                            <label for="mononymous_name_toggle">I have a Mononymous name</label>
+                                            <lightning-helptext content={mononynmHelpText}></lightning-helptext>
+                                        </span>
+                                    </div>
+
+                                    <!-- Email -->
+                                    <div class="slds-form-element">
+                                        <label for="email_field"><b>Email</b></label>
+                                        <div class="slds-form-element__control">
+                                            <lightning-input class="emailField inputField corneredInput"
+                                                placeholder="example@email.com"
+                                                type="email" 
+                                                name="email_field" 
+                                                label="Email"
+                                                variant="label-hidden"
+                                                value={username}
+                                                onchange={changeUsername}
+                                                onkeypress={handleKeyPress}
+                                                message-when-type-mismatch="Please use the right email address format, for example 'email@domain.com'.">
+                                            </lightning-input>
+                                            <template if:true={usernameError}>                                                
+                                                <span style="font-family:'Roboto', sans-serif; font-size: 13px; color: rgb(194, 57, 52);">
+                                                    {usernameError}
+                                                </span>
+                                            </template>
+                                        </div>
+                                        <template if:true={username}>    
+                                            <div class="slds-form-element__control slds-p-top_medium">
+                                                By clicking the Sign up button you are confirming that you are owner and the only person who has access to the above email address.
+                                            </div>
+                                        </template>
+                                    </div>
+                                    <div>
+                                        <c-recaptcha-button data-id="crmcaptchabuttonlwc" buttontext={buttonText} onbuttonclicked={handleButtonClick}></c-recaptcha-button>
+                                    </div>
+                                </div> 
+                            </lightning-layout-item>
+                            <!-- forgot password -->
+                            <lightning-layout-item size="12">
+                                <div class="slds-m-top_medium" style="font-family:'Roboto', sans-serif; font-size: 15px; color: #707070;">
+                                    Already have an account? <a href="/admissions/s/login">Log in here</a>
+                                </div>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                    <!-- success view -->
+                    <template if:true={showRegistrationSuccessNotification}>
+                        <lightning-layout multiple-rows>
+                            <!-- header -->
+                            <lightning-layout-item size="12">
+                                <div>
+                                    <div style="font-family:'Roboto Condensed', sans-serif; font-size: 40px; line-height: 50px;">
+                                        WELCOME ON BOARD!
+                                    </div>
+                                    <div class="slds-m-top_small" style="font-family:'Roboto Condensed', sans-serif; font-size: 20px; color: #707070;"> 
+                                        An email has been sent to <a style="text-decoration: none;">{username}</a> with further instructions.
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+                            <!-- notification -->
+                            <lightning-layout-item size="12">
+                                <div class="slds-m-top_medium" style="font-family:'Roboto Condensed', sans-serif; font-size: 20px;">
+                                    <span style="font-weight: bold;">No email from us?</span>
+                                    <div style="color: #707070;">
+                                        <lightning-layout multiple-rows>
+                                            <lightning-layout-item size="1">
+                                                <center>•</center>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="11">
+                                                Make sure the email you provided was correct
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="1">
+                                                <center>•</center>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="11">
+                                                Check your spam folder
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="1">
+                                                <center>•</center>
+                                            </lightning-layout-item>
+                                            <lightning-layout-item size="11">
+                                                If you have not received an email within 30 minutes, do not hesitate to <a href="https://www.monash.edu/connect" target="_blank" style="text-decoration: none;">contact us</a> for assistance.
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </div>
+                                </div>
+                                <center>
+                                    <button class="btn btn--blue applicationAction slds-p-vertical_xx-small slds-m-top_small" style="width: 45%; margin-right: 5%; border: 2px solid #0E6EAC; background-color: #fff; color: #0E6EAC; font-size: 15px;" onclick={redirectLogin}>
+                                        <b>Return to login</b>
+                                    </button>
+                                </center>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template> 
+                </div>
+            </div>
+
+        </div>
+    </template>
+</template>

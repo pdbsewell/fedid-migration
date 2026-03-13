@@ -1,0 +1,234 @@
+<template>
+    <!--LOADING SPINNER-->
+    <template if:true={showSpinner}>
+        <div >
+            <lightning-spinner style="position: fixed;" alternative-text="Loading" variant="brand" class="spins" size="large"></lightning-spinner>
+        </div>            
+    </template>
+    <!-- Main form -->
+    <div style="background:white;" >
+        <lightning-layout size="12" multiple-rows="true">
+            <lightning-layout-item size="4"></lightning-layout-item>
+            <lightning-layout-item size="6">
+                <h1 class="inlineTitle slds-text-heading--large">Contact us
+                </h1>
+            </lightning-layout-item>
+            <lightning-layout-item size="4"></lightning-layout-item>
+            <lightning-layout-item size="6" > 
+                <div style="border-radius: 0;" class="slds-col slds-size_3-of-4 roboto pt-2 pb-2"> 
+                    First name
+                    <abbr class="slds-required">*</abbr> 
+                    <input  type="text" required value={firstName} onchange={onchangeFirstName}
+                            class="slds-input slds-p-left_x-small"
+                            style="border-radius: 0;"/>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="4"></lightning-layout-item>
+            <lightning-layout-item size="6" > 
+                <div class="slds-col slds-size--3-of-4 roboto pt-2 pb-2">
+                Last name
+                    <abbr class="slds-required">*</abbr>
+                    <input  type="text"  required value={lastName} onchange={onchangeLastName}
+                            class="slds-input slds-p-left_x-small"
+                            style="border-radius: 0;"/>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="4"></lightning-layout-item>
+            <lightning-layout-item size="6" >
+                <div class="slds-col slds-size--3-of-4 roboto pt-2 pb-2"> 
+                    Email
+                    <abbr class="slds-required">*</abbr>
+                    <input id="email" name="emailInp" type="email" disabled={emailInputFieldDisabled}
+                            value={email} class="slds-input slds-p-left_x-small"
+                            onchange={onchangeEmail}
+                            style="border-radius: 0;border-color:black"/>
+                </div>
+            </lightning-layout-item>
+            <lightning-layout-item size="4"></lightning-layout-item>
+            <template if:true={hideForm}>
+                <lightning-layout-item size="4"></lightning-layout-item>
+            </template>                    
+
+            <template if:false={hideForm}> 
+                    <lightning-layout-item size="4">
+                        <div>
+                            <button name="sfrBtn" id="validateEmailBtn" class="bg-blue hover:bg-blue-700 text-white font-bold py-2 px-10 focus:outline-none focus:shadow-outline ucin-button"  
+                                        style="font-weight: 600;min-width: 125px" onclick={sendOTPCode}>{sendOTPBtnText}</button> 
+                        </div>
+                    </lightning-layout-item>
+                    <lightning-layout-item size="4"></lightning-layout-item>
+                    <lightning-layout-item size="4"></lightning-layout-item>
+                    <lightning-layout-item size="6" >
+                        <div class="slds-col slds-size--3-of-4 roboto pt-2 pb-2"> 
+                            Enter code
+                            <abbr class="slds-required">*</abbr> 
+                            <input id="emailOTP" name="emailInpOTP" type="text"
+                                    value={emailOTP} class="slds-input slds-p-left_x-small" disabled={verifyOTPInputDisabled}
+                                    onchange={onchangeEmailOTP}
+                                    style="border-radius: 0;"/>
+                        </div>
+                    </lightning-layout-item>
+                        
+                    <lightning-layout-item size="4"></lightning-layout-item>
+                    <lightning-layout-item size="4">
+                        <div id="uniqueElement">
+                            <button name="sfrBtn2" id="verifyEmailOTPBtn" data-id="verifyEmailOTPBtn" 
+                                class={verifyEmailOTPBtnCss} 
+                                style="font-weight: 600;min-width: 125px" disabled={verifyButtonDisabled} onclick={verifyOTPCode}>Verify code</button>
+                        </div>
+                    </lightning-layout-item>
+            </template>
+
+            <lightning-layout-item size="4"></lightning-layout-item>
+            <lightning-layout-item size="4"></lightning-layout-item>
+            <lightning-layout-item size="6" > 
+                <div  class="slds-col slds-size_3-of-4 roboto pt-2 pb-2">
+                    Enquiry
+                    <abbr class="slds-required">*</abbr>
+                    <select class="slds-input slds-p-left_x-small" disabled={disablePickList} id="enqTypeSelectOption" onchange={handleEnqTypeChange}  style="border-radius: 0;" >
+                        <option value="">-- Select a value --</option>
+                        <option value="Alumni Portal Enquiry">Alumni Portal registration</option>
+                        <option value="Event Enquiry">Alumni event enquiry</option>
+                        <option value="General Enquiry">General enquiry</option>
+                        <option value="Transcript/Qualification">Transcript/Qualification</option>
+                    </select>  
+                </div>
+            </lightning-layout-item>
+            <!-- Conditionally render for Transcript/Qualification -->
+            <template if:true={enquiryTypeTranscript}>
+                <lightning-layout-item size="4"></lightning-layout-item>
+                <lightning-layout-item size="6" >                         
+                    <div style="border-radius: 0;" class="slds-col slds-size_3-of-4 roboto pt-2 pb-2"><br/>
+                        To obtain a record of your qualification, refer to <a style="color:#006DAE;" target="_blank" href="https://www.monash.edu/alumni/redirects/transcripts">Transcript Request.</a><br/><br/>To order your documents online you'll need to log into the <a style="color:#006DAE;" target="_blank" href="https://www.monash.edu/alumni/redirects/wes">Web Enrolment System (WES)</a> as a past student, using your Student ID.<br/><br/>If you do not know your Student ID or are having issues with WES, please contact <a style="color:#006DAE;" target="_blank" href="https://www.monash.edu/alumni/redirects/monash-connect">Monash Connect</a>.
+                    </div>
+                </lightning-layout-item>
+            </template>
+
+            <!-- Conditionally render for EVENT Enq -->
+            <template if:true={enquiryTypeEventEnquiry}>
+                <lightning-layout-item size="4"></lightning-layout-item>
+                <lightning-layout-item size="6" >                         
+                    <div style="border-radius: 0;" class="slds-col slds-size_3-of-4 roboto pt-2 pb-2">
+                        Event name
+                        <abbr class="slds-required">*</abbr>
+                        <input  type="text" required value={eventName} onchange={onchangeEventName}
+                                class="slds-input slds-p-left_x-small"
+                                style="border-radius: 0;"/>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="4"></lightning-layout-item>
+                <lightning-layout-item size="6" > 
+                    <div style="border-radius: 0;" class="slds-col slds-size_3-of-4 roboto pt-2 pb-2">
+                        Event date (if known)
+                        <input  type="date" required value={eventDate} onchange={onchangeEventDate}
+                                class="slds-input slds-p-left_x-small"
+                                style="border-radius: 0;"/>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="4"></lightning-layout-item>
+                <lightning-layout-item size="6" >
+                    <div style="border-radius: 0;" class="slds-col slds-size_3-of-4 roboto pt-2 pb-2"> 
+                        Details of your enquiry
+                        <abbr class="slds-required">*</abbr>
+                        <textarea required value={eventDetails} rows="4" maxlength="32000" onchange={onchangeEventDetails}
+                                class="slds-input slds-p-left_x-small"
+                                style="border-radius: 0;"></textarea>
+                    </div>
+                </lightning-layout-item>
+            </template>
+
+            <!-- Conditionally render for Alumni Portal Enq -->
+            <template if:true={enquiryTypeAlumniPortalEnquiry}>
+                <lightning-layout-item size="4"></lightning-layout-item>
+                <lightning-layout-item size="6" >
+                    <div style="border-radius: 0;" class="slds-col slds-size_3-of-4 roboto pt-2 pb-2"> 
+                        Monash ID / Student ID while studying
+                        <input  type="text" required  value={monashOrStudentId} onchange={onchangeMonashOrStudentId} 
+                                class="slds-input slds-p-left_x-small"
+                                style="border-radius: 0;"/>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="4"></lightning-layout-item>
+                <lightning-layout-item size="6" > 
+                    <div style="border-radius: 0;" class="slds-col slds-size_3-of-4 roboto pt-2 pb-2"> 
+                        Year of birth
+                        <abbr class="slds-required">*</abbr>
+                        <input  type="text" required value={dateOfBirth} onchange={onchangeDateOfBirth}
+                                class="slds-input slds-p-left_x-small"
+                                style="border-radius: 0;"/>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="4"></lightning-layout-item>
+                <lightning-layout-item size="6" >
+                    <div style="border-radius: 0;" class="slds-col slds-size_3-of-4 roboto pt-2 pb-2"> 
+                        First name at graduation (if different to above)
+                        <input  type="text" required value={firstNameAtGrad} onchange={onchangeFirstNameAtGrad}
+                                class="slds-input slds-p-left_x-small"
+                                style="border-radius: 0;"/>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="4"></lightning-layout-item>
+                <lightning-layout-item size="6" > 
+                    <div style="border-radius: 0;" class="slds-col slds-size_3-of-4 roboto pt-2 pb-2"> 
+                        Last name at graduation (if different to above)
+                        <input  type="text" required value={lastNameAtGrad} onchange={onchangeLastNameAtGrad}
+                                class="slds-input slds-p-left_x-small"
+                                style="border-radius: 0;"/>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="4"></lightning-layout-item>
+                <lightning-layout-item size="6" > 
+                    <div style="border-radius: 0;" class="slds-col slds-size_3-of-4 roboto pt-2 pb-2">
+                        Year of last course completion
+                        <abbr class="slds-required">*</abbr>
+                        <input type="text" required value={yearOfLastGrad} onchange={onchangeYearOfLastGrad}
+                                class="slds-input slds-p-left_x-small"
+                                style="border-radius: 0;"/>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="4"></lightning-layout-item>
+                <lightning-layout-item size="6" > 
+                    <div style="border-radius: 0;" class="slds-col slds-size_3-of-4 roboto pt-2 pb-2">
+                        Last Monash qualification obtained
+                        <input  type="text" required value={lastQualObtained} onchange={onchangeLastQualObtained}
+                                class="slds-input slds-p-left_x-small"
+                                style="border-radius: 0;"/>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item size="4"></lightning-layout-item>
+                <lightning-layout-item size="6" >
+                    <div style="border-radius: 0;" class="slds-col slds-size_3-of-4 roboto pt-2 pb-2"> 
+                        Preferred email for Alumni Portal login and communications (if different to above)
+                        <input  type="text" required value={alumniEmail} onchange={onchangeAlumniEmail}
+                                class="slds-input slds-p-left_x-small"
+                                style="border-radius: 0;"/>
+                    </div>
+                </lightning-layout-item>
+            </template>
+
+            <!-- Conditionally render for General Enq -->
+            <template if:true={enquiryTypeGeneral}>
+                <lightning-layout-item size="4"></lightning-layout-item>
+                <lightning-layout-item size="6" >
+                    <div class="slds-col slds-size--3-of-4 roboto pt-2 pb-2">                           
+                        Details of your enquiry
+                        <abbr class="slds-required">*</abbr>
+                        <textarea   value={details} rows="4" maxlength="32000"
+                                    onchange={onchangeDetails} class="slds-input slds-p-left_x-small"
+                                    style="border-radius: 0;"></textarea>
+                    </div>
+                </lightning-layout-item>                
+            </template>
+            <lightning-layout-item size="4"></lightning-layout-item>
+            <lightning-layout-item size="6" padding="around-small" class="slds-col slds-size_3-of-4 roboto pt-2 pb-2">
+            </lightning-layout-item>
+            <lightning-layout-item size="4"></lightning-layout-item>
+            <lightning-layout-item size="4">
+                <div > 
+                    <button class={submitEnquiryBtnCss} 
+                            style="font-weight: 600;min-width: 125px" disabled={submitBtnDisabled} onclick={createCase}>Submit enquiry</button>
+                </div>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+</template>

@@ -1,0 +1,34 @@
+<!--
+ - Created by trentdelaney on 22/8/18.
+ -->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" description="ApplicationNavigation" controller="ApplicationNavigationHomeController">
+    <!--Form Controllers-->
+    <aura:attribute name="newApplication" type="Boolean" default="false" />
+    <aura:attribute name="editApplication" type="Boolean" default="false" />
+    <aura:attribute name="cancelApplication" type="Boolean" default="false"/>
+    <aura:attribute name="buttonSelected" type="Boolean" default="false" />
+
+    <!--Design Attribute-->
+    <aura:attribute name="firstPage" type="String" default="" />
+
+    <!--Logic controllers-->
+    <aura:attribute name="appId" type="String" default="" />
+
+    <!--Handlers-->
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}"/>
+
+    <div class="slds-align_absolute-center">
+        <!--
+		Cancel application button is moved to the ApplicationACPTable component
+		<aura:if isTrue="{!v.cancelApplication}" >
+            <lightning:button name="cancelApplication" label="Cancel Application" variant="destructive" onclick="{!c.removeApplication}" />
+        </aura:if>-->
+        <aura:if isTrue="{!v.editApplication}" >
+            <lightning:button name="editApplication" label="Edit Application" variant="brand" onclick="{!c.editApplication}" />
+        </aura:if>
+        <aura:if isTrue="{!v.newApplication}" >
+            <lightning:button name="newApplication" label="New Application" variant="brand" onclick="{!c.newApplication}" disabled="{!v.buttonSelected}"/>
+        </aura:if>
+    </div>
+</aura:component>

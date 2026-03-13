@@ -1,0 +1,89 @@
+<!--
+/*
+ * Copyright (c) 2019, UC Innovation, Inc.  All Rights Reserved.
+ *                     http://www.ucinnovation.com
+ *
+ * This source code is licensed, not sold, and is subject to a written
+ * license agreement.  Among other things, no portion of this source
+ * code may be copied, transmitted, disclosed, displayed, distributed,
+ * translated, used as the basis for a derivative work, or used, in
+ * whole or in part, for any program or purpose other than its intended
+ * use in compliance with the license agreement as part of UC Innovation's
+ * software.  This source code and certain of the algorithms contained
+ * within it are confidential trade secrets of UC Innovation, Inc.
+ * and may not be used as the basis for any other
+ * software, hardware, product or service.
+ */
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="PORTAL_JobBoardController">
+
+    <aura:attribute name="applicationList" type="List" />
+    <aura:attribute name="applicationListToDisplay" type="List" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <aura:attribute name="itemsPerPage" type="Integer" default="5" />
+    <aura:attribute name="previousButtonDisabled" type="Boolean" default="true" />
+    <aura:attribute name="nextButtonDisabled" type="Boolean" default="false" />
+    <aura:attribute name="totalNumberOfPages" type="Integer" />
+    <aura:attribute name="currentPage" type="Integer" default="1" /> 
+
+    <div>
+        <div>
+            <div style="height: 50px; font-size: 25px;">
+                Applications
+            </div>
+        </div>
+
+        <div class="table-content">
+            <table class="slds-table slds-table_bordered slds-table_striped slds-table_cell-buffer slds-table_fixed-layout slds-no-row-hover slds-max-medium-table_stacked-horizontal">
+                <thead class="slds-text-heading_label">
+                    <tr style="height: 75px; background-color: #ffe8e9 !important;">
+                        <th scope="col"><div class="slds-truncate" >Company</div></th>
+                        <th scope="col"><div class="slds-truncate" >Title</div></th>
+                        <th scope="col"><div class="slds-truncate" >Submission Date</div></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.applicationListToDisplay}" var="application">
+                        <tr>
+                            <td scope="row">
+                                <div class="slds-truncate long-output-float-right-mobile" >
+                                    <ui:outputText value="{!application.Recruiting_Company__c}"/>
+                                </div>
+                            </td>
+                            <td scope="row">
+                                <div class="slds-truncate long-output-float-right-mobile" >
+                                    <a data-sfdcID="{!application.Id}" onclick="{!c.handleShowModal}">{!application.Name}</a>
+                                </div>
+                            </td>
+                            <td scope="row">
+                                <div class="slds-truncate long-output-float-right-mobile" >
+                                    <ui:outputText value="{!application.Submission_Date__c}"/>
+                                </div>
+                            </td>
+                        </tr>
+                    </aura:iteration>
+                </tbody>
+            </table>
+            <br></br>
+            <aura:if isTrue="{!v.totalNumberOfPages > 1}">
+                <br></br>
+                <div class="slds-align_absolute-center">
+                    <lightning:button label="Prev" title="Prev" onclick="{!c.previousPage}" disabled="{!v.previousButtonDisabled}"/>
+        
+                    <div class="slds-p-horizontal_x-small">
+                        <div class="slds-text-body_regular">{!v.currentPage} of {!v.totalNumberOfPages}</div>
+                    </div>
+        
+                    <lightning:button label="Next" title="Next" onclick="{!c.nextPage}" disabled="{!v.nextButtonDisabled}"/>
+                </div>
+            </aura:if>
+        </div>
+    </div>
+
+    <lightning:overlayLibrary aura:id="overlayLib"/>
+
+ 
+</aura:component>

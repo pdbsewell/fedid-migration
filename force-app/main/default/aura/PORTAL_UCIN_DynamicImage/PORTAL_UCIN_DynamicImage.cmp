@@ -1,0 +1,11 @@
+<!--Headline component used across many of the community pages-->
+<aura:component implements="forceCommunity:availableForAllPageTypes">
+    <ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}"/>
+    <aura:attribute name="assetName" type="String" />
+    
+    <div class="bg-gray-mon max-w-1300 m-auto">
+        <div class="w-full my-4">
+            <img src="{!concat('/sfsites/c/file-asset/', v.assetName)}" />
+        </div>
+    </div>
+</aura:component>

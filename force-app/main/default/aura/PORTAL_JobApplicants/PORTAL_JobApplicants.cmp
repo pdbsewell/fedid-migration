@@ -1,0 +1,60 @@
+<!--
+/*
+ * Copyright (c) 2019, UC Innovation, Inc.  All Rights Reserved.
+ *                     http://www.ucinnovation.com
+ *
+ * This source code is licensed, not sold, and is subject to a written
+ * license agreement.  Among other things, no portion of this source
+ * code may be copied, transmitted, disclosed, displayed, distributed,
+ * translated, used as the basis for a derivative work, or used, in
+ * whole or in part, for any program or purpose other than its intended
+ * use in compliance with the license agreement as part of UC Innovation's
+ * software.  This source code and certain of the algorithms contained
+ * within it are confidential trade secrets of UC Innovation, Inc.
+ * and may not be used as the basis for any other
+ * software, hardware, product or service.
+ */
+-->
+
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="PORTAL_JobBoardController">
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    
+    <aura:attribute name="jobRecId" type="String" required="true" />
+    <aura:attribute name="jobApplicantList" type="List" default="[]" />
+
+    <div class="table-content"  >
+        <table class="slds-table slds-table_bordered slds-table_striped slds-table_cell-buffer slds-table_fixed-layout slds-no-row-hover slds-max-medium-table_stacked-horizontal">
+            <thead class="slds-text-heading_label">
+                <tr style="height: 75px; background-color: #ffe8e9 !important;">
+                    <th scope="col"><div class="slds-truncate" >Applicant Name</div></th>
+                    <th scope="col"><div class="slds-truncate" >Email</div></th>
+                    <th scope="col"><div class="slds-truncate" >Resume</div></th>
+                </tr>
+            </thead>
+            <tbody>
+                <aura:iteration items="{!v.jobApplicantList}" var="applicantInfo">
+                    <tr>
+                        <td scope="row">
+                            <div class="slds-truncate long-output-float-right-mobile" >
+                                <ui:outputText value="{!applicantInfo.ContentDocument.Owner.Name}"/>
+                            </div>
+                        </td>
+                        <td scope="row">
+                            <div class="slds-truncate long-output-float-right-mobile" >
+                                <ui:outputText value="{!applicantInfo.ContentDocument.Owner.Email}"/>
+                            </div>
+                        </td>
+                        <td scope="row">
+                            <div class="slds-truncate long-output-float-right-mobile">
+                                <!-- <ui:outputText value="{!applicantInfo.ContentDocument.Id}"/> -->
+                                <lightning:fileCard fileId="{!applicantInfo.ContentDocument.Id}" description="{!applicantInfo.ContentDocument.Title}"/>
+                            </div>
+                        </td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        </table>
+    </div>
+
+</aura:component>

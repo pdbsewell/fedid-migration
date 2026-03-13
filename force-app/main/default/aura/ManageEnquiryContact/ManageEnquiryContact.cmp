@@ -1,0 +1,210 @@
+<aura:component implements="force:lightningQuickAction,flexipage:availableForAllPageTypes,force:hasRecordId" access="global" controller="ManageEnquiryContactService">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    
+    <lightning:utilityBarAPI aura:id="utilitybar" />
+    <lightning:workspaceAPI aura:id="workspace" />
+    
+    <aura:method name="doSearch" description="Synchronously search for contacts">
+        <aura:attribute name="searchText" type="String" default="Search Text" />
+    </aura:method>
+    
+    <!-- Main component variables -->
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="showModal" default="false" type="Boolean" />
+    <aura:attribute name="isNewContact" default="false" type="Boolean" />
+    <aura:attribute name="searchCounter" default="0" type="Integer" />
+    <aura:attribute name="searchInstanceCounter" default="0" type="Integer" />
+    <aura:attribute name="isValidEmail" default="true" type="Boolean" />
+
+    <!-- Enquiry contact related variables -->
+    <aura:attribute name="handleContactError" default="" type="String" />
+    
+    <!-- Spinner variables -->
+    <aura:attribute name="showManageContactSpinner" default="true" type="Boolean" />
+    <aura:attribute name="showManageEnquiryContactSpinner" default="true" type="Boolean" />
+    <aura:attribute name="showSearchContactModalSpinner" default="false" type="Boolean" />
+    
+    <!-- Table variables -->
+    <aura:attribute name="isTableLoading" default="false" type="Boolean" />
+    <aura:attribute name="data" type="Object"/>
+    <aura:attribute name="columns" type="List"/>
+    <aura:attribute name="sortedBy" type="String" />
+    <aura:attribute name="sortedDirection" type="Boolean" />
+    <aura:attribute name="defaultSortDirection" type="String" />
+    <aura:attribute name="resultLength" default="0" type="Integer" />
+    
+    <!-- Constructor -->
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+    
+    <!-- Case Record -->
+    <aura:attribute name="currentEnquiry" type="Object"/>
+    <aura:attribute name="enquiryError" type="String"/>
+    <force:recordData aura:id="caseRecordLoader"
+        recordId="{!v.recordId}"
+        fields="Id,ContactId,Contact.Person_ID__c,Course_Code__c"
+        targetFields="{!v.currentEnquiry}"
+        targetError="{!v.enquiryError}"
+        mode="EDIT"
+        recordUpdated="{!c.enquiryUpdated}"
+    />
+    
+    <article class="slds-card slds-is-relative">
+        <aura:if isTrue="{!v.showManageContactSpinner}">
+            <div class="slds-box" style="border: none;">
+                <lightning:spinner variant="brand" />
+            </div>
+        </aura:if>
+        <lightning:button label="Manage Contact" title="Manage Contact" 
+                          class="slds-text-heading_small slds-size_1-of-1 slds-p-top_x-small slds-p-bottom_x-small" 
+                          onclick="{!c.showModal}"/>
+    </article>
+    
+    <div>
+        <aura:if isTrue="{!v.showModal}">
+            <!-- Section for Searching Contacts -->
+            <aura:if isTrue="{!v.isNewContact}">
+                <div class="searchContactModal">
+                    <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open slds-modal_large">
+                        <!-- Search Contacts -->
+                        <div class="slds-modal__container">
+                            <header class="slds-modal__header">
+                                <h2 class="slds-text-heading_medium slds-hyphenate">Search Contact</h2>
+                            </header>
+                            <div class="slds-modal__content slds-p-around_medium slds-is-relative slds-grid slds-wrap">
+                                <!-- Show spinner or show details -->
+                                <aura:if isTrue="{!v.showSearchContactModalSpinner}">
+                                    <div class="slds-box" style="border: none;">
+                                        <lightning:spinner variant="brand" />
+                                    </div>
+                                </aura:if>
+                                    
+                                <div onkeyup="{!c.doContactSearch}" class="slds-size_1-of-3">
+                                    <lightning:input aura:id="contact-search"
+                                                     name="enter-search"
+                                                     label="Search contacts to link a record." 
+                                                     placeholder="Search contacts..." />
+                                </div>
+                                <!-- Table Header -->
+                                <div class="slds-size_1-of-1 slds-p-top_x-small">
+                                    <c:HeaderCard IconName="standard:contact" Title="Contacts" SubTitle="{!v.resultLength + ' Results'}" />
+                                </div>
+                                <!-- Table -->
+                                <div style="height: 300px;" class="slds-size_1-of-1 slds-is-relative">
+                                    <lightning:datatable aura:id="contactSearchTable"
+                                                         hideCheckboxColumn="true"
+                                                         columns="{!v.columns}"
+                                                         data="{!v.data}"
+                                                         keyField="id"
+                                                         sortedBy="{!v.sortedBy}"
+                                                         sortedDirection="{!v.sortedDirection}" 
+                                                         defaultSortDirection="{!v.defaultSortDirection}"
+                                                         onsort="{!c.sortData}" 
+                                                         onrowaction="{!c.onContactSelect}" />
+                                    <aura:if isTrue="{!v.isTableLoading}">
+                                        <lightning:spinner variant="brand" alternativeText="Loading"/>
+                                    </aura:if>
+                                </div>
+                            </div>
+                            <footer class="slds-modal__footer">
+                                <!-- Cancel action -->
+                                <lightning:button label="Cancel" title="Cancel" onclick="{!c.cancelModal}"/>
+                                <!-- Update contact -->
+                                <lightning:button aura:id="createContactBtn" type="submit" label="Create Contact" 
+                                                  class="slds-button slds-button_brand" onclick="{!c.openCreateContact}"/>
+                                
+                                <!-- Update contact
+                                <lightning:button aura:id="selectContactBtn" type="submit" label="Select Contact" 
+                                                  class="slds-button slds-button_brand" onclick="{!c.selectContact}" />-->
+                            </footer>
+                        </div>
+                    </section>
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+                </div>
+            </aura:if>
+            <!-- Section for Create/Update Contact -->
+            <aura:if isTrue="{!!v.isNewContact}">
+                <div class="manageContactModal">
+                    <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+                        <div class="slds-modal__container">
+                            <!-- Section shown on updating a contact record -->
+                            <lightning:recordEditForm aura:id="recordViewForm"
+                                                      recordId="{!v.currentEnquiry.ContactId}"
+                                                      objectApiName="Contact"
+                                                      onload="{!c.handleContactLoad}"
+                                                      onsubmit="{!c.handleContactSubmit}"
+                                                      onsuccess="{!c.handleContactSuccess}"
+                                                      onerror="{!c.handleContactError}">
+                            
+                                <header class="slds-modal__header">
+                                    <h2 class="slds-text-heading_medium slds-hyphenate">Manage Contact</h2>
+                                </header>
+                                <div class="slds-modal__content slds-p-around_medium slds-is-relative slds-grid slds-wrap slds-scrollable">
+                                    <!-- Error Messages -->
+                                    <lightning:messages />
+                                    
+                                    <!-- Show spinner or show details -->
+                                    <aura:if isTrue="{!v.showManageEnquiryContactSpinner}">
+                                        <div class="slds-box" style="border: none;">
+                                            <lightning:spinner variant="brand" />
+                                        </div>
+                                    </aura:if>
+
+                                    <aura:if isTrue="{!!v.isValidEmail}">
+                                        <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
+                                            <h2>Email Address Domain is listed as Monash Role Account</h2>
+                                        </div>
+                                    </aura:if>
+
+                                    <!-- Contact First Name and Last Name -->
+                                    <lightning:inputField class="slds-size_1-of-2 slds-p-right_x-small" aura:id="contactFirstName" fieldName="FirstName" />
+                                    <lightning:inputField class="slds-size_1-of-2 slds-p-left_x-small" aura:id="contactLastName" fieldName="LastName" />
+                                    
+                                    <!-- Contact Person Id and Email -->
+                                    <lightning:inputField class="slds-size_1-of-2 slds-p-right_x-small" aura:id="contactPersonId" fieldName="Person_ID_unique__c" />
+                                    <lightning:inputField class="slds-size_1-of-2 slds-p-left_x-small" aura:id="contactEmail" fieldName="Email" onchange="{!c.validateEmail}"/>
+                                    
+                                    <!-- Contact Citizenship Code and Highest Level of edication to date -->
+                                    <lightning:inputField class="slds-size_1-of-2 slds-p-right_x-small" aura:id="contactResidencyStatus" fieldName="Residency_Status__c" value="" />
+                                    <lightning:inputField class="slds-size_1-of-2 slds-p-left_x-small" aura:id="contactHighestLevelOfEducationToDate" fieldName="Highest_level_of_education_to_date__c" value="" />
+                                    
+                                    <!-- Contact Phone and Birthdate -->
+                                    <lightning:inputField class="slds-size_1-of-2 slds-p-right_x-small" aura:id="contactPhone" fieldName="MobilePhone" />
+                                    <lightning:inputField class="slds-size_1-of-2 slds-p-left_x-small" aura:id="contactBirthDate" fieldName="Birthdate" />
+                                    
+                                    <!-- Contact Country of Residence and Nationality -->
+                                    <lightning:inputField class="slds-size_1-of-2 slds-p-right_x-small" aura:id="contactCountryOfResidence" fieldName="Country_of_Residence__c" value="" />
+                                    <lightning:inputField class="slds-size_1-of-2 slds-p-left_x-small " aura:id="contactNationality" fieldName="Nationality__c" value="" />
+                                    
+                                    <!-- Contact Marketing Opt Out and Deceased -->
+                                    <lightning:inputField class="slds-size_1-of-2 slds-p-right_x-small slds-m-top_small slds-m-bottom_small" aura:id="contactOptOut" fieldName="HasOptedOutOfEmail" />
+                                    <lightning:inputField class="slds-size_1-of-2 slds-p-left_x-small slds-m-top_small slds-m-bottom_small" aura:id="contactDeceased" fieldName="Deceased__c" />
+                                    
+                                    <!-- Contact Profile -->
+                                    <lightning:inputField class="slds-size_2-of-2" aura:id="contactContactProfile" fieldName="Contact_Profile__c" />
+                                </div>
+                                <footer class="slds-modal__footer">
+                                    <aura:if isTrue="{!v.currentEnquiry.ContactId == null}">
+                                        <!-- Update contact -->
+                                        <lightning:button aura:id="copyFromEnquiry" label="Copy from Enquiry" class="slds-button slds-float_left" onclick="{!c.copyFromEnquiry}"/>
+                                        <!-- Go back to search -->
+                                        <lightning:button aura:id="copyFromEnquiry" type="submit" label="Search Contact" class="slds-button slds-float_left" onclick="{!c.openSearchContact}"/>
+                                    </aura:if>
+
+                                    <!-- Update contact -->
+                                    <aura:if isTrue="{!v.isValidEmail}">
+                                        <lightning:button aura:id="updateContactSubmit" type="submit" label="{!v.currentEnquiry.ContactId ? 'Update Contact' : 'Create Contact'}" class="slds-button slds-button_brand" />
+                                    </aura:if>
+                                    <!-- Cancel action -->
+                                    <lightning:button label="Cancel" title="Cancel" onclick="{!c.cancelModal}"/>
+                                    <!--<lightning:button label="Add Contact" title="Add Contact" 
+                                                      onclick="{!c.cancelModal}"/>-->
+                                </footer>
+                            </lightning:recordEditForm>
+                        </div>
+                    </section>
+                    <div class="slds-backdrop slds-backdrop_open"></div>
+                </div>
+            </aura:if>
+        </aura:if>
+    </div>
+</aura:component>

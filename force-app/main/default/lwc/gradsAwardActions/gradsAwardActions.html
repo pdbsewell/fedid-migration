@@ -1,0 +1,243 @@
+<template>
+
+    <!-- Use SLDS Spinner to allow positioning higher than modals -->
+    <div class="slds-spinner_container slds-is-fixed" if:true={isPageLoading}>
+        <div role="status" class="slds-spinner slds-spinner_medium">
+            <span class="slds-assistive-text">Loading</span>
+            <div class="slds-spinner__dot-a"></div>
+            <div class="slds-spinner__dot-b"></div>
+        </div>
+    </div>
+
+    <div class="slds-card">
+        <lightning-spinner if:true={isCardLoading}></lightning-spinner>
+        <div class="slds-card__body slds-card__body_inner">
+            <c-expandable-section id="1" label="Award Actions" expanded="true">
+                <div lwc:if={hasPendingState}>
+                    <p class="slds-text-align_center slds-m-bottom_small warning-msg">
+                        Actions restricted due to Payment Pending State
+                        <template lwc:if={pendingStateExpiry}><br>(Expires {pendingStateExpiry})</template>
+                    </p>
+                </div>
+                <div class="button-area">
+                    <!-- Buttons -->
+                    <template for:each={buttons} for:item="button">
+                        <div key={button.name} class="button-container" lwc:if={button.visible}>
+                            <div class="slds-tooltip-trigger">
+                                <lightning-button
+                                        variant="brand"
+                                        label={button.label}
+                                        disabled={button.disabled}
+                                        data-name={button.name}
+                                        onclick={handleButtonClick}>
+                                </lightning-button>
+                                <div if:true={button.disabledTooltip} class="slds-popover slds-popover_tooltip slds-nubbin_bottom custom-tooltip" role="tooltip">
+                                    <div class="slds-popover__body">
+                                        {button.disabledTooltip}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </template>
+                    <p class="slds-text-align_center slds-m-around_medium warning-msg" lwc:if={error}>
+                        Error initialising component: {error}
+                    </p>
+                    <!--
+                    <div class="button-container slds-popover-container">
+                        <div class="slds-tooltip-trigger" onmouseenter={showCancelTooltip} onmouseleave={hideCancelTooltip}>
+                            <lightning-button
+                                    variant="brand"
+                                    label="Cancel"
+                                    disabled={buttons.cancel.disabled}
+                                    onclick={handleCancelAwardClick}>
+                            </lightning-button>
+                            <div if:true={cancelToolTip} class="slds-popover slds-popover_tooltip slds-nubbin_bottom custom-tooltip" role="tooltip">
+                                <div class="slds-popover__body">
+                                    {cancelToolTip}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    -->
+                </div>
+            </c-expandable-section>
+        </div>
+    </div>
+
+    <!-- Refund Modal -->
+    <template if:true={showRefundModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={handleCloseModal}>
+                    <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                </button>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <h2 class="slds-modal__title slds-hyphenate">Refund Award</h2>
+                    <p class="warning-msg slds-m-top_medium slds-text-align_center" lwc:if={refundWarningMsg}>
+                        {refundWarningMsg}
+                    </p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={handleCloseModal}>Close</button>
+                    <button class="slds-button slds-button_brand" onclick={handleRefundConfirm}>
+                        Refund
+                    </button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- Change Award Modal -->
+    <template if:true={showChangeAwardModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={handleCloseModal}>
+                    <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                </button>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <c-grads-award-selector
+                            record-id={recordId}
+                            onsuccess={handleAwardChangeSuccess}
+                            onclose={handleCloseModal}
+                    >
+                    </c-grads-award-selector>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- Cancel Award Modal -->
+    <template if:true={showCancelAwardModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={handleCloseModal}>
+                    <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                </button>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <h2 class="slds-modal__title slds-hyphenate">Cancel Award</h2>
+                    <template lwc:if={isRefundable}>
+                        <p class="warning-msg slds-m-top_medium slds-text-align_center" lwc:if={refundWarningMsg}>
+                            {refundWarningMsg}
+                        </p>
+                        <lightning-input
+                                type="checkbox"
+                                label="Create Refund"
+                                class="slds-text-align_center slds-m-top_medium"
+                                checked={createRefund}
+                                onchange={handleCreateRefundChange}>
+                        </lightning-input>
+                    </template>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={handleCloseModal}>Close</button>
+                    <button class="slds-button slds-button_brand" onclick={handleCancelAwardConfirm}>
+                        Cancel Award
+                    </button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- Change Attendance Modal -->
+    <template if:true={showChangeAttendanceModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={handleCloseModal}>
+                    <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                </button>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <h2 class="slds-modal__title slds-hyphenate">Change Attendance</h2>
+                    <template lwc:if={canRefund}>
+                        <p class="warning-msg slds-m-top_medium slds-text-align_center" lwc:if={refundWarningMsg}>
+                            {refundWarningMsg}
+                        </p>
+                        <div class="slds-m-top_medium slds-text-align_center">
+                            <lightning-input
+                                    type="checkbox"
+                                    label="Create Refund"
+                                    checked={createRefundAttendance}
+                                    onchange={handleCreateRefundAttendanceChange}>
+                            </lightning-input>
+                        </div>
+                    </template>
+                    <template lwc:elseif={changeAttendanceOptions.needsWaiver}>
+                        <p class="slds-m-top_medium slds-text-align_center warning-msg">
+                            For awards under 'Applied' applications, changing the status to 'Attending' requires a fee waiver.
+                        </p>
+                        <div class="slds-m-top_medium slds-text-align_center">
+                            <lightning-input type="text" label="Receipt Number (External System)"
+                                             onchange={handleReceiptNumberChange}></lightning-input>
+                            <lightning-input type="checkbox" label="Has Fee Waiver" class="slds-m-top_small"
+                                             onchange={handleFeeWaiverChange} checked={inputHasFeeWaiver} disabled={inputFeeWaiverDisabled}></lightning-input>
+                        </div>
+                    </template>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={handleCloseModal}>Close</button>
+                    <button class="slds-button slds-button_brand"
+                            onclick={handleChangeAttendanceConfirm}
+                            disabled={changeAttendanceOptions.actionDisabled}>
+                        {changeAttendanceOptions.actionLabel}
+                    </button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- Fee Waiver Modal -->
+    <template if:true={showFeeWaiverModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={handleCloseModal}>
+                    <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                </button>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <h2 class="slds-modal__title slds-hyphenate">Add Fee Waiver</h2>
+                    <p lwc:if={isRefundable} class="slds-m-around_medium slds-text-align_center">
+                        This action will create a refund for the award's payment.
+                    </p>
+                    <div class="slds-m-top_medium slds-text-align_center">
+                        <lightning-input type="text" label="Receipt Number (External System)"
+                                         onchange={handleReceiptNumberChange} placeholder="(Optional)"></lightning-input>
+                    </div>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={handleCloseModal}>Close</button>
+                    <button class="slds-button slds-button_brand" onclick={handleAddFeeWaiverConfirm}>
+                        Add Fee Waiver
+                    </button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!-- Sync Confirmation Modal -->
+    <template if:true={showSyncModal}>
+        <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={handleCloseModal}>
+                    <lightning-icon icon-name="utility:close" size="small"></lightning-icon>
+                </button>
+                <div class="slds-modal__content slds-p-around_medium">
+                    <h2 class="slds-modal__title slds-hyphenate">Force Synchronisation?</h2>
+                    <p class="slds-m-around_medium slds-text-align_center warning-msg">
+                        This has already been cancelled in Callista. Forcing a sync will likely cause errors.
+                    </p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={handleCloseModal}>Close</button>
+                    <lightning-button label="Force Sync" variant="brand" class="slds-m-left_x-small"
+                                      onclick={handleForceSyncConfirm}>
+                    </lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+</template>

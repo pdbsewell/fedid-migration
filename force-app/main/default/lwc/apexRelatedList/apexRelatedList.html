@@ -1,0 +1,58 @@
+<template>
+    <template lwc:if={show}>
+        <article class="slds-card slds-card_boundary">
+            <div class="slds-page-header slds-page-header_joined slds-page-header_bleed slds-shrink-none test-headerRegion slds-is-relative">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-media__figure">
+                        <lightning-icon icon-name={icon} size="small"></lightning-icon>
+                    </div>
+                    <div class="slds-media__body">
+                        <h2 class="slds-card__header-title">
+                            <span>{_title}</span>
+                        </h2>
+                    </div>
+                </header>
+            </div>
+            <div class="slds-card__body slds-card__body_inner">
+                <template lwc:if={records}>
+                    <div class={scrollable}>
+                        <ul class="tile-list ">
+                            <template for:each={records} for:item="rec">
+                                <li class="slds-item" key={rec.id}>
+                                    <lightning-tile>
+                                        <h3 class="slds-tile__title slds-truncate" title={rec.title}>
+                                            <a href={rec.url} onclick={handleRecordClick} data-id={rec.id}>{rec.title}</a>
+                                        </h3>
+                                        <dl class="slds-dl_horizontal">
+                                            <template for:each={rec.values} for:item="val">
+                                                <dt class="slds-dl_horizontal__label slds-text-color_weak" key={val.label}>
+                                                    <p class="slds-truncate" title={val.label}>{val.label}:</p>
+                                                </dt>
+                                                <dd class="slds-dl_horizontal__detail slds-tile__meta" key={val.label}>
+                                                    <template lwc:if={hasFormattedText}>
+                                                        <lightning-formatted-rich-text 
+                                                            class="multi-line-truncate"
+                                                            value={val.value} 
+                                                        ></lightning-formatted-rich-text>
+                                                    </template>
+                                                    <template lwc:else>
+                                                        <p class="slds-truncate" title={val.value}>{val.value}</p>
+                                                    </template>
+                                                </dd>
+                                            </template>
+                                        </dl>
+                                    </lightning-tile>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </template>
+                <template lwc:elseif={errorMsg}>
+                    <div class="errors">
+                        {errorMsg}
+                    </div>
+                </template>
+            </div>
+        </article>
+    </template>
+</template>

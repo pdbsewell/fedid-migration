@@ -1,0 +1,141 @@
+<aura:component controller="PORTAL_UCIN_LoginController" implements="forceCommunity:availableForAllPageTypes" access="global">
+    <!--Static-->
+    <aura:attribute name="startUrl" type="String" required="false" description="The url you go to after a successful login" />
+    <aura:attribute name="usernameLabel" type="String" required="false" default="Username"/>
+    <aura:attribute name="passwordLabel" type="String" required="false" default="Password"/>
+    <aura:attribute name="usernamePlaceholder" type="String" required="false"/>
+    <aura:attribute name="passwordPlaceholder" type="String" required="false"/>
+    <aura:attribute name="loginButtonLabel" type="String" required="false" default="Log in"/>      
+    <aura:attribute name="forgotPasswordQuestion" type="String" required="false" default="Forgotten your password? "/>
+    <aura:attribute name="forgotPasswordLabel" type="String" required="false" default="Reset it"/>
+    <aura:attribute name="codeOfConduct" type="String" required="false" default="By clicking Log In, you agree to the "/>
+    <aura:attribute name="codeOfConductLabel" type="String" required="false" default="Code of Conduct "/>
+    <aura:attribute name="forgotPasswordUrl" type="String" required="false" default="/ForgotPassword"/>
+    <aura:attribute name="activateAccountQuestion" type="String" required="false" default="Are you a Monash Alumni but don’t have an account?"/>
+    <aura:attribute name="activateAccountLabel" type="String" required="false" default="Activate account"/>
+    <aura:attribute name="activateAccountUrl" type="String" required="false" default="../activateaccount"/>
+	
+    <aura:attribute name="questionsAboutPortal" type="String" required="false" default="Questions about the portal? "/>
+    <!--<aura:attribute name="readFAQ" type="String" required="false" default="Read the FAQs"/>-->
+    
+    <!--Social Logins, Will be day 2-->
+    <aura:attribute name="connectWithFacebookLabel" type="String" required="false" default="Connect with Facebook"/>
+    <aura:attribute name="connectWithFacebookUrl" type="String" required="false" default="https://facebook.com"/>
+    <aura:attribute name="connectWithLinkedInLabel" type="String" required="false" default="Connect with LinkedIn"/>
+    <aura:attribute name="connectWithLinkedInUrl" type="String" required="false" default="https://linkedin.com"/>
+
+    <aura:attribute name="communityForgotPasswordUrl" type="String" access="private"/>
+    <aura:attribute name="communityActivateAccountUrl" type="String" access="private"/>
+
+    <!--Error Messages-->
+    <aura:attribute name="usernameErrorMessage" type="String"/>
+    <aura:attribute name="passwordErrorMessage" type="String"/>
+
+    <!--Spinner-->
+    <aura:attribute name="loaded" type="Boolean" default="true" />
+
+    <aura:registerevent name="sitePropagatedStartUrl" type="c:setStartUrl"/>
+    <aura:handler name="init" value="{!this}" action="{!c.onInit}"/>
+    <aura:handler event="c:setStartUrl" action="{!c.setStartUrl}"/>
+    <aura:dependency resource="c:setStartUrl" type="EVENT"/>
+    <ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}"/>
+	
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+    <div class="relative">
+        <!-- Spinner -->
+		<div>
+			<aura:if isTrue="{!!v.loaded }">
+				<lightning:spinner alternativeText="Loading" />
+			</aura:if>
+		</div>
+        <div class="flex justify-center my-4 bg-cover" style="{!'background-image:url('+$ContentAsset.banner4+')'}">
+            <div class="max-w-lg flex flex-col justify-center items-center px-6 pt-10 pb-6 overflow-hidden shadow-lg bg-white ucin-whitebox">
+                <div class="pt-6 self-start">
+                    <div class="font-medium text-4xl mb-2 uppercase leading-none">Welcome to the</div>
+                    <div class="font-extrabold text-6xl mb-2 uppercase leading-none">Alumni Portal</div>
+                    <p class="pb-2 text-lg leading-loose text-dark-grey"> Have a My.App account? Use the same credentials to login here
+                    </p>
+                </div>
+                <!--Social logins will be day 2-->
+                <!--
+                <div class="sm:w-4/5 pb-8">
+                    <button class="bg-indigo hover:bg-gray-400 text-white font-bold py-2 px-4 inline-flex items-center w-full mb-4" onclick="{!c.navigateToConnectWithFacebook}">
+                        <c:svg class="fill-current w-6 h-6 mr-2 white" xlinkHref="{!$Resource.PORTAL_UCIN_Resources + '/Resources/icons/ico_facebook.svg#icoimg'}" ariaHidden="true"/>
+                        <span class="w-full">{!v.connectWithFacebookLabel}</span>
+                    </button>
+                    <button class="bg-blue hover:bg-gray-400 text-white font-bold py-2 px-4 inline-flex items-center w-full" onclick="{!c.navigateToConnectWithLinkedIn}">
+                        <c:svg class="fill-current w-6 h-6 mr-2 white" xlinkHref="{!$Resource.PORTAL_UCIN_Resources + '/Resources/icons/ico_linkedin.svg#icoimg'}" ariaHidden="true"/>
+                        <span class="w-full">{!v.connectWithLinkedInLabel}</span>
+                    </button>
+                </div>
+                <div class="relative w-full flex justify-center items-center">
+                    <div class="w-10 h-10 bg-dark-grey mx-auto rounded-full text-lg text-white flex items-center">
+                        <span class="z-10 text-white text-center w-full">or</span>
+                    </div>
+                    <span class="absolute w-full border-solid border-dark-grey border"></span>
+                </div>
+                -->
+                <div class="bg-white sm:w-4/5 pt-4 pb-4 w-full justify-center items-center">
+                    <div class="mb-4">
+                        <label class="block text-gray-900 text-md font-bold mb-2 text-xl text-dark-grey" for="username">
+                            {!v.usernameLabel}
+                        </label>
+                        <ui:inputText value="" aura:id="username" placeholder="{!v.usernamePlaceholder}" keyup="{!c.onKeyUp}" class="shadow appearance-none border w-full py-2 px-3 text-gray-800 text-xl leading-tight focus:outline-none focus:shadow-outline"/>
+                        <aura:if isTrue="{!not(empty(v.usernameErrorMessage))}">
+                            <p class="text-red-500 text-xs italic">{!v.usernameErrorMessage}</p>
+                        </aura:if>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-900 text-md font-bold mb-2 text-xl text-dark-grey" for="password">
+                            {!v.passwordLabel}
+                        </label>
+                        <ui:inputSecret value="" aura:id="password" placeholder="{!v.passwordPlaceholder}" keyup="{!c.onKeyUp}" class="shadow appearance-none border border-red-500 w-full py-2 px-3 text-gray-800 text-xl mb-3 leading-tight focus:outline-none focus:shadow-outline"/>
+                        <aura:if isTrue="{!not(empty(v.passwordErrorMessage))}">
+                            <p class="text-red-500 text-xs italic">{!v.passwordErrorMessage}</p>
+                        </aura:if>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <button aura:id="btnSubmit" class="bg-blue hover:bg-blue-700 text-white font-bold py-2 px-10 focus:outline-none focus:shadow-outline ucin-button" onclick="{!c.onLogin}">
+                            <span>{!v.loginButtonLabel}</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="self-start w-full sm:w-5/5 max-w-s pt-4">  
+                    <p class="pb-2 text-lg leading-loose text-dark-grey"> 
+                        {!v.codeOfConduct}
+                        <a class="underline inline-block align-baseline font-bold text-blue hover:text-blue-800" 
+                            href="https://www.monash.edu/alumni/contact/directory-code-of-conduct/" target="_blank">
+						{!v.codeOfConductLabel}                            
+                        </a><br/>
+                        Email 
+                        <a class="underline inline-block align-baseline font-bold text-blue hover:text-blue-800" href="mailto:monashalumni@monash.edu?subject=Sign%20up%20to%20the%20alumni%20portal" target="_blank">monashalumni@monash.edu
+                        </a> 
+                        to request access<br/>
+                        {!v.forgotPasswordQuestion}
+                        <a class="underline inline-block align-baseline font-bold text-blue hover:text-blue-800" href="{!if(v.communityForgotPasswordUrl == null, v.forgotPasswordUrl, v.communityForgotPasswordUrl)}">
+                            {!v.forgotPasswordLabel}
+                        </a>
+                        <br/>{!v.questionsAboutPortal}
+                         See our 
+                        <a class="underline inline-block align-baseline font-bold text-blue hover:text-blue-800" href="https://www.monash.edu/alumni/alumni-portal/portal/_nocache" target="_blank">
+                            FAQs 
+                        </a>
+                        or                        
+                        <a class="underline inline-block align-baseline font-bold text-blue hover:text-blue-800" href="https://youtu.be/fWmFvDka1Q0" target="_blank">
+                           video
+                        </a>
+                    </p>
+                   <!-- <p class="pb-2 text-lg leading-normal ucin-light-grey-font">{!v.questionsAboutPortal}
+                        <a class="underline inline-block align-baseline font-bold text-blue hover:text-blue-800" href="https://www.monash.edu/alumni/contact/faqs/portal/_nocache">
+                            Read the FAQs
+                        </a>
+                        or 
+                        <a class="underline inline-block align-baseline font-bold text-blue hover:text-blue-800" href="https://www.monash.edu/alumni/contact/directory-code-of-conduct/_recache">
+                            watch the video
+                        </a>
+                    </p>-->
+                </div>
+            </div>
+        </div>
+    </div>
+</aura:component>

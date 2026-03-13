@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <name>Contact_Document_API</name>
+        <label>Contact Document API</label>
+        <locationX>1144</locationX>
+        <locationY>395</locationY>
+        <actionName>ContactDocumentPostAppPB</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>contactDocIds</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>ContactDocumentPostAppPB</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <actionCalls>
+        <description>Send Grad research Document</description>
+        <name>SendGRDocument</name>
+        <label>SendGRDocument</label>
+        <locationX>471</locationX>
+        <locationY>402</locationY>
+        <actionName>GRInvocablePostDocumentService</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>contactDocIdList</name>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>GRInvocablePostDocumentService</nameSegment>
+        <offset>0</offset>
+    </actionCalls>
+    <apiVersion>62.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <description>Post Submission Decision for Grad Research Doc request</description>
+        <name>Post_Submission_Decision_for_Grad_Research</name>
+        <label>Post Submission Decision for Grad Research</label>
+        <locationX>768</locationX>
+        <locationY>402</locationY>
+        <defaultConnectorLabel>Default</defaultConnectorLabel>
+        <rules>
+            <name>Post_Submit_Request_Grad_Res</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Application__r.Type_of_Study__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Graduate Research</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Post_Submission__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>SendGRDocument</targetReference>
+            </connector>
+            <label>Post_Submit_Request_Grad_Res</label>
+        </rules>
+        <rules>
+            <name>Document_Owner_Mismatched_Changed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Document_Owner_Mismatch__c</leftValueReference>
+                <operator>IsChanged</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Contact_Document_API</targetReference>
+            </connector>
+            <label>Document Owner Mismatched Changed</label>
+        </rules>
+        <rules>
+            <name>Post_Submission_is_True</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Post_Submission__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Contact_Document_API</targetReference>
+            </connector>
+            <label>Post Submission is True</label>
+        </rules>
+    </decisions>
+    <description>Post Application document submission to Callista when the document owner mismatch is false</description>
+    <environments>Default</environments>
+    <interviewLabel>Contact Document : AS : Post Application Submission {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Contact Document : AS : Post Application Submission</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>650</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Post_Submission_Decision_for_Grad_Research</targetReference>
+        </connector>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterFormula>{!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = false &amp;&amp; CONTAINS({!$Label.Bypass_Specific_Flow}, &quot;Contact_Document_AS_Post_Application_Submission,&quot;) = false &amp;&amp; {!$Record.Submitted__c} = true &amp;&amp; {!$Record.Document_Owner_Mismatch__c} = false</filterFormula>
+        <object>Contact_Document__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

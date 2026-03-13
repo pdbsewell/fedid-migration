@@ -1,0 +1,12 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId,force:appHostable,flexipage:availableForRecordHome,force:lightningQuickActionWithoutHeader,lightning:isUrlAddressable" 
+                access="global" >
+    <aura:attribute name="recordId" type="String" access="public" />
+    <!--style to increase width-->
+    <aura:html tag="style">
+        .slds-modal__container{
+        max-width: 60rem !important;
+        width:60% !important;
+        }
+    </aura:html>
+    <c:opportunityCreation accountRecordId="{!v.recordId}" onclose="{!c.closeQuickAction}"/>
+</aura:component>

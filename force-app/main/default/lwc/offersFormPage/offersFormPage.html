@@ -1,0 +1,40 @@
+<!--
+  @File Name          : offersFormPage.html
+  @Description        : 
+  @Author             : Jasmin Joy Rudio
+  @Group              : 
+  @Last Modified By   : jasmin.rudio@monash.edu
+  @Last Modified On   : 3/10/2020, 2:56:18 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    10/28/2019   Jasmin Joy Rudio     Initial Version
+-->
+<template>
+    <template if:true={spinner}>
+        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </template>
+    <template if:true={hasRendered}>
+        <div key={page.Id} class="page-div">
+            <h1 key={page.Id} if:true={showTitle} class="page-name">{page.name}</h1>
+            <div class="section-div">
+                <template for:each={page.form_Elements} for:item="element">
+                    <c-formelement key={page.Id}
+                                    section={element} 
+                                    form={page}
+                                    contact-id={contactId}
+                                    offer-id={offerId}
+                                    offer-record={offerRecord}
+                                    quote-clauses={quoteClauses}>
+
+                    </c-formelement>
+                </template> 
+            </div>
+        </div>
+
+        <br/>
+        <c-offer-navigation-component offer-record={offerRecord} wizard-page={page}
+                                onprevious={previousHandler} onnext={nextHandler}>
+        </c-offer-navigation-component>
+        <br/><br/><br/><br/><br/><br/>
+    </template>
+</template>

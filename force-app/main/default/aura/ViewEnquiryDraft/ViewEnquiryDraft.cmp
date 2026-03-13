@@ -1,0 +1,85 @@
+<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId" access="global" controller="ViewEnquiryDraftService">
+    <lightning:quickActionAPI aura:id="quickActionAPI" />
+    <aura:attribute name="recordId" default="{!v.recordId}" type="Id" access="global" />
+    <aura:attribute name="isOwnerUser" default="false" type="Boolean" />
+    <aura:attribute name="showModalDraft" default="false" type="Boolean" />
+    <aura:attribute name="draftEmailMessage" default="" type="String" />
+    <aura:attribute name="disableCopyToEmailComposer" default="true" type="Boolean" />
+    <aura:attribute name="emailComposerApiName" default="" type="String" />
+    <aura:attribute name="showNoDraft" default="false" type="Boolean" />
+    
+    <!-- Spinner variables -->
+    <aura:attribute name="showDraftSpinner" default="false" type="Boolean" />
+    
+    <!-- Constructor -->
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+    
+    <!-- Case Record -->
+    <aura:attribute name="currentEnquiry" type="Object"/>
+    <aura:attribute name="enquiryError" type="String"/>
+    <force:recordData aura:id="viewDraftEnquiryRecordLoader"
+        recordId="{!v.recordId}"
+        fields="Id,RecordType.DeveloperName,OwnerId,Owner.Name,RecordType.DeveloperName"
+        targetFields="{!v.currentEnquiry}"
+        targetError="{!v.enquiryError}"
+        mode="EDIT"
+        recordUpdated="{!c.enquiryUpdated}"
+    />
+    
+    <div class="slds-card slds-is-relative slds-m-left_x-small">
+        <lightning:button label="View Draft" title="View Draft" 
+                          class="slds-text-heading_small slds-size_1-of-1 slds-p-top_small slds-p-bottom_small" 
+                          disabled="{!!v.isOwnerUser}"
+                          onclick="{!c.accessEnquiryOwnerDraft}"/>
+    </div>
+    
+    <!-- Section for Enquiry Owner Draft Email Message -->
+    <aura:if isTrue="{!v.showModalDraft}">
+        <div class="draftModal">
+            <section aura:id="draftModal" role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open slds-modal_small">
+                <!-- Search Contacts -->
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <h2 class="slds-text-heading_medium slds-hyphenate">Enquiry Owner: {!v.currentEnquiry.Owner.Name}'s Draft Email Message</h2>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium slds-is-relative slds-grid slds-wrap">
+                        <!-- Show spinner or show details -->
+                        <aura:if isTrue="{!v.showDraftSpinner}">
+                            <div class="slds-box" style="border: none;">
+                                <lightning:spinner variant="brand" />
+                            </div>
+                        </aura:if>
+                        
+                        <div class="emailContent">
+                            <lightning:formattedRichText value="{!v.draftEmailMessage}" />
+                        </div>
+                        
+                        <aura:if isTrue="{!v.showNoDraft}">
+                            <div id="noDraftWarningToast" aura:id="noDraftWarningToast" class="slds-size--1-of-1 slds-card_boundary" style="background color: white;">
+                                <div class="slds-notify_container slds-is-relative">
+                                    <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_default" role="alert">
+                                        <span class="slds-assistive-text">info</span>
+                                        <span class="slds-icon_container slds-icon-utility-success slds-m-right_small slds-no-flex slds-align-top">
+                                            <lightning:icon iconName="utility:warning" alternativeText="Warning!" variant="warning" />
+                                        </span>
+                                        <div class="slds-notify__content">
+                                            <h2 class="slds-text-heading_small">No Available Draft Email Message</h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:if>
+                        
+                    </div>
+                    <footer class="slds-modal__footer">
+                        <!-- Cancel action -->
+                        <lightning:button label="Cancel" title="Cancel" class="slds-button" onclick="{!c.cancelModalDraft}" />
+                        <!-- Copy Draft Email Message -->
+                        <lightning:button label="Copy to Email Composer" class="slds-button slds-button_brand" onclick="{!c.copyToComposer}" disabled="{!or(v.disableCopyToEmailComposer,v.showNoDraft)}" />
+                    </footer>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </aura:if>
+</aura:component>

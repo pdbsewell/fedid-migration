@@ -1,0 +1,129 @@
+<template>
+    <template if:true={openModal}>
+        <section class="slds-modal slds-fade-in-open slds-modal_medium">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h2 class="slds-modal__title slds-hyphenate">Opportunity Search</h2> 
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" >
+                        </lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                </header>
+                
+                <div class="slds-modal__content .slds-is-absolute slds-p-around_medium">
+                    <!--LOADING SPINNER-->
+                    <template if:true={showSpinner}> 
+                        <div class="slds-is-relative" style="min-height: 200px;">
+                            <lightning-spinner alternative-text="Loading" class="spins" variant="brand" size="large"></lightning-spinner>
+                        </div>            
+                    </template>
+                    <template if:false={showSpinner}> 
+                        <lightning-layout-item size="9">
+                            <lightning-layout multiple-rows="true">
+                                <lightning-layout-item size="12" padding="around-small">
+                                    <lightning-card>
+                                        <lightning-layout slot="actions">
+                                            <!-- CARD BUTTONS -->
+                                            <lightning-layout-item padding="around-small">
+                                                <lightning-button label="Merge and Sync Opportunity" variant="neutral" onclick={delOpptyInitiateSync} icon-name="utility:process" title="Begin Processing"></lightning-button>
+                                            </lightning-layout-item>
+                                        </lightning-layout>
+                                    </lightning-card>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </lightning-layout-item>
+
+                        <div class="slds-p-around_x-small">
+                            <table id="data-table" class=" tableClass slds-table slds-table_cell-buffer slds-table_bordered">
+                                <thead>
+                                    <tr class="">
+                                        <th style="width:10%" scope="col">
+                                            <div class="columnWrapper" title="">Merge</div>
+                                        </th>
+                                        <th style="width:10%" scope="col">
+                                            <div class="columnWrapper" title="">Edit Access</div>
+                                        </th>
+                                        <th style="width:20%" scope="col"> 
+                                            <div class="columnWrapper" title="">Name</div>
+                                        </th>
+                                        <th style="width:15%" scope="col">
+                                            <div class="columnWrapper" title="">Account Name</div>
+                                        </th>
+                                        <th style="width:10%" scope="col">
+                                            <div class="columnWrapper" title="">Pure Id</div>
+                                        </th>
+                                    </tr>
+                                </thead> 
+                                <tbody>
+                                    <template for:each = {data} for:item = "item" for:index="indexVar">
+                                        <tr key={item.key} class="slds-hint-parent">
+                                            <td class="columnWrapper" data-label=""> 
+                                                <a data-id={item.linkedOppty.Id} onclick={handlePrimaryChange}> 
+                                                    <input id={item.linkedOppty.Id} checked={item.isPrimary} disabled={item.disabled} type="radio"/> 
+                                                </a>
+                                            </td>
+                                            <td class="columnWrapper">
+                                                {item.hasEditAccess}
+                                            </td>
+                                            <td class="columnWrapper">
+                                                <a data-id={item.linkedOppty.Id} onclick={handleRecordClick}>
+                                                    {item.linkedOppty.Name}
+                                                </a>
+                                            </td>
+                                            <td class="columnWrapper">
+                                                <a data-id={item.linkedOppty.Account.Id} onclick={handleRecordClick}>
+                                                    {item.linkedOppty.Account.Name} 
+                                                </a>
+                                            </td>
+                                            <td class="columnWrapper">
+                                                {item.linkedOppty.PURE_Application_ID__c}
+                                            </td>
+                                        </tr>
+                                    </template>
+                                </tbody>
+                            </table>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div> 
+    </template>
+    <template if:true={hasEditAccess}>  
+        <div class="slds-box slds-theme_default">
+            <template if:false={isPureOppty}> 
+                <lightning-layout >
+                    <lightning-layout-item>
+                        <lightning-icon icon-name="standard:account" size="small"></lightning-icon>
+                    </lightning-layout-item> 
+                    <lightning-layout-item padding="horizontal-small">
+                        <div class="slds-card__header-title">Find and merge duplicate PURE/UniCRM opportunities.</div>  
+                    </lightning-layout-item> 
+                </lightning-layout>
+                <lightning-layout multiple-rows="false">
+                    <lightning-layout-item  size="8" padding="horizontal-small">
+                        <lightning-input id="pureIdNumber" type="text" name="test" label="" placeholder="Search PURE Application Id..." onkeyup={handleKeyUpChange} value={pureId} min="0" maxlength="18" onchange={handlePureIdChange}></lightning-input>
+                    </lightning-layout-item>
+                    <lightning-layout-item  size="3" padding="horizontal-small"> 
+                        <div class="slds-m-top_medium">
+                            <lightning-button label="Search" variant="brand" onclick={handleSearchAndShowModal} icon-name="utility:search" title="Begin Processing"></lightning-button>
+                        </div>                
+                    </lightning-layout-item> 
+                </lightning-layout>
+            </template>
+            <template if:true={isPureOppty}>
+                <lightning-layout multiple-rows="false">
+                    <lightning-layout-item  size="6" padding="horizontal-small"> 
+                        <div class="slds-m-top_medium">
+                            <lightning-button label="Sync Opportunity" variant="brand" onclick={handleInitiateSync} title="Begin Processing"></lightning-button>
+                        </div>                
+                    </lightning-layout-item> 
+                </lightning-layout>
+            </template>
+        </div>
+    </template>
+</template>

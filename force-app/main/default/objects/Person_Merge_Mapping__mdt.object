@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Field Mapping for Contact Merge (Adding SObjectField from Contact will Override Master values from Child)</description>
+    <fields>
+        <fullName>Boolean_AND__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>This field controls whether an OR or AND logic is applied when comparing boolean field values in a merge operation.  Checked = AND, Unchecked = OR</description>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <label>Boolean AND</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>No_Null_Check_Values__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>If True will not enforce Null check on Master when replacing values</description>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <inlineHelpText>If True will not enforce Null check on Master when replacing values</inlineHelpText>
+        <label>No Null Check Values</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>SObjectField__c</fullName>
+        <description>API Name of Contact Field</description>
+        <externalId>false</externalId>
+        <fieldManageability>SubscriberControlled</fieldManageability>
+        <inlineHelpText>API Name of Contact Field</inlineHelpText>
+        <label>SObjectField</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Person Merge Mapping</label>
+    <pluralLabel>Person Merge Mappings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

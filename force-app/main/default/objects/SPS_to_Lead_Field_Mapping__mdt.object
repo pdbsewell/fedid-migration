@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Maps Staged Prospective Student fields to Lead for Lead Explosion/Lead Nurturing</description>
+    <fields>
+        <fullName>Lead_Field__c</fullName>
+        <description>Lead field being mapped to SPS field</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Lead Field</label>
+        <length>100</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>SPS_field__c</fullName>
+        <description>SPS field being mapped to Lead field</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>SPS field</label>
+        <length>100</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Text_to_Boolean__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Determines whether we are mapping a text field from SPS into a Boolean field in Lead</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Text to Boolean</label>
+        <type>Checkbox</type>
+    </fields>
+    <label>SPS to Lead Field Mapping</label>
+    <pluralLabel>SPS to Lead Field Mappings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

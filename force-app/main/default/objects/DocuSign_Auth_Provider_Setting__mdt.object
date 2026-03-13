@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Settings for the custom DocuSign Auth Provider plugin</description>
+    <fields>
+        <fullName>Access_Token_URI__c</fullName>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Access Token URI</label>
+        <required>true</required>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Account_Id__c</fullName>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Account Id</label>
+        <required>true</required>
+        <type>TextArea</type>
+    </fields>
+    <fields>
+        <fullName>Authorization_First_Name__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Authorization First Name</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Authorization_Last_Name__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Authorization Last Name</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Authorization_Locale__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Authorization Locale</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Authorization_URI__c</fullName>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Authorization URI</label>
+        <required>true</required>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Authorization_User_Email__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Authorization User Email</label>
+        <required>true</required>
+        <type>Email</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Authorization_User_Name__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Authorization User Name</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Callback_URL__c</fullName>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Callback URL</label>
+        <required>true</required>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>Client_Id__c</fullName>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Client Id</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Private_Key__c</fullName>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Private Key</label>
+        <length>131072</length>
+        <type>LongTextArea</type>
+        <visibleLines>15</visibleLines>
+    </fields>
+    <fields>
+        <fullName>aud__c</fullName>
+        <description>The URI of the authentication service instance to be used.
+
+For demo environments, use account-d.docusign.com.
+For production environments, use account.docusign.com.
+
+Important Note: Do not include https:// in the aud value!</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>aud</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>iss__c</fullName>
+        <description>The integration key (also known as client ID) of the application.</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>iss</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>sub__c</fullName>
+        <description>The user ID of the user to be impersonated.
+
+The provided user ID must be in GUID (not email) format. You can look up a user’s GUID from their email using the /restapi/v2/accounts/account_id/users?email=email method call.
+
+Note: If you don’t already have the account ID of the user to act on behalf of, you can obtain it by completing the [authorization code grant](https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-code-grant) flow begun in the [Request the Authorization Code](https://developers.docusign.com/esign-rest-api/guides/authentication/oauth2-code-grant#step-1:-request-the-authorization-code) step.</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>sub</label>
+        <length>255</length>
+        <required>true</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>DocuSign Auth Provider Setting</label>
+    <pluralLabel>DocuSign Auth Provider Settings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

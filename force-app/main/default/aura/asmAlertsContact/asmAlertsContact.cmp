@@ -1,0 +1,77 @@
+<aura:component
+  implements="flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes"
+  controller="asmAlertsContactCC"
+  access="global"
+>
+  <aura:attribute name="contactId" type="Id" default="" />
+
+  <aura:attribute name="anyAlerts" type="Boolean" default="false" />
+  <aura:attribute name="isUnder18" type="Boolean" default="" />
+  <aura:attribute name="hasEncumbrances" type="Boolean" default="" />
+  <aura:attribute name="hasDisabilities" type="Boolean" default="" />
+  <aura:attribute name="hasGTEAlert" type="Boolean" default="" />
+  <aura:attribute name="hasCitizenshipAlert" type="Boolean" default="" />
+  
+  <!-- loading variable -->
+  <aura:attribute name="showComponentLoader" type="Boolean" default="true"/>
+
+  <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+
+  <lightning:card footer="" title="Alerts" iconName="action:priority">
+    <!-- card body -->
+    <p class="slds-border_top">
+      <aura:if isTrue="{!v.anyAlerts}">
+        <!-- show spinner -->
+        <aura:if isTrue="{!v.showComponentLoader}">
+            <div class="slds-is-relative" style="min-height: 75px;">
+                <lightning:spinner alternativeText="Loading" size="medium" variant="brand" />
+            </div>
+        </aura:if>        
+        <!-- show content / hide spinner -->
+        <aura:if isTrue="{!!v.showComponentLoader}">
+          <!-- alerts -->
+          <lightning:layout multipleRows="true" class="slds-p-horizontal_small slds-p-top_medium">
+              <aura:if isTrue="{!v.hasEncumbrances}"> 
+                  <lightning:layoutItem>
+                      <div class="slds-m-bottom_small slds-m-horizontal_xx-small">
+                          <lightning:badge class="badge_red_notification" label="Active Encumbrances"/>
+                      </div>
+                  </lightning:layoutItem>
+              </aura:if>
+          </lightning:layout>
+        </aura:if>
+
+        <!--
+                  <aura:if isTrue="{!v.isUnder18}">
+                      <li>
+                      <p class="slds-p-horizontal_small slds-text-color_error">Under 18</p>
+                      </li>
+                  </aura:if>
+                  <aura:if isTrue="{!v.hasDisabilities}">
+                      <li>
+                      <p class="slds-p-horizontal_small slds-text-color_error">Disability/Accessibility Requirements</p>
+                      </li>
+                  </aura:if>
+                  <aura:if isTrue="{!v.hasGTEAlert}">
+                      <li>
+                      <p class="slds-p-horizontal_small slds-text-color_error">GTE Alert for 1 or more Qualification(s)</p>
+                      </li>
+                  </aura:if>
+                  <aura:if isTrue="{!v.hasCitizenshipAlert}">
+                      <li>
+                      <p class="slds-p-horizontal_small slds-text-color_error">International Applicant</p>
+                      </li>
+                  </aura:if>
+  -->
+
+        <aura:set attribute="else">
+          <p class="slds-p-horizontal_small slds-p-top_x-small slds-text-color_success">
+            No Alerts for this Contact.
+          </p>
+        </aura:set>
+      </aura:if>
+    </p>
+  </lightning:card>
+
+  <div></div>
+</aura:component>

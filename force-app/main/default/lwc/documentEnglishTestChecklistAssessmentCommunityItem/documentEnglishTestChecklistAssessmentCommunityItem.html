@@ -1,0 +1,128 @@
+<template>
+    <div class="slds-is-relative">
+        <!-- added the shadow manually for internal view component inside a tab issue -->
+        <article class="slds-card slds-card_boundary" style="box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.10);">
+            <template if:true={checklistItem}>
+                <div class="slds-card__header slds-grid">
+                    <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                            <span class="slds-card__header-title">
+                                <lightning-layout vertical-align="center">
+                                    <!-- checklist header -->
+                                    <lightning-layout-item>
+                                        <!-- applicant - non-other -->
+                                        <template if:false={isOtherChecklist}>
+                                            <p class="slds-text-body_regular generalText" style="font-weight: bold; margin-top: 0; margin-bottom: 0;">
+                                                {checklistItem.fields.Checklist_Requirement__c.value}
+                                                <template if:true={isCredentialProviderAvailable}>
+                                                   <br/>(Document Checklist Id: {checklistItemName})
+                                                </template>
+                                            </p>
+                                        </template>
+                                        <!-- applicant - other -->
+                                        <template if:true={isOtherChecklist}>
+                                            <p class="slds-text-body_regular generalText" style="font-weight: bold; margin-top: 0; margin-bottom: 0;">
+                                                {checklistItem.fields.Checklist_Requirement__c.value}
+                                            </p>
+                                        </template>
+                                    </lightning-layout-item>
+                                    <lightning-layout-item alignment-bump="left">
+
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </span>
+                        </div>
+                        <div class="slds-no-flex slds-float_right">
+                            <div style="float: right;">
+                                <!-- comments notification -->
+                                <template if:true={commentNotification}>
+                                    <lightning-badge class={commentNotificationClass} label={commentNotification} onclick={showCommentsWindow}></lightning-badge>
+                                </template>
+                                <lightning-button-icon if:false={hideDocumentUpload} icon-name="utility:upload" alternative-text="Upload" onclick={showFileUploadWindow} style="float: right;"></lightning-button-icon>
+                            </div>
+                        </div>
+                    </header>
+                </div>
+                <template if:true={isDocumentSelected}>
+                    <div class="slds-card__body slds-card__body_inner slds-is-relative">
+                        <p class="slds-text-body_small slds-p-right_small generalText" style="margin-top: 0; margin-bottom: 0;">
+                            <lightning-formatted-rich-text value={checklistItem.fields.Applicant_Instructions_UI__c.value}></lightning-formatted-rich-text>
+                        </p>
+                    </div>
+                </template>
+                <div class="slds-card__body slds-card__body_inner slds-border_top slds-is-relative">
+                    <!-- On documents toggle -->
+                    <template if:true={isDocumentSelected}>
+                        <!-- show document details -->
+                        <template if:true={documentItems}>
+
+                            <!-- show if there are results -->
+                            <template if:true={hasDocumentItems}>
+
+                                <lightning-layout multiple-rows="true" padding="horizontal-small" class="slds-m-top_xx-small" pull-to-boundary="small">
+                                    <template for:each={documentItems} for:item='documentItem'>
+                                        <lightning-layout-item key={documentItem.contactDocumentId} size="6" small-device-size="12" medium-device-size="6" large-device-size="6">
+
+                                            <!-- Show ui for file card -->
+                                            <c-document-checklist-assessment-community-file-card document-details={documentItem}
+                                                                                                 onrefreshdocumentitem={hideFileUploadWindow}
+                                                                                                 application-status={applicationStatus}
+                                                                                                 onfilepreview={onFilePreview}>
+                                            </c-document-checklist-assessment-community-file-card>
+
+                                        </lightning-layout-item>
+                                    </template>
+                                </lightning-layout>
+
+                            </template>
+
+                            <!-- show if there are no results -->
+                            <template if:false={hasDocumentItems}>
+                                <template if:false={documentItemId}>
+                                    <div class="slds-m-top_medium">
+                                        <span class="generalText">{infoMessage}</span>
+                                    </div>
+                                </template>
+                            </template>
+                        </template>
+                    </template>
+                </div>
+            </template>
+            <template if:false={checklistItem}>
+                <!-- Loading spinner while retrieving checklist item -->
+                <c-document-checklist-assessment-community-loader loader-count="3"></c-document-checklist-assessment-community-loader>
+            </template>
+        </article>
+    </div>
+
+    <!-- file upload -->
+    <template if:true={showFileUploader}>
+        <c-document-checklist-assessment-community-file-upload onclose={hideFileUploadWindow}
+                                                               oncancel={cancelFileUploadWindow}
+                                                               checklist={checklistItem}
+                                                               checklist-item-name={checklistItemName}
+                                                               application-name={applicationName}
+                                                               contact-qualification={contactQualification}
+                                                               onfilepreview={onFilePreview}
+                                                               is-other-checklist={isOtherChecklist}
+                                                               application-status={applicationStatus}
+                                                               application-study-type={applicationStudyType}>
+        </c-document-checklist-assessment-community-file-upload>
+    </template>
+
+    <!-- comments -->
+    <template if:true={showComments}>
+        <c-document-checklist-assessment-community-comment-list onclose={hideCommentsWindow}
+                                                                comment-items={commentItems}
+                                                                applicant-user-record={applicantUserRecord}
+                                                                checklist-requirement={checklistItem.fields.Checklist_Requirement__c.value}
+                                                                show-new-comment={showNewComment}
+                                                                show-mark-as-not-required-confirmation={showMarkAsNotRequiredConfirmation}
+                                                                comment-title={commentTitle}
+                                                                checklist-item={checklistItem}
+                                                                current-user-name={currentUserName}
+                                                                is-comments-opened={isCommentsOpened}>
+        </c-document-checklist-assessment-community-comment-list>
+    </template>
+
+</template>

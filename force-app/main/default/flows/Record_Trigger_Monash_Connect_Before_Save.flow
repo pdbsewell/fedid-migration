@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>57.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <decisions>
+        <description>To stamp the time when an enquiry went in Awaiting Customer Feedback status</description>
+        <name>Check_Enquiry_Status_In_Awaiting_Feedback</name>
+        <label>Check Enquiry Status In Awaiting Feedback</label>
+        <locationX>248</locationX>
+        <locationY>311</locationY>
+        <defaultConnector>
+            <targetReference>Check_for_Status_Back_To_Normal_From_Awaiting_Feedback</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Stamp_Awaiting_Customer_Feedback_Time</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Awaiting Customer Feedback</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record__Prior.Status</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Awaiting Customer Feedback</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Monash_Connect_Awaiting_Feedback_Time_Field</targetReference>
+            </connector>
+            <label>Stamp Awaiting Customer Feedback Time</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Check if the status is changed from awaiting feedback to any other status it means the customer replied or record got auto closed after 5 days. In any of the cases the internal field Monash_Connect_Awaiting_Feedback_Time__c needs to be blanked out so, that Days_In_Awaiting_Feedback__c can be 0</description>
+        <name>Check_for_Status_Back_To_Normal_From_Awaiting_Feedback</name>
+        <label>Check for Status Back To Normal From Awaiting Feedback</label>
+        <locationX>446</locationX>
+        <locationY>431</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Status_is_Updated_Back_to_Normal</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Record__Prior.Status</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Awaiting Customer Feedback</stringValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>$Record.Status</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue>Awaiting Customer Feedback</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Update_Apex_Field_for_Awaiting_Feedback</targetReference>
+            </connector>
+            <label>Status is Updated Back to Normal</label>
+        </rules>
+    </decisions>
+    <description>To update the triggering record based on certain conditions in before save</description>
+    <environments>Default</environments>
+    <interviewLabel>Record Trigger:Monash Connect Before Save {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Record Trigger:Monash Connect Before Save</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <description>To update Monash_Connect_Awaiting_Feedback_Time__c to null</description>
+        <name>Update_Apex_Field_for_Awaiting_Feedback</name>
+        <label>Update Apex Field for Awaiting Feedback</label>
+        <locationX>314</locationX>
+        <locationY>551</locationY>
+        <inputAssignments>
+            <field>Monash_Connect_Awaiting_Feedback_Time__c</field>
+        </inputAssignments>
+        <inputAssignments>
+            <field>sendReminderEmailForAwaitingFeedback__c</field>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>To Stamp the current time when the status went to Awaiting customer feedback to Monash_Connect_Awaiting_Feedback_Time__c  field.</description>
+        <name>Update_Monash_Connect_Awaiting_Feedback_Time_Field</name>
+        <label>Update Monash Connect Awaiting Feedback Time Field</label>
+        <locationX>50</locationX>
+        <locationY>431</locationY>
+        <inputAssignments>
+            <field>Monash_Connect_Awaiting_Feedback_Time__c</field>
+            <value>
+                <elementReference>$Flow.CurrentDateTime</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>122</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Enquiry_Status_In_Awaiting_Feedback</targetReference>
+        </connector>
+        <filterLogic>or</filterLogic>
+        <filters>
+            <field>RecordType_DeveloperName__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Monash_Connect_Enquiry</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>RecordType_DeveloperName__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>MonCon_Support</stringValue>
+            </value>
+        </filters>
+        <object>Case</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

@@ -1,0 +1,79 @@
+<template>
+    <!--LOADING SPINNER-->
+    <template if:true={showSpinner}> 
+        <div class="slds-is-relative" style="min-height: 200px;">
+            <lightning-spinner alternative-text="Loading" class="spins" variant="brand" size="large"></lightning-spinner>
+        </div>            
+    </template>
+    <template if:false={showSpinner}>
+        <div class="slds-p-around_medium mapping-input">
+            <h2>Map Support Fields</h2>
+            <lightning-layout size="12" multiple-rows="true">
+                <lightning-layout-item size="5" padding="around-small">
+                    <lightning-combobox
+                                    label='Support Area'
+                                    name='Support Area'
+                                    value={selectedSupportAreaPicklistOption}
+                                    options={supportAreaPicklistOption}
+                                    onchange={supportAreaMappingChange}>
+                    </lightning-combobox>
+                </lightning-layout-item>
+                <template if:true={mappingUpdated}>
+                    <lightning-layout-item size="5" padding="around-small">
+                        <lightning-combobox
+                                        label='Support Option'
+                                        name='Support Option'
+                                        value={selectedSupportOptionPicklistOption}
+                                        options={supportOptionPicklistOption}
+                                        onchange={supportOptionMappingChange}>
+                        </lightning-combobox>
+                    </lightning-layout-item>
+                </template>
+                <lightning-layout-item size="2" class="slds-m-top_x-large">
+                    <lightning-button label="Add" variant="brand" onclick={onClickAddtoTable} title="Add"></lightning-button>
+                </lightning-layout-item>
+                <!-- TABLE -->
+                <lightning-layout-item size="12" padding="around-small">
+                    <div class="slds-p-around_x-small">
+                        <table id="data-table" class=" tableClass slds-table slds-table_cell-buffer slds-table_bordered">
+                            <thead>
+                                <tr class="">
+                                    <th style="width:40%" scope="col">
+                                        <div class="columnWrapper" title="">Support Area</div>
+                                    </th>
+                                    <th style="width:40%" scope="col">
+                                        <div class="columnWrapper" title="">Support Option</div>
+                                    </th>
+                                    <th style="width:10%" scope="col">
+                                        <div class="columnWrapper" title="">Delete</div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <template for:each = {data} for:item = "item" for:index="indexVar">
+                                    <tr key={item.key} class="slds-hint-parent">
+                                        <td style="width:40%" data-label="delete">
+                                            {item.supportArea}
+                                        </td>
+                                        <td style="width:40%" data-label="delete">
+                                            {item.supportOption}
+                                        </td>
+                                        <td style="width:20%" data-label="delete">
+                                            <a name={item.key} data-id={item.key} onclick={remove}>
+                                                <lightning-icon icon-name="utility:delete" alternative-text="delete" size="small"></lightning-icon>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </lightning-layout-item>
+                <!--SAVE-->
+                <lightning-layout-item size="6" padding="around-small">
+                    <lightning-button label="Save" variant="brand" disabled={isSaveDisabled} onclick={initiateSave} title="Save"></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+    </template>
+</template>

@@ -1,0 +1,41 @@
+<template>
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item 
+        size="12"
+        padding="around-medium">
+            <lightning-combobox 
+            label="English Entry Mode"
+            name="English Entry Mode"
+            value={englishTypeOptionValue}
+            placeholder="Select English Type"
+            options={englishTypeOptions}
+            onchange={handleEnglishTypeChange}
+            >
+            </lightning-combobox>
+        </lightning-layout-item>
+        <lightning-layout-item 
+        size="12"
+        padding="around-medium" 
+        if:true={isMonashEnglishPathway}>
+            <lightning-combobox 
+            label="Monash English Module"
+            name="Monash English Module"
+            value={monashEnglishModuleOptionValue}
+            placeholder="Select Monash English Module"
+            options={monashEnglishModuleOptions}
+            onchange={handleMonashEnglishModuleChange}
+            >
+            </lightning-combobox>
+        </lightning-layout-item>
+    </lightning-layout>
+    <c-capture-qualification-assessment 
+    table-data={data}
+    columns={columns}
+    contact-identifier={contactIdentifier}
+    acp-identifier={acpIdentifier} 
+    qualification-sub-type={englishTypeOptionValue} 
+    save-disabled={saveDisabled}
+    message-text="English Outcome Added" 
+    monash-english-module={monashEnglishModuleOptionValue}>
+    </c-capture-qualification-assessment>
+</template>

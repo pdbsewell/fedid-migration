@@ -1,0 +1,73 @@
+<template>
+    <div class="slds-card__body calendar-select" tabindex="0"
+         onfocus={handleCalendarsFocus}
+         onblur={handleCalendarsBlur}
+         onkeydown={handleCalendarsKey}
+         onclick={handleCalendarsMouseClick}
+         onmousedown={handleCalendarsMouseDown}>
+
+        <h2 if:true={label} class="slds-text-heading_small slds-align_absolute-center slds-p-top_medium">
+            {label}
+        </h2>
+
+        <ul class="slds-has-dividers_around-space calendar-list">
+            <template for:each={visibleCalendars} for:item="record">
+                <li key={record.Id} class={record.containerClass} onclick={handleCalendarClick}
+                    data-id={record.Id} data-has-app={record.hasApp} data-short-description={record.shortDescription}>
+                    <div class="slds-grid slds-p-around_small">
+                        <!-- Date Input Icon -->
+                        <div class="slds-grid slds-grid_vertical-align-center">
+                            <lightning-icon
+                                    icon-name="utility:date_input"
+                                    size="small"
+                                    class="slds-m-right_medium">
+                            </lightning-icon>
+                        </div>
+
+                        <!-- Main Content -->
+                        <div class="slds-grid slds-col slds-grid_vertical-align-center slds-grid_align-spread">
+                            <div class="slds-grid record-fields slds-grid_vertical-align-center">
+                                <span class="field year">{record.Year__c}</span>
+                                <span class="separator">|</span>
+                                <span class="field type">{record.Type__c}</span>
+                                <span class="separator">|</span>
+                                <span class="field calendar-code">{record.Calendar_Code__c}</span>
+                                <span class="separator">|</span>
+                                <span class="field description">{record.Description__c}</span>
+                            </div>
+
+                            <!-- Close Button - Only shown when selected -->
+                            <template if:true={record.selected}>
+                                <div onclick={handleDeselectCalendar}
+                                     class="close-button"
+                                     title="Clear selection">
+                                    <lightning-icon
+                                            icon-name="utility:close"
+                                            size="x-small"
+                                            class="slds-current-color">
+                                    </lightning-icon>
+                                </div>
+                            </template>
+
+                            <!-- Link to App Button -->
+                            <template if:true={record.existingAppUrl}>
+                                <a onclick={handleViewExistingApp}
+                                   href="javascript:void(0);"
+                                   data-id={record.existingAppId}
+                                   class="close-button"
+                                   title="View existing application">
+                                    <lightning-icon
+                                            icon-name="utility:new_window"
+                                            size="x-small"
+                                            class="slds-current-color">
+                                    </lightning-icon>
+                                </a>
+                            </template>
+                        </div>
+                    </div>
+                </li>
+            </template>
+        </ul>
+        <button class="show-btn" onclick={showMore} lwc:if={showShowMore}>Show more...</button>
+    </div>
+</template>

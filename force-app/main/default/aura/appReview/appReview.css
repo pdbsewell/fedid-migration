@@ -1,0 +1,52 @@
+/*.THIS .cHeaderPanel {
+    display: none !important;
+}
+
+.THIS .checkbox-print { 
+	display: none; 
+}
+
+.THIS .checkbox-read { 
+	display: block; 
+}
+
+.THIS .wrapClass{
+	white-space: normal;
+}
+
+.THIS .iteration-block {
+	border: 2px solid #333333 !important;
+	padding: 10px !important;
+}
+
+@media print and (width: 8.5in) and (height: 13in) {
+	.THIS .checkbox-print { display: block !important; }
+	.THIS .checkbox-read { display: none !important; }
+	.THIS .printDiv { visibility: visible !important; }
+	.THIS .printDiv { position: absolute; top: 40px; left: 30px; }
+	.THIS .hideButton { display: none !important; }
+}
+
+@media print {
+	.THIS .checkbox-print { display: block !important; }
+	.THIS .checkbox-read { display: none !important; }
+	.THIS .printDiv { visibility: visible !important; }
+	.THIS .printDiv { position: absolute; top: 40px; left: 30px; }
+	.THIS .hideButton { display: none !important; }
+}
+
+.THIS .section-float {
+	background-color: #fff;
+	box-shadow: 5px 5px 5px 5px #b8c3ce;
+	border-radius: 5px;
+	padding: 10px;
+}
+
+.THIS .header-collapsible {
+	background-color: #006dae !important;
+	color: #fff;
+}
+
+.THIS .padded-div {
+	padding: 10px;
+}*/

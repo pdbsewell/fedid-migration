@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>Store domain name for rendering images to the public based on content asset name.</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Domain_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Domain Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Portal_Domain_Name__c</fullName>
+        <description>Domain name for the portal. Need this to link to preference center in emails.</description>
+        <externalId>false</externalId>
+        <label>Portal Domain Name</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>PORTAL UCIN Domain Name</label>
+    <visibility>Public</visibility>
+</CustomObject>

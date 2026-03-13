@@ -1,0 +1,222 @@
+<template>
+    <section role="dialog" tabindex="-1" class="slds-modal slds-fade-in-open slds-modal_small" aria-modal="true">
+        <div class="slds-modal__container" style="overflow: auto;">
+            <header class="slds-modal__header">
+                <template if:false={isBulkCreation}>
+                    <h2 class="slds-text-heading_medium slds-hyphenate">Create Checklist Item</h2>
+                </template>
+                <template if:true={isBulkCreation}>
+                    <h2 class="slds-text-heading_medium slds-hyphenate">Create Checklist Items</h2>
+                </template>
+            </header>
+            <div class="slds-modal__content slds-p-horizontal_medium slds-p-horizontal_small slds-is-relative">
+                <div class="slds-p-horizontal_x-small slds-p-bottom_x-small slds-m-vertical_x-small">   
+                    <!-- single manual creation -->                 
+                    <template if:false={isBulkCreation}>
+                        <template if:true={loadingState}>
+                            <!-- Spinner loader -->
+                            <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+                        </template>
+                        <div class="slds-clearfix">
+                            <div class="slds-float_right">
+                                <span class="slds-text-title slds-text-color_destructive">Fields marked with an * are required</span>
+                            </div>
+                        </div>
+
+                        <lightning-layout multiple-rows="true">
+                            <!-- checklist name -->                        
+                            <lightning-layout-item size="2">                      
+                                <div class="slds-m-top_x-small"> 
+                                    <lightning-layout vertical-align="center">
+                                        <lightning-layout-item>
+                                            <template if:false={loadingState}>
+                                                <lightning-helptext tabindex="-1" content="Enter a short name for the checklist item. E.g. &#34;Course Requirements&#34;"></lightning-helptext>
+                                            </template>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item>
+                                            <div class="slds-text-body_regular slds-m-top_xx-small slds-p-left_xx-small">Name<span class="slds-text-color_destructive">*</span></div>      
+                                        </lightning-layout-item>
+                                    </lightning-layout>   
+                                </div>                     
+                            </lightning-layout-item>
+                            <lightning-layout-item size="10">
+                                <lightning-input class="slds-m-top_x-small"
+                                                name="checklistName" 
+                                                label="Name" 
+                                                value={checklistName} 
+                                                variant="label-hidden"
+                                                max-length="80"
+                                                onchange={nameChange}
+                                                tabindex="0"
+                                                disabled={disabledChecklistName}>
+                                </lightning-input>
+                                <div class="slds-clearfix">
+                                    <div class="slds-float_right">
+                                        <template if:false={showChecklistNameLengthError}>
+                                            <!-- don't show when its disabled -->
+                                            <template if:false={disabledChecklistName}>                                                
+                                                <span class="slds-text-title">{checklistNameLength} characters remaining.</span>
+                                            </template>
+                                        </template>                                    
+                                        <template if:true={showChecklistNameLengthError}>
+                                            <span class="slds-text-title slds-text-color_destructive">{checklistNameLength} characters remaining.</span>
+                                        </template> 
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+                                        
+                            <!-- checklist help text -->
+                            <lightning-layout-item size="2">                           
+                                <div class="slds-m-top_x-small">                    
+                                    <lightning-layout vertical-align="center">
+                                        <lightning-layout-item>
+                                            <template if:false={loadingState}>
+                                                <lightning-helptext tabindex="-1" content="This could be an example of the specific document required. E.g. &#34;Your secondary school art folio&#34;"></lightning-helptext>
+                                            </template>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item>
+                                            <div class="slds-text-body_regular slds-m-top_xx-small slds-p-left_xx-small">Help Text</div>      
+                                        </lightning-layout-item>
+                                    </lightning-layout> 
+                                </div>  
+                            </lightning-layout-item>
+                            <lightning-layout-item size="10">
+                                <lightning-textarea class="slds-m-top_x-small"
+                                                    name="checklistHelpText" 
+                                                    label="Help Text" 
+                                                    onchange={helpTextChange} 
+                                                    value={checklistHelpText} 
+                                                    variant="label-hidden"
+                                                    max-length="120"
+                                                    tabindex="0">
+                                </lightning-textarea>
+                                <div class="slds-clearfix">
+                                    <div class="slds-float_right">
+                                        <template if:false={showChecklistHelpTextMaxLengthError}>
+                                            <span class="slds-text-title">{checklistHelpTextLength} characters remaining.</span>
+                                        </template>                                    
+                                        <template if:true={showChecklistHelpTextMaxLengthError}>
+                                            <span class="slds-text-title slds-text-color_destructive">For longer help text, please add it in the comments field below. {checklistHelpTextLength} characters remaining.</span>
+                                        </template>             
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+
+                            <!-- document types -->
+                            <lightning-layout-item size="2">                           
+                                <div class="slds-m-top_x-small">                    
+                                    <lightning-layout vertical-align="center">
+                                        <lightning-layout-item>
+                                            <template if:false={loadingState}>
+                                                <lightning-helptext tabindex="-1" content="Select which types of document you require the applicants to submit."></lightning-helptext>
+                                            </template>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item>
+                                            <div class="slds-text-body_regular slds-m-top_xx-small slds-p-left_xx-small">Document Type<span class="slds-text-color_destructive">*</span></div>      
+                                        </lightning-layout-item>
+                                    </lightning-layout> 
+                                </div>  
+                            </lightning-layout-item>
+                            <lightning-layout-item size="10">
+                                <div class="slds-form-element slds-m-top_x-small" role="group" aria-labelledby="picklist-group-label">
+                                    <div class="slds-form-element__control">
+                                        <div class="slds-dueling-list">
+                                            <template if:true={documentTypeOptions}>      
+                                                <select class="slds-select optionsSelect" size="6" multiple>
+                                                    <template for:each={documentTypeOptions} for:item="documentTypeOption">
+                                                        <option key={documentTypeOption.value} value={documentTypeOption.value} selected={documentTypeOption.selected}>{documentTypeOption.label}</option>
+                                                    </template>
+                                                </select> 
+                                                <div class="slds-dueling-list__column">
+                                                    <button class="slds-button slds-button_icon slds-button_icon-border-filled" onclick={selectDocumentTypes} title="Add Selected">
+                                                        <lightning-icon icon-name="utility:right" size="x-small"></lightning-icon>
+                                                    </button>
+                                                    <button class="slds-button slds-button_icon slds-button_icon-border-filled" onclick={removeDocumentTypes} title="Remove Selected">
+                                                        <lightning-icon icon-name="utility:left" size="x-small"></lightning-icon>
+                                                    </button>  
+                                                    <button class="slds-button slds-button_icon" disabled onclick={selectAllDocumentTypes} title="Select All">
+                                                    </button> 
+                                                    <button class="slds-button slds-button_icon slds-button_icon-border-filled rotate90" onclick={selectAllDocumentTypes} title="Select All">
+                                                        <lightning-icon icon-name="utility:jump_to_top" size="x-small"></lightning-icon>
+                                                    </button>
+                                                    <button class="slds-button slds-button_icon slds-button_icon-border-filled rotate90" onclick={removeAllDocumentTypes} title="Remove All">
+                                                        <lightning-icon icon-name="utility:jump_to_bottom" size="x-small"></lightning-icon>
+                                                    </button>
+                                                </div>
+                                                <template if:true={documentTypeSelected}>
+                                                    <select class="slds-select selectedSelect" size="6" multiple>
+                                                        <template for:each={documentTypeSelected} for:item="documentTypeSelectedOption">
+                                                            <option key={documentTypeSelectedOption.value} value={documentTypeSelectedOption.value} selected={documentTypeSelectedOption.selected}>{documentTypeSelectedOption.label}</option>
+                                                        </template>
+                                                    </select>
+                                                </template>
+                                            </template>
+                                            <template if:false={documentTypeOptions}>
+                                                <div class="slds-card_boundary slds-is-relative" style="width: 100%; height: 100px;">
+                                                    <!-- Spinner loader -->
+                                                    <lightning-spinner alternative-text="Loading" variant="brand"></lightning-spinner>
+                                                </div> 
+                                            </template>
+                                        </div>
+                                    </div>
+                                </div>
+                            </lightning-layout-item>
+                            
+                            <!-- associated assessor comment -->
+                            <lightning-layout-item size="2"> 
+                                <div class="slds-m-top_x-small">
+                                    <lightning-layout vertical-align="center">
+                                        <lightning-layout-item>
+                                            <template if:false={loadingState}>
+                                                <lightning-helptext tabindex="-1" content="Use this field for longer explanations or requests."></lightning-helptext>
+                                            </template>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item>
+                                            <div class="slds-text-body_regular slds-m-top_xx-small slds-p-left_xx-small">Comments</div>      
+                                        </lightning-layout-item>
+                                    </lightning-layout>
+                                </div>
+                            </lightning-layout-item>
+                            <lightning-layout-item size="10">
+                                <lightning-input-rich-text class="slds-m-top_x-small"
+                                                        label="Comments"
+                                                        value={comment}
+                                                        formats={formats}
+                                                        placeholder="Enter a comment..."
+                                                        onchange={commentContentChange}
+                                                        tabindex="0">
+                                </lightning-input-rich-text>         
+                            </lightning-layout-item>
+
+                        </lightning-layout>
+                    </template>
+                    <!-- single manual creation -->                 
+                    <template if:true={isBulkCreation}>
+                        <template for:each={documentChecklistTemplatesShown} for:item="documentChecklistTemplateShown">
+                            <div key={documentChecklistTemplateShown.Id}>
+                                <lightning-input type="checkbox" 
+                                                 label={documentChecklistTemplateShown.label}
+                                                 disabled={documentChecklistTemplateShown.disabled}
+                                                 checked={documentChecklistTemplateShown.checked}
+                                                 onchange={checkHasBulkChecked}></lightning-input>
+                                <div class="slds-m-left_large slds-m-bottom_medium">
+                                    <lightning-formatted-rich-text value={documentChecklistTemplateShown.helptext} disable-linkify></lightning-formatted-rich-text>
+                                </div>
+                            </div>
+                        </template>
+                    </template>
+                </div>
+            </div>
+            <footer class="slds-modal__footer">
+                <lightning-button label="Cancel" title="Cancel" onclick={hideForm} disabled={loadingState}></lightning-button>
+                <template if:false={isBulkCreation}>
+                    <lightning-button class="slds-m-left_x-small" variant="brand" label="Create Checklist" onclick={createChecklist} disabled={invalidChecklist}></lightning-button>
+                </template>
+                <template if:true={isBulkCreation}>
+                    <lightning-button class="slds-m-left_x-small" variant="brand" label="Create Checklists" onclick={createBulkChecklist} disabled={invalidChecklistBulk}></lightning-button>
+                </template>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>

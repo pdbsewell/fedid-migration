@@ -1,0 +1,55 @@
+.force-button-shape {
+    display: block !important;
+    min-height: 32px !important;
+    min-width: 90px !important;
+    height: 32px !important;
+    visibility: visible !important;
+}
+
+.container-lock {
+    min-height: 48px !important;
+    display: flex !important;
+    align-items: center !important;
+}
+
+.slds-form-element_stacked {
+    margin-bottom: 0.75rem;
+}
+
+/* Makes the "Base" button look like a clickable link */
+lightning-button.slds-m-bottom_xx-small {
+    font-size: 0.8125rem;
+}
+
+/* Gives the lock icon the standard Salesforce label gray color */
+.slds-current-color {
+    --slds-c-icon-color-foreground: #686c72;
+}
+
+.white-bg-container {
+    background: #ffffff !important;
+    border: 1px solid #dddbda; /* Standard Salesforce border color */
+    border-radius: 0.25rem;
+}
+
+.label-lock-icon {
+    --slds-c-icon-color-foreground: #686c72;
+}
+
+.slds-form-element__label {
+    color: #686c72 !important;
+    font-size: 0.75rem;
+}
+
+/* Ensure standard text stays the correct size when revealed */
+.slds-form-element__static {
+    font-size: 0.875rem;
+    color: #181818;
+}
+
+/* This targets the dots specifically */
+.mask-font {
+    font-size: 0.6rem !important; /* Adjust this to your preference */
+    letter-spacing: 2px;         /* Adds a bit of breathing room between dots */
+    vertical-align: middle;      /* Keeps the smaller dots centered vertically */
+}

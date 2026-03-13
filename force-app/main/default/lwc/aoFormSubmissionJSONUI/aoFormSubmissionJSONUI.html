@@ -1,0 +1,60 @@
+<template>
+    <template lwc:if={isLoading}>
+        <lightning-spinner alternative-text="Loading" size="large"></lightning-spinner>
+    </template>
+    <lightning-accordion class="example-accordion" onsectiontoggle={handleToggleSection} active-section-name="formR" allow-multiple-sections-open >
+        <lightning-accordion-section name="formR" label="Form Responses">
+            <div class="slds-grid slds-wrap" style="margin-left:5%;margin-top:2%;">
+                <template if:true={readytoLoad}>
+                <template for:each={displayResponse} for:item="item"><!--onmycustomevent={handleCustomEvent}-->
+                    <div key={item.name} class="slds-col slds-size_1-of-2" >
+                        <label class= "slds-form-element__label">
+                            {item.label}
+                        </label><br/>
+                        <template lwc:if={item.value}>
+                            <b>{item.value}</b>
+                        </template>
+                        <template lwc:else>
+                            <br/>
+                        </template>
+                        <b></b>
+                        <hr width="90%" style="margin:0 !important;"
+                        size="50" 
+                        align="center"/>
+                    </div>
+                </template>
+                </template>
+            </div>
+        </lightning-accordion-section>
+        
+        <lightning-accordion-section name="AdminR" label="Admin/Faculty Responses">
+            <template lwc:if={displayAdminSection}>
+                <div class="slds-grid slds-wrap" style="margin-left:5%;margin-top:2%;">
+                    <template if:true={readytoLoad}>
+                    <template for:each={adminQuestions} for:item="item"><!--onmycustomevent={handleCustomEvent}-->
+                        <div key={item.elementId} class="slds-col slds-size_1-of-2" style="padding-right:15%;">
+                        <c-ao-admin-form-question element={item} onvalchange={handleInputChange} value={item.value} read-only={displayEdit} ></c-ao-admin-form-question>
+                        </div>
+                    </template>
+                    </template>
+                </div>
+                <div class="slds-align_absolute-center">
+                    <template lwc:if={displayEdit}>
+                        <lightning-button class="slds-m-around_medium" variant="brand" label="Edit" onclick={handleEdit} icon-name="utility:edit" icon-position="right"></lightning-button>
+                    </template>
+                    <template lwc:else>
+                        <lightning-button class="slds-m-around_medium" variant="brand" label="Submit" onclick={handleSubmit} icon-name="utility:send" icon-position="right"></lightning-button>
+                        <lightning-button class="slds-m-around_medium" variant="brand" label="Cancel" onclick={handleCancel} icon-name="utility:close" icon-position="right"></lightning-button>
+                    </template>
+                    
+                   
+                </div>
+            </template>
+            <template lwc:else>
+                <br/>
+                <p><b>No input required from Admin/Faculty on this form</b></p>
+            </template>
+        </lightning-accordion-section>
+    </lightning-accordion>
+    
+</template>

@@ -1,0 +1,40 @@
+<aura:component controller="ManageCaseTeamMembersController" implements="flexipage:availableForAllPageTypes,force:hasRecordId,force:lightningQuickActionWithoutHeader">
+    <aura:attribute name="recordId" type="String" default="" />
+    <aura:attribute name="isLoading" type="Boolean" default="false" />
+    <aura:attribute name="operationOptions" type="List" default="[
+                                                                 {'label': 'Add Case Team Members', 'value': 'Add'},
+                                                                 {'label': 'Remove Case Team Members', 'value': 'Remove'}
+                                                                 ]" />
+    <aura:attribute name="studentIds" type="String" default="" />
+    <aura:attribute name="operation" type="String" default="Add" />
+    <aura:attribute name="targetIds" type="String" default="" />
+    
+    <div class="slds-is-relative">
+    	<aura:if isTrue="{!v.isLoading}">
+            <lightning:spinner size="small" alternativeText="Loading..." />
+        </aura:if>
+        
+        <header class="slds-modal__header">
+            <h2 class="slds-modal__title">Manage Case Team Members</h2>
+        </header>
+        <div class="slds-modal__content slds-p-around_medium">
+            <aura:if isTrue="{!empty(v.recordId)}">
+                <lightning:textarea fieldLevelHelp="Please provide each Student ID separated by a new line." required="true" label="Student IDs" value="{!v.studentIds}" />
+            </aura:if>
+            
+            <lightning:radioGroup label="Operation"
+                                  required="true"
+                                  options="{!v.operationOptions}"
+                                  value="{!v.operation}"
+                                  type="radio" />
+            
+            <lightning:textarea fieldLevelHelp="Please provide each entry separated by a new line. You can provide any combination of Student ID/SAP Staff ID." required="true" label="Case Team Members" value="{!v.targetIds}" />
+        </div>
+        <footer class="slds-modal__footer">
+            <aura:if isTrue="{!not(empty(v.recordId))}">
+                <lightning:button label="Cancel" onclick="{!c.cancel}" />
+            </aura:if>
+            <lightning:button class="slds-button slds-button_brand" label="Submit" onclick="{!c.handleSubmit}" />
+        </footer>
+    </div>
+</aura:component>

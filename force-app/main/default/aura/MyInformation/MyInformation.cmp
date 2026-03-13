@@ -1,0 +1,54 @@
+<aura:component implements="flexipage:availableForAllPageTypes" access="global">
+    <lightning:utilityBarAPI aura:id="utilitybar" />
+    
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+    
+    <aura:attribute name="today" type="Date" />
+    <aura:attribute name="user" type="Object"/>
+    <aura:attribute name="currentUser" type="Object"/>
+    <aura:attribute name="userError" type="String"/>
+    
+    <force:recordData aura:id="userRecordLoader"
+        recordId="{!$SObjectType.CurrentUser.Id}"
+        fields="Location__c,Queue__c,Enquiry_Role__c,My_Information_LastUpdate__c"
+        targetFields="{!v.currentUser}"
+        targetError="{!v.userError}"
+        mode="EDIT"
+        recordUpdated="{!c.userUpdated}"
+    />
+    
+    <aura:attribute name="showSpinner" type="Boolean" default="true" />
+    <aura:if isTrue="{!v.showSpinner}">
+        <lightning:spinner variant="brand" />
+    </aura:if>
+    
+    <div class="slds-panel" aria-hidden="false">
+        <div class="slds-panel__header">
+            <div class="slds-panel__header-title ">
+                <div class="slds-text-heading_small slds-size_1-of-1 slds-align_absolute-center">
+                    Enquiry Defaults
+                </div>
+                <div class="slds-text-body_small slds-text-color_error slds-size_1-of-1 slds-align_absolute-center">
+                    Required to be able to save records
+                </div>
+            </div>
+        </div>
+        <div class="slds-panel__body">
+            <!-- Display the user's my information details -->
+            <lightning:recordEditForm aura:id="recordViewForm" 
+                                      recordId="{!$SObjectType.CurrentUser.Id}"
+                                      objectApiName="User"
+                                      onload="{!c.handleLoad}"
+                                      onsubmit="{!c.handleSubmit}"
+                                      onsuccess="{!c.handleSuccess}">
+                <lightning:messages />
+                <lightning:inputField aura:id="userLocationField" fieldName="Location__c" />
+                <lightning:inputField aura:id="userQueueField" fieldName="Queue__c" />
+                <lightning:inputField aura:id="userEnquiryRoleField" fieldName="Enquiry_Role__c" />
+                <lightning:inputField aura:id="userEnquiryDefaultLastUpdate" fieldName="My_Information_LastUpdate__c" value="{!v.today}" class="slds-hide" />
+                
+                <lightning:button aura:id="submit" type="submit" label="Update Enquiry Defaults" class="slds-button slds-button_brand slds-m-top_medium slds-size_1-of-1 margin-top" />
+            </lightning:recordEditForm>
+        </div>
+    </div>
+</aura:component>

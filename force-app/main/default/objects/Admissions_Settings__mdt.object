@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Custom metadata type for Admissions team</description>
+    <fields>
+        <fullName>Admission_Calendar__c</fullName>
+        <description>Admission calendar type</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Admission Calendar</label>
+        <length>25</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Configs__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>JSON Config to store details and use them in code as necessary</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Configs</label>
+        <length>32768</length>
+        <securityClassification>Internal</securityClassification>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Messages__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Maintenance messages JSON body for different components that relies on this meta</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Messages</label>
+        <length>32768</length>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <description>Status of maintenance window- Active, Inactive</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Status</label>
+        <length>20</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Teaching_Period_Calendar__c</fullName>
+        <description>Teaching period calendar</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Teaching Period Calendar</label>
+        <length>25</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Type__c</fullName>
+        <description>Represents type</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Type</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Unit Offerings Mapping</fullName>
+                    <default>true</default>
+                    <label>Unit Offerings Mapping</label>
+                </value>
+                <value>
+                    <fullName>Maintenance</fullName>
+                    <default>false</default>
+                    <label>Maintenance</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>Admissions Settings</label>
+    <listViews>
+        <fullName>Admissions_Settings</fullName>
+        <columns>MasterLabel</columns>
+        <columns>DeveloperName</columns>
+        <columns>Admission_Calendar__c</columns>
+        <columns>Teaching_Period_Calendar__c</columns>
+        <columns>Type__c</columns>
+        <filterScope>Everything</filterScope>
+        <label>Admissions Settings</label>
+        <language>en_US</language>
+    </listViews>
+    <listViews>
+        <fullName>Maintenance</fullName>
+        <columns>MasterLabel</columns>
+        <columns>DeveloperName</columns>
+        <columns>Configs__c</columns>
+        <columns>Messages__c</columns>
+        <columns>Status__c</columns>
+        <columns>Type__c</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Type__c</field>
+            <operation>equals</operation>
+            <value>Maintenance</value>
+        </filters>
+        <label>Maintenance</label>
+        <language>en_US</language>
+    </listViews>
+    <pluralLabel>Admission Settings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

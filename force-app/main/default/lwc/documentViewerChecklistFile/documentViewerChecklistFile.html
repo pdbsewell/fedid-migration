@@ -1,0 +1,276 @@
+<template>
+    <article data-id={shouldBeFocused} key={documentItem.contentDocumentId} class={cardClass} style={cardStyle} onclick={selectFileCard}>
+        <template if:true={fileLoading}>
+            <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+        </template>
+        <div class="slds-p-left_x-small slds-p-right_x-small slds-p-vertical_xx-small">
+            <lightning-layout vertical-align="center" style="min-height: 65px;">
+                <lightning-layout-item>
+                    <div style="width: 45px;">
+                        <img class="slds-icon slds-icon_large" src={documentItem.iconURL} />
+                        <span class="slds-assistive-text">{documentItem.fileType}</span>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item>
+                    <div class="slds-p-left_x-small slds-text-body_regular" style="font-weight: bold;">
+                        <template if:true={documentItem.isArchived}> <b><span style="color: #C23934;"> REMOVED</span> • </b></template> {documentItem.fileName} <b>•</b> {documentItem.formattedCreatedDateTime} <template if:true={documentItem.contactDocument.Internal_Only__c}> <b>•</b> Internal</template><template if:true={latestDocumentAssessmentStatus}><span style="color: #C23934;"> ({latestDocumentAssessmentStatus})</span></template>
+                    </div>
+                    <div class="slds-p-left_x-small slds-p-right_small slds-text-body_regular">
+                        {documentItem.documentType}
+                    </div>
+                </lightning-layout-item>
+                <!--<lightning-layout-item alignment-bump="left">
+                    <lightning-button-icon icon-name="utility:download" alternative-text="Download" onclick={downloadFile}></lightning-button-icon>
+                </lightning-layout-item>-->
+            </lightning-layout>
+            <template if:true={showMoreDetails}>
+                <div class="slds-border_top">
+                    <lightning-layout vertical-align="center" multiple-rows>
+                        <!-- checklist item -->
+                        <lightning-layout-item size="12">
+                            <lightning-combobox
+                                name="checklistItem"
+                                label="Checklist Item"
+                                value={selectedChecklist}
+                                options={checklistOption}
+                                onchange={handleChecklistOption}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <!-- document type -->
+                        <lightning-layout-item size="12">
+                            <lightning-combobox
+                                name="documentType"
+                                label="Document Type"
+                                placeholder="Select a Document Type Option"
+                                value={selectedDocumentType}
+                                options={documentTypeOption}
+                                onchange={handleDocumentTypeOption}
+                                disabled={disableDocumentType}
+                                required>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <!-- document assessment status -->
+                        <lightning-layout-item size="12">
+                            <lightning-combobox
+                                name="documentAssessmentStatus"
+                                label="Document Assessment Status"
+                                placeholder="Select a Document Assessment Status Option"
+                                value={selectedDocumentAssessmentStatus}
+                                options={documentAssessmentStatusOption}
+                                onchange={handleDocumentAssessmentStatusOption}>
+                            </lightning-combobox>
+                        </lightning-layout-item>
+                        <template if:true={documentItem.contactDocument.Issuer_Document_Type__c}>
+                            <!-- issuer document type -->
+                            <lightning-layout-item size="12">
+                                <lightning-input
+                                    label="Issuer Document Type"
+                                    type="text"
+                                    value={documentItem.contactDocument.Issuer_Document_Type__c}
+                                    disabled>
+                                </lightning-input>
+                            </lightning-layout-item>
+                            <!-- digitally verified -->
+                            <lightning-layout-item size="12">
+                                <lightning-input
+                                    label="Digitally Verified"
+                                    type="checkbox"
+                                    checked={documentItem.contactDocument.Verified__c}
+                                    variant="label-stacked"
+                                    disabled>
+                                </lightning-input>
+                            </lightning-layout-item>
+                            <!-- document owner mismatch -->
+                            <lightning-layout-item size="12">
+                                <lightning-input
+                                    label="Document Owner Mismatch"
+                                    type="checkbox"
+                                    checked={selectedDocumentOwnerMismatch}
+                                    onchange={handleChangeSelectedDocumentOwnerMismatch}
+                                    variant="label-stacked">
+                                </lightning-input>
+                            </lightning-layout-item>
+                        </template>
+                        <!-- visibility and download and save -->
+                        <lightning-layout-item size="12">
+                            <div class="slds-m-vertical_x-small">
+                                <lightning-layout vertical-align="center">
+                                    <template if:false={documentItem.contactDocument.Issuer_Document_Type__c}>
+                                    <!-- visibility toggle -->
+                                    <lightning-layout-item>
+                                        <!-- internal -->
+                                        <lightning-input type="toggle" 
+                                            message-toggle-active="Internal Only" 
+                                            message-toggle-inactive="Public" 
+                                            checked={selectedVisibility}
+                                            variant="label-hidden"
+                                            onchange={switchInternalOnly}>
+                                        </lightning-input>
+                                    </lightning-layout-item>
+                                    </template>
+                                    <!-- download 
+                                    <lightning-layout-item alignment-bump="left">
+                                        <lightning-button-icon icon-name="utility:download" alternative-text="Download" onclick={downloadFile}></lightning-button-icon>
+                                    </lightning-layout-item> -->
+                                    <!-- save -->
+                                    <lightning-layout-item alignment-bump="left">
+                                        <button class="slds-button slds-button_brand slds-m-left_xx-small" onclick={saveFile} disabled={disabledUpdateDocument}>Save</button>
+                                    </lightning-layout-item>
+                                </lightning-layout>
+                            </div>
+                        </lightning-layout-item>
+                        <!-- Contact Qualification -->
+                        <template if:true={linkedContactQualictn}>
+                            <lightning-layout-item size="12">
+                                <div class="slds-border_top slds-p-top_x-small slds-p-bottom_x-small slds-is-relative">
+                                    <lightning-layout vertical-align="center" multiple-rows>
+                                        <lightning-layout-item>
+                                            <div onclick={handleContactQualificationClick} style="cursor: pointer;">                        
+                                                <template if:true={isContactQualificationSelected}>
+                                                    <lightning-icon icon-name="utility:chevrondown" size="x-small"></lightning-icon>
+                                                </template>
+                                                <template if:false={isContactQualificationSelected}>
+                                                    <lightning-icon icon-name="utility:chevronright" size="x-small"></lightning-icon>
+                                                </template>
+                                            </div>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item>
+                                            <div class="slds-text-heading_small slds-m-top_xxx-small slds-m-left_x-small" style="cursor: pointer;" onclick={handleContactQualificationClick}>
+                                                <div>Contact Qualification</div>
+                                            </div>                                            
+                                        </lightning-layout-item>
+                                        <template if:true={isContactQualificationSelected}>
+                                            <lightning-layout-item size="12">
+                                                <div class="slds-m-top_xxx-small slds-is-relative">
+                                                    <template if:true={contactQualfLoading}>
+                                                        <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+                                                    </template>
+                                                    <template if:false={contactQualfLoading}>
+                                                        <lightning-layout vertical-align="center" multiple-rows>
+                                                            <lightning-record-edit-form record-id={contactQualRecdId} object-api-name={contactQualObjectName} 
+                                                                                        onsuccess={handleContactQualSuccess} onsubmit={validateContactQualFields} onerror={handleError}>
+                                                                <lightning-messages data-id="message">
+                                                                </lightning-messages>
+                                                                    <div class="slds-grid slds-wrap">
+                                                                        <template if:true={linkedContactQualictn}>
+                                                                            <template for:each={linkedContactQualictn} for:item="f">
+                                                                                <div key={f.APIName} class="slds-col slds-size_1-of-1">
+                                                                                    <lightning-input-field field-name={f.APIName}></lightning-input-field>
+                                                                                </div>
+                                                                            </template>
+                                                                        </template>
+                                                                    </div>
+                                                                <lightning-layout-item alignment-bump="right" style="float:right;">
+                                                                    <button class="slds-button slds-button_brand slds-m-right_xx-small" onclick={saveContactQualClick}>Save</button>
+                                                                </lightning-layout-item>
+                                                            </lightning-record-edit-form>
+                                                        </lightning-layout>
+                                                    </template>
+                                                </div>
+                                            </lightning-layout-item>
+                                        </template>
+                                    </lightning-layout>
+                                </div>
+                            </lightning-layout-item>
+                        </template>
+                        
+                        
+                        <!-- spliting -->
+                        <template if:true={showSplitSection}>
+                            <lightning-layout-item size="12">
+                                <div class="slds-border_top slds-p-top_x-small slds-p-bottom_x-small slds-is-relative">
+                                    <lightning-layout vertical-align="center" multiple-rows>
+                                        <lightning-layout-item>
+                                            <div onclick={handleSplittingSectionClick} style="cursor: pointer;">                        
+                                                <template if:true={isSplittingSelected}>
+                                                    <lightning-icon icon-name="utility:chevrondown" size="x-small"></lightning-icon>
+                                                </template>
+                                                <template if:false={isSplittingSelected}>
+                                                    <lightning-icon icon-name="utility:chevronright" size="x-small"></lightning-icon>
+                                                </template>
+                                            </div>
+                                        </lightning-layout-item>
+                                        <lightning-layout-item>
+                                            <div class="slds-text-heading_small slds-m-top_xxx-small slds-m-left_x-small" style="cursor: pointer;" onclick={handleSplittingSectionClick}>
+                                                <div>Document Splitter</div>
+                                                <div class={splitLoadingClass} style="cursor: context-menu; text-decoration: none;">{splitLoadingText}</div>
+                                            </div>                                            
+                                        </lightning-layout-item>
+                                        <template if:true={isSplittingSelected}>
+                                            <lightning-layout-item size="12">
+                                                <div class="slds-m-top_xxx-small slds-is-relative">
+                                                    <template if:true={splittingLoading}>
+                                                        <lightning-spinner alternative-text="Loading" size="medium" variant="brand"></lightning-spinner>
+                                                    </template>
+                                                    <lightning-layout vertical-align="center" multiple-rows>
+                                                        <lightning-layout-item size="12">
+                                                            <lightning-combobox
+                                                                name="splitChecklistItem"
+                                                                label="Checklist Item"
+                                                                value={selectedSplitChecklist}
+                                                                options={checklistSplitOption}
+                                                                onchange={handleSplitChecklistOption}>
+                                                            </lightning-combobox>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item size="12">
+                                                            <lightning-combobox
+                                                                name="splitDocumentType"
+                                                                label="Document Type"
+                                                                value={selectedSplitDocumentType}
+                                                                options={documentTypeSplitOption}
+                                                                onchange={handleSplitDocumentTypeOption}                                                                
+                                                                disabled={disableSplitDocumentType}>
+                                                            </lightning-combobox>
+                                                        </lightning-layout-item>
+                                                        <lightning-layout-item size="12">
+                                                            <div class="slds-m-top_x-small">
+                                                                <lightning-layout vertical-align="center">
+                                                                    <lightning-layout-item size="10">
+                                                                        <lightning-layout vertical-align="center">
+                                                                            <lightning-layout-item size="9">
+                                                                                <lightning-input type="text" 
+                                                                                    class="pageSelector"
+                                                                                    label="Pages" 
+                                                                                    value={selectedPages}
+                                                                                    variant="label-hidden" 
+                                                                                    pattern="^(?!([ \d]*-){2})\d+(?: *[-,] *\d+)*$"
+                                                                                    message-when-pattern-mismatch="Please use proper format e.g. 1-5,8, 11-13."
+                                                                                    placeholder="e.g. 1-5,8, 11-13"
+                                                                                    onkeyup={handleSplitPagesChange}>
+                                                                                </lightning-input>                    
+                                                                            </lightning-layout-item>
+                                                                            <template if:true={showSplitNotification}>
+                                                                                <lightning-layout-item size="3">                                                                                        
+                                                                                    <div class="slds-m-left_x-small">
+                                                                                        <template if:true={splitError}>
+                                                                                            <lightning-icon icon-name="utility:error" alternative-text="Issue detecting the pages" variant="error"></lightning-icon>    
+                                                                                        </template>
+                                                                                        <template if:false={splitError}>
+                                                                                            <lightning-icon icon-name="utility:success" alternative-text="Pages successfully detected" variant="success"></lightning-icon>                                                                                
+                                                                                        </template>
+                                                                                    </div>
+                                                                                </lightning-layout-item>
+                                                                            </template>
+                                                                        </lightning-layout>                                                            
+                                                                    </lightning-layout-item>                                                            
+                                                                    <lightning-layout-item alignment-bump="left">
+                                                                        <button class="slds-button slds-button_brand slds-m-left_xx-small" 
+                                                                                onclick={handleSplitPage} disabled={disabledSplit}>Split</button>                                                            
+                                                                    </lightning-layout-item>
+                                                                </lightning-layout>
+                                                            </div>
+                                                        </lightning-layout-item>
+                                                    </lightning-layout>
+                                                </div>
+                                            </lightning-layout-item>
+                                        </template>
+                                    </lightning-layout>
+                                </div>
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                </div>
+            </template>
+        </div>
+    </article>
+</template>

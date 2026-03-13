@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Custom metadata used to map email to case address to origin based on email to case</description>
+    <fields>
+        <fullName>Active__c</fullName>
+        <defaultValue>false</defaultValue>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Active</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Case_Origin__c</fullName>
+        <description>Case Origin based on the email address on the email to case routing setting</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Case Origin based on the email address on the email to case routing setting</inlineHelpText>
+        <label>Case Origin</label>
+        <length>255</length>
+        <required>false</required>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Email_Address__c</fullName>
+        <description>Email Address on the email to case routing setting</description>
+        <externalId>false</externalId>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Email Address on the email to case routing setting</inlineHelpText>
+        <label>Email Address</label>
+        <required>false</required>
+        <type>Email</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Enquiry_Record_Type__c</fullName>
+        <description>Record type of the reopened enquiry</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <label>Enquiry Record Type</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Admissions</fullName>
+                    <default>true</default>
+                    <label>Admissions</label>
+                </value>
+                <value>
+                    <fullName>DSS_Enquiry</fullName>
+                    <default>false</default>
+                    <label>Disability Support Services Enquiry</label>
+                </value>
+                <value>
+                    <fullName>HR</fullName>
+                    <default>false</default>
+                    <label>HR</label>
+                </value>
+                <value>
+                    <fullName>MGE_Enquiry</fullName>
+                    <default>false</default>
+                    <label>MGRO Enquiry</label>
+                </value>
+                <value>
+                    <fullName>MPass_Card_Office</fullName>
+                    <default>false</default>
+                    <label>MPass Card Office</label>
+                </value>
+                <value>
+                    <fullName>Professional_Development</fullName>
+                    <default>false</default>
+                    <label>Professional Development</label>
+                </value>
+                <value>
+                    <fullName>SEBS</fullName>
+                    <default>false</default>
+                    <label>SEBS</label>
+                </value>
+                <value>
+                    <fullName>SEBS_Placements</fullName>
+                    <default>false</default>
+                    <label>SEBS Placements</label>
+                </value>
+                <value>
+                    <fullName>SR_Enquiry</fullName>
+                    <default>false</default>
+                    <label>SR Enquiry</label>
+                </value>
+                <value>
+                    <fullName>School Enquiry</fullName>
+                    <default>false</default>
+                    <label>School Enquiry</label>
+                </value>
+                <value>
+                    <fullName>Special_Consideration</fullName>
+                    <default>false</default>
+                    <label>Special Consideration</label>
+                </value>
+                <value>
+                    <fullName>Special_Consideration_Limited</fullName>
+                    <default>false</default>
+                    <label>Special Consideration Limited</label>
+                </value>
+                <value>
+                    <fullName>Monash_Connect_Enquiry</fullName>
+                    <default>false</default>
+                    <label>Standard Enquiry</label>
+                </value>
+                <value>
+                    <fullName>myResearch</fullName>
+                    <default>false</default>
+                    <label>myResearch</label>
+                </value>
+                <value>
+                    <fullName>Post-Application Enquiry</fullName>
+                    <default>false</default>
+                    <label>Post-Application Enquiry</label>
+                </value>
+                <value>
+                    <fullName>SS_InternationalStudentEngagement</fullName>
+                    <default>false</default>
+                    <label>International Student Engagement</label>
+                </value>
+                <value>
+                    <fullName>MRO</fullName>
+                    <default>false</default>
+                    <label>Monash Research Office</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>Email To Case Mapping</label>
+    <pluralLabel>Email To Case Mappings</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

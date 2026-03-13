@@ -1,0 +1,63 @@
+<!-- 
+ @name MonashCustomTheme
+ -->
+<aura:component implements="forceCommunity:themeLayout" access="global" description="Monash Community Custom Theme">
+    
+    <aura:attribute name="profileMenu" type="Aura.Component[]" required="false"/>
+    <aura:attribute name="navBar" type="Aura.Component[]" required="false"/>
+    <aura:attribute name="newHeader" type="Aura.Component[]" required="false"/>
+    
+    <div class="slds-grid slds-wrap">
+        <!-- monash header -->
+        <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 slds-p-bottom_medium">
+           
+            <div class="slds-container_x-large slds-container_center header-responsive">
+                <div class="slds-m-horizontal_xx-large">
+                    <div class="slds-m-horizontal_large">
+                        <c:MonashCustomThemeHeader />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- navigation bar -->
+        <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12 nav-background">
+            <div class="slds-container_x-large slds-container_center">
+                <div class="slds-grid slds-wrap slds-m-horizontal_xx-small">
+                    <!-- menu -->
+                    <div class="slds-large-size_8-of-12 slds-medium_size_4-of-12 slds-size_2-of-12">
+                        {!v.navBar}
+                    </div>
+                    <!-- login/profile -->
+                    <div class="slds-col_bump-left slds-large-size_4-of-12 slds-medium_size_4-of-12 slds-size_9-of-12 nav-login-responsive">
+                        <div class="slds-m-right_xx-large slds-size_12-of-12">
+                            <div class="slds-m-right_xx-large slds-size_12-of-12">
+                                {!v.profileMenu}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">   
+            <div class="slds-grid slds-wrap">
+                <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+                    <div class="slds-container_x-large slds-container_center">
+                        <div class="slds-m-horizontal_xx-large body-mob-view">
+                            <div class="slds-m-horizontal_large mainContentArea">
+                                {!v.body}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- footer -->
+        <div class="slds-large-size_12-of-12 slds-medium-size_12-of-12 slds-size_12-of-12">
+            <c:MonashCustomThemeFooter />
+        </div>
+    </div>
+    
+</aura:component>

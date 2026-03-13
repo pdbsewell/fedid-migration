@@ -1,0 +1,39 @@
+<template>
+    
+    <div if:true={loading}>
+        <lightning-spinner alternative-text="Loading"></lightning-spinner>
+    </div>
+    <!-- modal start -->        
+    <div if:true={showModal}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <!-- modal header start -->
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" onclick={closeModal}>
+                        x
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                            <img src={iconUrl}>
+                            Confirmation prompt
+                    </h2>
+                </header>
+                <!-- modal body start -->
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p>
+                        {modalContent}                        
+                    </p>
+                    
+                </div>
+                <!-- modal footer start-->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button agree-button" onclick={handleAgree}>Agree and Sign</button>
+                    <a onclick={closeModal}>Go back</a>
+                </footer>
+                <br/><br/><br/>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </div>
+            <!-- modal end -->
+        
+</template>

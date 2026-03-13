@@ -1,0 +1,23 @@
+<aura:component implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,lightning:isUrlAddressable" access="global" controller="OfferInternalEmailServices">
+    <!-- open subtab-->
+    <lightning:workspaceAPI aura:id="workspace" />
+    
+    <aura:attribute access="global" name="intializetype" type="String" default="" />
+    <aura:attribute access="global" name="opportunityid" type="String" default="" />
+
+    <!-- constructor -->
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <aura:renderIf isTrue="{!v.opportunityid}">
+        <c:offerInternalEmailForm opportunityId="{!v.opportunityid}"
+                                  onemailsuccess="{!c.closeFocusedTab}">                                  
+        </c:offerInternalEmailForm>
+    </aura:renderIf>
+
+    <!-- override email template publisher height -->
+    <aura:html tag="style">
+        .slds-rich-text-area__content {
+            max-height: 40vh;
+        }
+    </aura:html> 
+</aura:component>

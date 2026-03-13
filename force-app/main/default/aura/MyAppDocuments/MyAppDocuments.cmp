@@ -1,0 +1,51 @@
+<aura:component access="global" implements="forceCommunity:availableForAllPageTypes" description="Aura component called on my.app documents page">
+    <aura:attribute name="applicationId" type="String" access="global" />
+    <aura:attribute name="title" type="String" access="global" />
+    <aura:attribute name="subTitle" type="String" access="global" />
+    
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <!-- Checklist View -->    
+    <c:documentChecklistAssessmentCommunityList 
+        pageTitle="{!v.title}" 
+        pageSubTitle="{!v.subTitle}" 
+        applicationId="{!v.applicationId}" 
+        onfilepreview="{!c.handleFilePreview}" />  
+
+    <!-- hack to hide the chatter file previewer actions - please revisit when salesforce changes their class name for previewer actions -->
+    <aura:html tag="style">
+        button[title="View File Details"].previewerAction { 
+            display: none !important; 
+        }
+
+        button[title="Upload New Version"].previewerAction { 
+            display: none !important; 
+        }
+
+        button[title="Edit File Details"].previewerAction{ 
+            display: none !important; 
+        }
+
+        button[title="Delete"].previewerAction { 
+            display: none !important; 
+        }
+
+        a[title="Show More"].menuButton {
+            display: none !important; 
+        }
+
+        .generalText {
+            text-align: left;
+            font-family: "Roboto";
+            font-size: 18px;
+            line-height: 24px;
+            letter-spacing: 0px;
+            color: #333333;
+            opacity: 1;
+        }
+
+        .slds-card {
+            border-radius: 0;
+        }
+    </aura:html> 
+</aura:component>

@@ -1,0 +1,127 @@
+<!--
+ - Created by trentdelaney on 25/5/20.
+ -->
+<!-- English Outcome Capture -->
+<template>
+    <div class="slds-grid slds-gutters slds-wrap slds-grid_vertical-align-end">
+        <div class="slds-col slds-size_1-of-1 bottomPad">
+            <lightning-combobox label="English Entry Mode"
+                                name="English Entry Mode"
+                                value={englishTypeOptionValue}
+                                placeholder="Select English Type"
+                                options={englishTypeOptions}
+                                onchange={handlePicklistChange}
+            ></lightning-combobox>
+        </div>
+        <template if:false={acp}>
+            <div class="slds-col slds-size_1-of-1 slds-scrollable bottomPad">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                    <thead>
+                        <tr class="slds-line-height_reset">
+                            <th scope="col">
+                                <div class="slds-truncate" title="Select">Select</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="ID">ID</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Type">Type</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Status">Status</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Score">Score</div>
+                            </th>
+                            <th scope="col">
+                                <div class="slds-truncate" title="Year">Year</div>
+                            </th>
+                        </tr>
+                    </thead>
+                <tbody>
+                    <template for:each={qualificationRecords} for:item="acc">
+                        <tr class="slds-hint-parent" key={acc.id} data-contactqual={acc.Id}>
+                            <td data-label={acc.Qualification_Type__c}>
+                                <lightning-input label="" type="checkbox" data-contactqual={acc.Id} onchange={addToList}></lightning-input>
+                            </td>
+                            <td data-label={acc.Name} scope="row">
+                                <div class="slds-truncate" title={acc.Name}>{acc.Name}</div>
+                            </td>
+                            <td data-label={acc.Qualification_Type__c}>
+                                <div class="slds-truncate" title={acc.Qualification_Type__c}>{acc.Qualification_Type__c}</div>
+                            </td>
+                            <td data-label={acc.Verification_Status__c}>
+                                <div class="slds-truncate" title={acc.Verification_Status__c}>{acc.Verification_Status__c}</div>
+                            </td>
+                            <td data-label={acc.Score__c}>
+                                <div class="slds-truncate" title={acc.Score__c}>{acc.Score__c}</div>
+                            </td>
+                            <td data-label={acc.Year_of_Completion__c}>
+                                <div class="slds-truncate" title={acc.Year_of_Completion__c}>{acc.Year_of_Completion__c}</div>
+                            </td>
+                        </tr>
+                    </template>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+        <template if:true={acp}>
+            <div class="slds-col slds-scrollable slds-size_1-of-1">
+                <table class="slds-table slds-table_cell-buffer slds-table_bordered">
+                    <thead>
+                    <tr class="slds-line-height_reset">
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Select">Select</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="ID">ID</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Course">Course</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Admission Category">Admission Category</div>
+                        </th>
+                        <th class="" scope="col">
+                            <div class="slds-truncate" title="Location Code">Location Code</div>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <template for:each={applicationCoursePreferences} for:item="acc">
+                        <tr class="slds-line-height_reset" key={acc.id} data-contactqual={acc.Id}>
+                            <td data-label={acc.Qualification_Type__c}>
+                                <lightning-input label="" type="checkbox" data-contactqual={acc.Id} onchange={addToList}></lightning-input>
+                            </td>
+                            <td data-label={acc.Name} scope="row">
+                                <div class="slds-truncate">{acc.Name}</div>
+                            </td>
+                            <td data-label={acc.Course_Title__c} scope="row">
+                                <div class="slds-truncate">{acc.Course_Title__c}</div>
+                            </td>
+                            <td data-label={acc.Admission_Category__c} scope="row">
+                                <div class="slds-truncate">{acc.Admission_Category__c}
+                                </div>
+                            </td>
+                            <td data-label={acc.Location_Code__c} scope="row">
+                                <div class="slds-truncate">{acc.Location_Code__c}</div>
+                            </td>
+                        </tr>
+                    </template>
+                    </tbody>
+                </table>
+            </div>
+        </template>
+        <div class="slds-col slds-size_1-of-2">
+            <lightning-combobox label="Result"
+                                options={resultTypeOptions}
+                                value={resultTypeValue}
+                                placeholder="Select an option"
+                                onchange={handleResultPicklistChange}>
+            </lightning-combobox>
+        </div>
+        <div class="slds-col slds-size_1-of-2">
+            <lightning-button label="Assign" type="Primary" onclick={saveRecord}></lightning-button>
+        </div>
+    </div>
+</template>

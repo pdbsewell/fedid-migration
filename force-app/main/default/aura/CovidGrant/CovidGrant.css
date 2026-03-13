@@ -1,0 +1,194 @@
+/*
+ * Monash Mango replicate stylesheet - Huy Do 07/04/20
+ */
+.THIS body {
+    font-size: 1rem;
+}
+
+.THIS label.slds-form-element__label, .THIS label.uiLabel, .THIS .slds-checkbox_faux {
+    display: none;
+}
+
+.THIS a {
+    color: #006dae;
+    text-decoration: underline;
+}
+
+.THIS p, .THIS dl, .THIS multicol, .THIS h2 {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+}
+
+.THIS button, .THIS select {
+    text-transform: none;
+}
+.THIS button, .THIS input, .THIS select, .THIS textarea {
+    font-family: inherit;
+    font-size: 100%;
+    margin: 0;
+}
+.THIS button, .THIS input[type="button"], .THIS input[type="reset"], .THIS input[type="submit"] {
+    -webkit-appearance: button;
+    cursor: pointer;
+}
+.THIS input[type="checkbox"], .THIS input[type="radio"] {
+    box-sizing: border-box;
+    padding: 0;
+}
+.THIS body {
+    color: #3c3c3c;
+    font-family: sans-serif;
+    font-size: 0.9375rem;
+}
+.THIS body {
+    font-size: 1em;
+    line-height: 1.4;
+}
+.THIS h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+}
+.THIS h1 {
+    font-weight: 400;
+    color: #006dae;
+    font-family: "Century Schoolbook", Georgia, "Times New Roman", Times, serif;
+    font-size: 1.875rem;
+    line-height: 1.2;
+    margin-top: 0;
+    padding-top: 1.5rem;
+}
+.THIS h2 {
+    font-weight: 400;
+    font-family: "Roboto Condensed", sans-serif;
+    color: #006dae;
+    font-size: 1.3125rem;
+    line-height: 1.1;
+}
+.THIS p, .THIS ul, .THIS ol, .THIS blockquote {
+    color: #505050;
+    font-weight: 400;
+}
+
+.THIS .sq-form-submit:disabled {
+    background-color: #505050;
+    opacity: 0.5;
+}
+
+.THIS p.button > a, .THIS .btn, .THIS .btn-bordered, .THIS .sq-form-submit {
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    background-color: #006dae;
+    border: 0;
+    color: #fff;
+    padding: 0.75rem 1.0625rem;
+    text-align: center;
+}
+.THIS .sq-form-field input[type="radio"], .THIS .sq-form-field input[type="checkbox"] {
+    height: 1.25rem;
+    left: -0.25rem;
+    margin-right: 0.25rem;
+    opacity: 0;
+    position: absolute;
+    top: 0.125rem;
+    width: 1.4375rem;
+}
+.THIS .sq-form-field input[type="radio"] + label, .THIS .sq-form-field input[type="checkbox"] + label {
+    cursor: pointer;
+    margin-left: 1.375rem;
+    position: relative;
+}
+
+.THIS ul, .THIS menu, .THIS dir, .THIS ul > li > ul {
+    list-style-type: disc;
+}
+.THIS li {
+    margin: .5rem 0;
+}
+.THIS .sq-form-question {
+    margin-bottom: 1.5625rem;
+}
+.THIS .sq-form-question-title, .THIS .slds-form-element__label {
+    color: #505050;
+    font-weight: bold;
+    display: block;
+    font-size: 1rem;
+}
+.THIS .sq-form-question-answer {
+    margin-top: 0.9375rem;
+    position: relative;
+}
+.THIS .sq-form-field input[type="radio"] + label::before, .THIS .sq-form-field input[type="checkbox"] + label::before {
+    border: 1px solid #a9a9a9;
+}
+.THIS .sq-form-field input[type="radio"] + label::before, .THIS .sq-form-field input[type="checkbox"] + label::before, .THIS .sq-form-field input[type="checkbox"] + label::after {
+    display: inline-block;
+    height: 1rem;
+    left: -1.375rem;
+    top: 0.1875rem;
+    width: 1rem;
+}
+.THIS .sq-form-field input[type="radio"] + label::before, .THIS .sq-form-field input[type="radio"] + label::after, .THIS .sq-form-field input[type="checkbox"] + label::before, .THIS .sq-form-field input[type="checkbox"] + label::after {
+    content: '';
+    position: absolute;
+}
+.THIS .sq-form-field input[type="radio"]:checked + label::after, .THIS .sq-form-field input[type="checkbox"]:checked + label::after {
+    opacity: 1;
+}
+.THIS input[type="text"], .THIS input[type="email"], .THIS input[type="password"], .THIS input[type="search"], .THIS input[type="tel"], .THIS textarea {
+    -webkit-appearance: none;
+}
+.THIS .sq-form-field input[type="checkbox"] + label::after {
+    background-image: url("https://www.monash.edu/__data/assets/git_bridge/0006/509343/deploy/styles/mysource_files/tick.png");
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0;
+}
+
+.THIS .sq-form-field textarea {
+    min-height: 6.5rem;
+}
+
+.THIS .control-group__input, .THIS textarea.sq-form-field, .THIS .sq-form-field textarea, .THIS .sq-form-field input, .THIS .sq-form-question-select .selectric, .THIS .sq-form-question-datetime .selectric, .THIS .sq-form-question-country .selectric, .THIS .js-enabled .sq-form-question-file-upload .sq-form-question-facade {
+    border: 1px solid #006dae;
+    color: #006dae;
+    font-weight: 300;
+    padding: 0.5rem 0.625rem;
+    width: 100%;
+}
+.THIS label {
+    padding-right: 0.625rem;
+}
+.THIS abbr[title] {
+    border-bottom: 1px dotted;
+}
+.THIS input, .THIS select, .THIS textarea {
+    border-radius: 0;
+}
+.THIS input, .THIS button, .THIS select, .THIS textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+.THIS button, .THIS input {
+    line-height: normal;
+}
+
+.THIS img.uploadIcon {
+    width: 5rem;
+}
+
+@media only screen and (min-width: 60em) {
+    .THIS body {
+        font-size: 1rem;
+    }
+    .THIS h1 {
+        font-size: 2.625rem;
+        margin-top: .67em;
+        padding-top: 0;
+    }
+    .THIS h2 {
+        font-size: 1.75rem;
+    }
+}

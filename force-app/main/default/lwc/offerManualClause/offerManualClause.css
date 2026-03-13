@@ -1,0 +1,44 @@
+.display-table{
+    margin-top: 10px;
+    /*position: absolute;*/
+}
+.add-btn-td{
+    width: 5%;
+}
+.column-header{
+    padding-left: 8px;
+}
+.text-td{
+    position:relative;
+}
+.popover-container{
+    display:none;
+    position:absolute; 
+    z-index:9999;
+    top: -50px;
+    right: 350px;
+    transition-property: display;
+    transition-duration: 2s;
+    transition-delay: 2s;
+}
+.description-popover{
+    right: 705px;
+}
+
+.text-td:hover span.popover-container{
+    display:block;
+}
+
+.slds-table_bordered, .slds-table--bordered{
+    border-collapse: collapse;
+}
+
+.slds-table th,.slds-table td, 
+.slds-form-element{
+    /*position: inherit;*/
+    position: relative;
+}
+
+.slds-form-element__control.slds-grow.textarea-container{
+    position: inherit!important;
+}

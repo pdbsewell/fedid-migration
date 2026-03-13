@@ -1,0 +1,25 @@
+<aura:component implements="flexipage:availableForAllPageTypes"
+                            access="global"
+                            controller="CaseServicesV2">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+
+    <aura:attribute name="listUsefulLinks" type="List" />
+
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+
+    <div class="slds slds-m-around_medium">
+        <aura:if isTrue="{!v.listUsefulLinks.length > 0}">
+        <ul>
+            <aura:iteration items="{!v.listUsefulLinks}" var="item" indexVar="key">
+                <li>
+                    <a href="{!item.value}" target="_blank"> {!item.key}</a>
+                </li>
+            </aura:iteration>
+        </ul>
+            <aura:set attribute="else">
+                <span>No items to display.</span>
+            </aura:set>
+        </aura:if>
+    </div>
+</aura:component>

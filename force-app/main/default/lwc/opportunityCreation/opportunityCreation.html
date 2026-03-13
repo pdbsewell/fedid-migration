@@ -1,0 +1,18 @@
+<template>
+    <!--LOADING SPINNER-->
+    <template if:true={isLoading}> 
+        <div class=".slds-is-absolute">
+            <div class="slds-align_absolute-center slds-is-relative" style="min-height:600px;" >
+                <lightning-spinner alternative-text="Loading" variant="brand" size="large"></lightning-spinner>
+            </div>            
+        </div>
+    </template>
+    <template if:false={isLoading}> 
+        <c-opportunity-creation-form account-record-id={accountRecordId} onamountchange={handleAmountChange}></c-opportunity-creation-form> 
+        <c-opportunity-collaborators></c-opportunity-collaborators> 
+        <div class="slds-align_absolute-center slds-p-top_x-large">
+            <lightning-button class="slds-button section-float slds-p-around_small " variant="base" label="Cancel" title="Cancel" onclick={handleCancel}></lightning-button>
+            <lightning-button class="section-float slds-p-around_small" variant="brand" label="Save" title="Success" onclick={handleSave}></lightning-button>
+        </div> 
+    </template>
+</template>

@@ -1,0 +1,140 @@
+<!--
+  @File Name          : prospectiveStudentManager.html
+  @Description        : Lead CRUD component for Case console
+  @Author             : Nick Guia
+  @Group              : Lead Management
+-->
+<template>
+    <div>
+        <template if:true={screenLoad}>
+            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+        </template>
+        <article class="slds-card">
+
+            <!-- HEADER -->
+            <div class="slds-grid slds-einstein-header slds-card__header">
+                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                    <div class="slds-grid slds-grid_vertical-align-center slds-size_3-of-4 slds-medium-size_2-of-3">
+
+                        <div class="slds-media__body">
+                            <h2 class="slds-truncate slds-card__header-link slds-text-heading--small" title="Prospective Student Manager">
+                                Prospective Student Manager
+                            </h2>
+                        </div>
+                    </div>
+
+                    <!-- AWESOME ASTRO -->
+                    <div 
+                        class="slds-einstein-header__figure slds-size_1-of-4 slds-medium-size_1-of-3" 
+                        style={astroHeader}>
+                    </div>
+                </header>
+            </div>
+
+            <!-- CARD BODY -->
+            <div class="slds-card__body slds-card__body_inner">
+                <div>
+                    <template if:true={isLoading}>
+                        <div class="slds-is-relative" style="min-height: 200px;">
+                            <div class="slds-align_absolute-center">
+                                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+                            </div>
+                        </div>
+                    </template>
+
+                    <template if:false={isLoading}>
+                        <template if:true={isShowPath}>
+                            <!-- PATH -->
+                            <div>
+                                <lightning-progress-indicator current-step={progressStep} type="path" variant="base">
+                                    <lightning-progress-step label="Contact Created" value="step1"></lightning-progress-step>
+                                    <lightning-progress-step label="Lead Created" value="step2"></lightning-progress-step>
+                                </lightning-progress-indicator>
+                            </div>
+                        </template>
+
+                        <div class="slds-grid">
+                            <div class="slds-is-relative">
+                                <c-sticky-notification variant={notifTheme}>
+                                    <lightning-icon slot="icon" icon-name={notifIcon} variant="inverse">
+                                    </lightning-icon>
+                                    <h2 class="slds-text-heading_small" slot="content">
+                                        {notifMessage}
+                                    </h2>
+                                </c-sticky-notification>
+                                <div style={notifImg}></div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="slds-p-bottom_small">
+                            <div class="slds-align_absolute-center">
+                                <!-- CREATE PROSPECTIVE STUDENT BUTTON -->
+                                <template if:true={isShowCreate}>
+                                    <lightning-button 
+                                        label="Create Prospective Student" 
+                                        title="Create Prospective Student action" 
+                                        icon-name="utility:adduser" 
+                                        class="slds-m-left_x-small"
+                                        onclick={handleOpenWizard}>
+                                    </lightning-button>
+                                </template>
+                                <!-- LINK LEAD BUTTON -->
+                                <template if:true={isShowLink}>
+                                    <lightning-button 
+                                        label="Link Lead to Enquiry" 
+                                        title="Link Lead to Enquiry" 
+                                        icon-name="utility:link"
+                                        class="slds-m-left_x-small"
+                                        onclick={handleLinkLead}>
+                                    </lightning-button>
+                                </template>
+                                <!-- MANAGE PROSPECTIVE STUDENT BUTTON -->
+                                <template if:true={isShowManage}>
+                                    <lightning-button 
+                                        label="Manage Prospective Student" 
+                                        title="Manage Prospective Student action"
+                                        icon-name="utility:edit" 
+                                        class="slds-m-left_x-small"
+                                        onclick={handleOpenWizard}>
+                                    </lightning-button>
+                                </template>
+                            </div>
+
+                        </div>
+                    </template>
+
+                </div>
+            </div>
+        </article>
+
+        <template if:true={isShowWizard}>
+            <!-- WIZARD MODAL -->
+            <section role="dialog" tabindex="-1" aria-modal="true" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    <header class="slds-modal__header">
+                        <lightning-button-icon 
+                            icon-name="utility:close" 
+                            variant="bare-inverse" 
+                            alternative-text="Close" 
+                            title="Close"
+                            class="slds-modal__close"
+                            size="large"
+                            onclick={handleCloseWizard}>
+                        </lightning-button-icon>
+                    </header>
+                    <div class="slds-modal__content slds-p-around_medium">
+                        <c-ps-wizard-container 
+                            onclosemodal={handleCloseWizard}
+                            onsave={handleWizardSave}
+                            contact-record={_contact}
+                            lead-record={_lead}
+                            case-record={_case}>
+                        </c-ps-wizard-container>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </template>
+    </div>
+</template>

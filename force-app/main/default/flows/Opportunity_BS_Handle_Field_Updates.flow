@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <assignments>
+        <description>Migrated from Update_Qualification_Outcome Field update</description>
+        <name>Update_Qualification_Outcome</name>
+        <label>Update Qualification Outcome</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignmentItems>
+            <assignToReference>$Record.Qualification_Outcome__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Pursue</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <description>Handles relevant field updates on a Before Trigger basis
+Migrated from the following WF: 
+- Enterprise_PURE_Opportunity_Sync workflow rule</description>
+    <environments>Default</environments>
+    <interviewLabel>Opportunity : BS : Handle Field Updates {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Opportunity : BS : Handle Field Updates</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Update_Qualification_Outcome</targetReference>
+        </connector>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterFormula>AND(
+   {!$Setup.Bypass_Mute_Request__c.Bypass_All_Flows__c} = False,
+   CONTAINS({!$Label.Bypass_Specific_Flow}, &quot;Opportunity_BS_Handle_Opportunity_Updates&quot;) = false,
+   {!$Record.RecordType.Name} = &apos;Enterprise&apos;,
+   TEXT({!$Record.Source__c}) = &apos;PURE&apos;
+)</filterFormula>
+        <object>Opportunity</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>

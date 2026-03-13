@@ -1,0 +1,46 @@
+<!--
+  @File Name          : customVisualPicker.html
+  @Description        : 
+  @Author             : jasmin.rudio@monash.edu
+  @Group              : 
+  @Last Modified By   : jasmin.rudio@monash.edu
+  @Last Modified On   : 5/27/2020, 8:05:51 PM
+  @Modification Log   : 
+  Ver       Date            Author      		    Modification
+  1.0    5/27/2020   jasmin.rudio@monash.edu     Initial Version
+-->
+<template>
+    <div class="slds-visual-picker slds-visual-picker_vertical">
+        <input type="radio" id={linkId} value={linkId} name="options" onclick={handleClick} title={title} disabled={isDisabled} />
+        <label for={linkId}>
+            <span class="slds-visual-picker__figure slds-visual-picker__text slds-align_absolute-center">
+                <template if:false={hideIcon}>
+                    <div class="slds-media__figure slds-media__figure_fixed-width slds-align_absolute-center slds-m-left_xx-small">
+                        <span class="slds-icon_container">
+                            <lightning-icon icon-name={svgIcon} alternative-text={title}></lightning-icon>
+                        </span>
+                    </div>
+                    <div class="slds-media__body slds-border_left slds-p-around_small">
+                        <h2 class="slds-truncate slds-text-heading_small">{title}</h2>
+                        <template if:true={content}>
+                            <p class="slds-m-top_small">{content}</p>
+                        </template>
+                    </div>
+                </template>
+                <template if:true={hideIcon}>
+                    <div class="slds-media__body slds-p-around_small">
+                        <h2 class="slds-truncate slds-text-heading_small">{title}</h2>
+                        <template if:true={content}>
+                            <p class="slds-m-top_small">{content}</p>
+                        </template>
+                    </div>
+                </template>
+            </span>
+            <span class="slds-icon_container slds-visual-picker__text-check">
+                <svg class="slds-icon slds-icon-text-check slds-icon_x-small" aria-hidden="true">
+                    <use xlink:href="/apexpages/slds/latest/assets/icons/utility-sprite/svg/symbols.svg#check"></use>
+                </svg>
+            </span>
+        </label>
+    </div>
+</template>

@@ -1,0 +1,723 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Custom metadata to manage the auto populated fields when transferring enquiries to queues</description>
+    <fields>
+        <fullName>Allow_Direct_User_Assignment__c</fullName>
+        <defaultValue>false</defaultValue>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Transfer rule will fire even the enquiry has been directly assigned to the user. System will use the user&apos;s role to determine the business group.</inlineHelpText>
+        <label>Allow Direct User Assignment</label>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Category__c</fullName>
+        <description>Auto-populated category value of the transferred enquiry</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Auto-populated category value of the transferred enquiry</inlineHelpText>
+        <label>Category</label>
+        <required>false</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Academic Promotion</fullName>
+                    <default>false</default>
+                    <label>Academic Promotion</label>
+                </value>
+                <value>
+                    <fullName>Business Support</fullName>
+                    <default>false</default>
+                    <label>Business Support</label>
+                </value>
+                <value>
+                    <fullName>Business Support - CoE</fullName>
+                    <default>false</default>
+                    <label>Business Support - CoE</label>
+                </value>
+                <value>
+                    <fullName>Concur</fullName>
+                    <default>false</default>
+                    <label>Concur</label>
+                </value>
+                <value>
+                    <fullName>Contract</fullName>
+                    <default>false</default>
+                    <label>Contract</label>
+                </value>
+                <value>
+                    <fullName>Contract - HR</fullName>
+                    <default>false</default>
+                    <label>Contract - HR</label>
+                </value>
+                <value>
+                    <fullName>Feedback</fullName>
+                    <default>false</default>
+                    <label>Feedback</label>
+                </value>
+                <value>
+                    <fullName>Form assistance</fullName>
+                    <default>false</default>
+                    <label>Form assistance</label>
+                </value>
+                <value>
+                    <fullName>Forms</fullName>
+                    <default>false</default>
+                    <label>Forms</label>
+                </value>
+                <value>
+                    <fullName>Global mobility (Visas &amp; Visitors)</fullName>
+                    <default>false</default>
+                    <label>Global mobility (Visas &amp; Visitors)</label>
+                </value>
+                <value>
+                    <fullName>HR Business Partnering</fullName>
+                    <default>false</default>
+                    <label>HR Business Partnering</label>
+                </value>
+                <value>
+                    <fullName>HR System</fullName>
+                    <default>false</default>
+                    <label>HR System</label>
+                </value>
+                <value>
+                    <fullName>HR Systems - HR</fullName>
+                    <default>false</default>
+                    <label>HR Systems - HR</label>
+                </value>
+                <value>
+                    <fullName>HR Talent Systems</fullName>
+                    <default>false</default>
+                    <label>HR Talent Systems</label>
+                </value>
+                <value>
+                    <fullName>Learning</fullName>
+                    <default>false</default>
+                    <label>Learning</label>
+                </value>
+                <value>
+                    <fullName>Mobility</fullName>
+                    <default>false</default>
+                    <label>Mobility</label>
+                </value>
+                <value>
+                    <fullName>Mobility@Monash</fullName>
+                    <default>false</default>
+                    <label>Mobility@Monash</label>
+                </value>
+                <value>
+                    <fullName>Monash College Query</fullName>
+                    <default>false</default>
+                    <label>Monash College Query</label>
+                </value>
+                <value>
+                    <fullName>Other</fullName>
+                    <default>false</default>
+                    <label>Other</label>
+                </value>
+                <value>
+                    <fullName>Payroll</fullName>
+                    <default>false</default>
+                    <label>Payroll</label>
+                </value>
+                <value>
+                    <fullName>Payroll - HR</fullName>
+                    <default>false</default>
+                    <label>Payroll - HR</label>
+                </value>
+                <value>
+                    <fullName>Payroll Services</fullName>
+                    <default>false</default>
+                    <label>Payroll Services</label>
+                </value>
+                <value>
+                    <fullName>Personal</fullName>
+                    <default>false</default>
+                    <label>Personal</label>
+                </value>
+                <value>
+                    <fullName>Personal - HR</fullName>
+                    <default>false</default>
+                    <label>Personal - HR</label>
+                </value>
+                <value>
+                    <fullName>Policy &amp; Procedure</fullName>
+                    <default>false</default>
+                    <label>Policy &amp; Procedure</label>
+                </value>
+                <value>
+                    <fullName>Policy &amp; Procedure - HR</fullName>
+                    <default>false</default>
+                    <label>Policy &amp; Procedure - HR</label>
+                </value>
+                <value>
+                    <fullName>Pre-employment</fullName>
+                    <default>false</default>
+                    <label>Pre-employment</label>
+                </value>
+                <value>
+                    <fullName>Pre-employment - HR</fullName>
+                    <default>false</default>
+                    <label>Pre-employment - HR</label>
+                </value>
+                <value>
+                    <fullName>Recruitment Support</fullName>
+                    <default>false</default>
+                    <label>Recruitment Support</label>
+                </value>
+                <value>
+                    <fullName>Recruitment Support - CoE</fullName>
+                    <default>false</default>
+                    <label>Recruitment Support - CoE</label>
+                </value>
+                <value>
+                    <fullName>Recruitment Support - HR</fullName>
+                    <default>false</default>
+                    <label>Recruitment Support - HR</label>
+                </value>
+                <value>
+                    <fullName>Remuneration and PBC&apos;s</fullName>
+                    <default>false</default>
+                    <label>Remuneration and PBC&apos;s</label>
+                </value>
+                <value>
+                    <fullName>Spam</fullName>
+                    <default>false</default>
+                    <label>Spam</label>
+                </value>
+                <value>
+                    <fullName>Staff/ Gender Equity</fullName>
+                    <default>false</default>
+                    <label>Staff/ Gender Equity</label>
+                </value>
+                <value>
+                    <fullName>Staff Development</fullName>
+                    <default>false</default>
+                    <label>Staff Development</label>
+                </value>
+                <value>
+                    <fullName>Superannuation</fullName>
+                    <default>false</default>
+                    <label>Superannuation</label>
+                </value>
+                <value>
+                    <fullName>Timesheets</fullName>
+                    <default>false</default>
+                    <label>Timesheets</label>
+                </value>
+                <value>
+                    <fullName>Transferred</fullName>
+                    <default>false</default>
+                    <label>Transferred</label>
+                </value>
+                <value>
+                    <fullName>Transferred - HR</fullName>
+                    <default>false</default>
+                    <label>Transferred - HR</label>
+                </value>
+                <value>
+                    <fullName>Visa&apos;s</fullName>
+                    <default>false</default>
+                    <label>Visa&apos;s</label>
+                </value>
+                <value>
+                    <fullName>Visitiors to Monash</fullName>
+                    <default>false</default>
+                    <label>Visitiors to Monash</label>
+                </value>
+                <value>
+                    <fullName>Workplace Relations and Policy </fullName>
+                    <default>false</default>
+                    <label>Workplace Relations and Policy </label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Change_to_Record_Type__c</fullName>
+        <description>Auto-populated record type value of the transferred enquiry</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Auto-populated record type value of the transferred enquiry</inlineHelpText>
+        <label>Change to Record Type</label>
+        <required>true</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>true</sorted>
+                <value>
+                    <fullName>Admissions</fullName>
+                    <default>false</default>
+                    <label>Admissions</label>
+                </value>
+                <value>
+                    <fullName>Complaint</fullName>
+                    <default>false</default>
+                    <label>Complaint</label>
+                </value>
+                <value>
+                    <fullName>Disability Support Services Enquiry</fullName>
+                    <default>false</default>
+                    <label>Disability Support Services Enquiry</label>
+                </value>
+                <value>
+                    <fullName>HR</fullName>
+                    <default>false</default>
+                    <label>HR</label>
+                </value>
+                <value>
+                    <fullName>Insurance Enquiry</fullName>
+                    <default>false</default>
+                    <label>Insurance Enquiry</label>
+                </value>
+                <value>
+                    <fullName>MGE Enquiry</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>MGE Enquiry</label>
+                </value>
+                <value>
+                    <fullName>MGRO Enquiry</fullName>
+                    <default>false</default>
+                    <label>MGRO Enquiry</label>
+                </value>
+                <value>
+                    <fullName>Monash Research Office</fullName>
+                    <default>false</default>
+                    <label>Monash Research Office</label>
+                </value>
+                <value>
+                    <fullName>MonCon Support</fullName>
+                    <default>false</default>
+                    <label>MonCon Support</label>
+                </value>
+                <value>
+                    <fullName>MPass Card Office</fullName>
+                    <default>false</default>
+                    <label>MPass Card Office</label>
+                </value>
+                <value>
+                    <fullName>myResearch</fullName>
+                    <default>false</default>
+                    <label>myResearch</label>
+                </value>
+                <value>
+                    <fullName>Post-Application Enquiry</fullName>
+                    <default>false</default>
+                    <label>Post-Application Enquiry</label>
+                </value>
+                <value>
+                    <fullName>Pre-Application Enquiry</fullName>
+                    <default>false</default>
+                    <label>Pre-Application Enquiry</label>
+                </value>
+                <value>
+                    <fullName>Professional Development</fullName>
+                    <default>false</default>
+                    <label>Professional Development</label>
+                </value>
+                <value>
+                    <fullName>Professional Year Enquiry</fullName>
+                    <default>false</default>
+                    <label>Professional Year Enquiry</label>
+                </value>
+                <value>
+                    <fullName>School Enquiry</fullName>
+                    <default>false</default>
+                    <label>School Enquiry</label>
+                </value>
+                <value>
+                    <fullName>SEBS</fullName>
+                    <default>false</default>
+                    <label>SEBS</label>
+                </value>
+                <value>
+                    <fullName>SEBS Placements</fullName>
+                    <default>false</default>
+                    <label>SEBS Placements</label>
+                </value>
+                <value>
+                    <fullName>Special Consideration</fullName>
+                    <default>false</default>
+                    <label>Special Consideration</label>
+                </value>
+                <value>
+                    <fullName>Special Consideration Limited</fullName>
+                    <default>false</default>
+                    <label>Special Consideration Limited</label>
+                </value>
+                <value>
+                    <fullName>SR Enquiry</fullName>
+                    <default>false</default>
+                    <label>SR Enquiry</label>
+                </value>
+                <value>
+                    <fullName>Standard Enquiry</fullName>
+                    <default>false</default>
+                    <label>Standard Enquiry</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>ExcludedForRoleAndSubordinates__c</fullName>
+        <description>Business Group (Highest role for the business group on role hierarchy) of the queue listed on the metadata rule for which to exclude the rule</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Business Group (Highest role for the business group on role hierarchy) of the queue listed on the metadata rule for which to exclude the rule</inlineHelpText>
+        <label>Excluded for Role and Subordinates</label>
+        <required>true</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>-- Do not exclude --</fullName>
+                    <default>false</default>
+                    <label>-- Do not exclude --</label>
+                </value>
+                <value>
+                    <fullName>Deferred Exams Applications</fullName>
+                    <default>false</default>
+                    <label>Deferred Exams Applications</label>
+                </value>
+                <value>
+                    <fullName>Disability Support Services</fullName>
+                    <default>false</default>
+                    <label>Disability Support Services</label>
+                </value>
+                <value>
+                    <fullName>Insurance</fullName>
+                    <default>false</default>
+                    <label>Insurance</label>
+                </value>
+                <value>
+                    <fullName>Monash College</fullName>
+                    <default>false</default>
+                    <label>Monash College</label>
+                </value>
+                <value>
+                    <fullName>Monash Connect</fullName>
+                    <default>false</default>
+                    <label>Monash Connect</label>
+                </value>
+                <value>
+                    <fullName>Monash HR</fullName>
+                    <default>false</default>
+                    <label>Monash HR</label>
+                </value>
+                <value>
+                    <fullName>Student Rec Leader</fullName>
+                    <default>false</default>
+                    <label>Student Rec Leader</label>
+                </value>
+                <value>
+                    <fullName>Student Recruitment &amp; Admissions</fullName>
+                    <default>false</default>
+                    <label>Student Recruitment &amp; Admissions</label>
+                </value>
+                <value>
+                    <fullName>Faculty</fullName>
+                    <default>false</default>
+                    <label>Faculty</label>
+                </value>
+                <value>
+                    <fullName>Library</fullName>
+                    <default>false</default>
+                    <label>Library</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Priority__c</fullName>
+        <description>Auto-populated priority value of the transferred enquiry</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Auto-populated priority value of the transferred enquiry</inlineHelpText>
+        <label>Priority</label>
+        <required>true</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>-- Do not change --</fullName>
+                    <default>true</default>
+                    <label>-- Do not change --</label>
+                </value>
+                <value>
+                    <fullName>High</fullName>
+                    <default>false</default>
+                    <label>High</label>
+                </value>
+                <value>
+                    <fullName>Medium</fullName>
+                    <default>false</default>
+                    <label>Medium</label>
+                </value>
+                <value>
+                    <fullName>Low</fullName>
+                    <default>false</default>
+                    <label>Low</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Queue_Name__c</fullName>
+        <description>Destination Queue of the Enquiry</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Destination Queue of the Enquiry</inlineHelpText>
+        <label>Queue Name</label>
+        <required>true</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>true</sorted>
+                <value>
+                    <fullName>[DO NOT USE] SEBS - SpecCon</fullName>
+                    <default>false</default>
+                    <label>[DO NOT USE] SEBS - SpecCon</label>
+                </value>
+                <value>
+                    <fullName>DSS Enquiries</fullName>
+                    <default>false</default>
+                    <label>DSS Enquiries</label>
+                </value>
+                <value>
+                    <fullName>General HR</fullName>
+                    <default>false</default>
+                    <label>General HR</label>
+                </value>
+                <value>
+                    <fullName>HR Talent Systems</fullName>
+                    <default>false</default>
+                    <label>HR Talent Systems</label>
+                </value>
+                <value>
+                    <fullName>Insurance Enquiries</fullName>
+                    <default>false</default>
+                    <label>Insurance Enquiries</label>
+                </value>
+                <value>
+                    <fullName>IRS Fees</fullName>
+                    <default>false</default>
+                    <label>IRS Fees</label>
+                </value>
+                <value>
+                    <fullName>Library - Academic Services</fullName>
+                    <default>false</default>
+                    <label>Library - Academic Services</label>
+                </value>
+                <value>
+                    <fullName>Library - Frontline Services</fullName>
+                    <default>false</default>
+                    <label>Library - Frontline Services</label>
+                </value>
+                <value>
+                    <fullName>MC Docs</fullName>
+                    <default>false</default>
+                    <label>MC Docs</label>
+                </value>
+                <value>
+                    <fullName>Monash Connect - Advisors</fullName>
+                    <default>false</default>
+                    <label>Monash Connect - Advisors</label>
+                </value>
+                <value>
+                    <fullName>Monash Connect Airport Pickup</fullName>
+                    <default>false</default>
+                    <label>Monash Connect Airport Pickup</label>
+                </value>
+                <value>
+                    <fullName>Monash Connect Current Student</fullName>
+                    <default>false</default>
+                    <label>Monash Connect Current Student</label>
+                </value>
+                <value>
+                    <fullName>Monash Connect Enquiries</fullName>
+                    <default>false</default>
+                    <label>Monash Connect Enquiries</label>
+                </value>
+                <value>
+                    <fullName>Monash Connect Future Student</fullName>
+                    <default>false</default>
+                    <label>Monash Connect Future Student</label>
+                </value>
+                <value>
+                    <fullName>Monash Connect HR</fullName>
+                    <default>false</default>
+                    <label>Monash Connect HR</label>
+                </value>
+                <value>
+                    <fullName>Monash Connect QA Team</fullName>
+                    <default>false</default>
+                    <label>Monash Connect QA Team</label>
+                </value>
+                <value>
+                    <fullName>MonCon Case Management</fullName>
+                    <default>false</default>
+                    <label>MonCon Case Management</label>
+                </value>
+                <value>
+                    <fullName>MPP Education Enquiries</fullName>
+                    <default>false</default>
+                    <label>MPP Education Enquiries</label>
+                </value>
+                <value>
+                    <fullName>MPP Placements Enquiries</fullName>
+                    <default>false</default>
+                    <label>MPP Placements Enquiries</label>
+                </value>
+                <value>
+                    <fullName>MRO Awards</fullName>
+                    <default>false</default>
+                    <label>MRO Awards</label>
+                </value>
+                <value>
+                    <fullName>MRO Major Awards</fullName>
+                    <default>false</default>
+                    <label>MRO Major Awards</label>
+                </value>
+                <value>
+                    <fullName>MU Docs</fullName>
+                    <default>false</default>
+                    <label>MU Docs</label>
+                </value>
+                <value>
+                    <fullName>Professional Year Enquiries</fullName>
+                    <default>false</default>
+                    <label>Professional Year Enquiries</label>
+                </value>
+                <value>
+                    <fullName>Retention</fullName>
+                    <default>false</default>
+                    <isActive>false</isActive>
+                    <label>Retention</label>
+                </value>
+                <value>
+                    <fullName>SEBS - Complaints</fullName>
+                    <default>false</default>
+                    <label>SEBS - Complaints</label>
+                </value>
+                <value>
+                    <fullName>SEBS - Complaints &amp; Misconduct</fullName>
+                    <default>false</default>
+                    <label>SEBS - Complaints &amp; Misconduct</label>
+                </value>
+                <value>
+                    <fullName>SEBS - on-campus opt out</fullName>
+                    <default>false</default>
+                    <label>SEBS - on-campus opt out</label>
+                </value>
+                <value>
+                    <fullName>SEBS Placements</fullName>
+                    <default>false</default>
+                    <label>SEBS Placements</label>
+                </value>
+                <value>
+                    <fullName>SEBS - Spec Con and Spec Circumstances</fullName>
+                    <default>false</default>
+                    <label>SEBS - Spec Con and Spec Circumstances</label>
+                </value>
+                <value>
+                    <fullName>SEBS - Special Consideration</fullName>
+                    <default>false</default>
+                    <label>SEBS - Special Consideration</label>
+                </value>
+                <value>
+                    <fullName>SEBS Venue Advisors</fullName>
+                    <default>false</default>
+                    <label>SEBS Venue Advisors</label>
+                </value>
+                <value>
+                    <fullName>Staff Development</fullName>
+                    <default>false</default>
+                    <label>Staff Development</label>
+                </value>
+                <value>
+                    <fullName>Student Rec Enquiries</fullName>
+                    <default>false</default>
+                    <label>Student Rec Enquiries</label>
+                </value>
+                <value>
+                    <fullName>Student Rec Enquiries (Key-Agent)</fullName>
+                    <default>false</default>
+                    <label>Student Rec Enquiries (Key-Agent)</label>
+                </value>
+                <value>
+                    <fullName>Student Rec Enquiries (Late-Reg)</fullName>
+                    <default>false</default>
+                    <label>Student Rec Enquiries (Late-Reg)</label>
+                </value>
+                <value>
+                    <fullName>Student Rec Enquiries (LateReg-Response)</fullName>
+                    <default>false</default>
+                    <label>Student Rec Enquiries (LateReg-Response)</label>
+                </value>
+                <value>
+                    <fullName>Student Rec Enquiries (Post-Application)</fullName>
+                    <default>false</default>
+                    <label>Student Rec Enquiries (Post-Application)</label>
+                </value>
+                <value>
+                    <fullName>Student Rec Enquiries (Pre-Application)</fullName>
+                    <default>false</default>
+                    <label>Student Rec Enquiries (Pre-Application)</label>
+                </value>
+                <value>
+                    <fullName>Talent Development</fullName>
+                    <default>false</default>
+                    <label>Talent Development</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <description>Auto-populated status value of the transferred enquiry</description>
+        <fieldManageability>DeveloperControlled</fieldManageability>
+        <inlineHelpText>Auto-populated status value of the transferred enquiry</inlineHelpText>
+        <label>Status</label>
+        <required>true</required>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Open</fullName>
+                    <default>false</default>
+                    <label>Open</label>
+                </value>
+                <value>
+                    <fullName>Transferred</fullName>
+                    <default>false</default>
+                    <label>Transferred</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <label>Transfer Enquiry Rule</label>
+    <listViews>
+        <fullName>All_View</fullName>
+        <columns>MasterLabel</columns>
+        <columns>DeveloperName</columns>
+        <columns>Allow_Direct_User_Assignment__c</columns>
+        <columns>Category__c</columns>
+        <columns>Change_to_Record_Type__c</columns>
+        <columns>ExcludedForRoleAndSubordinates__c</columns>
+        <columns>Priority__c</columns>
+        <columns>Queue_Name__c</columns>
+        <columns>Status__c</columns>
+        <columns>NamespacePrefix</columns>
+        <columns>IsProtected</columns>
+        <filterScope>Everything</filterScope>
+        <label>All View</label>
+    </listViews>
+    <pluralLabel>Transfer Enquiry Rules</pluralLabel>
+    <visibility>Public</visibility>
+</CustomObject>

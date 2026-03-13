@@ -1,0 +1,222 @@
+<!--The body of the get-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="PORTAL_UCIN_ListingController">
+    <ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}"/>
+
+    <!--Attributes which indicate the tab being displayed-->
+    <aura:attribute name="showUpcomingEvents" type="Boolean" Default="true"/>
+    <aura:attribute name="showMyEvents" type="Boolean"/>
+    <aura:attribute name="eventList" type="List"/>
+    <aura:attribute name="searchText" type="String"/>
+    <aura:attribute name="loaded" type="Boolean" default="true" />
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+
+    <div class="bg-gray-mon max-w-1300 m-auto slds-is-relative">
+        <!-- Spinner -->
+		<div>
+            <aura:if isTrue="{!!v.loaded }">
+                <lightning:spinner alternativeText="Loading" />
+            </aura:if>
+        </div>
+
+        <!--Tabs-->
+        <div class="lg:px-6 pt-6 lg:pb-6 bg-white">
+            <div class="bg-white">
+                <ul class="flex w-full text-2xl font-body max-w">
+                    <li class="block flex-1 cursor-pointer text-black font-bold py-4 px-6 text-left hover:text-blue focus:outline-none 
+                               text-blue border-t-4 text-4xl border-blue bg-gray-mon w-1/2 md:max-w-1/3 lg:max-w-1/5 leading-none" onclick="{!c.goToTab}" data-componentName="showUpcomingEvents" aura:id="showUpcomingEvents">
+                        Upcoming<br/>events
+                    </li>
+                    <li class="block flex-1 cursor-pointer text-black font-bold py-4 px-6 ml-3 text-left hover:text-blue focus:outline-none 
+                               border-b-4 text-4xl border-dark-grey w-1/2 md:max-w-1/3 lg:max-w-1/5 leading-none" onclick="{!c.goToTab}" data-componentName="showMyEvents" aura:id="showMyEvents">
+                        My<br/>events
+                    </li>
+                    <li class="hidden sm:block flex-1 text-black w-full font-bold py-4 px-6 ml-3 text-left hover:text-blue focus:outline-none border-b-4 border-dark-grey">
+
+                    </li>
+                </ul>
+            </div>
+            <aura:if isTrue="{!v.showUpcomingEvents}">
+                <div class="full flex px-4 sm:px-6 lg:px-0 sm:pt-6 lg:pt-0">
+                    <input class="w-full lg:w-9/12 mt-6 sm:mb-6 p-2 border-solid border-grey border text-2xl lg:text-lg" name="searchbox" aura:id="searchbox" value="{!v.searchText}" onchange="{!c.updateSearchText}" placeholder="Browse/filter by area of interest"/>
+                    <button class="mt-6 sm:mb-6 border-2 border-blue px-8 py-0 ml-3 bg-white text-blue hover:text-white hover:bg-blue font-bold leading-loose text-2xl lg:text-lg ucin-button" onclick="{!c.searchByInterest}">Search</button>
+                </div>
+            </aura:if>
+
+            <div class="flex w-full h-full flex-wrap justify-between mt-1">
+            
+                <!--Event List-->
+                <aura:iteration items="{!v.eventList}" var="eventListing" indexVar="idx">
+                    <div class="{!idx > 0 ? 'hidden lg:flex w-full h-full flex-wrap justify-between mt-6' : 'hidden lg:flex w-full h-full flex-wrap justify-between'}">
+                        <div class="w-full">
+                            <div class="relative h-full bg-white">
+                                <div class="flex w-full h-full align-start border-solid border-dark-grey border">
+                                    <span class="absolute w-1/3 border-solid border-t-4 border-red"></span>
+                                    <div class="flex flex-col sm:block flex-1 px-4 sm:px-6 py-6 w-2/3">
+                                        <h3 class="text-dark-grey text-3xl sm:text-h3xl leading-bitmore sm:leading-tight font-bold dark-grey">{!eventListing.Name}</h3>
+                                        <div class="sm:hidden self-center">
+                                            <img class="w-full sm:max-w-sm lg:max-w-375 w-auto h-auto" src="{!eventListing.pictureSrc}"/>
+                                        </div>
+                                        <div class="pt-4 pb-12 text-xl lg:text-lg font-body leading-normal text-primary ">
+                                            <lightning:formattedRichText value="{!eventListing.Body_Content__c}"/>
+                                            <table class='w-full my-8 text-left text-base leading-snug text-primary font-sans'>
+                                                <tbody>
+                                                    <aura:if isTrue="{!v.showMyEvents}">
+                                                        <tr>
+                                                            <th class="w-1/5 font-bold text-xl lg:text-lg align-top pb-4">Status:</th>
+                                                            <td class="text-xl lg:text-lg align-top pb-4 pl-4">{!eventListing.status}</td>
+                                                        </tr>
+                                                    </aura:if>
+                                                    <tr>
+                                                        <th class="w-1/5 font-bold text-xl lg:text-lg align-top pb-4">DATE:</th>
+                                                        <aura:if isTrue="{!not(empty(eventListing.Start_Date_Time__c))}">
+                                                            <aura:if isTrue="{!not(empty(eventListing.End_Date_Time__c))}">
+                                                                <td class="text-xl lg:text-lg align-top pb-4 pl-4">
+                                                                    <lightning:formattedDateTime value="{!eventListing.Start_Date_Time__c}" day="numeric" month="short" weekday="short" hour="numeric" minute="2-digit" timeZone="Australia/Melbourne"/>
+                                                                     - 
+                                                                    <lightning:formattedDateTime value="{!eventListing.End_Date_Time__c}" day="numeric" month="short" weekday="short" hour="numeric" minute="2-digit" timeZone="Australia/Melbourne"/>
+                                                                </td>
+                                                                <aura:set attribute="else">
+                                                                    <td class="text-xl lg:text-lg align-top pb-4 pl-4"><lightning:formattedDateTime value="{!eventListing.Start_Date_Time__c}" day="numeric" month="short" weekday="short" hour="numeric" minute="2-digit" timeZone="Australia/Melbourne"/></td>
+                                                                </aura:set>
+                                                            </aura:if>
+                                                            <td></td>
+                                                        </aura:if>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="w-1/5 font-bold text-xl lg:text-lg align-top pb-4">LOCATION:</th>
+                                                        <td class="text-xl lg:text-lg align-top pb-4 pl-4">
+                                                            <aura:if isTrue="{!eventListing.Online_Event__c}">
+                                                                Online
+                                                                <aura:set attribute="else">
+                                                                    <!--<aura:if isTrue="{!not(empty(eventListing.Street__c))}">
+                                                                        {!eventListing.Street__c}
+                                                                    </aura:if>
+                                                                    <aura:if isTrue="{!not(empty(eventListing.City__c))}">
+                                                                        <aura:if isTrue="{!not(empty(eventListing.Street__c))}">
+                                                                            , 
+                                                                        </aura:if>
+                                                                        {!eventListing.City__c}
+                                                                    </aura:if>
+                                                                    <aura:if isTrue="{!not(empty(eventListing.State__c))}">
+                                                                        <aura:if isTrue="{!or(not(empty(eventListing.Street__c)), not(empty(eventListing.City__c)))}">
+                                                                            , 
+                                                                        </aura:if>
+                                                                        {!eventListing.State__c}
+                                                                    </aura:if>
+                                                                    <aura:if isTrue="{!not(empty(eventListing.Country__c))}">
+                                                                        <aura:if isTrue="{!or(not(empty(eventListing.Street__c)), not(empty(eventListing.City__c)))}">
+                                                                            ,
+                                                                            <aura:set attribute="else">
+                                                                                    <aura:if isTrue="{!not(empty(eventListing.State__c))}">, </aura:if>
+                                                                            </aura:set>
+                                                                        </aura:if>
+                                                                        {!eventListing.Country__c}
+                                                                    </aura:if> -->
+                                                                    {!eventListing.fullLocation}
+                                                                </aura:set>
+                                                            </aura:if>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th class="w-1/5 font-bold text-xl lg:text-lg align-top pb-4">AREAS OF INTEREST:</th>
+                                                        <td class="text-xl lg:text-lg align-top pb-4 pl-4" style="white-space:pre-wrap; word-wrap:break-word">{!eventListing.Areas_of_Interest__c}</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="hidden sm:flex-initial h-full sm:inline-block self-center">
+                                        <!--img class="h-full object-cover" src="{!eventListing.pictureSrc}"/-->
+                                        <img class="h-full lg:max-w-375px" src="{!eventListing.pictureSrc}"/>
+                                    </div>
+                                </div>
+                                <a class="absolute bottom-1.5rem bg-white border-blue border-solid border-2 px-10 py-1 ml-6 font-semibold text-blue hover:text-blue text-xl lg:text-lg ucin-button" href="{!eventListing.Event_URL__c}" target="_blank"><span>Event</span></a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex lg:hidden flex-wrap w-full sm:w-1/2-spaced mt-6 bg-white pb-6 border-solid border-b-4 border-red sm:shadow-lg">
+                        <div class="w-full relative">
+                            <img src="{!eventListing.pictureSrc}" class="{! !empty(eventListing.pictureSrc) ? 'w-full' : ''}" style="min-height:80px;"/>
+                            <h4 class="absolute bottom-0 max-w-3/4 px-4 py-2 text-white mb-4 bg-blue text-2xl sm:text-3xl lg:text-lg leading-lesstight font-bold">{!eventListing.Name}</h4>
+                        </div>
+                        <div class="px-4 sm:px-6 pt-6 pb-12 relative text-xl lg:text-lg">
+                            <lightning:formattedRichText value="{!eventListing.Body_Content__c}"/>
+                            <table class='w-full my-8 text-left text-base leading-snug text-primary font-sans'>
+                                <tbody>
+                                    <aura:if isTrue="{!v.showMyEvents}">
+                                        <tr>
+                                            <th class="w-1/5 font-bold text-xl lg:text-lg align-to pb-4">Status:</th>
+                                            <td class="text-xl lg:text-lg align-top pb-4 pl-4">{!eventListing.status}</td>
+                                        </tr>
+                                    </aura:if>
+                                    <tr>
+                                        <th class="w-1/5 font-bold text-xl lg:text-lg pb-2 align-top">DATE:</th>
+                                        <aura:if isTrue="{!not(empty(eventListing.Start_Date_Time__c))}">
+                                            <aura:if isTrue="{!not(empty(eventListing.End_Date_Time__c))}">
+                                                <td class="text-xl lg:text-lg align-top pb-4 pl-4">
+                                                    <lightning:formattedDateTime value="{!eventListing.Start_Date_Time__c}" day="numeric" month="short" weekday="short" hour="numeric" minute="2-digit" timeZone="Australia/Melbourne"/>
+                                                    - 
+                                                    <lightning:formattedDateTime value="{!eventListing.End_Date_Time__c}" day="numeric" month="short" weekday="short" hour="numeric" minute="2-digit" timeZone="Australia/Melbourne"/>
+                                                </td>
+                                                <aura:set attribute="else">
+                                                    <td class="text-xl lg:text-lg align-top pb-4 pl-4"><lightning:formattedDateTime value="{!eventListing.Start_Date_Time__c}" day="numeric" month="short" weekday="short" hour="numeric" minute="2-digit" timeZone="Australia/Melbourne"/></td>
+                                                </aura:set>
+                                            </aura:if>
+                                            <td></td>
+                                        </aura:if>
+                                    </tr>
+                                    <tr>
+                                        <th class="w-1/5 font-bold text-xl lg:text-lg align-top pb-4">LOCATION:</th>
+                                        <td class="text-xl lg:text-lg align-top pb-4 pl-4">
+                                            <aura:if isTrue="{!eventListing.Online_Event__c}">
+                                                Online
+                                                <aura:set attribute="else">
+                                                    <!--<aura:if isTrue="{!not(empty(eventListing.Street__c))}">
+                                                        {!eventListing.Street__c}
+                                                    </aura:if>
+                                                    <aura:if isTrue="{!not(empty(eventListing.City__c))}">
+                                                        <aura:if isTrue="{!not(empty(eventListing.Street__c))}">
+                                                            , 
+                                                        </aura:if>
+                                                        {!eventListing.City__c}
+                                                    </aura:if>
+                                                    <aura:if isTrue="{!not(empty(eventListing.State__c))}">
+                                                        <aura:if isTrue="{!or(not(empty(eventListing.Street__c)), not(empty(eventListing.City__c)))}">
+                                                            , 
+                                                        </aura:if>
+                                                        {!eventListing.State__c}
+                                                    </aura:if>
+                                                    <aura:if isTrue="{!not(empty(eventListing.Country__c))}">
+                                                        <aura:if isTrue="{!or(not(empty(eventListing.Street__c)), not(empty(eventListing.City__c)))}">
+                                                            ,
+                                                            <aura:set attribute="else">
+                                                                <aura:if isTrue="{!not(empty(eventListing.State__c))}">, </aura:if>
+                                                            </aura:set>
+                                                        </aura:if>
+                                                        {!eventListing.Country__c}
+                                                    </aura:if> -->
+                                                    {!eventListing.fullLocation}
+                                                </aura:set>
+                                            </aura:if>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <th class="w-1/5 font-bold text-xl lg:text-lg align-top pb-4">AREAS OF INTEREST:</th>
+                                        <td class="text-xl lg:text-lg align-top pb-4 pl-4" style="white-space:pre-wrap; word-wrap:break-word">{!eventListing.Areas_of_Interest__c}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div>
+                                <a class="font-semibold border-blue border-solid border-2 px-4 py-2 absolute bottom-0 mr-4 bg-white text-blue hover:text-blue text-xl lg:text-lg ucin-button" href="{!eventListing.Event_URL__c}" target="_blank">Event</a>
+                            </div>
+                        </div>
+                    </div>
+                </aura:iteration>
+                
+            </div>
+        </div>
+    </div>  
+</aura:component>

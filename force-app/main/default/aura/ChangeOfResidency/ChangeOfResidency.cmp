@@ -1,0 +1,107 @@
+<!--
+ * @description       : Aura components that is invoked via case quickAction (ChangeOfResidency).
+                        Update Residency Status in Callista via RPA
+ * @author            : Angelo Rivera
+ * @group             : Student Admin
+ * @last modified on  : 2021-02-23
+ * @last modified by  : Angelo Rivera
+ * Modifications Log
+ * Ver   Date         Author          Modification
+ * 1.0   2021-02-23 - Angelo Rivera - Initial Creation
+ -->
+
+<aura:component description="Change Of Residency - Update Residency Status in Callista via RPA"
+                implements="force:lightningQuickActionWithoutHeader,force:hasRecordId,force:appHostable,flexipage:availableForAllPageTypes"
+                access="global"
+                controller="ChangeOfResidency" >
+
+    <!-- attributes -->
+    <aura:attribute name="showSpinner" type="Boolean"/>
+    <aura:attribute name="showForm" type="Boolean" default="true"/>
+    <aura:attribute name="disableButton" type="Boolean" default="true"/>
+    <aura:attribute name="startDate" type="Date"/>
+    <aura:attribute name="endDate" type="Date"/>
+    <aura:attribute name="residencyDate" type="Date"/>
+    <aura:attribute name="subclassVisaMap" type="Map"/>
+    <aura:attribute name="visaSubclass" type="String"/>
+    <aura:attribute name="studStatus" type="String"/>
+    <aura:attribute name="managingFacultyList" type="List"/>
+    <aura:attribute name="managingFaculty" type="String"/>
+    <aura:attribute name="facultyNamesMap" type="Map"/>
+    <aura:attribute name="facultyNamesFinalList" type="List"/>
+    <aura:attribute name="facultyName" type="String"/>
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <aura:attribute name="studentStatus"
+                    type="List"
+                    default="[
+                    {'label': 'P-CSP', 'value': 'P-CSP'},
+                    {'label': '302', 'value': '302'},
+                    {'label': '331-D', 'value': '331-D'},
+                    ]"/>
+
+    <aura:if isTrue="{!v.showForm}">
+        <lightning:card class="center-text">
+            <aura:set attribute="title">
+                <div style="margin-left: 180px;">{!$Label.c.Change_of_residency_title}</div>
+            </aura:set>
+
+            <aura:set attribute="footer">
+                <div style="float: right">
+                    <lightning:button variant="brand" label="Submit" title="Submit" onclick="{! c.sendCallout }" disabled="{!v.disableButton}"/>
+                </div>
+            </aura:set>
+
+            <div>
+                <div class="slds-box slds-box_small">
+                    <p>{!$Label.c.ChangeOfResidency_Form_Message}</p>
+                </div>
+                <br/>
+                <div class="slds-table_column-1-wrap">
+                    <lightning:input type="date" name="startDate" label="Application Received Date" value="{! v.startDate }" onchange="{! c.handleChangeStartDate }" required="true" placeholder="Pick a date"/>
+                </div>
+                <div class="slds-table_column-1-wrap">
+                    <lightning:input type="date" name="endDate" label="System End Date" readonly="true" value="{! v.endDate }" />
+                </div>
+                <div class="row">
+                    <lightning:input type="date" name="residencyDate" label="Visa Grant Date" required="true" value="{! v.residencyDate }" onchange="{! c.handleChangeResidency }"/>
+                </div>
+                <div class="row">
+                    <lightning:select aura:id="visaPicklist" value="{!v.visaSubclass}" onchange="{! c.handleChangeVisa }" name="visaPicklist" label="Subclass of the Visa" required="true">
+                        <option value="">--None--</option>
+                        <aura:iteration items="{!v.subclassVisaMap}" var="ind" indexVar="key">
+                            <option label="{!ind.key}" value="{!ind.value}" selected="{!ind.value==v.visaSubclass}"></option>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+                <div class="row">
+                    <lightning:combobox name="progress" label="Student Status" value="{! v.studStatus }" placeholder="Select Status" options="{! v.studentStatus }" onchange="{! c.handleChangeStatus }" required="true"/>
+                </div>
+                <div class="row">
+                    <lightning:select aura:id="facultyPicklist" value="{!v.managingFaculty}" onchange="{! c.handleChangeFaculty }" name="facultyPicklist" label="Managing Faculty" required="true">
+                        <option value="">--None--</option>
+                        <aura:iteration items="{!v.managingFacultyList}" var="value">
+                            <option value="{!value}">{!value}</option>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+                <div class="row">
+                    <lightning:select aura:id="facultyNamePicklist" value="{!v.facultyName}" onchange="{! c.handleChangeFacultyName }" name="facultyNamePicklist" label="Faculty Manager Name" required="true">
+                        <option value="">--None--</option>
+                        <aura:iteration items="{!v.facultyNamesFinalList}" var="value">
+                            <option value="{!value}">{!value}</option>
+                        </aura:iteration>
+                    </lightning:select>
+                </div>
+            </div>
+        </lightning:card>
+    </aura:if>
+    <!-- spinner -->
+    <aura:if isTrue="{!v.showSpinner}">
+        <div class="backgroundInverse slds-align-middle">
+            <lightning:spinner alternativeText="Loading" variant="inverse">Sending Data...</lightning:spinner>
+        </div>
+        <div class="slds-text-align_center slds-text-heading_medium slds-p-top_small">{!$Label.c.ChangeOfResidency_Intro}...</div>
+    </aura:if>
+</aura:component>

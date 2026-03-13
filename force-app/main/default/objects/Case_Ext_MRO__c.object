@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Accept</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>CancelEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Clone</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Delete</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Edit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>List</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>New</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>SaveEdit</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Large</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>Tab</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <comment>Action override created by Lightning App Builder during activation.</comment>
+        <content>Case_Extension_MRO_Record_Page</content>
+        <formFactor>Large</formFactor>
+        <skipRecordTypeSelect>false</skipRecordTypeSelect>
+        <type>Flexipage</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <type>Default</type>
+    </actionOverrides>
+    <actionOverrides>
+        <actionName>View</actionName>
+        <formFactor>Small</formFactor>
+        <type>Default</type>
+    </actionOverrides>
+    <allowInChatterGroups>false</allowInChatterGroups>
+    <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
+    <deploymentStatus>Deployed</deploymentStatus>
+    <description>Additional case fields for the Monash Research Office</description>
+    <enableActivities>false</enableActivities>
+    <enableBulkApi>true</enableBulkApi>
+    <enableFeeds>false</enableFeeds>
+    <enableHistory>true</enableHistory>
+    <enableLicensing>false</enableLicensing>
+    <enableReports>true</enableReports>
+    <enableSearch>true</enableSearch>
+    <enableSharing>true</enableSharing>
+    <enableStreamingApi>true</enableStreamingApi>
+    <externalSharingModel>ControlledByParent</externalSharingModel>
+    <fields>
+        <fullName>Account_Address__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <complianceGroup>PII</complianceGroup>
+        <description>Store account address.</description>
+        <externalId>false</externalId>
+        <label>Account Address</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Account_Name__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <complianceGroup>PII</complianceGroup>
+        <description>Account Name for the opportunity.</description>
+        <externalId>false</externalId>
+        <label>Account Name</label>
+        <length>255</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Application_Type__c</fullName>
+        <label>Application Type</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>true</sorted>
+                <value>
+                    <fullName>Consultancy</fullName>
+                    <default>false</default>
+                    <label>Consultancy</label>
+                </value>
+                <value>
+                    <fullName>Contract</fullName>
+                    <default>false</default>
+                    <label>Contract</label>
+                </value>
+                <value>
+                    <fullName>Donation</fullName>
+                    <default>false</default>
+                    <label>Donation</label>
+                </value>
+                <value>
+                    <fullName>Fellowship</fullName>
+                    <default>false</default>
+                    <label>Fellowship</label>
+                </value>
+                <value>
+                    <fullName>Grant</fullName>
+                    <default>false</default>
+                    <label>Grant</label>
+                </value>
+                <value>
+                    <fullName>Internship</fullName>
+                    <default>false</default>
+                    <label>Internship</label>
+                </value>
+                <value>
+                    <fullName>Scholarship</fullName>
+                    <default>false</default>
+                    <label>Scholarship</label>
+                </value>
+                <value>
+                    <fullName>Tender</fullName>
+                    <default>false</default>
+                    <label>Tender</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>CaseNumberHyperlink__c</fullName>
+        <externalId>false</externalId>
+        <formula>HYPERLINK(&quot;/&quot;+  MRO_Case__c,  Name ,&apos;_self&apos;)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Enquiry Number</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>CaseOwner__c</fullName>
+        <externalId>false</externalId>
+        <formula>MRO_Case__r.Case_Owner_String__c</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Owner</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Category_Level_1__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT(MRO_Case__r.Category_Level_1__c)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Category Level 1</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Complexity__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Defines the complexity of the Project.</description>
+        <label>Complexity</label>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>false</sorted>
+                <value>
+                    <fullName>Simple</fullName>
+                    <default>false</default>
+                    <label>Simple</label>
+                </value>
+                <value>
+                    <fullName>Complex</fullName>
+                    <default>false</default>
+                    <label>Complex</label>
+                </value>
+                <value>
+                    <fullName>Complicated</fullName>
+                    <default>false</default>
+                    <label>Complicated</label>
+                </value>
+                <value>
+                    <fullName>Major</fullName>
+                    <default>false</default>
+                    <label>Major</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>DB_DUNS_Number__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <complianceGroup>PII</complianceGroup>
+        <description>Stores Account DUNS Numbers</description>
+        <externalId>false</externalId>
+        <label>D&amp;B DUNS Number</label>
+        <length>9</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Date_Enquiry_Opened__c</fullName>
+        <formula>MRO_Case__r.CreatedDate</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Date Opened</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Date</type>
+    </fields>
+    <fields>
+        <fullName>Funder_Ref__c</fullName>
+        <externalId>false</externalId>
+        <label>Funder Ref</label>
+        <length>80</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Funding_Opportunity__c</fullName>
+        <externalId>false</externalId>
+        <label>Funding Opportunity</label>
+        <length>200</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Group__c</fullName>
+        <label>Group</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>true</sorted>
+                <value>
+                    <fullName>Clinical Trial</fullName>
+                    <default>false</default>
+                    <label>Clinical Trial</label>
+                </value>
+                <value>
+                    <fullName>Internal Grant</fullName>
+                    <default>false</default>
+                    <label>Internal Grant</label>
+                </value>
+                <value>
+                    <fullName>Medical - International</fullName>
+                    <default>false</default>
+                    <label>Medical - International</label>
+                </value>
+                <value>
+                    <fullName>Medical - MRFF</fullName>
+                    <default>false</default>
+                    <label>Medical - MRFF</label>
+                </value>
+                <value>
+                    <fullName>Medical - NHMRC</fullName>
+                    <default>false</default>
+                    <label>Medical - NHMRC</label>
+                </value>
+                <value>
+                    <fullName>Medical - Other Funder</fullName>
+                    <default>false</default>
+                    <label>Medical - Other Funder</label>
+                </value>
+                <value>
+                    <fullName>Non-Medical - ARC</fullName>
+                    <default>false</default>
+                    <label>Non-Medical - ARC</label>
+                </value>
+                <value>
+                    <fullName>Non-Medical - International</fullName>
+                    <default>false</default>
+                    <label>Non-Medical - International</label>
+                </value>
+                <value>
+                    <fullName>Non-Medical - Other Funder</fullName>
+                    <default>false</default>
+                    <label>Non-Medical - Other Funder</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>Lead_Collaborator__c</fullName>
+        <label>Lead Collaborator</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Picklist</type>
+        <valueSet>
+            <restricted>true</restricted>
+            <valueSetDefinition>
+                <sorted>true</sorted>
+                <value>
+                    <fullName>External Led</fullName>
+                    <default>false</default>
+                    <label>External Led</label>
+                </value>
+                <value>
+                    <fullName>Monash Led</fullName>
+                    <default>false</default>
+                    <label>Monash Led</label>
+                </value>
+            </valueSetDefinition>
+        </valueSet>
+    </fields>
+    <fields>
+        <fullName>MRO_Case__c</fullName>
+        <label>MRO Enquiry</label>
+        <lookupFilter>
+            <active>true</active>
+            <filterItems>
+                <field>Case.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>Monash Research Office</value>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Case</referenceTo>
+        <relationshipLabel>Case Extension - MRO</relationshipLabel>
+        <relationshipName>Case_Extension_MRO</relationshipName>
+        <relationshipOrder>0</relationshipOrder>
+        <reparentableMasterDetail>true</reparentableMasterDetail>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>MasterDetail</type>
+        <writeRequiresMasterRead>false</writeRequiresMasterRead>
+    </fields>
+    <fields>
+        <fullName>No_of_Collaborators__c</fullName>
+        <externalId>false</externalId>
+        <label>No of Collaborators</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>OGC_Ref__c</fullName>
+        <description>OGC Ref</description>
+        <externalId>false</externalId>
+        <label>OGC Ref</label>
+        <length>100</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Primary_Funder__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <deleteConstraint>SetNull</deleteConstraint>
+        <description>Primary Funder for Pure Application &amp; Award</description>
+        <inlineHelpText>Primary Funder for Pure Application &amp; Award</inlineHelpText>
+        <label>Primary Funder</label>
+        <lookupFilter>
+            <active>true</active>
+            <errorMessage>Primary funder needs to be a UniCRM account that is an External Organisation or a Monash Organisation</errorMessage>
+            <filterItems>
+                <field>Account.RecordTypeId</field>
+                <operation>equals</operation>
+                <value>External Organisation, Monash Organisation, Faculty</value>
+            </filterItems>
+            <isOptional>false</isOptional>
+        </lookupFilter>
+        <referenceTo>Account</referenceTo>
+        <relationshipLabel>Case Extension - MRO</relationshipLabel>
+        <relationshipName>Case_Extension_MRO</relationshipName>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Lookup</type>
+    </fields>
+    <fields>
+        <fullName>Pure_Application_Id__c</fullName>
+        <description>Pure Application Id</description>
+        <externalId>false</externalId>
+        <label>PURE Application Id</label>
+        <length>50</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Pure_Award_Id__c</fullName>
+        <externalId>false</externalId>
+        <label>PURE Award Id</label>
+        <length>50</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Pure_Project_Id__c</fullName>
+        <externalId>false</externalId>
+        <label>PURE Project Id</label>
+        <length>50</length>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Status__c</fullName>
+        <externalId>false</externalId>
+        <formula>TEXT(MRO_Case__r.Status)</formula>
+        <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
+        <label>Status</label>
+        <required>false</required>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Sub_Project_Id__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Stores Project Id from Pure.</description>
+        <externalId>false</externalId>
+        <label>Sub Project Id</label>
+        <length>50</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackHistory>false</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Case Extension - MRO</label>
+    <listViews>
+        <fullName>Extensions_ARC</fullName>
+        <columns>NAME</columns>
+        <columns>Pure_Application_Id__c</columns>
+        <columns>Primary_Funder__c</columns>
+        <columns>CREATED_DATE</columns>
+        <columns>LAST_UPDATE</columns>
+        <filterScope>Everything</filterScope>
+        <filters>
+            <field>Primary_Funder__c</field>
+            <operation>equals</operation>
+            <value>Australian Research Council [ARC]</value>
+        </filters>
+        <label>Extensions - ARC</label>
+        <sharedTo>
+            <group>MRO_Monash_Research_Office</group>
+        </sharedTo>
+    </listViews>
+    <nameField>
+        <displayFormat>MRO-{00000000}</displayFormat>
+        <label>MRO Case Number</label>
+        <trackHistory>false</trackHistory>
+        <type>AutoNumber</type>
+    </nameField>
+    <pluralLabel>Case Extension - MRO</pluralLabel>
+    <searchLayouts>
+        <searchResultsAdditionalFields>Pure_Application_Id__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Category_Level_1__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Funder_Ref__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Sub_Project_Id__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Status__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>CaseOwner__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Date_Enquiry_Opened__c</searchResultsAdditionalFields>
+    </searchLayouts>
+    <sharingModel>ControlledByParent</sharingModel>
+    <validationRules>
+        <fullName>PUREApplicationID_NumberOnly</fullName>
+        <active>true</active>
+        <description>Numbers only, no spaces or special characters.</description>
+        <errorConditionFormula>!REGEX(Pure_Application_Id__c,&quot;[0-9]*&quot;)</errorConditionFormula>
+        <errorDisplayField>Pure_Application_Id__c</errorDisplayField>
+        <errorMessage>Please enter a valid PURE Application ID.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>PUREAwardID_NumberOnly</fullName>
+        <active>true</active>
+        <description>Numbers only, no spaces or special characters.</description>
+        <errorConditionFormula>!REGEX(Pure_Award_Id__c,&quot;[0-9]*&quot;)</errorConditionFormula>
+        <errorDisplayField>Pure_Award_Id__c</errorDisplayField>
+        <errorMessage>Please enter a valid PURE Award ID.</errorMessage>
+    </validationRules>
+    <validationRules>
+        <fullName>PUREProjectID_NumberOnly</fullName>
+        <active>true</active>
+        <description>Numbers only, no spaces or special characters.</description>
+        <errorConditionFormula>!REGEX(Pure_Project_Id__c,&quot;[0-9]*&quot;)</errorConditionFormula>
+        <errorDisplayField>Pure_Project_Id__c</errorDisplayField>
+        <errorMessage>Please enter a valid PURE Project ID.</errorMessage>
+    </validationRules>
+    <visibility>Public</visibility>
+</CustomObject>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>Monash To Address</label>
+    <protected>false</protected>
+    <values>
+        <field>ucinn_ascendv2__Disable__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__Disable_for_Auto_Merge__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__Disable_for_Manual_Merge__c</field>
+        <value xsi:type="xsd:boolean">false</value>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__Manual_Merge_Setting__c</field>
+        <value xsi:type="xsd:string">Monash</value>
+    </values>
+    <values>
+        <field>ucinn_ascendv2__Manual_Merge_Tab__c</field>
+        <value xsi:type="xsd:string">Monash_Address</value>
+    </values>
+</CustomMetadata>

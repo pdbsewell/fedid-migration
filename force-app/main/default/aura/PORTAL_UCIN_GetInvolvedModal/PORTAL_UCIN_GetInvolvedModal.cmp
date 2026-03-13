@@ -1,0 +1,20 @@
+<!--A modal thanking the user for being interested in an event-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" >
+    <ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}"/>
+    <lightning:overlayLibrary aura:id="overlayModal"/>
+        
+
+    <div class="slds-modal__header">
+        <div class=" mb-6">
+            <h2 class="text-3xl fixed ml-4 uppercase">Thank you!</h2>
+            <span class="absolute right-0 top-0 text-blue px-4 py-2 border border-blue mr-4" onclick="{!c.closeSignupModal}">X</span>
+        </div>
+    </div>
+    <div >
+        <p>Thank you for expressing interest in this volunteering position</p>
+    </div>
+
+       
+
+
+</aura:component>

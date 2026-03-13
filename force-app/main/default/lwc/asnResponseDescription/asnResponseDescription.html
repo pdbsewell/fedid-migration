@@ -1,0 +1,21 @@
+<!--
+ - Created by rcad0001 on 16/07/2020.
+ -->
+
+<!-- Asn Response Description -->
+<template>
+    <article class={layoutSize}>
+        <div class="slds-card__body slds-card__body_inner">
+            <h1 slot="title">
+                <template if:true={renderIcon}>
+                    <img src={iconName}>
+                </template>
+                <div class="slds-text-heading_medium">{title}</div>
+            </h1>
+            <div class="slds-list_stacked">
+                <lightning-formatted-rich-text value={desc}>
+                </lightning-formatted-rich-text>
+            </div>
+        </div>
+    </article>
+</template>

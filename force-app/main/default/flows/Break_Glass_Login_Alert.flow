@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>Send alert to break glass alert email address and POST to end point</description>
+        <name>Send_break_glass_alert</name>
+        <label>Send break glass alert</label>
+        <locationX>649</locationX>
+        <locationY>186</locationY>
+        <actionName>BreakGlassAlert</actionName>
+        <actionType>apex</actionType>
+        <flowTransactionModel>Automatic</flowTransactionModel>
+        <inputParameters>
+            <name>alertType</name>
+            <value>
+                <elementReference>cBREAK_GLASS_LOGIN</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>message</name>
+            <value>
+                <elementReference>Reason_for_logging_in_message</elementReference>
+            </value>
+        </inputParameters>
+        <nameSegment>BreakGlassAlert</nameSegment>
+    </actionCalls>
+    <apiVersion>52.0</apiVersion>
+    <areMetricsLoggedToDataCloud>false</areMetricsLoggedToDataCloud>
+    <constants>
+        <description>Login event type</description>
+        <name>cBREAK_GLASS_LOGIN</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>BREAK_GLASS_LOGIN</stringValue>
+        </value>
+    </constants>
+    <constants>
+        <description>Message to appear in break glass alert</description>
+        <name>cBreakGlassUserLoggedInMessage</name>
+        <dataType>String</dataType>
+        <value>
+            <stringValue>LOGIN REASON: </stringValue>
+        </value>
+    </constants>
+    <description>Send alert via email and POST to end-point when a break-glass user logs in</description>
+    <formulas>
+        <description>Reason the user logged in as break glass user. Gets sent in Alert</description>
+        <name>Reason_for_logging_in_message</name>
+        <dataType>String</dataType>
+        <expression>{!cBreakGlassUserLoggedInMessage} + {!Reason_for_logging_in_Input}</expression>
+    </formulas>
+    <interviewLabel>Break Glass Login Alert {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Break Glass Login Alert</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>Flow</processType>
+    <screens>
+        <description>Capture reason why user is logging in as break-glass user</description>
+        <name>Capture_login_reason_Screen</name>
+        <label>Capture login reason</label>
+        <locationX>465</locationX>
+        <locationY>184</locationY>
+        <allowBack>true</allowBack>
+        <allowFinish>true</allowFinish>
+        <allowPause>true</allowPause>
+        <connector>
+            <targetReference>Send_break_glass_alert</targetReference>
+        </connector>
+        <fields>
+            <name>Break_Glass_Screen_Banner</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 22px;&quot;&gt;Break Glass Login&lt;/b&gt;&lt;/p&gt;&lt;p&gt;Login to this account is monitored by Monash Cyber Incident Reponse team.&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>Breakglass_Icon</name>
+            <fieldText>&lt;p&gt;&lt;b style=&quot;font-size: 16px;&quot;&gt;Provide reason for login&lt;/b&gt;&lt;/p&gt;</fieldText>
+            <fieldType>DisplayText</fieldType>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <fields>
+            <name>Reason_for_logging_in_Input</name>
+            <dataType>String</dataType>
+            <fieldText>Reason</fieldText>
+            <fieldType>InputField</fieldType>
+            <isRequired>true</isRequired>
+            <styleProperties>
+                <verticalAlignment>
+                    <stringValue>top</stringValue>
+                </verticalAlignment>
+                <width>
+                    <stringValue>12</stringValue>
+                </width>
+            </styleProperties>
+        </fields>
+        <showFooter>true</showFooter>
+        <showHeader>true</showHeader>
+    </screens>
+    <start>
+        <locationX>50</locationX>
+        <locationY>50</locationY>
+        <connector>
+            <targetReference>Capture_login_reason_Screen</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Reasom why the user logged in as Break Glass user</description>
+        <name>vBreakGlassReason</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>

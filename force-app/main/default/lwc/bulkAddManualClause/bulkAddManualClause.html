@@ -1,0 +1,81 @@
+<template>
+    <lightning-card title="Selected Offer Request to Add Manual Clause" icon-name="custom:custom19">
+        <template if:true={isLoading}>
+            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+        </template>
+        <template if:true={displayClauses}>       
+            <div style="padding:30px;" class="slds-m-around_medium"> <!--class="slds-scrollable slds-grow"-->
+                <div > <!--class="slds-scrollable_y"-->
+                    <div class="main-container" for:each={manualClauses} for:item="parent"  key={parent.parentId}>
+                        <b><p key={parent.parentId} class="slds-text-heading_small">{parent.title}</p></b>           
+                
+                        <table aria-multiselectable="true"
+                            class="slds-table slds-no-row-hover slds-table_bordered slds-table_fixed-layout slds-table_resizable-cols display-table"
+                            role="grid" key={parent.parentId}>
+                            <template if:true={parent.hasClauses}>
+                                <thead>
+                                    <tr class="slds-line-height_reset">
+                                        <th scope="col" class="add-btn-td column-header"></th>
+                                        <th aria-label="Intake" aria-sort="none" scope="col" role="gridcell" class="column-header">
+                                            <div class="slds-truncate" title="Clause Name">Clause Name</div>
+                                        </th>
+                                        <th aria-label="Description" aria-sort="none" scope="col" class="column-header">
+                                            <div class="slds-truncate" title="Clause Description">Description</div>
+                                        </th>
+                                        <th aria-label="Text" aria-sort="none" scope="col" class="column-header">
+                                            <div class="slds-truncate" title="Clause Text">Text</div>
+                                        </th>
+                                    </tr>
+                                </thead>
+                            </template>
+                            <template if:false={parent.hasClauses}>
+                                <p>No manual clauses found for this Offer. Please contact Offers Specialist user to create a new manual clause</p>
+                            </template>
+                            <tbody key={parent.parentId} style="display: contents;">
+                                <template for:each={parent.clauses} for:item="clause" key={parent.parentId}>
+                                    <tr key={clause.Id} aria-selected={clause.selected} class="slds-hint-parent">
+                                        <td class="slds-text-align_center add-btn-td" role="gridcell" tabindex="0">
+                                            <div class="slds-checkbox_add-button" id={clause.uniqueId} onclick={selectClause}>
+                                                <template if:true={clause.selected}>
+                                                    <input type="checkbox" class="slds-assistive-text slds-checkbox-button_is-checked" value={clause.Id} tabindex="-1" checked="checked" aria-label={clause.Name} />
+                                                </template>
+                                                <template if:false={clause.selected}>
+                                                    <input disabled type="checkbox" class="slds-assistive-text" value={clause.Id} tabindex="-1" aria-label={clause.Name}/>
+                                                </template>
+                                                <label class="slds-checkbox_faux">
+                                                    <span class="slds-assistive-text">{clause.Name}</span>
+                                                </label>
+                                            </div>
+                                        </td>
+                                        <td role="gridcell">
+                                            <div class="slds-truncate" title={clause.Name}>
+                                                <lightning-formatted-url value={clause.viewUrl} label={clause.Name} target="_blank"></lightning-formatted-url>
+                                            </div>
+                                        </td>
+                                        <td role="gridcell" class="text-td">
+                                            <div class="slds-truncate">{clause.Notes__c}</div>
+                                            <span class="popover-container" style={clause.notesPosition} if:true={clause.Notes__c}> 
+                                                <c-custom-popover message={clause.Notes__c} icon-description="clause description"></c-custom-popover>
+                                            </span>
+                                        </td>
+                                        <td role="gridcell" class="text-td" data-target-id={clause.Id}>
+                                            <div class="slds-truncate">{clause.Text__c}</div>
+                                            <span class="popover-container" style={clause.textPosition} if:true={clause.Text__c}>
+                                                <c-custom-popover message={clause.Text__c} icon-description="clause text"></c-custom-popover>
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </template>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>    
+            </div>
+        </template>
+        <div class="slds-align_absolute-center">
+            <lightning-button label="Back" class="slds-m-left_x-small" onclick={backToListView}></lightning-button> 
+            <lightning-button label="Save" onclick={saveManualClause} variant="brand" class="slds-m-left_x-small"></lightning-button>
+        </div>
+    </lightning-card>
+
+</template>

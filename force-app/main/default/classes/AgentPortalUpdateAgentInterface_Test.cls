@@ -1,0 +1,180 @@
+/*******************************************************************************
+* @author:      K Liew
+* @date:        09.DEC.2019
+* @group:       Agent Management
+* @description: Sibling Test Class for AgentPortalUpdateAgentInterface.  The API-chaining 
+*               pattern / solution design applied in the Agent Management solution 
+*               naturally results in multiple classes being executed in straight 
+*               succession during a single record level CRUD operation.  This means that
+*               "testing each class by itself" in separate sibling test classes
+*               (repeating test class logic) doesn't really make sense and will  
+*               result in higher test class code maintenance effort in future if 
+*               replicated across.  Wherever feasible, common test code will 
+*               consolidated and applied or used.
+*
+*               Classes in the chain are (they will very similar test class logic in
+*               general):
+*               InvokeAgentPortalAgentUpdate
+*               AgentPortalUpdateAgentInterface (this one)
+*               JsonBodyAgentPortalAgent
+* @revision:
+*               09.DEC.2019 KL  >   Initial class creation.
+*******************************************************************************/
+@isTest
+public with sharing class AgentPortalUpdateAgentInterface_Test {
+
+
+    /*******************************************************************************
+    * @description: Invoke the AgentMgmtTestUtil.loadHQTestData method to set the
+    *               test data needed.
+    * @param:       n/a
+    * @return:      n/a
+    *******************************************************************************/
+    @testSetup
+    static void insertAgencies() {
+
+        // set up API mock calls prior to Agency creation
+        NamedCredential ncMiX = [SELECT Id 
+                                , DeveloperName
+                                , Endpoint 
+                                FROM NamedCredential 
+                                WHERE DeveloperName = 'Monash_MiX_APIs'];
+
+        NamedCredential ncGGL = [SELECT Id 
+                                , DeveloperName
+                                , Endpoint 
+                                FROM NamedCredential 
+                                WHERE DeveloperName = 'Monash_Google_APIs'];
+        
+        MultiStaticResourceCalloutMock multimock = new MultiStaticResourceCalloutMock();
+        multimock.setStaticResource(ncMiX.Endpoint + '/v1/admissions/agencies', 'AgentMgmtCallistaAgencyCreateMockResp');
+        multimock.setStaticResource(ncMiX.Endpoint + '/v1/admissions/agencies/AG1000/agents', 'AgentMgmtCallistaAgentCreateMockResp');
+        multimock.setStaticResource(ncMiX.Endpoint + '/v1/admissions/agencies/AG1002/agents', 'AgentMgmtCallistaAgentCreateMockResp');
+        multimock.setStaticResource(ncGGL.Endpoint + '/v1/agency', 'AgentMgmtGoogleAppsAgencyCreateMockResp');
+        multimock.setStatusCode(200);
+        multimock.setHeader('Content-Type', 'application/json');
+        Test.setMock(HttpCalloutMock.class, multimock);
+
+        Test.startTest();
+        AgentMgmtTestUtil.loadHQTestData();
+        Test.stopTest();
+
+        Account hqToUpdate = [
+            SELECT 
+                Id
+                , Name
+                , Google_Integration_Status__c
+                , Street__c
+                , City__c
+                , State__c
+                , Post_Code__c
+            FROM Account
+            WHERE Callista_Org_Unit_Code__c= 'AG1000'
+        ];
+
+    }
+
+    /*******************************************************************************
+    * @description: Perform the actual Agency update and assert results.
+    * @param:       n/a
+    * @return:      n/a
+    *******************************************************************************/
+    @isTest
+    static void positiveTestUpdate() {
+
+        // set up API mock calls prior to Agency creation
+        NamedCredential ncMiX = [SELECT Id 
+                                , DeveloperName
+                                , Endpoint 
+                                FROM NamedCredential 
+                                WHERE DeveloperName = 'Monash_MiX_APIs'];
+
+        NamedCredential ncGGL = [SELECT Id 
+                                , DeveloperName
+                                , Endpoint 
+                                FROM NamedCredential 
+                                WHERE DeveloperName = 'Monash_Google_APIs'];
+        
+        MultiStaticResourceCalloutMock multimock = new MultiStaticResourceCalloutMock();
+
+        // Insert CRUD operation's mocks
+        multimock.setStaticResource(ncMiX.Endpoint + '/v1/admissions/agencies', 'AgentMgmtCallistaAgencyCreateMockResp');
+        multimock.setStaticResource(ncMiX.Endpoint + '/v1/admissions/agencies/AG1000/agents', 'AgentMgmtCallistaAgentCreateMockResp');
+        multimock.setStaticResource(ncGGL.Endpoint + '/v1/agency', 'AgentMgmtGoogleAppsAgencyCreateMockResp');
+        // Update CRUD operation's mocks
+        multimock.setStaticResource(ncMiX.Endpoint + '/v1/admissions/agencies/AG1000', 'AgentMgmtCallistaAgencyUpdateMockResp');
+        multimock.setStaticResource(ncMiX.Endpoint + '/v1/admissions/agencies/AG1000/agents/12345678', 'AgentMgmtCallistaAgentCreateMockResp');
+        multimock.setStatusCode(200);
+
+        multimock.setHeader('Content-Type', 'application/json');
+        Test.setMock(HttpCalloutMock.class, multimock);
+
+        Test.startTest();
+        Account hqToUpdate = [
+            SELECT 
+                Id
+                , Name
+                , Callista_Integration_Status__c
+                , Street__c
+                , City__c
+                , State__c
+                , Post_Code__c
+            FROM Account
+            WHERE Callista_Org_Unit_Code__c= 'AG1000'
+        ];
+
+        // Update Agency's address "City" field, this triggers a chain of technical components including process builders,
+        // invocable classes, queueable integration classes with callouts + inherited functionality from virtual class.
+        // Functionally, updating City also updates Role Account Contact
+        hqToUpdate.City__c = 'MELBOURNE';
+        hqToUpdate.Post_Code__c = '3001';
+        update hqToUpdate;
+        Test.stopTest();
+
+        // retrieve HQ record, and assert the account record is updated accordingly
+        Account updatedHQ = [
+            SELECT 
+                Id
+                , Name
+                , Google_Integration_Status__c
+                , Street__c
+                , City__c
+                , State__c
+                , Post_Code__c
+            FROM Account
+            WHERE Callista_Org_Unit_Code__c= 'AG1000'
+        ];
+
+        Contact assertContact = [
+            SELECT Id
+                , Google_Integration_Status__c
+            FROM Contact
+            WHERE AccountId = :updatedHQ.Id
+                AND Person_ID_unique__c = '12345678'
+        ];
+
+        System.assertEquals('Updated', assertContact.Google_Integration_Status__c);
+    }
+
+    /*******************************************************************************
+    * @description: Invoke the "AgentPortalUpdateAgentInterface" class directly, passing
+    *               in invalid parameter(s)
+    *               the outcome of that method.
+    * @param:       n/a
+    * @return:      n/a
+    *******************************************************************************/
+    @isTest
+    static void negativeTestHittingExceptionBlock() {
+        Test.startTest();        
+        System.enqueueJob(new AgentPortalUpdateAgentInterface(null));
+        Test.stopTest();
+
+        List<Exception_Log__c> exList = [
+            SELECT 
+                Id
+            FROM Exception_Log__c
+        ];
+        System.debug('!@# exList.size() = ' + exList.size());
+        System.assertNotEquals(0, exList.size());
+    }
+}

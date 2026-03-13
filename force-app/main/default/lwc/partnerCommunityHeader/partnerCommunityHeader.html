@@ -1,0 +1,145 @@
+<template>  
+    <template if:true={resourcesReady}>
+        <!-- desktop -->
+        <header id="desktopHeader" role="banner" class="header" style="z-index: 9999;">
+            <div class="mobile-hidden">
+                <div class="header-row">
+                    <div class="content-wrapper">
+                        <div class="header-row__items">
+                            <div class="header-row__logo-wrapper">
+                                <a target="_blank" href="http://www.monash.edu" class="header-row__logo-link">
+                                    <img src={monashLogoUrl} class="header-row__logo-img monash-logo" alt="Monash University"/>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-row navbar--monash-blue megamenu--monash-blue" style="height: 55px;">
+                    <div class="page-wrapper">
+                        <div class="content-wrapper flex-wrapper">
+                            <lightning-layout>
+                                <lightning-layout-item>
+                                    <div class="content-wrapper flex-wrapper">
+                                        <!-- navigation bar -->
+                                        <nav role="navigation" class="navbar uber-accordion">
+                                            <button class="navbar__toggle uber-accordion__button" aria-controls="navbar__dropdown" role="button">
+                                                Menu
+                                            </button>
+                                            
+                                        </nav>
+                                        <div class="header-row__logo-wrapper desktop-hidden">
+                                            <a target="_blank" href="http://www.monash.edu" class="header-row__logo-link">
+                                                <img src={monashLogoUrl} class="header-row__logo-img" alt="Monash University" />
+                                            </a>
+                                        </div>
+                                    </div>
+                                </lightning-layout-item>
+                                <lightning-layout-item alignment-bump="left">
+                                    <div class="content-wrapper flex-wrapper nav">
+                                        <!-- actions: contact us -->
+                                        <!--<div class="slds-m-top_medium slds-m-horizontal_medium">
+                                            <img src={callLogoUrl} alt="Contact Us" style="width: 1.5rem; height: 1.5rem;" />
+                                        </div>-->
+                                        <!-- actions: my details -->
+                                        <template if:true={isAuthenticated}>
+                                            <div class="slds-m-top_medium slds-m-horizontal_medium">
+                                                <div class="popover__wrapper">
+                                                    <img src={userLogoUrl} alt="View Profile" style="width: 1.5rem; height: 1.5rem; cursor: pointer;" onclick={toggleMenu} />
+                                                    <div class={menuClass}>
+                                                        <ul>
+                                                            <li class="nav-label" onclick={myDetails}>
+                                                                <span>MY DETAILS</span>
+                                                            </li>
+                                                            <li class="nav-label" onclick={logout} style="cursor: pointer;">
+                                                                <span>LOGOUT</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>   
+                                        </template>                                 
+                                    </div>
+                                </lightning-layout-item>
+                            </lightning-layout>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- mobile -->
+        <header id="mobileHeader" role="banner" class="header">
+            <div class="header-row navbar--monash-blue megamenu--monash-blue desktop-hidden forceTop" style="background: #fff; position: fixed; width: 100%;">
+                <div class="page-wrapper">
+                    <!-- mobile -->
+                    <div class="content-wrapper flex-wrapper">
+                        <div style="display: flex;">
+
+                            <nav role="navigation" class={navClass}>
+                                <button class={navBtnClass} aria-controls="navbar__dropdown" role="button" onclick={toggleMobileNav}>Menu</button>         
+                                <div role="region" class={navMenuClass} aria-expanded={navMenuAriaExpanded}>                        
+                                    <ul class="navbar__list navbar__list--home">
+                                        <li class="navbar__item">
+                                            <span class="navbar__item-logo-mobile"></span>
+                                            <button onclick={toggleMobileNav} class="navbar__toggle uber-accordion__button uber-accordion__button-active navbar__toggle-cloned" aria-controls="navbar__dropdown" role="button">Menu</button>
+                                        </li>
+                                        <li class="navbar__item navbar__item--current-parent">
+                                            <a href="#" class="navbar__item-lbl" onclick={redirectHome}>
+                                                <span class="navbar__item-text">Home</span>
+                                            </a>                                        
+                                        </li>
+                                    </ul>
+                                    <ul class="navbar__list flex-wrapper">
+                                        <!-- update to dynamic menu -->
+                                        <!--<li class="navbar__item navbar__item--w-children">
+                                            <a href="#" class="navbar__item-lbl lbl--expandable" onclick={redirectFaq}>
+                                                <span class="navbar__item-text">FAQ</span>
+                                                <button title="Expand/Collapse Menu" class="navbar__item-cta"></button>
+                                            </a>
+                                        </li>-->
+                                        <!--<li class="navbar__item navbar__item--w-children">
+                                            <a href="#" class="navbar__item-lbl lbl--expandable">
+                                                <span class="navbar__item-text">CONTACT US</span>
+                                                <button title="Expand/Collapse Menu" class="navbar__item-cta"></button>
+                                            </a>
+                                        </li>-->
+                                        <li class="navbar__item navbar__item--w-children">
+                                            <a href="#" class="navbar__item-lbl lbl--expandable" onclick={myDetails}>
+                                                <span class="navbar__item-text">MY DETAILS</span>
+                                                <button title="Expand/Collapse Menu" class="navbar__item-cta"></button>
+                                            </a>
+                                        </li>
+                                        <li class="navbar__item navbar__item--w-children">
+                                            <a href="#" class="navbar__item-lbl lbl--expandable" onclick={logout}>
+                                                <span class="navbar__item-text">LOGOUT</span>
+                                                <button title="Expand/Collapse Menu" class="navbar__item-cta"></button>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                            
+                            <div class="header-row__logo-wrapper" style="padding-top: 0;">
+                                <a target="_blank" href="https://www.monash.edu" id="header-logo-mobile" class="header-row__logo-link">
+                                    <img src={monashLogoUrl} class="header-row__logo-img" alt="Monash University">
+                                </a>
+                            </div>
+                            
+                            <span class="header-row__search header-row__search-global" style="opacity: 0;">
+                                <button type="button" class="header-row__search-icon"><span class="visuallyhidden">Toggle Search</span></button>
+                                <!-- /.header-row__search-form -->
+                            </span>
+                        </div>       
+                    </div>                
+                    <template if:true={getMobileHeaderLabel}>    
+                        <div id="site-heading-mobile" class="header-row__site-title desktop-hidden">
+                            {getMobileHeaderLabel}
+                        </div>  
+                    </template>
+                </div>
+            </div>
+        </header>
+        <template if:true={getMobileHeaderLabel}>
+            <div class="spacer desktop-hidden"></div>
+        </template>
+    </template>
+</template>

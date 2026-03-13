@@ -1,0 +1,502 @@
+<template>
+
+    <lightning-card title="Add Contact Qualification">
+        <div slot="actions">
+            <lightning-layout>
+                <lightning-layout-item>
+                    <lightning-button label="Cancel" title="Cancel" variant="brand" onclick={cancel} class="slds-m-left_x-small" disabled={disableCancelBtn}></lightning-button>
+                    <lightning-button label="Save" title="Save" variant="brand" onclick={saveContactQualification} class="slds-m-left_x-small" disabled={disableSaveBtn}></lightning-button>
+                </lightning-layout-item>
+            </lightning-layout>
+        </div>
+        <template if:true={recordTypeOptions}>
+            <lightning-layout multiple-rows>
+                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="12" padding="horizontal-small">
+                    <template if:true={recordTypeOptions}>
+                        <lightning-layout>
+                            <lightning-layout-item size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                                <lightning-combobox label="Qualification Type"
+                                                    value={selectedRecordTypeValue}
+                                                    placeholder="-- Select One --"
+                                                    options={recordTypeOptions}
+                                                    onchange={handleSelectedRecordTypeValueOnChange}
+                                ></lightning-combobox>
+                            </lightning-layout-item>
+                        </lightning-layout>
+                    </template>
+                </lightning-layout-item>
+
+                <!-- Tertiary Education Create Form : Start -->
+                <template if:true={showTertiarySection}>
+                    <!-- Column 1 section -->
+                    <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="horizontal-small">
+                        <lightning-combobox label="Qualification Country"
+                                            value={selected_Country_TerEd}
+                                            placeholder="-- Select One --"
+                                            options={options_Qualification_Country_TerEd}
+                                            onchange={onchange_selected_Country_TerEd}
+                        ></lightning-combobox>
+                        <!--<lightning-input type="text"
+                                         label="Title"
+                                         value={str_Title_TerEd}
+                                         onchange={onchange_str_Title_TerEd}
+                        ></lightning-input>-->
+                        <lightning-input type="text"
+                                         label="Qualification Name"
+                                         value={str_Other_Qualification_TerEd}
+                                         onchange={onchange_str_Other_Qualification_TerEd}
+                        ></lightning-input>
+                        <lightning-combobox label="Awarding Body/Institution Name"
+                                            value={selected_Institution_Name_TerEd}
+                                            placeholder="-- Select One --"
+                                            options={options_Institution_Name_TerEd}
+                                            onchange={onchange_selected_Institution_Name_TerEd}
+                                            field-level-help={helpText_AwardingBodyInstitution}
+                        ></lightning-combobox>
+                        <lightning-input type="text"
+                                         label="Other Awarding Body/Institution"
+                                         value={str_Other_Institution_TerEd}
+                                         onchange={onchange_str_Other_Institution_TerEd}
+                        ></lightning-input>
+                        <lightning-combobox label="Level of Completion"
+                                            value={selected_Status_TerEd}
+                                            placeholder="-- Select One --"
+                                            options={options_Status_TerEd}
+                                            onchange={onchange_selected_Status_TerEd}
+                        ></lightning-combobox>
+                        <lightning-input type="text"
+                                         label="First Year Enrolled"
+                                         value={str_First_Year_Enrolled_TerEd}
+                                         pattern="(19|20)\d{2}"
+                                         message-when-type-mismatch="Please enter a valid year"
+                                         onchange={onchange_str_First_Year_Enrolled_TerEd}
+                        ></lightning-input>
+                        <lightning-input type="text"
+                                         label="Last Year Enrolled"
+                                         value={str_Last_Year_Enrolled_TerEd}
+                                         pattern="(19|20)\d{2}"
+                                         message-when-type-mismatch="Please enter a valid year"
+                                         onchange={onchange_str_Last_Year_Enrolled_TerEd}
+                        ></lightning-input>
+                        <lightning-input type="text"
+                                         label="Year of Completion"
+                                         value={str_Year_of_Completion_TerEd}
+                                         pattern="(19|20)\d{2}"
+                                         message-when-type-mismatch="Please enter a valid year"
+                                         onchange={onchange_str_Year_of_Completion_TerEd}
+                        ></lightning-input>
+                        <lightning-textarea label="Applicant Comments"
+                                            value={textArea_Other_Qualification_Comments_TerEd}
+                                            maxlength="140"
+                                            message-when-too-long="A maximum of 140 characters are allowed."
+                                            onchange={onchange_textArea_Other_Qualification_Comments_TerEd}
+                        ></lightning-textarea>
+                    </lightning-layout-item>
+                    <!-- Column 2 section -->
+                    <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="horizontal-small">
+                        <lightning-combobox label="Tertiary Qualification Level"
+                                            value={selected_QualificationLevel_TertiaryEducation}
+                                            placeholder="-- Select One --"
+                                            options={options_Tertiary_Qualification_Level_TerEd}
+                                            onchange={onchange_selected_QualificationLevel_TertiaryEducation}
+                        ></lightning-combobox>
+                        <lightning-input type="text"
+                                         label="Score (GPA/Result/ATAR)"
+                                         value={str_Score_TerEd}
+                                         onchange={onchange_str_Score_TerEd}
+                        ></lightning-input>
+                        <lightning-input type="text"
+                                         label="Qualification GPA Scale"
+                                         value={str_Qualification_GPA_Scale_TerEd}
+                                         onchange={onchange_str_Qualification_GPA_Scale_TerEd}
+                        ></lightning-input>
+                        <lightning-combobox label="Qualification GPA Calc Method"
+                                            value={selected_Qualification_GPA_Calc_Method_TerEd}
+                                            placeholder="-- Select One --"
+                                            options={options_Qualification_GPA_Calc_Method_TerEd}
+                                            onchange={onchange_selected_Qualification_GPA_Calc_Method_TerEd}
+                        ></lightning-combobox>
+                        <lightning-combobox label="Monash Equivalent Band"
+                                            value={selected_Monash_Equivalent_GPA_TerEd}
+                                            placeholder="-- Select One --"
+                                            options={options_Monash_Equivalent_GPA_TerEd}
+                                            onchange={onchange_selected_Monash_Equivalent_GPA_TerEd}
+                        ></lightning-combobox>
+                        <lightning-input type="text"
+                                         label="Number of Fails"
+                                         value={str_Number_of_Fails_TerEd}
+                                         field-level-help={helpText_Number_of_Fails_TerEd}
+                                         onchange={onchange_str_Number_of_Fails_TerEd}
+                        ></lightning-input>
+                        <div class="slds-p-vertical_small">
+                            <lightning-input type="toggle"
+                                             label="USA Accredited"
+                                             message-toggle-active="Yes"
+                                             message-toggle-inactive="No"
+                                             checked={checked_USA_Accredited_TerEd}
+                                             onchange={onchange_checked_USA_Accredited_TerEd}
+                            ></lightning-input>
+                        </div>
+                        <div class="slds-p-vertical_small">
+                            <lightning-input type="toggle"
+                                             label="English Language of Instruction"
+                                             message-toggle-active="Yes"
+                                             message-toggle-inactive="No"
+                                             checked={checked_Instruction_in_English_TerEd}
+                                             onchange={onchange_checked_Instruction_in_English_TerEd}
+                            ></lightning-input>
+                        </div>
+                        <lightning-textarea label="Assessment Comments"
+                                            value={textArea_Assessment_Comments_TerEd}
+                                            maxlength="140"
+                                            message-when-too-long="A maximum of 140 characters are allowed."
+                                            onchange={onchange_textArea_Assessment_Comments_TerEd}
+                        ></lightning-textarea>
+                        <lightning-combobox label="Verification Status"
+                                            value={selected_Verification_Status_TerEd}
+                                            placeholder="-- Select One --"
+                                            options={options_Verification_Status_TerEd}
+                                            onchange={onchange_selected_Verification_Status_TerEd}
+                        ></lightning-combobox>
+                    </lightning-layout-item>
+                </template>
+                <!-- Tertiary Education Create Form : End -->
+
+                <!-- Secondary Education Create Form : Start -->
+                <template if:true={showSecondarySection}>
+                    <!-- Column 1 section -->
+                    <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="horizontal-small">
+                        <lightning-combobox label="Qualification Country"
+                                            value={selected_Qualification_Country_SecEd}
+                                            placeholder="-- Select One --"
+                                            options={options_Qualification_Country_SecEd}
+                                            onchange={onchange_selected_Qualification_Country_SecEd}
+                        ></lightning-combobox>
+                        <lightning-combobox label="Australian State"
+                                            value={selected_State_SecEd}
+                                            placeholder="-- Select One --"
+                                            options={options_State_SecEd}
+                                            onchange={onchange_selected_State_SecEd}
+                        ></lightning-combobox>
+                        <lightning-input type="text"
+                                         label="State/Province"
+                                         value={str_State_Province_SecEd}
+                                         onchange={onchange_str_State_Province_SecEd}
+                        ></lightning-input>
+                        <lightning-combobox label="Qualification Name"
+                                            value={selected_Qualification_SecEd}
+                                            placeholder="-- Select One --"
+                                            options={options_Qualification_SecEd}
+                                            onchange={onchange_selected_Qualification_SecEd}
+                        ></lightning-combobox>
+                        <lightning-input type="text"
+                                         label="Other Qualification"
+                                         value={str_Other_Qualification_SecEd}
+                                         onchange={onchange_str_Other_Qualification_SecEd}
+                        ></lightning-input>
+                        <lightning-combobox label="Awarding Body/Institution Name"
+                                            value={selected_Institution_Name_SecEd}
+                                            placeholder="-- Select One --"
+                                            options={options_Institution_Name_SecEd}
+                                            field-level-help={helpText_AwardingBodyInstitution}
+                                            onchange={onchange_selected_Institution_Name_SecEd}
+                        ></lightning-combobox>
+                        <lightning-input type="text"
+                                         label="Other Awarding Body/Institution"
+                                         value={str_Other_Institution_SecEd}
+                                         onchange={onchange_str_Other_Institution_SecEd}
+                        ></lightning-input>
+                        <div class="slds-p-vertical_small">
+                            <lightning-input type="toggle"
+                                             label="Qualification Completed"
+                                             message-toggle-active="Yes"
+                                             message-toggle-inactive="No"
+                                             checked={checked_isTestCompleted_SecEd}
+                                             onchange={onchange_checked_isTestCompleted_SecEd}
+                            ></lightning-input>
+                        </div>
+                        <lightning-input type="text"
+                                         label="Year of Completion"
+                                         value={str_Year_of_Completion_SecEd}
+                                         placeholder="Enter a year, e.g 1965"
+                                         pattern="(19|20)\d{2}"
+                                         message-when-type-mismatch="Please enter a valid year"
+                                         onchange={onchange_str_Year_of_Completion_SecEd}
+                        ></lightning-input>
+                        <lightning-input type="date"
+                                         label="Expected Completion Date"
+                                         value={date_Expected_date_of_completion_SecEd}
+                                         onchange={onchange_date_Expected_date_of_completion_SecEd}
+                        ></lightning-input>
+                        <lightning-textarea label="Applicant Comments"
+                                            value={textArea_Other_Qualification_Comments_SecEd}
+                                            maxlength="140"
+                                            message-when-too-long="A maximum of 140 characters are allowed."
+                                            onchange={onchange_textArea_Other_Qualification_Comments_SecEd}
+                        ></lightning-textarea>
+                    </lightning-layout-item>
+                    <!-- Column 2 section -->
+                    <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="horizontal-small">
+                        <lightning-input type="text"
+                                         label="Score (GPA/Result/ATAR)"
+                                         value={str_Score_SecEd}
+                                         onchange={onchange_str_Score_SecEd}
+                        ></lightning-input>
+                        <lightning-input type="text"
+                                         label="Qualification GPA Scale"
+                                         value={str_Qualification_GPA_Scale_SecEd}
+                                         onchange={onchange_str_Qualification_GPA_Scale_SecEd}
+                        ></lightning-input>
+                        <lightning-combobox label="Qualification GPA Calc Method"
+                                            value={selected_Qualification_GPA_Calc_Method_SecEd}
+                                            placeholder="-- Select One --"
+                                            options={options_Qualification_GPA_Calc_Method_SecEd}
+                                            onchange={onchange_selected_Qualification_GPA_Calc_Method_SecEd}
+                        ></lightning-combobox>
+                        <lightning-combobox label="Monash Equivalent Band"
+                                            value={selected_Monash_Equivalent_GPA_SecEd}
+                                            placeholder="-- Select One --"
+                                            options={options_Monash_Equivalent_GPA_SecEd}
+                                            onchange={onchange_selected_Monash_Equivalent_GPA_SecEd}
+                        ></lightning-combobox>
+                        <lightning-input type="text"
+                                         label="Number of Fails"
+                                         value={str_Number_of_Fails_SecEd}
+                                         field-level-help={helpText_Number_of_Fails}
+                                         onchange={onchange_str_Number_of_Fails_SecEd}
+                        ></lightning-input>
+                        <div class="slds-p-vertical_small">
+                            <lightning-input type="toggle"
+                                             label="USA Accredited"
+                                             message-toggle-active="Yes"
+                                             message-toggle-inactive="No"
+                                             checked={checked_USA_Accredited_SecEd}
+                                             onchange={onchange_checked_USA_Accredited_SecEd}
+                            ></lightning-input>
+                        </div>
+                        <div class="slds-p-vertical_small">
+                            <lightning-input type="toggle"
+                                             label="English Language of Instruction"
+                                             message-toggle-active="Yes"
+                                             message-toggle-inactive="No"
+                                             checked={checked_Instruction_in_English_SecEd}
+                                             onchange={onchange_checked_Instruction_in_English_SecEd}
+                            ></lightning-input>
+                        </div>
+                        <lightning-combobox label="Verification Status"
+                                            value={selected_Verification_Status_SecEd}
+                                            placeholder="-- Select One --"
+                                            options={options_Verification_Status_SecEd}
+                                            onchange={onchange_selected_Verification_Status_SecEd}
+                        ></lightning-combobox>
+                        <lightning-textarea label="Assessment Comments"
+                                            value={textArea_Assessment_Comments_SecEd}
+                                            maxlength="140"
+                                            message-when-too-long="A maximum of 140 characters are allowed."
+                                            onchange={onchange_textArea_Assessment_Comments_SecEd}
+                        ></lightning-textarea>
+                    </lightning-layout-item>
+                </template>
+                <!-- Secondary Education Create Form : End -->
+
+                <!-- English Test Create Form : Start -->
+                <template if:true={showEnglishSection}>
+                    <!-- Column 1 section -->
+                    <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="horizontal-small">
+                        <lightning-combobox name="name_selected_EnglishType_EngTest"
+                                            label="English Qualification Type"
+                                            value={selected_EnglishType_EngTest}
+                                            placeholder="-- Select One --"
+                                            options={options_EnglishType_EngTest}
+                                            onchange={onchange_English_Test}
+                        ></lightning-combobox>
+                        <div class="slds-p-vertical_small">
+                            <lightning-input name="name_checked_isTestCompleted_EngTest"
+                                             type="toggle"
+                                             label="Qualification Completed"
+                                             message-toggle-active="Yes"
+                                             message-toggle-inactive="No"
+                                             checked={checked_isTestCompleted_EngTest}
+                                             onchange={onchange_English_Test}
+                            ></lightning-input>
+                        </div>
+                        <lightning-input name="name_date_Date_Achieved_EngTest"
+                                         type="date"
+                                         label="Date Achieved"
+                                         value={date_Date_Achieved_EngTest}
+                                         onchange={onchange_English_Test}
+                        ></lightning-input>
+                        <lightning-input name="name_date_Expected_date_of_completion_EngTest"
+                                         type="date"
+                                         label="Expected Completion Date"
+                                         value={date_Expected_date_of_completion_EngTest}
+                                         onchange={onchange_English_Test}
+                        ></lightning-input>
+                        <lightning-textarea name="name_textArea_Other_Qualification_Comments_EngTest"
+                                            label="Applicant Comments"
+                                            value={textArea_Other_Qualification_Comments_EngTest}
+                                            maxlength="140"
+                                            message-when-too-long="A maximum of 140 characters are allowed."
+                                            onchange={onchange_English_Test}
+                        ></lightning-textarea>
+                    </lightning-layout-item>
+                    <!-- Column 2 section -->
+                    <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="horizontal-small">
+                        <lightning-input name="name_str_Score_EngTest"
+                                         type="text"
+                                         label="Score (GPA/Result/ATAR)"
+                                         value={str_Score_EngTest}
+                                         onchange={onchange_English_Test}
+                        ></lightning-input>
+                        <lightning-input name="name_str_Listening_EngTest"
+                                         type="text"
+                                         label="Listening"
+                                         value={str_Listening_EngTest}
+                                         onchange={onchange_English_Test}
+                        ></lightning-input>
+                        <lightning-input name="name_str_Reading_EngTest"
+                                         type="text"
+                                         label="Reading"
+                                         value={str_Reading_EngTest}
+                                         onchange={onchange_English_Test}
+                        ></lightning-input>
+                        <lightning-input name="name_str_Speaking_EngTest"
+                                         type="text"
+                                         label="Speaking"
+                                         value={str_Speaking_EngTest}
+                                         onchange={onchange_English_Test}
+                        ></lightning-input>
+                        <lightning-input name="name_str_Writing_EngTest"
+                                         type="text"
+                                         label="Writing"
+                                         value={str_Writing_EngTest}
+                                         onchange={onchange_English_Test}
+                        ></lightning-input>
+                        <lightning-input name="name_str_Test_of_Written_English_EngTest"
+                                         type="text"
+                                         label="Test of Written English"
+                                         value={str_Test_of_Written_English_EngTest}
+                                         onchange={onchange_English_Test}
+                        ></lightning-input>
+                        <lightning-combobox name="name_selected_Monash_Equivalent_GPA_EngTest"
+                                            label="Monash Equivalent Band"
+                                            value={selected_Monash_Equivalent_GPA_EngTest}
+                                            placeholder="-- Select One --"
+                                            options={options_Monash_Equivalent_GPA_EngTest}
+                                            onchange={onchange_English_Test}
+                        ></lightning-combobox>
+                        <lightning-combobox name="name_selected_Verification_Status_EngTest"
+                                            label="Verification Status"
+                                            value={selected_Verification_Status_EngTest}
+                                            placeholder="-- Select One --"
+                                            options={options_Verification_Status_EngTest}
+                                            onchange={onchange_English_Test}
+                        ></lightning-combobox>
+                        <lightning-textarea name="name_textArea_Assessment_Comments_EngTest"
+                                            label="Assessment Comments"
+                                            value={textArea_Assessment_Comments_EngTest}
+                                            maxlength="140"
+                                            message-when-too-long="A maximum of 140 characters are allowed."
+                                            onchange={onchange_English_Test}
+                        ></lightning-textarea>
+                    </lightning-layout-item>
+                </template>
+                <!-- English Test Create Form : End -->
+
+                <!-- Other Qualification Create Form : Start -->
+                <template if:true={showOtherSection}>
+                    <!-- Column 1 section -->
+                    <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="horizontal-small">
+                        <lightning-input name="name_str_Other_Qualification_OtherQual"
+                                         type="text"
+                                         label="Qualification Name"
+                                         value={str_Other_Qualification_OtherQual}
+                                         onchange={onchange_Other_Qualfication}
+                        ></lightning-input>
+                        <div class="slds-p-vertical_small">
+                            <lightning-input name="name_checked_isTestCompleted_OtherQual"
+                                             type="toggle"
+                                             label="Qualification Completed"
+                                             message-toggle-active="Yes"
+                                             message-toggle-inactive="No"
+                                             checked={checked_isTestCompleted_OtherQual}
+                                             onchange={onchange_Other_Qualfication}
+                            ></lightning-input>
+                        </div>
+                        <lightning-input name="name_date_Date_Achieved_OtherQual"
+                                         type="date"
+                                         label="Date Achieved"
+                                         value={date_Date_Achieved_OtherQual}
+                                         onchange={onchange_Other_Qualfication}
+                        ></lightning-input>
+                        <lightning-input name="name_date_Expected_date_of_completion_OtherQual"
+                                         type="date"
+                                         label="Expected Completion Date"
+                                         value={date_Expected_date_of_completion_OtherQual}
+                                         onchange={onchange_Other_Qualfication}
+                        ></lightning-input>
+                        <lightning-textarea name="name_textArea_Other_Qualification_Comments_OtherQual"
+                                            label="Applicant Comments"
+                                            value={textArea_Other_Qualification_Comments_OtherQual}
+                                            maxlength="140"
+                                            message-when-too-long="A maximum of 140 characters are allowed."
+                                            onchange={onchange_Other_Qualfication}
+                        ></lightning-textarea>
+                    </lightning-layout-item>
+                    <!-- Column 2 section -->
+                    <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="6" padding="horizontal-small">
+                        <lightning-input name="name_str_Score_OtherQual"
+                                         type="text"
+                                         label="Score (GPA/Result/ATAR)"
+                                         value={str_Score_OtherQual}
+                                         onchange={onchange_Other_Qualfication}
+                        ></lightning-input>
+                        <lightning-combobox name="name_selected_Verification_Status_OtherQual"
+                                            label="Verification Status"
+                                            value={selected_Verification_Status_OtherQual}
+                                            placeholder="-- Select One --"
+                                            options={options_Verification_Status_OtherQual}
+                                            onchange={onchange_Other_Qualfication}
+                        ></lightning-combobox>
+                        <lightning-textarea name="name_textArea_Assessment_Comments_OtherQual"
+                                            label="Assessment Comments"
+                                            value={textArea_Assessment_Comments_OtherQual}
+                                            maxlength="140"
+                                            message-when-too-long="A maximum of 140 characters are allowed."
+                                            onchange={onchange_Other_Qualfication}
+                        ></lightning-textarea>
+                    </lightning-layout-item>
+                </template>
+                <!-- Other Qualification Create Form : End -->
+            </lightning-layout>
+        </template>
+
+        <template if:true={showSpinner}>
+            <lightning-layout-item flexibility="grow">
+                <lightning-spinner alternative-text="Loading"></lightning-spinner>
+            </lightning-layout-item>
+        </template>
+    </lightning-card>
+
+
+    <template if:true={errMsgList}>
+        <section role="dialog" tabindex="-1" style="overflow: hidden;" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <h3 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Please complete the following:</h3>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <ul class="slds-list_dotted slds-text-align--left">
+                        <template for:each={errMsgList} for:item='error'>
+                            <li key={error}>{error}</li>
+                        </template>
+                    </ul>
+                </div>
+                <footer class="slds-modal__footer">
+                    <lightning-button label="Close" title="Close" variant="brand" onclick={onClickCloseAlert} class="slds-m-left_x-small"></lightning-button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

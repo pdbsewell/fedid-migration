@@ -1,0 +1,363 @@
+.declarationForm .slds-form-element__label {
+    font-size: 20px !important;
+    color: rgb(51, 51, 51) !important;
+    font-family: Roboto !important;
+}
+
+h2 {
+    text-align: left;
+    font-family: "Roboto Condensed";
+    font-size: 20px;
+    line-height: 44px;
+    font-weight: bold;
+    letter-spacing: 0px;
+    color: #505050;
+    opacity: 1;
+}
+
+.fieldContainer {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #979797;
+    padding-bottom: 5px;
+    display: flex;
+}
+
+.fieldContainer .slds-select {
+    border: 0px solid #d4d4d4;
+    border-radius: 0;
+}
+
+.fieldContainer .uiInputText {
+    border: 0px solid #d4d4d4;
+    border-radius: 0;
+}
+
+.fieldContainer .slds-input {
+    border: 0px solid #d4d4d4;
+    border-radius: 0;
+}
+
+.requiredField{
+    font-family: "Roboto Condensed";
+    line-height: 26px;
+    font-weight: bold;
+    letter-spacing: 0px;
+    color: #016CAC;
+    opacity: 1;
+}
+
+.sectionContainer {
+    border: 2px solid #d4d4d4;
+    padding: 0 15px 25px 0;
+    opacity: 1;
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.container {
+    width:85%;
+    font-size: 14px;
+}
+.column {
+    flex: 1; /* Equal width for both columns */
+    padding: 10px;
+    border: 1px solid gray;
+    text-align: center;
+}
+
+.sectionContainer .sectionContainerTopBorder {
+    border-top: 5px solid #016CAC;
+    margin-top: -2px;
+    margin-left: -2px;
+    margin-bottom: 25px;
+}
+
+.sectionContainer .sectionContainerBody {
+    padding-left: 15px;
+}
+
+p {
+    text-align: left;
+    font-family: "Roboto";
+    font-size: 14px;
+    line-height: 26px;
+    letter-spacing: 0px;
+    color: #333333;
+    opacity: 1;
+    margin-bottom: 15px;
+}
+
+b {
+   
+    color: #505050;
+}
+
+.grtParagraph {
+    text-align: left;
+    font-family: "Roboto";
+    font-size: 16px;
+    letter-spacing: 0px;
+    color: black;
+    opacity: 1;
+    margin-bottom: 10px;
+    padding-left: 2px;
+}
+
+.primaryButton {
+    font-family: "Roboto";
+    font-size: 18px;
+    background: #006DAE;
+    border: 1px solid #006DAE;
+    opacity: 1;
+    text-align: center;
+    letter-spacing: 0px;
+    color: #FFFFFF;
+    opacity: 1;
+    font-weight: bolder;
+    padding: 6px 10px 6px 10px;
+}
+
+.secondaryButton {
+    font-family: "Roboto";
+    font-size: 18px;
+    background: #ffffff 0% 0% no-repeat padding-box;
+    border: 2px solid #006DAE;
+    opacity: 1;
+    text-align: center;
+    letter-spacing: 0px;
+    color: #006DAE;
+    opacity: 1;
+    font-weight: bolder;
+    padding: 5px 10px 5px 10px;
+}
+
+.table
+{
+    position:initial !important;
+}
+label.slds-form-element__label {
+    text-align: left;
+    font-family: "Roboto Condensed";
+    font-size: 15px;
+    line-height: 26px;
+    font-weight: bold;
+    letter-spacing: 0px;
+    color: black;
+    opacity: 1;
+}
+
+.slds-checkbox_toggle .slds-form-element__label {
+    text-align: left;
+    font-family: "Roboto Condensed";
+    font-size: 15px;
+    line-height: 26px;
+    font-weight: bold;
+    letter-spacing: 0px;
+    color: black;
+    opacity: 1;
+}
+
+.slds-form-element .slds-form-element__legend {
+    text-align: left;
+    font-family: "Roboto Condensed";
+    font-size: 15px;
+    line-height: 26px;
+    font-weight: bold;
+    letter-spacing: 0px;
+    color: black;
+    opacity: 1;
+}
+
+.searchboxinput input {
+    box-sizing: inherit !important;
+}
+
+ol li {
+    padding: 5px 0px;
+    padding-left:1em;
+}
+
+.section-float {
+	background-color: #fff;
+	padding: 10px;
+}
+
+.disabled {
+  	cursor: not-allowed;
+	pointer-events: none;
+	color: #c0c0c0;
+	background-color: #E6E6E6;
+}
+
+
+.blueFill svg{
+    fill:#006dae;
+}
+
+/* smartphones, portrait iPhone, portrait 480x320 phones (Android) */
+@media only screen and (min-width:320px)  {  
+    .desktop-hidden { 
+        display: block;
+    }
+
+    .mobile-hidden {
+        display: none;
+    }
+
+    .applicationForm {
+        padding-left: 15px; 
+        padding-right: 15px; 
+        padding-bottom: 15px; 
+    }
+
+    .applicationStepsContainer {
+        width: 100%;
+        flex: 1;
+    }
+}
+/* smartphones, Android phones, landscape iPhone */
+@media only screen and (min-width:480px)  {     
+    .desktop-hidden { 
+        display: block;
+    }
+
+    .mobile-hidden {
+        display: none;
+    }
+
+    .applicationForm {
+        padding-left: 15px; 
+        padding-right: 15px; 
+        padding-bottom: 15px; 
+    }
+
+    .applicationStepsContainer {
+        width: 100%;
+        flex: 1;
+    }
+}
+/* portrait tablets, portrait iPad, e-readers (Nook/Kindle), landscape 800x480 phones (Android) */
+@media only screen and (min-width:600px)  {  
+    .desktop-hidden { 
+        display: block;
+    }
+
+    .mobile-hidden {
+        display: none;
+    }
+
+    .applicationForm {
+        padding-left: 15px; 
+        padding-right: 15px; 
+        padding-bottom: 15px; 
+    }
+
+    .applicationStepsContainer {
+        width: 100%;
+        flex: 1;
+    }
+}
+/* tablet, landscape iPad, lo-res laptops ands desktops */
+@media only screen and (min-width:801px)  {  
+    .desktop-hidden { 
+        display: block;
+    }
+
+    .mobile-hidden {
+        display: none;
+    }
+
+    .applicationForm {
+        padding-left: 15px; 
+        padding-right: 15px; 
+        padding-bottom: 15px; 
+    }
+
+    .applicationStepsContainer {
+        width: 100%;
+        flex: 1;
+    }
+}
+/* tablet, landscape iPad, lo-res laptops ands desktops */
+@media only screen and (min-width:960px)  {  
+    .desktop-hidden { 
+        display: none;
+    }
+
+    .mobile-hidden {
+        display: block;
+    }
+
+    .applicationForm { 
+        width: 100%; 
+        padding: 30px; 
+        overflow-y: auto; 
+        height: auto; 
+        scroll-behavior: smooth;
+    }
+
+    .applicationStepsContainer {
+        width: 465px;
+        flex: .365;
+    }
+}
+/* big landscape tablets, laptops, and desktops */
+@media only screen and (min-width:1025px) {  
+    .desktop-hidden { 
+        display: none;
+    }
+
+    .mobile-hidden {
+        display: block;
+    }
+
+    .applicationForm {
+        width: 100%; 
+        padding: 30px; 
+        overflow-y: auto; 
+        height: auto; 
+        scroll-behavior: smooth;
+    }
+
+    .applicationStepsContainer {
+        width: 465px;
+        flex: .365;
+    }
+}
+/* hi-res laptops and desktops */
+@media only screen and (min-width:1281px) {  
+    .desktop-hidden { 
+        display: none;
+    }
+
+    .mobile-hidden {
+        display: block;
+    }
+
+    .applicationForm {
+        width: 100%; 
+        padding: 30px; 
+        overflow-y: auto; 
+        height: auto; 
+        scroll-behavior: smooth;
+    }
+
+    .applicationStepsContainer {
+        width: 465px;
+        flex: .365;
+    }
+
+}
+
+.boxContainer {
+    margin: 0 auto; /* Center by default */
+    padding: 0 20px; /* Add padding for mobile */
+    color: #333333;
+}
+
+@media (min-width: 1024px) { /* For big screens */
+    .boxContainer {
+        margin-left: 170px; /* Add left margin only for big screens */
+    }
+}

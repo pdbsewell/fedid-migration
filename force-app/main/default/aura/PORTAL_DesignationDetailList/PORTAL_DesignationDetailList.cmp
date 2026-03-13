@@ -1,0 +1,60 @@
+<!--
+/*
+ * Copyright (c) 2019, UC Innovation, Inc.  All Rights Reserved.
+ *                     http://www.ucinnovation.com
+ *
+ * This source code is licensed, not sold, and is subject to a written
+ * license agreement.  Among other things, no portion of this source
+ * code may be copied, transmitted, disclosed, displayed, distributed,
+ * translated, used as the basis for a derivative work, or used, in
+ * whole or in part, for any program or purpose other than its intended
+ * use in compliance with the license agreement as part of UC Innovation's
+ * software.  This source code and certain of the algorithms contained
+ * within it are confidential trade secrets of UC Innovation, Inc.
+ * and may not be used as the basis for any other
+ * software, hardware, product or service.
+ */
+-->
+
+<aura:component>
+    <c:PORTAL_MessageHandlingService aura:id="MessageHandlingService" />
+
+    <aura:attribute name="giftTypeSelected" type="String" access="public"/>
+
+    <!-- designation detail record list container if ascend app exists -->
+    <aura:attribute name="designationDetailRecList" type="Object[]" access="public"/>
+    <!-- opportunity id if they are existing designation detail records -->
+    <aura:attribute name="opportunityId" type="String" access="public"/>
+
+    <aura:attribute name="selectedDesignations" type="Object[]" access="public"/>
+
+    <aura:handler name="init" action="{!c.doInit}" value="{!this}" />
+
+    <div class="slds-size_1-of-1">
+        <fieldset class="slds-box slds-theme_default slds-container">
+            <legend class="slds-text-heading_medium slds-p-vertical_x-small">
+                <h1 class="slds-text-heading_medium">Designation Details Information</h1>
+            </legend>
+
+            <table class="slds-table slds-table_bordered slds-table_striped slds-table_cell-buffer slds-table_fixed-layout slds-no-row-hover slds-max-medium-table_stacked-horizontal">
+                <thead class="slds-text-heading_label">
+                    <tr>
+                        <th scope="col"><div class="slds-truncate" title="Designation">Designation</div></th>
+                        <th scope="col"><div class="slds-truncate" title="Description">Description</div></th>
+                        <th scope="col"><div class="slds-truncate" title="Amount">Designation Amount</div></th>
+                        <aura:if isTrue="{!v.giftTypeSelected == 'Pledge'}">
+                            <th scope="col"><div class="slds-truncate" title="Number of Payments">Number of Payments</div></th>
+                        </aura:if>
+                    </tr>
+                </thead>
+                <tbody>
+                    <aura:iteration items="{!v.designationDetailRecList}" var="designationDetailRec" indexVar="i">
+                        <c:PORTAL_DesignationDetailListItem giftTypeSelected="{!v.giftTypeSelected}"
+                                                            designationDetailRec="{!designationDetailRec}"
+                                                            tableIndexVar="{#i}" />
+                    </aura:iteration>
+                </tbody>
+            </table>
+        </fieldset>
+    </div>
+</aura:component>

@@ -1,0 +1,23 @@
+<aura:component implements="forceCommunity:themeLayout" access="global">
+	<ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}"/>
+	<aura:attribute name="navigationSection" type="Aura.Component[]" required="false"/>
+	<aura:attribute name="headerBanner" type="Aura.Component[]" required="false"/>
+	<aura:attribute name="footer" type="Aura.Component[]" required="false"/>
+
+	<ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}"/>
+
+	<div>
+        <div>
+        	{!v.headerBanner}
+		</div>
+		<div>
+			{!v.navigationSection}
+		</div>
+		<div class="max-w-1300 m-auto" id="content-nopad">
+			{!v.body}
+		</div>
+		<div>
+			{!v.footer}
+		</div>
+	</div>
+</aura:component>

@@ -1,0 +1,17 @@
+<template>
+    <template if:true={item}>
+        <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_stacked slds-hint-parent">
+            <span class="slds-form-element__label">{key.label}</span>
+            <div class="slds-form-element__control">
+                <div class="slds-form-element__static">
+                    <template if:true={isName}>                        
+                        <lightning-formatted-url value={nameLink} label={nameValue} target="_blank" ></lightning-formatted-url>
+                    </template>
+                    <template if:false={isName}>
+                        {value}
+                    </template>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

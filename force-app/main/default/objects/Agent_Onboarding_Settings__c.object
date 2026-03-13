@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <description>Settings used for externalising any values not hardcoded within the Monash Agent Management App</description>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Account_RT_Developer_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Account RT Developer Name</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Callista_Integration_Enabled__c</fullName>
+        <defaultValue>false</defaultValue>
+        <label>Callista Integration Enabled</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Contact_RT_Developer_Name__c</fullName>
+        <description>Developer Name of Record Type to be used when creating a Contact record in UniCRM to model the &quot;Role Account&quot;, basically a Contact record that corresponds to an Agency-level User used to access Agent Portal (Google Apps)</description>
+        <externalId>false</externalId>
+        <label>Contact RT Developer Name</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Google_AP_Integration_Enabled__c</fullName>
+        <defaultValue>true</defaultValue>
+        <label>Google AP Integration Enabled</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>RecordPerPage__c</fullName>
+        <description>Setting to control number of Agency records displayed per page, used by the pagination feature for Agent Web Page.</description>
+        <externalId>false</externalId>
+        <label>RecordPerPage</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Role_RT_Developer_Name__c</fullName>
+        <externalId>false</externalId>
+        <label>Role RT Developer Name</label>
+        <length>80</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Role_to_Copy__c</fullName>
+        <externalId>false</externalId>
+        <label>Role to Copy</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Termination_Blackout_Period__c</fullName>
+        <description>Number of days prior to a future-dated termination date when agency branch creation will be blocked.</description>
+        <externalId>false</externalId>
+        <label>Termination Blackout Period</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <label>Agent Onboarding Settings</label>
+    <visibility>Public</visibility>
+</CustomObject>

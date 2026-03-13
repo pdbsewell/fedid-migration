@@ -1,0 +1,7 @@
+<aura:component controller="CopyToClipboardController" implements="force:lightningQuickActionWithoutHeader,force:hasRecordId">
+    <aura:attribute name="recordId" type="Id" />
+    
+    <aura:handler name="init" action="{!c.init}" value="{!this}" />
+    
+    <textarea value="" id="copyTextInput" class="off-canvas"></textarea>
+</aura:component>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>62.0</apiVersion>
+    <description>Apex Related List</description>
+    <isExposed>true</isExposed>
+    <masterLabel>Apex Related List</masterLabel>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="title" label="Title" type="String" default="Related Records"/>
+            <property name="apexDataProvider" label="Data Provider" type="String" datasource="apex://ApexRelatedListController"/>
+            <property name="icon" label="Icon" type="String" default="standard:case"/>
+            <property name="hideEmpty" label="Hide If No Records?" type="Boolean" default="false"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

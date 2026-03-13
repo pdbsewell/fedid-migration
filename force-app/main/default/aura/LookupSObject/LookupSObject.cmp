@@ -1,0 +1,91 @@
+<aura:component controller="LookupSObjectController" >
+    <!-- Required Scripts/Styles -->
+    <!-- Salesforce Lightning Design System : https://www.lightningdesignsystem.com/ -->
+    <!--<ltng:require styles="/resource/SLDS0122/assets/styles/salesforce-lightning-design-system-ltng.css" />-->
+    <!-- <ltng:require styles="{!$Resource.SLDS0122 + '/assets/styles/salesforce-lightning-design-system.css'}" /> -->
+    <!-- Attributes -->
+    <aura:attribute name="sObjectAPIName" type="String" required="true"
+        description="The API name of the SObject to search" />
+    <aura:attribute name="label" type="String" required="true"
+        description="The label to assign to the lookup, eg: Account" />
+    <aura:attribute name="pluralLabel" type="String" required="true"
+        description="The plural label to assign to the lookup, eg: Accounts" />
+    <aura:attribute name="listIconSVGPath" type="String" default="{!$Resource.SLDS0122 + '/assets/icons/custom-sprite/svg/symbols.svg#custom11'}"
+        description="The static resource path to the svg icon to use." />
+    <aura:attribute name="listIconClass" type="String" default="slds-icon-custom-11"
+        description="The SLDS class to use for the icon." />
+    <aura:attribute name="searchString" type="String"
+        description="The search string to find." />
+    <aura:attribute name="recordTypeToUse" type="String"
+        description="Record Type to use. (For Qualification Lookup)" />
+    <aura:attribute name="isRequired" type="Boolean" default="true"
+        description="makes the lookup appear required" />
+    <aura:attribute name="selectedCode" type="String" default=""
+        description="populate the event Id if this variable has a value" />
+    <aura:attribute name="selectedQualId" type="String" default=""
+        description="populate the event Id if this variable has a value" />
+    <aura:attribute name="selectedLabel" type="String" default=""
+        description="populate the lookup text if this variable has a value" />
+    <aura:attribute name="showLabel" type="Boolean" default="false"
+        description="displays the label when set to true" />
+    <aura:attribute name="selectedObjectId" type="String" default=""
+        description="Id of the selected object" />
+    <aura:attribute name="selectedState" type="String" default="" />
+    <aura:attribute name="selectedCountry" type="String" default="" />
+    <aura:attribute name="selectedStateNEW" type="String" default="" />
+    <aura:attribute name="selectedCountryNEW" type="String" default="" />
+    <aura:attribute name="lookupErrorMsg" type="String" default="" />    
+    <aura:handler name="change" value="{!v.selectedState}" action="{!c.changeState}"/>
+    <aura:handler name="change" value="{!v.selectedCountry}" action="{!c.changeCountry}"/>
+    <aura:handler name="change" value="{!v.selectedCode}" action="{!c.prepopulateLookup}"/>
+    <aura:handler name="change" value="{!v.selectedQualId}" action="{!c.prepopulateLookup}"/>
+    <aura:handler name="change" value="{!v.lookupErrorMsg}" action="{!c.addErrorMsg}"/>
+    <aura:method name="clearSelected" action="{!c.clear}" access="public"/>
+    <!-- Events -->
+    <aura:registerEvent name="updateLookupIdEvent" type="c:UpdateLookupId"/>    
+    <aura:registerEvent name="clearLookupIdEvent" type="c:ClearLookupId"/>    
+     
+    <!-- Lookup Markup : See https://www.lightningdesignsystem.com/components/lookups -->
+    <div class="slds"> 
+        <div aura:id="lookup-div" class="slds-lookup" data-select="single" data-scope="single" data-typeahead="true">
+            <!-- This is the Input form markup -->
+            <div class="slds-form-element">
+                <label class="{!if(v.showLabel, 'slds-form-element__label', 'slds-hide')}" for="lookup">{!v.label}*</label>
+                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon--right">
+                    <!-- <c:svg class="slds-input__icon" xlinkHref="{!$Resource.SLDS0122 + '/assets/icons/utility-sprite/svg/symbols.svg#search'}" /> -->
+                    <!-- This markup is for when an item is currently selected -->
+                    <div aura:id="lookup-pill" class="slds-pill-container slds-hide">
+                        <span class="slds-pill slds-pill--bare" style="width: 100%;">
+                            <span class="slds-pill__label">
+                                <c:svg class="{!'slds-icon ' + v.listIconClass + ' slds-icon--small'}" xlinkHref="{!v.listIconSVGPath}" />
+                            	&nbsp;&nbsp;&nbsp;{!v.searchString}
+                            </span>
+                            <ui:button class="x-button slds-button slds-button_icon slds-button_icon slds-pill__remove" press="{!c.clear}">
+                                <lightning:icon iconName="utility:close" size="x-small" alternativeText="close"/>
+                                <span class="slds-assistive-text">Close</span>
+                            </ui:button>
+                        </span>
+                        
+                    </div>
+                    <!-- This markup is for when searching for a string -->
+                    <ui:inputText aura:id="lookup" value="{!v.searchString}" class="slds-input" updateOn="keyup" keyup="{!c.search}" required="true" />
+                    <lightning:buttonIcon class="slds-input__icon" 
+                                            iconName="utility:search" variant="bare" 
+                                            alternativeText="Search"
+                                            disabled="true"/>
+                </div>
+                <ui:inputText aura:id="lookupError" class="error-only" />
+            </div>
+
+            <div aura:id="lookupSearch">
+                <div aura:id="searchHelp" class="slds-hide">
+                    <c:svg class="slds-icon slds-icon-text-default slds-icon--small" xlinkHref="{!$Resource.SLDS0122 + '/assets/icons/utility-sprite/svg/symbols.svg#search'}" />
+                    &quot;{!v.searchString}&quot; in {!v.pluralLabel}
+                </div>
+                <ul aura:id="lookuplist-items" class="slds-lookup__list" role="presentation">
+                </ul>
+            </div>
+        </div>
+    </div>
+ 
+</aura:component>

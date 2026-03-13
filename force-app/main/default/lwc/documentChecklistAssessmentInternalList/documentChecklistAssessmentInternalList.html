@@ -1,0 +1,167 @@
+<template>
+    <!-- Page details -->
+    <lightning-layout multiple-rows>
+
+        <!-- Actions Dashboard -->        
+        <template if:true={showHeader}>
+            <template if:true={checklistItemsCount}>
+                <lightning-layout-item flexibility="auto" padding="around-small" size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+                    <article class="slds-card slds-card_boundary">
+                        <div class="slds-card__header slds-grid slds-is-relative">
+                            <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                <div class="slds-media__body">
+                                    <span class="slds-card__header-title">
+                                        <lightning-layout vertical-align="center">
+        
+                                            <!-- header icon -->                           
+                                            <template if:false={isOtherChecklist}>
+                                                <lightning-layout-item>
+                                                    <lightning-icon icon-name="custom:custom83" size="medium"></lightning-icon> 
+                                                </lightning-layout-item>
+                                            </template>     
+        
+                                            <!-- header text -->
+                                            <lightning-layout-item padding="horizontal-small">   
+                                                <span style="font-weight: bold;">Document Checklist ({checklistItemsCount})</span>
+                                            </lightning-layout-item>
+
+                                        </lightning-layout>
+                                    </span>
+                                </div>
+                                <div class="slds-no-flex">
+                                    <span class="slds-m-right_xx-small">
+                                        <lightning-button-icon icon-name="utility:refresh" onclick={refreshChecklistDetails}></lightning-button-icon>
+                                    </span>
+                                    <template if:true={showDocumentReminder}>
+                                        <span class="slds-m-right_xx-small">
+                                            <lightning-button label="Document Reminder"
+                                                              icon-name="utility:email" 
+                                                              onclick={sendDocumentReminder} 
+                                                              disabled={disabledSendDocumentReminder}
+                                                              title={documentReminderTooltip}>
+                                            </lightning-button>
+                                        </span>
+                                    </template>
+                                    <template if:true={showNew}>
+                                        <span>
+                                            <lightning-button-group>
+                                                <lightning-button label="New" onclick={showChecklistForm}></lightning-button>
+                                                <lightning-button-menu alternative-text="Create Checklist Item" menu-alignment="right" onselect={handleMenuAction}>
+                                                    <lightning-menu-item label={gteLabel} value="gteChecklistItem" disabled={gteExist}></lightning-menu-item>
+                                                    <lightning-menu-item label={courseRequirementLabel} value="courseRequirementChecklistItem" disabled={courseRequirementExist}></lightning-menu-item>
+                                                </lightning-button-menu>
+                                            </lightning-button-group>
+                                        </span>
+                                    </template>
+                                </div>
+                            </header>
+                            <template if:true={listActionLoading}>
+                                <!-- Spinner loader -->
+                                <lightning-spinner alternative-text="Loading" variant="brand" size="small"></lightning-spinner>
+                            </template>
+                        </div>
+                    </article>
+                </lightning-layout-item>
+            </template>
+        </template>
+
+        <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="12">
+            <!-- body content -->
+            <div class="slds-is-relative">
+                <template if:true={checklistItems}>
+                    <lightning-layout multiple-rows class="slds-p-bottom_x-small">
+                        <!-- show at top -->
+                        <template if:true={prioritizeOther}>
+                                <!-- Other Section -->
+                                <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="12" class="slds-p-horizontal_small slds-p-vertical_xx-small">
+                                        
+                                    <!-- Show ui for checklist item card -->
+                                    <c-document-checklist-assessment-internal-item is-other-checklist="true"  
+                                                            application-id={applicationId}
+                                                            application-status={applicationStatus} 
+                                                            applicant-id={application.Applicant__c}
+                                                            onfilepreview={onFilePreview}
+                                                            file-column-count={fileColumnCount}>
+                                    </c-document-checklist-assessment-internal-item>
+    
+                                </lightning-layout-item>
+                            </template>
+                        
+                        <template for:each={checklistItems} for:item='checklistItem'>
+                            <template if:true={checklistItem.Id}>
+                                <lightning-layout-item key={checklistItem.Id} flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="12" class="slds-p-horizontal_small slds-p-vertical_xx-small">
+                                    
+                                    <!-- Show ui for checklist item card -->
+                                    <c-document-checklist-assessment-internal-item checklist-item-id={checklistItem.Id} 
+                                                            application-id={applicationId}
+                                                            application-status={checklistItem.Application__r.Status__c} 
+                                                            contact-qualification={checklistItem.Contact_Qualification__r}
+                                                            checklist-item-name={checklistItem.Name}
+                                                            is-other-checklist="false" 
+                                                            applicant-id={application.Applicant__c}
+                                                            onfilepreview={onFilePreview}
+                                                            file-column-count={fileColumnCount}>
+                                    </c-document-checklist-assessment-internal-item>
+
+                                </lightning-layout-item>
+                            </template>
+                        </template>
+                        
+                        <!-- show at bottom -->
+                        <template if:false={prioritizeOther}>
+                            <!-- Other Section -->
+                            <lightning-layout-item flexibility="auto" size="12" small-device-size="12" medium-device-size="12" large-device-size="12" class="slds-p-horizontal_small slds-p-vertical_xx-small">
+                                    
+                                <!-- Show ui for checklist item card -->
+                                <c-document-checklist-assessment-internal-item is-other-checklist="true"  
+                                                        application-id={applicationId}
+                                                        application-status={applicationStatus} 
+                                                        applicant-id={application.Applicant__c}
+                                                        onfilepreview={onFilePreview}
+                                                        file-column-count={fileColumnCount}>
+                                </c-document-checklist-assessment-internal-item>
+
+                            </lightning-layout-item>
+                        </template>
+                    </lightning-layout>
+                </template>
+                <template if:false={checklistItems}>
+
+                    <!-- Loading spinner while retrieving applicant -->
+                    <c-document-checklist-assessment-internal-loader loader-count="10"></c-document-checklist-assessment-internal-loader>
+
+                </template>
+                
+            </div>
+        </lightning-layout-item>
+    </lightning-layout>
+
+    <!-- new checklist -->
+    <template if:true={showChecklistCreationForm}>
+        <c-document-checklist-assessment-internal-create-form oncancel={hideChecklistForm}
+                                                              onsubmit={submittedChecklistForm}
+                                                              application-id={applicationId}
+                                                              applicant-id={application.Applicant__c}
+                                                              checklist-name={checklistName}
+                                                              checklist-help-text={checklistHelpText}
+                                                              checklist-sort-order={checklistSortOrder}
+                                                              checklist-new-status={checklistNewStatus}
+                                                              checklist-type={checklistType}
+                                                              checklist-unique-key={checklistUniqueKey}
+                                                              checklist-comments={checklistComments}
+                                                              disabled-checklist-name={disabledChecklistName}>                                                
+        </c-document-checklist-assessment-internal-create-form>
+    </template>
+
+    <!-- email form -->
+    <template if:true={showEmailDocumentReminderForm}>
+        <c-document-checklist-assessment-internal-email-form onclose={hideEmailForm}
+                                                             application={application}
+                                                             applicant={applicant}
+                                                             ad-hoc-email-template={adHocEmailTemplate}
+                                                             checklist-items={checklistItems}
+                                                             acp-id={applicationCoursePreferenceId}
+                                                             onemailsent={retrieveServerDocumentReminderDateTime}>
+        </c-document-checklist-assessment-internal-email-form>
+    </template>
+</template>

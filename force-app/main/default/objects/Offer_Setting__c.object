@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomObject xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customSettingsType>Hierarchy</customSettingsType>
+    <enableFeeds>false</enableFeeds>
+    <fields>
+        <fullName>Avenu_Monash_Online_Template_Id__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Conga Template ID for Avenu - Monash Online</description>
+        <externalId>false</externalId>
+        <label>Avenu Monash Online Template Id</label>
+        <length>18</length>
+        <required>false</required>
+        <securityClassification>Public</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>DocuSign_Base_Return_URL__c</fullName>
+        <description>The base URL for when DocuSign completes the embedded process and redirects the user back</description>
+        <inlineHelpText>This should not end with &quot;/&quot;.
+An example of this value &quot;
+https://sfcpq2dev-monashpartner.cs152.force.com&quot;</inlineHelpText>
+        <label>DocuSign Base Return URL</label>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Url</type>
+    </fields>
+    <fields>
+        <fullName>DocuSign_Brand_Id__c</fullName>
+        <externalId>false</externalId>
+        <label>DocuSign Brand Id</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>DocuSign_Return_URL_Path__c</fullName>
+        <description>The path of the DocuSign return URL. This should be used with the DocuSign Base Return URL to form the complete URL for the redirection of the user. Should not start with &quot;/&quot;.</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Should not start with &quot;/&quot;</inlineHelpText>
+        <label>DocuSign Return URL Path</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Document_ID_Email_Footer__c</fullName>
+        <externalId>false</externalId>
+        <label>Document ID Email Footer</label>
+        <length>18</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Document_ID_Email_Header__c</fullName>
+        <externalId>false</externalId>
+        <label>Document ID Email Header</label>
+        <length>18</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Document_ID_Email_Logo__c</fullName>
+        <externalId>false</externalId>
+        <label>Document ID Email Logo</label>
+        <length>18</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Document_Server__c</fullName>
+        <externalId>false</externalId>
+        <label>Document Server Instance</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Domestic_Template_Id__c</fullName>
+        <externalId>false</externalId>
+        <label>Domestic Template Id</label>
+        <length>18</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Enable_Specialist_Review__c</fullName>
+        <defaultValue>false</defaultValue>
+        <description>Enables the specialist review functionality for offers when a product, course fee and/or clause has been identified as something that could be reviewed by a CPQ admin before allowing the assessor to publish the offer. When this value is unchecked, opportunities generated for Offers will allow the assessor to publish the offer without further review from a CPQ Admin, regardless of whether a potential review for course fee, product and/or clause has been identified.</description>
+        <label>Enable Specialist Review</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>GCO_Ex_SEM1_Lapse_Date__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Holds SEM1 Exception lapse date</description>
+        <externalId>false</externalId>
+        <label>GCO Ex  SEM1 Lapse Date</label>
+        <length>10</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GCO_Ex_SEM2_Lapse_Date__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field to capture Exception lapse date for SEM2 GCO Intake period</description>
+        <externalId>false</externalId>
+        <label>GCO Ex SEM2 Lapse Date</label>
+        <length>10</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GCO_Ex_Spring_Lapse_Date__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field to capture Exception lapse date for Spring GCO Intake period</description>
+        <externalId>false</externalId>
+        <label>GCO Ex Spring Lapse Date</label>
+        <length>10</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GCO_Ex_Summer_Lapse_Date__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field to capture Exception lapse date for Summer GCO Intake period</description>
+        <externalId>false</externalId>
+        <label>GCO Ex Summer Lapse Date</label>
+        <length>10</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GCO_Ex_Winter_Lapse_Date__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field to capture Exception lapse date for Winter GCO Intake period</description>
+        <externalId>false</externalId>
+        <label>GCO Ex Winter Lapse Date</label>
+        <length>10</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GCO_SEM1_Add_Year__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>Checkbox to add year to the Exception Summer lapse date to match against Intake period year</description>
+        <label>GCO SEM1 Add  Year</label>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>GCO_SEM1_Lapse_Date__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field to capture default lapse date for SEM1 GCO Intake period</description>
+        <externalId>false</externalId>
+        <label>GCO SEM1 Lapse Date</label>
+        <length>10</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GCO_SEM2_Lapse_Date__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field to capture default lapse date for SEM2 GCO Intake period</description>
+        <externalId>false</externalId>
+        <label>GCO SEM2 Lapse Date</label>
+        <length>10</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GCO_Spring_Lapse_Date__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field to capture default lapse date for Spring GCO Intake period</description>
+        <externalId>false</externalId>
+        <label>GCO Spring Lapse Date</label>
+        <length>10</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GCO_Summer_Add_Year__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <defaultValue>false</defaultValue>
+        <description>Checkbox to add year to the Exception Summer lapse date to match against Intake period year</description>
+        <label>GCO Summer Add Year</label>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>GCO_Summer_Lapse_Date__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field to capture default lapse date for Summer GCO Intake period</description>
+        <externalId>false</externalId>
+        <label>GCO Summer Lapse Date</label>
+        <length>10</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GCO_Template_Id__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Holds GCO Conga Template Id</description>
+        <externalId>false</externalId>
+        <label>GCO Template Id</label>
+        <length>18</length>
+        <required>false</required>
+        <securityClassification>Internal</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>GCO_Winter_Lapse_Date__c</fullName>
+        <businessStatus>Active</businessStatus>
+        <description>Field to capture Offer lapse date for Winter GCO Intake period</description>
+        <externalId>false</externalId>
+        <label>GCO Winter Lapse Date</label>
+        <length>10</length>
+        <required>false</required>
+        <securityClassification>Public</securityClassification>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Guardian_Sign_Contact_Us_Email_Address__c</fullName>
+        <externalId>false</externalId>
+        <label>Guardian Sign Contact Us Email Address</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>IS_SHADOW_PHASE__c</fullName>
+        <defaultValue>true</defaultValue>
+        <description>When &quot;in shadow phase&quot; quotes cannot be published to the community portal. Validation rule on quote object references this field</description>
+        <inlineHelpText>When &quot;in shadow phase&quot; quotes cannot be published to the community portal. Validation rule on quote object references this field</inlineHelpText>
+        <label>IS_SHADOW_PHASE</label>
+        <trackTrending>false</trackTrending>
+        <type>Checkbox</type>
+    </fields>
+    <fields>
+        <fullName>Indonesia_ENG_Template_Id__c</fullName>
+        <description>Conga Template ID for Indonesia english version</description>
+        <externalId>false</externalId>
+        <label>Indonesia ENG TemplateId</label>
+        <length>18</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Isca_Template_Id__c</fullName>
+        <externalId>false</externalId>
+        <label>Isca Template Id</label>
+        <length>18</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Isca_Template_Query1__c</fullName>
+        <externalId>false</externalId>
+        <label>Isca Template Query1</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Isca_Template_Query2__c</fullName>
+        <externalId>false</externalId>
+        <label>Isca Template Query2</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Isca_Template_Query_Final__c</fullName>
+        <externalId>false</externalId>
+        <label>Isca Template Query Final</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Isca_Template_Query_Preview__c</fullName>
+        <externalId>false</externalId>
+        <label>Isca Template Query Preview</label>
+        <length>255</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Maximum_Unit_s_for_MA_Applications__c</fullName>
+        <description>Maximum number of unit preferences allowed for Monash Abroad applications</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Maximum number of unit preferences allowed for Monash Abroad applications</inlineHelpText>
+        <label>Maximum Unit(s) for MA Applications</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Maximum_Unit_s_for_Online_Applications__c</fullName>
+        <description>Maximum number of Unit preferences allowed for Online Applications</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Maximum number of Unit preferences allowed for Online Applications</inlineHelpText>
+        <label>Maximum Unit(s) for Online Applications</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Minimum_Unit_s_for_MA_Applications__c</fullName>
+        <description>Minimum number of unit preferences allowed for Monash Abroad applications</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Minimum number of unit preferences allowed for Monash Abroad applications</inlineHelpText>
+        <label>Minimum Unit(s) for MA Applications</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Minimum_Unit_s_for_Online_Applications__c</fullName>
+        <description>Minimum number of Unit preferences allowed for Online Applications</description>
+        <externalId>false</externalId>
+        <inlineHelpText>Minimum number of Unit preferences allowed for Online Applications</inlineHelpText>
+        <label>Minimum Unit(s) for Online Applications</label>
+        <precision>18</precision>
+        <required>false</required>
+        <scale>0</scale>
+        <trackTrending>false</trackTrending>
+        <type>Number</type>
+        <unique>false</unique>
+    </fields>
+    <fields>
+        <fullName>Monash_Abroad_Template_Id__c</fullName>
+        <description>Conga Template ID for Study Abroad and Exchange Applications</description>
+        <externalId>false</externalId>
+        <label>Monash Abroad Template Id</label>
+        <length>18</length>
+        <required>false</required>
+        <trackTrending>false</trackTrending>
+        <type>Text</type>
+        <unique>false</unique>
+    </fields>
+    <label>Offer Setting</label>
+    <visibility>Public</visibility>
+</CustomObject>

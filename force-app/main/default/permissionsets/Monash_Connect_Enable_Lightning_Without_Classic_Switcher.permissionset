@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
+    <applicationVisibilities>
+        <application>Monash_Connect_Console</application>
+        <visible>true</visible>
+    </applicationVisibilities>
+    <description>Assign this permission set to enable lightning experience without Classic switcher</description>
+    <hasActivationRequired>false</hasActivationRequired>
+    <label>Monash Connect - Enable Lightning Without Classic Switcher</label>
+    <license>Salesforce</license>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>AllowLightningLogin</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>LightningExperienceUser</name>
+    </userPermissions>
+    <userPermissions>
+        <enabled>true</enabled>
+        <name>PreventClassicExperience</name>
+    </userPermissions>
+</PermissionSet>

@@ -1,0 +1,31 @@
+<!--Displays the top banner and introduction to the page-->
+<aura:component implements="forceCommunity:availableForAllPageTypes" access="global" controller="PORTAL_UCIN_ListingController">
+    <ltng:require styles="{!$Resource.Monash_Portal_CSS_Minified}"/>
+
+    <!--Attributes tied to design attributes to determine which Listings are retrieved-->
+    <aura:attribute name="headerCategory" type="String" required="true"/>
+    <aura:attribute name="headerListing" type="Listing__c"/>
+    <!--The Listings being displayed-->
+    <aura:attribute name="loaded" type="Boolean" default="true" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <lightning:notificationsLibrary aura:id="notifLib"/>
+
+    <div class="bg-gray-mon max-w-1300 m-auto slds-is-relative">
+        <!-- Spinner -->
+		<div>
+			<aura:if isTrue="{!!v.loaded }">
+				<lightning:spinner alternativeText="Loading" />
+			</aura:if>
+        </div>
+        
+        <div class="w-full my-4 bg-white">
+            <div class="bg-cover bg-center h-60px lg:h-24 p-4" style="{!'background-image:url('+$ContentAsset.03S4a00000004dP+')'}">
+            </div>    
+            <div class="p-4 sm:p-6">
+                <h1 class="text-3xla sm:text-h1xl leading-bitmore uppercase sans"><lightning:formattedRichText value="{!v.headerListing.Header_Content__c}"/></h1>
+                <p class="text-base sm:text-xl lg:text-lg leading-moresnug pt-2"><lightning:formattedRichText value="{!v.headerListing.Body_Content__c}"/></p>
+            </div>
+        </div>
+    </div>
+</aura:component>

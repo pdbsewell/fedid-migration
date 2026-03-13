@@ -1,0 +1,63 @@
+<template>
+    <template if:true={needsPreReq}>
+        <div class="slds-card" style="background:#EDEDED;width: 800px;">
+            <div class="slds-p-around_small">
+                <div style="font-size: 20px;font-family:Roboto Condensed;font-weight:bold;">Evidence of prerequisites
+                </div>
+                <div style="font-family:Roboto;font-size: 16px;">You have selected units that have prerequisites, as
+                    indicated by the units highlighted in red below.<br/><br/> You need to provide evidence that you have
+                    met these prerequisites by uploading supporting documentation in the Other Documents section
+                    on the Documents page in this application.<br /> Please consult the Handbook for the individual
+                    requirements for each unit you have selected.</div>
+            </div>
+        </div>
+        <br />
+    </template>
+    <template if:true={selectedUPList.length}>
+        <div class="container" style="width: 800px;">
+                <div style="font-size: 16px;font-family:Roboto Condensed;font-weight:bold;">{studyPlanText}</div>
+            <table style="width: 800px;">
+                <thead>
+                    <tr>
+                        <th style="background-color:#006dae;color:white"><span class="slds-cell-wrap">Unit
+                                Code</span></th>
+                        <th style="background-color:#006dae;color:white" ><span class="slds-cell-wrap">Unit
+                                Title</span></th>
+                        <th style="background-color:#006dae;color:white"><span
+                                class="slds-cell-wrap">Campus</span></th>
+                        <th style="background-color:#006dae;color:white;">
+                            <span class="slds-cell-wrap">Faculty</span></th>
+                        <th style="background-color:#006dae;color:white"><span
+                                class="slds-cell-wrap">Teaching Period</span></th>
+                        <th style="background-color:#006dae;color:white"><span
+                                class="slds-cell-wrap"></span></th>
+                    </tr>
+                </thead>
+                <!--{item.PreReq}-->
+                <!--style="width:120px;text-align:center !important;padding-left:0.2rem !important;padding-right:0.1rem;padding-bottom:0.1rem;"-->
+                <template for:each={selectedUPList} for:item="item">
+                    <tr key={item}>
+                        <td key={item.UnitCode} style={item.PreReq} class="items useBefore" id={item.UnitCode}
+                            onchange={Change} draggable="true" ondrop={Drop} ondragstart={DragStart}
+                            ondragover={DragOver}>{item.UnitCode}</td>
+                        <td style={item.PreReq}><span class="slds-cell-wrap">{item.UnitTitle}</span></td>
+                        <td style={item.PreReq}><span class="slds-cell-wrap">{item.Campus}</span></td>
+                        <td style={item.PreReq}><span class="slds-cell-wrap">{item.FacName}</span></td>
+                        <td style={item.PreReq}><span class="slds-cell-wrap">{item.TP}</span></td>
+                        <td>
+                            <div class="slds-truncate slds-text-body_small">
+                                <lightning-button-icon
+                                    class="slds-button slds-button_icon slds-button_icon-container redcolor"
+                                    icon-name="utility:delete" variant="bare" alternative-text="Delete" title="Delete"
+                                    onclick={removeUnitPreference} name={item.UnitCode} id={item.Id}>
+                                </lightning-button-icon>
+                            </div>
+                        </td>
+                    </tr>
+                </template>
+            </table>
+
+
+        </div>
+    </template>
+</template>

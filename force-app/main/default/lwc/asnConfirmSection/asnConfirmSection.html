@@ -1,0 +1,24 @@
+<template>
+	<lightning-layout multiple-rows="true">
+		<lightning-layout-item padding="around-small" size="12">
+			<lightning-formatted-rich-text value={teachingPeriodText}></lightning-formatted-rich-text>
+		</lightning-layout-item>
+	</lightning-layout>
+	<br/>
+	<div class="asn-sub-child">
+		<lightning-layout multiple-rows="true">
+			<template for:each={unitAttemptList} for:item="row">
+				<lightning-layout-item key={row.unitAttemptId} flexibility="auto" padding="around-small" size="12"
+					large-device-size="4" medium-device-size="6" small-device-size="12">
+					<c-asn-unit-cards unitattempt={row} is-confirm="true"></c-asn-unit-cards>
+				</lightning-layout-item>
+			</template>
+		</lightning-layout>
+	</div>
+	<lightning-layout multiple-rows="true">
+		<lightning-layout-item padding="around-small" size="12">
+			<lightning-formatted-rich-text value={label.confirmsec2}></lightning-formatted-rich-text>
+		</lightning-layout-item>
+	</lightning-layout>
+	<br /><br />
+</template>
